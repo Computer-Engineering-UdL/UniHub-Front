@@ -1,24 +1,30 @@
 name: ci
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  push: { branches: [ main ] }
+  pull_request: { branches: [ main ] }
+
 jobs:
   build-test-lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20.19.0
-          cache: pnpm
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10.17.1
-          run_install: false
+
+      - run: corepack enable
+      - run: corepack prepare pnpm@10.17.1 --activate
       - run: pnpm -v
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-
+
       - run: pnpm install
+
       - run: pnpm lint:admin
       - run: pnpm test:admin
       - run: pnpm build:admin

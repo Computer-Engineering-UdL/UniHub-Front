@@ -1,34 +1,35 @@
 name: Conventional Commits Workflow
 
 on:
-  push:
-    branches: [main, development]
-  pull_request:
-    branches: [main, development]
+  push: { branches: [ main, development ] }
+  pull_request: { branches: [ main, development ] }
 
 jobs:
   commit-lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Lint commits
+      - name: Install commitlint deps (local devDeps)
+        run: npm i -D @commitlint/cli @commitlint/config-conventional
+
+      - name: Lint commits (safe range)
         shell: bash
         run: |
-          git fetch --depth=0 --tags || true
+          # Repo puede venir shallow; asegúrate del historial completo
+          git fetch --prune --unshallow 2>/dev/null || true
+          git fetch --tags || true
+
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            npx -y @commitlint/cli@latest \
-              -x @commitlint/config-conventional \
-              --from="${{ github.event.pull_request.base.sha }}" \
-              --to="${{ github.sha }}" \
-              --verbose
+            FROM_SHA="${{ github.event.pull_request.base.sha }}"
+            TO_SHA="${{ github.sha }}"
           else
-            npx -y @commitlint/cli@latest \
-              -x @commitlint/config-conventional \
-              --from="$(git rev-list --max-parents=0 HEAD)" \
-              --to=HEAD \
-              --verbose
+            FROM_SHA="$(git rev-list --max-parents=0 HEAD)"
+            TO_SHA="HEAD"
           fi
+
+          npx commitlint \
+            -x @commitlint/config-conventional \
+            --from="$FROM_SHA" --to="$TO_SHA" --verbose
