@@ -23,8 +23,12 @@ jobs:
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-
 
-      - run: pnpm -r install
+      - run: pnpm -r install --no-frozen-lockfile
+      - run: pnpm -C apps/admin install --no-frozen-lockfile
 
+      - name: Set CHROME_BIN from Puppeteer
+        shell: bash
+        run: echo "CHROME_BIN=$(node -p \"require('puppeteer').executablePath()\")" >> $GITHUB_ENV
       - run: pnpm lint:admin
       - run: pnpm test:admin
       - run: pnpm build:admin

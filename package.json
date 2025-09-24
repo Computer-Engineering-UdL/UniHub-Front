@@ -6,7 +6,7 @@
   "scripts": {
     "dev:admin": "pnpm -C apps/admin start",
     "build:admin": "pnpm -C apps/admin build",
-    "test:admin": "pnpm -C apps/admin test",
+    "test:admin": "pnpm -C apps/admin ng test --watch=false --browsers=ChromeHeadless",
     "lint:admin": "pnpm -C apps/admin lint",
     "dev:mobile": "pnpm -C apps/mobile start",
     "build:mobile": "pnpm -C apps/mobile build",
