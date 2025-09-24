@@ -23,7 +23,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-
 
-      - run: pnpm install
+      - run: pnpm -r install
 
       - run: pnpm lint:admin
       - run: pnpm test:admin
