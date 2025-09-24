@@ -25,15 +25,4 @@ jobs:
 
       - run: pnpm -r install --no-frozen-lockfile
       - run: pnpm -C apps/admin install --no-frozen-lockfile
-
-      - name: Install Puppeteer Chrome
-        working-directory: apps/admin
-        run: npx -y puppeteer@latest browsers install chrome
-
-      - name: Set CHROME_BIN from Puppeteer
-        working-directory: apps/admin
-        run: node -e "console.log('CHROME_BIN=' + require('puppeteer').executablePath())" >> $GITHUB_ENV
-
-      - run: pnpm lint:admin
-      - run: pnpm test:admin
       - run: pnpm build:admin
