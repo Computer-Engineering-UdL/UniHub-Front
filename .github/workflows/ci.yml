@@ -28,7 +28,7 @@ jobs:
 
       - name: Set CHROME_BIN from Puppeteer
         shell: bash
-        run: echo "CHROME_BIN=$(node -p \"require('puppeteer').executablePath()\")" >> $GITHUB_ENV
+        run: echo "CHROME_BIN=$(pnpm exec node -p \"require('puppeteer').executablePath()\")" >> $GITHUB_ENV
       - run: pnpm lint:admin
       - run: pnpm test:admin
       - run: pnpm build:admin
