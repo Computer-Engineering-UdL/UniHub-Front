@@ -11,14 +11,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install Commitlint
+      - name: Lint commits
+        shell: bash
         run: |
-          npm install --global @commitlint/cli @commitlint/config-conventional
-
-      - name: Lint last commit message
-        run: |
-          npx commitlint --from=HEAD~1 --to=HEAD --verbose
+          git fetch --depth=0 --tags || true
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            npx -y @commitlint/cli@latest \
+              -x @commitlint/config-conventional \
+              --from="${{ github.event.pull_request.base.sha }}" \
+              --to="${{ github.sha }}" \
+              --verbose
+          else
+            npx -y @commitlint/cli@latest \
+              -x @commitlint/config-conventional \
+              --from="$(git rev-list --max-parents=0 HEAD)" \
+              --to=HEAD \
+              --verbose
+          fi

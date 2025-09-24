@@ -1,9 +1,9 @@
 name: ci
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 jobs:
   build-test-lint:
     runs-on: ubuntu-latest
@@ -16,7 +16,9 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 10.17.1
-          run_install: true
+          run_install: false
+      - run: pnpm -v
+      - run: pnpm install
       - run: pnpm lint:admin
       - run: pnpm test:admin
       - run: pnpm build:admin
