@@ -1,7 +1,7 @@
 name: ci
 on:
-  push: { branches: [ main ] }
-  pull_request: { branches: [ main ] }
+  push: { branches: [ main, development ] }
+  pull_request: { branches: [ main, development ] }
 
 jobs:
   build-test-lint:
@@ -27,8 +27,9 @@ jobs:
       - run: pnpm -C apps/admin install --no-frozen-lockfile
 
       - name: Set CHROME_BIN from Puppeteer
-        shell: bash
-        run: echo "CHROME_BIN=$(pnpm exec node -p \"require('puppeteer').executablePath()\")" >> $GITHUB_ENV
+        working-directory: apps/admin
+        run: node -e "console.log('CHROME_BIN=' + require('puppeteer').executablePath())" >> $GITHUB_ENV
+
       - run: pnpm lint:admin
       - run: pnpm test:admin
       - run: pnpm build:admin

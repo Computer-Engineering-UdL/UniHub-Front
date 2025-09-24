@@ -1,5 +1,10 @@
 name: lint
 on:
+  push:
+    paths:
+      - "apps/admin/**"
+      - ".eslintrc.*"
+      - "**/*.ts"
   pull_request:
     paths:
       - "apps/admin/**"
