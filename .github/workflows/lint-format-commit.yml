@@ -1,0 +1,50 @@
+name: Lint, Format and Commit Changes
+on:
+  push: { branches: [ main, development ] }
+  pull_request: { branches: [ main, development ] }
+
+permissions:
+  contents: write
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.19.0
+
+      - run: corepack enable
+      - run: corepack prepare pnpm@10.17.1 --activate
+      - run: pnpm -v
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-
+
+      - run: pnpm install --no-frozen-lockfile
+      - name: Prettier check (PR)
+        if: github.event_name == 'pull_request'
+        run: pnpm format:check
+      - name: Prettier write (push)
+        if: github.event_name == 'push'
+        run: pnpm format
+
+      - name: Commit & push formatted files (push)
+        if: github.event_name == 'push'
+        run: |
+          git config user.name "Formatter[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet; then
+            git add -A
+            git commit -m "chore(format): apply Prettier [skip ci]"
+            git push
+          else
+            echo "No changes to commit :)"
+          fi

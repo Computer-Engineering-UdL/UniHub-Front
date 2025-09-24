@@ -12,6 +12,7 @@
     "build:mobile": "pnpm -C apps/mobile build",
     "lint": "pnpm -r lint",
     "format": "prettier -w .",
+    "format:check": "prettier -c .",
     "lf": "pnpm lint && pnpm format"
   },
   "devDependencies": {
