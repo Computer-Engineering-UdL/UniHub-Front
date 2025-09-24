@@ -1,7 +1,7 @@
 name: ci
 on:
-  push: { branches: [ main, development ] }
-  pull_request: { branches: [ main, development ] }
+  push: { branches: [main, development] }
+  pull_request: { branches: [main, development] }
 
 jobs:
   build-test-lint:
@@ -25,6 +25,10 @@ jobs:
 
       - run: pnpm -r install --no-frozen-lockfile
       - run: pnpm -C apps/admin install --no-frozen-lockfile
+
+      - name: Install Puppeteer Chrome
+        working-directory: apps/admin
+        run: npx -y puppeteer@latest browsers install chrome
 
       - name: Set CHROME_BIN from Puppeteer
         working-directory: apps/admin
