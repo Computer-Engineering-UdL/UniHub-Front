@@ -1,8 +1,11 @@
 # UniRoom - Frontend
 
-![Angular](https://img.shields.io/badge/Angular-18-red?logo=angular&logoColor=white)
-![Node.js](https://img.shields.io/badge/node-%3E=20.19.0-green?logo=node.js&logoColor=white)
-![pnpm](https://img.shields.io/badge/pnpm-10.17.1-blue?logo=pnpm&logoColor=white)
+[![Angular](https://img.shields.io/badge/Angular-20-red?logo=angular&logoColor=white)](https://next.angular.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.2-blue?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Ionic](https://img.shields.io/badge/Ionic-8.0.0-blue?logo=ionic&logoColor=white)](https://ionicframework.com/)
+[![Prettier](https://img.shields.io/badge/Prettier-3.3.0-fuchsia?logo=prettier&logoColor=white)](https://prettier.io/)
+[![Node.js](https://img.shields.io/badge/node-%3E=20.19.0-green?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![pnpm](https://img.shields.io/badge/pnpm-10.17.1-blue?logo=pnpm&logoColor=white)](https://pnpm.io/)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
 ## Features
