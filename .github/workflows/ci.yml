@@ -25,4 +25,5 @@ jobs:
 
       - run: pnpm -r install --no-frozen-lockfile
       - run: pnpm -C apps/admin install --no-frozen-lockfile
+      - run: pnpm lint:admin
       - run: pnpm build:admin
