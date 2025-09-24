@@ -11,7 +11,8 @@
     "dev:mobile": "pnpm -C apps/mobile start",
     "build:mobile": "pnpm -C apps/mobile build",
     "lint": "pnpm -r lint",
-    "format": "prettier -w ."
+    "format": "prettier -w .",
+    "lf": "pnpm lint && pnpm format"
   },
   "devDependencies": {
     "@angular-eslint/builder": "^20.3.0",
