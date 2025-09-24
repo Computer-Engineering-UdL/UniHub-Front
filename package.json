@@ -1,0 +1,31 @@
+{
+  "name": "unirooms",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.17.1",
+  "scripts": {
+    "dev:admin": "pnpm -C apps/admin start",
+    "build:admin": "pnpm -C apps/admin build",
+    "test:admin": "pnpm -C apps/admin test",
+    "lint:admin": "pnpm -C apps/admin lint",
+    "dev:mobile": "pnpm -C apps/mobile start",
+    "build:mobile": "pnpm -C apps/mobile build",
+    "lint": "pnpm -r lint",
+    "format": "prettier -w ."
+  },
+  "devDependencies": {
+    "@angular-eslint/builder": "^20.3.0",
+    "@angular-eslint/eslint-plugin": "^20.3.0",
+    "@angular-eslint/eslint-plugin-template": "^20.3.0",
+    "@angular-eslint/schematics": "^20.3.0",
+    "@angular-eslint/template-parser": "^20.3.0",
+    "eslint": "^9.36.0",
+    "prettier": "^3.3.0"
+  },
+  "dependencies": {
+    "@angular/animations": "^20.3.1",
+    "@angular/cdk": "^20.2.4",
+    "@angular/material": "^20.2.4",
+    "axios": "^1.12.2"
+  }
+}
