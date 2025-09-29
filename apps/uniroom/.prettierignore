@@ -1,0 +1,10 @@
+.github/workflows/**
+dist
+www
+node_modules
+.angular
+coverage
+android
+ios
+package-lock.json
+pnpm-lock.yaml

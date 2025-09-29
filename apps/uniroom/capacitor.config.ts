@@ -3,7 +3,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.tuorg.uniroom',
   appName: 'uniroom',
-  webDir: 'www'
+  webDir: 'www',
 };
 
 export default config;
