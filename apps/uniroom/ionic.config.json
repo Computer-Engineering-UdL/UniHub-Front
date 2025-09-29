@@ -1,0 +1,7 @@
+{
+  "name": "uniroom",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

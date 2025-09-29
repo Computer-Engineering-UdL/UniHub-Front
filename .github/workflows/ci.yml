@@ -1,11 +1,13 @@
 name: ci
 on:
-  push: { branches: [main, development] }
-  pull_request: { branches: [main, development] }
+  push: { branches: [ main, development ] }
+  pull_request: { branches: [ main, development ] }
 
 jobs:
   build-test-lint:
     runs-on: ubuntu-latest
+    env:
+      CI: true
     steps:
       - uses: actions/checkout@v4
 
@@ -17,13 +19,20 @@ jobs:
       - run: corepack prepare pnpm@10.17.1 --activate
       - run: pnpm -v
 
-      - uses: actions/cache@v4
+      - name: Cache PNPM store
+        uses: actions/cache@v4
         with:
           path: ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('apps/uniroom/pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-
 
-      - run: pnpm -r install --no-frozen-lockfile
-      - run: pnpm -C apps/admin install --no-frozen-lockfile
-      - run: pnpm lint:admin
-      - run: pnpm build:admin
+      - name: Cache Angular build cache
+        uses: actions/cache@v4
+        with:
+          path: apps/uniroom/.angular/cache
+          key: ${{ runner.os }}-angular-cache-${{ hashFiles('apps/uniroom/angular.json', 'apps/uniroom/package.json', 'apps/uniroom/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-angular-cache-
+
+      - run: pnpm -C apps/uniroom install --frozen-lockfile
+      - run: pnpm -C apps/uniroom lint
+      - run: pnpm -C apps/uniroom build
