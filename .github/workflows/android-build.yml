@@ -1,0 +1,55 @@
+name: Android APK
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.19.0
+
+      - run: corepack enable
+      - run: corepack prepare pnpm@10.17.1 --activate
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('apps/uniroom/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Install deps
+        working-directory: apps/uniroom
+        run: pnpm install --frozen-lockfile
+
+      - name: Web build
+        working-directory: apps/uniroom
+        run: pnpm build
+
+      - name: Capacitor sync
+        working-directory: apps/uniroom
+        run: npx cap sync android
+
+      - name: Gradle assemble
+        working-directory: apps/uniroom/android
+        run: ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug.apk
+          path: apps/uniroom/android/app/build/outputs/apk/debug/app-debug.apk

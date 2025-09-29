@@ -1,0 +1,48 @@
+name: iOS Simulator Build
+on:
+  push:
+    branches: [ main, development ]
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+    env:
+      CI: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.19.0
+
+      - run: corepack enable
+      - run: corepack prepare pnpm@10.17.1 --activate
+
+      - name: Cache PNPM
+        uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('apps/uniroom/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-
+
+      - name: Install deps
+        working-directory: apps/uniroom
+        run: pnpm install --frozen-lockfile
+
+      - name: Web build
+        working-directory: apps/uniroom
+        run: pnpm build
+
+      - name: Capacitor sync
+        working-directory: apps/uniroom
+        run: npx cap sync ios
+
+      - name: Xcode build (simulator)
+        working-directory: apps/uniroom/ios/App
+        run: xcodebuild -workspace App.xcworkspace -scheme App -configuration Debug -sdk iphonesimulator -derivedDataPath build
+
+      - name: Upload .app
+        uses: actions/upload-artifact@v4
+        with:
+          name: App-Debug-Simulator.app
+          path: apps/uniroom/ios/App/build/Build/Products/Debug-iphonesimulator/App.app
