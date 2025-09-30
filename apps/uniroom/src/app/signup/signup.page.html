@@ -24,7 +24,7 @@
     <ion-card *ngIf="errorMessage" class="error-card">
       <ion-card-content>
         <div class="error-content">
-          <ion-icon name="alert-circle" color="danger"></ion-icon>
+          <ion-icon name="alert-circle" color="required"></ion-icon>
           <span>{{ errorMessage }}</span>
         </div>
       </ion-card-content>
@@ -41,7 +41,7 @@
               [placeholder]="'SIGNUP.FIRST_NAME' | translate"
               [(ngModel)]="firstName"
               name="firstName"
-              required
+              required="true"
             ></ion-input>
           </ion-item>
 
@@ -52,7 +52,7 @@
               [placeholder]="'SIGNUP.LAST_NAME' | translate"
               [(ngModel)]="lastName"
               name="lastName"
-              required
+              required="true"
             ></ion-input>
           </ion-item>
 
@@ -63,7 +63,7 @@
               [placeholder]="'SIGNUP.EMAIL' | translate"
               [(ngModel)]="email"
               name="email"
-              required
+              required="true"
             ></ion-input>
           </ion-item>
 
@@ -94,7 +94,7 @@
               [placeholder]="'SIGNUP.PASSWORD' | translate"
               [(ngModel)]="password"
               name="password"
-              required
+              required="true"
             ></ion-input>
           </ion-item>
 
@@ -105,7 +105,7 @@
               [placeholder]="'SIGNUP.CONFIRM_PASSWORD' | translate"
               [(ngModel)]="confirmPassword"
               name="confirmPassword"
-              required
+              required="true"
             ></ion-input>
           </ion-item>
 

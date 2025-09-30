@@ -25,7 +25,10 @@
             <ion-icon name="person-outline" slot="start"></ion-icon>
             <ion-label>
               <h3>{{ 'PROFILE.NAME' | translate }}</h3>
-              <p>{{ user.name || (user.firstName + ' ' + user.lastName) || 'N/A' }}</p>
+              <p>
+                {{ user.name || (user.firstName + ' ' + user.lastName) || 'N/A'
+                }}
+              </p>
             </ion-label>
           </ion-item>
 

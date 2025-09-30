@@ -9,12 +9,12 @@ export class AuthGuard implements CanActivate {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  canActivate(): boolean {
+  async canActivate(): Promise<boolean> {
     if (this.authService.isAuthenticated()) {
       return true;
     }
 
-    this.router.navigate(['/login']);
+    await this.router.navigate(['/login']);
     return false;
   }
 }
