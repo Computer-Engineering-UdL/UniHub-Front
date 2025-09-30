@@ -14,7 +14,7 @@ import { SignupPage } from './signup.page';
     FormsModule,
     IonicModule,
     TranslateModule,
-    SignupRoutingModule
-  ]
+    SignupRoutingModule,
+  ],
 })
-export class SignupModule { }
+export class SignupModule {}

@@ -28,7 +28,9 @@ export class LoginPage {
 
   async login() {
     if (!this.email || !this.password) {
-      this.errorMessage = this.translate.instant('LOGIN.ERROR.EMPTY_CREDENTIALS');
+      this.errorMessage = this.translate.instant(
+        'LOGIN.ERROR.EMPTY_CREDENTIALS',
+      );
       return;
     }
 
@@ -42,9 +44,10 @@ export class LoginPage {
 
     try {
       await this.authService.login(this.email, this.password);
-      this.router.navigate(['/home']);
+      await this.router.navigate(['/home']);
     } catch (error: any) {
-      this.errorMessage = error.message || this.translate.instant('LOGIN.ERROR.LOGIN_FAILED');
+      this.errorMessage =
+        error.message || this.translate.instant('LOGIN.ERROR.LOGIN_FAILED');
     } finally {
       this.isLoading = false;
     }
@@ -58,7 +61,8 @@ export class LoginPage {
       await this.authService.loginWithGithub();
       this.router.navigate(['/home']);
     } catch (error: any) {
-      this.errorMessage = error.message || this.translate.instant('LOGIN.ERROR.GITHUB_FAILED');
+      this.errorMessage =
+        error.message || this.translate.instant('LOGIN.ERROR.GITHUB_FAILED');
     } finally {
       this.isLoading = false;
     }
@@ -70,9 +74,10 @@ export class LoginPage {
 
     try {
       await this.authService.loginWithGoogle();
-      this.router.navigate(['/home']);
+      await this.router.navigate(['/home']);
     } catch (error: any) {
-      this.errorMessage = error.message || this.translate.instant('LOGIN.ERROR.GOOGLE_FAILED');
+      this.errorMessage =
+        error.message || this.translate.instant('LOGIN.ERROR.GOOGLE_FAILED');
     } finally {
       this.isLoading = false;
     }

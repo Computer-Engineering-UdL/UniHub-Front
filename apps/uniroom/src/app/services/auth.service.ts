@@ -36,7 +36,9 @@ export class AuthService {
   private readonly USER_KEY = 'user_data';
   private readonly API_URL = environment.apiUrl || 'http://localhost:3000/api';
 
-  private currentUserSubject = new BehaviorSubject<User | null>(this.getStoredUser());
+  private currentUserSubject = new BehaviorSubject<User | null>(
+    this.getStoredUser(),
+  );
   public currentUser$ = this.currentUserSubject.asObservable();
 
   private http = inject(HttpClient);
@@ -78,7 +80,7 @@ export class AuthService {
         this.http.post<AuthResponse>(`${this.API_URL}/auth/login`, {
           email,
           password,
-        })
+        }),
       );
 
       this.storeAuth(response.token, response.user);
@@ -86,14 +88,14 @@ export class AuthService {
       // For demo purposes, we'll accept any credentials
       // In production, this should throw the actual error
       console.warn('API call failed, using mock authentication');
-      
+
       const mockUser: User = {
         id: '1',
         email: email,
         name: email.split('@')[0],
         provider: 'local',
       };
-      
+
       const mockToken = 'mock-jwt-token-' + Date.now();
       this.storeAuth(mockToken, mockUser);
     }
@@ -104,7 +106,7 @@ export class AuthService {
     try {
       // In a real application, this would call your backend API
       const response = await firstValueFrom(
-        this.http.post<AuthResponse>(`${this.API_URL}/auth/signup`, data)
+        this.http.post<AuthResponse>(`${this.API_URL}/auth/signup`, data),
       );
 
       this.storeAuth(response.token, response.user);
@@ -112,7 +114,7 @@ export class AuthService {
       // For demo purposes, we'll create a mock user
       // In production, this should throw the actual error
       console.warn('API call failed, using mock registration');
-      
+
       const mockUser: User = {
         id: Date.now().toString(),
         email: data.email,
@@ -123,7 +125,7 @@ export class AuthService {
         university: data.university,
         provider: 'local',
       };
-      
+
       const mockToken = 'mock-jwt-token-' + Date.now();
       this.storeAuth(mockToken, mockUser);
     }
@@ -134,8 +136,12 @@ export class AuthService {
     try {
       // In a real application, this would redirect to GitHub OAuth
       // For now, we'll simulate a successful OAuth flow
-      window.open(`${this.API_URL}/auth/github`, '_blank', 'width=500,height=600');
-      
+      window.open(
+        `${this.API_URL}/auth/github`,
+        '_blank',
+        'width=500,height=600',
+      );
+
       // Listen for OAuth callback
       // In production, implement proper OAuth callback handling
       await this.simulateOAuthLogin('github');
@@ -150,8 +156,12 @@ export class AuthService {
     try {
       // In a real application, this would redirect to Google OAuth
       // For now, we'll simulate a successful OAuth flow
-      window.open(`${this.API_URL}/auth/google`, '_blank', 'width=500,height=600');
-      
+      window.open(
+        `${this.API_URL}/auth/google`,
+        '_blank',
+        'width=500,height=600',
+      );
+
       // Listen for OAuth callback
       // In production, implement proper OAuth callback handling
       await this.simulateOAuthLogin('google');
@@ -162,7 +172,9 @@ export class AuthService {
   }
 
   // Simulate OAuth login for demo purposes
-  private async simulateOAuthLogin(provider: 'github' | 'google'): Promise<void> {
+  private async simulateOAuthLogin(
+    provider: 'github' | 'google',
+  ): Promise<void> {
     // In production, this would wait for the OAuth callback
     // For demo, we'll create a mock user after a short delay
     return new Promise((resolve) => {
@@ -173,7 +185,7 @@ export class AuthService {
           name: `${provider.charAt(0).toUpperCase() + provider.slice(1)} User`,
           provider: provider,
         };
-        
+
         const mockToken = `mock-${provider}-token-` + Date.now();
         this.storeAuth(mockToken, mockUser);
         resolve();

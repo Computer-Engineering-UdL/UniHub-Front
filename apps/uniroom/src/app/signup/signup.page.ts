@@ -33,7 +33,13 @@ export class SignupPage {
 
   async signup() {
     // Validate required fields
-    if (!this.firstName || !this.lastName || !this.email || !this.password || !this.confirmPassword) {
+    if (
+      !this.firstName ||
+      !this.lastName ||
+      !this.email ||
+      !this.password ||
+      !this.confirmPassword
+    ) {
       this.errorMessage = this.translate.instant('SIGNUP.ERROR.EMPTY_FIELDS');
       return;
     }
@@ -46,13 +52,17 @@ export class SignupPage {
 
     // Validate password length
     if (this.password.length < 8) {
-      this.errorMessage = this.translate.instant('SIGNUP.ERROR.PASSWORD_TOO_SHORT');
+      this.errorMessage = this.translate.instant(
+        'SIGNUP.ERROR.PASSWORD_TOO_SHORT',
+      );
       return;
     }
 
     // Validate password match
     if (this.password !== this.confirmPassword) {
-      this.errorMessage = this.translate.instant('SIGNUP.ERROR.PASSWORD_MISMATCH');
+      this.errorMessage = this.translate.instant(
+        'SIGNUP.ERROR.PASSWORD_MISMATCH',
+      );
       return;
     }
 
@@ -70,7 +80,8 @@ export class SignupPage {
       });
       this.router.navigate(['/home']);
     } catch (error: any) {
-      this.errorMessage = error.message || this.translate.instant('SIGNUP.ERROR.SIGNUP_FAILED');
+      this.errorMessage =
+        error.message || this.translate.instant('SIGNUP.ERROR.SIGNUP_FAILED');
     } finally {
       this.isLoading = false;
     }
@@ -84,7 +95,8 @@ export class SignupPage {
       await this.authService.loginWithGithub();
       this.router.navigate(['/home']);
     } catch (error: any) {
-      this.errorMessage = error.message || this.translate.instant('LOGIN.ERROR.GITHUB_FAILED');
+      this.errorMessage =
+        error.message || this.translate.instant('LOGIN.ERROR.GITHUB_FAILED');
     } finally {
       this.isLoading = false;
     }
@@ -98,7 +110,8 @@ export class SignupPage {
       await this.authService.loginWithGoogle();
       this.router.navigate(['/home']);
     } catch (error: any) {
-      this.errorMessage = error.message || this.translate.instant('LOGIN.ERROR.GOOGLE_FAILED');
+      this.errorMessage =
+        error.message || this.translate.instant('LOGIN.ERROR.GOOGLE_FAILED');
     } finally {
       this.isLoading = false;
     }

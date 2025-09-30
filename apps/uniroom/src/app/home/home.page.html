@@ -24,9 +24,17 @@
       </ion-card-header>
       <ion-card-content>
         <p><strong>{{ 'HOME.EMAIL' | translate }}:</strong> {{ user.email }}</p>
-        <p *ngIf="user.provider"><strong>{{ 'HOME.LOGIN_METHOD' | translate }}:</strong> {{ user.provider }}</p>
-        <p *ngIf="user.phone"><strong>{{ 'SIGNUP.PHONE' | translate }}:</strong> {{ user.phone }}</p>
-        <p *ngIf="user.university"><strong>{{ 'SIGNUP.UNIVERSITY' | translate }}:</strong> {{ user.university }}</p>
+        <p *ngIf="user.provider">
+          <strong>{{ 'HOME.LOGIN_METHOD' | translate }}:</strong> {{
+          user.provider }}
+        </p>
+        <p *ngIf="user.phone">
+          <strong>{{ 'SIGNUP.PHONE' | translate }}:</strong> {{ user.phone }}
+        </p>
+        <p *ngIf="user.university">
+          <strong>{{ 'SIGNUP.UNIVERSITY' | translate }}:</strong> {{
+          user.university }}
+        </p>
       </ion-card-content>
     </ion-card>
 

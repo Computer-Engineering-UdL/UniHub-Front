@@ -39,7 +39,11 @@
   font-weight: bold;
   margin: 0;
   color: var(--ion-color-primary);
-  background: linear-gradient(45deg, var(--ion-color-primary), var(--ion-color-secondary));
+  background: linear-gradient(
+    45deg,
+    var(--ion-color-primary),
+    var(--ion-color-secondary)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -108,7 +112,7 @@
 
 .divider::before,
 .divider::after {
-  content: '';
+  content: "";
   flex: 1;
   border-bottom: 1px solid var(--ion-color-light-shade);
 }
@@ -199,13 +203,21 @@
 }
 
 @keyframes shake {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
-  10%, 30%, 50%, 70%, 90% {
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
     transform: translateX(-5px);
   }
-  20%, 40%, 60%, 80% {
+  20%,
+  40%,
+  60%,
+  80% {
     transform: translateX(5px);
   }
 }

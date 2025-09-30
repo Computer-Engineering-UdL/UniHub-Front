@@ -19,11 +19,11 @@ import { AppRoutingModule } from './app-routing.module';
     TranslateModule.forRoot({
       defaultLanguage: 'en',
     }),
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideTranslateHttpLoader()
+    provideTranslateHttpLoader(),
   ],
   bootstrap: [AppComponent],
 })
