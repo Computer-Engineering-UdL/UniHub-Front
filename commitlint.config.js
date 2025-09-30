@@ -27,5 +27,8 @@ module.exports = {
     "subject-case": [0, "never"],
     "header-max-length": [0, "always", 72],
   },
-  ignores: [(commit) => commit.startsWith("Merge")],
+  ignores: [
+    (commit) => commit.startsWith("Merge"),
+    (commit) => commit.includes("copilot-swe-agent[bot]"),
+  ],
 };
