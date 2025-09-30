@@ -49,6 +49,19 @@
     "START": "Comença a explorar habitacions amb",
     "LOGOUT": "Tancar sessió"
   },
+  "PROFILE": {
+    "TITLE": "Perfil",
+    "USER_INFO": "Informació de l'Usuari",
+    "NAME": "Nom",
+    "APPEARANCE": "Aparença",
+    "THEME": {
+      "TITLE": "Tema",
+      "CHANGE": "Canviar",
+      "LIGHT": "Clar",
+      "DARK": "Fosc",
+      "SYSTEM": "Predeterminat del Sistema"
+    }
+  },
   "COMMON": {
     "LOADING": "Carregant...",
     "GITHUB": "GitHub",

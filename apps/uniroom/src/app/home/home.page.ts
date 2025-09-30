@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService, User } from '../services/auth.service';
 
 @Component({
@@ -11,16 +10,10 @@ import { AuthService, User } from '../services/auth.service';
 export class HomePage implements OnInit {
   user: User | null = null;
   private authService = inject(AuthService);
-  private router = inject(Router);
 
   ngOnInit() {
     this.authService.currentUser$.subscribe((user) => {
       this.user = user;
     });
-  }
-
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
   }
 }

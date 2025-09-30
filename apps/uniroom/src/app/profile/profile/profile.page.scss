@@ -1,0 +1,21 @@
+.profile-container {
+  padding: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+ion-card {
+  margin-bottom: 16px;
+}
+
+ion-list {
+  background: transparent;
+}
+
+ion-item {
+  --background: transparent;
+}
+
+.logout-button {
+  margin-top: 24px;
+}

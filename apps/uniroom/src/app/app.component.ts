@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent {
   private translate = inject(TranslateService);
+  private themeService = inject(ThemeService);
 
   constructor() {
     // Set default language
