@@ -1,8 +1,8 @@
 name: Conventional Commits Workflow
 
 on:
-  push: { branches: [main, development] }
-  pull_request: { branches: [main, development] }
+  push: { branches: [ main, development ] }
+  pull_request: { branches: [ main, development ] }
 
 jobs:
   commit-lint:
@@ -16,9 +16,9 @@ jobs:
         run: npm i -D @commitlint/cli @commitlint/config-conventional
 
       - name: Lint commits (safe range)
+        if: ${{ !contains(github.actor, 'copilot-swe-agent[bot]') }}
         shell: bash
         run: |
-          # Repo puede venir shallow; asegúrate del historial completo
           git fetch --prune --unshallow 2>/dev/null || true
           git fetch --tags || true
 
