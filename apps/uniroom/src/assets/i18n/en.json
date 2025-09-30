@@ -1,0 +1,57 @@
+{
+  "APP": {
+    "TITLE": "UniRoom"
+  },
+  "LOGIN": {
+    "TITLE": "Welcome back!",
+    "SUBTITLE": "Find your perfect student accommodation",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "SIGN_IN": "Sign In",
+    "OR_CONTINUE_WITH": "or continue with",
+    "NO_ACCOUNT": "Don't have an account?",
+    "SIGN_UP": "Sign up",
+    "ERROR": {
+      "EMPTY_CREDENTIALS": "Please enter email and password",
+      "INVALID_EMAIL": "Please enter a valid email address",
+      "LOGIN_FAILED": "Login failed. Please try again.",
+      "GITHUB_FAILED": "GitHub login failed. Please try again.",
+      "GOOGLE_FAILED": "Google login failed. Please try again."
+    }
+  },
+  "SIGNUP": {
+    "TITLE": "Create Account",
+    "SUBTITLE": "Join UniRoom community",
+    "FIRST_NAME": "First Name",
+    "LAST_NAME": "Last Name",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "PHONE": "Phone Number",
+    "UNIVERSITY": "University",
+    "SIGN_UP": "Sign Up",
+    "OR_CONTINUE_WITH": "or continue with",
+    "HAVE_ACCOUNT": "Already have an account?",
+    "SIGN_IN": "Sign in",
+    "ERROR": {
+      "EMPTY_FIELDS": "Please fill in all required fields",
+      "INVALID_EMAIL": "Please enter a valid email address",
+      "PASSWORD_MISMATCH": "Passwords do not match",
+      "PASSWORD_TOO_SHORT": "Password must be at least 8 characters",
+      "SIGNUP_FAILED": "Sign up failed. Please try again."
+    }
+  },
+  "HOME": {
+    "WELCOME": "Welcome back!",
+    "EMAIL": "Email",
+    "LOGIN_METHOD": "Login method",
+    "READY": "Ready to find your perfect accommodation?",
+    "START": "Start exploring rooms with",
+    "LOGOUT": "Logout"
+  },
+  "COMMON": {
+    "LOADING": "Loading...",
+    "GITHUB": "GitHub",
+    "GOOGLE": "Google"
+  }
+}

@@ -1,0 +1,163 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="signup-container">
+    <!-- Language Selector -->
+    <div class="language-selector">
+      <ion-button fill="clear" size="small" (click)="changeLanguage('en')">
+        EN
+      </ion-button>
+      <ion-button fill="clear" size="small" (click)="changeLanguage('es')">
+        ES
+      </ion-button>
+      <ion-button fill="clear" size="small" (click)="changeLanguage('ca')">
+        CA
+      </ion-button>
+    </div>
+
+    <!-- Logo/Header Section -->
+    <div class="signup-header">
+      <ion-icon name="person-add-outline" class="logo-icon"></ion-icon>
+      <h1>{{ 'SIGNUP.TITLE' | translate }}</h1>
+      <p class="subtitle">{{ 'SIGNUP.SUBTITLE' | translate }}</p>
+    </div>
+
+    <!-- Error Message -->
+    <ion-card *ngIf="errorMessage" class="error-card">
+      <ion-card-content>
+        <div class="error-content">
+          <ion-icon name="alert-circle" color="danger"></ion-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Signup Form -->
+    <ion-card class="signup-card">
+      <ion-card-content>
+        <form (ngSubmit)="signup()">
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-input
+              type="text"
+              [placeholder]="'SIGNUP.FIRST_NAME' | translate"
+              [(ngModel)]="firstName"
+              name="firstName"
+              required
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-input
+              type="text"
+              [placeholder]="'SIGNUP.LAST_NAME' | translate"
+              [(ngModel)]="lastName"
+              name="lastName"
+              required
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            <ion-input
+              type="email"
+              [placeholder]="'SIGNUP.EMAIL' | translate"
+              [(ngModel)]="email"
+              name="email"
+              required
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="call-outline" slot="start"></ion-icon>
+            <ion-input
+              type="tel"
+              [placeholder]="'SIGNUP.PHONE' | translate"
+              [(ngModel)]="phone"
+              name="phone"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="school-outline" slot="start"></ion-icon>
+            <ion-input
+              type="text"
+              [placeholder]="'SIGNUP.UNIVERSITY' | translate"
+              [(ngModel)]="university"
+              name="university"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            <ion-input
+              type="password"
+              [placeholder]="'SIGNUP.PASSWORD' | translate"
+              [(ngModel)]="password"
+              name="password"
+              required
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            <ion-input
+              type="password"
+              [placeholder]="'SIGNUP.CONFIRM_PASSWORD' | translate"
+              [(ngModel)]="confirmPassword"
+              name="confirmPassword"
+              required
+            ></ion-input>
+          </ion-item>
+
+          <ion-button
+            expand="block"
+            type="submit"
+            class="signup-button"
+            [disabled]="isLoading"
+          >
+            <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+            <span *ngIf="!isLoading">{{ 'SIGNUP.SIGN_UP' | translate }}</span>
+          </ion-button>
+        </form>
+
+        <!-- Divider -->
+        <div class="divider">
+          <span>{{ 'SIGNUP.OR_CONTINUE_WITH' | translate }}</span>
+        </div>
+
+        <!-- Social Signup Buttons -->
+        <div class="social-buttons">
+          <ion-button
+            expand="block"
+            fill="outline"
+            class="social-button github-button"
+            (click)="signupWithGithub()"
+            [disabled]="isLoading"
+          >
+            <ion-icon name="logo-github" slot="start"></ion-icon>
+            {{ 'COMMON.GITHUB' | translate }}
+          </ion-button>
+
+          <ion-button
+            expand="block"
+            fill="outline"
+            class="social-button google-button"
+            (click)="signupWithGoogle()"
+            [disabled]="isLoading"
+          >
+            <ion-icon name="logo-google" slot="start"></ion-icon>
+            {{ 'COMMON.GOOGLE' | translate }}
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Sign In Link -->
+    <div class="signin-link">
+      <p>
+        {{ 'SIGNUP.HAVE_ACCOUNT' | translate }}
+        <a routerLink="/login">{{ 'SIGNUP.SIGN_IN' | translate }}</a>
+      </p>
+    </div>
+  </div>
+</ion-content>

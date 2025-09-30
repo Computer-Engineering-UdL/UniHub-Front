@@ -1,0 +1,110 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="login-container">
+    <!-- Language Selector -->
+    <div class="language-selector">
+      <ion-button fill="clear" size="small" (click)="changeLanguage('en')">
+        EN
+      </ion-button>
+      <ion-button fill="clear" size="small" (click)="changeLanguage('es')">
+        ES
+      </ion-button>
+      <ion-button fill="clear" size="small" (click)="changeLanguage('ca')">
+        CA
+      </ion-button>
+    </div>
+
+    <!-- Logo/Header Section -->
+    <div class="login-header">
+      <ion-icon name="home-outline" class="logo-icon"></ion-icon>
+      <h1>{{ 'APP.TITLE' | translate }}</h1>
+      <p class="subtitle">{{ 'LOGIN.SUBTITLE' | translate }}</p>
+    </div>
+
+    <!-- Error Message -->
+    <ion-card *ngIf="errorMessage" class="error-card">
+      <ion-card-content>
+        <div class="error-content">
+          <ion-icon name="alert-circle" color="danger"></ion-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Login Form -->
+    <ion-card class="login-card">
+      <ion-card-content>
+        <form (ngSubmit)="login()">
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            <ion-input
+              type="email"
+              [placeholder]="'LOGIN.EMAIL' | translate"
+              [(ngModel)]="email"
+              name="email"
+              required
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            <ion-input
+              type="password"
+              [placeholder]="'LOGIN.PASSWORD' | translate"
+              [(ngModel)]="password"
+              name="password"
+              required
+            ></ion-input>
+          </ion-item>
+
+          <ion-button
+            expand="block"
+            type="submit"
+            class="login-button"
+            [disabled]="isLoading"
+          >
+            <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+            <span *ngIf="!isLoading">{{ 'LOGIN.SIGN_IN' | translate }}</span>
+          </ion-button>
+        </form>
+
+        <!-- Divider -->
+        <div class="divider">
+          <span>{{ 'LOGIN.OR_CONTINUE_WITH' | translate }}</span>
+        </div>
+
+        <!-- Social Login Buttons -->
+        <div class="social-buttons">
+          <ion-button
+            expand="block"
+            fill="outline"
+            class="social-button github-button"
+            (click)="loginWithGithub()"
+            [disabled]="isLoading"
+          >
+            <ion-icon name="logo-github" slot="start"></ion-icon>
+            {{ 'COMMON.GITHUB' | translate }}
+          </ion-button>
+
+          <ion-button
+            expand="block"
+            fill="outline"
+            class="social-button google-button"
+            (click)="loginWithGoogle()"
+            [disabled]="isLoading"
+          >
+            <ion-icon name="logo-google" slot="start"></ion-icon>
+            {{ 'COMMON.GOOGLE' | translate }}
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Sign Up Link -->
+    <div class="signup-link">
+      <p>
+        {{ 'LOGIN.NO_ACCOUNT' | translate }}
+        <a routerLink="/signup">{{ 'LOGIN.SIGN_UP' | translate }}</a>
+      </p>
+    </div>
+  </div>
+</ion-content>
