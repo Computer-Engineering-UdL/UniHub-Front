@@ -26,8 +26,8 @@ jobs:
             FROM_SHA="${{ github.event.pull_request.base.sha }}"
             TO_SHA="${{ github.sha }}"
           else
-            FROM_SHA="$(git rev-list --max-parents=0 HEAD)"
-            TO_SHA="HEAD"
+            FROM_SHA="${{ github.event.before }}"
+            TO_SHA="${{ github.sha }}"
           fi
 
           npx commitlint \
