@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,17 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class AppComponent {
-  constructor() {}
+  private translate = inject(TranslateService);
+
+  constructor() {
+    // Set default language
+    this.translate.setDefaultLang('en');
+    
+    // Try to get browser language
+    const browserLang = this.translate.getBrowserLang();
+    const supportedLangs = ['en', 'es', 'ca'];
+    const langToUse = browserLang && supportedLangs.includes(browserLang) ? browserLang : 'en';
+    
+    this.translate.use(langToUse);
+  }
 }

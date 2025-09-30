@@ -1,0 +1,57 @@
+{
+  "APP": {
+    "TITLE": "UniRoom"
+  },
+  "LOGIN": {
+    "TITLE": "Benvingut de nou!",
+    "SUBTITLE": "Troba el teu allotjament estudiantil perfecte",
+    "EMAIL": "Correu electrònic",
+    "PASSWORD": "Contrasenya",
+    "SIGN_IN": "Inicia sessió",
+    "OR_CONTINUE_WITH": "o continua amb",
+    "NO_ACCOUNT": "No tens un compte?",
+    "SIGN_UP": "Registra't",
+    "ERROR": {
+      "EMPTY_CREDENTIALS": "Si us plau introdueix correu i contrasenya",
+      "INVALID_EMAIL": "Si us plau introdueix un correu electrònic vàlid",
+      "LOGIN_FAILED": "Error a l'iniciar sessió. Si us plau torna-ho a provar.",
+      "GITHUB_FAILED": "Error a l'iniciar sessió amb GitHub. Si us plau torna-ho a provar.",
+      "GOOGLE_FAILED": "Error a l'iniciar sessió amb Google. Si us plau torna-ho a provar."
+    }
+  },
+  "SIGNUP": {
+    "TITLE": "Crear Compte",
+    "SUBTITLE": "Uneix-te a la comunitat UniRoom",
+    "FIRST_NAME": "Nom",
+    "LAST_NAME": "Cognoms",
+    "EMAIL": "Correu electrònic",
+    "PASSWORD": "Contrasenya",
+    "CONFIRM_PASSWORD": "Confirmar Contrasenya",
+    "PHONE": "Número de telèfon",
+    "UNIVERSITY": "Universitat",
+    "SIGN_UP": "Registrar-se",
+    "OR_CONTINUE_WITH": "o continua amb",
+    "HAVE_ACCOUNT": "Ja tens un compte?",
+    "SIGN_IN": "Inicia sessió",
+    "ERROR": {
+      "EMPTY_FIELDS": "Si us plau completa tots els camps requerits",
+      "INVALID_EMAIL": "Si us plau introdueix un correu electrònic vàlid",
+      "PASSWORD_MISMATCH": "Les contrasenyes no coincideixen",
+      "PASSWORD_TOO_SHORT": "La contrasenya ha de tenir almenys 8 caràcters",
+      "SIGNUP_FAILED": "Error al registrar-se. Si us plau torna-ho a provar."
+    }
+  },
+  "HOME": {
+    "WELCOME": "Benvingut de nou!",
+    "EMAIL": "Correu electrònic",
+    "LOGIN_METHOD": "Mètode d'inici de sessió",
+    "READY": "Preparat per trobar el teu allotjament perfecte?",
+    "START": "Comença a explorar habitacions amb",
+    "LOGOUT": "Tancar sessió"
+  },
+  "COMMON": {
+    "LOADING": "Carregant...",
+    "GITHUB": "GitHub",
+    "GOOGLE": "Google"
+  }
+}

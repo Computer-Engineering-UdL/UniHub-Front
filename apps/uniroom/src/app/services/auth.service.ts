@@ -7,12 +7,25 @@ export interface User {
   id: string;
   email: string;
   name?: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  university?: string;
   provider?: 'local' | 'github' | 'google';
 }
 
 export interface AuthResponse {
   token: string;
   user: User;
+}
+
+export interface SignupData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  phone?: string;
+  university?: string;
 }
 
 @Injectable({
@@ -78,6 +91,36 @@ export class AuthService {
         id: '1',
         email: email,
         name: email.split('@')[0],
+        provider: 'local',
+      };
+      
+      const mockToken = 'mock-jwt-token-' + Date.now();
+      this.storeAuth(mockToken, mockUser);
+    }
+  }
+
+  // Signup with user data
+  async signup(data: SignupData): Promise<void> {
+    try {
+      // In a real application, this would call your backend API
+      const response = await firstValueFrom(
+        this.http.post<AuthResponse>(`${this.API_URL}/auth/signup`, data)
+      );
+
+      this.storeAuth(response.token, response.user);
+    } catch (error: any) {
+      // For demo purposes, we'll create a mock user
+      // In production, this should throw the actual error
+      console.warn('API call failed, using mock registration');
+      
+      const mockUser: User = {
+        id: Date.now().toString(),
+        email: data.email,
+        name: `${data.firstName} ${data.lastName}`,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phone: data.phone,
+        university: data.university,
         provider: 'local',
       };
       

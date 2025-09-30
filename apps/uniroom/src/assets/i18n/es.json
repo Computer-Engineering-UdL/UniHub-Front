@@ -1,0 +1,57 @@
+{
+  "APP": {
+    "TITLE": "UniRoom"
+  },
+  "LOGIN": {
+    "TITLE": "¡Bienvenido de nuevo!",
+    "SUBTITLE": "Encuentra tu alojamiento estudiantil perfecto",
+    "EMAIL": "Correo electrónico",
+    "PASSWORD": "Contraseña",
+    "SIGN_IN": "Iniciar sesión",
+    "OR_CONTINUE_WITH": "o continuar con",
+    "NO_ACCOUNT": "¿No tienes una cuenta?",
+    "SIGN_UP": "Regístrate",
+    "ERROR": {
+      "EMPTY_CREDENTIALS": "Por favor ingresa correo y contraseña",
+      "INVALID_EMAIL": "Por favor ingresa un correo electrónico válido",
+      "LOGIN_FAILED": "Error al iniciar sesión. Por favor intenta de nuevo.",
+      "GITHUB_FAILED": "Error al iniciar sesión con GitHub. Por favor intenta de nuevo.",
+      "GOOGLE_FAILED": "Error al iniciar sesión con Google. Por favor intenta de nuevo."
+    }
+  },
+  "SIGNUP": {
+    "TITLE": "Crear Cuenta",
+    "SUBTITLE": "Únete a la comunidad UniRoom",
+    "FIRST_NAME": "Nombre",
+    "LAST_NAME": "Apellidos",
+    "EMAIL": "Correo electrónico",
+    "PASSWORD": "Contraseña",
+    "CONFIRM_PASSWORD": "Confirmar Contraseña",
+    "PHONE": "Número de teléfono",
+    "UNIVERSITY": "Universidad",
+    "SIGN_UP": "Registrarse",
+    "OR_CONTINUE_WITH": "o continuar con",
+    "HAVE_ACCOUNT": "¿Ya tienes una cuenta?",
+    "SIGN_IN": "Iniciar sesión",
+    "ERROR": {
+      "EMPTY_FIELDS": "Por favor completa todos los campos requeridos",
+      "INVALID_EMAIL": "Por favor ingresa un correo electrónico válido",
+      "PASSWORD_MISMATCH": "Las contraseñas no coinciden",
+      "PASSWORD_TOO_SHORT": "La contraseña debe tener al menos 8 caracteres",
+      "SIGNUP_FAILED": "Error al registrarse. Por favor intenta de nuevo."
+    }
+  },
+  "HOME": {
+    "WELCOME": "¡Bienvenido de nuevo!",
+    "EMAIL": "Correo electrónico",
+    "LOGIN_METHOD": "Método de inicio de sesión",
+    "READY": "¿Listo para encontrar tu alojamiento perfecto?",
+    "START": "Comienza a explorar habitaciones con",
+    "LOGOUT": "Cerrar sesión"
+  },
+  "COMMON": {
+    "LOADING": "Cargando...",
+    "GITHUB": "GitHub",
+    "GOOGLE": "Google"
+  }
+}

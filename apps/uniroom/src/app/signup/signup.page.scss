@@ -1,4 +1,4 @@
-.login-container {
+.signup-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -22,20 +22,20 @@
   --padding-end: 8px;
 }
 
-.login-header {
+.signup-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   animation: fadeInDown 0.6s ease-out;
 }
 
 .logo-icon {
-  font-size: 80px;
+  font-size: 60px;
   color: var(--ion-color-primary);
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
-.login-header h1 {
-  font-size: 36px;
+.signup-header h1 {
+  font-size: 32px;
   font-weight: bold;
   margin: 0;
   color: var(--ion-color-primary);
@@ -68,7 +68,7 @@
   font-size: 24px;
 }
 
-.login-card {
+.signup-card {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   animation: fadeInUp 0.6s ease-out;
@@ -77,7 +77,7 @@
 .input-item {
   --background: var(--ion-color-light);
   --border-radius: 12px;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   --padding-start: 15px;
   --padding-end: 15px;
   --inner-padding-end: 15px;
@@ -88,7 +88,7 @@
   margin-right: 10px;
 }
 
-.login-button {
+.signup-button {
   margin-top: 20px;
   --border-radius: 12px;
   height: 50px;
@@ -101,7 +101,7 @@
   display: flex;
   align-items: center;
   text-align: center;
-  margin: 30px 0;
+  margin: 25px 0;
   color: var(--ion-color-medium);
   font-size: 14px;
 }
@@ -150,17 +150,17 @@
   --color: white;
 }
 
-.signup-link {
+.signin-link {
   text-align: center;
-  margin-top: 30px;
+  margin-top: 20px;
   animation: fadeIn 1s ease-out;
 }
 
-.signup-link p {
+.signin-link p {
   color: var(--ion-color-medium);
 }
 
-.signup-link a {
+.signin-link a {
   color: var(--ion-color-primary);
   text-decoration: none;
   font-weight: bold;
@@ -212,11 +212,11 @@
 
 /* Responsive design */
 @media (max-width: 576px) {
-  .login-header h1 {
-    font-size: 28px;
+  .signup-header h1 {
+    font-size: 26px;
   }
 
   .logo-icon {
-    font-size: 60px;
+    font-size: 50px;
   }
 }

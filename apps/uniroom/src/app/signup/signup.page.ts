@@ -4,14 +4,19 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../services/auth.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: 'login.page.html',
-  styleUrls: ['login.page.scss'],
+  selector: 'app-signup',
+  templateUrl: 'signup.page.html',
+  styleUrls: ['signup.page.scss'],
   standalone: false,
 })
-export class LoginPage {
+export class SignupPage {
+  firstName = '';
+  lastName = '';
   email = '';
   password = '';
+  confirmPassword = '';
+  phone = '';
+  university = '';
   errorMessage = '';
   isLoading = false;
 
@@ -26,14 +31,28 @@ export class LoginPage {
     return this.emailRegex.test(email);
   }
 
-  async login() {
-    if (!this.email || !this.password) {
-      this.errorMessage = this.translate.instant('LOGIN.ERROR.EMPTY_CREDENTIALS');
+  async signup() {
+    // Validate required fields
+    if (!this.firstName || !this.lastName || !this.email || !this.password || !this.confirmPassword) {
+      this.errorMessage = this.translate.instant('SIGNUP.ERROR.EMPTY_FIELDS');
       return;
     }
 
+    // Validate email format
     if (!this.validateEmail(this.email)) {
-      this.errorMessage = this.translate.instant('LOGIN.ERROR.INVALID_EMAIL');
+      this.errorMessage = this.translate.instant('SIGNUP.ERROR.INVALID_EMAIL');
+      return;
+    }
+
+    // Validate password length
+    if (this.password.length < 8) {
+      this.errorMessage = this.translate.instant('SIGNUP.ERROR.PASSWORD_TOO_SHORT');
+      return;
+    }
+
+    // Validate password match
+    if (this.password !== this.confirmPassword) {
+      this.errorMessage = this.translate.instant('SIGNUP.ERROR.PASSWORD_MISMATCH');
       return;
     }
 
@@ -41,16 +60,23 @@ export class LoginPage {
     this.errorMessage = '';
 
     try {
-      await this.authService.login(this.email, this.password);
+      await this.authService.signup({
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        password: this.password,
+        phone: this.phone,
+        university: this.university,
+      });
       this.router.navigate(['/home']);
     } catch (error: any) {
-      this.errorMessage = error.message || this.translate.instant('LOGIN.ERROR.LOGIN_FAILED');
+      this.errorMessage = error.message || this.translate.instant('SIGNUP.ERROR.SIGNUP_FAILED');
     } finally {
       this.isLoading = false;
     }
   }
 
-  async loginWithGithub() {
+  async signupWithGithub() {
     this.isLoading = true;
     this.errorMessage = '';
 
@@ -64,7 +90,7 @@ export class LoginPage {
     }
   }
 
-  async loginWithGoogle() {
+  async signupWithGoogle() {
     this.isLoading = true;
     this.errorMessage = '';
 

@@ -33,6 +33,8 @@
     "@capacitor/keyboard": "7.0.3",
     "@capacitor/status-bar": "7.0.3",
     "@ionic/angular": "^8.0.0",
+    "@ngx-translate/core": "^17.0.0",
+    "@ngx-translate/http-loader": "^17.0.0",
     "ionicons": "^7.0.0",
     "rxjs": "^7.8.1",
     "tslib": "^2.6.2",

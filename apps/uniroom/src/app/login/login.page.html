@@ -1,10 +1,23 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <div class="login-container">
+    <!-- Language Selector -->
+    <div class="language-selector">
+      <ion-button fill="clear" size="small" (click)="changeLanguage('en')">
+        EN
+      </ion-button>
+      <ion-button fill="clear" size="small" (click)="changeLanguage('es')">
+        ES
+      </ion-button>
+      <ion-button fill="clear" size="small" (click)="changeLanguage('ca')">
+        CA
+      </ion-button>
+    </div>
+
     <!-- Logo/Header Section -->
     <div class="login-header">
       <ion-icon name="home-outline" class="logo-icon"></ion-icon>
-      <h1>UniRoom</h1>
-      <p class="subtitle">Find your perfect student accommodation</p>
+      <h1>{{ 'APP.TITLE' | translate }}</h1>
+      <p class="subtitle">{{ 'LOGIN.SUBTITLE' | translate }}</p>
     </div>
 
     <!-- Error Message -->
@@ -25,7 +38,7 @@
             <ion-icon name="mail-outline" slot="start"></ion-icon>
             <ion-input
               type="email"
-              placeholder="Email"
+              [placeholder]="'LOGIN.EMAIL' | translate"
               [(ngModel)]="email"
               name="email"
               required
@@ -36,7 +49,7 @@
             <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
             <ion-input
               type="password"
-              placeholder="Password"
+              [placeholder]="'LOGIN.PASSWORD' | translate"
               [(ngModel)]="password"
               name="password"
               required
@@ -50,13 +63,13 @@
             [disabled]="isLoading"
           >
             <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
-            <span *ngIf="!isLoading">Sign In</span>
+            <span *ngIf="!isLoading">{{ 'LOGIN.SIGN_IN' | translate }}</span>
           </ion-button>
         </form>
 
         <!-- Divider -->
         <div class="divider">
-          <span>or continue with</span>
+          <span>{{ 'LOGIN.OR_CONTINUE_WITH' | translate }}</span>
         </div>
 
         <!-- Social Login Buttons -->
@@ -69,7 +82,7 @@
             [disabled]="isLoading"
           >
             <ion-icon name="logo-github" slot="start"></ion-icon>
-            GitHub
+            {{ 'COMMON.GITHUB' | translate }}
           </ion-button>
 
           <ion-button
@@ -80,7 +93,7 @@
             [disabled]="isLoading"
           >
             <ion-icon name="logo-google" slot="start"></ion-icon>
-            Google
+            {{ 'COMMON.GOOGLE' | translate }}
           </ion-button>
         </div>
       </ion-card-content>
@@ -88,7 +101,7 @@
 
     <!-- Sign Up Link -->
     <div class="signup-link">
-      <p>Don't have an account? <a href="#">Sign up</a></p>
+      <p>{{ 'LOGIN.NO_ACCOUNT' | translate }} <a routerLink="/signup">{{ 'LOGIN.SIGN_UP' | translate }}</a></p>
     </div>
   </div>
 </ion-content>
