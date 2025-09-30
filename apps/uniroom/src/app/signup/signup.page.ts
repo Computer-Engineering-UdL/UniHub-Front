@@ -78,7 +78,7 @@ export class SignupPage {
         phone: this.phone,
         university: this.university,
       });
-      this.router.navigate(['/home']);
+      await this.router.navigate(['/home']);
     } catch (error: any) {
       this.errorMessage =
         error.message || this.translate.instant('SIGNUP.ERROR.SIGNUP_FAILED');
@@ -87,7 +87,7 @@ export class SignupPage {
     }
   }
 
-  async signupWithGithub() {
+  async signupWithGithub(): Promise<void> {
     this.isLoading = true;
     this.errorMessage = '';
 
@@ -102,13 +102,13 @@ export class SignupPage {
     }
   }
 
-  async signupWithGoogle() {
+  async signupWithGoogle(): Promise<void> {
     this.isLoading = true;
     this.errorMessage = '';
 
     try {
       await this.authService.loginWithGoogle();
-      this.router.navigate(['/home']);
+      await this.router.navigate(['/home']);
     } catch (error: any) {
       this.errorMessage =
         error.message || this.translate.instant('LOGIN.ERROR.GOOGLE_FAILED');
@@ -117,7 +117,7 @@ export class SignupPage {
     }
   }
 
-  changeLanguage(lang: string) {
+  changeLanguage(lang: string): void {
     this.translate.use(lang);
   }
 }

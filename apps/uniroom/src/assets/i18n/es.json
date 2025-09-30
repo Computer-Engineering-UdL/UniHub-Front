@@ -49,6 +49,19 @@
     "START": "Comienza a explorar habitaciones con",
     "LOGOUT": "Cerrar sesión"
   },
+  "PROFILE": {
+    "TITLE": "Perfil",
+    "USER_INFO": "Información del Usuario",
+    "NAME": "Nombre",
+    "APPEARANCE": "Apariencia",
+    "THEME": {
+      "TITLE": "Tema",
+      "CHANGE": "Cambiar",
+      "LIGHT": "Claro",
+      "DARK": "Oscuro",
+      "SYSTEM": "Predeterminado del Sistema"
+    }
+  },
   "COMMON": {
     "LOADING": "Cargando...",
     "GITHUB": "GitHub",

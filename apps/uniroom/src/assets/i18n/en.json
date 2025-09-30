@@ -49,6 +49,19 @@
     "START": "Start exploring rooms with",
     "LOGOUT": "Logout"
   },
+  "PROFILE": {
+    "TITLE": "Profile",
+    "USER_INFO": "User Information",
+    "NAME": "Name",
+    "APPEARANCE": "Appearance",
+    "THEME": {
+      "TITLE": "Theme",
+      "CHANGE": "Change",
+      "LIGHT": "Light",
+      "DARK": "Dark",
+      "SYSTEM": "System Default"
+    }
+  },
   "COMMON": {
     "LOADING": "Loading...",
     "GITHUB": "GitHub",

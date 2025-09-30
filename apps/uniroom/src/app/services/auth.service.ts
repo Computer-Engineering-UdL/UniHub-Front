@@ -32,14 +32,15 @@ export interface SignupData {
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly AUTH_TOKEN_KEY = 'auth_token';
-  private readonly USER_KEY = 'user_data';
-  private readonly API_URL = environment.apiUrl || 'http://localhost:3000/api';
+  private readonly AUTH_TOKEN_KEY: string = 'auth_token';
+  private readonly USER_KEY: string = 'user_data';
+  private readonly API_URL: string =
+    environment.apiUrl || 'http://localhost:3000/api';
 
-  private currentUserSubject = new BehaviorSubject<User | null>(
-    this.getStoredUser(),
-  );
-  public currentUser$ = this.currentUserSubject.asObservable();
+  private currentUserSubject: BehaviorSubject<User | null> =
+    new BehaviorSubject<User | null>(this.getStoredUser());
+  public currentUser$: Observable<User | null> =
+    this.currentUserSubject.asObservable();
 
   private http = inject(HttpClient);
 
