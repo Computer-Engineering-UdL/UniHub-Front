@@ -18,7 +18,7 @@ export class NotificationService {
   async show(
     message: string,
     type: NotificationType = 'info',
-    duration: number = 3000
+    duration: number = 3000,
   ): Promise<void> {
     const toast = await this.toastController.create({
       message,
