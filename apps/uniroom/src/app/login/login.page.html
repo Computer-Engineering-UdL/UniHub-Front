@@ -1,5 +1,5 @@
 <ion-content [fullscreen]="true" class="ion-padding">
-  <div class="login-container">
+  <div class="auth-container">
     <!-- Language Selector -->
     <div class="language-selector">
       <ion-button fill="clear" size="small" (click)="changeLanguage('en')">
@@ -14,24 +14,14 @@
     </div>
 
     <!-- Logo/Header Section -->
-    <div class="login-header">
+    <div class="auth-header">
       <ion-icon name="home-outline" class="logo-icon"></ion-icon>
       <h1>{{ 'APP.TITLE' | translate }}</h1>
       <p class="subtitle">{{ 'LOGIN.SUBTITLE' | translate }}</p>
     </div>
 
-    <!-- Error Message -->
-    <ion-card *ngIf="errorMessage" class="error-card">
-      <ion-card-content>
-        <div class="error-content">
-          <ion-icon name="alert-circle" color="required"></ion-icon>
-          <span>{{ errorMessage }}</span>
-        </div>
-      </ion-card-content>
-    </ion-card>
-
     <!-- Login Form -->
-    <ion-card class="login-card">
+    <ion-card class="auth-card">
       <ion-card-content>
         <form (ngSubmit)="login()">
           <ion-item lines="none" class="input-item">
@@ -59,7 +49,7 @@
           <ion-button
             expand="block"
             type="submit"
-            class="login-button"
+            class="auth-button"
             [disabled]="isLoading"
           >
             <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
@@ -100,7 +90,7 @@
     </ion-card>
 
     <!-- Sign Up Link -->
-    <div class="signup-link">
+    <div class="auth-link">
       <p>
         {{ 'LOGIN.NO_ACCOUNT' | translate }}
         <a routerLink="/signup">{{ 'LOGIN.SIGN_UP' | translate }}</a>
