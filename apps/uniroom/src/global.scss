@@ -35,3 +35,35 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 @import "@ionic/angular/css/palettes/dark.class.css";
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+/**
+ * Shared Styles
+ * -----------------------------------------------------
+ * Import shared component styles that are used across multiple pages
+ */
+@import "styles/auth-page.scss";
+
+/**
+ * Toast Notifications
+ * -----------------------------------------------------
+ * Custom styles for toast notifications
+ */
+.toast-success {
+  --background: var(--ion-color-success);
+  --color: var(--ion-color-success-contrast);
+}
+
+.toast-error {
+  --background: var(--ion-color-danger);
+  --color: var(--ion-color-danger-contrast);
+}
+
+.toast-warning {
+  --background: var(--ion-color-warning);
+  --color: var(--ion-color-warning-contrast);
+}
+
+.toast-info {
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-primary-contrast);
+}

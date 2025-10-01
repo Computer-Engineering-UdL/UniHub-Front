@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../services/auth.service';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-signup',
@@ -17,12 +18,12 @@ export class SignupPage {
   confirmPassword = '';
   phone = '';
   university = '';
-  errorMessage = '';
   isLoading = false;
 
   private authService = inject(AuthService);
   private router = inject(Router);
   private translate = inject(TranslateService);
+  private notificationService = inject(NotificationService);
 
   // Email validation regex
   private emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -40,34 +41,37 @@ export class SignupPage {
       !this.password ||
       !this.confirmPassword
     ) {
-      this.errorMessage = this.translate.instant('SIGNUP.ERROR.EMPTY_FIELDS');
+      await this.notificationService.error(
+        this.translate.instant('SIGNUP.ERROR.EMPTY_FIELDS'),
+      );
       return;
     }
 
     // Validate email format
     if (!this.validateEmail(this.email)) {
-      this.errorMessage = this.translate.instant('SIGNUP.ERROR.INVALID_EMAIL');
+      await this.notificationService.error(
+        this.translate.instant('SIGNUP.ERROR.INVALID_EMAIL'),
+      );
       return;
     }
 
     // Validate password length
     if (this.password.length < 8) {
-      this.errorMessage = this.translate.instant(
-        'SIGNUP.ERROR.PASSWORD_TOO_SHORT',
+      await this.notificationService.error(
+        this.translate.instant('SIGNUP.ERROR.PASSWORD_TOO_SHORT'),
       );
       return;
     }
 
     // Validate password match
     if (this.password !== this.confirmPassword) {
-      this.errorMessage = this.translate.instant(
-        'SIGNUP.ERROR.PASSWORD_MISMATCH',
+      await this.notificationService.error(
+        this.translate.instant('SIGNUP.ERROR.PASSWORD_MISMATCH'),
       );
       return;
     }
 
     this.isLoading = true;
-    this.errorMessage = '';
 
     try {
       await this.authService.signup({
@@ -80,8 +84,9 @@ export class SignupPage {
       });
       await this.router.navigate(['/home']);
     } catch (error: any) {
-      this.errorMessage =
-        error.message || this.translate.instant('SIGNUP.ERROR.SIGNUP_FAILED');
+      await this.notificationService.error(
+        error.message || this.translate.instant('SIGNUP.ERROR.SIGNUP_FAILED'),
+      );
     } finally {
       this.isLoading = false;
     }
@@ -89,14 +94,14 @@ export class SignupPage {
 
   async signupWithGithub(): Promise<void> {
     this.isLoading = true;
-    this.errorMessage = '';
 
     try {
       await this.authService.loginWithGithub();
       this.router.navigate(['/home']);
     } catch (error: any) {
-      this.errorMessage =
-        error.message || this.translate.instant('LOGIN.ERROR.GITHUB_FAILED');
+      await this.notificationService.error(
+        error.message || this.translate.instant('LOGIN.ERROR.GITHUB_FAILED'),
+      );
     } finally {
       this.isLoading = false;
     }
@@ -104,14 +109,14 @@ export class SignupPage {
 
   async signupWithGoogle(): Promise<void> {
     this.isLoading = true;
-    this.errorMessage = '';
 
     try {
       await this.authService.loginWithGoogle();
       await this.router.navigate(['/home']);
     } catch (error: any) {
-      this.errorMessage =
-        error.message || this.translate.instant('LOGIN.ERROR.GOOGLE_FAILED');
+      await this.notificationService.error(
+        error.message || this.translate.instant('LOGIN.ERROR.GOOGLE_FAILED'),
+      );
     } finally {
       this.isLoading = false;
     }
