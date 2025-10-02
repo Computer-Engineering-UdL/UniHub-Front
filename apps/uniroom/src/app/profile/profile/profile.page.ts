@@ -1,7 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService, User } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { ThemeService, Theme } from '../../services/theme.service';
+import { User } from '../../models/auth.types';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -9,21 +11,28 @@ import { ThemeService, Theme } from '../../services/theme.service';
   styleUrls: ['./profile.page.scss'],
   standalone: false,
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage implements OnInit, OnDestroy {
   user: User | null = null;
   currentTheme: Theme = 'system';
   private authService = inject(AuthService);
   private themeService = inject(ThemeService);
   private router = inject(Router);
+  private userSub?: Subscription;
 
-  ngOnInit() {
-    this.authService.currentUser$.subscribe((user) => {
-      this.user = user;
-    });
+  ngOnInit(): void {
+    this.userSub = this.authService.currentUser$.subscribe(
+      (user: User | null) => {
+        this.user = user;
+      },
+    );
     this.currentTheme = this.themeService.getTheme();
   }
 
-  toggleTheme() {
+  ngOnDestroy(): void {
+    this.userSub?.unsubscribe();
+  }
+
+  toggleTheme(): void {
     this.themeService.toggleTheme();
     this.currentTheme = this.themeService.getTheme();
   }
@@ -45,7 +54,7 @@ export class ProfilePage implements OnInit {
     return `PROFILE.THEME.${this.currentTheme.toUpperCase()}`;
   }
 
-  logout() {
+  logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
   }

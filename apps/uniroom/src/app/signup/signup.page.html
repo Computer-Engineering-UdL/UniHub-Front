@@ -61,9 +61,13 @@
             <ion-icon name="call-outline" slot="start"></ion-icon>
             <ion-input
               type="tel"
+              inputmode="tel"
+              pattern="^[+]?\\d{0,15}$"
+              maxlength="16"
               [placeholder]="'SIGNUP.PHONE' | translate"
               [(ngModel)]="phone"
               name="phone"
+              (ionInput)="onPhoneInput($event)"
             ></ion-input>
           </ion-item>
 

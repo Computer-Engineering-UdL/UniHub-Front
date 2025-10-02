@@ -1,0 +1,15 @@
+<ion-content class="ion-padding unauthorized-wrapper">
+  <div class="center-box">
+    <ion-icon name="alert-circle-outline" class="icon"></ion-icon>
+    <h1>{{ 'UNAUTHORIZED.TITLE' | translate }}</h1>
+    <p class="message">{{ 'UNAUTHORIZED.MESSAGE' | translate }}</p>
+    <div class="actions">
+      <ion-button color="primary" (click)="goHome()">
+        {{ 'UNAUTHORIZED.GO_HOME' | translate }}
+      </ion-button>
+      <ion-button fill="outline" (click)="goLogin()">
+        {{ 'UNAUTHORIZED.GO_LOGIN' | translate }}
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

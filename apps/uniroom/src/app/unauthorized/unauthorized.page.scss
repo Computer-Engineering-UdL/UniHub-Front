@@ -1,0 +1,48 @@
+.unauthorized-wrapper {
+  --background: var(--ion-color-light, #f8f8f8);
+}
+
+.center-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  gap: 1rem;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.center-box .icon {
+  font-size: 4rem;
+  color: var(--ion-color-warning, #ffc409);
+}
+
+.center-box h1 {
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.center-box .message {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  opacity: 0.8;
+  margin: 0 0 1rem;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+}
+
+@media (max-width: 480px) {
+  .actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .actions ion-button {
+    width: 100%;
+  }
+}

@@ -66,5 +66,11 @@
     "LOADING": "Loading...",
     "GITHUB": "GitHub",
     "GOOGLE": "Google"
+  },
+  "UNAUTHORIZED": {
+    "TITLE": "Access denied",
+    "MESSAGE": "You don't have permission to view this page.",
+    "GO_HOME": "Go Home",
+    "GO_LOGIN": "Go to Login"
   }
 }

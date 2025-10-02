@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../services/auth.service';
 import { NotificationService } from '../services/notification.service';
+import { SignupData } from '../models/auth.types';
+import { LangCode, SUPPORTED_LANGS } from '../models/i18n.types';
 
 @Component({
   selector: 'app-signup',
@@ -11,29 +13,38 @@ import { NotificationService } from '../services/notification.service';
   standalone: false,
 })
 export class SignupPage {
-  firstName = '';
-  lastName = '';
-  email = '';
-  password = '';
-  confirmPassword = '';
-  phone = '';
-  university = '';
-  isLoading = false;
+  firstName: string = '';
+  lastName: string = '';
+  email: string = '';
+  password: string = '';
+  confirmPassword: string = '';
+  phone: string = '';
+  university: string = '';
+  isLoading: boolean = false;
 
   private authService = inject(AuthService);
   private router = inject(Router);
   private translate = inject(TranslateService);
   private notificationService = inject(NotificationService);
 
-  // Email validation regex
-  private emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  private readonly emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   validateEmail(email: string): boolean {
     return this.emailRegex.test(email);
   }
 
-  async signup() {
-    // Validate required fields
+  private buildSignupPayload(): SignupData {
+    return {
+      firstName: this.firstName.trim(),
+      lastName: this.lastName.trim(),
+      email: this.email.trim(),
+      password: this.password,
+      phone: this.phone.trim() || undefined,
+      university: this.university.trim() || undefined,
+    };
+  }
+
+  async signup(): Promise<void> {
     if (
       !this.firstName ||
       !this.lastName ||
@@ -47,7 +58,6 @@ export class SignupPage {
       return;
     }
 
-    // Validate email format
     if (!this.validateEmail(this.email)) {
       await this.notificationService.error(
         this.translate.instant('SIGNUP.ERROR.INVALID_EMAIL'),
@@ -55,7 +65,6 @@ export class SignupPage {
       return;
     }
 
-    // Validate password length
     if (this.password.length < 8) {
       await this.notificationService.error(
         this.translate.instant('SIGNUP.ERROR.PASSWORD_TOO_SHORT'),
@@ -63,7 +72,6 @@ export class SignupPage {
       return;
     }
 
-    // Validate password match
     if (this.password !== this.confirmPassword) {
       await this.notificationService.error(
         this.translate.instant('SIGNUP.ERROR.PASSWORD_MISMATCH'),
@@ -74,19 +82,15 @@ export class SignupPage {
     this.isLoading = true;
 
     try {
-      await this.authService.signup({
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email,
-        password: this.password,
-        phone: this.phone,
-        university: this.university,
-      });
+      const payload: SignupData = this.buildSignupPayload();
+      await this.authService.signup(payload);
       await this.router.navigate(['/home']);
-    } catch (error: any) {
-      await this.notificationService.error(
-        error.message || this.translate.instant('SIGNUP.ERROR.SIGNUP_FAILED'),
-      );
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : this.translate.instant('SIGNUP.ERROR.SIGNUP_FAILED');
+      await this.notificationService.error(message);
     } finally {
       this.isLoading = false;
     }
@@ -94,14 +98,15 @@ export class SignupPage {
 
   async signupWithGithub(): Promise<void> {
     this.isLoading = true;
-
     try {
       await this.authService.loginWithGithub();
-      this.router.navigate(['/home']);
-    } catch (error: any) {
-      await this.notificationService.error(
-        error.message || this.translate.instant('LOGIN.ERROR.GITHUB_FAILED'),
-      );
+      await this.router.navigate(['/home']);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : this.translate.instant('LOGIN.ERROR.GITHUB_FAILED');
+      await this.notificationService.error(message);
     } finally {
       this.isLoading = false;
     }
@@ -109,20 +114,39 @@ export class SignupPage {
 
   async signupWithGoogle(): Promise<void> {
     this.isLoading = true;
-
     try {
       await this.authService.loginWithGoogle();
       await this.router.navigate(['/home']);
-    } catch (error: any) {
-      await this.notificationService.error(
-        error.message || this.translate.instant('LOGIN.ERROR.GOOGLE_FAILED'),
-      );
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : this.translate.instant('LOGIN.ERROR.GOOGLE_FAILED');
+      await this.notificationService.error(message);
     } finally {
       this.isLoading = false;
     }
   }
 
-  changeLanguage(lang: string): void {
-    this.translate.use(lang);
+  onPhoneInput(ev: CustomEvent): void {
+    const raw: string = (ev.detail?.value ?? '') as string;
+    if (raw === '') {
+      this.phone = '';
+      return;
+    }
+    // Allow only digits and plus, keep only first leading plus
+    const hasLeadingPlus = raw.trim().startsWith('+');
+    let cleaned = raw.replace(/[^+\d]/g, '');
+    cleaned = cleaned.replace(/\+/g, '');
+    if (hasLeadingPlus) cleaned = '+' + cleaned;
+    // Enforce max length: 16 total (1 for plus + up to 15 digits per E.164)
+    if (cleaned.startsWith('+')) cleaned = cleaned.slice(0, 16);
+    else cleaned = cleaned.slice(0, 15);
+    this.phone = cleaned;
+  }
+
+  changeLanguage(lang: LangCode): void {
+    const code: LangCode = SUPPORTED_LANGS.includes(lang) ? lang : 'en';
+    this.translate.use(code);
   }
 }

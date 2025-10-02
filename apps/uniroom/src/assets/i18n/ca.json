@@ -66,5 +66,11 @@
     "LOADING": "Carregant...",
     "GITHUB": "GitHub",
     "GOOGLE": "Google"
+  },
+  "UNAUTHORIZED": {
+    "TITLE": "Accés denegat",
+    "MESSAGE": "No tens permís per veure aquesta pàgina.",
+    "GO_HOME": "Anar a l'inici",
+    "GO_LOGIN": "Anar a iniciar sessió"
   }
 }

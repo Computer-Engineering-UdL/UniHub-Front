@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core';
 
 export type Theme = 'light' | 'dark' | 'system';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class ThemeService {
-  private readonly THEME_KEY = 'theme_preference';
+  private readonly THEME_KEY: string = 'theme_preference';
   private currentTheme: Theme = 'system';
 
   constructor() {
@@ -14,7 +12,7 @@ export class ThemeService {
   }
 
   private initializeTheme(): void {
-    const savedTheme = this.getSavedTheme();
+    const savedTheme: Theme = this.getSavedTheme();
     this.setTheme(savedTheme);
   }
 
@@ -26,16 +24,11 @@ export class ThemeService {
   setTheme(theme: Theme): void {
     this.currentTheme = theme;
     localStorage.setItem(this.THEME_KEY, theme);
-
-    // Remove all theme classes first
     document.body.classList.remove('ion-palette-dark', 'ion-palette-light');
-
-    if (theme === 'dark') {
-      document.body.classList.add('ion-palette-dark');
-    } else if (theme === 'light') {
+    if (theme === 'dark') document.body.classList.add('ion-palette-dark');
+    else if (theme === 'light')
       document.body.classList.add('ion-palette-light');
-    }
-    // For 'system', no class is added, letting CSS media query handle it
+    // 'system' relies on prefers-color-scheme, so no class added
   }
 
   getTheme(): Theme {
@@ -44,8 +37,8 @@ export class ThemeService {
 
   toggleTheme(): void {
     const themes: Theme[] = ['system', 'light', 'dark'];
-    const currentIndex = themes.indexOf(this.currentTheme);
-    const nextIndex = (currentIndex + 1) % themes.length;
+    const currentIndex: number = themes.indexOf(this.currentTheme);
+    const nextIndex: number = (currentIndex + 1) % themes.length;
     this.setTheme(themes[nextIndex]);
   }
 }
