@@ -8,6 +8,12 @@
 [![pnpm](https://img.shields.io/badge/pnpm-10.17.1-blue?logo=pnpm&logoColor=white)](https://pnpm.io/)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
+[![Web](https://img.shields.io/website?url=https://computer-engineering-udl.github.io/UniRoom-Front/&label=Website&up_message=online&down_message=offline)](https://computer-engineering-udl.github.io/UniRoom-Front/)
+[![CI](https://img.shields.io/github/actions/workflow/status/Computer-Engineering-UdL/UniRoom-Front/ci.yml?branch=main&label=CI)](https://github.com/Computer-Engineering-UdL/UniRoom-Front/actions/workflows/tests.yml)
+[![Last commit](https://img.shields.io/github/last-commit/Computer-Engineering-UdL/UniRoom-Front?label=Last%20commit)](https://github.com/Computer-Engineering-UdL/UniRoom-Front/commits)
+[![Issues](https://img.shields.io/github/issues/Computer-Engineering-UdL/UniRoom-Front?label=Issues)](https://github.com/Computer-Engineering-UdL/UniRoom-Front/issues)
+[![PRs](https://img.shields.io/github/issues-pr/Computer-Engineering-UdL/UniRoom-Front?label=PRs)](https://github.com/Computer-Engineering-UdL/UniRoom-Front/pulls)
+
 ## Features
 
 - Configurable user profiles, matching their preferences with listings and communities
