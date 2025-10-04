@@ -41,7 +41,37 @@ pnpm start
 
 ## Authors
 
-- [Aniol0012](https://github.com/Aniol0012)
-- [TheSmuks](https://github.com/TheSmuks)
-- [carless7](https://github.com/carless7)
-- [cesarcres](https://github.com/cesarcres)
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Aniol0012">
+        <img src="https://github.com/Aniol0012.png" width="72" height="72" style="border-radius:50%;" alt="Aniol0012"><br/>
+        <img src="https://img.shields.io/badge/Aniol0012-Contributor-181717?style=for-the-badge&logo=github&logoColor=white" alt="Aniol0012">
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/carless7">
+        <img src="https://github.com/carless7.png" width="72" height="72" style="border-radius:50%;" alt="carless7"><br/>
+        <img src="https://img.shields.io/badge/carless7-Contributor-181717?style=for-the-badge&logo=github&logoColor=white" alt="carless7">
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/cesarcres">
+        <img src="https://github.com/cesarcres.png" width="72" height="72" style="border-radius:50%;" alt="cesarcres"><br/>
+        <img src="https://img.shields.io/badge/cesarcres-Contributor-181717?style=for-the-badge&logo=github&logoColor=white" alt="cesarcres">
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/JerzyLeg">
+        <img src="https://github.com/JerzyLeg.png" width="72" height="72" style="border-radius:50%;" alt="JerzyLeg"><br/>
+        <img src="https://img.shields.io/badge/JerzyLeg-Contributor-181717?style=for-the-badge&logo=github&logoColor=white" alt="JerzyLeg">
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/TheSmuks">
+        <img src="https://github.com/TheSmuks.png" width="72" height="72" style="border-radius:50%;" alt="TheSmuks"><br/>
+        <img src="https://img.shields.io/badge/TheSmuks-Contributor-181717?style=for-the-badge&logo=github&logoColor=white" alt="TheSmuks">
+      </a>
+    </td>
+  </tr>
+</table>
