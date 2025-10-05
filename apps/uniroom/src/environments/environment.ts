@@ -1,7 +1,7 @@
 // Environment configuration (development)
-import type { Environment } from './environment.model';
+import { Environment, API_VERSION_PATH } from './environment.model';
 
 export const environment: Environment = {
   production: false,
-  apiUrl: 'http://localhost:3000/api',
+  apiUrl: 'http://localhost:8080' + API_VERSION_PATH,
 };
