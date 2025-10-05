@@ -4,6 +4,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../services/auth.service';
 import { NotificationService } from '../services/notification.service';
 import { LangCode, SUPPORTED_LANGS } from '../models/i18n.types';
+import { AuthResponse, LoginCredentials } from '../models/auth.types';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-login',

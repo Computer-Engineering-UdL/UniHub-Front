@@ -16,7 +16,8 @@
       "INVALID_EMAIL": "Si us plau introdueix un correu electrònic vàlid",
       "LOGIN_FAILED": "Error a l'iniciar sessió. Si us plau torna-ho a provar.",
       "GITHUB_FAILED": "Error a l'iniciar sessió amb GitHub. Si us plau torna-ho a provar.",
-      "GOOGLE_FAILED": "Error a l'iniciar sessió amb Google. Si us plau torna-ho a provar."
+      "GOOGLE_FAILED": "Error a l'iniciar sessió amb Google. Si us plau torna-ho a provar.",
+      "OAUTH_WINDOW_CLOSED": "La finestra d'autenticació s'ha tancat abans de completar el procés."
     }
   },
   "SIGNUP": {

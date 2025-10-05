@@ -8,20 +8,21 @@ import {
   SignupData,
   LoginCredentials,
 } from '../models/auth.types';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly AUTH_TOKEN_KEY = 'auth_token';
   private readonly USER_KEY = 'user_data';
-  private readonly API_URL = environment.apiUrl || 'http://localhost:3000/api';
+  private readonly API_URL: string = environment.apiUrl;
 
-  private currentUserSubject = new BehaviorSubject<User | null>(
-    this.getStoredUser(),
-  );
+  private currentUserSubject: BehaviorSubject<User | null> =
+    new BehaviorSubject<User | null>(this.getStoredUser());
   public currentUser$: Observable<User | null> =
     this.currentUserSubject.asObservable();
 
-  private http = inject(HttpClient);
+  private http: HttpClient = inject(HttpClient);
+  private translate: TranslateService = inject(TranslateService);
 
   private getStoredUser(): User | null {
     const userJson = localStorage.getItem(this.USER_KEY);
@@ -56,23 +57,15 @@ export class AuthService {
         : emailOrCredentials;
 
     try {
-      const response = await firstValueFrom(
+      const response: AuthResponse = await firstValueFrom(
         this.http.post<AuthResponse>(`${this.API_URL}/auth/login`, {
           email,
           password,
         }),
       );
       this.storeAuth(response.token, response.user);
-    } catch {
-      const mockUser: User = {
-        id: '1',
-        email,
-        name: email.split('@')[0],
-        provider: 'local',
-        role: 'Basic',
-      };
-      const mockToken = 'mock-jwt-token-' + Date.now();
-      this.storeAuth(mockToken, mockUser);
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -83,67 +76,71 @@ export class AuthService {
       );
       this.storeAuth(response.token, response.user);
     } catch {
-      // Fallback mock registration (dev/demo only)
-      const mockUser: User = {
-        id: Date.now().toString(),
-        email: data.email,
-        name: `${data.firstName} ${data.lastName}`.trim(),
-        firstName: data.firstName,
-        lastName: data.lastName,
-        phone: data.phone,
-        university: data.university,
-        provider: 'local',
-        role: 'Basic',
-      };
-      const mockToken = 'mock-jwt-token-' + Date.now();
-      this.storeAuth(mockToken, mockUser);
+      throw new Error('Signup failed');
     }
   }
 
   async loginWithGithub(): Promise<void> {
-    try {
-      window.open(
-        `${this.API_URL}/auth/github`,
-        '_blank',
-        'width=500,height=600',
-      );
-      await this.simulateOAuthLogin('github');
-    } catch (error) {
-      console.error('GitHub login failed:', error);
-      throw new Error('Failed to login with GitHub');
-    }
+    return this.loginWithOAuthProvider('github');
   }
 
   async loginWithGoogle(): Promise<void> {
-    try {
-      window.open(
-        `${this.API_URL}/auth/google`,
-        '_blank',
-        'width=500,height=600',
-      );
-      await this.simulateOAuthLogin('google');
-    } catch (error) {
-      console.error('Google login failed:', error);
-      throw new Error('Failed to login with Google');
-    }
+    return this.loginWithOAuthProvider('google');
   }
 
-  private async simulateOAuthLogin(
+  private async loginWithOAuthProvider(
     provider: 'github' | 'google',
   ): Promise<void> {
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        const mockUser: User = {
-          id: provider + '-' + Date.now(),
-          email: `user@${provider}.com`,
-          name: `${provider.charAt(0).toUpperCase() + provider.slice(1)} User`,
-          provider,
-          role: 'Basic',
-        };
-        const mockToken = `mock-${provider}-token-` + Date.now();
-        this.storeAuth(mockToken, mockUser);
-        resolve();
-      }, 1000);
+    return new Promise<void>((resolve, reject): void => {
+      const windowFeatures = 'width=500,height=600';
+      const oauthWindow: Window | null = window.open(
+        `${this.API_URL}/auth/${provider}`,
+        '_blank',
+        windowFeatures,
+      );
+      if (!oauthWindow) {
+        reject(new Error('Failed to open OAuth window'));
+        return;
+      }
+      let closedCheck: number | undefined;
+      const messageListener = async (event: MessageEvent): Promise<void> => {
+        if (
+          event.data &&
+          event.data.type === 'oauth-success' &&
+          event.data.provider === provider
+        ) {
+          window.removeEventListener('message', messageListener);
+          if (closedCheck) {
+            clearInterval(closedCheck);
+          }
+          oauthWindow.close();
+          try {
+            const { token } = event.data;
+            const response: AuthResponse = await firstValueFrom(
+              this.http.post<AuthResponse>(
+                `${this.API_URL}/auth/${provider}/callback`,
+                { token },
+              ),
+            );
+            this.storeAuth(response.token, response.user);
+            resolve();
+          } catch (err) {
+            reject(err);
+          }
+        }
+      };
+      window.addEventListener('message', messageListener);
+      closedCheck = window.setInterval(() => {
+        if (oauthWindow.closed) {
+          window.removeEventListener('message', messageListener);
+          clearInterval(closedCheck);
+          reject(
+            new Error(
+              this.translate.instant('LOGIN.ERROR.OAUTH_WINDOW_CLOSED'),
+            ),
+          );
+        }
+      }, 500);
     });
   }
 

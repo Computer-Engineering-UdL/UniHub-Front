@@ -16,7 +16,8 @@
       "INVALID_EMAIL": "Please enter a valid email address",
       "LOGIN_FAILED": "Login failed. Please try again.",
       "GITHUB_FAILED": "GitHub login failed. Please try again.",
-      "GOOGLE_FAILED": "Google login failed. Please try again."
+      "GOOGLE_FAILED": "Google login failed. Please try again.",
+      "OAUTH_WINDOW_CLOSED": "The authentication window was closed before the process was completed."
     }
   },
   "SIGNUP": {

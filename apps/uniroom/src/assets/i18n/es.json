@@ -16,7 +16,8 @@
       "INVALID_EMAIL": "Por favor ingresa un correo electrónico válido",
       "LOGIN_FAILED": "Error al iniciar sesión. Por favor intenta de nuevo.",
       "GITHUB_FAILED": "Error al iniciar sesión con GitHub. Por favor intenta de nuevo.",
-      "GOOGLE_FAILED": "Error al iniciar sesión con Google. Por favor intenta de nuevo."
+      "GOOGLE_FAILED": "Error al iniciar sesión con Google. Por favor intenta de nuevo.",
+      "OAUTH_WINDOW_CLOSED": "La ventana de autenticación se ha cerrado antes de completar el proceso."
     }
   },
   "SIGNUP": {
