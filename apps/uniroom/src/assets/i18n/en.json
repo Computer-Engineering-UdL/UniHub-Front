@@ -39,7 +39,8 @@
       "INVALID_EMAIL": "Please enter a valid email address",
       "PASSWORD_MISMATCH": "Passwords do not match",
       "PASSWORD_TOO_SHORT": "Password must be at least 8 characters",
-      "SIGNUP_FAILED": "Sign up failed. Please try again."
+      "SIGNUP_FAILED": "Sign up failed. Please try again.",
+      "INVALID_PHONE": "Phone must be valid (numbers only, may start with +)"
     }
   },
   "HOME": {

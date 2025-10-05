@@ -4,24 +4,24 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../services/auth.service';
 import { NotificationService } from '../services/notification.service';
 import { LangCode, SUPPORTED_LANGS } from '../models/i18n.types';
-import { AuthResponse, LoginCredentials } from '../models/auth.types';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: 'login.page.html',
   styleUrls: ['login.page.scss'],
-  standalone: false,
+  standalone: false
 })
 export class LoginPage {
   email: string = '';
   password: string = '';
   isLoading: boolean = false;
+  emailTouched: boolean = false;
+  passwordTouched: boolean = false;
 
-  private authService = inject(AuthService);
-  private router = inject(Router);
-  private translate = inject(TranslateService);
-  private notificationService = inject(NotificationService);
+  private authService: AuthService = inject(AuthService);
+  private router: Router = inject(Router);
+  private translate: TranslateService = inject(TranslateService);
+  private notificationService: NotificationService = inject(NotificationService);
 
   private readonly emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -29,18 +29,33 @@ export class LoginPage {
     return this.emailRegex.test(email);
   }
 
+  onEmailInput(): void {
+    if (!this.emailTouched) {
+      this.emailTouched = true;
+    }
+  }
+
+  onPasswordInput(): void {
+    if (!this.passwordTouched) {
+      this.passwordTouched = true;
+    }
+  }
+
   async login(): Promise<void> {
     if (!this.email || !this.password) {
-      await this.notificationService.error(
-        this.translate.instant('LOGIN.ERROR.EMPTY_CREDENTIALS'),
-      );
+      this.emailTouched = true;
+      this.passwordTouched = true;
+      await this.notificationService.error(this.translate.instant('LOGIN.ERROR.EMPTY_CREDENTIALS'));
       return;
     }
-
     if (!this.validateEmail(this.email)) {
-      await this.notificationService.error(
-        this.translate.instant('LOGIN.ERROR.INVALID_EMAIL'),
-      );
+      this.emailTouched = true;
+      await this.notificationService.error(this.translate.instant('LOGIN.ERROR.INVALID_EMAIL'));
+      return;
+    }
+    if (this.password.length < 8) {
+      this.passwordTouched = true;
+      await this.notificationService.error(this.translate.instant('SIGNUP.ERROR.PASSWORD_TOO_SHORT'));
       return;
     }
 
@@ -50,10 +65,7 @@ export class LoginPage {
       await this.authService.login(this.email, this.password);
       await this.router.navigate(['/home']);
     } catch (error: unknown) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : this.translate.instant('LOGIN.ERROR.LOGIN_FAILED');
+      const message = error instanceof Error ? error.message : this.translate.instant('LOGIN.ERROR.LOGIN_FAILED');
       await this.notificationService.error(message);
     } finally {
       this.isLoading = false;
@@ -66,10 +78,7 @@ export class LoginPage {
       await this.authService.loginWithGithub();
       await this.router.navigate(['/home']);
     } catch (error: unknown) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : this.translate.instant('LOGIN.ERROR.GITHUB_FAILED');
+      const message = error instanceof Error ? error.message : this.translate.instant('LOGIN.ERROR.GITHUB_FAILED');
       await this.notificationService.error(message);
     } finally {
       this.isLoading = false;
@@ -82,10 +91,7 @@ export class LoginPage {
       await this.authService.loginWithGoogle();
       await this.router.navigate(['/home']);
     } catch (error: unknown) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : this.translate.instant('LOGIN.ERROR.GOOGLE_FAILED');
+      const message = error instanceof Error ? error.message : this.translate.instant('LOGIN.ERROR.GOOGLE_FAILED');
       await this.notificationService.error(message);
     } finally {
       this.isLoading = false;

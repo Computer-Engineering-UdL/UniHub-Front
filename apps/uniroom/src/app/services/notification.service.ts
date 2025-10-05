@@ -8,11 +8,7 @@ export type NotificationColor = 'success' | 'danger' | 'warning' | 'primary';
 export class NotificationService {
   private toastController = inject(ToastController);
 
-  async show(
-    message: string,
-    type: NotificationType = 'info',
-    duration: number = 3000,
-  ): Promise<void> {
+  async show(message: string, type: NotificationType = 'info', duration: number = 3000): Promise<void> {
     const safeMessage = (message ?? '').toString();
     const toast = await this.toastController.create({
       message: safeMessage,
@@ -20,7 +16,7 @@ export class NotificationService {
       position: 'top',
       color: this.getColorForType(type),
       cssClass: `toast-${type}`,
-      buttons: [{ text: '✕', role: 'cancel' }],
+      buttons: [{ text: '✕', role: 'cancel' }]
     });
 
     await toast.present();

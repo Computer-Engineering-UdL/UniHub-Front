@@ -9,12 +9,6 @@ import { SignupPage } from './signup.page';
 
 @NgModule({
   declarations: [SignupPage],
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    TranslateModule,
-    SignupRoutingModule,
-  ],
+  imports: [CommonModule, FormsModule, IonicModule, TranslateModule, SignupRoutingModule]
 })
 export class SignupModule {}

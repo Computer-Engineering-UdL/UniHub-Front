@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  standalone: false,
+  standalone: false
 })
 export class HomePage implements OnInit, OnDestroy {
   user: User | null = null;
@@ -15,11 +15,9 @@ export class HomePage implements OnInit, OnDestroy {
   private userSub?: Subscription;
 
   ngOnInit(): void {
-    this.userSub = this.authService.currentUser$.subscribe(
-      (user: User | null) => {
-        this.user = user;
-      },
-    );
+    this.userSub = this.authService.currentUser$.subscribe((user: User | null) => {
+      this.user = user;
+    });
   }
 
   ngOnDestroy(): void {

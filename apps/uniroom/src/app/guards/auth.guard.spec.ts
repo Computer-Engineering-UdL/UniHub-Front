@@ -2,11 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import {
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Role } from '../models/auth.types';
 
 describe('AuthGuard', () => {
@@ -18,34 +14,23 @@ describe('AuthGuard', () => {
   };
   let routerMock: { parseUrl: jasmine.Spy };
 
-  const createRoute = (data: any): ActivatedRouteSnapshot =>
-    ({ data }) as ActivatedRouteSnapshot;
+  const createRoute = (data: any): ActivatedRouteSnapshot => ({ data }) as ActivatedRouteSnapshot;
 
   beforeEach(() => {
     authServiceMock = {
-      isAuthenticated: jasmine
-        .createSpy('isAuthenticated')
-        .and.returnValue(false),
+      isAuthenticated: jasmine.createSpy('isAuthenticated').and.returnValue(false),
       _user: null,
       get currentUser() {
         return this._user;
-      },
+      }
     } as any;
 
     routerMock = {
-      parseUrl: jasmine
-        .createSpy('parseUrl')
-        .and.callFake(
-          (url: string): UrlTree => ({ url }) as unknown as UrlTree,
-        ),
+      parseUrl: jasmine.createSpy('parseUrl').and.callFake((url: string): UrlTree => ({ url }) as unknown as UrlTree)
     };
 
     TestBed.configureTestingModule({
-      providers: [
-        AuthGuard,
-        { provide: AuthService, useValue: authServiceMock },
-        { provide: Router, useValue: routerMock },
-      ],
+      providers: [AuthGuard, { provide: AuthService, useValue: authServiceMock }, { provide: Router, useValue: routerMock }]
     });
 
     guard = TestBed.inject(AuthGuard);
@@ -60,9 +45,7 @@ describe('AuthGuard', () => {
   it('redirige a /home si ruta guestOnly y usuario autenticado', () => {
     authServiceMock.isAuthenticated.and.returnValue(true);
     const route = createRoute({ public: true, guestOnly: true });
-    const result = guard.canActivate(route, {} as RouterStateSnapshot) as
-      | UrlTree
-      | boolean;
+    const result = guard.canActivate(route, {} as RouterStateSnapshot) as UrlTree | boolean;
     expect(routerMock.parseUrl).toHaveBeenCalledWith('/home');
     expect((result as any).url).toBe('/home');
   });
@@ -84,9 +67,7 @@ describe('AuthGuard', () => {
   it('redirige a /login si ruta protegida y NO autenticado', () => {
     authServiceMock.isAuthenticated.and.returnValue(false);
     const route = createRoute({});
-    const result = guard.canActivate(route, {} as RouterStateSnapshot) as
-      | UrlTree
-      | boolean;
+    const result = guard.canActivate(route, {} as RouterStateSnapshot) as UrlTree | boolean;
     expect(routerMock.parseUrl).toHaveBeenCalledWith('/login');
     expect((result as any).url).toBe('/login');
   });
@@ -96,7 +77,7 @@ describe('AuthGuard', () => {
     authServiceMock._user = {
       id: '1',
       email: 'a@b.com',
-      role: 'Administrator' as Role,
+      role: 'Administrator' as Role
     };
     const route = createRoute({ roles: ['Seller', 'Administrator'] });
     const result = guard.canActivate(route, {} as RouterStateSnapshot);
@@ -109,12 +90,10 @@ describe('AuthGuard', () => {
     authServiceMock._user = {
       id: '1',
       email: 'a@b.com',
-      role: 'Basic' as Role,
+      role: 'Basic' as Role
     };
     const route = createRoute({ roles: ['Administrator'] });
-    const result = guard.canActivate(route, {} as RouterStateSnapshot) as
-      | UrlTree
-      | boolean;
+    const result = guard.canActivate(route, {} as RouterStateSnapshot) as UrlTree | boolean;
     expect(routerMock.parseUrl).toHaveBeenCalledWith('/unauthorized');
     expect((result as any).url).toBe('/unauthorized');
   });

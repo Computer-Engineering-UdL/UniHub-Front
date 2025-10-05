@@ -2,15 +2,9 @@
   <div class="auth-container">
     <!-- Language Selector -->
     <div class="language-selector">
-      <ion-button fill="clear" size="small" (click)="changeLanguage('en')">
-        EN
-      </ion-button>
-      <ion-button fill="clear" size="small" (click)="changeLanguage('es')">
-        ES
-      </ion-button>
-      <ion-button fill="clear" size="small" (click)="changeLanguage('ca')">
-        CA
-      </ion-button>
+      <ion-button fill="clear" size="small" (click)="changeLanguage('en')"> EN </ion-button>
+      <ion-button fill="clear" size="small" (click)="changeLanguage('es')"> ES </ion-button>
+      <ion-button fill="clear" size="small" (click)="changeLanguage('ca')"> CA </ion-button>
     </div>
 
     <!-- Logo/Header Section -->
@@ -23,41 +17,65 @@
     <!-- Signup Form -->
     <ion-card class="auth-card">
       <ion-card-content>
-        <form (ngSubmit)="signup()">
-          <ion-item lines="none" class="input-item">
+        <form (ngSubmit)="signup()" #signupForm="ngForm" autocomplete="on">
+          <ion-item
+            lines="none"
+            class="input-item"
+            [class.input-error]="firstNameTouched && !firstName">
             <ion-icon name="person-outline" slot="start"></ion-icon>
             <ion-input
               type="text"
               [placeholder]="'SIGNUP.FIRST_NAME' | translate"
               [(ngModel)]="firstName"
               name="firstName"
-              required="true"
-            ></ion-input>
+              required
+              (ionBlur)="firstNameTouched = true"
+              (ionInput)="onFirstNameInput()"></ion-input>
           </ion-item>
+          <div *ngIf="firstNameTouched && !firstName" class="input-error-message">
+            {{ 'SIGNUP.ERROR.EMPTY_FIELDS' | translate }}
+          </div>
 
-          <ion-item lines="none" class="input-item">
+          <ion-item
+            lines="none"
+            class="input-item"
+            [class.input-error]="lastNameTouched && !lastName">
             <ion-icon name="person-outline" slot="start"></ion-icon>
             <ion-input
               type="text"
               [placeholder]="'SIGNUP.LAST_NAME' | translate"
               [(ngModel)]="lastName"
               name="lastName"
-              required="true"
-            ></ion-input>
+              required
+              (ionBlur)="lastNameTouched = true"
+              (ionInput)="onLastNameInput()"></ion-input>
           </ion-item>
+          <div *ngIf="lastNameTouched && !lastName" class="input-error-message">
+            {{ 'SIGNUP.ERROR.EMPTY_FIELDS' | translate }}
+          </div>
 
-          <ion-item lines="none" class="input-item">
+          <ion-item
+            lines="none"
+            class="input-item"
+            [class.input-error]="emailTouched && !validateEmail(email)">
             <ion-icon name="mail-outline" slot="start"></ion-icon>
             <ion-input
               type="email"
               [placeholder]="'SIGNUP.EMAIL' | translate"
               [(ngModel)]="email"
               name="email"
-              required="true"
-            ></ion-input>
+              required
+              (ionBlur)="emailTouched = true"
+              (ionInput)="onEmailInput()"></ion-input>
           </ion-item>
+          <div *ngIf="emailTouched && !validateEmail(email)" class="input-error-message">
+            {{ 'SIGNUP.ERROR.INVALID_EMAIL' | translate }}
+          </div>
 
-          <ion-item lines="none" class="input-item">
+          <ion-item
+            lines="none"
+            class="input-item"
+            [class.input-error]="phoneTouched && !validatePhone(phone)">
             <ion-icon name="call-outline" slot="start"></ion-icon>
             <ion-input
               type="tel"
@@ -67,9 +85,12 @@
               [placeholder]="'SIGNUP.PHONE' | translate"
               [(ngModel)]="phone"
               name="phone"
-              (ionInput)="onPhoneInput($event)"
-            ></ion-input>
+              (ionInput)="onPhoneInput($event); onPhoneInputTouched()"
+              (ionBlur)="phoneTouched = true"></ion-input>
           </ion-item>
+          <div *ngIf="phoneTouched && !validatePhone(phone) && phone" class="input-error-message">
+            {{ 'SIGNUP.ERROR.INVALID_PHONE' | translate }}
+          </div>
 
           <ion-item lines="none" class="input-item">
             <ion-icon name="school-outline" slot="start"></ion-icon>
@@ -77,38 +98,52 @@
               type="text"
               [placeholder]="'SIGNUP.UNIVERSITY' | translate"
               [(ngModel)]="university"
-              name="university"
-            ></ion-input>
+              name="university"></ion-input>
           </ion-item>
 
-          <ion-item lines="none" class="input-item">
+          <ion-item
+            lines="none"
+            class="input-item"
+            [class.input-error]="passwordTouched && password.length < 8">
             <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
             <ion-input
               type="password"
               [placeholder]="'SIGNUP.PASSWORD' | translate"
               [(ngModel)]="password"
               name="password"
-              required="true"
-            ></ion-input>
+              required
+              (ionBlur)="passwordTouched = true"
+              (ionInput)="onPasswordInput()"></ion-input>
           </ion-item>
+          <div *ngIf="passwordTouched && password.length < 8" class="input-error-message">
+            {{ 'SIGNUP.ERROR.PASSWORD_TOO_SHORT' | translate }}
+          </div>
 
-          <ion-item lines="none" class="input-item">
+          <ion-item
+            lines="none"
+            class="input-item"
+            [class.input-error]="confirmPasswordTouched && password !== confirmPassword">
             <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
             <ion-input
               type="password"
               [placeholder]="'SIGNUP.CONFIRM_PASSWORD' | translate"
               [(ngModel)]="confirmPassword"
               name="confirmPassword"
-              required="true"
-            ></ion-input>
+              required
+              (ionBlur)="confirmPasswordTouched = true"
+              (ionInput)="onConfirmPasswordInput()"></ion-input>
           </ion-item>
+          <div
+            *ngIf="confirmPasswordTouched && password !== confirmPassword"
+            class="input-error-message">
+            {{ 'SIGNUP.ERROR.PASSWORD_MISMATCH' | translate }}
+          </div>
 
           <ion-button
             expand="block"
             type="submit"
             class="auth-button"
-            [disabled]="isLoading"
-          >
+            [disabled]="isLoading || !firstName || !lastName || !validateEmail(email) || password.length < 8 || password !== confirmPassword || (phone && !validatePhone(phone))">
             <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
             <span *ngIf="!isLoading">{{ 'SIGNUP.SIGN_UP' | translate }}</span>
           </ion-button>
@@ -126,8 +161,7 @@
             fill="outline"
             class="social-button github-button"
             (click)="signupWithGithub()"
-            [disabled]="isLoading"
-          >
+            [disabled]="isLoading">
             <ion-icon name="logo-github" slot="start"></ion-icon>
             {{ 'COMMON.GITHUB' | translate }}
           </ion-button>
@@ -137,8 +171,7 @@
             fill="outline"
             class="social-button google-button"
             (click)="signupWithGoogle()"
-            [disabled]="isLoading"
-          >
+            [disabled]="isLoading">
             <ion-icon name="logo-google" slot="start"></ion-icon>
             {{ 'COMMON.GOOGLE' | translate }}
           </ion-button>

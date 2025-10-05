@@ -25,10 +25,7 @@
             <ion-icon name="person-outline" slot="start"></ion-icon>
             <ion-label>
               <h3>{{ 'PROFILE.NAME' | translate }}</h3>
-              <p>
-                {{ user.name || (user.firstName + ' ' + user.lastName) || 'N/A'
-                }}
-              </p>
+              <p>{{ user.name || (user.firstName + ' ' + user.lastName) || 'N/A' }}</p>
             </ion-label>
           </ion-item>
 
@@ -87,12 +84,7 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-button
-      expand="block"
-      color="danger"
-      class="logout-button"
-      (click)="logout()"
-    >
+    <ion-button expand="block" color="danger" class="logout-button" (click)="logout()">
       <ion-icon name="log-out-outline" slot="start"></ion-icon>
       {{ 'HOME.LOGOUT' | translate }}
     </ion-button>

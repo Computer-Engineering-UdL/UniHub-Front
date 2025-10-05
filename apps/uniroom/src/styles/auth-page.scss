@@ -41,11 +41,7 @@
   font-weight: bold;
   margin: 0;
   color: var(--ion-color-primary);
-  background: linear-gradient(
-    45deg,
-    var(--ion-color-primary),
-    var(--ion-color-secondary)
-  );
+  background: linear-gradient(45deg, var(--ion-color-primary), var(--ion-color-secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -114,7 +110,7 @@
 
 .divider::before,
 .divider::after {
-  content: "";
+  content: '';
   flex: 1;
   border-bottom: 1px solid var(--ion-color-light-shade);
 }

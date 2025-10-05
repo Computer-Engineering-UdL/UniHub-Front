@@ -8,6 +8,6 @@ import { ProfilePage } from './profile/profile.page';
 
 @NgModule({
   declarations: [ProfilePage],
-  imports: [CommonModule, IonicModule, TranslateModule, ProfileRoutingModule],
+  imports: [CommonModule, IonicModule, TranslateModule, ProfileRoutingModule]
 })
 export class ProfileModule {}
