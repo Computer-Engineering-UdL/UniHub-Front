@@ -10,11 +10,11 @@ import { Router } from '@angular/router';
 export class UnauthorizedPage {
   private router: Router = inject(Router);
 
-  goHome(): void {
-    this.router.navigate(['/home']);
+  async goHome(): Promise<void> {
+    await this.router.navigate(['/home']);
   }
 
-  goLogin(): void {
-    this.router.navigate(['/login']);
+  async goLogin(): Promise<void> {
+    await this.router.navigate(['/login']);
   }
 }

@@ -1,13 +1,20 @@
-<ion-content class="ion-padding unauthorized-wrapper">
+<ion-content class="ion-padding unauthorized-wrapper" [fullscreen]="true">
   <div class="center-box">
-    <ion-icon name="alert-circle-outline" class="icon"></ion-icon>
+    <img
+      ngSrc="assets/icon/unaturhorized.png"
+      alt="Unauthorized"
+      class="unauthorized-img"
+      height="512"
+      width="512" />
     <h1>{{ 'UNAUTHORIZED.TITLE' | translate }}</h1>
     <p class="message">{{ 'UNAUTHORIZED.MESSAGE' | translate }}</p>
     <div class="actions">
       <ion-button color="primary" (click)="goHome()">
+        <ion-icon name="home-outline" slot="start"></ion-icon>
         {{ 'UNAUTHORIZED.GO_HOME' | translate }}
       </ion-button>
       <ion-button fill="outline" (click)="goLogin()">
+        <ion-icon name="log-in-outline" slot="start"></ion-icon>
         {{ 'UNAUTHORIZED.GO_LOGIN' | translate }}
       </ion-button>
     </div>

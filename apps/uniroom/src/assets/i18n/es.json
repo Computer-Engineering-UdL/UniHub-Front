@@ -71,7 +71,7 @@
   },
   "UNAUTHORIZED": {
     "TITLE": "Acceso denegado",
-    "MESSAGE": "No tienes permiso para ver esta página.",
+    "MESSAGE": "No tienes permiso para ver esta página o no existe.",
     "GO_HOME": "Ir al inicio",
     "GO_LOGIN": "Ir a iniciar sesión"
   }
