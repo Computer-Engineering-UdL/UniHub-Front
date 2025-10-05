@@ -25,9 +25,11 @@ export class ThemeService {
     this.currentTheme = theme;
     localStorage.setItem(this.THEME_KEY, theme);
     document.body.classList.remove('ion-palette-dark', 'ion-palette-light');
-    if (theme === 'dark') document.body.classList.add('ion-palette-dark');
-    else if (theme === 'light')
+    if (theme === 'dark') {
+      document.body.classList.add('ion-palette-dark');
+    } else if (theme === 'light') {
       document.body.classList.add('ion-palette-light');
+    }
     // 'system' relies on prefers-color-scheme, so no class added
   }
 

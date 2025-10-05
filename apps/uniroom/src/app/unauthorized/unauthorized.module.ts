@@ -6,12 +6,7 @@ import { UnauthorizedRoutingModule } from './unauthorized-routing.module';
 import { UnauthorizedPage } from './unauthorized.page';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    IonicModule,
-    TranslateModule,
-    UnauthorizedRoutingModule,
-  ],
-  declarations: [UnauthorizedPage],
+  imports: [CommonModule, IonicModule, TranslateModule, UnauthorizedRoutingModule],
+  declarations: [UnauthorizedPage]
 })
 export class UnauthorizedModule {}

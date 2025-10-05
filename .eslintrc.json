@@ -1,0 +1,38 @@
+{
+  "root": true,
+  "env": { "browser": true, "es2022": true },
+  "ignorePatterns": ["projects/**/*", "dist/", ".angular/", "coverage/", "node_modules/"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "project": ["tsconfig.json"],
+        "createDefaultProgram": true
+      },
+      "plugins": ["@angular-eslint", "@typescript-eslint"],
+      "extends": [
+        "plugin:@angular-eslint/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "prettier"
+      ],
+      "rules": {
+        "curly": ["error", "all"],
+        "function-call-argument-newline": "off",
+        "function-paren-newline": "off",
+        "operator-linebreak": "off",
+        "max-len": "off",
+        "@angular-eslint/prefer-standalone": "off",
+        "@angular-eslint/component-class-suffix": ["error", { "suffixes": ["Page", "Component"] }],
+        "@angular-eslint/component-selector": ["error", { "type": "element", "prefix": "app", "style": "kebab-case" }],
+        "@angular-eslint/directive-selector": ["error", { "type": "attribute", "prefix": "app", "style": "camelCase" }]
+      }
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "rules": {}
+    }
+  ]
+}

@@ -25,15 +25,13 @@
       <ion-card-content>
         <p><strong>{{ 'HOME.EMAIL' | translate }}:</strong> {{ user.email }}</p>
         <p *ngIf="user.provider">
-          <strong>{{ 'HOME.LOGIN_METHOD' | translate }}:</strong> {{
-          user.provider }}
+          <strong>{{ 'HOME.LOGIN_METHOD' | translate }}:</strong> {{ user.provider }}
         </p>
         <p *ngIf="user.phone">
           <strong>{{ 'SIGNUP.PHONE' | translate }}:</strong> {{ user.phone }}
         </p>
         <p *ngIf="user.university">
-          <strong>{{ 'SIGNUP.UNIVERSITY' | translate }}:</strong> {{
-          user.university }}
+          <strong>{{ 'SIGNUP.UNIVERSITY' | translate }}:</strong> {{ user.university }}
         </p>
       </ion-card-content>
     </ion-card>
@@ -41,10 +39,7 @@
     <strong>{{ 'HOME.READY' | translate }}</strong>
     <p>
       {{ 'HOME.START' | translate }}
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://ionicframework.com/docs/components"
+      <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components"
         >{{ 'APP.TITLE' | translate }}</a
       >
     </p>

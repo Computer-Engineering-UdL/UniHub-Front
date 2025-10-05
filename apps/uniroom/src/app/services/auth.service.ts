@@ -2,12 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
-import {
-  User,
-  AuthResponse,
-  SignupData,
-  LoginCredentials,
-} from '../models/auth.types';
+import { User, AuthResponse, SignupData, LoginCredentials } from '../models/auth.types';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({ providedIn: 'root' })
@@ -16,10 +11,8 @@ export class AuthService {
   private readonly USER_KEY = 'user_data';
   private readonly API_URL: string = environment.apiUrl;
 
-  private currentUserSubject: BehaviorSubject<User | null> =
-    new BehaviorSubject<User | null>(this.getStoredUser());
-  public currentUser$: Observable<User | null> =
-    this.currentUserSubject.asObservable();
+  private currentUserSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(this.getStoredUser());
+  public currentUser$: Observable<User | null> = this.currentUserSubject.asObservable();
 
   private http: HttpClient = inject(HttpClient);
   private translate: TranslateService = inject(TranslateService);
@@ -47,21 +40,16 @@ export class AuthService {
     return localStorage.getItem(this.AUTH_TOKEN_KEY);
   }
 
-  async login(
-    emailOrCredentials: string | LoginCredentials,
-    passwordMaybe?: string,
-  ): Promise<void> {
+  async login(emailOrCredentials: string | LoginCredentials, passwordMaybe?: string): Promise<void> {
     const { email, password }: LoginCredentials =
-      typeof emailOrCredentials === 'string'
-        ? { email: emailOrCredentials, password: passwordMaybe ?? '' }
-        : emailOrCredentials;
+      typeof emailOrCredentials === 'string' ? { email: emailOrCredentials, password: passwordMaybe ?? '' } : emailOrCredentials;
 
     try {
       const response: AuthResponse = await firstValueFrom(
         this.http.post<AuthResponse>(`${this.API_URL}/auth/login`, {
           email,
-          password,
-        }),
+          password
+        })
       );
       this.storeAuth(response.token, response.user);
     } catch (error) {
@@ -71,9 +59,7 @@ export class AuthService {
 
   async signup(data: SignupData): Promise<void> {
     try {
-      const response: AuthResponse = await firstValueFrom(
-        this.http.post<AuthResponse>(`${this.API_URL}/auth/signup`, data),
-      );
+      const response: AuthResponse = await firstValueFrom(this.http.post<AuthResponse>(`${this.API_URL}/auth/signup`, data));
       this.storeAuth(response.token, response.user);
     } catch {
       throw new Error('Signup failed');
@@ -88,27 +74,17 @@ export class AuthService {
     return this.loginWithOAuthProvider('google');
   }
 
-  private async loginWithOAuthProvider(
-    provider: 'github' | 'google',
-  ): Promise<void> {
+  private async loginWithOAuthProvider(provider: 'github' | 'google'): Promise<void> {
     return new Promise<void>((resolve, reject): void => {
       const windowFeatures = 'width=500,height=600';
-      const oauthWindow: Window | null = window.open(
-        `${this.API_URL}/auth/${provider}`,
-        '_blank',
-        windowFeatures,
-      );
+      const oauthWindow: Window | null = window.open(`${this.API_URL}/auth/${provider}`, '_blank', windowFeatures);
       if (!oauthWindow) {
         reject(new Error('Failed to open OAuth window'));
         return;
       }
       let closedCheck: number | undefined;
       const messageListener = async (event: MessageEvent): Promise<void> => {
-        if (
-          event.data &&
-          event.data.type === 'oauth-success' &&
-          event.data.provider === provider
-        ) {
+        if (event.data && event.data.type === 'oauth-success' && event.data.provider === provider) {
           window.removeEventListener('message', messageListener);
           if (closedCheck) {
             clearInterval(closedCheck);
@@ -116,12 +92,7 @@ export class AuthService {
           oauthWindow.close();
           try {
             const { token } = event.data;
-            const response: AuthResponse = await firstValueFrom(
-              this.http.post<AuthResponse>(
-                `${this.API_URL}/auth/${provider}/callback`,
-                { token },
-              ),
-            );
+            const response: AuthResponse = await firstValueFrom(this.http.post<AuthResponse>(`${this.API_URL}/auth/${provider}/callback`, { token }));
             this.storeAuth(response.token, response.user);
             resolve();
           } catch (err) {
@@ -134,11 +105,7 @@ export class AuthService {
         if (oauthWindow.closed) {
           window.removeEventListener('message', messageListener);
           clearInterval(closedCheck);
-          reject(
-            new Error(
-              this.translate.instant('LOGIN.ERROR.OAUTH_WINDOW_CLOSED'),
-            ),
-          );
+          reject(new Error(this.translate.instant('LOGIN.ERROR.OAUTH_WINDOW_CLOSED')));
         }
       }, 500);
     });

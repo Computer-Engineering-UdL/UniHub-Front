@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
   selector: 'app-unauthorized',
   templateUrl: './unauthorized.page.html',
   styleUrls: ['./unauthorized.page.scss'],
-  standalone: false,
+  standalone: false
 })
 export class UnauthorizedPage {
   private router: Router = inject(Router);

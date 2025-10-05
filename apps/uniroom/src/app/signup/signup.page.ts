@@ -10,7 +10,7 @@ import { LangCode, SUPPORTED_LANGS } from '../models/i18n.types';
   selector: 'app-signup',
   templateUrl: 'signup.page.html',
   styleUrls: ['signup.page.scss'],
-  standalone: false,
+  standalone: false
 })
 export class SignupPage {
   firstName: string = '';
@@ -22,10 +22,17 @@ export class SignupPage {
   university: string = '';
   isLoading: boolean = false;
 
-  private authService = inject(AuthService);
-  private router = inject(Router);
-  private translate = inject(TranslateService);
-  private notificationService = inject(NotificationService);
+  firstNameTouched: boolean = false;
+  lastNameTouched: boolean = false;
+  emailTouched: boolean = false;
+  phoneTouched: boolean = false;
+  passwordTouched: boolean = false;
+  confirmPasswordTouched: boolean = false;
+
+  private authService: AuthService = inject(AuthService);
+  private router: Router = inject(Router);
+  private translate: TranslateService = inject(TranslateService);
+  private notificationService: NotificationService = inject(NotificationService);
 
   private readonly emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -40,42 +47,81 @@ export class SignupPage {
       email: this.email.trim(),
       password: this.password,
       phone: this.phone.trim() || undefined,
-      university: this.university.trim() || undefined,
+      university: this.university.trim() || undefined
     };
   }
 
+  onFirstNameInput(): void {
+    if (!this.firstNameTouched) {
+      this.firstNameTouched = true;
+    }
+  }
+
+  onLastNameInput(): void {
+    if (!this.lastNameTouched) {
+      this.lastNameTouched = true;
+    }
+  }
+
+  onEmailInput(): void {
+    if (!this.emailTouched) {
+      this.emailTouched = true;
+    }
+  }
+
+  onPhoneInputTouched(): void {
+    if (!this.phoneTouched) {
+      this.phoneTouched = true;
+    }
+  }
+
+  onPasswordInput(): void {
+    if (!this.passwordTouched) {
+      this.passwordTouched = true;
+    }
+  }
+
+  onConfirmPasswordInput(): void {
+    if (!this.confirmPasswordTouched) {
+      this.confirmPasswordTouched = true;
+    }
+  }
+
+  validatePhone(phone: string): boolean {
+    if (!phone) {
+      return true;
+    }
+    return /^\+?\d{7,15}$/.test(phone);
+  }
+
   async signup(): Promise<void> {
-    if (
-      !this.firstName ||
-      !this.lastName ||
-      !this.email ||
-      !this.password ||
-      !this.confirmPassword
-    ) {
-      await this.notificationService.error(
-        this.translate.instant('SIGNUP.ERROR.EMPTY_FIELDS'),
-      );
+    if (!this.firstName || !this.lastName || !this.email || !this.password || !this.confirmPassword) {
+      this.firstNameTouched = true;
+      this.lastNameTouched = true;
+      this.emailTouched = true;
+      this.passwordTouched = true;
+      this.confirmPasswordTouched = true;
+      await this.notificationService.error(this.translate.instant('SIGNUP.ERROR.EMPTY_FIELDS'));
       return;
     }
-
     if (!this.validateEmail(this.email)) {
-      await this.notificationService.error(
-        this.translate.instant('SIGNUP.ERROR.INVALID_EMAIL'),
-      );
+      this.emailTouched = true;
+      await this.notificationService.error(this.translate.instant('SIGNUP.ERROR.INVALID_EMAIL'));
       return;
     }
-
+    if (this.phone && !this.validatePhone(this.phone)) {
+      this.phoneTouched = true;
+      await this.notificationService.error(this.translate.instant('SIGNUP.ERROR.INVALID_PHONE'));
+      return;
+    }
     if (this.password.length < 8) {
-      await this.notificationService.error(
-        this.translate.instant('SIGNUP.ERROR.PASSWORD_TOO_SHORT'),
-      );
+      this.passwordTouched = true;
+      await this.notificationService.error(this.translate.instant('SIGNUP.ERROR.PASSWORD_TOO_SHORT'));
       return;
     }
-
     if (this.password !== this.confirmPassword) {
-      await this.notificationService.error(
-        this.translate.instant('SIGNUP.ERROR.PASSWORD_MISMATCH'),
-      );
+      this.confirmPasswordTouched = true;
+      await this.notificationService.error(this.translate.instant('SIGNUP.ERROR.PASSWORD_MISMATCH'));
       return;
     }
 
@@ -86,10 +132,7 @@ export class SignupPage {
       await this.authService.signup(payload);
       await this.router.navigate(['/home']);
     } catch (error: unknown) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : this.translate.instant('SIGNUP.ERROR.SIGNUP_FAILED');
+      const message = error instanceof Error ? error.message : this.translate.instant('SIGNUP.ERROR.SIGNUP_FAILED');
       await this.notificationService.error(message);
     } finally {
       this.isLoading = false;
@@ -102,10 +145,7 @@ export class SignupPage {
       await this.authService.loginWithGithub();
       await this.router.navigate(['/home']);
     } catch (error: unknown) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : this.translate.instant('LOGIN.ERROR.GITHUB_FAILED');
+      const message = error instanceof Error ? error.message : this.translate.instant('LOGIN.ERROR.GITHUB_FAILED');
       await this.notificationService.error(message);
     } finally {
       this.isLoading = false;
@@ -118,10 +158,7 @@ export class SignupPage {
       await this.authService.loginWithGoogle();
       await this.router.navigate(['/home']);
     } catch (error: unknown) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : this.translate.instant('LOGIN.ERROR.GOOGLE_FAILED');
+      const message = error instanceof Error ? error.message : this.translate.instant('LOGIN.ERROR.GOOGLE_FAILED');
       await this.notificationService.error(message);
     } finally {
       this.isLoading = false;
@@ -138,10 +175,15 @@ export class SignupPage {
     const hasLeadingPlus = raw.trim().startsWith('+');
     let cleaned = raw.replace(/[^+\d]/g, '');
     cleaned = cleaned.replace(/\+/g, '');
-    if (hasLeadingPlus) cleaned = '+' + cleaned;
+    if (hasLeadingPlus) {
+      cleaned = '+' + cleaned;
+    }
     // Enforce max length: 16 total (1 for plus + up to 15 digits per E.164)
-    if (cleaned.startsWith('+')) cleaned = cleaned.slice(0, 16);
-    else cleaned = cleaned.slice(0, 15);
+    if (cleaned.startsWith('+')) {
+      cleaned = cleaned.slice(0, 16);
+    } else {
+      cleaned = cleaned.slice(0, 15);
+    }
     this.phone = cleaned;
   }
 

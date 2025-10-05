@@ -2,15 +2,9 @@
   <div class="auth-container">
     <!-- Language Selector -->
     <div class="language-selector">
-      <ion-button fill="clear" size="small" (click)="changeLanguage('en')">
-        EN
-      </ion-button>
-      <ion-button fill="clear" size="small" (click)="changeLanguage('es')">
-        ES
-      </ion-button>
-      <ion-button fill="clear" size="small" (click)="changeLanguage('ca')">
-        CA
-      </ion-button>
+      <ion-button fill="clear" size="small" (click)="changeLanguage('en')"> EN </ion-button>
+      <ion-button fill="clear" size="small" (click)="changeLanguage('es')"> ES </ion-button>
+      <ion-button fill="clear" size="small" (click)="changeLanguage('ca')"> CA </ion-button>
     </div>
 
     <!-- Logo/Header Section -->
@@ -23,8 +17,11 @@
     <!-- Login Form -->
     <ion-card class="auth-card">
       <ion-card-content>
-        <form (ngSubmit)="login()">
-          <ion-item lines="none" class="input-item">
+        <form (ngSubmit)="login()" #loginForm="ngForm" autocomplete="on">
+          <ion-item
+            lines="none"
+            class="input-item"
+            [class.input-error]="emailTouched && !validateEmail(email)">
             <ion-icon name="mail-outline" slot="start"></ion-icon>
             <ion-input
               type="email"
@@ -32,10 +29,17 @@
               [(ngModel)]="email"
               name="email"
               required="true"
-            ></ion-input>
+              (ionBlur)="emailTouched = true"
+              (ionInput)="onEmailInput()"
+              [ngClass]="{'invalid': emailTouched && !validateEmail(email)}"></ion-input>
           </ion-item>
-
-          <ion-item lines="none" class="input-item">
+          <div *ngIf="emailTouched && !validateEmail(email)" class="input-error-message">
+            {{ 'LOGIN.ERROR.INVALID_EMAIL' | translate }}
+          </div>
+          <ion-item
+            lines="none"
+            class="input-item"
+            [class.input-error]="passwordTouched && password.length < 8">
             <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
             <ion-input
               type="password"
@@ -43,15 +47,18 @@
               [(ngModel)]="password"
               name="password"
               required="true"
-            ></ion-input>
+              (ionBlur)="passwordTouched = true"
+              (ionInput)="onPasswordInput()"
+              [ngClass]="{'invalid': passwordTouched && password.length < 8}"></ion-input>
           </ion-item>
-
+          <div *ngIf="passwordTouched && password.length < 8" class="input-error-message">
+            {{ 'SIGNUP.ERROR.PASSWORD_TOO_SHORT' | translate }}
+          </div>
           <ion-button
             expand="block"
             type="submit"
             class="auth-button"
-            [disabled]="isLoading"
-          >
+            [disabled]="isLoading || !validateEmail(email) || password.length < 8">
             <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
             <span *ngIf="!isLoading">{{ 'LOGIN.SIGN_IN' | translate }}</span>
           </ion-button>
@@ -69,8 +76,7 @@
             fill="outline"
             class="social-button github-button"
             (click)="loginWithGithub()"
-            [disabled]="isLoading"
-          >
+            [disabled]="isLoading">
             <ion-icon name="logo-github" slot="start"></ion-icon>
             {{ 'COMMON.GITHUB' | translate }}
           </ion-button>
@@ -80,8 +86,7 @@
             fill="outline"
             class="social-button google-button"
             (click)="loginWithGoogle()"
-            [disabled]="isLoading"
-          >
+            [disabled]="isLoading">
             <ion-icon name="logo-google" slot="start"></ion-icon>
             {{ 'COMMON.GOOGLE' | translate }}
           </ion-button>

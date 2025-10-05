@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
-  standalone: false,
+  standalone: false
 })
 export class ProfilePage implements OnInit, OnDestroy {
   user: User | null = null;
@@ -20,11 +20,9 @@ export class ProfilePage implements OnInit, OnDestroy {
   private userSub?: Subscription;
 
   ngOnInit(): void {
-    this.userSub = this.authService.currentUser$.subscribe(
-      (user: User | null) => {
-        this.user = user;
-      },
-    );
+    this.userSub = this.authService.currentUser$.subscribe((user: User | null) => {
+      this.user = user;
+    });
     this.currentTheme = this.themeService.getTheme();
   }
 

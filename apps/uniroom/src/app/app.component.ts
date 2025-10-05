@@ -6,7 +6,7 @@ import { ThemeService } from './services/theme.service';
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
-  standalone: false,
+  standalone: false
 })
 export class AppComponent {
   private translate = inject(TranslateService);
@@ -19,8 +19,7 @@ export class AppComponent {
     // Try to get browser language
     const browserLang = this.translate.getBrowserLang();
     const supportedLangs = ['en', 'es', 'ca'];
-    const langToUse =
-      browserLang && supportedLangs.includes(browserLang) ? browserLang : 'en';
+    const langToUse = browserLang && supportedLangs.includes(browserLang) ? browserLang : 'en';
 
     this.translate.use(langToUse);
   }
