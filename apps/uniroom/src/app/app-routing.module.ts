@@ -4,6 +4,11 @@ import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'home'
+  },
+  {
     path: 'login',
     loadChildren: () => import('./login/login.module').then((m) => m.LoginModule),
     data: { public: true, guestOnly: true }
@@ -27,11 +32,6 @@ const routes: Routes = [
     path: 'unauthorized',
     loadChildren: () => import('./unauthorized/unauthorized.module').then((m) => m.UnauthorizedModule),
     data: { public: true }
-  },
-  {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
   },
   {
     path: '**',
