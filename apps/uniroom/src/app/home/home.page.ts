@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class HomePage implements OnInit, OnDestroy {
   user: User | null = null;
-  private authService = inject(AuthService);
+  private authService: AuthService = inject(AuthService);
   private userSub?: Subscription;
 
   ngOnInit(): void {
