@@ -3,4 +3,4 @@ export interface Environment {
   apiUrl: string;
 }
 
-export const EnvironmentVersionUrl = '/api/v1/'
+export const API_VERSION_PATH = '/api/v1/'
