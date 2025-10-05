@@ -2,6 +2,7 @@ name: Deploy Web to Pages
 on:
   push:
     branches: [ main ]
+
 permissions:
   contents: read
   pages: write
@@ -10,8 +11,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      CI: true
     steps:
       - uses: actions/checkout@v4
 
@@ -22,19 +21,27 @@ jobs:
       - run: corepack enable
       - run: corepack prepare pnpm@10.17.1 --activate
 
-      - uses: actions/cache@v4
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('apps/uniroom/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-pnpm-
-
       - name: Install deps
         working-directory: apps/uniroom
         run: pnpm install --frozen-lockfile
 
-      - name: Build
+      - name: Build (Angular/Ionic)
         working-directory: apps/uniroom
-        run: pnpm ng build --configuration production --base-href /UniRoom-Front/
+        run: pnpm ng build --configuration production --base-href "/UniRoom-Front/"
+
+      - name: Add SPA fallback and .nojekyll
+        working-directory: apps/uniroom/www
+        run: |
+          cp index.html 404.html
+          touch .nojekyll
+
+      - name: Sanity check artifact
+        working-directory: apps/uniroom/www
+        run: |
+          echo "Files in artifact:"
+          ls -lah | sed -n '1,80p'
+          echo "--- first 15 lines of index.html ---"
+          head -n 15 index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
