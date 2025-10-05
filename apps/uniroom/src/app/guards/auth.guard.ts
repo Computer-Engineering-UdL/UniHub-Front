@@ -17,7 +17,9 @@ export class AuthGuard implements CanActivate {
     const { public: isPublic, guestOnly, roles } = data;
 
     if (isPublic) {
-      if (guestOnly && isAuth) return this.router.parseUrl('/home');
+      if (guestOnly && isAuth) {
+        return this.router.parseUrl('/home');
+      }
       return true;
     }
     if (!isAuth) {

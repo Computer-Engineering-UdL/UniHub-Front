@@ -34,5 +34,5 @@ jobs:
           restore-keys: ${{ runner.os }}-angular-cache-
 
       - run: pnpm -C apps/uniroom install --frozen-lockfile
-      - run: pnpm -C apps/uniroom lint
+      - run: pnpm -C apps/uniroom format:check
       - run: pnpm -C apps/uniroom build

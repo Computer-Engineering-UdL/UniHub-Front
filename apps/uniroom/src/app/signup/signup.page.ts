@@ -88,7 +88,9 @@ export class SignupPage {
   }
 
   validatePhone(phone: string): boolean {
-    if (!phone) return true;
+    if (!phone) {
+      return true;
+    }
     return /^\+?\d{7,15}$/.test(phone);
   }
 
@@ -173,10 +175,15 @@ export class SignupPage {
     const hasLeadingPlus = raw.trim().startsWith('+');
     let cleaned = raw.replace(/[^+\d]/g, '');
     cleaned = cleaned.replace(/\+/g, '');
-    if (hasLeadingPlus) cleaned = '+' + cleaned;
+    if (hasLeadingPlus) {
+      cleaned = '+' + cleaned;
+    }
     // Enforce max length: 16 total (1 for plus + up to 15 digits per E.164)
-    if (cleaned.startsWith('+')) cleaned = cleaned.slice(0, 16);
-    else cleaned = cleaned.slice(0, 15);
+    if (cleaned.startsWith('+')) {
+      cleaned = cleaned.slice(0, 16);
+    } else {
+      cleaned = cleaned.slice(0, 15);
+    }
     this.phone = cleaned;
   }
 

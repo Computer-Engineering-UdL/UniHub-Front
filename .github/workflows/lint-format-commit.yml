@@ -1,4 +1,4 @@
-name: Lint, Format and Commit Changes
+name: Format and Commit Changes
 
 on:
   push: { branches: [ main, development ] }
