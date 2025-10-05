@@ -15,6 +15,6 @@
   "overrides": [
     { "files": "*.html", "options": { "printWidth": 100 } },
     { "files": ["*.scss", "*.css"], "options": { "printWidth": 100 } },
-    { "files": ["*.ts", "*.tsx", "*.js", "*.jsx"], "options": { "printWidth": 160 } }
+    { "files": ["*.ts", "*.tsx", "*.js", "*.jsx"], "options": { "printWidth": 120 } }
   ]
 }

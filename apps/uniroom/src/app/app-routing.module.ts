@@ -6,13 +6,11 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then((m) => m.LoginModule),
-    canActivate: [AuthGuard],
     data: { public: true, guestOnly: true }
   },
   {
     path: 'signup',
     loadChildren: () => import('./signup/signup.module').then((m) => m.SignupModule),
-    canActivate: [AuthGuard],
     data: { public: true, guestOnly: true }
   },
   {
@@ -37,9 +35,8 @@ const routes: Routes = [
   },
   {
     path: '**',
-    canActivate: [AuthGuard],
-    data: { public: true, guestOnly: true },
-    loadChildren: () => import('./login/login.module').then((m) => m.LoginModule)
+    redirectTo: 'unauthorized',
+    pathMatch: 'full'
   }
 ];
 

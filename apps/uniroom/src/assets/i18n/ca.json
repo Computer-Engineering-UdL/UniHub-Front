@@ -71,7 +71,7 @@
   },
   "UNAUTHORIZED": {
     "TITLE": "Accés denegat",
-    "MESSAGE": "No tens permís per veure aquesta pàgina.",
+    "MESSAGE": "No tens permís per veure aquesta pàgina o no existeix.",
     "GO_HOME": "Anar a l'inici",
     "GO_LOGIN": "Anar a iniciar sessió"
   }

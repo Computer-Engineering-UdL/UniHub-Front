@@ -42,7 +42,9 @@ export class AuthService {
 
   async login(emailOrCredentials: string | LoginCredentials, passwordMaybe?: string): Promise<void> {
     const { email, password }: LoginCredentials =
-      typeof emailOrCredentials === 'string' ? { email: emailOrCredentials, password: passwordMaybe ?? '' } : emailOrCredentials;
+      typeof emailOrCredentials === 'string'
+        ? { email: emailOrCredentials, password: passwordMaybe ?? '' }
+        : emailOrCredentials;
 
     try {
       const response: AuthResponse = await firstValueFrom(
@@ -59,7 +61,9 @@ export class AuthService {
 
   async signup(data: SignupData): Promise<void> {
     try {
-      const response: AuthResponse = await firstValueFrom(this.http.post<AuthResponse>(`${this.API_URL}/auth/signup`, data));
+      const response: AuthResponse = await firstValueFrom(
+        this.http.post<AuthResponse>(`${this.API_URL}/auth/signup`, data)
+      );
       this.storeAuth(response.token, response.user);
     } catch {
       throw new Error('Signup failed');
@@ -92,7 +96,9 @@ export class AuthService {
           oauthWindow.close();
           try {
             const { token } = event.data;
-            const response: AuthResponse = await firstValueFrom(this.http.post<AuthResponse>(`${this.API_URL}/auth/${provider}/callback`, { token }));
+            const response: AuthResponse = await firstValueFrom(
+              this.http.post<AuthResponse>(`${this.API_URL}/auth/${provider}/callback`, { token })
+            );
             this.storeAuth(response.token, response.user);
             resolve();
           } catch (err) {

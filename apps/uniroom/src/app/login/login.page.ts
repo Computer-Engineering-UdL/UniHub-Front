@@ -1,9 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../services/auth.service';
 import { NotificationService } from '../services/notification.service';
-import { LangCode, SUPPORTED_LANGS } from '../models/i18n.types';
+import { LangCode, LocalizationService } from '../services/localization.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +11,7 @@ import { LangCode, SUPPORTED_LANGS } from '../models/i18n.types';
   styleUrls: ['login.page.scss'],
   standalone: false
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
   email: string = '';
   password: string = '';
   isLoading: boolean = false;
@@ -22,8 +22,14 @@ export class LoginPage {
   private router: Router = inject(Router);
   private translate: TranslateService = inject(TranslateService);
   private notificationService: NotificationService = inject(NotificationService);
+  private localizationService: LocalizationService = inject(LocalizationService);
 
   private readonly emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  ngOnInit(): void {
+    const currentLang: LangCode = this.localizationService.getCurrentLanguage();
+    this.localizationService.changeLanguage(currentLang);
+  }
 
   validateEmail(email: string): boolean {
     return this.emailRegex.test(email);
@@ -99,7 +105,6 @@ export class LoginPage {
   }
 
   changeLanguage(lang: LangCode): void {
-    const code: LangCode = SUPPORTED_LANGS.includes(lang) ? lang : 'en';
-    this.translate.use(code);
+    this.localizationService.changeLanguage(lang);
   }
 }
