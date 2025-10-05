@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LocalizationService } from '../services/localization.service';
+import { LangCode, LocalizationService } from '../services/localization.service';
 
 @Component({
   selector: 'app-unauthorized',
@@ -13,7 +13,7 @@ export class UnauthorizedPage implements OnInit {
   private router: Router = inject(Router);
 
   ngOnInit(): void {
-    const currentLang: string = this.localizationService.getCurrentLanguage();
+    const currentLang: LangCode = this.localizationService.getCurrentLanguage();
     this.localizationService.changeLanguage(currentLang);
   }
 

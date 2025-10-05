@@ -27,7 +27,7 @@ export class LoginPage implements OnInit {
   private readonly emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   ngOnInit(): void {
-    const currentLang: string = this.localizationService.getCurrentLanguage();
+    const currentLang: LangCode = this.localizationService.getCurrentLanguage();
     this.localizationService.changeLanguage(currentLang);
   }
 

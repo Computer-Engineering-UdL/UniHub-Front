@@ -1,14 +1,17 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateStore } from '@ngx-translate/core';
 import { TranslateHttpLoader, TRANSLATE_HTTP_LOADER_CONFIG } from '@ngx-translate/http-loader';
-
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { LocalizationService } from './services/localization.service';
+
+export function initLocales(loc: LocalizationService): () => Promise<void> {
+  return (): Promise<void> => loc.init();
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,10 +21,7 @@ import { AppRoutingModule } from './app-routing.module';
     IonicModule.forRoot(),
     TranslateModule.forRoot({
       defaultLanguage: 'en',
-      loader: {
-        provide: TranslateLoader,
-        useClass: TranslateHttpLoader
-      }
+      loader: { provide: TranslateLoader, useClass: TranslateHttpLoader }
     }),
     AppRoutingModule
   ],
@@ -29,11 +29,10 @@ import { AppRoutingModule } from './app-routing.module';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: TRANSLATE_HTTP_LOADER_CONFIG,
-      useValue: {
-        prefix: './assets/i18n/',
-        suffix: '.json'
-      }
-    }
+      useValue: { prefix: './assets/i18n/', suffix: '.json' }
+    },
+    { provide: APP_INITIALIZER, useFactory: initLocales, deps: [LocalizationService], multi: true },
+    TranslateStore
   ],
   bootstrap: [AppComponent]
 })
