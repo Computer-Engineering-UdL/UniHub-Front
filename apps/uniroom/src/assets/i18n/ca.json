@@ -74,5 +74,23 @@
     "MESSAGE": "No tens permís per veure aquesta pàgina o no existeix.",
     "GO_HOME": "Anar a l'inici",
     "GO_LOGIN": "Anar a iniciar sessió"
+  },
+  "SIDEBAR": {
+    "HOME": "Inici",
+    "CHANNELS": "Canals",
+    "UNIROOM": "UniRoom",
+    "UNIITEMS": "UniItems",
+    "UNISERVICES": "UniServeis",
+    "UNICAR": "UniCar",
+    "UNIBORSA": "UniBorsa",
+    "MESSAGES": "Missatges",
+    "PROFILE": "Perfil",
+    "LOGIN": "Iniciar sessió",
+    "ADMIN": "ADMIN",
+    "ADMIN_DASHBOARD": "Panell d'administració",
+    "ADMIN_USERS": "Usuaris",
+    "ADMIN_CONTENT": "Contingut",
+    "ADMIN_REPORTS": "Informes",
+    "SIGNUP": "Registrar-se"
   }
 }

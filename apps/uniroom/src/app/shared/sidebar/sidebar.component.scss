@@ -71,6 +71,49 @@
       margin-top: 0.25rem;
     }
   }
+
+  .login-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 12px 0 8px 0;
+    width: 100%;
+
+    ion-button {
+      width: 100%;
+      max-width: 220px;
+      padding: 0.32em 0.8em;
+      --border-radius: 8px;
+      --background: var(--ion-color-primary);
+      --color: var(--ion-color-light);
+      font-size: clamp(0.82rem, 1.2vw, 0.95rem);
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: background 0.2s, color 0.2s;
+      white-space: normal;
+      overflow: visible;
+      line-height: 1.2;
+      text-transform: none;
+
+      &:focus-visible {
+        outline: 2px solid color-mix(in oklab, var(--ion-color-primary) 45%, transparent);
+        outline-offset: 2px;
+      }
+    }
+
+    ion-button[color='light'] {
+      --background: var(--ion-color-light);
+      --color: var(--ion-color-primary);
+    }
+
+    ion-icon {
+      font-size: 1em;
+      margin-right: 5px;
+    }
+  }
 }
 
 .bottom-nav {
@@ -137,5 +180,28 @@
 
   .bottom-nav {
     display: flex;
+  }
+}
+
+@media (min-width: 520px) {
+  .login-action {
+    margin: 32px 0 16px 0;
+  }
+
+  .login-action ion-button {
+    max-width: 260px;
+    font-size: clamp(1.08rem, 2vw, 1.18rem);
+  }
+}
+
+@media (max-width: 520px) {
+  .login-action {
+    gap: 6px;
+  }
+
+  .login-action ion-button {
+    max-width: 100vw;
+    font-size: clamp(0.78rem, 2vw, 0.9rem);
+    padding: 0.18em 0.7em;
   }
 }

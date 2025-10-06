@@ -74,5 +74,23 @@
     "MESSAGE": "You don't have permission to view this page or does not exist.",
     "GO_HOME": "Go Home",
     "GO_LOGIN": "Go to Login"
+  },
+  "SIDEBAR": {
+    "HOME": "Home",
+    "CHANNELS": "Channels",
+    "UNIROOM": "UniRoom",
+    "UNIITEMS": "UniItems",
+    "UNISERVICES": "UniServices",
+    "UNICAR": "UniCar",
+    "UNIBORSA": "UniBorsa",
+    "MESSAGES": "Messages",
+    "PROFILE": "Profile",
+    "LOGIN": "Sign in",
+    "ADMIN": "ADMIN",
+    "ADMIN_DASHBOARD": "Admin Dashboard",
+    "ADMIN_USERS": "Users",
+    "ADMIN_CONTENT": "Content",
+    "ADMIN_REPORTS": "Reports",
+    "SIGNUP": "Sign up"
   }
 }
