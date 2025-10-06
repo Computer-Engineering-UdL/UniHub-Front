@@ -1,0 +1,40 @@
+<nav class="sidebar">
+  <div class="sidebar-content">
+    <!-- Main Navigation Items -->
+    <div class="nav-items">
+      <a
+        *ngFor="let item of navItems"
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        class="nav-item">
+        <ion-icon [name]="item.icon"></ion-icon>
+        <span>{{ item.label }}</span>
+      </a>
+    </div>
+
+    <!-- Admin Section -->
+    <div class="admin-section">
+      <div class="admin-label">ADMIN</div>
+      <a
+        *ngFor="let item of adminItems"
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        class="nav-item">
+        <ion-icon [name]="item.icon"></ion-icon>
+        <span>{{ item.label }}</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Bottom Navigation -->
+<nav class="bottom-nav">
+  <a
+    *ngFor="let item of navItems.slice(0, 5)"
+    [routerLink]="item.route"
+    routerLinkActive="active"
+    class="nav-item">
+    <ion-icon [name]="item.icon"></ion-icon>
+    <span>{{ item.label }}</span>
+  </a>
+</nav>

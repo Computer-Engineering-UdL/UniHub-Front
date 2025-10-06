@@ -8,6 +8,7 @@ import { TranslateHttpLoader, TRANSLATE_HTTP_LOADER_CONFIG } from '@ngx-translat
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LocalizationService } from './services/localization.service';
+import { SharedModule } from './shared/shared-module';
 
 export function initLocales(loc: LocalizationService): () => Promise<void> {
   return (): Promise<void> => loc.init();
@@ -23,7 +24,8 @@ export function initLocales(loc: LocalizationService): () => Promise<void> {
       defaultLanguage: 'en',
       loader: { provide: TranslateLoader, useClass: TranslateHttpLoader }
     }),
-    AppRoutingModule
+    AppRoutingModule,
+    SharedModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

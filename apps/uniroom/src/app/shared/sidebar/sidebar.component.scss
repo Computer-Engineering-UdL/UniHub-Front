@@ -1,0 +1,141 @@
+.sidebar {
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 256px;
+  background: var(--ion-background-color, #ffffff);
+  border-right: 1px solid var(--ion-border-color, #e0e0e0);
+  z-index: 1000;
+  overflow-y: auto;
+
+  .sidebar-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1rem 0;
+  }
+
+  .nav-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0 0.5rem;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: var(--ion-text-color, #000000);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-size: 15px;
+    font-weight: 500;
+
+    ion-icon {
+      font-size: 22px;
+      color: var(--ion-text-color, #000000);
+    }
+
+    &:hover {
+      background: var(--ion-color-light, #f4f5f8);
+    }
+
+    &.active {
+      background: var(--ion-color-primary, #5046e5);
+      color: white;
+
+      ion-icon {
+        color: white;
+      }
+    }
+  }
+
+  .admin-section {
+    margin-top: 2rem;
+    padding: 0 0.5rem;
+
+    .admin-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ion-color-medium, #92949c);
+      padding: 0.5rem 1rem;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-item {
+      margin-top: 0.25rem;
+    }
+  }
+}
+
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65px;
+  background: var(--ion-background-color, #ffffff);
+  border-top: 1px solid var(--ion-border-color, #e0e0e0);
+  z-index: 1000;
+  padding: 0.25rem 0;
+  justify-content: space-around;
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 0.25rem;
+    color: var(--ion-text-color, #000000);
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    ion-icon {
+      font-size: 24px;
+      color: var(--ion-color-medium, #92949c);
+    }
+
+    span {
+      color: var(--ion-color-medium, #92949c);
+    }
+
+    &.active {
+      ion-icon {
+        color: var(--ion-color-primary, #5046e5);
+      }
+
+      span {
+        color: var(--ion-color-primary, #5046e5);
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    display: block;
+  }
+
+  .bottom-nav {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .sidebar {
+    display: none;
+  }
+
+  .bottom-nav {
+    display: flex;
+  }
+}
