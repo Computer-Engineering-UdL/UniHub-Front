@@ -1,10 +1,10 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { TranslateModule, TranslateLoader, TranslateStore } from '@ngx-translate/core';
-import { TranslateHttpLoader, TRANSLATE_HTTP_LOADER_CONFIG } from '@ngx-translate/http-loader';
+import { TRANSLATE_HTTP_LOADER_CONFIG, TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LocalizationService } from './services/localization.service';
@@ -21,7 +21,6 @@ export function initLocales(loc: LocalizationService): () => Promise<void> {
     HttpClientModule,
     IonicModule.forRoot(),
     TranslateModule.forRoot({
-      defaultLanguage: 'en',
       loader: { provide: TranslateLoader, useClass: TranslateHttpLoader }
     }),
     AppRoutingModule,

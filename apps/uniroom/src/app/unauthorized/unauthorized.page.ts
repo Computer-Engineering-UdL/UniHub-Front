@@ -8,14 +8,9 @@ import { LangCode, LocalizationService } from '../services/localization.service'
   styleUrls: ['./unauthorized.page.scss'],
   standalone: false
 })
-export class UnauthorizedPage implements OnInit {
+export class UnauthorizedPage {
   private localizationService: LocalizationService = inject(LocalizationService);
   private router: Router = inject(Router);
-
-  ngOnInit(): void {
-    const currentLang: LangCode = this.localizationService.getCurrentLanguage();
-    this.localizationService.changeLanguage(currentLang);
-  }
 
   async goHome(): Promise<void> {
     await this.router.navigate(['/home']);

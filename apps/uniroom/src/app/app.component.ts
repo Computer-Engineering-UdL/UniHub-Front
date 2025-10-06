@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { ThemeService } from './services/theme.service';
+import { LocalizationService } from './services/localization.service';
 
 @Component({
   selector: 'app-root',
@@ -9,18 +9,10 @@ import { ThemeService } from './services/theme.service';
   standalone: false
 })
 export class AppComponent {
-  private translate = inject(TranslateService);
+  private localizationService: LocalizationService = inject(LocalizationService);
   private themeService = inject(ThemeService);
 
   constructor() {
-    // Set default language
-    this.translate.setDefaultLang('en');
-
-    // Try to get browser language
-    const browserLang = this.translate.getBrowserLang();
-    const supportedLangs = ['en', 'es', 'ca'];
-    const langToUse = browserLang && supportedLangs.includes(browserLang) ? browserLang : 'en';
-
-    this.translate.use(langToUse);
+    this.localizationService.syncLanguage();
   }
 }
