@@ -57,23 +57,26 @@ h1 {
 }
 
 .actions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   align-items: center;
-  justify-items: center;
+  justify-content: center;
   width: 100%;
-  margin-top: 4px;
+  margin-top: 12px;
 }
 
-@media (max-width: 520px) {
+@media (min-width: 520px) {
   .actions {
-    grid-template-columns: 1fr;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
   }
 }
 
 .actions ion-button {
   width: 100%;
+  max-width: 220px;
   --border-radius: 12px;
   --padding-start: clamp(14px, 3vw, 20px);
   --padding-end: clamp(14px, 3vw, 20px);
