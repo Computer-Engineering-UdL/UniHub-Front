@@ -39,11 +39,18 @@ export class SidebarComponent {
     { translationKey: 'SIDEBAR.ADMIN_REPORTS', route: '/admin/reports', icon: 'settings-outline', admin: true }
   ];
 
-  mobileNavItems: NavItem[] = [
+  mobileNavItemsAuth: NavItem[] = [
     { translationKey: 'SIDEBAR.HOME', route: '/home', icon: 'home-outline' },
     { translationKey: 'SIDEBAR.OTHERS', route: '', icon: 'menu-outline' },
-    { translationKey: 'SIDEBAR.MESSAGES', route: '/channels', icon: 'chatbubbles-outline', requiresAuth: true },
-    { translationKey: 'SIDEBAR.PROFILE', route: '/profile', icon: 'person-outline', requiresAuth: true }
+    { translationKey: 'SIDEBAR.MESSAGES', route: '/channels', icon: 'chatbubbles-outline' },
+    { translationKey: 'SIDEBAR.PROFILE', route: '/profile', icon: 'person-outline' }
+  ];
+
+  mobileNavItemsNotAuth: NavItem[] = [
+    { translationKey: 'SIDEBAR.HOME', route: '/home', icon: 'home-outline' },
+    { translationKey: 'SIDEBAR.OTHERS', route: '', icon: 'menu-outline' },
+    { translationKey: 'SIDEBAR.LOGIN', route: '/login', icon: 'log-in-outline' },
+    { translationKey: 'SIDEBAR.SIGNUP', route: '/signup', icon: 'person-add-outline' }
   ];
 
   burgerMenuItems: NavItem[] = [
@@ -71,12 +78,7 @@ export class SidebarComponent {
         }
         return true;
       });
-      this.filteredMobileNavItems = this.mobileNavItems.filter((item: NavItem): boolean => {
-        if (item.requiresAuth) {
-          return !!user;
-        }
-        return true;
-      });
+      this.filteredMobileNavItems = user ? this.mobileNavItemsAuth : this.mobileNavItemsNotAuth;
     });
   }
 
