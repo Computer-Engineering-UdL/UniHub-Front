@@ -9,14 +9,18 @@
     <h1>{{ 'UNAUTHORIZED.TITLE' | translate }}</h1>
     <p class="message">{{ 'UNAUTHORIZED.MESSAGE' | translate }}</p>
     <div class="actions">
-      <ion-button color="primary" (click)="goHome()">
-        <ion-icon name="home-outline" slot="start"></ion-icon>
-        {{ 'UNAUTHORIZED.GO_HOME' | translate }}
-      </ion-button>
-      <ion-button fill="outline" (click)="goLogin()">
-        <ion-icon name="log-in-outline" slot="start"></ion-icon>
-        {{ 'UNAUTHORIZED.GO_LOGIN' | translate }}
-      </ion-button>
+      <ng-container *ngIf="currentUser$ | async as user; else notAuth">
+        <ion-button color="primary" (click)="goHome()">
+          <ion-icon name="home-outline" slot="start"></ion-icon>
+          {{ 'UNAUTHORIZED.GO_HOME' | translate }}
+        </ion-button>
+      </ng-container>
+      <ng-template #notAuth>
+        <ion-button fill="outline" (click)="goLogin()">
+          <ion-icon name="log-in-outline" slot="start"></ion-icon>
+          {{ 'UNAUTHORIZED.GO_LOGIN' | translate }}
+        </ion-button>
+      </ng-template>
     </div>
   </div>
 </ion-content>

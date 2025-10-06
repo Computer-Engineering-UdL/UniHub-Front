@@ -11,7 +11,7 @@ import { LangCode, LocalizationService } from '../services/localization.service'
   styleUrls: ['login.page.scss'],
   standalone: false
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
   email: string = '';
   password: string = '';
   isLoading: boolean = false;
@@ -25,11 +25,6 @@ export class LoginPage implements OnInit {
   private localizationService: LocalizationService = inject(LocalizationService);
 
   private readonly emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  ngOnInit(): void {
-    const currentLang: LangCode = this.localizationService.getCurrentLanguage();
-    this.localizationService.changeLanguage(currentLang);
-  }
 
   validateEmail(email: string): boolean {
     return this.emailRegex.test(email);

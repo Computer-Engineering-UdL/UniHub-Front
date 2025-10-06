@@ -1,0 +1,65 @@
+<nav class="sidebar">
+  <div class="sidebar-content">
+    <!-- Login Button if not authenticated -->
+    <div class="login-action" *ngIf="!(currentUser$ | async)">
+      <ion-button color="primary" [routerLink]="['/login']" expand="block">
+        <ion-icon name="log-in-outline" slot="start"></ion-icon>
+        {{ 'SIDEBAR.LOGIN' | translate }}
+      </ion-button>
+      <ion-button color="light" [routerLink]="['/signup']" expand="block">
+        <ion-icon name="person-add-outline" slot="start"></ion-icon>
+        {{ 'SIDEBAR.SIGNUP' | translate }}
+      </ion-button>
+    </div>
+
+    <!-- Main Navigation Items -->
+    <div class="nav-items">
+      <a
+        *ngFor="let item of filteredNavItems"
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        class="nav-item">
+        <ion-icon [name]="item.icon"></ion-icon>
+        <span>{{ item.translationKey | translate }}</span>
+      </a>
+    </div>
+
+    <!-- Admin Section -->
+    <div class="admin-section">
+      <div class="admin-label">{{ 'SIDEBAR.ADMIN' | translate }}</div>
+      <a
+        *ngFor="let item of adminItems"
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        class="nav-item">
+        <ion-icon [name]="item.icon"></ion-icon>
+        <span>{{ item.translationKey | translate }}</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Bottom Navigation -->
+<nav class="bottom-nav">
+  <a
+    *ngFor="let item of filteredMobileNavItems"
+    [routerLink]="item.route"
+    routerLinkActive="active"
+    class="nav-item"
+    (click)="item.icon === 'menu-outline' ? onBurgerClick() : closeBurgerMenu()"
+    [class.burger]="item.icon === 'menu-outline'">
+    <ion-icon [name]="item.icon"></ion-icon>
+    <span>{{ item.translationKey | translate }}</span>
+  </a>
+
+  <!-- Menú desplegable de la burger -->
+  <div class="burger-menu" *ngIf="showBurgerMenu">
+    <a
+      *ngFor="let menuItem of burgerMenuItems"
+      (click)="onBurgerMenuNavigate(menuItem.route)"
+      class="burger-menu-item">
+      <ion-icon [name]="menuItem.icon"></ion-icon>
+      <span>{{ menuItem.translationKey | translate }}</span>
+    </a>
+  </div>
+</nav>

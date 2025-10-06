@@ -1,6 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { LangCode, LocalizationService } from '../services/localization.service';
+import { AuthService } from '../services/auth.service';
+import { Observable } from 'rxjs';
+import { User } from '../models/auth.types';
 
 @Component({
   selector: 'app-unauthorized',
@@ -8,14 +10,11 @@ import { LangCode, LocalizationService } from '../services/localization.service'
   styleUrls: ['./unauthorized.page.scss'],
   standalone: false
 })
-export class UnauthorizedPage implements OnInit {
-  private localizationService: LocalizationService = inject(LocalizationService);
+export class UnauthorizedPage {
+  private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
 
-  ngOnInit(): void {
-    const currentLang: LangCode = this.localizationService.getCurrentLanguage();
-    this.localizationService.changeLanguage(currentLang);
-  }
+  public currentUser$: Observable<User | null> = this.authService.currentUser$;
 
   async goHome(): Promise<void> {
     await this.router.navigate(['/home']);

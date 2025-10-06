@@ -74,5 +74,19 @@
     "MESSAGE": "No tienes permiso para ver esta página o no existe.",
     "GO_HOME": "Ir al inicio",
     "GO_LOGIN": "Ir a iniciar sesión"
+  },
+  "SIDEBAR": {
+    "CHANNELS": "Canales",
+    "HOME": "Inicio",
+    "LOGIN": "Iniciar sesión",
+    "MESSAGES": "Mensajes",
+    "OTHERS": "Otros",
+    "PROFILE": "Perfil",
+    "SIGNUP": "Registrarse",
+    "UNIBORSA": "Bolsa de trabajo",
+    "UNICAR": "Coches",
+    "UNIITEMS": "Objetos",
+    "UNIROOM": "Habitaciones",
+    "UNISERVICES": "Servicios"
   }
 }
