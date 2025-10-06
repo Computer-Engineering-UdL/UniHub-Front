@@ -92,7 +92,9 @@
       font-weight: 500;
       letter-spacing: 0.01em;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      transition: background 0.2s, color 0.2s;
+      transition:
+        background 0.2s,
+        color 0.2s;
       white-space: normal;
       overflow: visible;
       line-height: 1.2;
@@ -117,49 +119,93 @@
 }
 
 .bottom-nav {
-  display: none;
   position: fixed;
-  bottom: 0;
   left: 0;
-  right: 0;
-  height: 65px;
-  background: var(--ion-background-color, #ffffff);
+  bottom: 0;
+  width: 100vw;
+  height: 60px;
+  background: var(--ion-background-color, #fff);
   border-top: 1px solid var(--ion-border-color, #e0e0e0);
-  z-index: 1000;
-  padding: 0.25rem 0;
+  display: flex;
   justify-content: space-around;
+  align-items: center;
+  z-index: 1100;
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.07);
 
   .nav-item {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex: 1;
-    gap: 0.25rem;
-    color: var(--ion-text-color, #000000);
+    color: var(--ion-text-color, #000);
     text-decoration: none;
-    font-size: 11px;
-    font-weight: 500;
-    transition: all 0.2s ease;
+    font-size: 13px;
+    padding: 0.5rem 0;
+    transition: background 0.2s;
+    border-radius: 0;
+    background: none;
+    position: relative;
+    cursor: pointer;
 
     ion-icon {
-      font-size: 24px;
-      color: var(--ion-color-medium, #92949c);
+      font-size: 26px;
+      margin-bottom: 2px;
     }
-
-    span {
-      color: var(--ion-color-medium, #92949c);
-    }
-
     &.active {
+      color: var(--ion-color-primary, #5046e5);
       ion-icon {
         color: var(--ion-color-primary, #5046e5);
       }
-
-      span {
-        color: var(--ion-color-primary, #5046e5);
-      }
     }
+    &.burger {
+      font-weight: bold;
+    }
+  }
+
+  .burger-menu {
+    position: absolute;
+    left: 50%;
+    bottom: 60px;
+    transform: translateX(-50%);
+    min-width: 180px;
+    background: var(--ion-background-color, #fff);
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.13);
+    padding: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    animation: fadeInBurger 0.18s;
+    z-index: 1200;
+  }
+  .burger-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.7rem 1.2rem;
+    color: var(--ion-text-color, #222);
+    text-decoration: none;
+    font-size: 15px;
+    border-radius: 8px;
+    transition: background 0.18s;
+    cursor: pointer;
+    ion-icon {
+      font-size: 20px;
+    }
+    &:hover {
+      background: var(--ion-color-light, #f4f5f8);
+    }
+  }
+}
+@keyframes fadeInBurger {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
   }
 }
 

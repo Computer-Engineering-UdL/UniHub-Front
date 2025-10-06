@@ -76,16 +76,17 @@
     "GO_LOGIN": "Ir a iniciar sesión"
   },
   "SIDEBAR": {
-    "HOME": "Inicio",
     "CHANNELS": "Canales",
-    "UNIROOM": "UniRoom",
-    "UNIITEMS": "UniItems",
-    "UNISERVICES": "UniServicios",
-    "UNICAR": "UniCar",
-    "UNIBORSA": "UniBorsa",
-    "MESSAGES": "Mensajes",
-    "PROFILE": "Perfil",
+    "HOME": "Inicio",
     "LOGIN": "Iniciar sesión",
-    "SIGNUP": "Registrarse"
+    "MESSAGES": "Mensajes",
+    "OTHERS": "Otros",
+    "PROFILE": "Perfil",
+    "SIGNUP": "Registrarse",
+    "UNIBORSA": "Bolsa de trabajo",
+    "UNICAR": "Coches",
+    "UNIITEMS": "Objetos",
+    "UNIROOM": "Habitaciones",
+    "UNISERVICES": "Servicios"
   }
 }

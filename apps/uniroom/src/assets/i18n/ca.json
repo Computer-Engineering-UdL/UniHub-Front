@@ -76,21 +76,22 @@
     "GO_LOGIN": "Anar a iniciar sessió"
   },
   "SIDEBAR": {
-    "HOME": "Inici",
-    "CHANNELS": "Canals",
-    "UNIROOM": "UniRoom",
-    "UNIITEMS": "UniItems",
-    "UNISERVICES": "UniServeis",
-    "UNICAR": "UniCar",
-    "UNIBORSA": "UniBorsa",
-    "MESSAGES": "Missatges",
-    "PROFILE": "Perfil",
-    "LOGIN": "Iniciar sessió",
     "ADMIN": "ADMIN",
-    "ADMIN_DASHBOARD": "Panell d'administració",
-    "ADMIN_USERS": "Usuaris",
     "ADMIN_CONTENT": "Contingut",
+    "ADMIN_DASHBOARD": "Panell d'administració",
     "ADMIN_REPORTS": "Informes",
-    "SIGNUP": "Registrar-se"
+    "ADMIN_USERS": "Usuaris",
+    "CHANNELS": "Canals",
+    "HOME": "Inici",
+    "LOGIN": "Iniciar sessió",
+    "MESSAGES": "Missatges",
+    "OTHERS": "Altres",
+    "PROFILE": "Perfil",
+    "SIGNUP": "Registrar-se",
+    "UNIBORSA": "Borsa de treball",
+    "UNICAR": "Cotxes",
+    "UNIITEMS": "Objectes",
+    "UNIROOM": "Habitacions",
+    "UNISERVICES": "Serveis"
   }
 }

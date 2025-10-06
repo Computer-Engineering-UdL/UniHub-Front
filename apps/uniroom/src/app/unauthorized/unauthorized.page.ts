@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { Observable } from "rxjs";
-import { User } from "../models/auth.types";
+import { Observable } from 'rxjs';
+import { User } from '../models/auth.types';
 
 @Component({
   selector: 'app-unauthorized',

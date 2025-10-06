@@ -1,6 +1,5 @@
 <nav class="sidebar">
   <div class="sidebar-content">
-
     <!-- Login Button if not authenticated -->
     <div class="login-action" *ngIf="!(currentUser$ | async)">
       <ion-button color="primary" [routerLink]="['/login']" expand="block">
@@ -43,11 +42,24 @@
 <!-- Mobile Bottom Navigation -->
 <nav class="bottom-nav">
   <a
-    *ngFor="let item of filteredNavItems.slice(0, 5)"
+    *ngFor="let item of filteredMobileNavItems"
     [routerLink]="item.route"
     routerLinkActive="active"
-    class="nav-item">
+    class="nav-item"
+    (click)="item.icon === 'menu-outline' ? onBurgerClick() : null"
+    [class.burger]="item.icon === 'menu-outline'">
     <ion-icon [name]="item.icon"></ion-icon>
-    <span>{{ item.label }}</span>
+    <span>{{ item.translationKey | translate }}</span>
   </a>
+
+  <!-- Menú desplegable de la burger -->
+  <div class="burger-menu" *ngIf="showBurgerMenu">
+    <a
+      *ngFor="let menuItem of burgerMenuItems"
+      (click)="onBurgerMenuNavigate(menuItem.route)"
+      class="burger-menu-item">
+      <ion-icon [name]="menuItem.icon"></ion-icon>
+      <span>{{ menuItem.translationKey | translate }}</span>
+    </a>
+  </div>
 </nav>
