@@ -94,4 +94,8 @@ export class SidebarComponent {
     await this.router.navigate([route]);
     this.showBurgerMenu = false;
   }
+
+  closeBurgerMenu(): void {
+    this.showBurgerMenu = false;
+  }
 }

@@ -46,7 +46,7 @@
     [routerLink]="item.route"
     routerLinkActive="active"
     class="nav-item"
-    (click)="item.icon === 'menu-outline' ? onBurgerClick() : null"
+    (click)="item.icon === 'menu-outline' ? onBurgerClick() : closeBurgerMenu()"
     [class.burger]="item.icon === 'menu-outline'">
     <ion-icon [name]="item.icon"></ion-icon>
     <span>{{ item.translationKey | translate }}</span>
