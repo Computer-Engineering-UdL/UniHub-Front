@@ -1,3 +1,5 @@
+@use 'styles/auth-page' as *;
+
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------
@@ -37,13 +39,6 @@
 @import '@ionic/angular/css/palettes/dark.system.css';
 
 /**
- * Shared Styles
- * -----------------------------------------------------
- * Import shared component styles that are used across multiple pages
- */
-@import 'styles/auth-page.scss';
-
-/**
  * Toast Notifications
  * -----------------------------------------------------
  * Custom styles for toast notifications
@@ -66,4 +61,15 @@
 .toast-info {
   --background: var(--ion-color-primary);
   --color: var(--ion-color-primary-contrast);
+}
+
+/* Fix: Força el color del botó burger a la bottom-nav, mai blau */
+.bottom-nav .nav-item.burger,
+.bottom-nav .nav-item.burger.active,
+.bottom-nav .nav-item.burger:active,
+.bottom-nav .nav-item.burger:focus {
+  color: var(--ion-text-color, #fff) !important;
+  background: none !important;
+  font-weight: bold;
+  border: none !important;
 }
