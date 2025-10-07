@@ -33,6 +33,13 @@ jobs:
           java-version: '17'
           cache: gradle
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          api-level: 34
+          build-tools: 34.0.0
+          cache: true
+
       - name: Install deps
         working-directory: apps/uniroom
         run: pnpm install --frozen-lockfile
@@ -44,6 +51,10 @@ jobs:
       - name: Capacitor sync
         working-directory: apps/uniroom
         run: npx cap sync android
+
+      - name: Fix gradlew permissions
+        working-directory: apps/uniroom/android
+        run: chmod +x gradlew
 
       - name: Gradle assemble
         working-directory: apps/uniroom/android
