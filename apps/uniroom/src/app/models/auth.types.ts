@@ -1,5 +1,5 @@
-export type Role = 'Basic' | 'Seller' | 'Administrator';
-export const ALL_ROLES: Role[] = ['Basic', 'Seller', 'Administrator'];
+export type Role = 'Basic' | 'Admin';
+export const ALL_ROLES: Role[] = ['Basic', 'Admin'];
 
 export interface User {
   id: string;
@@ -10,7 +10,7 @@ export interface User {
   phone?: string;
   university?: string;
   provider?: 'local' | 'github' | 'google';
-  role?: Role;
+  role: Role;
 }
 
 export interface AuthResponse {

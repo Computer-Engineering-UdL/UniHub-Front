@@ -72,6 +72,13 @@
     }
   }
 
+  .admin-separator {
+    border: none;
+    border-top: 2px solid var(--ion-color-medium, #ccc);
+    width: 90%;
+    margin: 0 0 1.5rem 5%;
+  }
+
   .login-action {
     display: flex;
     flex-direction: column;

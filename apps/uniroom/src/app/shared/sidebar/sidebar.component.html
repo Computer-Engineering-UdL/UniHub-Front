@@ -1,6 +1,6 @@
 <nav class="sidebar">
   <div class="sidebar-content">
-    <!-- Login Button if not authenticated -->
+    <!-- AUTH BUTTONS -->
     <div class="login-action" *ngIf="!(currentUser$ | async)">
       <ion-button color="primary" [routerLink]="['/login']" expand="block">
         <ion-icon name="log-in-outline" slot="start"></ion-icon>
@@ -12,7 +12,7 @@
       </ion-button>
     </div>
 
-    <!-- Main Navigation Items -->
+    <!-- NAVIGATION ITEMS -->
     <div class="nav-items">
       <a
         *ngFor="let item of filteredNavItems"
@@ -23,36 +23,52 @@
         <span>{{ item.translationKey | translate }}</span>
       </a>
     </div>
-
-    <!-- Admin Section -->
-    <div class="admin-section">
-      <div class="admin-label">{{ 'SIDEBAR.ADMIN' | translate }}</div>
+    <!-- ADMIN -->
+    <ng-container *ngIf="currentUser$ | async as user">
+      <div class="admin-section" *ngIf="user.role === 'Admin'">
+        <hr class="admin-separator" />
+        <div class="admin-label">{{ 'SIDEBAR.ADMIN' | translate }}</div>
+      </div>
       <a
-        *ngFor="let item of adminItems"
+        *ngFor="let item of adminNavItems"
         [routerLink]="item.route"
         routerLinkActive="active"
         class="nav-item">
         <ion-icon [name]="item.icon"></ion-icon>
         <span>{{ item.translationKey | translate }}</span>
       </a>
-    </div>
+    </ng-container>
   </div>
 </nav>
 
-<!-- Mobile Bottom Navigation -->
+<!-- MOBILE BUTTONS -->
 <nav class="bottom-nav">
-  <a
-    *ngFor="let item of filteredMobileNavItems"
-    [routerLink]="item.route"
-    routerLinkActive="active"
-    class="nav-item"
-    (click)="item.icon === 'menu-outline' ? onBurgerClick() : closeBurgerMenu()"
-    [class.burger]="item.icon === 'menu-outline'">
-    <ion-icon [name]="item.icon"></ion-icon>
-    <span>{{ item.translationKey | translate }}</span>
-  </a>
+  <ng-container *ngIf="currentUser$ | async as user; else notAuth">
+    <a
+      *ngFor="let item of mobileNavItemsAuth"
+      [routerLink]="item.route"
+      routerLinkActive="active"
+      class="nav-item"
+      (click)="item.icon === 'menu-outline' ? onBurgerClick() : closeBurgerMenu()"
+      [class.burger]="item.icon === 'menu-outline'">
+      <ion-icon [name]="item.icon"></ion-icon>
+      <span>{{ item.translationKey | translate }}</span>
+    </a>
+  </ng-container>
+  <ng-template #notAuth>
+    <a
+      *ngFor="let item of mobileNavItemsNotAuth"
+      [routerLink]="item.route"
+      routerLinkActive="active"
+      class="nav-item"
+      (click)="item.icon === 'menu-outline' ? onBurgerClick() : closeBurgerMenu()"
+      [class.burger]="item.icon === 'menu-outline'">
+      <ion-icon [name]="item.icon"></ion-icon>
+      <span>{{ item.translationKey | translate }}</span>
+    </a>
+  </ng-template>
 
-  <!-- Menú desplegable de la burger -->
+  <!-- BURGER MENU -->
   <div class="burger-menu" *ngIf="showBurgerMenu">
     <a
       *ngFor="let menuItem of burgerMenuItems"
