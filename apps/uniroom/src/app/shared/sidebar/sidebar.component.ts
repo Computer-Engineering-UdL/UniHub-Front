@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Role, User } from '../../models/auth.types';
-import { async, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 interface NavItem {
   route: string;
@@ -19,7 +19,7 @@ interface NavItem {
   styleUrls: ['./sidebar.component.scss'],
   standalone: false
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit, OnDestroy {
   navItems: NavItem[] = [
     { translationKey: 'SIDEBAR.HOME', route: '/home', icon: 'home-outline' },
     { translationKey: 'SIDEBAR.CHANNELS', route: '/channels', icon: 'chatbubbles-outline' },
@@ -59,6 +59,7 @@ export class SidebarComponent {
     }
   ];
 
+  // WARNING: If you change the icon of 'menu-outline', also change it in sidebar.component.html
   mobileNavItemsAuth: NavItem[] = [
     { translationKey: 'SIDEBAR.HOME', route: '/home', icon: 'home-outline' },
     { translationKey: 'SIDEBAR.OTHERS', route: '', icon: 'menu-outline' },
@@ -114,7 +115,29 @@ export class SidebarComponent {
       } else {
         this.adminNavItems = [];
       }
+      this.burgerMenuItems.push(...this.adminNavItems);
     });
+  }
+
+  ngOnInit(): void {
+    document.addEventListener('mousedown', this.handleDocumentFocus.bind(this));
+    document.addEventListener('touchstart', this.handleDocumentFocus.bind(this));
+  }
+
+  ngOnDestroy(): void {
+    document.removeEventListener('mousedown', this.handleDocumentFocus.bind(this));
+    document.removeEventListener('touchstart', this.handleDocumentFocus.bind(this));
+  }
+
+  handleDocumentFocus(event: MouseEvent | TouchEvent): void {
+    if (this.showBurgerMenu) {
+      const burgerMenu: Element | null = document.querySelector('.burger-menu');
+      const burgerButton: Element | null = document.querySelector('.nav-item.burger');
+      const target = event.target as Node;
+      if (burgerMenu && !burgerMenu.contains(target) && burgerButton && !burgerButton.contains(target)) {
+        this.showBurgerMenu = false;
+      }
+    }
   }
 
   isActive(route: string): boolean {

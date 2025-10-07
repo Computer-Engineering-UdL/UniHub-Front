@@ -167,6 +167,10 @@
     }
     &.burger {
       font-weight: bold;
+      color: var(--ion-text-color, #fff);
+      ion-icon {
+        color: var(--ion-text-color, #fff);
+      }
     }
   }
 

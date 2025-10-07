@@ -61,8 +61,7 @@
       [routerLink]="item.route"
       routerLinkActive="active"
       class="nav-item"
-      (click)="item.icon === 'menu-outline' ? onBurgerClick() : closeBurgerMenu()"
-      [class.burger]="item.icon === 'menu-outline'">
+      (click)="item.icon === 'menu-outline' ? onBurgerClick() : closeBurgerMenu()">
       <ion-icon [name]="item.icon"></ion-icon>
       <span>{{ item.translationKey | translate }}</span>
     </a>
@@ -73,7 +72,8 @@
     <a
       *ngFor="let menuItem of burgerMenuItems"
       (click)="onBurgerMenuNavigate(menuItem.route)"
-      class="burger-menu-item">
+      class="burger-menu-item"
+      [class.active]="router.url === menuItem.route">
       <ion-icon [name]="menuItem.icon"></ion-icon>
       <span>{{ menuItem.translationKey | translate }}</span>
     </a>
