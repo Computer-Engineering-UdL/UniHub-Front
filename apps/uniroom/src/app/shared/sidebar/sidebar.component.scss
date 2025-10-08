@@ -1,12 +1,11 @@
 .sidebar {
-  display: block;
   position: fixed;
   left: 0;
   top: 0;
   height: 100vh;
   width: 256px;
-  background: var(--ion-background-color, #ffffff);
-  border-right: 1px solid var(--ion-border-color, #e0e0e0);
+  background: var(--ion-background-color);
+  border-right: 1px solid var(--ion-border-color);
   z-index: 1000;
   overflow-y: auto;
 
@@ -29,7 +28,7 @@
     align-items: center;
     gap: 0.75rem;
     padding: 0.75rem 1rem;
-    color: var(--ion-text-color, #000000);
+    color: var(--ion-text-color);
     text-decoration: none;
     border-radius: 8px;
     transition: all 0.2s ease;
@@ -38,15 +37,14 @@
 
     ion-icon {
       font-size: 22px;
-      color: var(--ion-text-color, #000000);
     }
 
     &:hover {
-      background: var(--ion-color-light, #f4f5f8);
+      background: var(--ion-color-light);
     }
 
     &.active {
-      background: var(--ion-color-primary, #5046e5);
+      background: var(--ion-color-primary);
       color: white;
 
       ion-icon {
@@ -62,19 +60,15 @@
     .admin-label {
       font-size: 12px;
       font-weight: 600;
-      color: var(--ion-color-medium, #92949c);
+      color: var(--ion-color-medium);
       padding: 0.5rem 1rem;
       letter-spacing: 0.5px;
-    }
-
-    .nav-item {
-      margin-top: 0.25rem;
     }
   }
 
   .admin-separator {
     border: none;
-    border-top: 2px solid var(--ion-color-medium, #ccc);
+    border-top: 2px solid var(--ion-border-color);
     width: 90%;
     margin: 0 0 1.5rem 5%;
   }
@@ -83,44 +77,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     gap: 8px;
-    margin: 12px 0 8px 0;
+    margin: 12px 0 8px;
     width: 100%;
 
     ion-button {
       width: 100%;
       max-width: 220px;
-      padding: 0.32em 0.8em;
       --border-radius: 8px;
-      --background: var(--ion-color-primary);
-      --color: var(--ion-color-light);
-      font-size: clamp(0.82rem, 1.2vw, 0.95rem);
       font-weight: 500;
-      letter-spacing: 0.01em;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      transition:
-        background 0.2s,
-        color 0.2s;
-      white-space: normal;
-      overflow: visible;
-      line-height: 1.2;
+      box-shadow: 0 2px 8px var(--ion-shadow-color);
       text-transform: none;
-
-      &:focus-visible {
-        outline: 2px solid color-mix(in oklab, var(--ion-color-primary) 45%, transparent);
-        outline-offset: 2px;
-      }
-    }
-
-    ion-button[color='light'] {
-      --background: var(--ion-color-light);
-      --color: var(--ion-color-primary);
-    }
-
-    ion-icon {
-      font-size: 1em;
-      margin-right: 5px;
     }
   }
 }
@@ -131,13 +98,13 @@
   bottom: 0;
   width: 100vw;
   height: 60px;
-  background: var(--ion-background-color, #fff);
-  border-top: 1px solid var(--ion-border-color, #e0e0e0);
+  background: var(--ion-background-color);
+  border-top: 1px solid var(--ion-border-color);
   display: flex;
   justify-content: space-around;
   align-items: center;
   z-index: 1100;
-  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 -2px 12px var(--ion-shadow-color);
 
   .nav-item {
     flex: 1;
@@ -145,31 +112,21 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: var(--ion-text-color, #000);
+    color: var(--ion-text-color);
     text-decoration: none;
     font-size: 13px;
     padding: 0.5rem 0;
-    transition: background 0.2s;
-    border-radius: 0;
-    background: none;
-    position: relative;
-    cursor: pointer;
 
     ion-icon {
       font-size: 26px;
       margin-bottom: 2px;
     }
+
     &.active {
-      color: var(--ion-color-primary, #5046e5);
+      color: var(--ion-color-primary);
+
       ion-icon {
-        color: var(--ion-color-primary, #5046e5);
-      }
-    }
-    &.burger {
-      font-weight: bold;
-      color: var(--ion-text-color, #fff);
-      ion-icon {
-        color: var(--ion-text-color, #fff);
+        color: var(--ion-color-primary);
       }
     }
   }
@@ -180,9 +137,9 @@
     bottom: 60px;
     transform: translateX(-50%);
     min-width: 180px;
-    background: var(--ion-background-color, #fff);
+    background: var(--ion-background-color);
     border-radius: 12px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.13);
+    box-shadow: 0 4px 24px var(--ion-shadow-color);
     padding: 0.5rem 0;
     display: flex;
     flex-direction: column;
@@ -190,25 +147,28 @@
     animation: fadeInBurger 0.18s;
     z-index: 1200;
   }
+
   .burger-menu-item {
     display: flex;
     align-items: center;
     gap: 0.7rem;
     padding: 0.7rem 1.2rem;
-    color: var(--ion-text-color, #222);
+    color: var(--ion-text-color);
     text-decoration: none;
     font-size: 15px;
     border-radius: 8px;
     transition: background 0.18s;
-    cursor: pointer;
+
     ion-icon {
       font-size: 20px;
     }
+
     &:hover {
-      background: var(--ion-color-light, #f4f5f8);
+      background: var(--ion-color-light);
     }
   }
 }
+
 @keyframes fadeInBurger {
   from {
     opacity: 0;
@@ -233,32 +193,5 @@
 @media (max-width: 767px) {
   .sidebar {
     display: none;
-  }
-
-  .bottom-nav {
-    display: flex;
-  }
-}
-
-@media (min-width: 520px) {
-  .login-action {
-    margin: 32px 0 16px 0;
-  }
-
-  .login-action ion-button {
-    max-width: 260px;
-    font-size: clamp(1.08rem, 2vw, 1.18rem);
-  }
-}
-
-@media (max-width: 520px) {
-  .login-action {
-    gap: 6px;
-  }
-
-  .login-action ion-button {
-    max-width: 100vw;
-    font-size: clamp(0.78rem, 2vw, 0.9rem);
-    padding: 0.18em 0.7em;
   }
 }

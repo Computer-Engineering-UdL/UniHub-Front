@@ -1,14 +1,3 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>{{ 'APP.TITLE' | translate }}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button routerLink="/profile">
-        <ion-icon slot="icon-only" name="person-circle-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
@@ -16,32 +5,80 @@
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <ion-card *ngIf="user">
-      <ion-card-header>
-        <ion-card-title>{{ 'HOME.WELCOME' | translate }}</ion-card-title>
-        <ion-card-subtitle>{{ user.name || user.email }}</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <p><strong>{{ 'HOME.EMAIL' | translate }}:</strong> {{ user.email }}</p>
-        <p *ngIf="user.provider">
-          <strong>{{ 'HOME.LOGIN_METHOD' | translate }}:</strong> {{ user.provider }}
-        </p>
-        <p *ngIf="user.phone">
-          <strong>{{ 'SIGNUP.PHONE' | translate }}:</strong> {{ user.phone }}
-        </p>
-        <p *ngIf="user.university">
-          <strong>{{ 'SIGNUP.UNIVERSITY' | translate }}:</strong> {{ user.university }}
-        </p>
-      </ion-card-content>
-    </ion-card>
+  <div class="home-container">
+    <div class="welcome-section" *ngIf="user">
+      <h1>{{ 'HOME.WELCOME' | translate }}, {{ user.name || user.firstName || 'Student' }}!</h1>
+      <p class="subtitle">Find your perfect student accommodation</p>
+    </div>
 
-    <strong>{{ 'HOME.READY' | translate }}</strong>
-    <p>
-      {{ 'HOME.START' | translate }}
-      <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components"
-        >{{ 'APP.TITLE' | translate }}</a
-      >
-    </p>
+    <div class="search-bar">
+      <ion-searchbar placeholder="Search by location, university..."></ion-searchbar>
+      <ion-button fill="clear" class="filter-btn">
+        <ion-icon slot="icon-only" name="options-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+    <div class="rooms-section">
+      <div class="section-header">
+        <h2>Available Rooms</h2>
+        <ion-chip color="primary">{{ rooms.length }} rooms</ion-chip>
+      </div>
+
+      <div class="rooms-grid">
+        <ion-card
+          *ngFor="let room of rooms"
+          class="room-card"
+          [class.unavailable]="!room.available">
+          <div class="room-image-container">
+            <img [src]="room.image" [alt]="room.title" />
+            <ion-badge *ngIf="!room.available" class="unavailable-badge" color="danger">
+              Not Available
+            </ion-badge>
+            <ion-badge *ngIf="room.available" class="available-badge" color="success">
+              Available
+            </ion-badge>
+          </div>
+
+          <ion-card-content>
+            <div class="room-header">
+              <h3>{{ room.title }}</h3>
+              <div class="price">
+                <span class="amount">€{{ room.price }}</span>
+                <span class="period">/month</span>
+              </div>
+            </div>
+
+            <div class="location">
+              <ion-icon name="location-outline"></ion-icon>
+              <span>{{ room.location }}</span>
+            </div>
+
+            <div class="room-features">
+              <div class="feature">
+                <ion-icon name="bed-outline"></ion-icon>
+                <span>{{ room.bedrooms }} bed{{ room.bedrooms > 1 ? 's' : '' }}</span>
+              </div>
+              <div class="feature">
+                <ion-icon name="water-outline"></ion-icon>
+                <span>{{ room.bathrooms }} bath{{ room.bathrooms > 1 ? 's' : '' }}</span>
+              </div>
+            </div>
+
+            <div class="room-rating">
+              <ion-icon
+                *ngFor="let star of getRatingStars(room.rating)"
+                [name]="star"
+                [class.filled]="star === 'star'"></ion-icon>
+              <span class="rating-value">{{ room.rating }}</span>
+            </div>
+
+            <ion-button expand="block" [disabled]="!room.available">
+              <ion-icon slot="start" name="eye-outline"></ion-icon>
+              View Details
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
   </div>
 </ion-content>
