@@ -1,5 +1,5 @@
-export type Role = 'Basic' | 'Admin';
-export const ALL_ROLES: Role[] = ['Basic', 'Admin'];
+export type Role = 'Basic' | 'Seller' | 'Admin';
+export const ALL_ROLES: Role[] = ['Basic', 'Seller', 'Admin'];
 
 export interface User {
   id: string;

@@ -81,9 +81,9 @@ describe('AuthGuard', () => {
     authServiceMock._user = {
       id: '1',
       email: 'a@b.com',
-      role: 'Administrator' as Role
+      role: 'Admin' as Role
     };
-    const route = createRoute({ roles: ['Seller', 'Administrator'] });
+    const route = createRoute({ roles: ['Seller', 'Admin'] });
     const result = guard.canActivate(route, {} as RouterStateSnapshot);
     expect(result).toBeTrue();
     expect(routerMock.parseUrl).not.toHaveBeenCalled();
@@ -96,7 +96,7 @@ describe('AuthGuard', () => {
       email: 'a@b.com',
       role: 'Basic' as Role
     };
-    const route = createRoute({ roles: ['Administrator'] });
+    const route = createRoute({ roles: ['Admin'] });
     const result = guard.canActivate(route, {} as RouterStateSnapshot) as UrlTree | boolean;
     expect(routerMock.parseUrl).toHaveBeenCalledWith('/unauthorized');
     expect((result as any).url).toBe('/unauthorized');

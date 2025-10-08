@@ -20,7 +20,8 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
+    data: { public: true }
   },
   {
     path: 'profile',
@@ -38,6 +39,17 @@ const routes: Routes = [
     pathMatch: 'full'
   }
 ];
+
+// DEAR PROGRAMMER:
+// To add a new route, consider if the route should be public and its roles. Here there is an example:
+/*
+{
+  path: 'seller-example',
+    loadChildren: () => import('./seller/seller.module').then((m) => m.SellerPageModule),
+  canActivate: [AuthGuard],
+  data: { roles: ['Seller', "Admin"] }
+},
+ */
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
