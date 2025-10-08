@@ -25,7 +25,10 @@
       </div>
 
       <div class="rooms-grid">
-        <ion-card *ngFor="let room of rooms" class="room-card" [class.unavailable]="!room.available">
+        <ion-card
+          *ngFor="let room of rooms"
+          class="room-card"
+          [class.unavailable]="!room.available">
           <div class="room-image-container">
             <img [src]="room.image" [alt]="room.title" />
             <ion-badge *ngIf="!room.available" class="unavailable-badge" color="danger">
@@ -65,8 +68,7 @@
               <ion-icon
                 *ngFor="let star of getRatingStars(room.rating)"
                 [name]="star"
-                [class.filled]="star === 'star'"
-              ></ion-icon>
+                [class.filled]="star === 'star'"></ion-icon>
               <span class="rating-value">{{ room.rating }}</span>
             </div>
 
