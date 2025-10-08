@@ -6,6 +6,9 @@
 
 ion-card {
   margin-bottom: 16px;
+  background: var(--ion-card-background);
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--card-border-color);
 }
 
 ion-list {
@@ -14,8 +17,25 @@ ion-list {
 
 ion-item {
   --background: transparent;
+  --border-color: var(--ion-border-color);
+  --color: var(--ion-text-color);
+}
+
+ion-item h3 {
+  color: var(--ion-text-color);
+  font-weight: 600;
+}
+
+ion-item p {
+  color: var(--ion-text-color-secondary);
 }
 
 .logout-button {
   margin-top: 24px;
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 12px;
+  }
 }

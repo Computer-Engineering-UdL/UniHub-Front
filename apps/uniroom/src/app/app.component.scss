@@ -1,24 +1,26 @@
 ion-app {
-  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .main-content {
-  flex: 1;
+  position: relative;
   width: 100%;
-  height: 100vh;
-  overflow-y: auto;
+  min-height: 100vh;
 }
 
-// Desktop view - add left margin for sidebar
 @media (min-width: 768px) {
   .main-content {
     margin-left: 256px;
+    width: calc(100vw - 256px);
   }
 }
 
-// Mobile view - add bottom padding for bottom nav
 @media (max-width: 767px) {
   .main-content {
-    padding-bottom: 65px;
+    padding-bottom: 60px;
+    margin-left: 0;
+    width: 100vw;
   }
 }

@@ -1,37 +1,30 @@
 .unauthorized-wrapper {
-  --bg-light: linear-gradient(
-    135deg,
-    var(--ion-color-light, #f7f9fc) 0%,
-    var(--ion-background-color) 100%
-  );
-  --bg-dark: linear-gradient(135deg, #151618 0%, var(--ion-background-color) 100%);
-  background: var(--bg-dark);
+  background: linear-gradient(135deg, var(--page-gradient-start) 0%, var(--page-gradient-end) 100%);
+  width: 100%;
+  height: 100%;
 }
 
 .unauthorized-wrapper::part(scroll) {
-  display: grid;
-  place-items: center;
-  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
   padding: 4vh 16px;
 }
 
-@media (prefers-color-scheme: light) {
-  .unauthorized-wrapper {
-    --background: var(--bg-light);
-    background: var(--bg-light);
-  }
-}
-
 .center-box {
-  background: var(--ion-item-background, #1f2023);
-  border: 1px solid color-mix(in oklab, var(--ion-color-primary) 10%, transparent);
+  background: var(--ion-card-background);
+  border: 1px solid var(--card-border-color);
   border-radius: 22px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--card-shadow);
   padding: clamp(1.25rem, 3vw, 2.25rem);
   max-width: min(640px, 92vw);
   width: 100%;
   text-align: center;
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: clamp(0.9rem, 2.5vw, 1.6rem);
 }
 
@@ -45,12 +38,12 @@
 h1 {
   font-size: clamp(1.35rem, 2.8vw, 2rem);
   font-weight: 800;
-  color: var(--ion-color-danger, #ff4757);
+  color: var(--ion-color-danger);
   margin: 0;
 }
 
 .message {
-  color: var(--ion-text-color, #e8e8e8);
+  color: var(--ion-text-color-secondary);
   font-size: clamp(0.98rem, 1.6vw, 1.12rem);
   line-height: 1.6;
   margin: 0;
@@ -58,46 +51,35 @@ h1 {
 
 .actions {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   width: 100%;
-  margin-top: 12px;
-}
+  margin-top: 4px;
 
-@media (min-width: 520px) {
-  .actions {
-    flex-direction: row;
-    justify-content: center;
-    gap: 20px;
+  ion-button {
+    max-width: 280px;
+    width: 100%;
+    --border-radius: 12px;
+    --padding-start: clamp(14px, 3vw, 20px);
+    --padding-end: clamp(14px, 3vw, 20px);
+    font-size: clamp(0.98rem, 2.4vw, 1.08rem);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  ion-button[fill='outline'] {
+    --border-color: var(--ion-color-primary);
+    --color: var(--ion-color-primary);
+  }
+
+  ion-button:focus-visible {
+    outline: 3px solid color-mix(in oklab, var(--ion-color-primary) 45%, transparent);
+    outline-offset: 2px;
   }
 }
 
-.actions ion-button {
-  width: 100%;
-  max-width: 220px;
-  --border-radius: 12px;
-  --padding-start: clamp(14px, 3vw, 20px);
-  --padding-end: clamp(14px, 3vw, 20px);
-  font-size: clamp(0.98rem, 2.4vw, 1.08rem);
-  font-weight: 700;
-  letter-spacing: 0.01em;
-}
-
-.actions ion-button[fill='outline'] {
-  --border-color: var(--ion-color-primary);
-  --color: var(--ion-color-primary);
-}
-
-.actions ion-button:focus-visible {
-  outline: 3px solid color-mix(in oklab, var(--ion-color-primary) 45%, transparent);
-  outline-offset: 2px;
-  filter: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
+@media (max-width: 520px) {
+  .actions ion-button {
+    max-width: 100%;
   }
 }

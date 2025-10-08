@@ -30,8 +30,8 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.userSub?.unsubscribe();
   }
 
-  toggleTheme(): void {
-    this.themeService.toggleTheme();
+  async toggleTheme(): Promise<void> {
+    await this.themeService.toggleTheme();
     this.currentTheme = this.themeService.getTheme();
   }
 
