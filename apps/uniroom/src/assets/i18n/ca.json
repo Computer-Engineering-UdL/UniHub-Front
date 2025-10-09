@@ -55,14 +55,40 @@
     "TITLE": "Perfil",
     "USER_INFO": "Informació de l'Usuari",
     "NAME": "Nom",
-    "APPEARANCE": "Aparença",
-    "THEME": {
-      "TITLE": "Tema",
-      "CHANGE": "Canviar",
-      "LIGHT": "Clar",
-      "DARK": "Fosc",
-      "SYSTEM": "Predeterminat del Sistema"
-    }
+    "USERNAME": "Nom d'usuari",
+    "EDIT_PROFILE": "Editar Perfil",
+    "NO_POSTS": "Encara no tens publicacions",
+    "NO_LISTINGS": "Encara no tens anuncis",
+    "STATS": {
+      "POSTS": "Publicacions",
+      "LISTINGS": "Anuncis",
+      "HELPFUL": "Útil",
+      "CHANNELS": "Canals"
+    },
+    "TABS": {
+      "OVERVIEW": "Resum",
+      "MY_POSTS": "Les meves publicacions",
+      "MY_LISTINGS": "Els meus anuncis"
+    },
+    "INTERESTS": {
+      "TITLE": "Interessos"
+    },
+    "RECENT_ACTIVITY": {
+      "TITLE": "Activitat Recent",
+      "POSTED_IN": "Publicat a canal",
+      "UPDATED_LISTING": "Anunci actualitzat",
+      "EMAIL_VERIFIED": "Correu verificat",
+      "DAYS_AGO": "fa {{count}} dies",
+      "WEEK_AGO": "fa 1 setmana"
+    },
+    "ROLE": {
+      "BASIC": "Usuari",
+      "SELLER": "Venedor",
+      "ADMIN": "Administrador"
+    },
+    "VERIFIED": "Verificat",
+    "JOINED": "Registrat",
+    "YEAR": "{{year}}º Any"
   },
   "COMMON": {
     "LOADING": "Carregant...",

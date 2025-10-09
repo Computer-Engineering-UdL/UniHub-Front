@@ -3,6 +3,7 @@ export const ALL_ROLES: Role[] = ['Basic', 'Seller', 'Admin'];
 
 export interface User {
   id: string;
+  username: string;
   email: string;
   name?: string;
   firstName?: string;
@@ -11,6 +12,10 @@ export interface User {
   university?: string;
   provider?: 'local' | 'github' | 'google';
   role: Role;
+  imgUrl?: string;
+  joinedDate?: string;
+  yearOfStudy?: number;
+  isVerified?: boolean;
 }
 
 export interface AuthResponse {

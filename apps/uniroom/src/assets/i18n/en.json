@@ -55,14 +55,40 @@
     "TITLE": "Profile",
     "USER_INFO": "User Information",
     "NAME": "Name",
-    "APPEARANCE": "Appearance",
-    "THEME": {
-      "TITLE": "Theme",
-      "CHANGE": "Change",
-      "LIGHT": "Light",
-      "DARK": "Dark",
-      "SYSTEM": "System Default"
-    }
+    "USERNAME": "Username",
+    "EDIT_PROFILE": "Edit Profile",
+    "NO_POSTS": "You don't have any posts yet",
+    "NO_LISTINGS": "You don't have any listings yet",
+    "STATS": {
+      "POSTS": "Posts",
+      "LISTINGS": "Listings",
+      "HELPFUL": "Helpful",
+      "CHANNELS": "Channels"
+    },
+    "TABS": {
+      "OVERVIEW": "Overview",
+      "MY_POSTS": "My Posts",
+      "MY_LISTINGS": "My Listings"
+    },
+    "INTERESTS": {
+      "TITLE": "Interests"
+    },
+    "RECENT_ACTIVITY": {
+      "TITLE": "Recent Activity",
+      "POSTED_IN": "Posted in channel",
+      "UPDATED_LISTING": "Updated housing listing",
+      "EMAIL_VERIFIED": "Email verified",
+      "DAYS_AGO": "{{count}} days ago",
+      "WEEK_AGO": "1 week ago"
+    },
+    "ROLE": {
+      "BASIC": "User",
+      "SELLER": "Seller",
+      "ADMIN": "Administrator"
+    },
+    "VERIFIED": "Verified",
+    "JOINED": "Joined",
+    "YEAR": "{{year}}rd Year"
   },
   "COMMON": {
     "LOADING": "Loading...",

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -8,6 +8,6 @@ import { ProfilePage } from './profile/profile.page';
 
 @NgModule({
   declarations: [ProfilePage],
-  imports: [CommonModule, IonicModule, TranslateModule, ProfileRoutingModule]
+  imports: [CommonModule, IonicModule, TranslateModule, ProfileRoutingModule, NgOptimizedImage]
 })
 export class ProfileModule {}
