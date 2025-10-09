@@ -4,89 +4,192 @@
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ 'PROFILE.TITLE' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleTheme()" fill="clear">
+        <ion-icon [name]="getThemeIcon()" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" id="language-trigger">
+        <span class="language-code">{{ currentLanguage.toUpperCase() }}</span>
+      </ion-button>
+      <ion-popover trigger="language-trigger" [dismissOnSelect]="true">
+        <ng-template>
+          <ion-content class="language-popover">
+            <ion-list>
+              <ion-item
+                [button]="true"
+                (click)="changeLanguage('ca')"
+                [class.selected]="currentLanguage === 'ca'">
+                <span class="language-flag">CA</span>
+                <ion-icon name="checkmark" slot="end" *ngIf="currentLanguage === 'ca'"></ion-icon>
+              </ion-item>
+              <ion-item
+                [button]="true"
+                (click)="changeLanguage('es')"
+                [class.selected]="currentLanguage === 'es'">
+                <span class="language-flag">ES</span>
+                <ion-icon name="checkmark" slot="end" *ngIf="currentLanguage === 'es'"></ion-icon>
+              </ion-item>
+              <ion-item
+                [button]="true"
+                (click)="changeLanguage('en')"
+                [class.selected]="currentLanguage === 'en'">
+                <span class="language-flag">EN</span>
+                <ion-icon name="checkmark" slot="end" *ngIf="currentLanguage === 'en'"></ion-icon>
+              </ion-item>
+            </ion-list>
+          </ion-content>
+        </ng-template>
+      </ion-popover>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">{{ 'PROFILE.TITLE' | translate }}</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="page-container">
+  <div class="profile-wrapper" *ngIf="user">
+    <div class="profile-header">
+      <div class="profile-avatar">
+        <img ngSrc="{{user.imgUrl}}" height="385" width="390" [alt]="getUserDisplayName()" />
+      </div>
 
-  <div class="profile-container">
-    <ion-card *ngIf="user">
-      <ion-card-header>
-        <ion-card-title>{{ 'PROFILE.USER_INFO' | translate }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-list>
-          <ion-item>
-            <ion-icon name="person-outline" slot="start"></ion-icon>
-            <ion-label>
-              <h3>{{ 'PROFILE.NAME' | translate }}</h3>
-              <p>{{ user.name || (user.firstName + ' ' + user.lastName) || 'N/A' }}</p>
-            </ion-label>
-          </ion-item>
+      <div class="profile-info">
+        <div class="profile-top-section">
+          <div class="profile-name-section">
+            <h1>{{ getUserDisplayName() }}</h1>
+            <ion-badge *ngIf="user.isVerified" color="success" class="verified-badge">
+              <ion-icon name="checkmark-circle"></ion-icon>
+              {{ 'PROFILE.VERIFIED' | translate }}
+            </ion-badge>
+          </div>
 
-          <ion-item>
-            <ion-icon name="mail-outline" slot="start"></ion-icon>
-            <ion-label>
-              <h3>{{ 'HOME.EMAIL' | translate }}</h3>
-              <p>{{ user.email }}</p>
-            </ion-label>
-          </ion-item>
+          <ion-button color="danger" class="logout-button-header" (click)="logout()" fill="outline">
+            <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
 
-          <ion-item *ngIf="user.phone">
-            <ion-icon name="call-outline" slot="start"></ion-icon>
-            <ion-label>
-              <h3>{{ 'SIGNUP.PHONE' | translate }}</h3>
-              <p>{{ user.phone }}</p>
-            </ion-label>
-          </ion-item>
+        <p class="profile-email">{{ user.email }}</p>
 
-          <ion-item *ngIf="user.university">
-            <ion-icon name="school-outline" slot="start"></ion-icon>
-            <ion-label>
-              <h3>{{ 'SIGNUP.UNIVERSITY' | translate }}</h3>
-              <p>{{ user.university }}</p>
-            </ion-label>
-          </ion-item>
+        <div class="profile-meta">
+          <span class="meta-item">
+            <ion-icon name="person-outline"></ion-icon>
+            <span>{{ user.username }}</span>
+          </span>
+          <span class="meta-item" *ngIf="user.university">
+            <ion-icon name="school-outline"></ion-icon>
+            <span
+              >{{ user.university }} • {{ 'PROFILE.YEAR' | translate: {year: user.yearOfStudy}
+              }}</span
+            >
+          </span>
+          <span class="meta-item">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>{{ 'PROFILE.JOINED' | translate }} {{ user.joinedDate }}</span>
+          </span>
+        </div>
 
-          <ion-item *ngIf="user.provider">
-            <ion-icon name="log-in-outline" slot="start"></ion-icon>
-            <ion-label>
-              <h3>{{ 'HOME.LOGIN_METHOD' | translate }}</h3>
-              <p>{{ user.provider }}</p>
-            </ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
+        <div class="profile-role">
+          <ion-badge [color]="getRoleBadgeColor(user.role)">
+            {{ getRoleTranslationKey(user.role) | translate }}
+          </ion-badge>
+        </div>
 
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>{{ 'PROFILE.APPEARANCE' | translate }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-list>
-          <ion-item>
-            <ion-icon [name]="getThemeIcon()" slot="start"></ion-icon>
-            <ion-label>
-              <h3>{{ 'PROFILE.THEME.TITLE' | translate }}</h3>
-              <p>{{ getThemeLabel() | translate }}</p>
-            </ion-label>
-            <ion-button (click)="toggleTheme()" slot="end" fill="outline">
-              {{ 'PROFILE.THEME.CHANGE' | translate }}
-            </ion-button>
-          </ion-item>
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
+        <ion-button expand="block" color="primary" class="edit-profile-btn">
+          <ion-icon name="create-outline" slot="start"></ion-icon>
+          {{ 'PROFILE.EDIT_PROFILE' | translate }}
+        </ion-button>
+      </div>
+    </div>
 
-    <ion-button expand="block" color="danger" class="logout-button" (click)="logout()">
-      <ion-icon name="log-out-outline" slot="start"></ion-icon>
-      {{ 'HOME.LOGOUT' | translate }}
-    </ion-button>
+    <!-- STATS -->
+    <div class="profile-stats">
+      <div class="stat-item">
+        <div class="stat-value">{{ stats.posts }}</div>
+        <div class="stat-label">{{ 'PROFILE.STATS.POSTS' | translate }}</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">{{ stats.listings }}</div>
+        <div class="stat-label">{{ 'PROFILE.STATS.LISTINGS' | translate }}</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">{{ stats.helpful }}</div>
+        <div class="stat-label">{{ 'PROFILE.STATS.HELPFUL' | translate }}</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">{{ stats.channels }}</div>
+        <div class="stat-label">{{ 'PROFILE.STATS.CHANNELS' | translate }}</div>
+      </div>
+    </div>
+
+    <!-- NAVIGATION TABS -->
+    <div class="profile-tabs">
+      <button
+        class="tab-button"
+        [class.active]="selectedTab === 'overview'"
+        (click)="selectTab('overview')">
+        {{ 'PROFILE.TABS.OVERVIEW' | translate }}
+      </button>
+      <button
+        class="tab-button"
+        [class.active]="selectedTab === 'posts'"
+        (click)="selectTab('posts')">
+        {{ 'PROFILE.TABS.MY_POSTS' | translate }}
+      </button>
+      <button
+        class="tab-button"
+        [class.active]="selectedTab === 'listings'"
+        (click)="selectTab('listings')">
+        {{ 'PROFILE.TABS.MY_LISTINGS' | translate }}
+      </button>
+    </div>
+
+    <!-- TABS CONTENT -->
+    <div class="profile-content">
+      <!-- TAB OVERVIEW -->
+      <div *ngIf="selectedTab === 'overview'" class="tab-content">
+        <div class="content-grid">
+          <!-- INTERESTS -->
+          <div class="content-card">
+            <h2 class="card-title">{{ 'PROFILE.INTERESTS.TITLE' | translate }}</h2>
+            <div class="interests-container">
+              <ion-chip *ngFor="let interest of interests" color="primary" outline="true">
+                {{ interest.translationKey }}
+              </ion-chip>
+            </div>
+          </div>
+
+          <!-- RECENT ACTIVITY -->
+          <div class="content-card">
+            <h2 class="card-title">{{ 'PROFILE.RECENT_ACTIVITY.TITLE' | translate }}</h2>
+            <div class="activity-list">
+              <div class="activity-item" *ngFor="let activity of recentActivity">
+                <ion-icon [name]="getActivityIcon(activity.type)" class="activity-icon"></ion-icon>
+                <div class="activity-content">
+                  <p class="activity-text">{{ activity.translationKey | translate }}</p>
+                  <span class="activity-time"
+                    >{{ getActivityTime(activity.daysAgo) | translate: {count: activity.daysAgo}
+                    }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MY POSTS -->
+      <div *ngIf="selectedTab === 'posts'" class="tab-content">
+        <div class="empty-state">
+          <ion-icon name="chatbox-ellipses-outline" class="empty-icon"></ion-icon>
+          <p>{{ 'PROFILE.NO_POSTS' | translate }}</p>
+        </div>
+      </div>
+
+      <!-- MY LISTINGS -->
+      <div *ngIf="selectedTab === 'listings'" class="tab-content">
+        <div class="empty-state">
+          <ion-icon name="home-outline" class="empty-icon"></ion-icon>
+          <p>{{ 'PROFILE.NO_LISTINGS' | translate }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </ion-content>

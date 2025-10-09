@@ -55,14 +55,40 @@
     "TITLE": "Perfil",
     "USER_INFO": "Información del Usuario",
     "NAME": "Nombre",
-    "APPEARANCE": "Apariencia",
-    "THEME": {
-      "TITLE": "Tema",
-      "CHANGE": "Cambiar",
-      "LIGHT": "Claro",
-      "DARK": "Oscuro",
-      "SYSTEM": "Predeterminado del Sistema"
-    }
+    "USERNAME": "Nombre de usuario",
+    "EDIT_PROFILE": "Editar Perfil",
+    "NO_POSTS": "Aún no tienes publicaciones",
+    "NO_LISTINGS": "Aún no tienes anuncios",
+    "STATS": {
+      "POSTS": "Publicaciones",
+      "LISTINGS": "Anuncios",
+      "HELPFUL": "Útil",
+      "CHANNELS": "Canales"
+    },
+    "TABS": {
+      "OVERVIEW": "Resumen",
+      "MY_POSTS": "Mis publicaciones",
+      "MY_LISTINGS": "Mis anuncios"
+    },
+    "INTERESTS": {
+      "TITLE": "Intereses"
+    },
+    "RECENT_ACTIVITY": {
+      "TITLE": "Actividad Reciente",
+      "POSTED_IN": "Publicado en canal",
+      "UPDATED_LISTING": "Anuncio actualizado",
+      "EMAIL_VERIFIED": "Correo verificado",
+      "DAYS_AGO": "hace {{count}} días",
+      "WEEK_AGO": "hace 1 semana"
+    },
+    "ROLE": {
+      "BASIC": "Usuario",
+      "SELLER": "Vendedor",
+      "ADMIN": "Administrador"
+    },
+    "VERIFIED": "Verificado",
+    "JOINED": "Registrado",
+    "YEAR": "{{year}}º Año"
   },
   "COMMON": {
     "LOADING": "Cargando...",
