@@ -154,7 +154,7 @@ export class ProfilePage implements OnInit, OnDestroy {
       return;
     }
 
-    this.user.imgUrl = this.user?.imgUrl || '../../assets/img/default-profile.png';
+    this.user.imgUrl = this.user?.imgUrl || 'assets/img/default-profile.png';
   }
 
   private setBasicInfo(): void {
