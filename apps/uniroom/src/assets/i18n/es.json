@@ -114,5 +114,13 @@
     "UNIITEMS": "Objetos",
     "UNIROOM": "Habitaciones",
     "UNISERVICES": "Servicios"
+  },
+  "ROOM": {
+    "ANNOUNCEMENTS": "Anuncios de habitaciones",
+    "ANNOUNCEMENTS_COUNT": "habitaciones",
+    "NOT_AVAILABLE": "No disponible",
+    "AVAILABLE": "Disponible",
+    "TARGET_ROOMS": "Habitaciones objetivo",
+    "VIEW_DETAILS": "Ver detalles"
   }
 }
