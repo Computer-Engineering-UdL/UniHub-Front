@@ -45,6 +45,7 @@
   },
   "HOME": {
     "WELCOME": "¡Bienvenido de nuevo!",
+    "STUDENT": "Estudiante",
     "EMAIL": "Correo electrónico",
     "LOGIN_METHOD": "Método de inicio de sesión",
     "READY": "¿Listo para encontrar tu alojamiento perfecto?",

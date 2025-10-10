@@ -6,61 +6,25 @@
   </ion-header>
 
   <div class="home-container">
-    <div class="rooms-section">
-      <div class="section-header">
-        <h2>{{ 'ROOM.ANNOUNCEMENTS' | translate }}</h2>
-        <ion-chip color="primary"
-          >{{ roomAnnouncements.length }} {{ 'ROOM.ANNOUNCEMENTS_COUNT' | translate }}</ion-chip
-        >
-      </div>
+    <div class="welcome-section" *ngIf="user">
+      <h1>
+        {{ 'HOME.WELCOME' | translate }}, {{ user.name || user.firstName || ('HOME.STUDENT' |
+        translate) }}!
+      </h1>
+      <p class="subtitle">{{ 'HOME.READY' | translate }}</p>
+      <ion-button expand="block" (click)="navigateToRooms()" class="explore-btn">
+        <ion-icon slot="start" name="business-outline"></ion-icon>
+        {{ 'HOME.START' | translate }} {{ 'APP.TITLE' | translate }}
+      </ion-button>
+    </div>
 
-      <div class="rooms-grid">
-        <ion-card
-          *ngFor="let room of roomAnnouncements"
-          class="room-card"
-          [class.unavailable]="!room.is_active">
-          <div class="room-image-container">
-            <img ngSrc="{{room.image}}" [alt]="room.title" fill />
-            <ion-badge *ngIf="!room.is_active" class="unavailable-badge" color="danger">
-              {{ 'ROOM.NOT_AVAILABLE' | translate }}
-            </ion-badge>
-            <ion-badge *ngIf="room.is_active" class="available-badge" color="success">
-              {{ 'ROOM.AVAILABLE' | translate }}
-            </ion-badge>
-          </div>
-
-          <ion-card-content>
-            <div class="room-header">
-              <h3>{{ room.title }}</h3>
-              <ion-badge
-                [color]="room.priority === 'high' ? 'danger' : (room.priority === 'medium' ? 'warning' : 'primary')">
-                {{ room.priority | titlecase }}
-              </ion-badge>
-            </div>
-            <div class="room-content">
-              <p>{{ room.content }}</p>
-            </div>
-            <div class="room-meta">
-              <div class="meta-item">
-                <ion-icon name="calendar-outline"></ion-icon>
-                <span>{{ room.created_at | date:'mediumDate' }}</span>
-              </div>
-              <div class="meta-item">
-                <ion-icon name="timer-outline"></ion-icon>
-                <span>{{ room.expires_at | date:'mediumDate' }}</span>
-              </div>
-            </div>
-            <div class="room-targets" *ngIf="room.target_rooms && room.target_rooms.length">
-              <ion-label>{{ 'ROOM.TARGET_ROOMS' | translate }}:</ion-label>
-              <ion-chip *ngFor="let r of room.target_rooms" color="secondary">{{ r }}</ion-chip>
-            </div>
-            <ion-button expand="block" [disabled]="!room.is_active">
-              <ion-icon slot="start" name="eye-outline"></ion-icon>
-              {{ 'ROOM.VIEW_DETAILS' | translate }}
-            </ion-button>
-          </ion-card-content>
-        </ion-card>
-      </div>
+    <div class="welcome-section" *ngIf="!user">
+      <h1>{{ 'HOME.WELCOME' | translate }}</h1>
+      <p class="subtitle">{{ 'HOME.READY' | translate }}</p>
+      <ion-button expand="block" (click)="navigateToRooms()" class="explore-btn">
+        <ion-icon slot="start" name="business-outline"></ion-icon>
+        {{ 'HOME.START' | translate }} {{ 'APP.TITLE' | translate }}
+      </ion-button>
     </div>
   </div>
 </ion-content>
