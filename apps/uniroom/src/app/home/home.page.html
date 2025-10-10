@@ -7,78 +7,24 @@
 
   <div class="home-container">
     <div class="welcome-section" *ngIf="user">
-      <h1>{{ 'HOME.WELCOME' | translate }}, {{ user.name || user.firstName || 'Student' }}!</h1>
-      <p class="subtitle">Find your perfect student accommodation</p>
-    </div>
-
-    <div class="search-bar">
-      <ion-searchbar placeholder="Search by location, university..."></ion-searchbar>
-      <ion-button fill="clear" class="filter-btn">
-        <ion-icon slot="icon-only" name="options-outline"></ion-icon>
+      <h1>
+        {{ 'HOME.WELCOME' | translate }}, {{ user.name || user.firstName || ('HOME.STUDENT' |
+        translate) }}!
+      </h1>
+      <p class="subtitle">{{ 'HOME.READY' | translate }}</p>
+      <ion-button expand="block" (click)="navigateToRooms()" class="explore-btn">
+        <ion-icon slot="start" name="business-outline"></ion-icon>
+        {{ 'HOME.START' | translate }} {{ 'APP.TITLE' | translate }}
       </ion-button>
     </div>
 
-    <div class="rooms-section">
-      <div class="section-header">
-        <h2>Available Rooms</h2>
-        <ion-chip color="primary">{{ rooms.length }} rooms</ion-chip>
-      </div>
-
-      <div class="rooms-grid">
-        <ion-card
-          *ngFor="let room of rooms"
-          class="room-card"
-          [class.unavailable]="!room.available">
-          <div class="room-image-container">
-            <img [src]="room.image" [alt]="room.title" />
-            <ion-badge *ngIf="!room.available" class="unavailable-badge" color="danger">
-              Not Available
-            </ion-badge>
-            <ion-badge *ngIf="room.available" class="available-badge" color="success">
-              Available
-            </ion-badge>
-          </div>
-
-          <ion-card-content>
-            <div class="room-header">
-              <h3>{{ room.title }}</h3>
-              <div class="price">
-                <span class="amount">€{{ room.price }}</span>
-                <span class="period">/month</span>
-              </div>
-            </div>
-
-            <div class="location">
-              <ion-icon name="location-outline"></ion-icon>
-              <span>{{ room.location }}</span>
-            </div>
-
-            <div class="room-features">
-              <div class="feature">
-                <ion-icon name="bed-outline"></ion-icon>
-                <span>{{ room.bedrooms }} bed{{ room.bedrooms > 1 ? 's' : '' }}</span>
-              </div>
-              <div class="feature">
-                <ion-icon name="water-outline"></ion-icon>
-                <span>{{ room.bathrooms }} bath{{ room.bathrooms > 1 ? 's' : '' }}</span>
-              </div>
-            </div>
-
-            <div class="room-rating">
-              <ion-icon
-                *ngFor="let star of getRatingStars(room.rating)"
-                [name]="star"
-                [class.filled]="star === 'star'"></ion-icon>
-              <span class="rating-value">{{ room.rating }}</span>
-            </div>
-
-            <ion-button expand="block" [disabled]="!room.available">
-              <ion-icon slot="start" name="eye-outline"></ion-icon>
-              View Details
-            </ion-button>
-          </ion-card-content>
-        </ion-card>
-      </div>
+    <div class="welcome-section" *ngIf="!user">
+      <h1>{{ 'HOME.WELCOME' | translate }}</h1>
+      <p class="subtitle">{{ 'HOME.READY' | translate }}</p>
+      <ion-button expand="block" (click)="navigateToRooms()" class="explore-btn">
+        <ion-icon slot="start" name="business-outline"></ion-icon>
+        {{ 'HOME.START' | translate }} {{ 'APP.TITLE' | translate }}
+      </ion-button>
     </div>
   </div>
 </ion-content>

@@ -24,6 +24,11 @@ const routes: Routes = [
     data: { public: true }
   },
   {
+    path: 'rooms',
+    loadChildren: () => import('./rooms/rooms.module').then((m) => m.RoomsModule),
+    data: { public: true }
+  },
+  {
     path: 'profile',
     loadChildren: () => import('./profile/profile-module').then((m) => m.ProfileModule),
     canActivate: [AuthGuard]

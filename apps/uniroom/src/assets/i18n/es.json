@@ -45,6 +45,7 @@
   },
   "HOME": {
     "WELCOME": "¡Bienvenido de nuevo!",
+    "STUDENT": "Estudiante",
     "EMAIL": "Correo electrónico",
     "LOGIN_METHOD": "Método de inicio de sesión",
     "READY": "¿Listo para encontrar tu alojamiento perfecto?",
@@ -114,5 +115,13 @@
     "UNIITEMS": "Objetos",
     "UNIROOM": "Habitaciones",
     "UNISERVICES": "Servicios"
+  },
+  "ROOM": {
+    "ANNOUNCEMENTS": "Anuncios de habitaciones",
+    "ANNOUNCEMENTS_COUNT": "habitaciones",
+    "NOT_AVAILABLE": "No disponible",
+    "AVAILABLE": "Disponible",
+    "TARGET_ROOMS": "Habitaciones objetivo",
+    "VIEW_DETAILS": "Ver detalles"
   }
 }

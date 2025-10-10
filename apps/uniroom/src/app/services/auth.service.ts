@@ -1,20 +1,18 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
-import { environment } from '../../environments/environment';
-import { User, AuthResponse, SignupData, LoginCredentials } from '../models/auth.types';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
+import { AuthResponse, LoginCredentials, SignupData, User } from '../models/auth.types';
 import { TranslateService } from '@ngx-translate/core';
+import { ApiService } from '../shared/api.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly AUTH_TOKEN_KEY = 'auth_token';
   private readonly USER_KEY = 'user_data';
-  private readonly API_URL: string = environment.apiUrl;
 
   private currentUserSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(this.getStoredUser());
   public currentUser$: Observable<User | null> = this.currentUserSubject.asObservable();
 
-  private http: HttpClient = inject(HttpClient);
+  private apiService = inject(ApiService);
   private translate: TranslateService = inject(TranslateService);
 
   private getStoredUser(): User | null {
@@ -48,7 +46,7 @@ export class AuthService {
 
     try {
       const response: AuthResponse = await firstValueFrom(
-        this.http.post<AuthResponse>(`${this.API_URL}/auth/login`, {
+        this.apiService.post<AuthResponse>(`auth/login`, {
           email,
           password
         })
@@ -61,9 +59,7 @@ export class AuthService {
 
   async signup(data: SignupData): Promise<void> {
     try {
-      const response: AuthResponse = await firstValueFrom(
-        this.http.post<AuthResponse>(`${this.API_URL}/auth/signup`, data)
-      );
+      const response: AuthResponse = await firstValueFrom(this.apiService.post<AuthResponse>(`auth/signup`, data));
       this.storeAuth(response.token, response.user);
     } catch {
       throw new Error('Signup failed');
@@ -81,7 +77,11 @@ export class AuthService {
   private async loginWithOAuthProvider(provider: 'github' | 'google'): Promise<void> {
     return new Promise<void>((resolve, reject): void => {
       const windowFeatures = 'width=500,height=600';
-      const oauthWindow: Window | null = window.open(`${this.API_URL}/auth/${provider}`, '_blank', windowFeatures);
+      const oauthWindow: Window | null = window.open(
+        `${this.apiService.API_URL}/auth/${provider}`,
+        '_blank',
+        windowFeatures
+      );
       if (!oauthWindow) {
         reject(new Error('Failed to open OAuth window'));
         return;
@@ -97,7 +97,7 @@ export class AuthService {
           try {
             const { token } = event.data;
             const response: AuthResponse = await firstValueFrom(
-              this.http.post<AuthResponse>(`${this.API_URL}/auth/${provider}/callback`, { token })
+              this.apiService.post<AuthResponse>(`auth/${provider}/callback`, { token })
             );
             this.storeAuth(response.token, response.user);
             resolve();

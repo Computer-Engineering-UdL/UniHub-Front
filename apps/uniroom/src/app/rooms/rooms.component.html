@@ -1,0 +1,72 @@
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ 'APP.TITLE' | translate }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="rooms-container">
+    <div class="rooms-section">
+      <div class="section-header">
+        <h2>{{ 'ROOM.ANNOUNCEMENTS' | translate }}</h2>
+        <ion-chip color="primary"
+          >{{ roomAnnouncements.length }} {{ 'ROOM.ANNOUNCEMENTS_COUNT' | translate }}</ion-chip
+        >
+      </div>
+
+      <div class="rooms-grid">
+        <ion-card
+          *ngFor="let room of roomAnnouncements"
+          class="room-card"
+          [class.unavailable]="!room.is_active">
+          <div class="room-image-container">
+            <img [src]="room.image" [alt]="room.title" />
+            <ion-badge *ngIf="!room.is_active" class="unavailable-badge" color="danger">
+              {{ 'ROOM.NOT_AVAILABLE' | translate }}
+            </ion-badge>
+            <ion-badge *ngIf="room.is_active" class="available-badge" color="success">
+              {{ 'ROOM.AVAILABLE' | translate }}
+            </ion-badge>
+          </div>
+
+          <ion-card-content>
+            <div class="room-header">
+              <h3>{{ room.title }}</h3>
+              <ion-badge
+                [color]="
+                  room.priority === 'high'
+                    ? 'danger'
+                    : room.priority === 'medium'
+                      ? 'warning'
+                      : 'primary'
+                ">
+                {{ room.priority | titlecase }}
+              </ion-badge>
+            </div>
+            <div class="room-content">
+              <p>{{ room.content }}</p>
+            </div>
+            <div class="room-meta">
+              <div class="meta-item">
+                <ion-icon name="calendar-outline"></ion-icon>
+                <span>{{ room.created_at | date: 'mediumDate' }}</span>
+              </div>
+              <div class="meta-item">
+                <ion-icon name="timer-outline"></ion-icon>
+                <span>{{ room.expires_at | date: 'mediumDate' }}</span>
+              </div>
+            </div>
+            <div class="room-targets" *ngIf="room.target_rooms && room.target_rooms.length">
+              <ion-label>{{ 'ROOM.TARGET_ROOMS' | translate }}:</ion-label>
+              <ion-chip *ngFor="let r of room.target_rooms" color="secondary">{{ r }}</ion-chip>
+            </div>
+            <ion-button expand="block" [disabled]="!room.is_active">
+              <ion-icon slot="start" name="eye-outline"></ion-icon>
+              {{ 'ROOM.VIEW_DETAILS' | translate }}
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+  </div>
+</ion-content>
