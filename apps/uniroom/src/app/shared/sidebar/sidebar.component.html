@@ -1,5 +1,6 @@
 <nav class="sidebar">
   <div class="sidebar-content">
+    <img ngSrc="assets/icon/unihub.png" id="logo" alt="Logo" height="50" width="50" />
     <!-- AUTH BUTTONS -->
     <div class="login-action" *ngIf="!(currentUser$ | async)">
       <ion-button color="primary" [routerLink]="['/login']" expand="block">
