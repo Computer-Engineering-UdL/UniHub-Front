@@ -9,6 +9,6 @@ import { LoginPage } from './login.page';
 
 @NgModule({
   declarations: [LoginPage],
-    imports: [CommonModule, FormsModule, IonicModule, TranslateModule, LoginRoutingModule, NgOptimizedImage]
+  imports: [CommonModule, FormsModule, IonicModule, TranslateModule, LoginRoutingModule, NgOptimizedImage]
 })
 export class LoginModule {}
