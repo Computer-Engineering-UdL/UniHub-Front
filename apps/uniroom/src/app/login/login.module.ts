@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,6 +9,6 @@ import { LoginPage } from './login.page';
 
 @NgModule({
   declarations: [LoginPage],
-  imports: [CommonModule, FormsModule, IonicModule, TranslateModule, LoginRoutingModule]
+    imports: [CommonModule, FormsModule, IonicModule, TranslateModule, LoginRoutingModule, NgOptimizedImage]
 })
 export class LoginModule {}
