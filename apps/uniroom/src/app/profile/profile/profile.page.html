@@ -48,7 +48,12 @@
   <div class="profile-wrapper" *ngIf="user">
     <div class="profile-header">
       <div class="profile-avatar">
-        <img ngSrc="{{user.imgUrl}}" height="385" width="390" [alt]="getUserDisplayName()" />
+        <img
+          ngSrc="{{user.imgUrl}}"
+          priority
+          height="385"
+          width="390"
+          [alt]="getUserDisplayName()" />
       </div>
 
       <div class="profile-info">
