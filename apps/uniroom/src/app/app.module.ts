@@ -19,7 +19,9 @@ export function initLocales(loc: LocalizationService): () => Promise<void> {
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      navAnimation: undefined
+    }),
     TranslateModule.forRoot({
       loader: { provide: TranslateLoader, useClass: TranslateHttpLoader }
     }),

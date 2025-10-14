@@ -1,6 +1,5 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Location } from '@angular/common';
 import { Theme, ThemeService } from '../../services/theme.service';
 import { LangCode, LocalizationService } from '../../services/localization.service';
 import { filter, map, mergeMap } from 'rxjs/operators';
@@ -18,14 +17,12 @@ export class TopBarComponent implements OnInit, OnDestroy {
   currentTheme: Theme = 'system';
   currentLanguage: LangCode = 'en';
   currentLangIcon: string = '';
-  canGoBack: boolean = false;
   notificationCount: number = 0; // TODO: Replace with real notification count from service
 
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
-  private location = inject(Location);
-  private themeService = inject(ThemeService);
-  private localizationService = inject(LocalizationService);
+  private router: Router = inject(Router);
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private themeService: ThemeService = inject(ThemeService);
+  private localizationService: LocalizationService = inject(LocalizationService);
   private routerSub?: Subscription;
 
   ngOnInit(): void {
@@ -45,23 +42,13 @@ export class TopBarComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.showTopBar = data['topBar'] !== false;
         this.pageTitle = data['titleKey'] || '';
-        this.updateCanGoBack();
       });
 
-    this.updateCanGoBack();
     this.updateCurrentLangIcon();
   }
 
   ngOnDestroy(): void {
     this.routerSub?.unsubscribe();
-  }
-
-  updateCanGoBack(): void {
-    this.canGoBack = window.history.length > 1;
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 
   async toggleTheme(): Promise<void> {
