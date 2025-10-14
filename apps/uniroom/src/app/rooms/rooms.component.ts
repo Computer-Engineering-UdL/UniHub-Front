@@ -27,7 +27,7 @@ interface RoomAnnouncement {
 })
 export class RoomsComponent implements OnInit {
   public roomAnnouncements: RoomAnnouncement[] = [];
-  private apiService = inject(ApiService);
+  private apiService: ApiService = inject(ApiService);
 
   async ngOnInit(): Promise<void> {
     await this.loadRoomAnnouncements();
@@ -39,7 +39,7 @@ export class RoomsComponent implements OnInit {
   }
 
   private fillMissingRoomImages(): void {
-    const placeholderImages = [
+    const placeholderImages: string[] = [
       'https://images.unsplash.com/photo-1502672023488-70e25813eb80?w=800&h=600&fit=crop',
       'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&h=600&fit=crop',
       'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=800&h=600&fit=crop',
