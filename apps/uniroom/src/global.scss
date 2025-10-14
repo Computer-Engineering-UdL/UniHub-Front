@@ -74,3 +74,47 @@
   font-weight: bold;
   border: none !important;
 }
+
+/**
+ * Top Bar Space to reserve space for the top bar
+ * -----------------------------------------------------
+ */
+ion-content {
+  --offset-top: 56px;
+
+  &::part(scroll) {
+    padding-top: 56px;
+  }
+}
+
+ion-header {
+  &.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+  }
+}
+
+@media (min-width: 768px) {
+  ion-content {
+    --offset-top: 56px;
+  }
+
+  ion-header.top-bar {
+    left: 256px;
+    width: calc(100vw - 256px);
+  }
+}
+
+@media (max-width: 767px) {
+  ion-content {
+    --offset-top: 56px;
+  }
+
+  ion-header.top-bar {
+    left: 0;
+    width: 100vw;
+  }
+}
