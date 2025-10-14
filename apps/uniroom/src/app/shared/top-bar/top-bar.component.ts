@@ -31,15 +31,15 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
     this.routerSub = this.router.events
       .pipe(
-        filter(event => event instanceof NavigationEnd),
+        filter((event) => event instanceof NavigationEnd),
         map(() => this.activatedRoute),
-        map(route => {
+        map((route) => {
           while (route.firstChild) route = route.firstChild;
           return route;
         }),
-        mergeMap(route => route.data)
+        mergeMap((route) => route.data)
       )
-      .subscribe(data => {
+      .subscribe((data) => {
         this.showTopBar = data['topBar'] !== false;
         this.pageTitle = data['titleKey'] || '';
       });

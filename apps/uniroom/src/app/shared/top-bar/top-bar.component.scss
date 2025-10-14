@@ -26,7 +26,7 @@
     font-size: 18px;
   }
 
-  ion-buttons[slot="end"] {
+  ion-buttons[slot='end'] {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -117,7 +117,7 @@
       margin-left: 8px;
     }
 
-    ion-icon[name="checkmark"] {
+    ion-icon[name='checkmark'] {
       color: var(--ion-color-primary);
       font-size: 20px;
       margin-left: 8px;

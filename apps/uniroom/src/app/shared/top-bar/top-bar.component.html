@@ -7,7 +7,9 @@
     <ion-buttons slot="end">
       <ion-button (click)="openNotifications()" fill="clear" class="notification-button">
         <ion-icon name="notifications-outline" slot="icon-only"></ion-icon>
-        <ion-badge *ngIf="notificationCount > 0" class="notification-badge">{{ notificationCount }}</ion-badge>
+        <ion-badge *ngIf="notificationCount > 0" class="notification-badge">{{
+          notificationCount
+        }}</ion-badge>
       </ion-button>
 
       <ion-button (click)="toggleTheme()" fill="clear">
@@ -15,7 +17,12 @@
       </ion-button>
 
       <ion-button fill="clear" id="language-trigger-topbar">
-        <img class="language-flag" ngSrc="{{currentLangIcon}}" alt="Language" height="20" width="20"/>
+        <img
+          class="language-flag"
+          ngSrc="{{ currentLangIcon }}"
+          alt="Language"
+          height="20"
+          width="20" />
       </ion-button>
 
       <ion-popover trigger="language-trigger-topbar" [dismissOnSelect]="true">
@@ -26,7 +33,12 @@
                 [button]="true"
                 (click)="changeLanguage('ca')"
                 [class.selected]="currentLanguage === 'ca'">
-                <img class="language-flag" ngSrc="assets/flags/ca.png" alt="Català" height="20" width="20"/>
+                <img
+                  class="language-flag"
+                  ngSrc="assets/flags/ca.png"
+                  alt="Català"
+                  height="20"
+                  width="20" />
                 <span class="language-text">Català</span>
                 <ion-icon name="checkmark" slot="end" *ngIf="currentLanguage === 'ca'"></ion-icon>
               </ion-item>
@@ -34,7 +46,12 @@
                 [button]="true"
                 (click)="changeLanguage('es')"
                 [class.selected]="currentLanguage === 'es'">
-                <img class="language-flag" ngSrc="assets/flags/es.png" alt="Español" height="20" width="20"/>
+                <img
+                  class="language-flag"
+                  ngSrc="assets/flags/es.png"
+                  alt="Español"
+                  height="20"
+                  width="20" />
                 <span class="language-text">Español</span>
                 <ion-icon name="checkmark" slot="end" *ngIf="currentLanguage === 'es'"></ion-icon>
               </ion-item>
@@ -42,7 +59,12 @@
                 [button]="true"
                 (click)="changeLanguage('en')"
                 [class.selected]="currentLanguage === 'en'">
-                <img class="language-flag" ngSrc="assets/flags/en.png" alt="English" height="20" width="20"/>
+                <img
+                  class="language-flag"
+                  ngSrc="assets/flags/en.png"
+                  alt="English"
+                  height="20"
+                  width="20" />
                 <span class="language-text">English</span>
                 <ion-icon name="checkmark" slot="end" *ngIf="currentLanguage === 'en'"></ion-icon>
               </ion-item>
