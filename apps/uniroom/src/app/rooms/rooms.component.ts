@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ApiService } from '../shared/api.service';
+import { ApiService } from '../services/api.service';
 import { firstValueFrom } from 'rxjs';
 
 interface RoomAnnouncement {

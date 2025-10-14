@@ -116,6 +116,13 @@
     "UNIROOM": "Habitaciones",
     "UNISERVICES": "Servicios"
   },
+  "TOPBAR": {
+    "HOME": "Inicio",
+    "ROOMS": "Habitaciones",
+    "PROFILE": "Perfil",
+    "CHANNELS": "Canales",
+    "MESSAGES": "Mensajes"
+  },
   "ROOM": {
     "ANNOUNCEMENTS": "Anuncios de habitaciones",
     "ANNOUNCEMENTS_COUNT": "habitaciones",

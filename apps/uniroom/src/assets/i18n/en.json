@@ -121,6 +121,13 @@
     "UNIROOM": "Rooms",
     "UNISERVICES": "Services"
   },
+  "TOPBAR": {
+    "HOME": "Home",
+    "ROOMS": "Rooms",
+    "PROFILE": "Profile",
+    "CHANNELS": "Channels",
+    "MESSAGES": "Messages"
+  },
   "ROOM": {
     "ANNOUNCEMENTS": "Room Announcements",
     "ANNOUNCEMENTS_COUNT": "rooms",

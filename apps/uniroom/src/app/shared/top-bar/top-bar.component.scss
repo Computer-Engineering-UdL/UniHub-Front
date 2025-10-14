@@ -1,0 +1,140 @@
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px var(--ion-shadow-color);
+  height: 56px;
+  background: var(--ion-background-color);
+
+  ion-header {
+    z-index: 100;
+  }
+
+  ion-toolbar {
+    --background: var(--ion-background-color);
+    --color: var(--ion-text-color);
+    --border-color: var(--ion-border-color);
+    --padding-start: 16px;
+    --padding-end: 16px;
+    height: 56px;
+  }
+
+  ion-title {
+    font-weight: 600;
+    font-size: 18px;
+  }
+
+  ion-buttons[slot='end'] {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 120;
+  }
+
+  ion-button {
+    --color: var(--ion-text-color);
+    --padding-start: 8px;
+    --padding-end: 8px;
+    z-index: 120;
+
+    ion-icon {
+      font-size: 24px;
+    }
+
+    &:hover {
+      --background: var(--ion-color-light);
+    }
+  }
+
+  .notification-button {
+    position: relative;
+
+    .notification-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 4px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 9px;
+      background: var(--ion-color-danger);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+  }
+
+  .language-code {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+  }
+}
+
+.language-popover {
+  --width: 140px;
+  z-index: 10000;
+
+  ion-list {
+    padding: 4px;
+    background: transparent;
+  }
+
+  ion-item {
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --min-height: 40px;
+    --background: transparent;
+    --background-hover: var(--ion-color-light);
+    --background-activated: var(--ion-color-light);
+    border-radius: 6px;
+    margin-bottom: 2px;
+    cursor: pointer;
+    font-size: 14px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &.selected {
+      --background: var(--ion-color-light);
+      font-weight: 600;
+    }
+
+    &:hover {
+      --background: var(--ion-color-light-tint);
+    }
+
+    .language-text {
+      font-size: 14px;
+      color: var(--ion-text-color);
+      margin-left: 8px;
+    }
+
+    ion-icon[name='checkmark'] {
+      color: var(--ion-color-primary);
+      font-size: 20px;
+      margin-left: 8px;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .top-bar {
+    left: 256px;
+    width: calc(100vw - 256px);
+  }
+}
+
+@media (max-width: 767px) {
+  .top-bar {
+    left: 0;
+    width: 100vw;
+  }
+}

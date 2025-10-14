@@ -1,8 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Theme, ThemeService } from '../../services/theme.service';
-import { LangCode, LocalizationService } from '../../services/localization.service';
 import { Role, User } from '../../models/auth.types';
 import { Subscription } from 'rxjs';
 
@@ -32,8 +30,6 @@ interface RecentActivity {
 })
 export class ProfilePage implements OnInit, OnDestroy {
   user: User | null = null;
-  currentTheme: Theme = 'system';
-  currentLanguage: LangCode = 'en';
   selectedTab: 'overview' | 'posts' | 'listings' = 'overview';
 
   stats: ProfileStats = {
@@ -60,8 +56,6 @@ export class ProfilePage implements OnInit, OnDestroy {
   ];
 
   private authService: AuthService = inject(AuthService);
-  private themeService: ThemeService = inject(ThemeService);
-  private localizationService: LocalizationService = inject(LocalizationService);
   private router: Router = inject(Router);
   private userSub?: Subscription;
 
@@ -71,8 +65,6 @@ export class ProfilePage implements OnInit, OnDestroy {
       this.setUserImgUrl();
       this.setBasicInfo();
     });
-    this.currentTheme = this.themeService.getTheme();
-    this.currentLanguage = this.localizationService.getCurrentLanguage();
   }
 
   ngOnDestroy(): void {
@@ -81,29 +73,6 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   selectTab(tab: 'overview' | 'posts' | 'listings'): void {
     this.selectedTab = tab;
-  }
-
-  async toggleTheme(): Promise<void> {
-    await this.themeService.toggleTheme();
-    this.currentTheme = this.themeService.getTheme();
-  }
-
-  changeLanguage(lang: LangCode): void {
-    this.localizationService.changeLanguage(lang);
-    this.currentLanguage = lang;
-  }
-
-  getThemeIcon(): string {
-    switch (this.currentTheme) {
-      case 'light':
-        return 'sunny';
-      case 'dark':
-        return 'moon';
-      case 'system':
-        return 'contrast';
-      default:
-        return 'contrast';
-    }
   }
 
   getRoleBadgeColor(role: Role): string {

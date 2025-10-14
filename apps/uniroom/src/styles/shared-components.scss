@@ -5,10 +5,14 @@
   background: linear-gradient(135deg, var(--page-gradient-start) 0%, var(--page-gradient-end) 100%);
 }
 
+ion-content.page-container {
+  --padding-top: 0;
+}
+
 .centered-content {
   display: grid;
   place-items: center;
-  min-height: 100dvh;
+  min-height: calc(100vh - 56px);
   padding: 4vh 16px;
 }
 

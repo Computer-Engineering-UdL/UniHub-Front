@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 import { AuthResponse, LoginCredentials, SignupData, User } from '../models/auth.types';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiService } from '../shared/api.service';
+import { ApiService } from './api.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
