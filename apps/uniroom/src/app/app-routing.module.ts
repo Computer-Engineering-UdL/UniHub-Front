@@ -11,32 +11,33 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then((m) => m.LoginModule),
-    data: { public: true, guestOnly: true }
+    data: { public: true, guestOnly: true, topBar: false }
   },
   {
     path: 'signup',
     loadChildren: () => import('./signup/signup.module').then((m) => m.SignupModule),
-    data: { public: true, guestOnly: true }
+    data: { public: true, guestOnly: true, topBar: false }
   },
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
-    data: { public: true }
+    data: { public: true, titleKey: 'TOPBAR.HOME' }
   },
   {
     path: 'rooms',
     loadChildren: () => import('./rooms/rooms.module').then((m) => m.RoomsModule),
-    data: { public: true }
+    data: { public: true, titleKey: 'TOPBAR.ROOMS' }
   },
   {
     path: 'profile',
     loadChildren: () => import('./profile/profile-module').then((m) => m.ProfileModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { titleKey: 'TOPBAR.PROFILE' }
   },
   {
     path: 'unauthorized',
     loadChildren: () => import('./unauthorized/unauthorized.module').then((m) => m.UnauthorizedModule),
-    data: { public: true }
+    data: { public: true, topBar: false }
   },
   {
     path: '**',

@@ -1,0 +1,110 @@
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  box-shadow: 0 2px 8px var(--ion-shadow-color);
+
+  ion-toolbar {
+    --background: var(--ion-background-color);
+    --color: var(--ion-text-color);
+    --border-color: var(--ion-border-color);
+    --padding-start: 16px;
+    --padding-end: 16px;
+  }
+
+  ion-title {
+    font-weight: 600;
+    font-size: 18px;
+  }
+
+  ion-button {
+    --color: var(--ion-text-color);
+    --padding-start: 8px;
+    --padding-end: 8px;
+
+    ion-icon {
+      font-size: 24px;
+    }
+
+    &:hover {
+      --background: var(--ion-color-light);
+    }
+  }
+
+  .notification-button {
+    position: relative;
+
+    .notification-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 4px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 9px;
+      background: var(--ion-color-danger);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+  }
+
+  .language-code {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+  }
+}
+
+.language-popover {
+  --width: 180px;
+
+  ion-list {
+    padding: 8px;
+  }
+
+  ion-item {
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --min-height: 44px;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    cursor: pointer;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &.selected {
+      --background: var(--ion-color-light);
+    }
+
+    &:hover {
+      --background: var(--ion-color-light-tint);
+    }
+
+    ion-icon[name="checkmark"] {
+      color: var(--ion-color-primary);
+      font-size: 20px;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .top-bar {
+    left: 256px;
+  }
+}
+
+@media (max-width: 767px) {
+  .top-bar {
+    left: 0;
+  }
+}
+
