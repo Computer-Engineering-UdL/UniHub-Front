@@ -1,27 +1,31 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
-import { AuthResponse, LoginCredentials, SignupData, User } from '../models/auth.types';
+import { User } from '../models/auth.types';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from './api.service';
+import { HttpHeaders } from '@angular/common/http';
+import { OAuth2TokenResponse } from '../models/auth.types';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly AUTH_TOKEN_KEY = 'auth_token';
+  private readonly REFRESH_TOKEN_KEY = 'refresh_token';
   private readonly USER_KEY = 'user_data';
 
   private currentUserSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(this.getStoredUser());
   public currentUser$: Observable<User | null> = this.currentUserSubject.asObservable();
 
-  private apiService = inject(ApiService);
+  private apiService: ApiService = inject(ApiService);
   private translate: TranslateService = inject(TranslateService);
 
   private getStoredUser(): User | null {
-    const userJson = localStorage.getItem(this.USER_KEY);
+    const userJson: string | null = localStorage.getItem(this.USER_KEY);
     return userJson ? (JSON.parse(userJson) as User) : null;
   }
 
-  private storeAuth(token: string, user: User): void {
-    localStorage.setItem(this.AUTH_TOKEN_KEY, token);
+  private storeAuth(accessToken: string, refreshToken: string, user: User): void {
+    localStorage.setItem(this.AUTH_TOKEN_KEY, accessToken);
+    localStorage.setItem(this.REFRESH_TOKEN_KEY, refreshToken);
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
     this.currentUserSubject.next(user);
   }
@@ -38,31 +42,78 @@ export class AuthService {
     return localStorage.getItem(this.AUTH_TOKEN_KEY);
   }
 
-  async login(emailOrCredentials: string | LoginCredentials, passwordMaybe?: string): Promise<void> {
-    const { email, password }: LoginCredentials =
-      typeof emailOrCredentials === 'string'
-        ? { email: emailOrCredentials, password: passwordMaybe ?? '' }
-        : emailOrCredentials;
+  getRefreshToken(): string | null {
+    return localStorage.getItem(this.REFRESH_TOKEN_KEY);
+  }
 
+  async login(email: string, password: string): Promise<void> {
     try {
-      const response: AuthResponse = await firstValueFrom(
-        this.apiService.post<AuthResponse>(`auth/login`, {
-          email,
-          password
-        })
+      // OAuth2 expects form data with username and password
+      const formData = new URLSearchParams();
+      formData.append('username', email);
+      formData.append('password', password);
+      formData.append('grant_type', 'password');
+
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded'
+      });
+
+      const tokenResponse: OAuth2TokenResponse = await firstValueFrom(
+        this.apiService.post<OAuth2TokenResponse>('auth/login', formData.toString(), headers)
       );
-      this.storeAuth(response.token, response.user);
+
+      // Get user data with the access token
+      const user: User = await this.getCurrentUser(tokenResponse.access_token);
+
+      this.storeAuth(tokenResponse.access_token, tokenResponse.refresh_token, user);
     } catch (error) {
       throw error;
     }
   }
 
-  async signup(data: SignupData): Promise<void> {
+  private async getCurrentUser(token: string): Promise<User> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return await firstValueFrom(this.apiService.get<User>('auth/me', undefined, headers));
+  }
+
+  async refreshToken(): Promise<void> {
+    const refreshToken: string | null = this.getRefreshToken();
+    if (!refreshToken) {
+      throw new Error('No refresh token available');
+    }
+
     try {
-      const response: AuthResponse = await firstValueFrom(this.apiService.post<AuthResponse>(`auth/signup`, data));
-      this.storeAuth(response.token, response.user);
-    } catch {
-      throw new Error('Signup failed');
+      const formData = new URLSearchParams();
+      formData.append('refresh_token', refreshToken);
+
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded'
+      });
+
+      const tokenResponse: OAuth2TokenResponse = await firstValueFrom(
+        this.apiService.post<OAuth2TokenResponse>('auth/refresh', formData.toString(), headers)
+      );
+
+      const user: User = await this.getCurrentUser(tokenResponse.access_token);
+      this.storeAuth(tokenResponse.access_token, tokenResponse.refresh_token, user);
+    } catch (error) {
+      this.logout();
+      throw error;
+    }
+  }
+
+  async signup(data: any): Promise<void> {
+    try {
+      // First create the account
+      await firstValueFrom(this.apiService.post('auth/signup', data));
+
+      // Then login with the credentials
+      await this.login(data.email, data.password);
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -96,10 +147,12 @@ export class AuthService {
           oauthWindow.close();
           try {
             const { token } = event.data;
-            const response: AuthResponse = await firstValueFrom(
-              this.apiService.post<AuthResponse>(`auth/${provider}/callback`, { token })
+            const response: OAuth2TokenResponse = await firstValueFrom(
+              this.apiService.post<OAuth2TokenResponse>(`auth/${provider}/callback`, { token })
             );
-            this.storeAuth(response.token, response.user);
+            // Get user data with the access token
+            const user: User = await this.getCurrentUser(response.access_token);
+            this.storeAuth(response.access_token, response.refresh_token, user);
             resolve();
           } catch (err) {
             reject(err);
@@ -119,6 +172,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.AUTH_TOKEN_KEY);
+    localStorage.removeItem(this.REFRESH_TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);
     this.currentUserSubject.next(null);
   }

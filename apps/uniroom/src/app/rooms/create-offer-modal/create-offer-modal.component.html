@@ -1,0 +1,156 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'ROOM.CREATE_OFFER' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="offerForm" (ngSubmit)="onSubmit()">
+    <div class="form-container">
+      <div class="form-section">
+        <h3>{{ 'ROOM.FORM.BASIC_INFO' | translate }}</h3>
+
+        <ion-item [class.item-has-error]="isFieldInvalid('title')">
+          <ion-label position="stacked">{{ 'ROOM.FORM.TITLE' | translate }} *</ion-label>
+          <ion-input
+            formControlName="title"
+            type="text"
+            placeholder="Ex: Cozy room near campus"></ion-input>
+        </ion-item>
+
+        <ion-item [class.item-has-error]="isFieldInvalid('description')">
+          <ion-label position="stacked">{{ 'ROOM.FORM.DESCRIPTION' | translate }} *</ion-label>
+          <ion-textarea
+            formControlName="description"
+            rows="4"
+            placeholder="Describe your offer..."></ion-textarea>
+        </ion-item>
+
+        <ion-item [class.item-has-error]="isFieldInvalid('category_id')">
+          <ion-label position="stacked">{{ 'ROOM.FORM.CATEGORY' | translate }} *</ion-label>
+          <ion-input
+            formControlName="category_id"
+            type="text"
+            placeholder="Category ID"></ion-input>
+        </ion-item>
+      </div>
+
+      <div class="form-section">
+        <h3>{{ 'ROOM.FORM.LOCATION' | translate }}</h3>
+
+        <ion-item [class.item-has-error]="isFieldInvalid('city')">
+          <ion-label position="stacked">{{ 'ROOM.FORM.CITY' | translate }} *</ion-label>
+          <ion-input formControlName="city" type="text" placeholder="Barcelona"></ion-input>
+        </ion-item>
+
+        <ion-item [class.item-has-error]="isFieldInvalid('address')">
+          <ion-label position="stacked">{{ 'ROOM.FORM.ADDRESS' | translate }} *</ion-label>
+          <ion-input formControlName="address" type="text" placeholder="Street, Number"></ion-input>
+        </ion-item>
+      </div>
+
+      <div class="form-section">
+        <h3>{{ 'ROOM.FORM.PRICING_DETAILS' | translate }}</h3>
+
+        <div class="two-columns">
+          <ion-item [class.item-has-error]="isFieldInvalid('price')">
+            <ion-label position="stacked"
+              >{{ 'ROOM.FORM.PRICE' | translate }} * (€/{{
+                'ROOM.FORM.MONTH' | translate
+              }})</ion-label
+            >
+            <ion-input formControlName="price" type="number" min="0"></ion-input>
+          </ion-item>
+
+          <ion-item [class.item-has-error]="isFieldInvalid('deposit')">
+            <ion-label position="stacked">{{ 'ROOM.FORM.DEPOSIT' | translate }} (€)</ion-label>
+            <ion-input formControlName="deposit" type="number" min="0"></ion-input>
+          </ion-item>
+        </div>
+
+        <ion-item [class.item-has-error]="isFieldInvalid('area')">
+          <ion-label position="stacked">{{ 'ROOM.FORM.AREA' | translate }} * (m²)</ion-label>
+          <ion-input formControlName="area" type="number" min="0"></ion-input>
+        </ion-item>
+      </div>
+
+      <div class="form-section">
+        <h3>{{ 'ROOM.FORM.PROPERTY_DETAILS' | translate }}</h3>
+
+        <div class="two-columns">
+          <ion-item [class.item-has-error]="isFieldInvalid('num_rooms')">
+            <ion-label position="stacked">{{ 'ROOM.FORM.NUM_ROOMS' | translate }} *</ion-label>
+            <ion-input formControlName="num_rooms" type="number" min="0"></ion-input>
+          </ion-item>
+
+          <ion-item [class.item-has-error]="isFieldInvalid('num_bathrooms')">
+            <ion-label position="stacked">{{ 'ROOM.FORM.NUM_BATHROOMS' | translate }} *</ion-label>
+            <ion-input formControlName="num_bathrooms" type="number" min="0"></ion-input>
+          </ion-item>
+        </div>
+
+        <ion-item>
+          <ion-label position="stacked">{{ 'ROOM.FORM.GENDER_PREFERENCE' | translate }}</ion-label>
+          <ion-select formControlName="gender_preference" interface="popover">
+            <ion-select-option *ngFor="let gender of genderPreferences" [value]="gender">
+              {{ 'ROOM.FORM.GENDER.' + gender.toUpperCase() | translate }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <div class="form-section">
+        <h3>{{ 'ROOM.FORM.AMENITIES' | translate }}</h3>
+
+        <ion-item lines="none">
+          <ion-checkbox formControlName="furnished" slot="start"></ion-checkbox>
+          <ion-label>{{ 'ROOM.FORM.FURNISHED' | translate }}</ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-checkbox formControlName="utilities_included" slot="start"></ion-checkbox>
+          <ion-label>{{ 'ROOM.FORM.UTILITIES_INCLUDED' | translate }}</ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-checkbox formControlName="internet_included" slot="start"></ion-checkbox>
+          <ion-label>{{ 'ROOM.FORM.INTERNET_INCLUDED' | translate }}</ion-label>
+        </ion-item>
+      </div>
+
+      <div class="form-section">
+        <h3>{{ 'ROOM.FORM.DATES' | translate }}</h3>
+
+        <ion-item [class.item-has-error]="isFieldInvalid('start_date')">
+          <ion-label position="stacked">{{ 'ROOM.FORM.START_DATE' | translate }} *</ion-label>
+          <ion-input formControlName="start_date" type="date"></ion-input>
+        </ion-item>
+
+        <ion-item [class.item-has-error]="isFieldInvalid('end_date')">
+          <ion-label position="stacked">{{ 'ROOM.FORM.END_DATE' | translate }} *</ion-label>
+          <ion-input formControlName="end_date" type="date"></ion-input>
+        </ion-item>
+
+        <ion-item [class.item-has-error]="isFieldInvalid('offer_valid_until')">
+          <ion-label position="stacked">{{ 'ROOM.FORM.VALID_UNTIL' | translate }} *</ion-label>
+          <ion-input formControlName="offer_valid_until" type="date"></ion-input>
+        </ion-item>
+      </div>
+
+      <div class="form-actions">
+        <ion-button expand="block" color="light" (click)="dismiss()" [disabled]="isSubmitting">
+          {{ 'COMMON.CANCEL' | translate }}
+        </ion-button>
+        <ion-button expand="block" type="submit" [disabled]="isSubmitting">
+          <ion-spinner *ngIf="isSubmitting" name="crescent"></ion-spinner>
+          <span *ngIf="!isSubmitting">{{ 'ROOM.FORM.CREATE' | translate }}</span>
+        </ion-button>
+      </div>
+    </div>
+  </form>
+</ion-content>

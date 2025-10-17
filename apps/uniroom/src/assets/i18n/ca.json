@@ -94,7 +94,8 @@
   "COMMON": {
     "LOADING": "Carregant...",
     "GITHUB": "GitHub",
-    "GOOGLE": "Google"
+    "GOOGLE": "Google",
+    "CANCEL": "Cancel·lar"
   },
   "UNAUTHORIZED": {
     "TITLE": "Accés denegat",
@@ -134,6 +135,52 @@
     "NOT_AVAILABLE": "No disponible",
     "AVAILABLE": "Disponible",
     "TARGET_ROOMS": "Habitacions destinades",
-    "VIEW_DETAILS": "Veure detalls"
+    "OFFERS": "Ofertes d'Habitatges",
+    "OFFERS_COUNT": "ofertes",
+    "CREATE_OFFER": "Crear Oferta",
+    "CREATE_FIRST_OFFER": "Crea la Teva Primera Oferta",
+    "NO_OFFERS": "No hi ha ofertes disponibles",
+    "NO_OFFERS_DESCRIPTION": "No hi ha ofertes d'habitatge disponibles en aquest moment. Torna més tard!",
+    "VIEW_DETAILS": "Veure Detalls",
+    "PER_MONTH": "/mes",
+    "STATUS": {
+      "ACTIVE": "Activa",
+      "INACTIVE": "Inactiva",
+      "PENDING": "Pendent",
+      "EXPIRED": "Caducada"
+    },
+    "FORM": {
+      "BASIC_INFO": "Informació Bàsica",
+      "LOCATION": "Ubicació",
+      "PRICING_DETAILS": "Preu i Detalls",
+      "PROPERTY_DETAILS": "Detalls de la Propietat",
+      "AMENITIES": "Comoditats",
+      "DATES": "Dates",
+      "TITLE": "Títol",
+      "DESCRIPTION": "Descripció",
+      "CATEGORY": "Categoria",
+      "CITY": "Ciutat",
+      "ADDRESS": "Adreça",
+      "PRICE": "Preu",
+      "MONTH": "mes",
+      "DEPOSIT": "Dipòsit",
+      "AREA": "Àrea",
+      "NUM_ROOMS": "Nombre d'Habitacions",
+      "NUM_BATHROOMS": "Nombre de Banys",
+      "GENDER_PREFERENCE": "Preferència de Gènere",
+      "FURNISHED": "Moblat",
+      "UTILITIES_INCLUDED": "Subministraments Inclosos",
+      "INTERNET_INCLUDED": "Internet Inclòs",
+      "START_DATE": "Data d'Inici",
+      "END_DATE": "Data de Fi",
+      "VALID_UNTIL": "Oferta Vàlida Fins",
+      "CREATE": "Crear Oferta",
+      "GENDER": {
+        "ANY": "Qualsevol",
+        "MALE": "Masculí",
+        "FEMALE": "Femení",
+        "OTHER": "Altre"
+      }
+    }
   }
 }

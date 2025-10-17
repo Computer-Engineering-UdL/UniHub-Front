@@ -10,8 +10,9 @@ export class ApiService {
   private http = inject(HttpClient);
   public readonly API_URL = environment.apiUrl;
 
-  get<T>(endpoint: string, params?: HttpParams, headers?: HttpHeaders): Observable<T> {
-    return this.http.get<T>(`${this.API_URL}/${endpoint}`, { params, headers });
+  get<T>(endpoint: string, params?: Record<string, any>, headers?: HttpHeaders): Observable<T> {
+    const httpParams = this.buildHttpParams(params);
+    return this.http.get<T>(`${this.API_URL}/${endpoint}`, { params: httpParams, headers });
   }
 
   post<T, B = any>(endpoint: string, body: B, headers?: HttpHeaders): Observable<T> {
@@ -22,7 +23,23 @@ export class ApiService {
     return this.http.put<T>(`${this.API_URL}/${endpoint}`, body, { headers });
   }
 
-  delete<T>(endpoint: string, params?: HttpParams, headers?: HttpHeaders): Observable<T> {
-    return this.http.delete<T>(`${this.API_URL}/${endpoint}`, { params, headers });
+  delete<T>(endpoint: string, params?: Record<string, any>, headers?: HttpHeaders): Observable<T> {
+    const httpParams = this.buildHttpParams(params);
+    return this.http.delete<T>(`${this.API_URL}/${endpoint}`, { params: httpParams, headers });
+  }
+
+  private buildHttpParams(params?: Record<string, any>): HttpParams {
+    let httpParams = new HttpParams();
+
+    if (params) {
+      Object.keys(params).forEach((key) => {
+        const value = params[key];
+        if (value !== null && value !== undefined) {
+          httpParams = httpParams.set(key, value.toString());
+        }
+      });
+    }
+
+    return httpParams;
   }
 }

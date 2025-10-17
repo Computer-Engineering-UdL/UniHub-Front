@@ -42,3 +42,9 @@ export interface RouteAccessData {
   guestOnly?: boolean;
   roles?: Role[];
 }
+
+export interface OAuth2TokenResponse {
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
+}
