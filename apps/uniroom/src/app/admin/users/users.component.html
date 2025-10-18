@@ -65,7 +65,7 @@
             [(ngModel)]="selectedStatus"
             (ionChange)="onStatusChange($event)"
             interface="popover"
-            [interfaceOptions]="{cssClass: 'status-select-popover'}"
+            [interfaceOptions]="{ cssClass: 'status-select-popover' }"
             class="filter-select with-icon">
             <ion-select-option value="all">
               {{ 'ADMIN.USERS.ALL_STATUS' | translate }}
@@ -86,7 +86,7 @@
             [(ngModel)]="selectedRole"
             (ionChange)="onRoleChange($event)"
             interface="popover"
-            [interfaceOptions]="{cssClass: 'roles-select-popover'}"
+            [interfaceOptions]="{ cssClass: 'roles-select-popover' }"
             class="filter-select with-icon">
             <ion-select-option value="all">
               {{ 'ADMIN.USERS.ALL_ROLES' | translate }}

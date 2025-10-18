@@ -161,11 +161,11 @@ ion-modal.profile-edit-modal::part(content) {
  */
 
 // Definir colors com a variables locals
-$color-success: #10b981;  // Active
-$color-warning: #f59e0b;  // Pending
-$color-danger: #ef4444;   // Admin / Suspended
-$color-info: #3b82f6;     // Seller
-$color-gray: #6b7280;     // Basic
+$color-success: #10b981; // Active
+$color-warning: #f59e0b; // Pending
+$color-danger: #ef4444; // Admin / Suspended
+$color-info: #3b82f6; // Seller
+$color-gray: #6b7280; // Basic
 
 // Mixin per aplicar colors als ion-items
 @mixin item-color($color) {
@@ -178,11 +178,23 @@ $color-gray: #6b7280;     // Basic
 }
 
 // Status colors
-ion-item.status-active { @include item-color($color-success); }
-ion-item.status-pending { @include item-color($color-warning); }
-ion-item.status-suspended { @include item-color($color-danger); }
+ion-item.status-active {
+  @include item-color($color-success);
+}
+ion-item.status-pending {
+  @include item-color($color-warning);
+}
+ion-item.status-suspended {
+  @include item-color($color-danger);
+}
 
 // Role colors
-ion-item.role-admin { @include item-color($color-danger); }
-ion-item.role-seller { @include item-color($color-info); }
-ion-item.role-basic { @include item-color($color-gray); }
+ion-item.role-admin {
+  @include item-color($color-danger);
+}
+ion-item.role-seller {
+  @include item-color($color-info);
+}
+ion-item.role-basic {
+  @include item-color($color-gray);
+}
