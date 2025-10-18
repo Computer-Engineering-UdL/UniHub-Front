@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -21,7 +21,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     IonicModule,
     TranslateModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    NgOptimizedImage
   ],
   declarations: [RoomsComponent, CreateOfferModalComponent]
 })

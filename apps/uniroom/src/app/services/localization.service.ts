@@ -48,4 +48,77 @@ export class LocalizationService {
     const base: string = tag.split('-')[0];
     return (this.supportedLanguages as readonly string[]).includes(base) ? (base as LangCode) : this.defaultLanguage;
   }
+
+  /**
+   * Map internal language code to a more specific locale string used by Intl.
+   * You can extend the mapping if you need different region variants.
+   */
+  getLocale(): string {
+    const lang: 'en' | 'es' | 'ca' = this.getCurrentLanguage();
+    switch (lang) {
+      case 'es':
+        return 'es-ES';
+      case 'ca':
+        return 'ca-ES';
+      case 'en':
+      default:
+        return 'en-US';
+    }
+  }
+
+  /**
+   * Derive decimal and a thousand separators for the current locale.
+   */
+  getNumberSeparators(): { decimal: string; thousand: string } {
+    try {
+      const locale: string = this.getLocale();
+      const parts: Intl.NumberFormatPart[] = new Intl.NumberFormat(locale).formatToParts(1000.5);
+      let decimal: string = '.';
+      let thousand: string = ',';
+      for (const p of parts) {
+        if (p.type === 'decimal') {
+          decimal = p.value;
+        }
+        if (p.type === 'group') {
+          thousand = p.value;
+        }
+      }
+      return { decimal, thousand };
+    } catch (e) {
+      return { decimal: '.', thousand: ',' };
+    }
+  }
+
+  /**
+   * Format a plain number according to locale with optional max fraction digits.
+   */
+  formatNumber(value: any, maxFractionDigits = 2): string {
+    if (!isFinite(Number(value))) {
+      return '—';
+    }
+    return new Intl.NumberFormat(this.getLocale(), {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: maxFractionDigits
+    }).format(Number(value));
+  }
+
+  /**
+   * Format a price using the locale and provided currency (default EUR).
+   */
+  formatPrice(value: any, currency: string = 'EUR'): string {
+    const num: number = Number(value);
+    if (!isFinite(num)) {
+      return '—';
+    }
+
+    if (!currency || currency.length !== 3) {
+      currency = 'EUR';
+    }
+    try {
+      return new Intl.NumberFormat(this.getLocale(), { style: 'currency', currency }).format(num);
+    } catch (e) {
+      // Fallback: format as a plain number plus currency code
+      return `${this.formatNumber(num, 2)} ${currency}`;
+    }
+  }
 }

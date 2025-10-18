@@ -8,7 +8,6 @@
   <div class="rooms-container">
     <div class="rooms-section">
       <div class="section-header">
-        <h2>{{ 'ROOM.OFFERS' | translate }}</h2>
         <div class="header-actions">
           <ion-chip color="primary">
             {{ offers.length }} {{ 'ROOM.OFFERS_COUNT' | translate }}
@@ -31,7 +30,7 @@
           [class.inactive]="offer.status !== 'active'"
           (click)="viewOfferDetails(offer.id)">
           <div class="room-image-container">
-            <img [src]="offer.image" [alt]="offer.title" />
+            <img ngSrc="{{ offer.image }}" fill [alt]="offer.title" />
             <ion-badge *ngIf="offer.status === 'active'" class="status-badge" color="success">
               {{ 'ROOM.STATUS.ACTIVE' | translate }}
             </ion-badge>
@@ -44,7 +43,7 @@
             <div class="room-header">
               <h3>{{ offer.title }}</h3>
               <div class="price-tag">
-                <span class="price">{{ offer.price }}€</span>
+                <span class="price">{{ offer.priceFormatted }}€</span>
                 <span class="period">{{ 'ROOM.PER_MONTH' | translate }}</span>
               </div>
             </div>
@@ -56,7 +55,7 @@
               </div>
               <div class="detail-item">
                 <ion-icon name="resize-outline"></ion-icon>
-                <span>{{ offer.area }} m²</span>
+                <span>{{ offer.areaFormatted }} m²</span>
               </div>
               <div class="detail-item">
                 <ion-icon name="calendar-outline"></ion-icon>

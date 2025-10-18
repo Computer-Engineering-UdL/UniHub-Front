@@ -36,11 +36,14 @@ export interface OfferListItem {
   id: string;
   title: string;
   price: number;
+  priceFormatted?: string;
   area: number;
+  areaFormatted?: string;
   status: OfferStatus;
   posted_date: string;
   city: string;
   image?: string;
+  currency?: string;
 }
 
 export interface CreateOfferData {

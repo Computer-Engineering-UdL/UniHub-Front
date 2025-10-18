@@ -6,6 +6,7 @@ import { firstValueFrom } from 'rxjs';
 import { OfferListItem } from '../models/offer.types';
 import { User } from '../models/auth.types';
 import { CreateOfferModalComponent } from './create-offer-modal/create-offer-modal.component';
+import { LocalizationService } from '../services/localization.service';
 
 @Component({
   selector: 'app-rooms',
@@ -18,9 +19,13 @@ export class RoomsComponent implements OnInit {
   public user: User | null = null;
   public canCreateOffer: boolean = false;
 
+  public decimalSeparator: string = '.';
+  public thousandSeparator: string = ',';
+
   private apiService: ApiService = inject(ApiService);
   private authService: AuthService = inject(AuthService);
   private modalController: ModalController = inject(ModalController);
+  private localizationService: LocalizationService = inject(LocalizationService);
 
   async ngOnInit(): Promise<void> {
     this.authService.currentUser$.subscribe((user: User | null): void => {
@@ -28,16 +33,34 @@ export class RoomsComponent implements OnInit {
       this.canCreateOffer = user?.role === 'Seller' || user?.role === 'Admin';
     });
 
+    const seps: { decimal: string; thousand: string } = this.localizationService.getNumberSeparators();
+    this.decimalSeparator = seps.decimal;
+    this.thousandSeparator = seps.thousand;
+
     await this.loadOffers();
   }
 
   private async loadOffers(): Promise<void> {
     try {
       this.offers = await firstValueFrom(this.apiService.get<OfferListItem[]>('offers/offers/'));
-      this.fillMissingOfferImages();
+      this.formatOffers();
     } catch (error) {
       console.error('Error loading offers:', error);
     }
+  }
+
+  private formatOffers(): void {
+    this.offers.forEach((offer: OfferListItem): void => {
+      const rawPrice: number = offer.price ?? 0;
+      const currency: string = (offer.currency as string) ?? 'EUR';
+
+      offer.priceFormatted = this.localizationService.formatPrice(rawPrice, currency);
+
+      const rawArea: number = offer.area ?? 0;
+      offer.areaFormatted = this.localizationService.formatNumber(rawArea, 2);
+    });
+
+    this.fillMissingOfferImages();
   }
 
   private fillMissingOfferImages(): void {
