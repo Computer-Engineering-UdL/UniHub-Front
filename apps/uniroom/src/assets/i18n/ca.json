@@ -43,6 +43,11 @@
       "INVALID_PHONE": "El telèfon ha de ser vàlid (només números i pot començar per +)"
     }
   },
+  "USER": {
+    "STATUS_ACTIVE": "Actiu",
+    "STATUS_PENDING": "Pendent",
+    "STATUS_SUSPENDED": "Suspés"
+  },
   "HOME": {
     "WELCOME": "Benvingut de nou!",
     "STUDENT": "Estudiant",
@@ -94,9 +99,9 @@
       "WEEK_AGO": "fa 1 setmana"
     },
     "ROLE": {
+      "ADMIN": "Administrador",
       "BASIC": "Usuari",
-      "SELLER": "Venedor",
-      "ADMIN": "Administrador"
+      "SELLER": "Venedor"
     },
     "VERIFIED": "Verificat",
     "JOINED": "Registrat",
@@ -199,5 +204,46 @@
         "OTHER": "Altre"
       }
     }
+  },
+  "ADMIN": {
+    "USERS": {
+      "TITLE": "Gestió d'Usuaris",
+      "STATS": {
+        "TOTAL": "Total d'Usuaris",
+        "ACTIVE": "Actius",
+        "PENDING": "Pendents",
+        "SUSPENDED": "Suspesos"
+      },
+      "SEARCH_PLACEHOLDER": "Cercar usuaris...",
+      "ALL_STATUS": "Tots els Estats",
+      "ALL_ROLES": "Tots els Rols",
+      "EXPORT": "Exportar",
+      "ADD_USER": "Afegir Usuari",
+      "TABLE": {
+        "USER": "Usuari",
+        "ROLE": "Rol",
+        "STATUS": "Estat",
+        "UNIVERSITY": "Universitat",
+        "JOINED": "Registrat",
+        "LAST_ACTIVE": "Última Activitat"
+      },
+      "NO_USERS": "No s'han trobat usuaris",
+      "PAGINATION": {
+        "SHOWING": "Mostrant",
+        "TO": "a",
+        "OF": "de",
+        "USERS": "usuaris"
+      }
+    }
+  },
+  "ERROR": {
+    "LOAD_USERS": "Error al carregar els usuaris"
+  },
+  "TIME_AGO": {
+    "TODAY": "avui",
+    "ONE_DAY": "fa 1 dia",
+    "DAYS": "fa {{count}} dies",
+    "WEEKS": "fa {{count}} setmanes",
+    "MONTHS": "fa {{count}} mesos"
   }
 }

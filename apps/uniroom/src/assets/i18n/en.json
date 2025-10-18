@@ -43,6 +43,11 @@
       "INVALID_PHONE": "Phone must be valid (numbers only, may start with +)"
     }
   },
+  "USER": {
+    "STATUS_ACTIVE": "Active",
+    "STATUS_PENDING": "Pending",
+    "STATUS_SUSPENDED": "Suspended"
+  },
   "HOME": {
     "WELCOME": "Welcome back!",
     "STUDENT": "Student",
@@ -92,11 +97,6 @@
       "EMAIL_VERIFIED": "Email verified",
       "DAYS_AGO": "{{count}} days ago",
       "WEEK_AGO": "1 week ago"
-    },
-    "ROLE": {
-      "BASIC": "User",
-      "SELLER": "Seller",
-      "ADMIN": "Administrator"
     },
     "VERIFIED": "Verified",
     "JOINED": "Joined",
@@ -199,5 +199,51 @@
         "OTHER": "Other"
       }
     }
+  },
+  "ADMIN": {
+    "USERS": {
+      "TITLE": "User Management",
+      "STATS": {
+        "TOTAL": "Total Users",
+        "ACTIVE": "Active",
+        "PENDING": "Pending",
+        "SUSPENDED": "Suspended"
+      },
+      "SEARCH_PLACEHOLDER": "Search users...",
+      "ALL_STATUS": "All Status",
+      "ALL_ROLES": "All Roles",
+      "EXPORT": "Export",
+      "ADD_USER": "Add User",
+      "TABLE": {
+        "USER": "User",
+        "ROLE": "Role",
+        "STATUS": "Status",
+        "UNIVERSITY": "University",
+        "JOINED": "Joined",
+        "LAST_ACTIVE": "Last Active"
+      },
+      "NO_USERS": "No users found",
+      "PAGINATION": {
+        "SHOWING": "Showing",
+        "TO": "to",
+        "OF": "of",
+        "USERS": "users"
+      }
+    }
+  },
+  "ERROR": {
+    "LOAD_USERS": "Failed to load users"
+  },
+  "ROLE": {
+    "ADMIN": "Administrator",
+    "BASIC": "User",
+    "SELLER": "Seller"
+  },
+  "TIME_AGO": {
+    "TODAY": "today",
+    "ONE_DAY": "1 day ago",
+    "DAYS": "{{count}} days ago",
+    "WEEKS": "{{count}} weeks ago",
+    "MONTHS": "{{count}} months ago"
   }
 }

@@ -35,6 +35,12 @@ const routes: Routes = [
     data: { titleKey: 'TOPBAR.PROFILE' }
   },
   {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
+    canActivate: [AuthGuard],
+    data: { roles: ['Admin'], titleKey: 'ADMIN.USERS.TITLE' }
+  },
+  {
     path: 'unauthorized',
     loadChildren: () => import('./unauthorized/unauthorized.module').then((m) => m.UnauthorizedModule),
     data: { public: true, topBar: false }

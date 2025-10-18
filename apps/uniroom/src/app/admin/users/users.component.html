@@ -1,0 +1,174 @@
+<ion-content>
+  <div class="admin-users-container">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <ion-icon name="people-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">{{ 'ADMIN.USERS.STATS.TOTAL' | translate }}</span>
+          <span class="stat-value">{{ stats.total }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-active">
+        <div class="stat-icon">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">{{ 'ADMIN.USERS.STATS.ACTIVE' | translate }}</span>
+          <span class="stat-value">{{ stats.active }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-pending">
+        <div class="stat-icon">
+          <ion-icon name="time-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">{{ 'ADMIN.USERS.STATS.PENDING' | translate }}</span>
+          <span class="stat-value">{{ stats.pending }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-suspended">
+        <div class="stat-icon">
+          <ion-icon name="close-circle-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">{{ 'ADMIN.USERS.STATS.SUSPENDED' | translate }}</span>
+          <span class="stat-value">{{ stats.suspended }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <div class="search-box">
+        <ion-icon name="search-outline"></ion-icon>
+        <input
+          type="text"
+          [placeholder]="'ADMIN.USERS.SEARCH_PLACEHOLDER' | translate"
+          (input)="onSearchInput($event)"
+          [value]="searchTerm" />
+      </div>
+
+      <div class="filters">
+        <ion-button fill="outline" class="filter-button" [disabled]="true">
+          <ion-icon slot="start" name="funnel-outline"></ion-icon>
+          {{ 'ADMIN.USERS.ALL_STATUS' | translate }}
+        </ion-button>
+
+        <ion-button fill="outline" class="filter-button" [disabled]="true">
+          <ion-icon slot="start" name="shield-outline"></ion-icon>
+          {{ 'ADMIN.USERS.ALL_ROLES' | translate }}
+        </ion-button>
+
+        <ion-button fill="outline" class="export-button" [disabled]="true">
+          <ion-icon slot="start" name="download-outline"></ion-icon>
+          {{ 'ADMIN.USERS.EXPORT' | translate }}
+        </ion-button>
+
+        <ion-button class="add-user-button" [disabled]="true">
+          <ion-icon slot="start" name="person-add-outline"></ion-icon>
+          {{ 'ADMIN.USERS.ADD_USER' | translate }}
+        </ion-button>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th class="col-user">
+              {{ 'ADMIN.USERS.TABLE.USER' | translate }}
+              <ion-icon name="chevron-up-outline"></ion-icon>
+            </th>
+            <th class="col-role">{{ 'ADMIN.USERS.TABLE.ROLE' | translate }}</th>
+            <th class="col-status">{{ 'ADMIN.USERS.TABLE.STATUS' | translate }}</th>
+            <th class="col-university">{{ 'ADMIN.USERS.TABLE.UNIVERSITY' | translate }}</th>
+            <th class="col-joined">{{ 'ADMIN.USERS.TABLE.JOINED' | translate }}</th>
+            <th class="col-last-active">{{ 'ADMIN.USERS.TABLE.LAST_ACTIVE' | translate }}</th>
+            <th class="col-actions"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="loading">
+            <td colspan="7" class="loading-cell">
+              <ion-spinner name="crescent"></ion-spinner>
+            </td>
+          </tr>
+          <tr *ngIf="!loading && users.length === 0">
+            <td colspan="7" class="empty-cell">
+              {{ 'ADMIN.USERS.NO_USERS' | translate }}
+            </td>
+          </tr>
+          <tr *ngFor="let user of users" class="user-row">
+            <td class="col-user">
+              <div class="user-info">
+                <div class="user-avatar">
+                  <img ngSrc="{{ getUserAvatar(user) }}" fill [alt]="user.username" />
+                </div>
+                <div class="user-details">
+                  <div class="user-name">
+                    {{ user.firstName || user.username }} {{ user.lastName || '' }}
+                    <ion-icon
+                      *ngIf="user.isVerified"
+                      name="checkmark-circle"
+                      class="verified-icon"></ion-icon>
+                  </div>
+                  <div class="user-email">{{ user.email }}</div>
+                </div>
+              </div>
+            </td>
+            <td class="col-role">
+              <span class="role-badge" [ngClass]="getRoleBadgeClass(user.role)">
+                {{ 'ROLE.' + user.role.toUpperCase() | translate }}
+              </span>
+            </td>
+            <td class="col-status">
+              <span
+                class="status-badge"
+                [ngClass]="user.isVerified ? 'status-active' : 'status-pending'">
+                {{ (user.isVerified ? 'USER.STATUS_ACTIVE' : 'USER.STATUS_PENDING') | translate }}
+              </span>
+            </td>
+            <td class="col-university">
+              {{ user.university || '—' }}
+            </td>
+            <td class="col-joined">
+              {{ formatDate(user.joinedDate) }}
+            </td>
+            <td class="col-last-active">
+              {{ getTimeAgo(user.joinedDate) }}
+            </td>
+            <td class="col-actions">
+              <ion-button
+                fill="clear"
+                class="action-button"
+                (click)="onUserMenuClick(user, $event)">
+                <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+              </ion-button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination" *ngIf="!loading && users.length > 0">
+      <div class="pagination-info">
+        {{ 'ADMIN.USERS.PAGINATION.SHOWING' | translate }} {{ currentPage * pageSize + 1 }}
+        {{ 'ADMIN.USERS.PAGINATION.TO' | translate }} {{ currentPage * pageSize + users.length }}
+        {{ 'ADMIN.USERS.PAGINATION.OF' | translate }} {{ totalUsers }}
+        {{ 'ADMIN.USERS.PAGINATION.USERS' | translate }}
+      </div>
+      <div class="pagination-controls">
+        <ion-button fill="outline" [disabled]="!hasPrevPage" (click)="prevPage()">
+          <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="outline" [disabled]="!hasNextPage" (click)="nextPage()">
+          <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>
