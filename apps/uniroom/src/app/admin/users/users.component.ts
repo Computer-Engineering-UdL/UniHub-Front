@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { NotificationService } from '../../services/notification.service';
 import { LocalizationService } from '../../services/localization.service';
@@ -6,6 +7,7 @@ import { Role, User } from '../../models/auth.types';
 import { lastValueFrom, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
+import { AlertController } from '@ionic/angular';
 
 interface UserStats {
   total: number;
@@ -25,6 +27,8 @@ export class AdminUsersComponent implements OnInit {
   private notificationService: NotificationService = inject(NotificationService);
   private localizationService: LocalizationService = inject(LocalizationService);
   private translateService: TranslateService = inject(TranslateService);
+  private alertController: AlertController = inject(AlertController);
+  private router: Router = inject(Router);
 
   users: User[] = [];
   stats: UserStats = { total: 0, active: 0, pending: 0, suspended: 0 };
@@ -33,6 +37,26 @@ export class AdminUsersComponent implements OnInit {
   currentPage: number = 0;
   pageSize: number = 10;
   totalUsers: number = 0;
+  selectedStatus: string = 'all';
+  selectedRole: string = 'all';
+  sortField: string = 'joinedDate';
+  sortOrder: 'asc' | 'desc' = 'desc';
+  selectedUsers: Set<string> = new Set();
+
+  statusOptions = [
+    { value: 'all', label: 'ADMIN.USERS.ALL_STATUS' },
+    { value: 'active', label: 'USER.STATUS_ACTIVE' },
+    { value: 'pending', label: 'USER.STATUS_PENDING' }
+  ];
+
+  roleOptions = [
+    { value: 'all', label: 'ADMIN.USERS.ALL_ROLES' },
+    { value: 'Admin', label: 'ROLE.ADMIN' },
+    { value: 'Basic', label: 'ROLE.BASIC' },
+    { value: 'Seller', label: 'ROLE.SELLER' }
+  ];
+
+  pageSizeOptions = [10, 25, 50, 100];
 
   private searchSubject: Subject<string> = new Subject<string>();
 
@@ -63,7 +87,7 @@ export class AdminUsersComponent implements OnInit {
       const response: any = await lastValueFrom(this.apiService.get<any>('user/', params));
 
       if (response && Array.isArray(response)) {
-        this.users = response.map((user: any) => ({
+        let filteredUsers = response.map((user: any) => ({
           ...user,
           firstName: user.first_name,
           lastName: user.last_name,
@@ -72,6 +96,25 @@ export class AdminUsersComponent implements OnInit {
           isVerified: user.is_verified ?? false,
           joinedDate: user.joined_date || user.created_at
         }));
+
+        if (this.selectedStatus !== 'all') {
+          filteredUsers = filteredUsers.filter((user: User) => {
+            if (this.selectedStatus === 'active') {
+              return user.isVerified;
+            }
+            if (this.selectedStatus === 'pending') {
+              return !user.isVerified;
+            }
+            return true;
+          });
+        }
+
+        if (this.selectedRole !== 'all') {
+          filteredUsers = filteredUsers.filter((user: User) => user.role === this.selectedRole);
+        }
+
+        this.sortUsers(filteredUsers);
+        this.users = filteredUsers;
         this.totalUsers = this.users.length;
         this.calculateStats();
       }
@@ -80,6 +123,42 @@ export class AdminUsersComponent implements OnInit {
     } finally {
       this.loading = false;
     }
+  }
+
+  sortUsers(users: User[]): void {
+    users.sort((a: User, b: User) => {
+      let aValue: any;
+      let bValue: any;
+
+      switch (this.sortField) {
+        case 'name':
+          aValue = (a.firstName || a.username || '').toLowerCase();
+          bValue = (b.firstName || b.username || '').toLowerCase();
+          break;
+        case 'email':
+          aValue = (a.email || '').toLowerCase();
+          bValue = (b.email || '').toLowerCase();
+          break;
+        case 'role':
+          aValue = (a.role || '').toLowerCase();
+          bValue = (b.role || '').toLowerCase();
+          break;
+        case 'joinedDate':
+          aValue = new Date(a.joinedDate || 0).getTime();
+          bValue = new Date(b.joinedDate || 0).getTime();
+          break;
+        default:
+          return 0;
+      }
+
+      if (aValue < bValue) {
+        return this.sortOrder === 'asc' ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return this.sortOrder === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
   }
 
   calculateStats(): void {
@@ -91,6 +170,34 @@ export class AdminUsersComponent implements OnInit {
 
   onSearchInput(event: any): void {
     this.searchSubject.next(event.target.value);
+  }
+
+  onStatusChange(event: any): void {
+    this.selectedStatus = event.detail.value;
+    this.currentPage = 0;
+    void this.loadUsers();
+  }
+
+  onRoleChange(event: any): void {
+    this.selectedRole = event.detail.value;
+    this.currentPage = 0;
+    void this.loadUsers();
+  }
+
+  onPageSizeChange(event: any): void {
+    this.pageSize = event.detail.value;
+    this.currentPage = 0;
+    void this.loadUsers();
+  }
+
+  onSort(field: string): void {
+    if (this.sortField === field) {
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortField = field;
+      this.sortOrder = 'asc';
+    }
+    this.sortUsers(this.users);
   }
 
   nextPage(): void {
@@ -107,11 +214,176 @@ export class AdminUsersComponent implements OnInit {
     }
   }
 
+  async exportUsers(): Promise<void> {
+    try {
+      const usersToExport =
+        this.selectedUsers.size > 0 ? this.users.filter((u) => this.selectedUsers.has(u.username)) : this.users;
+
+      const csv = this.convertToCSV(usersToExport);
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+
+      link.setAttribute('href', url);
+      link.setAttribute('download', `users_export_${new Date().toISOString().split('T')[0]}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      await this.notificationService.success('ADMIN.USERS.EXPORT_SUCCESS');
+    } catch (error) {
+      await this.notificationService.error('ADMIN.USERS.EXPORT_ERROR');
+    }
+  }
+
+  private convertToCSV(users: User[]): string {
+    const headers = [
+      'Username',
+      'Email',
+      'First Name',
+      'Last Name',
+      'Role',
+      'Status',
+      'University',
+      'Phone',
+      'Joined Date'
+    ];
+    const rows = users.map((user) => [
+      user.username || '',
+      user.email || '',
+      user.firstName || '',
+      user.lastName || '',
+      user.role || '',
+      user.isVerified ? 'Active' : 'Pending',
+      user.university || '',
+      user.phone || '',
+      user.joinedDate || ''
+    ]);
+
+    const csvContent = [headers.join(','), ...rows.map((row) => row.map((cell) => `"${cell}"`).join(','))].join('\n');
+
+    return csvContent;
+  }
+
+  async deleteUser(user: User): Promise<void> {
+    const alert = await this.alertController.create({
+      header: this.translateService.instant('ADMIN.USERS.DELETE_CONFIRM_TITLE'),
+      message: this.translateService.instant('ADMIN.USERS.DELETE_CONFIRM_MESSAGE', {
+        username: user.username
+      }),
+      buttons: [
+        {
+          text: this.translateService.instant('COMMON.CANCEL'),
+          role: 'cancel'
+        },
+        {
+          text: this.translateService.instant('COMMON.DELETE'),
+          role: 'destructive',
+          handler: async () => {
+            await this.confirmDeleteUser(user);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private async confirmDeleteUser(user: User): Promise<void> {
+    try {
+      await lastValueFrom(this.apiService.delete(`user/${user.username}`));
+      await this.notificationService.success('ADMIN.USERS.DELETE_SUCCESS');
+      this.selectedUsers.delete(user.username);
+      await this.loadUsers();
+    } catch (error) {
+      await this.notificationService.error('ADMIN.USERS.DELETE_ERROR');
+    }
+  }
+
+  async deleteBulkUsers(): Promise<void> {
+    if (this.selectedUsers.size === 0) {
+      return;
+    }
+
+    const alert = await this.alertController.create({
+      header: this.translateService.instant('ADMIN.USERS.DELETE_BULK_TITLE'),
+      message: this.translateService.instant('ADMIN.USERS.DELETE_BULK_MESSAGE', {
+        count: this.selectedUsers.size
+      }),
+      buttons: [
+        {
+          text: this.translateService.instant('COMMON.CANCEL'),
+          role: 'cancel'
+        },
+        {
+          text: this.translateService.instant('COMMON.DELETE'),
+          role: 'destructive',
+          handler: async () => {
+            await this.confirmDeleteBulkUsers();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private async confirmDeleteBulkUsers(): Promise<void> {
+    try {
+      const deletePromises = Array.from(this.selectedUsers).map((username) =>
+        lastValueFrom(this.apiService.delete(`user/${username}`))
+      );
+
+      await Promise.all(deletePromises);
+      await this.notificationService.success('ADMIN.USERS.DELETE_BULK_SUCCESS');
+      this.selectedUsers.clear();
+      await this.loadUsers();
+    } catch (error) {
+      await this.notificationService.error('ADMIN.USERS.DELETE_BULK_ERROR');
+    }
+  }
+
+  toggleUserSelection(username: string): void {
+    if (this.selectedUsers.has(username)) {
+      this.selectedUsers.delete(username);
+    } else {
+      this.selectedUsers.add(username);
+    }
+  }
+
+  toggleSelectAll(): void {
+    if (this.selectedUsers.size === this.users.length) {
+      this.selectedUsers.clear();
+    } else {
+      this.users.forEach((user) => this.selectedUsers.add(user.username));
+    }
+  }
+
+  isUserSelected(username: string): boolean {
+    return this.selectedUsers.has(username);
+  }
+
+  get allUsersSelected(): boolean {
+    return this.users.length > 0 && this.selectedUsers.size === this.users.length;
+  }
+
   formatDate(date: string | undefined): string {
     if (!date) {
       return '—';
     }
     return this.localizationService.formatDate(date);
+  }
+
+  getRoleText(role: string): string {
+    const key = 'ROLE.' + role.toUpperCase();
+    return this.translateService.instant(key);
+  }
+
+  getStatusText(user: User): string {
+    return user.isVerified
+      ? this.translateService.instant('USER.STATUS_ACTIVE')
+      : this.translateService.instant('USER.STATUS_PENDING');
   }
 
   getTimeAgo(date: string | undefined): string {
@@ -155,18 +427,6 @@ export class AdminUsersComponent implements OnInit {
     return `https://avatar.iran.liara.run/username?username=${name}`;
   }
 
-  getInitials(user: User): string {
-    const firstName = user.firstName?.trim() || '';
-    const lastName = user.lastName?.trim() || '';
-    if (firstName && lastName) {
-      return (firstName[0] + lastName[0]).toUpperCase();
-    }
-    if (user.username) {
-      return user.username.substring(0, 2).toUpperCase();
-    }
-    return 'U';
-  }
-
   getRoleBadgeClass(role: Role): string {
     switch (role.toLowerCase()) {
       case 'admin':
@@ -179,8 +439,40 @@ export class AdminUsersComponent implements OnInit {
     }
   }
 
-  onUserMenuClick(user: User, event: Event): void {
+  getStatusBadgeClass(user: User): string {
+    if (user.isVerified) {
+      return 'status-active';
+    }
+    return 'status-pending';
+  }
+
+  async onUserMenuClick(user: User, event: Event): Promise<void> {
     event.stopPropagation();
+
+    const alert = await this.alertController.create({
+      header: user.username,
+      buttons: [
+        {
+          text: this.translateService.instant('ADMIN.USERS.VIEW_DETAILS'),
+          handler: () => {
+            void this.router.navigate(['/profile', user.username]);
+          }
+        },
+        {
+          text: this.translateService.instant('COMMON.DELETE'),
+          role: 'destructive',
+          handler: () => {
+            void this.deleteUser(user);
+          }
+        },
+        {
+          text: this.translateService.instant('COMMON.CANCEL'),
+          role: 'cancel'
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   get hasNextPage(): boolean {

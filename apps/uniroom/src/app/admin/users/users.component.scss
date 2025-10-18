@@ -5,6 +5,9 @@
 }
 
 .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 2rem;
 
   h1 {
@@ -12,6 +15,14 @@
     font-weight: 600;
     color: var(--ion-text-color);
     margin: 0;
+  }
+
+  ion-button {
+    --border-radius: 8px;
+    height: 38px;
+    font-size: 0.875rem;
+    text-transform: none;
+    font-weight: 600;
   }
 }
 
@@ -100,24 +111,22 @@
 
 .controls-bar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  align-items: center;
   flex-wrap: wrap;
 }
 
 .search-box {
-  flex: 1;
-  min-width: 250px;
-  max-width: 400px;
+  flex: 1 1 280px;
+  min-width: 200px;
   position: relative;
   display: flex;
   align-items: center;
   background: var(--ion-card-background, #fff);
   border: 1px solid var(--ion-border-color, #e0e0e0);
   border-radius: 8px;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.875rem;
   transition: all 0.2s ease;
 
   &:focus-within {
@@ -126,9 +135,10 @@
   }
 
   ion-icon {
-    font-size: 20px;
+    font-size: 18px;
     color: var(--ion-color-medium);
     margin-right: 0.5rem;
+    flex-shrink: 0;
   }
 
   input {
@@ -136,8 +146,9 @@
     border: none;
     outline: none;
     background: transparent;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     color: var(--ion-text-color);
+    min-width: 0;
 
     &::placeholder {
       color: var(--ion-color-medium);
@@ -146,19 +157,59 @@
 }
 
 .filters {
+  flex: 1 1 auto;
   display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+  gap: 0.625rem;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  min-width: 0;
+
+  @media (max-width: 1200px) {
+    flex-wrap: wrap;
+    justify-content: stretch;
+  }
+}
+
+.filter-select,
+.page-size-select {
+  flex: 0 1 150px;
+  min-width: 130px;
+  --padding-start: 0.875rem;
+  --padding-end: 0.875rem;
+  border: 1.5px solid var(--ion-border-color, #e0e0e0);
+  border-radius: 8px;
+  height: 38px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  background: var(--ion-card-background, #fff);
+  transition: all 0.2s ease;
+  color: var(--ion-text-color);
+
+  &:hover {
+    border-color: var(--ion-color-primary);
+    background: rgba(var(--ion-color-primary-rgb), 0.02);
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 1200px) {
+    flex: 1 1 auto;
+  }
 }
 
 .filter-button,
 .export-button {
   --border-radius: 8px;
-  --padding-start: 1rem;
-  --padding-end: 1rem;
-  height: 38px;
-  font-size: 0.875rem;
+  --padding-start: 0.875rem;
+  --padding-end: 0.875rem;
+  height: 36px;
+  font-size: 0.8125rem;
   text-transform: none;
+  font-weight: 500;
+
+  ion-icon {
+    font-size: 16px;
+  }
 }
 
 .add-user-button {
@@ -306,52 +357,55 @@
   border-radius: 6px;
   font-size: 0.75rem;
   font-weight: 600;
-  text-transform: lowercase;
-  white-space: nowrap;
+  text-transform: capitalize;
 }
 
-.role-student {
-  background: rgba(99, 102, 241, 0.1);
-  color: #6366f1;
+.role-badge {
+  &.role-admin {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+  }
+
+  &.role-seller {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+  }
+
+  &.role-student {
+    background: rgba(107, 114, 128, 0.1);
+    color: #6b7280;
+  }
 }
 
-.role-admin {
-  background: rgba(168, 85, 247, 0.1);
-  color: #a855f7;
-}
+.status-badge {
+  &.status-active {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+  }
 
-.role-seller {
-  background: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
-}
+  &.status-pending {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+  }
 
-.status-active {
-  background: rgba(16, 185, 129, 0.1);
-  color: #10b981;
-}
-
-.status-pending {
-  background: rgba(245, 158, 11, 0.1);
-  color: #f59e0b;
-}
-
-.status-suspended {
-  background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-}
-
-.col-actions {
-  text-align: right;
+  &.status-suspended {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+  }
 }
 
 .action-button {
   --padding-start: 0.5rem;
   --padding-end: 0.5rem;
   --color: var(--ion-color-medium);
-  height: 32px;
+  margin: 0;
 
   &:hover {
-    --color: var(--ion-text-color);
+    --color: var(--ion-color-primary);
+  }
+
+  ion-icon {
+    font-size: 20px;
   }
 }
 
@@ -359,11 +413,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1.5rem;
-  padding: 1rem;
+  padding: 1.5rem 2rem;
   background: var(--ion-card-background, #fff);
-  border: 1px solid var(--ion-border-color, #e0e0e0);
-  border-radius: 12px;
+  border-top: 1px solid var(--ion-border-color, #e0e0e0);
+  margin-top: -1px;
+  border-radius: 0 0 12px 12px;
 }
 
 .pagination-info {
@@ -376,11 +430,83 @@
   gap: 0.5rem;
 
   ion-button {
-    --border-radius: 8px;
+    --border-radius: 6px;
     --padding-start: 0.75rem;
     --padding-end: 0.75rem;
     height: 36px;
   }
+}
+
+.col-checkbox {
+  width: 50px;
+}
+
+.col-user {
+  min-width: 250px;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    color: var(--ion-color-primary);
+  }
+}
+
+.col-role {
+  width: 120px;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    color: var(--ion-color-primary);
+  }
+}
+
+.col-status {
+  width: 100px;
+}
+
+.col-university {
+  width: 180px;
+}
+
+.col-joined {
+  width: 140px;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    color: var(--ion-color-primary);
+  }
+}
+
+.col-last-active {
+  width: 140px;
+}
+
+.col-actions {
+  width: 60px;
+  text-align: center;
+}
+
+.user-row {
+  &.selected {
+    background: rgba(var(--ion-color-primary-rgb), 0.05);
+
+    &:hover {
+      background: rgba(var(--ion-color-primary-rgb), 0.08);
+    }
+  }
+}
+
+.filter-select,
+.page-size-select {
+  min-width: 140px;
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+  border: 1px solid var(--ion-border-color, #e0e0e0);
+  border-radius: 8px;
+  height: 38px;
+  font-size: 0.875rem;
 }
 
 @media (max-width: 768px) {
@@ -389,12 +515,8 @@
   }
 
   .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 1rem;
-  }
-
-  .stat-card {
-    padding: 1rem;
   }
 
   .controls-bar {
@@ -403,11 +525,19 @@
   }
 
   .search-box {
-    max-width: 100%;
+    max-width: none;
   }
 
   .filters {
-    justify-content: space-between;
+    flex-direction: column;
+  }
+
+  .filter-select,
+  .page-size-select,
+  .filter-button,
+  .export-button,
+  .add-user-button {
+    width: 100%;
   }
 
   .table-container {
@@ -421,7 +551,11 @@
   .pagination {
     flex-direction: column;
     gap: 1rem;
-    align-items: stretch;
-    text-align: center;
+    padding: 1rem;
+  }
+
+  .pagination-controls {
+    width: 100%;
+    justify-content: center;
   }
 }

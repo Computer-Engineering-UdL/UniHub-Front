@@ -1,5 +1,12 @@
 <ion-content>
   <div class="admin-users-container">
+    <div class="page-header">
+      <ion-button *ngIf="selectedUsers.size > 0" color="danger" (click)="deleteBulkUsers()">
+        <ion-icon slot="start" name="trash-outline"></ion-icon>
+        {{ 'ADMIN.USERS.DELETE_SELECTED' | translate }} ({{ selectedUsers.size }})
+      </ion-button>
+    </div>
+
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-icon">
@@ -53,25 +60,42 @@
       </div>
 
       <div class="filters">
-        <ion-button fill="outline" class="filter-button" [disabled]="true">
-          <ion-icon slot="start" name="funnel-outline"></ion-icon>
-          {{ 'ADMIN.USERS.ALL_STATUS' | translate }}
-        </ion-button>
+        <ion-select
+          [placeholder]="'ADMIN.USERS.ALL_STATUS' | translate"
+          [(ngModel)]="selectedStatus"
+          (ionChange)="onStatusChange($event)"
+          interface="popover"
+          class="filter-select">
+          <ion-select-option *ngFor="let option of statusOptions" [value]="option.value">
+            {{ option.label | translate }}
+          </ion-select-option>
+        </ion-select>
 
-        <ion-button fill="outline" class="filter-button" [disabled]="true">
-          <ion-icon slot="start" name="shield-outline"></ion-icon>
-          {{ 'ADMIN.USERS.ALL_ROLES' | translate }}
-        </ion-button>
+        <ion-select
+          [placeholder]="'ADMIN.USERS.ALL_ROLES' | translate"
+          [(ngModel)]="selectedRole"
+          (ionChange)="onRoleChange($event)"
+          interface="popover"
+          class="filter-select">
+          <ion-select-option *ngFor="let option of roleOptions" [value]="option.value">
+            {{ option.label | translate }}
+          </ion-select-option>
+        </ion-select>
 
-        <ion-button fill="outline" class="export-button" [disabled]="true">
+        <ion-button fill="outline" class="export-button" (click)="exportUsers()">
           <ion-icon slot="start" name="download-outline"></ion-icon>
           {{ 'ADMIN.USERS.EXPORT' | translate }}
         </ion-button>
 
-        <ion-button class="add-user-button" [disabled]="true">
-          <ion-icon slot="start" name="person-add-outline"></ion-icon>
-          {{ 'ADMIN.USERS.ADD_USER' | translate }}
-        </ion-button>
+        <ion-select
+          [(ngModel)]="pageSize"
+          (ionChange)="onPageSizeChange($event)"
+          interface="popover"
+          class="page-size-select">
+          <ion-select-option *ngFor="let size of pageSizeOptions" [value]="size">
+            {{ size }} {{ 'ADMIN.USERS.PER_PAGE' | translate }}
+          </ion-select-option>
+        </ion-select>
       </div>
     </div>
 
@@ -79,34 +103,74 @@
       <table class="users-table">
         <thead>
           <tr>
-            <th class="col-user">
-              {{ 'ADMIN.USERS.TABLE.USER' | translate }}
-              <ion-icon name="chevron-up-outline"></ion-icon>
+            <th class="col-checkbox">
+              <ion-checkbox
+                [checked]="allUsersSelected"
+                (ionChange)="toggleSelectAll()"></ion-checkbox>
             </th>
-            <th class="col-role">{{ 'ADMIN.USERS.TABLE.ROLE' | translate }}</th>
+            <th class="col-user" (click)="onSort('name')">
+              {{ 'ADMIN.USERS.TABLE.USER' | translate }}
+              <ion-icon
+                [name]="
+                  sortField === 'name'
+                    ? sortOrder === 'asc'
+                      ? 'chevron-up-outline'
+                      : 'chevron-down-outline'
+                    : 'swap-vertical-outline'
+                "></ion-icon>
+            </th>
+            <th class="col-role" (click)="onSort('role')">
+              {{ 'ADMIN.USERS.TABLE.ROLE' | translate }}
+              <ion-icon
+                [name]="
+                  sortField === 'role'
+                    ? sortOrder === 'asc'
+                      ? 'chevron-up-outline'
+                      : 'chevron-down-outline'
+                    : 'swap-vertical-outline'
+                "></ion-icon>
+            </th>
             <th class="col-status">{{ 'ADMIN.USERS.TABLE.STATUS' | translate }}</th>
             <th class="col-university">{{ 'ADMIN.USERS.TABLE.UNIVERSITY' | translate }}</th>
-            <th class="col-joined">{{ 'ADMIN.USERS.TABLE.JOINED' | translate }}</th>
+            <th class="col-joined" (click)="onSort('joinedDate')">
+              {{ 'ADMIN.USERS.TABLE.JOINED' | translate }}
+              <ion-icon
+                [name]="
+                  sortField === 'joinedDate'
+                    ? sortOrder === 'asc'
+                      ? 'chevron-up-outline'
+                      : 'chevron-down-outline'
+                    : 'swap-vertical-outline'
+                "></ion-icon>
+            </th>
             <th class="col-last-active">{{ 'ADMIN.USERS.TABLE.LAST_ACTIVE' | translate }}</th>
             <th class="col-actions"></th>
           </tr>
         </thead>
         <tbody>
           <tr *ngIf="loading">
-            <td colspan="7" class="loading-cell">
+            <td colspan="8" class="loading-cell">
               <ion-spinner name="crescent"></ion-spinner>
             </td>
           </tr>
           <tr *ngIf="!loading && users.length === 0">
-            <td colspan="7" class="empty-cell">
+            <td colspan="8" class="empty-cell">
               {{ 'ADMIN.USERS.NO_USERS' | translate }}
             </td>
           </tr>
-          <tr *ngFor="let user of users" class="user-row">
+          <tr
+            *ngFor="let user of users"
+            class="user-row"
+            [class.selected]="isUserSelected(user.username)">
+            <td class="col-checkbox">
+              <ion-checkbox
+                [checked]="isUserSelected(user.username)"
+                (ionChange)="toggleUserSelection(user.username)"></ion-checkbox>
+            </td>
             <td class="col-user">
               <div class="user-info">
                 <div class="user-avatar">
-                  <img ngSrc="{{ getUserAvatar(user) }}" fill [alt]="user.username" />
+                  <img [src]="getUserAvatar(user)" [alt]="user.username" />
                 </div>
                 <div class="user-details">
                   <div class="user-name">
@@ -122,14 +186,12 @@
             </td>
             <td class="col-role">
               <span class="role-badge" [ngClass]="getRoleBadgeClass(user.role)">
-                {{ 'ROLE.' + user.role.toUpperCase() | translate }}
+                {{ getRoleText(user.role) }}
               </span>
             </td>
             <td class="col-status">
-              <span
-                class="status-badge"
-                [ngClass]="user.isVerified ? 'status-active' : 'status-pending'">
-                {{ (user.isVerified ? 'USER.STATUS_ACTIVE' : 'USER.STATUS_PENDING') | translate }}
+              <span class="status-badge" [ngClass]="getStatusBadgeClass(user)">
+                {{ getStatusText(user) }}
               </span>
             </td>
             <td class="col-university">
