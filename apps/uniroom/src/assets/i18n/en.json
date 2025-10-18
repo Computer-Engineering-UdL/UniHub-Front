@@ -98,6 +98,11 @@
       "DAYS_AGO": "{{count}} days ago",
       "WEEK_AGO": "1 week ago"
     },
+    "ROLE": {
+      "ADMIN": "Administrator",
+      "BASIC": "User",
+      "SELLER": "Seller"
+    },
     "VERIFIED": "Verified",
     "JOINED": "Joined",
     "YEAR": "{{year}}rd Year"

@@ -272,6 +272,11 @@
   "ERROR": {
     "LOAD_USERS": "Error al cargar los usuarios"
   },
+  "ROLE": {
+    "ADMIN": "Administrador",
+    "BASIC": "Usuario",
+    "SELLER": "Vendedor"
+  },
   "TIME_AGO": {
     "TODAY": "hoy",
     "ONE_DAY": "hace 1 día",
