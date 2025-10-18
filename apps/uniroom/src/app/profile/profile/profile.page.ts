@@ -196,8 +196,7 @@ export class ProfilePage implements OnInit, OnDestroy {
         await this.authService.addInterestToUser(this.user.id, interest.id);
       }
       await this.loadUserInterests(this.user.id);
-    } catch (_) {
-    }
+    } catch (_) {}
   }
 
   async openEditModal(): Promise<void> {

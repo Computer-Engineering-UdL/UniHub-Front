@@ -9,11 +9,11 @@
 
 $surface: var(--ion-card-background, var(--ion-background-color, #fff));
 $surface-contrast: var(--ion-text-color, #1a1a1a);
-$line: var(--ion-border-color, rgba(0,0,0,0.08));
-$chip-bg: var(--ion-color-step-50, rgba(0,0,0,0.02));
-$chip-border: var(--ion-color-step-150, rgba(0,0,0,0.08));
+$line: var(--ion-border-color, rgba(0, 0, 0, 0.08));
+$chip-bg: var(--ion-color-step-50, rgba(0, 0, 0, 0.02));
+$chip-border: var(--ion-color-step-150, rgba(0, 0, 0, 0.08));
 $input-bg: var(--ion-item-background, #fff);
-$input-border: var(--ion-color-step-150, rgba(0,0,0,0.08));
+$input-border: var(--ion-color-step-150, rgba(0, 0, 0, 0.08));
 
 .modal-header {
   position: sticky;
@@ -42,7 +42,7 @@ $input-border: var(--ion-color-step-150, rgba(0,0,0,0.08));
 }
 
 .modal-close:hover {
-  background: var(--ion-color-step-50, rgba(0,0,0,0.05));
+  background: var(--ion-color-step-50, rgba(0, 0, 0, 0.05));
   color: var(--ion-color-dark, #222);
 }
 
@@ -67,7 +67,7 @@ $input-border: var(--ion-color-step-150, rgba(0,0,0,0.08));
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  background: linear-gradient(135deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.01));
 }
 
 .avatar-wrap img {
@@ -105,9 +105,9 @@ $input-border: var(--ion-color-step-150, rgba(0,0,0,0.08));
   margin-bottom: 6px;
 }
 
-.edit-form input[type="text"],
-.edit-form input[type="tel"],
-.edit-form input[type="number"] {
+.edit-form input[type='text'],
+.edit-form input[type='tel'],
+.edit-form input[type='number'] {
   width: 100%;
   padding: 12px 14px;
   border-radius: 10px;
@@ -122,25 +122,9 @@ $input-border: var(--ion-color-step-150, rgba(0,0,0,0.08));
   outline-offset: 1px;
 }
 
-.interests-section {
-  margin-top: 16px;
-}
-
-.interests-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.interest-chip {
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid $chip-border;
-  background: $chip-bg;
-  font-size: 0.85rem;
-  cursor: pointer;
-  color: $surface-contrast;
+.chip-icon {
+  font-size: 14px;
+  opacity: 0.9;
 }
 
 .interest-chip.selected {
@@ -161,7 +145,7 @@ $input-border: var(--ion-color-step-150, rgba(0,0,0,0.08));
   border-radius: 10px;
   border: 1px solid $line;
   cursor: pointer;
-  background: var(--ion-color-step-50, rgba(0,0,0,0.02));
+  background: var(--ion-color-step-50, rgba(0, 0, 0, 0.02));
   color: $surface-contrast;
 }
 
@@ -173,6 +157,31 @@ $input-border: var(--ion-color-step-150, rgba(0,0,0,0.08));
 
 .modal-actions .btn-secondary {
   background: transparent;
+}
+
+.range-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.range-row ion-range {
+  flex: 1 1 auto;
+}
+
+.range-ext {
+  font-size: 0.8rem;
+  color: var(--ion-color-medium);
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+.range-row ion-range {
+  --bar-background: var(--ion-color-step-150);
+  --bar-background-active: var(--ion-color-primary);
+  --knob-background: var(--ion-color-primary);
+  --pin-background: var(--ion-color-primary);
+  --pin-color: var(--ion-color-primary-contrast, #fff);
 }
 
 @media (max-width: 420px) {
@@ -188,11 +197,19 @@ $input-border: var(--ion-color-step-150, rgba(0,0,0,0.08));
     color: var(--ion-color-step-650, #bbb);
   }
   .modal-close:hover {
-    background: var(--ion-color-step-150, rgba(255,255,255,0.08));
+    background: var(--ion-color-step-150, rgba(255, 255, 255, 0.08));
     color: var(--ion-color-light, #f1f1f1);
   }
-  .avatar-wrap { box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
-  .label { color: var(--ion-color-step-650, #bbb); }
-  .email { color: var(--ion-color-step-600, #aaa); }
-  .modal-actions .btn { border-color: var(--ion-color-step-250, rgba(255,255,255,0.08)); }
+  .avatar-wrap {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+  .label {
+    color: var(--ion-color-step-650, #bbb);
+  }
+  .email {
+    color: var(--ion-color-step-600, #aaa);
+  }
+  .modal-actions .btn {
+    border-color: var(--ion-color-step-250, rgba(255, 255, 255, 0.08));
+  }
 }

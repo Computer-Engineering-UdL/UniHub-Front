@@ -197,9 +197,10 @@ export class LocalizationService {
     const s = String(input).trim();
     // Allow ISO or epoch
     const asNumber = Number(s);
-    const d = isFinite(asNumber) && s !== '' && /^(\d{10}|\d{13})$/.test(s)
-      ? new Date(asNumber.toString().length === 10 ? asNumber * 1000 : asNumber)
-      : new Date(s);
+    const d =
+      isFinite(asNumber) && s !== '' && /^(\d{10}|\d{13})$/.test(s)
+        ? new Date(asNumber.toString().length === 10 ? asNumber * 1000 : asNumber)
+        : new Date(s);
     return isNaN(d.getTime()) ? null : d;
   }
 

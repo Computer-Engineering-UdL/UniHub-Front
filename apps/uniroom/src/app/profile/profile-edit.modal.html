@@ -52,10 +52,18 @@
 
       <label>
         <div class="label">{{ 'PROFILE.YEAR_OF_STUDY' | translate }}</div>
-        <input
-          type="number"
-          [value]="user.yearOfStudy || 1"
-          (input)="user.yearOfStudy = +$any($event.target).value" />
+        <div class="range-row">
+          <span class="range-ext">1</span>
+          <ion-range
+            [min]="1"
+            [max]="12"
+            [step]="1"
+            [snaps]="true"
+            [pin]="true"
+            [value]="user.yearOfStudy || 1"
+            (ionChange)="user.yearOfStudy = ($any($event.detail.value))"></ion-range>
+          <span class="range-ext">12</span>
+        </div>
       </label>
 
       <label>
@@ -66,20 +74,6 @@
           (input)="onImgUrlInput($any($event.target).value)" />
       </label>
     </form>
-
-    <section class="interests-section">
-      <h4>{{ 'PROFILE.INTERESTS.TITLE' | translate }}</h4>
-      <div class="interests-list">
-        <div *ngIf="loadingInterests" class="spinner">{{ 'COMMON.LOADING' | translate }}</div>
-        <button
-          class="interest-chip"
-          *ngFor="let interest of availableInterests"
-          [class.selected]="isUserHasInterest(interest.id)"
-          (click)="toggleInterest(interest)">
-          {{ interest.name }}
-        </button>
-      </div>
-    </section>
 
     <div class="modal-actions">
       <button class="btn btn-primary" (click)="save()" [attr.disabled]="saving ? true : null">
