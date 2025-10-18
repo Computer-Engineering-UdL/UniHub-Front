@@ -65,9 +65,16 @@
             [(ngModel)]="selectedStatus"
             (ionChange)="onStatusChange($event)"
             interface="popover"
+            [interfaceOptions]="{cssClass: 'status-select-popover'}"
             class="filter-select with-icon">
-            <ion-select-option *ngFor="let option of statusOptions" [value]="option.value">
-              {{ option.label | translate }}
+            <ion-select-option value="all">
+              {{ 'ADMIN.USERS.ALL_STATUS' | translate }}
+            </ion-select-option>
+            <ion-select-option value="active" class="status-active">
+              {{ 'USER.STATUS_ACTIVE' | translate }}
+            </ion-select-option>
+            <ion-select-option value="pending" class="status-pending">
+              {{ 'USER.STATUS_PENDING' | translate }}
             </ion-select-option>
           </ion-select>
         </div>
@@ -79,9 +86,19 @@
             [(ngModel)]="selectedRole"
             (ionChange)="onRoleChange($event)"
             interface="popover"
+            [interfaceOptions]="{cssClass: 'roles-select-popover'}"
             class="filter-select with-icon">
-            <ion-select-option *ngFor="let option of roleOptions" [value]="option.value">
-              {{ option.label | translate }}
+            <ion-select-option value="all">
+              {{ 'ADMIN.USERS.ALL_ROLES' | translate }}
+            </ion-select-option>
+            <ion-select-option value="Admin" class="role-admin">
+              {{ 'ROLE.ADMIN' | translate }}
+            </ion-select-option>
+            <ion-select-option value="Basic" class="role-basic">
+              {{ 'ROLE.BASIC' | translate }}
+            </ion-select-option>
+            <ion-select-option value="Seller" class="role-seller">
+              {{ 'ROLE.SELLER' | translate }}
             </ion-select-option>
           </ion-select>
         </div>
