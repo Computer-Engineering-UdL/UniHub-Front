@@ -88,10 +88,6 @@
         <ion-icon name="home-outline"></ion-icon>
         <h3>{{ 'ROOM.NO_OFFERS' | translate }}</h3>
         <p>{{ 'ROOM.NO_OFFERS_DESCRIPTION' | translate }}</p>
-        <ion-button *ngIf="canCreateOffer" (click)="openCreateOfferModal()" color="primary">
-          <ion-icon slot="start" name="add-circle-outline"></ion-icon>
-          {{ 'ROOM.CREATE_FIRST_OFFER' | translate }}
-        </ion-button>
       </div>
     </div>
   </div>
