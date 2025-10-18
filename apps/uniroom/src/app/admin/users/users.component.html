@@ -172,7 +172,7 @@
                 </div>
                 <div class="user-details">
                   <div class="user-name">
-                    {{ user.firstName || user.username }} {{ user.lastName || '' }}
+                    {{ getFullName(user) }}
                     <ion-icon
                       *ngIf="user.isVerified"
                       name="checkmark-circle"

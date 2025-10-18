@@ -12,6 +12,7 @@ export interface User {
   name?: string;
   firstName?: string;
   lastName?: string;
+  fullName?: string; // name + ' ' + lastName
   phone?: string;
   university?: string;
   provider?: 'local' | 'github' | 'google';

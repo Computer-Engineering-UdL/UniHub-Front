@@ -134,8 +134,8 @@ export class AdminUsersComponent implements OnInit {
 
       switch (this.sortField) {
         case 'name':
-          aValue = (a.firstName || a.username || '').toLowerCase();
-          bValue = (b.firstName || b.username || '').toLowerCase();
+          aValue = this.getFullName(a).toLowerCase();
+          bValue = this.getFullName(b).toLowerCase();
           break;
         case 'email':
           aValue = (a.email || '').toLowerCase();
@@ -472,11 +472,29 @@ export class AdminUsersComponent implements OnInit {
     return 'status-pending';
   }
 
+  getFullName(user: User): string {
+    if (user.fullName) {
+      return user.fullName;
+    }
+    const firstName = user.firstName?.trim() || '';
+    const lastName = user.lastName?.trim() || '';
+    if (firstName && lastName) {
+      return `${firstName} ${lastName}`;
+    }
+    if (firstName) {
+      return firstName;
+    }
+    if (lastName) {
+      return lastName;
+    }
+    return user.username || user.email || 'Usuario';
+  }
+
   async onUserMenuClick(user: User, event: Event): Promise<void> {
     event.stopPropagation();
 
-    const alert = await this.alertController.create({
-      header: user.username,
+    const alert: HTMLIonAlertElement = await this.alertController.create({
+      header: this.getFullName(user),
       buttons: [
         {
           text: this.translateService.instant('ADMIN.USERS.VIEW_DETAILS'),
