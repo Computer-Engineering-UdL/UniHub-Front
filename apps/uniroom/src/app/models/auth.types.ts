@@ -1,5 +1,10 @@
 export type Role = 'Basic' | 'Seller' | 'Admin';
 
+export interface Interest {
+  id: string;
+  name: string;
+}
+
 export interface User {
   id: string;
   username: string;
@@ -11,11 +16,15 @@ export interface User {
   university?: string;
   provider?: 'local' | 'github' | 'google';
   role: Role;
+  avatar_url?: string;
   imgUrl?: string;
   joinedDate?: string;
   yearOfStudy?: number;
   isVerified?: boolean;
+  interests?: Interest[];
 }
+
+export const DEFAULT_USER_URL = 'assets/img/default-profile.png';
 
 export interface AuthResponse {
   token: string;

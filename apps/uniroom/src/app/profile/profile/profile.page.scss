@@ -34,7 +34,6 @@
   img {
     width: clamp(80px, 20vw, 120px);
     height: clamp(80px, 20vw, 120px);
-    background: #6797c6; // Same color as default avatar
     border-radius: 50%;
     object-fit: cover;
     border: 4px solid var(--ion-color-primary);

@@ -23,6 +23,10 @@ export class ApiService {
     return this.http.put<T>(`${this.API_URL}/${endpoint}`, body, { headers });
   }
 
+  patch<T, B = any>(endpoint: string, body: B, headers?: HttpHeaders): Observable<T> {
+    return this.http.patch<T>(`${this.API_URL}/${endpoint}`, body, { headers });
+  }
+
   delete<T>(endpoint: string, params?: Record<string, any>, headers?: HttpHeaders): Observable<T> {
     const httpParams = this.buildHttpParams(params);
     return this.http.delete<T>(`${this.API_URL}/${endpoint}`, { params: httpParams, headers });

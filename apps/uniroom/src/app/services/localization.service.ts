@@ -4,6 +4,7 @@ import { lastValueFrom } from 'rxjs';
 
 export type LangCode = 'en' | 'es' | 'ca';
 export type TNumber = number | string; // accepted input types for formatting
+export type TDateInput = Date | string | number | null | undefined;
 
 @Injectable({ providedIn: 'root' })
 export class LocalizationService {
@@ -85,7 +86,7 @@ export class LocalizationService {
         }
       }
       return { decimal, thousand };
-    } catch (e) {
+    } catch {
       return { decimal: '.', thousand: ',' };
     }
   }
@@ -149,7 +150,7 @@ export class LocalizationService {
       return this.trimTrailingZerosInParts(parts)
         .map((p) => p.value)
         .join('');
-    } catch (e) {
+    } catch {
       return String(value);
     }
   }
@@ -184,8 +185,56 @@ export class LocalizationService {
       return this.trimTrailingZerosInParts(parts)
         .map((p) => p.value)
         .join('');
-    } catch (e) {
+    } catch {
       return `${this.formatNumber(num, maxFractionDigits, removeTrailingZeros)} ${currency}`;
+    }
+  }
+
+  /** Try to convert any input into a valid Date object. */
+  private toDate(input: TDateInput): Date | null {
+    if (input == null) return null;
+    if (input instanceof Date) return isNaN(input.getTime()) ? null : input;
+    const s = String(input).trim();
+    // Allow ISO or epoch
+    const asNumber = Number(s);
+    const d =
+      isFinite(asNumber) && s !== '' && /^(\d{10}|\d{13})$/.test(s)
+        ? new Date(asNumber.toString().length === 10 ? asNumber * 1000 : asNumber)
+        : new Date(s);
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  /** Format only date (no time) using current locale. */
+  formatDate(input: TDateInput, options?: Intl.DateTimeFormatOptions): string {
+    const d = this.toDate(input);
+    if (!d) return '—';
+    const locale = this.getLocale();
+    // default: e.g., 18 Oct 2025 (dependiendo de locale)
+    const fmt: Intl.DateTimeFormatOptions = options ?? { year: 'numeric', month: 'short', day: '2-digit' };
+    try {
+      return new Intl.DateTimeFormat(locale, fmt).format(d);
+    } catch {
+      return d.toLocaleDateString();
+    }
+  }
+
+  /** Format date and time using current locale. */
+  formatDateTime(input: TDateInput, options?: Intl.DateTimeFormatOptions): string {
+    const d = this.toDate(input);
+    if (!d) return '—';
+    const locale = this.getLocale();
+    // default: include hours and minutes in 2-digit format
+    const fmt: Intl.DateTimeFormatOptions = options ?? {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    };
+    try {
+      return new Intl.DateTimeFormat(locale, fmt).format(d);
+    } catch {
+      return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;
     }
   }
 }
