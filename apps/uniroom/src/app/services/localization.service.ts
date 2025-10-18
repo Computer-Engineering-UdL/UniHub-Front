@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { lastValueFrom } from 'rxjs';
 
 export type LangCode = 'en' | 'es' | 'ca';
+export type TNumber = number | string; // accepted input types for formatting
 
 @Injectable({ providedIn: 'root' })
 export class LocalizationService {
@@ -89,36 +90,102 @@ export class LocalizationService {
     }
   }
 
+  // Trim trailing zeros from fraction parts; returns a new parts array
+  private trimTrailingZerosInParts(parts: Intl.NumberFormatPart[]): Intl.NumberFormatPart[] {
+    const p = parts.map((x) => ({ ...x }));
+    const fractionIndex: number = p.findIndex((part) => part.type === 'fraction');
+    if (fractionIndex < 0) {
+      return p;
+    }
+
+    const frac: string = p[fractionIndex].value;
+    const trimmed: string = frac.replace(/0+$/, '');
+    if (trimmed.length > 0) {
+      p[fractionIndex].value = trimmed;
+      return p;
+    }
+
+    p.splice(fractionIndex, 1);
+    const decimalIndex: number = p.findIndex((part) => part.type === 'decimal');
+    if (decimalIndex >= 0) {
+      p.splice(decimalIndex, 1);
+    }
+    return p;
+  }
+
+  private toNumber(value: TNumber): number {
+    if (typeof value === 'number') {
+      return value;
+    }
+    return Number(String(value).trim());
+  }
+
   /**
    * Format a plain number according to locale with optional max fraction digits.
+   * Returns a string.
+   * If value is invalid, returns an em dash.
+   * If removeTrailingZeros is true (default), then trailing zeros in the fractional part are removed
    */
-  formatNumber(value: any, maxFractionDigits = 2): string {
-    if (!isFinite(Number(value))) {
+  formatNumber(value: TNumber, maxFractionDigits = 2, removeTrailingZeros = true): string {
+    const num: number = this.toNumber(value);
+    if (!isFinite(num)) {
       return '—';
     }
-    return new Intl.NumberFormat(this.getLocale(), {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: maxFractionDigits
-    }).format(Number(value));
+    const locale: string = this.getLocale();
+
+    try {
+      if (!removeTrailingZeros) {
+        return new Intl.NumberFormat(locale, {
+          minimumFractionDigits: maxFractionDigits,
+          maximumFractionDigits: maxFractionDigits
+        }).format(num);
+      }
+
+      const formatter = new Intl.NumberFormat(locale, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: maxFractionDigits
+      });
+      const parts: Intl.NumberFormatPart[] = formatter.formatToParts(num);
+      return this.trimTrailingZerosInParts(parts)
+        .map((p) => p.value)
+        .join('');
+    } catch (e) {
+      return String(value);
+    }
   }
 
   /**
    * Format a price using the locale and provided currency (default EUR).
+   * Optional maxFractionDigits and removeTrailingZeros control fractional behavior.
    */
-  formatPrice(value: any, currency: string = 'EUR'): string {
-    const num: number = Number(value);
-    if (!isFinite(num)) {
+  formatPrice(value: TNumber, currency: string = 'EUR', maxFractionDigits = 2, removeTrailingZeros = true): string {
+    const num: number = this.toNumber(value);
+    if (!isFinite(this.toNumber(value))) {
       return '—';
     }
+    const locale: string = this.getLocale();
 
-    if (!currency || currency.length !== 3) {
-      currency = 'EUR';
-    }
     try {
-      return new Intl.NumberFormat(this.getLocale(), { style: 'currency', currency }).format(num);
+      const baseFormatter = new Intl.NumberFormat(locale, { style: 'currency', currency });
+      const defaultMin: number = baseFormatter.resolvedOptions().minimumFractionDigits ?? 0;
+
+      const formatter = new Intl.NumberFormat(locale, {
+        style: 'currency',
+        currency,
+        maximumFractionDigits: maxFractionDigits,
+        minimumFractionDigits: removeTrailingZeros ? 0 : defaultMin
+      });
+
+      if (!removeTrailingZeros) {
+        return formatter.format(num);
+      }
+
+      const parts: Intl.NumberFormatPart[] = formatter.formatToParts(num);
+      return this.trimTrailingZerosInParts(parts)
+        .map((p) => p.value)
+        .join('');
     } catch (e) {
-      // Fallback: format as a plain number plus currency code
-      return `${this.formatNumber(num, 2)} ${currency}`;
+      return `${this.formatNumber(num, maxFractionDigits, removeTrailingZeros)} ${currency}`;
     }
   }
 }
