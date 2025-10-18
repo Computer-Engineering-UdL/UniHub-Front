@@ -39,7 +39,7 @@ export class AuthService {
       name: apiUser.name || apiUser.username,
       firstName: apiUser.first_name || apiUser.firstName,
       lastName: apiUser.last_name || apiUser.lastName,
-      fullName: (apiUser.first_name?.trim() || apiUser.firstName?.trim() || ''),
+      fullName: apiUser.first_name?.trim() || apiUser.firstName?.trim() || '',
       phone: apiUser.phone,
       university: apiUser.university,
       provider: apiUser.provider,

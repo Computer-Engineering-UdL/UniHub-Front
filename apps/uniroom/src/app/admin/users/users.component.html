@@ -58,32 +58,33 @@
       </ion-button>
 
       <div class="filters">
-        <ion-select
-          [placeholder]="'ADMIN.USERS.ALL_STATUS' | translate"
-          [(ngModel)]="selectedStatus"
-          (ionChange)="onStatusChange($event)"
-          interface="popover"
-          class="filter-select">
-          <ion-select-option *ngFor="let option of statusOptions" [value]="option.value">
-            {{ option.label | translate }}
-          </ion-select-option>
-        </ion-select>
+        <div class="filter-wrapper">
+          <ion-icon name="funnel-outline" class="filter-icon"></ion-icon>
+          <ion-select
+            [placeholder]="'ADMIN.USERS.ALL_STATUS' | translate"
+            [(ngModel)]="selectedStatus"
+            (ionChange)="onStatusChange($event)"
+            interface="popover"
+            class="filter-select with-icon">
+            <ion-select-option *ngFor="let option of statusOptions" [value]="option.value">
+              {{ option.label | translate }}
+            </ion-select-option>
+          </ion-select>
+        </div>
 
-        <ion-select
-          [placeholder]="'ADMIN.USERS.ALL_ROLES' | translate"
-          [(ngModel)]="selectedRole"
-          (ionChange)="onRoleChange($event)"
-          interface="popover"
-          class="filter-select">
-          <ion-select-option *ngFor="let option of roleOptions" [value]="option.value">
-            {{ option.label | translate }}
-          </ion-select-option>
-        </ion-select>
-
-        <ion-button fill="outline" class="export-button" (click)="exportUsers()">
-          <ion-icon slot="start" name="download-outline"></ion-icon>
-          {{ 'ADMIN.USERS.EXPORT' | translate }}
-        </ion-button>
+        <div class="filter-wrapper">
+          <ion-icon name="shield-outline" class="filter-icon"></ion-icon>
+          <ion-select
+            [placeholder]="'ADMIN.USERS.ALL_ROLES' | translate"
+            [(ngModel)]="selectedRole"
+            (ionChange)="onRoleChange($event)"
+            interface="popover"
+            class="filter-select with-icon">
+            <ion-select-option *ngFor="let option of roleOptions" [value]="option.value">
+              {{ option.label | translate }}
+            </ion-select-option>
+          </ion-select>
+        </div>
 
         <ion-select
           [(ngModel)]="pageSize"
@@ -94,6 +95,11 @@
             {{ size }} {{ 'ADMIN.USERS.PER_PAGE' | translate }}
           </ion-select-option>
         </ion-select>
+
+        <ion-button fill="outline" class="export-button" (click)="exportUsers()">
+          <ion-icon slot="start" name="download-outline"></ion-icon>
+          {{ 'ADMIN.USERS.EXPORT' | translate }}
+        </ion-button>
       </div>
     </div>
 
