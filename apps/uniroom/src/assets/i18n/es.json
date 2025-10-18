@@ -123,6 +123,11 @@
     "GO_LOGIN": "Ir a iniciar sesión"
   },
   "SIDEBAR": {
+    "ADMIN": "ADMINISTRACIÓN",
+    "ADMIN_CONTENT": "Gestión de Contenido",
+    "ADMIN_DASHBOARD": "Panel de Administración",
+    "ADMIN_REPORTS": "Informes",
+    "ADMIN_USERS": "Gestión de Usuarios",
     "CHANNELS": "Canales",
     "HOME": "Inicio",
     "LOGIN": "Iniciar sesión",

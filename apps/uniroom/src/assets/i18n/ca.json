@@ -123,11 +123,11 @@
     "GO_LOGIN": "Anar a iniciar sessió"
   },
   "SIDEBAR": {
-    "ADMIN": "ADMIN",
-    "ADMIN_CONTENT": "Contingut",
-    "ADMIN_DASHBOARD": "Panell d'administració",
+    "ADMIN": "ADMINISTRACIÓ",
+    "ADMIN_CONTENT": "Gestió de Contingut",
+    "ADMIN_DASHBOARD": "Panel d'Administració",
     "ADMIN_REPORTS": "Informes",
-    "ADMIN_USERS": "Usuaris",
+    "ADMIN_USERS": "Gestió d'Usuaris",
     "CHANNELS": "Canals",
     "HOME": "Inici",
     "LOGIN": "Iniciar sessió",
