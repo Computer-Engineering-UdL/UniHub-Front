@@ -137,3 +137,19 @@ ion-header {
     width: 100vw;
   }
 }
+
+@media (min-width: 600px) {
+  ion-modal.profile-edit-modal {
+    --width: 880px;
+    --max-width: calc(100% - 48px);
+    --height: auto;
+    --max-height: 90vh;
+    --border-radius: 12px;
+    --backdrop-opacity: 0.32;
+  }
+}
+
+ion-modal.profile-edit-modal::part(content) {
+  max-height: 90vh;
+  overflow: auto;
+}

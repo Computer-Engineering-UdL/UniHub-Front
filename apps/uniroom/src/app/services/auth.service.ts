@@ -251,7 +251,7 @@ export class AuthService {
     }
     const headers = this.buildAuthHeaders();
     const payload = this.prepareUserPayloadForApi(data);
-    const apiUser = await firstValueFrom(this.apiService.put<any>(`user/${this.currentUser.id}`, payload, headers));
+    const apiUser = await firstValueFrom(this.apiService.patch<any>(`user/${this.currentUser.id}`, payload, headers));
     const updated = this.mapUserFromApi(apiUser);
     this.storeUserOnly(updated);
     return updated;
