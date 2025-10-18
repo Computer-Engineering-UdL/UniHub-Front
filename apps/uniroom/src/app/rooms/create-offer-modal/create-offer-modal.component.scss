@@ -58,6 +58,15 @@ ion-spinner {
   margin-right: 8px;
 }
 
+.category-select {
+  width: 100%;
+}
+
+.category-popover .popover-content {
+  min-width: 480px;
+  max-width: 80vw;
+}
+
 @media (max-width: 768px) {
   .form-container {
     padding: 16px;

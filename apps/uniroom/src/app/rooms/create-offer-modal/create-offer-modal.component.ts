@@ -19,6 +19,9 @@ export class CreateOfferModalComponent implements OnInit {
 
   genderPreferences: GenderPreference[] = ['any', 'male', 'female', 'other'];
 
+  categories: { id: string; name: string }[] = [];
+  categoryLoading: boolean = true;
+
   private modalController: ModalController = inject(ModalController);
   private formBuilder: FormBuilder = inject(FormBuilder);
   private apiService: ApiService = inject(ApiService);
@@ -27,6 +30,7 @@ export class CreateOfferModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
+    this.loadCategories();
   }
 
   private initializeForm(): void {
@@ -54,6 +58,44 @@ export class CreateOfferModalComponent implements OnInit {
     });
   }
 
+  // New: load categories from API
+  private async loadCategories(): Promise<void> {
+    this.categoryLoading = true;
+    try {
+      // The API path follows the same pattern used elsewhere in the app
+      const result = await firstValueFrom(this.apiService.get<{ id: string; name: string }[]>('categories/categories/'));
+      this.categories = Array.isArray(result) ? result : [];
+    } catch (error) {
+      console.error('Failed to load categories:', error);
+      // Notify user (translation key assumed); if not available it will show the key
+      try {
+        await this.notificationService.error('ERROR.LOAD_CATEGORIES');
+      } catch (e) {
+        // swallow notification errors
+      }
+      this.categories = [];
+    } finally {
+      this.categoryLoading = false;
+    }
+  }
+
+  // New: detect desktop vs mobile to choose a better ion-select interface
+  get selectInterface(): 'popover' | 'action-sheet' {
+    try {
+      return window && window.innerWidth >= 768 ? 'popover' : 'action-sheet';
+    } catch (e) {
+      return 'action-sheet';
+    }
+  }
+
+  // Options for the select interfaces (used to apply a wider popover on desktop)
+  get selectInterfaceOptions(): any {
+    if (this.selectInterface === 'popover') {
+      return { cssClass: 'category-popover' };
+    }
+    return {};
+  }
+
   async onSubmit(): Promise<void> {
     if (this.offerForm.invalid || this.isSubmitting) {
       this.markFormGroupTouched(this.offerForm);
@@ -66,7 +108,8 @@ export class CreateOfferModalComponent implements OnInit {
       const user = await firstValueFrom(this.authService.currentUser$);
       if (!user) {
         await this.notificationService.error('ERROR.NOT_AUTHENTICATED');
-        throw new Error('User not authenticated');
+        this.isSubmitting = false;
+        return;
       }
 
       const offerData: CreateOfferData = {

@@ -159,6 +159,7 @@
       "TITLE": "Title",
       "DESCRIPTION": "Description",
       "CATEGORY": "Category",
+      "SELECT_CATEGORY": "Select category",
       "CITY": "City",
       "ADDRESS": "Address",
       "PRICE": "Price",

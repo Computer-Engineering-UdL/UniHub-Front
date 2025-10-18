@@ -71,7 +71,7 @@ export class RoomsComponent implements OnInit {
       'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop'
     ];
 
-    this.offers.forEach((offer: any, index: number) => {
+    this.offers.forEach((offer: any, index: number): void => {
       if (!offer.image) {
         offer.image = placeholderImages[index % placeholderImages.length];
       }
@@ -79,7 +79,7 @@ export class RoomsComponent implements OnInit {
   }
 
   async openCreateOfferModal(): Promise<void> {
-    const modal = await this.modalController.create({
+    const modal: HTMLIonModalElement = await this.modalController.create({
       component: CreateOfferModalComponent,
       cssClass: 'create-offer-modal'
     });

@@ -31,13 +31,24 @@
             placeholder="Describe your offer..."></ion-textarea>
         </ion-item>
 
-        <ion-item [class.item-has-error]="isFieldInvalid('category_id')">
-          <ion-label position="stacked">{{ 'ROOM.FORM.CATEGORY' | translate }} *</ion-label>
-          <ion-input
-            formControlName="category_id"
-            type="text"
-            placeholder="Category ID"></ion-input>
-        </ion-item>
+        <ng-container *ngIf="!categoryLoading; else loadingCategory">
+          <ion-item [class.item-has-error]="isFieldInvalid('category_id')">
+            <ion-label position="stacked">{{ 'ROOM.FORM.CATEGORY' | translate }} *</ion-label>
+            <ion-select class="category-select" formControlName="category_id" [interface]="selectInterface" [interfaceOptions]="selectInterfaceOptions" placeholder="{{ 'ROOM.FORM.SELECT_CATEGORY' | translate }}">
+              <ion-select-option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ng-container>
+
+        <ng-template #loadingCategory>
+          <ion-item>
+            <ion-label position="stacked">{{ 'ROOM.FORM.CATEGORY' | translate }} *</ion-label>
+            <div class="category-loading">
+              <ion-spinner name="crescent"></ion-spinner>
+              <span style="margin-left:8px">{{ 'COMMON.LOADING' | translate }}</span>
+            </div>
+          </ion-item>
+        </ng-template>
       </div>
 
       <div class="form-section">
