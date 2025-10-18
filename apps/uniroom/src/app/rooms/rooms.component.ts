@@ -1,23 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { AuthService } from '../services/auth.service';
+import { ModalController, AlertController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
-
-interface RoomAnnouncement {
-  id: string;
-  title: string;
-  content: string;
-  priority: 'low' | 'medium' | 'high';
-  created_by: number;
-  target_rooms: string[];
-  is_active: boolean;
-  created_at: string;
-  expires_at: string;
-  image?: string;
-  bedrooms?: number;
-  bathrooms?: number;
-  price?: number;
-  rating?: number;
-}
+import { OfferListItem } from '../models/offer.types';
+import { User } from '../models/auth.types';
+import { CreateOfferModalComponent } from './create-offer-modal/create-offer-modal.component';
+import { LocalizationService } from '../services/localization.service';
+import { NotificationService } from '../services/notification.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-rooms',
@@ -26,29 +17,118 @@ interface RoomAnnouncement {
   standalone: false
 })
 export class RoomsComponent implements OnInit {
-  public roomAnnouncements: RoomAnnouncement[] = [];
+  public offers: OfferListItem[] = [];
+  public user: User | null = null;
+  public canCreateOffer: boolean = false;
+
+  public decimalSeparator: string = '.';
+  public thousandSeparator: string = ',';
+
   private apiService: ApiService = inject(ApiService);
+  private authService: AuthService = inject(AuthService);
+  private modalController: ModalController = inject(ModalController);
+  private localizationService: LocalizationService = inject(LocalizationService);
+  private alertController: AlertController = inject(AlertController);
+  private notificationService: NotificationService = inject(NotificationService);
+  private translate: TranslateService = inject(TranslateService);
 
   async ngOnInit(): Promise<void> {
-    await this.loadRoomAnnouncements();
+    this.authService.currentUser$.subscribe((user: User | null): void => {
+      this.user = user;
+      this.canCreateOffer = user?.role === 'Seller' || user?.role === 'Admin';
+    });
+
+    const seps: { decimal: string; thousand: string } = this.localizationService.getNumberSeparators();
+    this.decimalSeparator = seps.decimal;
+    this.thousandSeparator = seps.thousand;
+
+    await this.loadOffers();
   }
 
-  private async loadRoomAnnouncements(): Promise<void> {
-    this.roomAnnouncements = await firstValueFrom(this.apiService.get<RoomAnnouncement[]>('announcements'));
-    this.fillMissingRoomImages();
+  private async loadOffers(): Promise<void> {
+    try {
+      this.offers = await firstValueFrom(this.apiService.get<OfferListItem[]>('offers/offers/'));
+      this.formatOffers();
+    } catch (error) {
+      console.error('Error loading offers:', error);
+    }
   }
 
-  private fillMissingRoomImages(): void {
+  private formatOffers(): void {
+    this.offers.forEach((offer: OfferListItem): void => {
+      const rawPrice: number = offer.price ?? 0;
+      const currency: string = (offer.currency as string) ?? 'EUR';
+
+      offer.priceFormatted = this.localizationService.formatPrice(rawPrice, currency);
+
+      const rawArea: number = offer.area ?? 0;
+      offer.areaFormatted = this.localizationService.formatNumber(rawArea, 2);
+    });
+
+    this.fillMissingOfferImages();
+  }
+
+  public async confirmDeleteOffer(offerId: string): Promise<void> {
+    const alert: HTMLIonAlertElement = await this.alertController.create({
+      header: this.translate.instant('ROOM.DELETE_CONFIRM_TITLE'),
+      message: this.translate.instant('ROOM.DELETE_CONFIRM_MESSAGE'),
+      buttons: [
+        { text: this.translate.instant('COMMON.CANCEL'), role: 'cancel' },
+        {
+          text: this.translate.instant('COMMON.DELETE') || 'Delete',
+          handler: async (): Promise<void> => {
+            await this.deleteOffer(offerId);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private async deleteOffer(offerId: string): Promise<void> {
+    try {
+      await firstValueFrom(this.apiService.delete(`offers/offers/${offerId}`));
+      await this.notificationService.success('ROOM.DELETE_SUCCESS');
+      await this.loadOffers();
+    } catch (error) {
+      console.error('Error deleting offer:', error);
+      await this.notificationService.error('ROOM.DELETE_FAILED');
+    }
+  }
+
+  private fillMissingOfferImages(): void {
     const placeholderImages: string[] = [
       'https://images.unsplash.com/photo-1502672023488-70e25813eb80?w=800&h=600&fit=crop',
       'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&h=600&fit=crop',
       'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=800&h=600&fit=crop',
       'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop'
     ];
-    this.roomAnnouncements.forEach((announcement, index) => {
-      if (!announcement.image) {
-        announcement.image = placeholderImages[index % placeholderImages.length];
+
+    this.offers.forEach((offer: any, index: number): void => {
+      if (!offer.image) {
+        offer.image = placeholderImages[index % placeholderImages.length];
       }
     });
+  }
+
+  async openCreateOfferModal(): Promise<void> {
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: CreateOfferModalComponent,
+      cssClass: 'create-offer-modal'
+    });
+
+    await modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'created' && data) {
+      await this.loadOffers();
+    }
+  }
+
+  async viewOfferDetails(offerId: string): Promise<void> {
+    // TODO: Implement view offer details
+    console.log('View offer details:', offerId);
   }
 }

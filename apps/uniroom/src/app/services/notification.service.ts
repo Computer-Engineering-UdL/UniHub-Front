@@ -1,17 +1,19 @@
 import { Injectable, inject } from '@angular/core';
 import { ToastController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 export type NotificationType = 'success' | 'error' | 'warning' | 'info';
 export type NotificationColor = 'success' | 'danger' | 'warning' | 'primary';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-  private toastController = inject(ToastController);
+  private toastController: ToastController = inject(ToastController);
+  private translateService: TranslateService = inject(TranslateService);
 
   async show(message: string, type: NotificationType = 'info', duration: number = 3000): Promise<void> {
-    const safeMessage = (message ?? '').toString();
-    const toast = await this.toastController.create({
-      message: safeMessage,
+    const safeMessage: string = (message ?? '').toString();
+    const toast: HTMLIonToastElement = await this.toastController.create({
+      message: this.translateService.instant(safeMessage),
       duration,
       position: 'top',
       color: this.getColorForType(type),

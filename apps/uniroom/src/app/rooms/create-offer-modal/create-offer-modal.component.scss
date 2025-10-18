@@ -1,0 +1,78 @@
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.form-section {
+  margin-bottom: 32px;
+
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    margin: 0 0 16px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--ion-color-primary);
+  }
+
+  ion-item {
+    --background: var(--ion-card-background);
+    --border-color: var(--card-border-color);
+    margin-bottom: 12px;
+    border-radius: 8px;
+
+    &.item-has-error {
+      --border-color: var(--ion-color-danger);
+
+      ion-label {
+        color: var(--ion-color-danger);
+      }
+    }
+  }
+}
+
+.two-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--card-border-color);
+
+  ion-button {
+    flex: 1;
+    --border-radius: 12px;
+    font-weight: 600;
+    text-transform: none;
+    height: 48px;
+  }
+}
+
+ion-spinner {
+  margin-right: 8px;
+}
+
+.category-select {
+  width: 100%;
+}
+
+.category-popover .popover-content {
+  min-width: 480px;
+  max-width: 80vw;
+}
+
+@media (max-width: 768px) {
+  .form-container {
+    padding: 16px;
+  }
+
+  .two-columns {
+    grid-template-columns: 1fr;
+  }
+}

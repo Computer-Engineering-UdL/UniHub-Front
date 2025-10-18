@@ -94,7 +94,9 @@
   "COMMON": {
     "LOADING": "Loading...",
     "GITHUB": "GitHub",
-    "GOOGLE": "Google"
+    "GOOGLE": "Google",
+    "DELETE": "Delete",
+    "CANCEL": "Cancel"
   },
   "UNAUTHORIZED": {
     "TITLE": "Access denied",
@@ -134,6 +136,58 @@
     "NOT_AVAILABLE": "Not Available",
     "AVAILABLE": "Available",
     "TARGET_ROOMS": "Target rooms",
-    "VIEW_DETAILS": "View Details"
+    "OFFERS": "Housing Offers",
+    "OFFERS_COUNT": "offers",
+    "CREATE_OFFER": "Create Offer",
+    "CREATE_FIRST_OFFER": "Create Your First Offer",
+    "NO_OFFERS": "No offers available",
+    "NO_OFFERS_DESCRIPTION": "There are no housing offers available at the moment. Check back later!",
+    "VIEW_DETAILS": "View Details",
+    "PER_MONTH": "/month",
+    "DELETE": "Delete",
+    "DELETE_CONFIRM_TITLE": "Delete Offer",
+    "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this offer? This action cannot be undone.",
+    "DELETE_SUCCESS": "Offer deleted successfully.",
+    "DELETE_FAILED": "Failed to delete the offer. Please try again.",
+    "STATUS": {
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive",
+      "PENDING": "Pending",
+      "EXPIRED": "Expired"
+    },
+    "FORM": {
+      "BASIC_INFO": "Basic Information",
+      "LOCATION": "Location",
+      "PRICING_DETAILS": "Pricing & Details",
+      "PROPERTY_DETAILS": "Property Details",
+      "AMENITIES": "Amenities",
+      "DATES": "Dates",
+      "TITLE": "Title",
+      "DESCRIPTION": "Description",
+      "CATEGORY": "Category",
+      "SELECT_CATEGORY": "Select category",
+      "CITY": "City",
+      "ADDRESS": "Address",
+      "PRICE": "Price",
+      "MONTH": "month",
+      "DEPOSIT": "Deposit",
+      "AREA": "Area",
+      "NUM_ROOMS": "Number of Rooms",
+      "NUM_BATHROOMS": "Number of Bathrooms",
+      "GENDER_PREFERENCE": "Gender Preference",
+      "FURNISHED": "Furnished",
+      "UTILITIES_INCLUDED": "Utilities Included",
+      "INTERNET_INCLUDED": "Internet Included",
+      "START_DATE": "Start Date",
+      "END_DATE": "End Date",
+      "VALID_UNTIL": "Offer Valid Until",
+      "CREATE": "Create Offer",
+      "GENDER": {
+        "ANY": "Any",
+        "MALE": "Male",
+        "FEMALE": "Female",
+        "OTHER": "Other"
+      }
+    }
   }
 }

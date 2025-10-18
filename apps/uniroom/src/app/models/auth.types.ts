@@ -1,5 +1,4 @@
 export type Role = 'Basic' | 'Seller' | 'Admin';
-export const ALL_ROLES: Role[] = ['Basic', 'Seller', 'Admin'];
 
 export interface User {
   id: string;
@@ -41,4 +40,10 @@ export interface RouteAccessData {
   public?: boolean;
   guestOnly?: boolean;
   roles?: Role[];
+}
+
+export interface OAuth2TokenResponse {
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
 }

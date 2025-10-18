@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { lastValueFrom } from 'rxjs';
 
 export type LangCode = 'en' | 'es' | 'ca';
+export type TNumber = number | string; // accepted input types for formatting
 
 @Injectable({ providedIn: 'root' })
 export class LocalizationService {
@@ -47,5 +48,144 @@ export class LocalizationService {
     const tag: string = v.toLowerCase();
     const base: string = tag.split('-')[0];
     return (this.supportedLanguages as readonly string[]).includes(base) ? (base as LangCode) : this.defaultLanguage;
+  }
+
+  /**
+   * Map internal language code to a more specific locale string used by Intl.
+   * You can extend the mapping if you need different region variants.
+   */
+  getLocale(): string {
+    const lang: 'en' | 'es' | 'ca' = this.getCurrentLanguage();
+    switch (lang) {
+      case 'es':
+        return 'es-ES';
+      case 'ca':
+        return 'ca-ES';
+      case 'en':
+      default:
+        return 'en-US';
+    }
+  }
+
+  /**
+   * Derive decimal and a thousand separators for the current locale.
+   */
+  getNumberSeparators(): { decimal: string; thousand: string } {
+    try {
+      const locale: string = this.getLocale();
+      const parts: Intl.NumberFormatPart[] = new Intl.NumberFormat(locale).formatToParts(1000.5);
+      let decimal: string = '.';
+      let thousand: string = ',';
+      for (const p of parts) {
+        if (p.type === 'decimal') {
+          decimal = p.value;
+        }
+        if (p.type === 'group') {
+          thousand = p.value;
+        }
+      }
+      return { decimal, thousand };
+    } catch (e) {
+      return { decimal: '.', thousand: ',' };
+    }
+  }
+
+  // Trim trailing zeros from fraction parts; returns a new parts array
+  private trimTrailingZerosInParts(parts: Intl.NumberFormatPart[]): Intl.NumberFormatPart[] {
+    const p = parts.map((x) => ({ ...x }));
+    const fractionIndex: number = p.findIndex((part) => part.type === 'fraction');
+    if (fractionIndex < 0) {
+      return p;
+    }
+
+    const frac: string = p[fractionIndex].value;
+    const trimmed: string = frac.replace(/0+$/, '');
+    if (trimmed.length > 0) {
+      p[fractionIndex].value = trimmed;
+      return p;
+    }
+
+    p.splice(fractionIndex, 1);
+    const decimalIndex: number = p.findIndex((part) => part.type === 'decimal');
+    if (decimalIndex >= 0) {
+      p.splice(decimalIndex, 1);
+    }
+    return p;
+  }
+
+  private toNumber(value: TNumber): number {
+    if (typeof value === 'number') {
+      return value;
+    }
+    return Number(String(value).trim());
+  }
+
+  /**
+   * Format a plain number according to locale with optional max fraction digits.
+   * Returns a string.
+   * If value is invalid, returns an em dash.
+   * If removeTrailingZeros is true (default), then trailing zeros in the fractional part are removed
+   */
+  formatNumber(value: TNumber, maxFractionDigits = 2, removeTrailingZeros = true): string {
+    const num: number = this.toNumber(value);
+    if (!isFinite(num)) {
+      return '—';
+    }
+    const locale: string = this.getLocale();
+
+    try {
+      if (!removeTrailingZeros) {
+        return new Intl.NumberFormat(locale, {
+          minimumFractionDigits: maxFractionDigits,
+          maximumFractionDigits: maxFractionDigits
+        }).format(num);
+      }
+
+      const formatter = new Intl.NumberFormat(locale, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: maxFractionDigits
+      });
+      const parts: Intl.NumberFormatPart[] = formatter.formatToParts(num);
+      return this.trimTrailingZerosInParts(parts)
+        .map((p) => p.value)
+        .join('');
+    } catch (e) {
+      return String(value);
+    }
+  }
+
+  /**
+   * Format a price using the locale and provided currency (default EUR).
+   * Optional maxFractionDigits and removeTrailingZeros control fractional behavior.
+   */
+  formatPrice(value: TNumber, currency: string = 'EUR', maxFractionDigits = 2, removeTrailingZeros = true): string {
+    const num: number = this.toNumber(value);
+    if (!isFinite(this.toNumber(value))) {
+      return '—';
+    }
+    const locale: string = this.getLocale();
+
+    try {
+      const baseFormatter = new Intl.NumberFormat(locale, { style: 'currency', currency });
+      const defaultMin: number = baseFormatter.resolvedOptions().minimumFractionDigits ?? 0;
+
+      const formatter = new Intl.NumberFormat(locale, {
+        style: 'currency',
+        currency,
+        maximumFractionDigits: maxFractionDigits,
+        minimumFractionDigits: removeTrailingZeros ? 0 : defaultMin
+      });
+
+      if (!removeTrailingZeros) {
+        return formatter.format(num);
+      }
+
+      const parts: Intl.NumberFormatPart[] = formatter.formatToParts(num);
+      return this.trimTrailingZerosInParts(parts)
+        .map((p) => p.value)
+        .join('');
+    } catch (e) {
+      return `${this.formatNumber(num, maxFractionDigits, removeTrailingZeros)} ${currency}`;
+    }
   }
 }

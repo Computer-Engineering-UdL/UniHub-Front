@@ -64,7 +64,26 @@
   --color: var(--ion-color-primary-contrast);
 }
 
-/* Fix: Força el color del botó burger a la bottom-nav, mai blau */
+/**
+ * Create Offer Modal
+ */
+.create-offer-modal {
+  --width: 90%;
+  --max-width: 900px;
+  --height: 90%;
+  --max-height: 90vh;
+  --border-radius: 16px;
+}
+
+@media (max-width: 768px) {
+  .create-offer-modal {
+    --width: 100%;
+    --height: 100%;
+    --max-height: 100%;
+    --border-radius: 0;
+  }
+}
+
 .bottom-nav .nav-item.burger,
 .bottom-nav .nav-item.burger.active,
 .bottom-nav .nav-item.burger:active,
