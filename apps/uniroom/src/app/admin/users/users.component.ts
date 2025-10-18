@@ -365,7 +365,7 @@ export class AdminUsersComponent implements OnInit {
     try {
       const usersToActivate: User[] = this.users.filter((user: User): boolean => this.selectedUsers.has(user.username));
       const updatePromises: Promise<unknown>[] = usersToActivate.map(
-        (user: User): Promise<unknown> => lastValueFrom(this.apiService.patch(`user/${user.id}`, { isVerified: true }))
+        (user: User): Promise<unknown> => lastValueFrom(this.apiService.patch(`user/${user.id}`, { is_verified: true }))
       );
 
       await Promise.all(updatePromises);
@@ -410,7 +410,7 @@ export class AdminUsersComponent implements OnInit {
       const usersToSuspend: User[] = this.users.filter((user: User): boolean => this.selectedUsers.has(user.username));
       const updatePromises: Promise<unknown>[] = usersToSuspend.map(
         async (user: User): Promise<unknown> =>
-          await lastValueFrom(this.apiService.patch(`user/${user.id}`, { isVerified: false }))
+          await lastValueFrom(this.apiService.patch(`user/${user.id}`, { is_verified: false }))
       );
 
       await Promise.all(updatePromises);
