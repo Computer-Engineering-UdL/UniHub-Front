@@ -1,0 +1,257 @@
+<ion-content>
+  <div class="admin-users-container">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <ion-icon name="people-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">{{ 'ADMIN.USERS.STATS.TOTAL' | translate }}</span>
+          <span class="stat-value">{{ stats.total }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-active">
+        <div class="stat-icon">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">{{ 'ADMIN.USERS.STATS.ACTIVE' | translate }}</span>
+          <span class="stat-value">{{ stats.active }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-pending">
+        <div class="stat-icon">
+          <ion-icon name="time-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">{{ 'ADMIN.USERS.STATS.PENDING' | translate }}</span>
+          <span class="stat-value">{{ stats.pending }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-suspended">
+        <div class="stat-icon">
+          <ion-icon name="close-circle-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">{{ 'ADMIN.USERS.STATS.SUSPENDED' | translate }}</span>
+          <span class="stat-value">{{ stats.suspended }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <div class="search-box">
+        <ion-icon name="search-outline"></ion-icon>
+        <input
+          type="text"
+          [placeholder]="'ADMIN.USERS.SEARCH_PLACEHOLDER' | translate"
+          (input)="onSearchInput($event)"
+          [value]="searchTerm" />
+      </div>
+
+      <ion-button *ngIf="selectedUsers.size > 0" color="danger" (click)="deleteBulkUsers()">
+        <ion-icon slot="start" name="trash-outline"></ion-icon>
+        {{ 'ADMIN.USERS.DELETE_SELECTED' | translate }} ({{ selectedUsers.size }})
+      </ion-button>
+
+      <div class="filters">
+        <div class="filter-wrapper">
+          <ion-icon name="funnel-outline" class="filter-icon"></ion-icon>
+          <ion-select
+            [placeholder]="'ADMIN.USERS.ALL_STATUS' | translate"
+            [(ngModel)]="selectedStatus"
+            (ionChange)="onStatusChange($event)"
+            interface="popover"
+            [interfaceOptions]="{ cssClass: 'status-select-popover' }"
+            class="filter-select with-icon">
+            <ion-select-option value="all">
+              {{ 'ADMIN.USERS.ALL_STATUS' | translate }}
+            </ion-select-option>
+            <ion-select-option value="active" class="status-active">
+              {{ 'USER.STATUS_ACTIVE' | translate }}
+            </ion-select-option>
+            <ion-select-option value="pending" class="status-pending">
+              {{ 'USER.STATUS_PENDING' | translate }}
+            </ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="filter-wrapper">
+          <ion-icon name="shield-outline" class="filter-icon"></ion-icon>
+          <ion-select
+            [placeholder]="'ADMIN.USERS.ALL_ROLES' | translate"
+            [(ngModel)]="selectedRole"
+            (ionChange)="onRoleChange($event)"
+            interface="popover"
+            [interfaceOptions]="{ cssClass: 'roles-select-popover' }"
+            class="filter-select with-icon">
+            <ion-select-option value="all">
+              {{ 'ADMIN.USERS.ALL_ROLES' | translate }}
+            </ion-select-option>
+            <ion-select-option value="Admin" class="role-admin">
+              {{ 'ROLE.ADMIN' | translate }}
+            </ion-select-option>
+            <ion-select-option value="Basic" class="role-basic">
+              {{ 'ROLE.BASIC' | translate }}
+            </ion-select-option>
+            <ion-select-option value="Seller" class="role-seller">
+              {{ 'ROLE.SELLER' | translate }}
+            </ion-select-option>
+          </ion-select>
+        </div>
+
+        <ion-select
+          [(ngModel)]="pageSize"
+          (ionChange)="onPageSizeChange($event)"
+          interface="popover"
+          class="page-size-select">
+          <ion-select-option *ngFor="let size of pageSizeOptions" [value]="size">
+            {{ size }} {{ 'ADMIN.USERS.PER_PAGE' | translate }}
+          </ion-select-option>
+        </ion-select>
+
+        <ion-button fill="outline" class="export-button" (click)="exportUsers()">
+          <ion-icon slot="start" name="download-outline"></ion-icon>
+          {{ 'ADMIN.USERS.EXPORT' | translate }}
+        </ion-button>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th class="col-checkbox">
+              <ion-checkbox
+                [checked]="allUsersSelected"
+                (ionChange)="toggleSelectAll()"></ion-checkbox>
+            </th>
+            <th class="col-user" (click)="onSort('name')">
+              {{ 'ADMIN.USERS.TABLE.USER' | translate }}
+              <ion-icon
+                [name]="
+                  sortField === 'name'
+                    ? sortOrder === 'asc'
+                      ? 'chevron-up-outline'
+                      : 'chevron-down-outline'
+                    : 'swap-vertical-outline'
+                "></ion-icon>
+            </th>
+            <th class="col-role" (click)="onSort('role')">
+              {{ 'ADMIN.USERS.TABLE.ROLE' | translate }}
+              <ion-icon
+                [name]="
+                  sortField === 'role'
+                    ? sortOrder === 'asc'
+                      ? 'chevron-up-outline'
+                      : 'chevron-down-outline'
+                    : 'swap-vertical-outline'
+                "></ion-icon>
+            </th>
+            <th class="col-status">{{ 'ADMIN.USERS.TABLE.STATUS' | translate }}</th>
+            <th class="col-university">{{ 'ADMIN.USERS.TABLE.UNIVERSITY' | translate }}</th>
+            <th class="col-joined" (click)="onSort('joinedDate')">
+              {{ 'ADMIN.USERS.TABLE.JOINED' | translate }}
+              <ion-icon
+                [name]="
+                  sortField === 'joinedDate'
+                    ? sortOrder === 'asc'
+                      ? 'chevron-up-outline'
+                      : 'chevron-down-outline'
+                    : 'swap-vertical-outline'
+                "></ion-icon>
+            </th>
+            <th class="col-last-active">{{ 'ADMIN.USERS.TABLE.LAST_ACTIVE' | translate }}</th>
+            <th class="col-actions"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="loading">
+            <td colspan="8" class="loading-cell">
+              <ion-spinner name="crescent"></ion-spinner>
+            </td>
+          </tr>
+          <tr *ngIf="!loading && users.length === 0">
+            <td colspan="8" class="empty-cell">
+              {{ 'ADMIN.USERS.NO_USERS' | translate }}
+            </td>
+          </tr>
+          <tr
+            *ngFor="let user of users"
+            class="user-row"
+            [class.selected]="isUserSelected(user.username)">
+            <td class="col-checkbox">
+              <ion-checkbox
+                [checked]="isUserSelected(user.username)"
+                (ionChange)="toggleUserSelection(user.username)"></ion-checkbox>
+            </td>
+            <td class="col-user">
+              <div class="user-info">
+                <div class="user-avatar">
+                  <img ngSrc="{{ getUserAvatar(user) }}" fill [alt]="user.username" />
+                </div>
+                <div class="user-details">
+                  <div class="user-name">
+                    {{ getFullName(user) }}
+                    <ion-icon
+                      *ngIf="user.isVerified"
+                      name="checkmark-circle"
+                      class="verified-icon"></ion-icon>
+                  </div>
+                  <div class="user-email">{{ user.email }}</div>
+                </div>
+              </div>
+            </td>
+            <td class="col-role">
+              <span class="role-badge" [ngClass]="getRoleBadgeClass(user.role)">
+                {{ getRoleText(user.role) }}
+              </span>
+            </td>
+            <td class="col-status">
+              <span class="status-badge" [ngClass]="getStatusBadgeClass(user)">
+                {{ getStatusText(user) }}
+              </span>
+            </td>
+            <td class="col-university">
+              {{ user.university || '—' }}
+            </td>
+            <td class="col-joined">
+              {{ formatDate(user.joinedDate) }}
+            </td>
+            <td class="col-last-active">
+              {{ getTimeAgo(user.joinedDate) }}
+            </td>
+            <td class="col-actions">
+              <ion-button
+                fill="clear"
+                class="action-button"
+                (click)="onUserMenuClick(user, $event)">
+                <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+              </ion-button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination" *ngIf="!loading && users.length > 0">
+      <div class="pagination-info">
+        {{ 'ADMIN.USERS.PAGINATION.SHOWING' | translate }} {{ currentPage * pageSize + 1 }}
+        {{ 'ADMIN.USERS.PAGINATION.TO' | translate }} {{ currentPage * pageSize + users.length }}
+        {{ 'ADMIN.USERS.PAGINATION.OF' | translate }} {{ totalUsers }}
+        {{ 'ADMIN.USERS.PAGINATION.USERS' | translate }}
+      </div>
+      <div class="pagination-controls">
+        <ion-button fill="outline" [disabled]="!hasPrevPage" (click)="prevPage()">
+          <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="outline" [disabled]="!hasNextPage" (click)="nextPage()">
+          <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

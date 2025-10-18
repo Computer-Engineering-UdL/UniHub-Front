@@ -43,6 +43,11 @@
       "INVALID_PHONE": "El telèfon ha de ser vàlid (només números i pot començar per +)"
     }
   },
+  "USER": {
+    "STATUS_ACTIVE": "Actiu",
+    "STATUS_PENDING": "Pendent",
+    "STATUS_SUSPENDED": "Suspés"
+  },
   "HOME": {
     "WELCOME": "Benvingut de nou!",
     "STUDENT": "Estudiant",
@@ -94,9 +99,9 @@
       "WEEK_AGO": "fa 1 setmana"
     },
     "ROLE": {
+      "ADMIN": "Administrador",
       "BASIC": "Usuari",
-      "SELLER": "Venedor",
-      "ADMIN": "Administrador"
+      "SELLER": "Venedor"
     },
     "VERIFIED": "Verificat",
     "JOINED": "Registrat",
@@ -199,5 +204,62 @@
         "OTHER": "Altre"
       }
     }
+  },
+  "ADMIN": {
+    "USERS": {
+      "TITLE": "Gestió d'Usuaris",
+      "STATS": {
+        "TOTAL": "Total d'Usuaris",
+        "ACTIVE": "Actius",
+        "PENDING": "Pendents",
+        "SUSPENDED": "Suspesos"
+      },
+      "SEARCH_PLACEHOLDER": "Cercar usuaris...",
+      "ALL_STATUS": "Tots els Estats",
+      "ALL_ROLES": "Tots els Rols",
+      "EXPORT": "Exportar",
+      "EXPORT_SUCCESS": "Usuaris exportats correctament",
+      "EXPORT_ERROR": "Error en exportar els usuaris",
+      "ADD_USER": "Afegir Usuari",
+      "DELETE_SELECTED": "Eliminar seleccionats",
+      "DELETE_SUCCESS": "Usuari eliminat correctament",
+      "DELETE_ERROR": "Error en eliminar l'usuari",
+      "DELETE_SELF_ERROR": "No pots eliminar-te a tu mateix",
+      "DELETE_SELF_SKIPPED": "El teu usuari ha estat omès de l'eliminació massiva",
+      "NO_USERS_TO_DELETE": "No hi ha usuaris per eliminar",
+      "DELETE_BULK_SUCCESS": "Usuaris eliminats correctament",
+      "DELETE_BULK_ERROR": "Error en eliminar els usuaris",
+      "DELETE_CONFIRM_TITLE": "Eliminar usuari",
+      "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar l'usuari {{username}}? Aquesta acció no es pot desfer.",
+      "DELETE_BULK_TITLE": "Eliminar usuaris",
+      "DELETE_BULK_MESSAGE": "Estàs segur que vols eliminar {{count}} usuaris? Aquesta acció no es pot desfer.",
+      "VIEW_DETAILS": "Veure detalls",
+      "PER_PAGE": "per pàgina",
+      "TABLE": {
+        "USER": "Usuari",
+        "ROLE": "Rol",
+        "STATUS": "Estat",
+        "UNIVERSITY": "Universitat",
+        "JOINED": "Registrat",
+        "LAST_ACTIVE": "Última Activitat"
+      },
+      "NO_USERS": "No s'han trobat usuaris",
+      "PAGINATION": {
+        "SHOWING": "Mostrant",
+        "TO": "a",
+        "OF": "de",
+        "USERS": "usuaris"
+      }
+    }
+  },
+  "ERROR": {
+    "LOAD_USERS": "Error al carregar els usuaris"
+  },
+  "TIME_AGO": {
+    "TODAY": "avui",
+    "ONE_DAY": "fa 1 dia",
+    "DAYS": "fa {{count}} dies",
+    "WEEKS": "fa {{count}} setmanes",
+    "MONTHS": "fa {{count}} mesos"
   }
 }

@@ -110,12 +110,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
       });
       this.filteredMobileNavItems = user ? this.mobileNavItemsAuth : this.mobileNavItemsNotAuth;
 
+      this.burgerMenuItems = [
+        { translationKey: 'SIDEBAR.UNIROOM', route: '/rooms', icon: 'business-outline' },
+        { translationKey: 'SIDEBAR.UNIITEMS', route: '/uniitems', icon: 'cube-outline' },
+        { translationKey: 'SIDEBAR.UNISERVICES', route: '/uniservices', icon: 'construct-outline' },
+        { translationKey: 'SIDEBAR.UNICAR', route: '/unicar', icon: 'car-outline' },
+        { translationKey: 'SIDEBAR.UNIBORSA', route: '/uniborsa', icon: 'briefcase-outline' }
+      ];
+
       if (user?.role === 'Admin') {
         this.adminNavItems = this.navItems.filter((item: NavItem): boolean => !!item.roles?.includes('Admin'));
+        this.burgerMenuItems.push(...this.adminNavItems);
       } else {
         this.adminNavItems = [];
       }
-      this.burgerMenuItems.push(...this.adminNavItems);
     });
   }
 

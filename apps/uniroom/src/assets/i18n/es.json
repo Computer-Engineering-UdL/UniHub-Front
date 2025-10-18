@@ -52,6 +52,11 @@
     "START": "Comienza a explorar habitaciones con",
     "LOGOUT": "Cerrar sesión"
   },
+  "USER": {
+    "STATUS_ACTIVE": "Activo",
+    "STATUS_PENDING": "Pendiente",
+    "STATUS_SUSPENDED": "Suspendido"
+  },
   "PROFILE": {
     "TITLE": "Perfil",
     "USER_INFO": "Información del Usuario",
@@ -94,9 +99,9 @@
       "WEEK_AGO": "hace 1 semana"
     },
     "ROLE": {
+      "ADMIN": "Administrador",
       "BASIC": "Usuario",
-      "SELLER": "Vendedor",
-      "ADMIN": "Administrador"
+      "SELLER": "Vendedor"
     },
     "VERIFIED": "Verificado",
     "JOINED": "Registrado",
@@ -194,5 +199,62 @@
         "OTHER": "Otro"
       }
     }
+  },
+  "ADMIN": {
+    "USERS": {
+      "TITLE": "Gestión de Usuarios",
+      "STATS": {
+        "TOTAL": "Total de Usuarios",
+        "ACTIVE": "Activos",
+        "PENDING": "Pendientes",
+        "SUSPENDED": "Suspendidos"
+      },
+      "SEARCH_PLACEHOLDER": "Buscar usuarios...",
+      "ALL_STATUS": "Todos los Estados",
+      "ALL_ROLES": "Todos los Roles",
+      "EXPORT": "Exportar",
+      "EXPORT_SUCCESS": "Usuarios exportados correctamente",
+      "EXPORT_ERROR": "Error al exportar los usuarios",
+      "ADD_USER": "Añadir Usuario",
+      "DELETE_SELECTED": "Eliminar seleccionados",
+      "DELETE_SUCCESS": "Usuario eliminado correctamente",
+      "DELETE_ERROR": "Error al eliminar el usuario",
+      "DELETE_SELF_ERROR": "No puedes eliminarte a ti mismo",
+      "DELETE_SELF_SKIPPED": "Tu usuario ha sido omitido de la eliminación masiva",
+      "NO_USERS_TO_DELETE": "No hay usuarios para eliminar",
+      "DELETE_BULK_SUCCESS": "Usuarios eliminados correctamente",
+      "DELETE_BULK_ERROR": "Error al eliminar los usuarios",
+      "DELETE_CONFIRM_TITLE": "Eliminar usuario",
+      "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar el usuario {{username}}? Esta acción no se puede deshacer.",
+      "DELETE_BULK_TITLE": "Eliminar usuarios",
+      "DELETE_BULK_MESSAGE": "¿Estás seguro de que quieres eliminar {{count}} usuarios? Esta acción no se puede deshacer.",
+      "VIEW_DETAILS": "Ver detalles",
+      "PER_PAGE": "por página",
+      "TABLE": {
+        "USER": "Usuario",
+        "ROLE": "Rol",
+        "STATUS": "Estado",
+        "UNIVERSITY": "Universidad",
+        "JOINED": "Registrado",
+        "LAST_ACTIVE": "Última Actividad"
+      },
+      "NO_USERS": "No se encontraron usuarios",
+      "PAGINATION": {
+        "SHOWING": "Mostrando",
+        "TO": "a",
+        "OF": "de",
+        "USERS": "usuarios"
+      }
+    }
+  },
+  "ERROR": {
+    "LOAD_USERS": "Error al cargar los usuarios"
+  },
+  "TIME_AGO": {
+    "TODAY": "hoy",
+    "ONE_DAY": "hace 1 día",
+    "DAYS": "hace {{count}} días",
+    "WEEKS": "hace {{count}} semanas",
+    "MONTHS": "hace {{count}} meses"
   }
 }
