@@ -113,7 +113,8 @@
     "GOOGLE": "Google",
     "DELETE": "Eliminar",
     "CANCEL": "Cancelar",
-    "CONFIRM": "Confirmar"
+    "CONFIRM": "Confirmar",
+    "SUSPEND": "Suspender"
   },
   "UNAUTHORIZED": {
     "TITLE": "Acceso denegado",

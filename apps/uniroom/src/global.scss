@@ -198,3 +198,129 @@ ion-item.role-seller {
 ion-item.role-basic {
   @include item-color($color-gray);
 }
+
+/**
+ * Role Change Alert Dialog
+ * -----------------------------------------------------
+ * Custom styles for role change confirmation dialog
+ */
+.role-change-alert {
+  --min-width: 320px;
+  --max-width: 400px;
+
+  .alert-wrapper {
+    border-radius: 12px;
+  }
+
+  .alert-head {
+    padding: 1.25rem 1.5rem 1rem;
+
+    h2 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--ion-text-color);
+    }
+  }
+
+  .alert-message {
+    padding: 0 1.5rem 1rem;
+    font-size: 0.875rem;
+    color: var(--ion-color-medium);
+    line-height: 1.5;
+  }
+
+  .alert-radio-group {
+    padding: 0.5rem 0;
+    max-height: 340px;
+    overflow-y: auto;
+  }
+
+  .alert-radio-button {
+    padding: 0.875rem 1.5rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--ion-color-light);
+    }
+
+    .alert-button-inner {
+      justify-content: flex-start;
+    }
+
+    .alert-radio-label {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      padding-left: 0.75rem;
+      color: var(--ion-text-color);
+      margin-left: 2rem;
+    }
+
+    .alert-radio-icon {
+      border-width: 2px;
+      width: 20px;
+      height: 20px;
+      border-color: var(--ion-color-medium);
+      flex-shrink: 0;
+    }
+  }
+
+  .role-basic-radio[aria-checked='true'] {
+    background-color: rgba(107, 114, 128, 0.08);
+
+    .alert-radio-icon {
+      border-color: #6b7280;
+    }
+
+    .alert-radio-label {
+      color: #6b7280;
+      font-weight: 600;
+    }
+  }
+
+  .role-seller-radio[aria-checked='true'] {
+    background-color: rgba(59, 130, 246, 0.08);
+
+    .alert-radio-icon {
+      border-color: #3b82f6;
+    }
+
+    .alert-radio-label {
+      color: #3b82f6;
+      font-weight: 600;
+    }
+  }
+
+  .role-admin-radio[aria-checked='true'] {
+    background-color: rgba(239, 68, 68, 0.08);
+
+    .alert-radio-icon {
+      border-color: #ef4444;
+    }
+
+    .alert-radio-label {
+      color: #ef4444;
+      font-weight: 600;
+    }
+  }
+
+  .alert-button-group {
+    padding: 0.75rem 1rem 1rem;
+  }
+
+  .alert-button {
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: none;
+    min-height: 44px;
+  }
+
+  .alert-button-cancel {
+    color: var(--ion-color-medium);
+  }
+
+  .alert-button-confirm {
+    background-color: var(--ion-color-primary);
+    color: white;
+  }
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { NotificationService } from '../../services/notification.service';
@@ -45,20 +45,7 @@ export class AdminUsersComponent implements OnInit {
   sortOrder: 'asc' | 'desc' = 'desc';
   selectedUsers: Set<string> = new Set();
 
-  statusOptions = [
-    { value: 'all', label: 'ADMIN.USERS.ALL_STATUS' },
-    { value: 'active', label: 'USER.STATUS_ACTIVE' },
-    { value: 'pending', label: 'USER.STATUS_PENDING' }
-  ];
-
-  roleOptions = [
-    { value: 'all', label: 'ADMIN.USERS.ALL_ROLES' },
-    { value: 'Admin', label: 'ROLE.ADMIN' },
-    { value: 'Basic', label: 'ROLE.BASIC' },
-    { value: 'Seller', label: 'ROLE.SELLER' }
-  ];
-
-  pageSizeOptions = [10, 25, 50, 100];
+  pageSizeOptions: number[] = [10, 25, 50, 100];
 
   private searchSubject: Subject<string> = new Subject<string>();
 
@@ -165,8 +152,8 @@ export class AdminUsersComponent implements OnInit {
 
   calculateStats(): void {
     this.stats.total = this.totalUsers;
-    this.stats.active = this.users.filter((u) => u.isVerified).length;
-    this.stats.pending = this.users.filter((u) => !u.isVerified).length;
+    this.stats.active = this.users.filter((u: User): boolean | undefined => u.isVerified).length;
+    this.stats.pending = this.users.filter((u: User): boolean => !u.isVerified).length;
     this.stats.suspended = 0;
   }
 
@@ -218,13 +205,15 @@ export class AdminUsersComponent implements OnInit {
 
   async exportUsers(): Promise<void> {
     try {
-      const usersToExport =
-        this.selectedUsers.size > 0 ? this.users.filter((u) => this.selectedUsers.has(u.username)) : this.users;
+      const usersToExport: User[] =
+        this.selectedUsers.size > 0
+          ? this.users.filter((u: User): boolean => this.selectedUsers.has(u.username))
+          : this.users;
 
-      const csv = this.convertToCSV(usersToExport);
+      const csv: string = this.convertToCSV(usersToExport);
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      const url = URL.createObjectURL(blob);
+      const link: HTMLAnchorElement = document.createElement('a');
+      const url: string = URL.createObjectURL(blob);
 
       link.setAttribute('href', url);
       link.setAttribute('download', `users_export_${new Date().toISOString().split('T')[0]}.csv`);
@@ -240,7 +229,7 @@ export class AdminUsersComponent implements OnInit {
   }
 
   private convertToCSV(users: User[]): string {
-    const headers = [
+    const headers: string[] = [
       'Username',
       'Email',
       'First Name',
@@ -251,7 +240,7 @@ export class AdminUsersComponent implements OnInit {
       'Phone',
       'Joined Date'
     ];
-    const rows = users.map((user) => [
+    const rows: string[][] = users.map((user: User): string[] => [
       user.username || '',
       user.email || '',
       user.firstName || '',
@@ -263,13 +252,11 @@ export class AdminUsersComponent implements OnInit {
       user.joinedDate || ''
     ]);
 
-    const csvContent = [headers.join(','), ...rows.map((row) => row.map((cell) => `"${cell}"`).join(','))].join('\n');
-
-    return csvContent;
+    return [headers.join(','), ...rows.map((row) => row.map((cell) => `"${cell}"`).join(','))].join('\n');
   }
 
   async deleteUser(user: User): Promise<void> {
-    const alert = await this.alertController.create({
+    const alert: HTMLIonAlertElement = await this.alertController.create({
       header: this.translateService.instant('ADMIN.USERS.DELETE_CONFIRM_TITLE'),
       message: this.translateService.instant('ADMIN.USERS.DELETE_CONFIRM_MESSAGE', {
         username: user.username
@@ -315,7 +302,7 @@ export class AdminUsersComponent implements OnInit {
       return;
     }
 
-    const alert = await this.alertController.create({
+    const alert: HTMLIonAlertElement = await this.alertController.create({
       header: this.translateService.instant('ADMIN.USERS.DELETE_BULK_TITLE'),
       message: this.translateService.instant('ADMIN.USERS.DELETE_BULK_MESSAGE', {
         count: this.selectedUsers.size
@@ -328,7 +315,7 @@ export class AdminUsersComponent implements OnInit {
         {
           text: this.translateService.instant('COMMON.DELETE'),
           role: 'destructive',
-          handler: async () => {
+          handler: async (): Promise<void> => {
             await this.confirmDeleteBulkUsers();
           }
         }
@@ -340,11 +327,11 @@ export class AdminUsersComponent implements OnInit {
 
   private async confirmDeleteBulkUsers(): Promise<void> {
     try {
-      const currentUser = this.authService.currentUser;
+      const currentUser: User | null = this.authService.currentUser;
 
-      const usersToDelete = this.users.filter((user) => {
-        const isSelected = this.selectedUsers.has(user.username);
-        const isCurrentUser = currentUser && user.id === currentUser.id;
+      const usersToDelete: User[] = this.users.filter((user: User): boolean => {
+        const isSelected: boolean = this.selectedUsers.has(user.username);
+        const isCurrentUser: null | boolean = currentUser && user.id === currentUser.id;
         return isSelected && !isCurrentUser;
       });
 
@@ -357,7 +344,9 @@ export class AdminUsersComponent implements OnInit {
         return;
       }
 
-      const deletePromises = usersToDelete.map((user) => lastValueFrom(this.apiService.delete(`user/${user.id}`)));
+      const deletePromises: Promise<unknown>[] = usersToDelete.map(
+        (user: User): Promise<unknown> => lastValueFrom(this.apiService.delete(`user/${user.id}`))
+      );
 
       await Promise.all(deletePromises);
       await this.notificationService.success('ADMIN.USERS.DELETE_BULK_SUCCESS');
@@ -374,16 +363,16 @@ export class AdminUsersComponent implements OnInit {
     }
 
     try {
-      const usersToActivate = this.users.filter((user) => this.selectedUsers.has(user.username));
-      const updatePromises = usersToActivate.map((user) =>
-        lastValueFrom(this.apiService.patch(`user/${user.id}`, { isVerified: true }))
+      const usersToActivate: User[] = this.users.filter((user: User): boolean => this.selectedUsers.has(user.username));
+      const updatePromises: Promise<unknown>[] = usersToActivate.map(
+        (user: User): Promise<unknown> => lastValueFrom(this.apiService.patch(`user/${user.id}`, { isVerified: true }))
       );
 
       await Promise.all(updatePromises);
       await this.notificationService.success('ADMIN.USERS.ACTIVATE_SUCCESS');
       this.selectedUsers.clear();
       await this.loadUsers();
-    } catch (error) {
+    } catch (_) {
       await this.notificationService.error('ADMIN.USERS.ACTIVATE_ERROR');
     }
   }
@@ -406,7 +395,7 @@ export class AdminUsersComponent implements OnInit {
         {
           text: this.translateService.instant('COMMON.SUSPEND'),
           role: 'destructive',
-          handler: async () => {
+          handler: async (): Promise<void> => {
             await this.confirmSuspendUsers();
           }
         }
@@ -428,7 +417,7 @@ export class AdminUsersComponent implements OnInit {
       await this.notificationService.success('ADMIN.USERS.SUSPEND_SUCCESS');
       this.selectedUsers.clear();
       await this.loadUsers();
-    } catch (error) {
+    } catch (_) {
       await this.notificationService.error('ADMIN.USERS.SUSPEND_ERROR');
     }
   }
@@ -443,34 +432,40 @@ export class AdminUsersComponent implements OnInit {
       message: this.translateService.instant('ADMIN.USERS.CHANGE_ROLE_MESSAGE', {
         count: this.selectedUsers.size
       }),
+      cssClass: 'role-change-alert',
       inputs: [
         {
           type: 'radio',
           label: this.translateService.instant('ROLE.BASIC'),
           value: 'Basic',
-          checked: this.getCheckedRole('Basic')
+          checked: this.getCheckedRole('Basic'),
+          cssClass: 'role-basic-radio'
         },
         {
           type: 'radio',
           label: this.translateService.instant('ROLE.SELLER'),
           value: 'Seller',
-          checked: this.getCheckedRole('Seller')
+          checked: this.getCheckedRole('Seller'),
+          cssClass: 'role-seller-radio'
         },
         {
           type: 'radio',
           label: this.translateService.instant('ROLE.ADMIN'),
           value: 'Admin',
-          checked: this.getCheckedRole('Admin')
+          checked: this.getCheckedRole('Admin'),
+          cssClass: 'role-admin-radio'
         }
       ],
       buttons: [
         {
           text: this.translateService.instant('COMMON.CANCEL'),
-          role: 'cancel'
+          role: 'cancel',
+          cssClass: 'alert-button-cancel'
         },
         {
           text: this.translateService.instant('COMMON.CONFIRM'),
-          handler: async (selectedRole: Role): Promise<void> => {
+          cssClass: 'alert-button-confirm',
+          handler: async (selectedRole: Role) => {
             if (selectedRole) {
               await this.confirmChangeRoleUsers(selectedRole);
             }
