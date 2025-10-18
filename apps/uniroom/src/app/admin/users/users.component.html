@@ -1,12 +1,5 @@
 <ion-content>
   <div class="admin-users-container">
-    <div class="page-header">
-      <ion-button *ngIf="selectedUsers.size > 0" color="danger" (click)="deleteBulkUsers()">
-        <ion-icon slot="start" name="trash-outline"></ion-icon>
-        {{ 'ADMIN.USERS.DELETE_SELECTED' | translate }} ({{ selectedUsers.size }})
-      </ion-button>
-    </div>
-
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-icon">
@@ -58,6 +51,11 @@
           (input)="onSearchInput($event)"
           [value]="searchTerm" />
       </div>
+
+      <ion-button *ngIf="selectedUsers.size > 0" color="danger" (click)="deleteBulkUsers()">
+        <ion-icon slot="start" name="trash-outline"></ion-icon>
+        {{ 'ADMIN.USERS.DELETE_SELECTED' | translate }} ({{ selectedUsers.size }})
+      </ion-button>
 
       <div class="filters">
         <ion-select
@@ -170,7 +168,7 @@
             <td class="col-user">
               <div class="user-info">
                 <div class="user-avatar">
-                  <img [src]="getUserAvatar(user)" [alt]="user.username" />
+                  <img ngSrc="{{ getUserAvatar(user) }}" fill [alt]="user.username" />
                 </div>
                 <div class="user-details">
                   <div class="user-name">

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { NotificationService } from '../../services/notification.service';
 import { LocalizationService } from '../../services/localization.service';
+import { AuthService } from '../../services/auth.service';
 import { Role, User } from '../../models/auth.types';
 import { lastValueFrom, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -29,6 +30,7 @@ export class AdminUsersComponent implements OnInit {
   private translateService: TranslateService = inject(TranslateService);
   private alertController: AlertController = inject(AlertController);
   private router: Router = inject(Router);
+  private authService: AuthService = inject(AuthService);
 
   users: User[] = [];
   stats: UserStats = { total: 0, active: 0, pending: 0, suspended: 0 };
@@ -292,7 +294,14 @@ export class AdminUsersComponent implements OnInit {
 
   private async confirmDeleteUser(user: User): Promise<void> {
     try {
-      await lastValueFrom(this.apiService.delete(`user/${user.username}`));
+      // Prevent self-deletion
+      const currentUser: User | null = this.authService.currentUser;
+      if (currentUser && user.id === currentUser.id) {
+        await this.notificationService.error('ADMIN.USERS.DELETE_SELF_ERROR');
+        return;
+      }
+
+      await lastValueFrom(this.apiService.delete(`user/${user.id}`));
       await this.notificationService.success('ADMIN.USERS.DELETE_SUCCESS');
       this.selectedUsers.delete(user.username);
       await this.loadUsers();
@@ -331,9 +340,26 @@ export class AdminUsersComponent implements OnInit {
 
   private async confirmDeleteBulkUsers(): Promise<void> {
     try {
-      const deletePromises = Array.from(this.selectedUsers).map((username) =>
-        lastValueFrom(this.apiService.delete(`user/${username}`))
-      );
+      const currentUser = this.authService.currentUser;
+
+      // Filter out selected users and get their IDs, excluding current user
+      const usersToDelete = this.users.filter((user) => {
+        const isSelected = this.selectedUsers.has(user.username);
+        const isCurrentUser = currentUser && user.id === currentUser.id;
+        return isSelected && !isCurrentUser;
+      });
+
+      // If current user was in selection, show warning
+      if (currentUser && this.selectedUsers.has(currentUser.username)) {
+        await this.notificationService.warning('ADMIN.USERS.DELETE_SELF_SKIPPED');
+      }
+
+      if (usersToDelete.length === 0) {
+        await this.notificationService.error('ADMIN.USERS.NO_USERS_TO_DELETE');
+        return;
+      }
+
+      const deletePromises = usersToDelete.map((user) => lastValueFrom(this.apiService.delete(`user/${user.id}`)));
 
       await Promise.all(deletePromises);
       await this.notificationService.success('ADMIN.USERS.DELETE_BULK_SUCCESS');
