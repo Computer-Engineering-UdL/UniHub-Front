@@ -1,12 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
-import { ModalController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { OfferListItem } from '../models/offer.types';
 import { User } from '../models/auth.types';
 import { CreateOfferModalComponent } from './create-offer-modal/create-offer-modal.component';
 import { LocalizationService } from '../services/localization.service';
+import { NotificationService } from '../services/notification.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-rooms',
@@ -26,6 +28,9 @@ export class RoomsComponent implements OnInit {
   private authService: AuthService = inject(AuthService);
   private modalController: ModalController = inject(ModalController);
   private localizationService: LocalizationService = inject(LocalizationService);
+  private alertController: AlertController = inject(AlertController);
+  private notificationService: NotificationService = inject(NotificationService);
+  private translate: TranslateService = inject(TranslateService);
 
   async ngOnInit(): Promise<void> {
     this.authService.currentUser$.subscribe((user: User | null): void => {
@@ -61,6 +66,35 @@ export class RoomsComponent implements OnInit {
     });
 
     this.fillMissingOfferImages();
+  }
+
+  public async confirmDeleteOffer(offerId: string): Promise<void> {
+    const alert: HTMLIonAlertElement = await this.alertController.create({
+      header: this.translate.instant('ROOM.DELETE_CONFIRM_TITLE'),
+      message: this.translate.instant('ROOM.DELETE_CONFIRM_MESSAGE'),
+      buttons: [
+        { text: this.translate.instant('COMMON.CANCEL'), role: 'cancel' },
+        {
+          text: this.translate.instant('COMMON.DELETE') || 'Delete',
+          handler: async (): Promise<void> => {
+            await this.deleteOffer(offerId);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private async deleteOffer(offerId: string): Promise<void> {
+    try {
+      await firstValueFrom(this.apiService.delete(`offers/offers/${offerId}`));
+      await this.notificationService.success('ROOM.DELETE_SUCCESS');
+      await this.loadOffers();
+    } catch (error) {
+      console.error('Error deleting offer:', error);
+      await this.notificationService.error('ROOM.DELETE_FAILED');
+    }
   }
 
   private fillMissingOfferImages(): void {

@@ -95,6 +95,7 @@
     "LOADING": "Carregant...",
     "GITHUB": "GitHub",
     "GOOGLE": "Google",
+    "DELETE": "Eliminar",
     "CANCEL": "Cancel·lar"
   },
   "UNAUTHORIZED": {
@@ -143,6 +144,11 @@
     "NO_OFFERS_DESCRIPTION": "No hi ha ofertes d'habitatge disponibles en aquest moment. Torna més tard!",
     "VIEW_DETAILS": "Veure Detalls",
     "PER_MONTH": "/mes",
+    "DELETE": "Eliminar",
+    "DELETE_CONFIRM_TITLE": "Eliminar oferta",
+    "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar aquesta oferta? Aquesta acció no es pot desfer.",
+    "DELETE_SUCCESS": "Oferta eliminada correctament.",
+    "DELETE_FAILED": "No s'ha pogut eliminar l'oferta. Si us plau, torna-ho a intentar.",
     "STATUS": {
       "ACTIVE": "Activa",
       "INACTIVE": "Inactiva",

@@ -37,6 +37,16 @@
             <ion-badge *ngIf="offer.status !== 'active'" class="status-badge" color="medium">
               {{ 'ROOM.STATUS.' + offer.status.toUpperCase() | translate }}
             </ion-badge>
+
+            <ion-button
+              *ngIf="user?.role === 'Admin'"
+              class="trash-button"
+              fill="clear"
+              color="danger"
+              (click)="confirmDeleteOffer(offer.id); $event.stopPropagation()"
+              title="{{ 'ROOM.DELETE' | translate }}">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
           </div>
 
           <ion-card-content>

@@ -95,6 +95,7 @@
     "LOADING": "Cargando...",
     "GITHUB": "GitHub",
     "GOOGLE": "Google",
+    "DELETE": "Eliminar",
     "CANCEL": "Cancelar"
   },
   "UNAUTHORIZED": {
@@ -138,6 +139,11 @@
     "NO_OFFERS_DESCRIPTION": "No hay ofertas de alojamiento disponibles en este momento. ¡Vuelve más tarde!",
     "VIEW_DETAILS": "Ver Detalles",
     "PER_MONTH": "/mes",
+    "DELETE": "Eliminar",
+    "DELETE_CONFIRM_TITLE": "Eliminar oferta",
+    "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar esta oferta? Esta acción no se puede deshacer.",
+    "DELETE_SUCCESS": "Oferta eliminada correctamente.",
+    "DELETE_FAILED": "No se pudo eliminar la oferta. Por favor, inténtalo de nuevo.",
     "STATUS": {
       "ACTIVE": "Activa",
       "INACTIVE": "Inactiva",

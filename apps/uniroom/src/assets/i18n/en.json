@@ -95,6 +95,7 @@
     "LOADING": "Loading...",
     "GITHUB": "GitHub",
     "GOOGLE": "Google",
+    "DELETE": "Delete",
     "CANCEL": "Cancel"
   },
   "UNAUTHORIZED": {
@@ -143,6 +144,11 @@
     "NO_OFFERS_DESCRIPTION": "There are no housing offers available at the moment. Check back later!",
     "VIEW_DETAILS": "View Details",
     "PER_MONTH": "/month",
+    "DELETE": "Delete",
+    "DELETE_CONFIRM_TITLE": "Delete Offer",
+    "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this offer? This action cannot be undone.",
+    "DELETE_SUCCESS": "Offer deleted successfully.",
+    "DELETE_FAILED": "Failed to delete the offer. Please try again.",
     "STATUS": {
       "ACTIVE": "Active",
       "INACTIVE": "Inactive",

@@ -86,6 +86,28 @@
       text-transform: uppercase;
       font-size: 11px;
     }
+
+    .trash-button {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      z-index: 30;
+      --padding-start: 8px;
+      --padding-end: 8px;
+      --min-width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .trash-button ion-icon {
+      font-size: 18px;
+      color: var(--ion-color-danger);
+    }
   }
 
   ion-card-content {
