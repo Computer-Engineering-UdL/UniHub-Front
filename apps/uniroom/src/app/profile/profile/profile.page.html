@@ -2,12 +2,7 @@
   <div class="profile-wrapper" *ngIf="user">
     <div class="profile-header">
       <div class="profile-avatar">
-        <img
-          ngSrc="{{user.imgUrl}}"
-          priority
-          height="385"
-          width="390"
-          [alt]="getUserDisplayName()" />
+        <img [src]="avatarSrc" (error)="onAvatarError()" [alt]="getUserDisplayName()" />
       </div>
 
       <div class="profile-info">
@@ -20,9 +15,25 @@
             </ion-badge>
           </div>
 
-          <ion-button color="danger" class="logout-button-header" (click)="logout()" fill="outline">
-            <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
-          </ion-button>
+          <div class="profile-actions">
+            <ion-button
+              color="danger"
+              class="logout-button-header"
+              (click)="logout()"
+              fill="outline">
+              <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+
+            <!-- EDIT MODAL -->
+            <ion-button
+              expand="block"
+              color="primary"
+              class="edit-profile-btn"
+              (click)="openEditModal()">
+              <ion-icon name="create-outline" slot="start"></ion-icon>
+              {{ 'PROFILE.EDIT_PROFILE' | translate }}
+            </ion-button>
+          </div>
         </div>
 
         <p class="profile-email">{{ user.email }}</p>
@@ -50,11 +61,6 @@
             {{ getRoleTranslationKey(user.role) | translate }}
           </ion-badge>
         </div>
-
-        <ion-button expand="block" color="primary" class="edit-profile-btn">
-          <ion-icon name="create-outline" slot="start"></ion-icon>
-          {{ 'PROFILE.EDIT_PROFILE' | translate }}
-        </ion-button>
       </div>
     </div>
 
@@ -109,9 +115,18 @@
           <div class="content-card">
             <h2 class="card-title">{{ 'PROFILE.INTERESTS.TITLE' | translate }}</h2>
             <div class="interests-container">
-              <ion-chip *ngFor="let interest of interests" color="primary" outline="true">
-                {{ interest.translationKey }}
+              <ion-spinner *ngIf="loadingInterests"></ion-spinner>
+
+              <ion-chip
+                *ngFor="let interest of availableInterests"
+                [color]="isUserHasInterest(interest.id) ? 'primary' : 'medium'"
+                (click)="toggleInterest(interest)">
+                <ion-label>{{ interest.name }}</ion-label>
               </ion-chip>
+
+              <div *ngIf="!loadingInterests && availableInterests.length === 0" class="small-muted">
+                {{ 'PROFILE.INTERESTS.EMPTY' | translate }}
+              </div>
             </div>
           </div>
 

@@ -58,6 +58,17 @@
     "NAME": "Name",
     "USERNAME": "Username",
     "EDIT_PROFILE": "Edit Profile",
+    "EDIT_MODAL": {
+      "TITLE": "Edit Profile"
+    },
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "FIRST_NAME": "First Name",
+    "LAST_NAME": "Last Name",
+    "PHONE": "Phone",
+    "UNIVERSITY": "University",
+    "YEAR_OF_STUDY": "Year of study",
+    "IMAGE_URL": "Image URL",
     "NO_POSTS": "You don't have any posts yet",
     "NO_LISTINGS": "You don't have any listings yet",
     "STATS": {

@@ -1,0 +1,93 @@
+<div class="modal-root">
+  <header class="modal-header">
+    <h2>{{ 'PROFILE.EDIT_MODAL.TITLE' | translate }}</h2>
+    <button class="modal-close" (click)="cancel()" aria-label="{{ 'PROFILE.CANCEL' | translate }}">
+      ×
+    </button>
+  </header>
+
+  <div class="modal-content">
+    <div class="modal-top">
+      <div class="avatar-wrap">
+        <img [src]="avatarSrc" (error)="onAvatarError()" alt="avatar" />
+      </div>
+      <h3 class="username">
+        {{ user.firstName ? (user.firstName + ' ' + (user.lastName || '')) : (user.username) }}
+      </h3>
+      <p class="email">{{ user.email }}</p>
+    </div>
+
+    <form class="edit-form" (submit)="$event.preventDefault(); save()">
+      <label>
+        <div class="label">{{ 'PROFILE.FIRST_NAME' | translate }}</div>
+        <input
+          type="text"
+          [value]="user.firstName || ''"
+          (input)="user.firstName = $any($event.target).value; onNameInput()" />
+      </label>
+
+      <label>
+        <div class="label">{{ 'PROFILE.LAST_NAME' | translate }}</div>
+        <input
+          type="text"
+          [value]="user.lastName || ''"
+          (input)="user.lastName = $any($event.target).value; onNameInput()" />
+      </label>
+
+      <label>
+        <div class="label">{{ 'PROFILE.PHONE' | translate }}</div>
+        <input
+          type="tel"
+          [value]="user.phone || ''"
+          (input)="user.phone = $any($event.target).value" />
+      </label>
+
+      <label>
+        <div class="label">{{ 'PROFILE.UNIVERSITY' | translate }}</div>
+        <input
+          type="text"
+          [value]="user.university || ''"
+          (input)="user.university = $any($event.target).value" />
+      </label>
+
+      <label>
+        <div class="label">{{ 'PROFILE.YEAR_OF_STUDY' | translate }}</div>
+        <input
+          type="number"
+          [value]="user.yearOfStudy || 1"
+          (input)="user.yearOfStudy = +$any($event.target).value" />
+      </label>
+
+      <label>
+        <div class="label">{{ 'PROFILE.IMAGE_URL' | translate }}</div>
+        <input
+          type="text"
+          [value]="user.imgUrl || ''"
+          (input)="onImgUrlInput($any($event.target).value)" />
+      </label>
+    </form>
+
+    <section class="interests-section">
+      <h4>{{ 'PROFILE.INTERESTS.TITLE' | translate }}</h4>
+      <div class="interests-list">
+        <div *ngIf="loadingInterests" class="spinner">{{ 'COMMON.LOADING' | translate }}</div>
+        <button
+          class="interest-chip"
+          *ngFor="let interest of availableInterests"
+          [class.selected]="isUserHasInterest(interest.id)"
+          (click)="toggleInterest(interest)">
+          {{ interest.name }}
+        </button>
+      </div>
+    </section>
+
+    <div class="modal-actions">
+      <button class="btn btn-primary" (click)="save()" [attr.disabled]="saving ? true : null">
+        ✓ {{ 'PROFILE.SAVE' | translate }}
+      </button>
+      <button class="btn btn-secondary" (click)="cancel()" [attr.disabled]="saving ? true : null">
+        ✕ {{ 'PROFILE.CANCEL' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

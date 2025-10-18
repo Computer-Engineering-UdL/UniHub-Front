@@ -58,6 +58,17 @@
     "NAME": "Nombre",
     "USERNAME": "Nombre de usuario",
     "EDIT_PROFILE": "Editar Perfil",
+    "EDIT_MODAL": {
+      "TITLE": "Editar Perfil"
+    },
+    "SAVE": "Guardar",
+    "CANCEL": "Cancelar",
+    "FIRST_NAME": "Nombre",
+    "LAST_NAME": "Apellidos",
+    "PHONE": "Teléfono",
+    "UNIVERSITY": "Universidad",
+    "YEAR_OF_STUDY": "Año de estudio",
+    "IMAGE_URL": "URL de la imagen",
     "NO_POSTS": "Aún no tienes publicaciones",
     "NO_LISTINGS": "Aún no tienes anuncios",
     "STATS": {

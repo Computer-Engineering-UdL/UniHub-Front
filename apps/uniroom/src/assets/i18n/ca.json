@@ -58,6 +58,17 @@
     "NAME": "Nom",
     "USERNAME": "Nom d'usuari",
     "EDIT_PROFILE": "Editar Perfil",
+    "EDIT_MODAL": {
+      "TITLE": "Editar Perfil"
+    },
+    "SAVE": "Desar",
+    "CANCEL": "Cancel·lar",
+    "FIRST_NAME": "Nom",
+    "LAST_NAME": "Cognoms",
+    "PHONE": "Telèfon",
+    "UNIVERSITY": "Universitat",
+    "YEAR_OF_STUDY": "Any d'estudi",
+    "IMAGE_URL": "URL de la imatge",
     "NO_POSTS": "Encara no tens publicacions",
     "NO_LISTINGS": "Encara no tens anuncis",
     "STATS": {
