@@ -112,7 +112,8 @@
     "GITHUB": "GitHub",
     "GOOGLE": "Google",
     "DELETE": "Eliminar",
-    "CANCEL": "Cancelar"
+    "CANCEL": "Cancelar",
+    "CONFIRM": "Confirmar"
   },
   "UNAUTHORIZED": {
     "TITLE": "Acceso denegado",
@@ -244,7 +245,27 @@
         "TO": "a",
         "OF": "de",
         "USERS": "usuarios"
-      }
+      },
+      "SELECTED": "seleccionados",
+      "ACTIVATE": "Activar",
+      "SUSPEND": "Suspender",
+      "VERIFY": "Verificar",
+      "UNVERIFY": "Desverificar",
+      "ACTIVATE_SUCCESS": "Usuarios activados correctamente",
+      "ACTIVATE_ERROR": "Error al activar los usuarios",
+      "SUSPEND_SUCCESS": "Usuarios suspendidos correctamente",
+      "SUSPEND_ERROR": "Error al suspender los usuarios",
+      "SUSPEND_CONFIRM_TITLE": "Suspender usuarios",
+      "SUSPEND_CONFIRM_MESSAGE": "¿Estás seguro de que quieres suspender {{count}} usuarios?",
+      "VERIFY_SUCCESS": "Usuarios verificados correctamente",
+      "VERIFY_ERROR": "Error al verificar los usuarios",
+      "UNVERIFY_SUCCESS": "Usuarios desverificados correctamente",
+      "UNVERIFY_ERROR": "Error al desverificar los usuarios",
+      "CHANGE_ROLE": "Cambiar Rol",
+      "CHANGE_ROLE_TITLE": "Cambiar rol de los usuarios",
+      "CHANGE_ROLE_MESSAGE": "Selecciona el nuevo rol para los {{count}} usuarios seleccionados:",
+      "CHANGE_ROLE_SUCCESS": "Rol de los usuarios cambiado correctamente",
+      "CHANGE_ROLE_ERROR": "Error al cambiar el rol de los usuarios"
     }
   },
   "ERROR": {

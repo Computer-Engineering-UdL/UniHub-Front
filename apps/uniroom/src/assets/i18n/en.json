@@ -107,7 +107,8 @@
     "GITHUB": "GitHub",
     "GOOGLE": "Google",
     "DELETE": "Delete",
-    "CANCEL": "Cancel"
+    "CANCEL": "Cancel",
+    "CONFIRM": "Confirm"
   },
   "UNAUTHORIZED": {
     "TITLE": "Access denied",
@@ -244,7 +245,27 @@
         "TO": "to",
         "OF": "of",
         "USERS": "users"
-      }
+      },
+      "SELECTED": "selected",
+      "ACTIVATE": "Activate",
+      "SUSPEND": "Suspend",
+      "VERIFY": "Verify",
+      "UNVERIFY": "Unverify",
+      "ACTIVATE_SUCCESS": "Users activated successfully",
+      "ACTIVATE_ERROR": "Error activating users",
+      "SUSPEND_SUCCESS": "Users suspended successfully",
+      "SUSPEND_ERROR": "Error suspending users",
+      "SUSPEND_CONFIRM_TITLE": "Suspend users",
+      "SUSPEND_CONFIRM_MESSAGE": "Are you sure you want to suspend {{count}} users?",
+      "VERIFY_SUCCESS": "Users verified successfully",
+      "VERIFY_ERROR": "Error verifying users",
+      "UNVERIFY_SUCCESS": "Users unverified successfully",
+      "UNVERIFY_ERROR": "Error unverifying users",
+      "CHANGE_ROLE": "Change Role",
+      "CHANGE_ROLE_TITLE": "Change user role",
+      "CHANGE_ROLE_MESSAGE": "Select the new role for the {{count}} selected users:",
+      "CHANGE_ROLE_SUCCESS": "User role changed successfully",
+      "CHANGE_ROLE_ERROR": "Error changing user role"
     }
   },
   "ERROR": {

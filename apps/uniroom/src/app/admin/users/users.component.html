@@ -52,11 +52,6 @@
           [value]="searchTerm" />
       </div>
 
-      <ion-button *ngIf="selectedUsers.size > 0" color="danger" (click)="deleteBulkUsers()">
-        <ion-icon slot="start" name="trash-outline"></ion-icon>
-        {{ 'ADMIN.USERS.DELETE_SELECTED' | translate }} ({{ selectedUsers.size }})
-      </ion-button>
-
       <div class="filters">
         <div class="filter-wrapper">
           <ion-icon name="funnel-outline" class="filter-icon"></ion-icon>
@@ -116,6 +111,32 @@
         <ion-button fill="outline" class="export-button" (click)="exportUsers()">
           <ion-icon slot="start" name="download-outline"></ion-icon>
           {{ 'ADMIN.USERS.EXPORT' | translate }}
+        </ion-button>
+      </div>
+    </div>
+
+    <div *ngIf="selectedUsers.size > 0" class="bulk-actions-bar">
+      <div class="bulk-actions-info">
+        <span class="selection-count"
+          >{{ selectedUsers.size }} {{ 'ADMIN.USERS.SELECTED' | translate }}</span
+        >
+      </div>
+      <div class="bulk-actions-buttons">
+        <ion-button fill="outline" color="success" (click)="activateUsers()">
+          <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+          {{ 'ADMIN.USERS.ACTIVATE' | translate }}
+        </ion-button>
+        <ion-button fill="outline" color="warning" (click)="suspendUsers()">
+          <ion-icon slot="start" name="ban-outline"></ion-icon>
+          {{ 'ADMIN.USERS.SUSPEND' | translate }}
+        </ion-button>
+        <ion-button fill="outline" color="primary" (click)="changeRoleUsers()">
+          <ion-icon slot="start" name="shield-outline"></ion-icon>
+          {{ 'ADMIN.USERS.CHANGE_ROLE' | translate }}
+        </ion-button>
+        <ion-button fill="outline" color="danger" (click)="deleteBulkUsers()">
+          <ion-icon slot="start" name="trash-outline"></ion-icon>
+          {{ 'COMMON.DELETE' | translate }}
         </ion-button>
       </div>
     </div>

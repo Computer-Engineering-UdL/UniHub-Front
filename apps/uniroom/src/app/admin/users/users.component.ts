@@ -342,14 +342,12 @@ export class AdminUsersComponent implements OnInit {
     try {
       const currentUser = this.authService.currentUser;
 
-      // Filter out selected users and get their IDs, excluding current user
       const usersToDelete = this.users.filter((user) => {
         const isSelected = this.selectedUsers.has(user.username);
         const isCurrentUser = currentUser && user.id === currentUser.id;
         return isSelected && !isCurrentUser;
       });
 
-      // If current user was in selection, show warning
       if (currentUser && this.selectedUsers.has(currentUser.username)) {
         await this.notificationService.warning('ADMIN.USERS.DELETE_SELF_SKIPPED');
       }
@@ -370,6 +368,152 @@ export class AdminUsersComponent implements OnInit {
     }
   }
 
+  async activateUsers(): Promise<void> {
+    if (this.selectedUsers.size === 0) {
+      return;
+    }
+
+    try {
+      const usersToActivate = this.users.filter((user) => this.selectedUsers.has(user.username));
+      const updatePromises = usersToActivate.map((user) =>
+        lastValueFrom(this.apiService.patch(`user/${user.id}`, { isVerified: true }))
+      );
+
+      await Promise.all(updatePromises);
+      await this.notificationService.success('ADMIN.USERS.ACTIVATE_SUCCESS');
+      this.selectedUsers.clear();
+      await this.loadUsers();
+    } catch (error) {
+      await this.notificationService.error('ADMIN.USERS.ACTIVATE_ERROR');
+    }
+  }
+
+  async suspendUsers(): Promise<void> {
+    if (this.selectedUsers.size === 0) {
+      return;
+    }
+
+    const alert: HTMLIonAlertElement = await this.alertController.create({
+      header: this.translateService.instant('ADMIN.USERS.SUSPEND_CONFIRM_TITLE'),
+      message: this.translateService.instant('ADMIN.USERS.SUSPEND_CONFIRM_MESSAGE', {
+        count: this.selectedUsers.size
+      }),
+      buttons: [
+        {
+          text: this.translateService.instant('COMMON.CANCEL'),
+          role: 'cancel'
+        },
+        {
+          text: this.translateService.instant('COMMON.SUSPEND'),
+          role: 'destructive',
+          handler: async () => {
+            await this.confirmSuspendUsers();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private async confirmSuspendUsers(): Promise<void> {
+    try {
+      const usersToSuspend: User[] = this.users.filter((user: User): boolean => this.selectedUsers.has(user.username));
+      const updatePromises: Promise<unknown>[] = usersToSuspend.map(
+        async (user: User): Promise<unknown> =>
+          await lastValueFrom(this.apiService.patch(`user/${user.id}`, { isVerified: false }))
+      );
+
+      await Promise.all(updatePromises);
+      await this.notificationService.success('ADMIN.USERS.SUSPEND_SUCCESS');
+      this.selectedUsers.clear();
+      await this.loadUsers();
+    } catch (error) {
+      await this.notificationService.error('ADMIN.USERS.SUSPEND_ERROR');
+    }
+  }
+
+  async changeRoleUsers(): Promise<void> {
+    if (this.selectedUsers.size === 0) {
+      return;
+    }
+
+    const alert: HTMLIonAlertElement = await this.alertController.create({
+      header: this.translateService.instant('ADMIN.USERS.CHANGE_ROLE_TITLE'),
+      message: this.translateService.instant('ADMIN.USERS.CHANGE_ROLE_MESSAGE', {
+        count: this.selectedUsers.size
+      }),
+      inputs: [
+        {
+          type: 'radio',
+          label: this.translateService.instant('ROLE.BASIC'),
+          value: 'Basic',
+          checked: this.getCheckedRole('Basic')
+        },
+        {
+          type: 'radio',
+          label: this.translateService.instant('ROLE.SELLER'),
+          value: 'Seller',
+          checked: this.getCheckedRole('Seller')
+        },
+        {
+          type: 'radio',
+          label: this.translateService.instant('ROLE.ADMIN'),
+          value: 'Admin',
+          checked: this.getCheckedRole('Admin')
+        }
+      ],
+      buttons: [
+        {
+          text: this.translateService.instant('COMMON.CANCEL'),
+          role: 'cancel'
+        },
+        {
+          text: this.translateService.instant('COMMON.CONFIRM'),
+          handler: async (selectedRole: Role): Promise<void> => {
+            if (selectedRole) {
+              await this.confirmChangeRoleUsers(selectedRole);
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  /**
+   * Check if there is only one user selected and if its role matches the given role
+   */
+  private getCheckedRole(role: Role): boolean {
+    if (this.selectedUsers.size !== 1) {
+      return false;
+    }
+
+    return ((): boolean => {
+      const username: string = Array.from(this.selectedUsers)[0];
+      const user: User | undefined = this.users.find((user: User): boolean => user.username === username);
+      return user ? user.role === role : false;
+    })();
+  }
+
+  private async confirmChangeRoleUsers(newRole: Role): Promise<void> {
+    try {
+      const usersToUpdate: User[] = this.users.filter((user: User): boolean => this.selectedUsers.has(user.username));
+      const updatePromises: Promise<unknown>[] = usersToUpdate.map(
+        async (user: User): Promise<unknown> =>
+          await lastValueFrom(this.apiService.patch(`user/${user.id}`, { role: newRole }))
+      );
+
+      await Promise.all(updatePromises);
+      await this.notificationService.success('ADMIN.USERS.CHANGE_ROLE_SUCCESS');
+      this.selectedUsers.clear();
+      await this.loadUsers();
+    } catch (_) {
+      await this.notificationService.error('ADMIN.USERS.CHANGE_ROLE_ERROR');
+    }
+  }
+
   toggleUserSelection(username: string): void {
     if (this.selectedUsers.has(username)) {
       this.selectedUsers.delete(username);
@@ -382,7 +526,7 @@ export class AdminUsersComponent implements OnInit {
     if (this.selectedUsers.size === this.users.length) {
       this.selectedUsers.clear();
     } else {
-      this.users.forEach((user) => this.selectedUsers.add(user.username));
+      this.users.forEach((user: User): Set<string> => this.selectedUsers.add(user.username));
     }
   }
 
