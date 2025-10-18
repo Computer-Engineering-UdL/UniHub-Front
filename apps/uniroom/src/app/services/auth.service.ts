@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from './api.service';
 import { HttpHeaders } from '@angular/common/http';
 import { OAuth2TokenResponse } from '../models/auth.types';
+import { LocalizationService } from './localization.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -17,6 +18,7 @@ export class AuthService {
 
   private apiService: ApiService = inject(ApiService);
   private translate: TranslateService = inject(TranslateService);
+  private localization: LocalizationService = inject(LocalizationService);
 
   private getStoredUser(): User | null {
     const userJson: string | null = localStorage.getItem(this.USER_KEY);
@@ -28,6 +30,8 @@ export class AuthService {
     if (!apiUser) {
       return apiUser;
     }
+    const createdRaw = apiUser.created_at || apiUser.joinedDate;
+    const joinedDate: string | undefined = createdRaw ? this.localization.formatDate(createdRaw) : undefined;
     return {
       id: apiUser.id,
       username: apiUser.username,
@@ -40,7 +44,7 @@ export class AuthService {
       provider: apiUser.provider,
       role: apiUser.role,
       imgUrl: apiUser.avatar_url || apiUser.imgUrl,
-      joinedDate: apiUser.created_at || apiUser.joinedDate,
+      joinedDate,
       yearOfStudy: apiUser.year_of_study || apiUser.yearOfStudy,
       isVerified: apiUser.is_verified ?? apiUser.isVerified,
       interests: apiUser.interests?.map((i: any) => ({ id: i.id, name: i.name })) || apiUser.interests

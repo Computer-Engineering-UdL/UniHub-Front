@@ -5,6 +5,7 @@ import { DEFAULT_USER_URL, Interest, Role, User } from '../../models/auth.types'
 import { ModalController } from '@ionic/angular';
 import { ProfileEditModal } from '../profile-edit.modal';
 import { Subscription } from 'rxjs';
+import { LocalizationService } from '../../services/localization.service';
 
 interface ProfileStats {
   posts: number;
@@ -53,6 +54,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
   private userSub?: Subscription;
+  private localization: LocalizationService = inject(LocalizationService);
 
   ngOnInit(): void {
     this.userSub = this.authService.currentUser$.subscribe((user: User | null): void => {
@@ -152,7 +154,7 @@ export class ProfilePage implements OnInit, OnDestroy {
       return;
     }
 
-    this.user.joinedDate = this.user.joinedDate || new Date().toLocaleDateString();
+    this.user.joinedDate = this.user.joinedDate || this.localization.formatDate(new Date());
     this.user.yearOfStudy = this.user.yearOfStudy || 1;
     this.user.isVerified = this.user.isVerified || false;
   }
