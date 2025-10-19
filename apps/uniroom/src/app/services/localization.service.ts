@@ -1,6 +1,6 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { lastValueFrom } from 'rxjs';
+import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs';
 
 export type LangCode = 'en' | 'es' | 'ca';
 export type TNumber = number | string; // accepted input types for formatting
@@ -13,6 +13,9 @@ export class LocalizationService {
   private readonly defaultLanguage: LangCode = 'en';
   private readonly LANG_KEY: string = 'lang';
 
+  private languageSubject: BehaviorSubject<LangCode> = new BehaviorSubject<LangCode>(this.defaultLanguage);
+  public language$: Observable<LangCode> = this.languageSubject.asObservable();
+
   async init(): Promise<void> {
     this.translate.addLangs(this.supportedLanguages as string[]);
     this.translate.setFallbackLang(this.defaultLanguage);
@@ -23,20 +26,25 @@ export class LocalizationService {
 
     localStorage.setItem(this.LANG_KEY, lang);
     await lastValueFrom(this.translate.use(lang));
+    this.languageSubject.next(lang);
   }
 
   changeLanguage(lang: LangCode): void {
     const normalized: LangCode = this.normalize(lang);
     this.translate.use(normalized);
     localStorage.setItem(this.LANG_KEY, normalized);
+    this.languageSubject.next(normalized);
   }
 
   getCurrentLanguage(): LangCode {
-    return this.normalize(
-      localStorage.getItem(this.LANG_KEY) ||
-        this.translate.getCurrentLang?.() ||
-        this.translate.getBrowserLang?.() ||
-        this.defaultLanguage
+    return (
+      this.languageSubject.value ??
+      this.normalize(
+        localStorage.getItem(this.LANG_KEY) ||
+          this.translate.getCurrentLang?.() ||
+          this.translate.getBrowserLang?.() ||
+          this.defaultLanguage
+      )
     );
   }
 
