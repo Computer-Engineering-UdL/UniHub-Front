@@ -27,7 +27,7 @@ jobs:
 
       - name: Build (Angular/Ionic)
         working-directory: apps/uniroom
-        run: pnpm ng build --configuration production --base-href "/UniRoom-Front/"
+        run: pnpm ng build --configuration production --base-href "/UniHub-Front/"
 
       - name: Add SPA fallback and .nojekyll
         working-directory: apps/uniroom/www
