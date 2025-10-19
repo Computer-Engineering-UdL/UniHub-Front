@@ -24,10 +24,16 @@ export class TopBarComponent implements OnInit, OnDestroy {
   private themeService: ThemeService = inject(ThemeService);
   private localizationService: LocalizationService = inject(LocalizationService);
   private routerSub?: Subscription;
+  private languageSub?: Subscription;
 
   ngOnInit(): void {
     this.currentTheme = this.themeService.getTheme();
     this.currentLanguage = this.localizationService.getCurrentLanguage();
+
+    this.languageSub = this.localizationService.language$.subscribe((lang: LangCode): void => {
+      this.currentLanguage = lang;
+      this.updateCurrentLangIcon();
+    });
 
     this.routerSub = this.router.events
       .pipe(
@@ -49,6 +55,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routerSub?.unsubscribe();
+    this.languageSub?.unsubscribe();
   }
 
   async toggleTheme(): Promise<void> {
