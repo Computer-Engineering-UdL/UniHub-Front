@@ -1,11 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { CreateOfferData, GenderPreference, OfferStatus } from '../../models/offer.types';
-import { firstValueFrom } from 'rxjs';
+import { Subscription, firstValueFrom } from 'rxjs';
 import { NotificationService } from '../../services/notification.service';
+import { LocalizationService } from '../../services/localization.service';
 
 @Component({
   selector: 'app-create-offer-modal',
@@ -13,7 +14,7 @@ import { NotificationService } from '../../services/notification.service';
   styleUrls: ['./create-offer-modal.component.scss'],
   standalone: false
 })
-export class CreateOfferModalComponent implements OnInit {
+export class CreateOfferModalComponent implements OnInit, OnDestroy {
   offerForm!: FormGroup;
   isSubmitting: boolean = false;
 
@@ -22,20 +23,29 @@ export class CreateOfferModalComponent implements OnInit {
   categories: { id: string; name: string }[] = [];
   categoryLoading: boolean = true;
 
+  public readonly todayISO: string = new Date().toISOString().split('T')[0];
+  public endDateMin: string = this.todayISO;
+  public readonly offerValidMin: string = this.todayISO;
+
+  private startDateSubscription?: Subscription;
+
   private modalController: ModalController = inject(ModalController);
   private formBuilder: FormBuilder = inject(FormBuilder);
   private apiService: ApiService = inject(ApiService);
   private authService: AuthService = inject(AuthService);
   private notificationService: NotificationService = inject(NotificationService);
+  private localizationService: LocalizationService = inject(LocalizationService);
 
   ngOnInit(): void {
     this.initializeForm();
     this.loadCategories();
   }
 
-  private initializeForm(): void {
-    const today = new Date().toISOString().split('T')[0];
+  ngOnDestroy(): void {
+    this.startDateSubscription?.unsubscribe();
+  }
 
+  private initializeForm(): void {
     this.offerForm = this.formBuilder.group({
       category_id: ['', Validators.required],
       title: ['', [Validators.required, Validators.maxLength(100)]],
@@ -45,17 +55,34 @@ export class CreateOfferModalComponent implements OnInit {
       offer_valid_until: ['', Validators.required],
       city: ['', [Validators.required, Validators.maxLength(50)]],
       address: ['', [Validators.required, Validators.maxLength(200)]],
-      start_date: [today, Validators.required],
+      start_date: [this.todayISO, Validators.required],
       end_date: ['', Validators.required],
       deposit: [0, [Validators.min(0)]],
-      num_rooms: [1, [Validators.required, Validators.min(0)]],
-      num_bathrooms: [1, [Validators.required, Validators.min(0)]],
+      num_rooms: [1, [Validators.required, Validators.min(1)]],
+      num_bathrooms: [1, [Validators.required, Validators.min(1)]],
       furnished: [false],
       utilities_included: [false],
       internet_included: [false],
       gender_preference: ['any' as GenderPreference, Validators.required],
       status: ['active' as OfferStatus, Validators.required]
     });
+
+    this.endDateMin = this.todayISO;
+    this.startDateSubscription = this.offerForm
+      .get('start_date')
+      ?.valueChanges.subscribe((value: string) => {
+        if (!value) {
+          this.endDateMin = this.todayISO;
+          return;
+        }
+
+        this.endDateMin = value;
+        const endDateControl = this.offerForm.get('end_date');
+        const currentEndDate = endDateControl?.value as string;
+        if (currentEndDate && new Date(currentEndDate) < new Date(value)) {
+          endDateControl?.setValue(value);
+        }
+      });
   }
 
   // New: load categories from API
@@ -146,4 +173,36 @@ export class CreateOfferModalComponent implements OnInit {
     const field = this.offerForm.get(fieldName);
     return !!(field && field.invalid && field.touched);
   }
+
+  get formattedMonthlyPrice(): string {
+    const value = this.offerForm?.get('price')?.value;
+    return this.localizationService.formatPrice(value ?? 0);
+  }
+
+  get formattedDeposit(): string {
+    const value = this.offerForm?.get('deposit')?.value;
+    if (value === null || value === '' || value === undefined) {
+      return '—';
+    }
+    return this.localizationService.formatPrice(value ?? 0);
+  }
+
+  get formattedArea(): string {
+    const value = this.offerForm?.get('area')?.value;
+    if (value === null || value === '' || value === undefined) {
+      return '—';
+    }
+    return `${this.localizationService.formatNumber(value ?? 0, 1)} m²`;
+  }
+
+  getRangeValue(controlName: 'num_rooms' | 'num_bathrooms'): number {
+    const raw = this.offerForm?.get(controlName)?.value;
+    return Number(raw ?? 0);
+  }
+
+  getFormattedDate(field: 'start_date' | 'end_date' | 'offer_valid_until'): string {
+    const value = this.offerForm?.get(field)?.value;
+    return value ? this.localizationService.formatDate(value) : '—';
+  }
 }
+
