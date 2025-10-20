@@ -541,7 +541,7 @@ export class AdminUsersComponent implements OnInit {
   }
 
   getRoleText(role: string): string {
-    const key = 'ROLE.' + role.toUpperCase();
+    const key: string = 'ROLE.' + role.toUpperCase();
     return this.translateService.instant(key);
   }
 
@@ -557,8 +557,8 @@ export class AdminUsersComponent implements OnInit {
     }
     const now = new Date();
     const past = new Date(date);
-    const diffMs = now.getTime() - past.getTime();
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const diffMs: number = now.getTime() - past.getTime();
+    const diffDays: number = Math.floor(diffMs / (1000 * 60 * 60 * 24));
     if (diffDays === 0) {
       return this.translateService.instant('TIME_AGO.TODAY');
     }
@@ -569,10 +569,10 @@ export class AdminUsersComponent implements OnInit {
       return this.translateService.instant('TIME_AGO.DAYS', { count: diffDays });
     }
     if (diffDays < 30) {
-      const weeks = Math.floor(diffDays / 7);
+      const weeks: number = Math.floor(diffDays / 7);
       return this.translateService.instant('TIME_AGO.WEEKS', { count: weeks });
     }
-    const months = Math.floor(diffDays / 30);
+    const months: number = Math.floor(diffDays / 30);
     return this.translateService.instant('TIME_AGO.MONTHS', { count: months });
   }
 
@@ -583,12 +583,7 @@ export class AdminUsersComponent implements OnInit {
     if (user.imgUrl) {
       return user.imgUrl;
     }
-    const firstName = user.firstName?.trim() || '';
-    const lastName = user.lastName?.trim() || '';
-    const name =
-      firstName || lastName
-        ? encodeURIComponent((firstName + ' ' + lastName).trim())
-        : encodeURIComponent(user.username || 'user');
+    const name: string = encodeURIComponent(this.getFullName(user));
     return `https://avatar.iran.liara.run/username?username=${name}`;
   }
 
@@ -615,8 +610,8 @@ export class AdminUsersComponent implements OnInit {
     if (user.fullName) {
       return user.fullName;
     }
-    const firstName = user.firstName?.trim() || '';
-    const lastName = user.lastName?.trim() || '';
+    const firstName: string = user.firstName?.trim() || '';
+    const lastName: string = user.lastName?.trim() || '';
     if (firstName && lastName) {
       return `${firstName} ${lastName}`;
     }
@@ -626,7 +621,7 @@ export class AdminUsersComponent implements OnInit {
     if (lastName) {
       return lastName;
     }
-    return user.username || user.email || 'Usuario';
+    return user.username || user.email || this.translateService.instant('ROLE.BASIC');
   }
 
   async onUserMenuClick(user: User, event: Event): Promise<void> {
@@ -637,14 +632,14 @@ export class AdminUsersComponent implements OnInit {
       buttons: [
         {
           text: this.translateService.instant('ADMIN.USERS.VIEW_DETAILS'),
-          handler: () => {
+          handler: (): void => {
             void this.router.navigate(['/profile', user.username]);
           }
         },
         {
           text: this.translateService.instant('COMMON.DELETE'),
           role: 'destructive',
-          handler: () => {
+          handler: (): void => {
             void this.deleteUser(user);
           }
         },
