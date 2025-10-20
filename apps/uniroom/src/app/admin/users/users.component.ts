@@ -660,4 +660,16 @@ export class AdminUsersComponent implements OnInit {
   get hasPrevPage(): boolean {
     return this.currentPage > 0;
   }
+
+  get hasInactiveUsersSelected(): boolean {
+    return this.users
+      .filter((user: User): boolean => this.selectedUsers.has(user.username))
+      .some((user: User): boolean => !user.isVerified);
+  }
+
+  get hasActiveUsersSelected(): boolean {
+    return this.users
+      .filter((user: User): boolean => this.selectedUsers.has(user.username))
+      .some((user: User): boolean | undefined => user.isVerified);
+  }
 }
