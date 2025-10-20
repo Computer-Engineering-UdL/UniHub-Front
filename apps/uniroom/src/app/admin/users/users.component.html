@@ -122,11 +122,19 @@
         >
       </div>
       <div class="bulk-actions-buttons">
-        <ion-button *ngIf="hasInactiveUsersSelected" fill="outline" color="success" (click)="activateUsers()">
+        <ion-button
+          *ngIf="hasInactiveUsersSelected"
+          fill="outline"
+          color="success"
+          (click)="activateUsers()">
           <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
           {{ 'ADMIN.USERS.ACTIVATE' | translate }}
         </ion-button>
-        <ion-button *ngIf="hasActiveUsersSelected" fill="outline" color="warning" (click)="suspendUsers()">
+        <ion-button
+          *ngIf="hasActiveUsersSelected"
+          fill="outline"
+          color="warning"
+          (click)="suspendUsers()">
           <ion-icon slot="start" name="ban-outline"></ion-icon>
           {{ 'ADMIN.USERS.SUSPEND' | translate }}
         </ion-button>
