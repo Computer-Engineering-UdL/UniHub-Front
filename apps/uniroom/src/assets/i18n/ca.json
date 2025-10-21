@@ -88,7 +88,8 @@
       "MY_LISTINGS": "Els meus anuncis"
     },
     "INTERESTS": {
-      "TITLE": "Interessos"
+      "TITLE": "Interessos",
+      "EMPTY": "No s'han definit interessos encara"
     },
     "RECENT_ACTIVITY": {
       "TITLE": "Activitat Recent",
