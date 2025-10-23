@@ -1,0 +1,133 @@
+<ion-content class="channels-page">
+  <div class="channels-header">
+    <div class="header-top">
+      <div class="header-actions">
+        <ion-searchbar
+          [placeholder]="'CHANNELS.SEARCH_PLACEHOLDER' | translate"
+          [(ngModel)]="searchQuery"
+          (ionInput)="onSearchChange($event)"
+          class="channels-searchbar"
+        ></ion-searchbar>
+        <ion-button
+          *ngIf="currentUser"
+          fill="solid"
+          color="primary"
+          (click)="openCreateChannelModal()"
+          class="create-btn"
+        >
+          <ion-icon slot="start" name="add"></ion-icon>
+          {{ 'CHANNELS.CREATE_CHANNEL' | translate }}
+        </ion-button>
+        <ion-button
+          *ngIf="isAdmin"
+          fill="outline"
+          [color]="isAdminMode ? 'danger' : 'medium'"
+          (click)="toggleAdminMode()"
+          class="admin-mode-btn"
+        >
+          {{ 'CHANNELS.ADMIN_MODE' | translate }}
+        </ion-button>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <div class="tabs">
+        <ion-searchbar
+          [placeholder]="'CHANNELS.SEARCH_CHANNELS' | translate"
+          [(ngModel)]="searchQuery"
+          (ionInput)="onSearchChange($event)"
+          class="mobile-searchbar"
+        ></ion-searchbar>
+        <button
+          class="tab-btn"
+          [class.active]="selectedTab === 'all'"
+          (click)="onTabChange('all')"
+        >
+          {{ 'CHANNELS.ALL_CHANNELS' | translate }}
+        </button>
+        <button
+          class="tab-btn"
+          [class.active]="selectedTab === 'myChannels'"
+          (click)="onTabChange('myChannels')"
+        >
+          {{ 'CHANNELS.MY_CHANNELS' | translate }}
+        </button>
+      </div>
+
+      <div class="category-filters">
+        <button
+          *ngFor="let category of categories"
+          class="category-chip"
+          [class.active]="selectedCategory === category"
+          (click)="onCategoryChange(category)"
+        >
+          {{ getCategoryTranslation(category) }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="channels-content">
+    <div *ngIf="isLoading" class="loading-container">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>{{ 'CHANNELS.LOADING' | translate }}</p>
+    </div>
+
+    <div *ngIf="!isLoading && filteredChannels.length === 0" class="empty-state">
+      <ion-icon name="megaphone-outline"></ion-icon>
+      <h2>{{ 'CHANNELS.NO_CHANNELS' | translate }}</h2>
+      <p>{{ 'CHANNELS.NO_CHANNELS_DESCRIPTION' | translate }}</p>
+    </div>
+
+    <div *ngIf="!isLoading && filteredChannels.length > 0" class="channels-grid">
+      <div *ngFor="let channel of filteredChannels" class="channel-card">
+        <div class="channel-icon">
+          <ion-icon name="megaphone"></ion-icon>
+        </div>
+        <div class="channel-info">
+          <div class="channel-header">
+            <h3 class="channel-name">{{ channel.name }}</h3>
+            <span class="channel-category">{{ channel.category }}</span>
+          </div>
+          <p class="channel-description">{{ channel.description }}</p>
+          <div class="channel-footer">
+            <div class="member-count">
+              <ion-icon name="people"></ion-icon>
+              <span>{{ 'CHANNELS.MEMBERS' | translate: { count: channel.member_count } }}</span>
+            </div>
+            <div class="channel-actions">
+              <ion-button
+                *ngIf="!channel.is_member"
+                fill="solid"
+                color="primary"
+                size="small"
+                (click)="joinChannel(channel)"
+              >
+                {{ 'CHANNELS.JOIN' | translate }}
+              </ion-button>
+              <ion-button
+                *ngIf="channel.is_member && !isAdminMode"
+                fill="outline"
+                color="medium"
+                size="small"
+                (click)="leaveChannel(channel)"
+              >
+                {{ 'CHANNELS.LEAVE' | translate }}
+              </ion-button>
+              <ion-button
+                *ngIf="isAdminMode && isAdmin"
+                fill="solid"
+                color="danger"
+                size="small"
+                (click)="deleteChannel(channel)"
+              >
+                <ion-icon slot="icon-only" name="trash"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
