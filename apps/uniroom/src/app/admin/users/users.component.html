@@ -43,14 +43,13 @@
     </div>
 
     <div class="controls-bar">
-      <div class="search-box">
-        <ion-icon name="search-outline"></ion-icon>
-        <input
-          type="text"
-          [placeholder]="'ADMIN.USERS.SEARCH_PLACEHOLDER' | translate"
-          (input)="onSearchInput($event)"
-          [value]="searchTerm" />
-      </div>
+      <ion-searchbar
+        class="users-searchbar"
+        [placeholder]="'ADMIN.USERS.SEARCH_PLACEHOLDER' | translate"
+        [(ngModel)]="searchTerm"
+        (ionInput)="onSearchInput($event)"
+        debounce="300">
+      </ion-searchbar>
 
       <div class="filters">
         <div class="filter-wrapper">

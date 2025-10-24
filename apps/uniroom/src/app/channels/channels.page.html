@@ -6,26 +6,15 @@
           [placeholder]="'CHANNELS.SEARCH_PLACEHOLDER' | translate"
           [(ngModel)]="searchQuery"
           (ionInput)="onSearchChange($event)"
-          class="channels-searchbar"
-        ></ion-searchbar>
+          class="channels-searchbar"></ion-searchbar>
         <ion-button
           *ngIf="currentUser"
           fill="solid"
           color="primary"
           (click)="openCreateChannelModal()"
-          class="create-btn"
-        >
+          class="create-btn">
           <ion-icon slot="start" name="add"></ion-icon>
           {{ 'CHANNELS.CREATE_CHANNEL' | translate }}
-        </ion-button>
-        <ion-button
-          *ngIf="isAdmin"
-          fill="outline"
-          [color]="isAdminMode ? 'danger' : 'medium'"
-          (click)="toggleAdminMode()"
-          class="admin-mode-btn"
-        >
-          {{ 'CHANNELS.ADMIN_MODE' | translate }}
         </ion-button>
       </div>
     </div>
@@ -36,20 +25,14 @@
           [placeholder]="'CHANNELS.SEARCH_CHANNELS' | translate"
           [(ngModel)]="searchQuery"
           (ionInput)="onSearchChange($event)"
-          class="mobile-searchbar"
-        ></ion-searchbar>
-        <button
-          class="tab-btn"
-          [class.active]="selectedTab === 'all'"
-          (click)="onTabChange('all')"
-        >
+          class="mobile-searchbar"></ion-searchbar>
+        <button class="tab-btn" [class.active]="selectedTab === 'all'" (click)="onTabChange('all')">
           {{ 'CHANNELS.ALL_CHANNELS' | translate }}
         </button>
         <button
           class="tab-btn"
           [class.active]="selectedTab === 'myChannels'"
-          (click)="onTabChange('myChannels')"
-        >
+          (click)="onTabChange('myChannels')">
           {{ 'CHANNELS.MY_CHANNELS' | translate }}
         </button>
       </div>
@@ -59,8 +42,7 @@
           *ngFor="let category of categories"
           class="category-chip"
           [class.active]="selectedCategory === category"
-          (click)="onCategoryChange(category)"
-        >
+          (click)="onCategoryChange(category)">
           {{ getCategoryTranslation(category) }}
         </button>
       </div>
@@ -101,8 +83,7 @@
                 fill="solid"
                 color="primary"
                 size="small"
-                (click)="joinChannel(channel)"
-              >
+                (click)="joinChannel(channel)">
                 {{ 'CHANNELS.JOIN' | translate }}
               </ion-button>
               <ion-button
@@ -110,8 +91,7 @@
                 fill="outline"
                 color="medium"
                 size="small"
-                (click)="leaveChannel(channel)"
-              >
+                (click)="leaveChannel(channel)">
                 {{ 'CHANNELS.LEAVE' | translate }}
               </ion-button>
               <ion-button
@@ -119,8 +99,7 @@
                 fill="solid"
                 color="danger"
                 size="small"
-                (click)="deleteChannel(channel)"
-              >
+                (click)="deleteChannel(channel)">
                 <ion-icon slot="icon-only" name="trash"></ion-icon>
               </ion-button>
             </div>
@@ -130,4 +109,3 @@
     </div>
   </div>
 </ion-content>
-

@@ -1,11 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ModalController, AlertController, ToastController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ChannelService } from '../services/channel.service';
 import { AuthService } from '../services/auth.service';
 import { Channel, ChannelCategory } from '../models/channel.types';
 import { User } from '../models/auth.types';
 import { CreateChannelModalComponent } from './create-channel-modal/create-channel-modal.component';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-channels',
@@ -18,7 +19,7 @@ export class ChannelsPage implements OnInit {
   private authService: AuthService = inject(AuthService);
   private modalController: ModalController = inject(ModalController);
   private alertController: AlertController = inject(AlertController);
-  private toastController: ToastController = inject(ToastController);
+  private notificationService: NotificationService = inject(NotificationService);
   private translate: TranslateService = inject(TranslateService);
 
   channels: Channel[] = [];
@@ -52,7 +53,7 @@ export class ChannelsPage implements OnInit {
       this.filterChannels();
     } catch (error) {
       console.error('Error loading channels:', error);
-      await this.showToast(this.translate.instant('CHANNELS.ERROR.LOAD_CHANNELS'), 'danger');
+      await this.notificationService.error('CHANNELS.ERROR.LOAD_CHANNELS');
     } finally {
       this.isLoading = false;
     }
@@ -62,18 +63,18 @@ export class ChannelsPage implements OnInit {
     let filtered: Channel[] = [...this.channels];
 
     if (this.selectedTab === 'myChannels') {
-      filtered = filtered.filter((channel: Channel) => channel.is_member);
+      filtered = filtered.filter((channel: Channel): boolean | undefined => channel.is_member);
     }
 
     if (this.selectedCategory !== 'All') {
-      filtered = filtered.filter((channel: Channel) => channel.category === this.selectedCategory);
+      filtered = filtered.filter((channel: Channel): boolean => channel.category === this.selectedCategory);
     }
 
     if (this.searchQuery.trim()) {
       const query: string = this.searchQuery.toLowerCase();
-      filtered = filtered.filter((channel: Channel) =>
-        channel.name.toLowerCase().includes(query) ||
-        channel.description.toLowerCase().includes(query)
+      filtered = filtered.filter(
+        (channel: Channel): boolean =>
+          channel.name.toLowerCase().includes(query) || channel.description.toLowerCase().includes(query)
       );
     }
 
@@ -105,7 +106,7 @@ export class ChannelsPage implements OnInit {
     const { data } = await modal.onWillDismiss();
     if (data?.created) {
       await this.loadChannels();
-      await this.showToast(this.translate.instant('CHANNELS.SUCCESS.CREATE_CHANNEL'), 'success');
+      await this.notificationService.error('CHANNELS.SUCCESS.CREATE_CHANNEL');
     }
   }
 
@@ -114,11 +115,11 @@ export class ChannelsPage implements OnInit {
 
     try {
       await this.channelService.joinChannel(channel.id, this.currentUser.id);
-      await this.showToast(this.translate.instant('CHANNELS.SUCCESS.JOIN_CHANNEL'), 'success');
+      await this.notificationService.error('CHANNELS.SUCCESS.JOIN_CHANNEL');
       await this.loadChannels();
     } catch (error) {
       console.error('Error joining channel:', error);
-      await this.showToast(this.translate.instant('CHANNELS.ERROR.JOIN_CHANNEL'), 'danger');
+      await this.notificationService.error('CHANNELS.ERROR.JOIN_CHANNEL');
     }
   }
 
@@ -127,11 +128,11 @@ export class ChannelsPage implements OnInit {
 
     try {
       await this.channelService.leaveChannel(channel.id, this.currentUser.id);
-      await this.showToast(this.translate.instant('CHANNELS.SUCCESS.LEAVE_CHANNEL'), 'success');
+      await this.notificationService.error('CHANNELS.SUCCESS.LEAVE_CHANNEL');
       await this.loadChannels();
     } catch (error) {
       console.error('Error leaving channel:', error);
-      await this.showToast(this.translate.instant('CHANNELS.ERROR.LEAVE_CHANNEL'), 'danger');
+      await this.notificationService.error('CHANNELS.ERROR.LEAVE_CHANNEL');
     }
   }
 
@@ -150,11 +151,11 @@ export class ChannelsPage implements OnInit {
           handler: async () => {
             try {
               await this.channelService.deleteChannel(channel.id);
-              await this.showToast(this.translate.instant('CHANNELS.SUCCESS.DELETE_CHANNEL'), 'success');
+              await this.notificationService.error('CHANNELS.SUCCESS.DELETE_CHANNEL');
               await this.loadChannels();
             } catch (error) {
               console.error('Error deleting channel:', error);
-              await this.showToast(this.translate.instant('CHANNELS.ERROR.DELETE_CHANNEL'), 'danger');
+              await this.notificationService.error('CHANNELS.ERROR.DELETE_CHANNEL');
             }
           }
         }
@@ -171,19 +172,4 @@ export class ChannelsPage implements OnInit {
   get isAdmin(): boolean {
     return this.currentUser?.role === 'Admin';
   }
-
-  toggleAdminMode(): void {
-    this.isAdminMode = !this.isAdminMode;
-  }
-
-  private async showToast(message: string, color: string): Promise<void> {
-    const toast: HTMLIonToastElement = await this.toastController.create({
-      message,
-      duration: 3000,
-      color,
-      position: 'bottom'
-    });
-    await toast.present();
-  }
 }
-

@@ -20,4 +20,3 @@ import { CreateChannelModalComponent } from './create-channel-modal/create-chann
   declarations: [ChannelsPage]
 })
 export class ChannelsModule {}
-

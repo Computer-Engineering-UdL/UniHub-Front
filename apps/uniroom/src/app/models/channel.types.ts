@@ -30,4 +30,3 @@ export interface UpdateChannelDto {
 }
 
 export type ChannelCategory = 'General' | 'Engineering' | 'Sciences' | 'Business' | 'Arts' | 'Medicine';
-

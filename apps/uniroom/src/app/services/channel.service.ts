@@ -29,16 +29,12 @@ export class ChannelService {
 
   async fetchChannelById(channelId: string): Promise<Channel> {
     const headers: HttpHeaders = this.buildAuthHeaders();
-    return await firstValueFrom(
-      this.apiService.get<Channel>(`api/v1/channel/${channelId}`, undefined, headers)
-    );
+    return await firstValueFrom(this.apiService.get<Channel>(`api/v1/channel/${channelId}`, undefined, headers));
   }
 
   async createChannel(data: CreateChannelDto): Promise<Channel> {
     const headers: HttpHeaders = this.buildAuthHeaders();
-    const channel: Channel = await firstValueFrom(
-      this.apiService.post<Channel>(`api/v1/channel`, data, headers)
-    );
+    const channel: Channel = await firstValueFrom(this.apiService.post<Channel>(`api/v1/channel`, data, headers));
     await this.fetchChannels();
     return channel;
   }
@@ -54,17 +50,13 @@ export class ChannelService {
 
   async deleteChannel(channelId: string): Promise<void> {
     const headers: HttpHeaders = this.buildAuthHeaders();
-    await firstValueFrom(
-      this.apiService.delete<void>(`api/v1/channel/${channelId}`, undefined, headers)
-    );
+    await firstValueFrom(this.apiService.delete<void>(`api/v1/channel/${channelId}`, undefined, headers));
     await this.fetchChannels();
   }
 
   async joinChannel(channelId: string, memberId: string): Promise<void> {
     const headers: HttpHeaders = this.buildAuthHeaders();
-    await firstValueFrom(
-      this.apiService.post<void>(`api/v1/channel/${channelId}/add_member/${memberId}`, {}, headers)
-    );
+    await firstValueFrom(this.apiService.post<void>(`api/v1/channel/${channelId}/add_member/${memberId}`, {}, headers));
     await this.fetchChannels();
   }
 
@@ -78,16 +70,12 @@ export class ChannelService {
 
   async banMember(channelId: string, data: { user_id: string }): Promise<void> {
     const headers: HttpHeaders = this.buildAuthHeaders();
-    await firstValueFrom(
-      this.apiService.post<void>(`api/v1/channel/${channelId}/ban`, data, headers)
-    );
+    await firstValueFrom(this.apiService.post<void>(`api/v1/channel/${channelId}/ban`, data, headers));
   }
 
   async unbanMember(channelId: string, data: { user_id: string }): Promise<void> {
     const headers: HttpHeaders = this.buildAuthHeaders();
-    await firstValueFrom(
-      this.apiService.post<void>(`api/v1/channel/${channelId}/unban`, data, headers)
-    );
+    await firstValueFrom(this.apiService.post<void>(`api/v1/channel/${channelId}/unban`, data, headers));
   }
 
   async getChannelMembers(channelId: string): Promise<ChannelMember[]> {
@@ -104,4 +92,3 @@ export class ChannelService {
     );
   }
 }
-

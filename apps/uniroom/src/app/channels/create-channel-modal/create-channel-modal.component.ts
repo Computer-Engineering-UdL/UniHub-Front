@@ -1,10 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule, ModalController, ToastController } from '@ionic/angular';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ChannelService } from '../../services/channel.service';
 import { ChannelCategory, CreateChannelDto } from '../../models/channel.types';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-create-channel-modal',
@@ -17,20 +18,13 @@ export class CreateChannelModalComponent implements OnInit {
   private formBuilder: FormBuilder = inject(FormBuilder);
   private modalController: ModalController = inject(ModalController);
   private channelService: ChannelService = inject(ChannelService);
-  private toastController: ToastController = inject(ToastController);
   private translate: TranslateService = inject(TranslateService);
+  private notificationService: NotificationService = inject(NotificationService);
 
   channelForm!: FormGroup;
   isSubmitting: boolean = false;
 
-  readonly categories: ChannelCategory[] = [
-    'General',
-    'Engineering',
-    'Sciences',
-    'Business',
-    'Arts',
-    'Medicine'
-  ];
+  readonly categories: ChannelCategory[] = ['General', 'Engineering', 'Sciences', 'Business', 'Arts', 'Medicine'];
 
   ngOnInit(): void {
     this.channelForm = this.formBuilder.group({
@@ -53,7 +47,7 @@ export class CreateChannelModalComponent implements OnInit {
       await this.modalController.dismiss({ created: true });
     } catch (error) {
       console.error('Error creating channel:', error);
-      await this.showToast(this.translate.instant('CHANNELS.ERROR.CREATE_CHANNEL'), 'danger');
+      await this.notificationService.error('CHANNELS.ERROR.CREATE_CHANNEL');
     } finally {
       this.isSubmitting = false;
     }
@@ -65,15 +59,5 @@ export class CreateChannelModalComponent implements OnInit {
 
   getCategoryTranslation(category: string): string {
     return this.translate.instant(`CHANNELS.${category.toUpperCase()}`);
-  }
-
-  private async showToast(message: string, color: string): Promise<void> {
-    const toast: HTMLIonToastElement = await this.toastController.create({
-      message,
-      duration: 3000,
-      color,
-      position: 'bottom'
-    });
-    await toast.present();
   }
 }
