@@ -115,7 +115,10 @@
     "DELETE": "Delete",
     "CANCEL": "Cancel",
     "CONFIRM": "Confirm",
-    "SUSPEND": "Suspend"
+    "SUSPEND": "Suspend",
+    "VALIDATION": {
+      "FIELD_REQUIRED": "This field is required ({{min}}-{{max}} characters)"
+    }
   },
   "UNAUTHORIZED": {
     "TITLE": "Access denied",
@@ -360,7 +363,10 @@
       "SELECT_CATEGORY": "Select category",
       "CANCEL": "Cancel",
       "CREATE": "Create",
-      "SAVE": "Save"
+      "SAVE": "Save",
+      "ERROR": {
+        "NAME_EXISTS": "A channel with this name already exists"
+      }
     },
     "DELETE_CONFIRM_TITLE": "Delete Channel",
     "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete the channel {{name}}? This action cannot be undone."

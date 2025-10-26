@@ -115,7 +115,10 @@
     "DELETE": "Eliminar",
     "CANCEL": "Cancel·lar",
     "CONFIRM": "Confirmar",
-    "SUSPEND": "Suspendre"
+    "SUSPEND": "Suspendre",
+    "VALIDATION": {
+      "FIELD_REQUIRED": "Aquest camp és obligatori ({{min}}-{{max}} caràcters)"
+    }
   },
   "UNAUTHORIZED": {
     "TITLE": "Accés denegat",
@@ -360,7 +363,10 @@
       "SELECT_CATEGORY": "Seleccionar categoria",
       "CANCEL": "Cancel·lar",
       "CREATE": "Crear",
-      "SAVE": "Desar"
+      "SAVE": "Desar",
+      "ERROR": {
+        "NAME_EXISTS": "Ja existeix un canal amb aquest nom"
+      }
     },
     "DELETE_CONFIRM_TITLE": "Eliminar Canal",
     "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar el canal {{name}}? Aquesta acció no es pot desfer."

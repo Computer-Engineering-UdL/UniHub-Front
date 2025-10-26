@@ -166,9 +166,19 @@
 
 .toggle-filters-mobile {
   display: none;
+  --border-radius: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  font-weight: 600;
+  text-transform: none;
+  height: 40px;
 
   @media (max-width: 992px) {
     display: inline-flex;
+  }
+
+  ion-icon {
+    font-size: 18px;
   }
 }
 
@@ -186,18 +196,12 @@
     .header-info {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
       flex-wrap: wrap;
 
-      h2 {
-        font-size: clamp(20px, 3vw, 28px);
+      .count-chip {
         font-weight: 600;
-        color: var(--ion-text-color);
-        margin: 0;
-      }
-
-      ion-chip {
-        font-weight: 600;
+        font-size: 14px;
       }
     }
 
@@ -207,11 +211,26 @@
       gap: 12px;
       flex-wrap: wrap;
 
-      @media (max-width: 576px) {
+      @media (max-width: 768px) {
         width: 100%;
 
-        ion-button {
+        .toggle-filters-mobile {
           flex: 1;
+        }
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-info {
+        width: 100%;
+
+        .create-action-btn {
+          flex: 1;
+          order: -1;
+        }
+
+        .count-chip {
+          margin-left: auto;
         }
       }
     }
