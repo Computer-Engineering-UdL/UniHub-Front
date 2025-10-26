@@ -24,7 +24,7 @@
         color="danger"
         *ngIf="channelForm.get('name')?.invalid && channelForm.get('name')?.touched"
         class="error-text">
-        <small>{{ 'CHANNELS.MODAL.NAME' | translate }} is required (3-50 characters)</small>
+        <small>{{ getFieldErrorMessage('name') }}</small>
       </ion-text>
     </div>
 
@@ -41,9 +41,7 @@
         color="danger"
         *ngIf="channelForm.get('description')?.invalid && channelForm.get('description')?.touched"
         class="error-text">
-        <small
-          >{{ 'CHANNELS.MODAL.DESCRIPTION' | translate }} is required (10-200 characters)</small
-        >
+        <small>{{ getFieldErrorMessage('description') }}</small>
       </ion-text>
     </div>
 

@@ -60,4 +60,33 @@ export class CreateChannelModalComponent implements OnInit {
   getCategoryTranslation(category: string): string {
     return this.translate.instant(`CHANNELS.${category.toUpperCase()}`);
   }
+
+  getFieldErrorMessage(fieldName: string): string {
+    const control = this.channelForm.get(fieldName);
+    if (!control) {
+      return '';
+    }
+
+    let minLength: number = 0;
+    let maxLength: number = 0;
+
+    const validators = (control as any)._rawValidators || [];
+
+    for (const validator of validators) {
+      const minTest = validator({ value: 'a' });
+      if (minTest && minTest.minlength) {
+        minLength = minTest.minlength.requiredLength;
+      }
+
+      const maxTest = validator({ value: 'a'.repeat(1000) });
+      if (maxTest && maxTest.maxlength) {
+        maxLength = maxTest.maxlength.requiredLength;
+      }
+    }
+
+    return this.translate.instant('COMMON.VALIDATION.FIELD_REQUIRED', {
+      min: minLength,
+      max: maxLength
+    });
+  }
 }

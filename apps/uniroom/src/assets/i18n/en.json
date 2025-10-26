@@ -115,7 +115,10 @@
     "DELETE": "Delete",
     "CANCEL": "Cancel",
     "CONFIRM": "Confirm",
-    "SUSPEND": "Suspend"
+    "SUSPEND": "Suspend",
+    "VALIDATION": {
+      "FIELD_REQUIRED": "This field is required ({{min}}-{{max}} characters)"
+    }
   },
   "UNAUTHORIZED": {
     "TITLE": "Access denied",

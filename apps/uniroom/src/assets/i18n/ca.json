@@ -115,7 +115,10 @@
     "DELETE": "Eliminar",
     "CANCEL": "Cancel·lar",
     "CONFIRM": "Confirmar",
-    "SUSPEND": "Suspendre"
+    "SUSPEND": "Suspendre",
+    "VALIDATION": {
+      "FIELD_REQUIRED": "Aquest camp és obligatori ({{min}}-{{max}} caràcters)"
+    }
   },
   "UNAUTHORIZED": {
     "TITLE": "Accés denegat",
