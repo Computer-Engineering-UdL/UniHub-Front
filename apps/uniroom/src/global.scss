@@ -231,8 +231,9 @@ ion-searchbar {
   }
 
   &.searchbar-has-focus {
-    --box-shadow: 0 0 0 4px rgba(var(--ion-color-primary-rgb, 56, 128, 255), 0.12),
-                  0 4px 16px rgba(0, 0, 0, 0.1) !important;
+    --box-shadow:
+      0 0 0 4px rgba(var(--ion-color-primary-rgb, 56, 128, 255), 0.12),
+      0 4px 16px rgba(0, 0, 0, 0.1) !important;
 
     .searchbar-input-container {
       border-color: var(--ion-color-primary) !important;

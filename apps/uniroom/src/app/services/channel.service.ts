@@ -13,9 +13,7 @@ export class ChannelService {
   public channels$: Observable<Channel[]> = this.channelsSubject.asObservable();
 
   async fetchChannels(): Promise<Channel[]> {
-    const channels: Channel[] = await firstValueFrom(
-      this.apiService.get<Channel[]>('api/v1/channel')
-    );
+    const channels: Channel[] = await firstValueFrom(this.apiService.get<Channel[]>('api/v1/channel'));
     this.channelsSubject.next(channels);
     return channels;
   }
@@ -31,9 +29,7 @@ export class ChannelService {
   }
 
   async updateChannel(channelId: string, data: UpdateChannelDto): Promise<Channel> {
-    const channel: Channel = await firstValueFrom(
-      this.apiService.patch<Channel>(`api/v1/channel/${channelId}`, data)
-    );
+    const channel: Channel = await firstValueFrom(this.apiService.patch<Channel>(`api/v1/channel/${channelId}`, data));
     await this.fetchChannels();
     return channel;
   }
@@ -49,9 +45,7 @@ export class ChannelService {
   }
 
   async leaveChannel(channelId: string, memberId: string): Promise<void> {
-    await firstValueFrom(
-      this.apiService.post<void>(`api/v1/channel/${channelId}/remove_member/${memberId}`, {})
-    );
+    await firstValueFrom(this.apiService.post<void>(`api/v1/channel/${channelId}/remove_member/${memberId}`, {}));
     await this.fetchChannels();
   }
 
@@ -64,14 +58,10 @@ export class ChannelService {
   }
 
   async getChannelMembers(channelId: string): Promise<ChannelMember[]> {
-    return await firstValueFrom(
-      this.apiService.get<ChannelMember[]>(`api/v1/channel/${channelId}/members`)
-    );
+    return await firstValueFrom(this.apiService.get<ChannelMember[]>(`api/v1/channel/${channelId}/members`));
   }
 
   async getMemberInfo(channelId: string, userId: string): Promise<ChannelMember> {
-    return await firstValueFrom(
-      this.apiService.get<ChannelMember>(`api/v1/channel/${channelId}/member/${userId}`)
-    );
+    return await firstValueFrom(this.apiService.get<ChannelMember>(`api/v1/channel/${channelId}/member/${userId}`));
   }
 }

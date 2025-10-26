@@ -10,7 +10,12 @@ export class ApiService {
   private http = inject(HttpClient);
   public readonly API_URL = environment.apiUrl;
 
-  get<T>(endpoint: string, params?: Record<string, any>, headers?: HttpHeaders, requiresAuth: boolean = true): Observable<T> {
+  get<T>(
+    endpoint: string,
+    params?: Record<string, any>,
+    headers?: HttpHeaders,
+    requiresAuth: boolean = true
+  ): Observable<T> {
     const httpParams = this.buildHttpParams(params);
     const finalHeaders = this.buildHeaders(headers, requiresAuth);
     return this.http.get<T>(`${this.API_URL}/${endpoint}`, { params: httpParams, headers: finalHeaders });
@@ -31,7 +36,12 @@ export class ApiService {
     return this.http.patch<T>(`${this.API_URL}/${endpoint}`, body, { headers: finalHeaders });
   }
 
-  delete<T>(endpoint: string, params?: Record<string, any>, headers?: HttpHeaders, requiresAuth: boolean = true): Observable<T> {
+  delete<T>(
+    endpoint: string,
+    params?: Record<string, any>,
+    headers?: HttpHeaders,
+    requiresAuth: boolean = true
+  ): Observable<T> {
     const httpParams = this.buildHttpParams(params);
     const finalHeaders = this.buildHeaders(headers, requiresAuth);
     return this.http.delete<T>(`${this.API_URL}/${endpoint}`, { params: httpParams, headers: finalHeaders });

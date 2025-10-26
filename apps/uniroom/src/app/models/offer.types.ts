@@ -44,6 +44,7 @@ export interface OfferListItem {
   city: string;
   image?: string;
   currency?: string;
+  description?: string;
 }
 
 export interface CreateOfferData {
