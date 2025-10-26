@@ -150,6 +150,7 @@
     "MESSAGES": "Missatges"
   },
   "ROOM": {
+    "TITLE": "Habitacions",
     "ANNOUNCEMENTS": "Anuncis d'habitacions",
     "ANNOUNCEMENTS_COUNT": "habitacions",
     "NOT_AVAILABLE": "No disponible",
@@ -160,6 +161,8 @@
     "CREATE_OFFER": "Crear Oferta",
     "NO_OFFERS": "No hi ha ofertes disponibles",
     "NO_OFFERS_DESCRIPTION": "No hi ha ofertes d'habitatge disponibles en aquest moment. Torna més tard!",
+    "NO_RESULTS": "No s'han trobat resultats",
+    "NO_RESULTS_DESCRIPTION": "Prova d'ajustar els filtres per veure més ofertes.",
     "VIEW_DETAILS": "Veure Detalls",
     "PER_MONTH": "/mes",
     "DELETE": "Eliminar",
@@ -167,6 +170,27 @@
     "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar aquesta oferta? Aquesta acció no es pot desfer.",
     "DELETE_SUCCESS": "Oferta eliminada correctament.",
     "DELETE_FAILED": "No s'ha pogut eliminar l'oferta. Si us plau, torna-ho a intentar.",
+    "FILTERS": {
+      "TITLE": "Filtres",
+      "CLEAR": "Netejar",
+      "SEARCH": "Cercar",
+      "SEARCH_PLACEHOLDER": "Cercar ofertes...",
+      "PRICE_RANGE": "Rang de Preu",
+      "MIN": "Mínim",
+      "MAX": "Màxim",
+      "CITY": "Ciutat",
+      "ALL_CITIES": "Totes les ciutats",
+      "AREA": "Superfície",
+      "STATUS": "Estat",
+      "ALL": "Tots",
+      "SORT_BY": "Ordenar per",
+      "NEWEST": "Més recents",
+      "OLDEST": "Més antics",
+      "PRICE_LOW": "Preu: menor a major",
+      "PRICE_HIGH": "Preu: major a menor",
+      "AREA_SMALL": "Superfície: menor a major",
+      "AREA_LARGE": "Superfície: major a menor"
+    },
     "STATUS": {
       "ACTIVE": "Activa",
       "INACTIVE": "Inactiva",
@@ -289,5 +313,56 @@
     "DAYS": "fa {{count}} dies",
     "WEEKS": "fa {{count}} setmanes",
     "MONTHS": "fa {{count}} mesos"
+  },
+  "CHANNELS": {
+    "TITLE": "Canals",
+    "SEARCH_PLACEHOLDER": "Cercar...",
+    "SEARCH_CHANNELS": "Cercar canals...",
+    "CREATE_CHANNEL": "Crear Canal",
+    "ALL_CHANNELS": "Tots els Canals",
+    "EXPLORE_CHANNELS": "Explorar Canals",
+    "MY_FACULTY": "La meva Facultat",
+    "MY_CHANNELS": "Els meus Canals",
+    "ALL": "Tots",
+    "GENERAL": "General",
+    "ENGINEERING": "Enginyeria",
+    "SCIENCES": "Ciències",
+    "BUSINESS": "Negocis",
+    "ARTS": "Arts",
+    "MEDICINE": "Medicina",
+    "MEMBERS": "{{count}} membres",
+    "JOIN": "Unir-se",
+    "LEAVE": "Sortir",
+    "NO_CHANNELS": "No s'han trobat canals",
+    "NO_CHANNELS_DESCRIPTION": "No hi ha canals disponibles en aquest moment",
+    "LOADING": "Carregant canals...",
+    "ERROR": {
+      "LOAD_CHANNELS": "Error al carregar els canals",
+      "CREATE_CHANNEL": "Error al crear el canal",
+      "UPDATE_CHANNEL": "Error al actualitzar el canal",
+      "DELETE_CHANNEL": "Error al eliminar el canal",
+      "JOIN_CHANNEL": "Error al unir-se al canal",
+      "LEAVE_CHANNEL": "Error al sortir del canal"
+    },
+    "SUCCESS": {
+      "CREATE_CHANNEL": "Canal creat correctament",
+      "UPDATE_CHANNEL": "Canal actualitzat correctament",
+      "DELETE_CHANNEL": "Canal eliminat correctament",
+      "JOIN_CHANNEL": "T'has unit al canal correctament",
+      "LEAVE_CHANNEL": "Has sortit del canal correctament"
+    },
+    "MODAL": {
+      "CREATE_TITLE": "Crear Nou Canal",
+      "EDIT_TITLE": "Editar Canal",
+      "NAME": "Nom del Canal",
+      "DESCRIPTION": "Descripció",
+      "CATEGORY": "Categoria",
+      "SELECT_CATEGORY": "Seleccionar categoria",
+      "CANCEL": "Cancel·lar",
+      "CREATE": "Crear",
+      "SAVE": "Desar"
+    },
+    "DELETE_CONFIRM_TITLE": "Eliminar Canal",
+    "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar el canal {{name}}? Aquesta acció no es pot desfer."
   }
 }

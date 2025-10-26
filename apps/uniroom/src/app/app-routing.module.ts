@@ -29,6 +29,11 @@ const routes: Routes = [
     data: { public: true, titleKey: 'TOPBAR.ROOMS' }
   },
   {
+    path: 'channels',
+    loadChildren: () => import('./channels/channels.module').then((m) => m.ChannelsModule),
+    data: { titleKey: 'TOPBAR.CHANNELS' }
+  },
+  {
     path: 'profile',
     loadChildren: () => import('./profile/profile-module').then((m) => m.ProfileModule),
     canActivate: [AuthGuard],

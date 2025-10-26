@@ -150,6 +150,7 @@
     "MESSAGES": "Mensajes"
   },
   "ROOM": {
+    "TITLE": "Habitaciones",
     "ANNOUNCEMENTS": "Anuncios de habitaciones",
     "ANNOUNCEMENTS_COUNT": "habitaciones",
     "NOT_AVAILABLE": "No disponible",
@@ -160,6 +161,8 @@
     "CREATE_OFFER": "Crear Oferta",
     "NO_OFFERS": "No hay ofertas disponibles",
     "NO_OFFERS_DESCRIPTION": "No hay ofertas de alojamiento disponibles en este momento. ¡Vuelve más tarde!",
+    "NO_RESULTS": "No se encontraron resultados",
+    "NO_RESULTS_DESCRIPTION": "Intenta ajustar los filtros para ver más ofertas.",
     "VIEW_DETAILS": "Ver Detalles",
     "PER_MONTH": "/mes",
     "DELETE": "Eliminar",
@@ -167,6 +170,27 @@
     "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar esta oferta? Esta acción no se puede deshacer.",
     "DELETE_SUCCESS": "Oferta eliminada correctamente.",
     "DELETE_FAILED": "No se pudo eliminar la oferta. Por favor, inténtalo de nuevo.",
+    "FILTERS": {
+      "TITLE": "Filtros",
+      "CLEAR": "Limpiar",
+      "SEARCH": "Buscar",
+      "SEARCH_PLACEHOLDER": "Buscar ofertas...",
+      "PRICE_RANGE": "Rango de Precio",
+      "MIN": "Mínimo",
+      "MAX": "Máximo",
+      "CITY": "Ciudad",
+      "ALL_CITIES": "Todas las ciudades",
+      "AREA": "Superficie",
+      "STATUS": "Estado",
+      "ALL": "Todos",
+      "SORT_BY": "Ordenar por",
+      "NEWEST": "Más recientes",
+      "OLDEST": "Más antiguos",
+      "PRICE_LOW": "Precio: menor a mayor",
+      "PRICE_HIGH": "Precio: mayor a menor",
+      "AREA_SMALL": "Superficie: menor a mayor",
+      "AREA_LARGE": "Superficie: mayor a menor"
+    },
     "STATUS": {
       "ACTIVE": "Activa",
       "INACTIVE": "Inactiva",
@@ -289,5 +313,56 @@
     "DAYS": "hace {{count}} días",
     "WEEKS": "hace {{count}} semanas",
     "MONTHS": "hace {{count}} meses"
+  },
+  "CHANNELS": {
+    "TITLE": "Canales",
+    "SEARCH_PLACEHOLDER": "Buscar...",
+    "SEARCH_CHANNELS": "Buscar canales...",
+    "CREATE_CHANNEL": "Crear Canal",
+    "ALL_CHANNELS": "Todos los Canales",
+    "EXPLORE_CHANNELS": "Explorar Canales",
+    "MY_FACULTY": "Mi Facultad",
+    "MY_CHANNELS": "Mis Canales",
+    "ALL": "Todos",
+    "GENERAL": "General",
+    "ENGINEERING": "Ingeniería",
+    "SCIENCES": "Ciencias",
+    "BUSINESS": "Negocios",
+    "ARTS": "Artes",
+    "MEDICINE": "Medicina",
+    "MEMBERS": "{{count}} miembros",
+    "JOIN": "Unirse",
+    "LEAVE": "Salir",
+    "NO_CHANNELS": "No se encontraron canales",
+    "NO_CHANNELS_DESCRIPTION": "No hay canales disponibles en este momento",
+    "LOADING": "Cargando canales...",
+    "ERROR": {
+      "LOAD_CHANNELS": "Error al cargar los canales",
+      "CREATE_CHANNEL": "Error al crear el canal",
+      "UPDATE_CHANNEL": "Error al actualizar el canal",
+      "DELETE_CHANNEL": "Error al eliminar el canal",
+      "JOIN_CHANNEL": "Error al unirse al canal",
+      "LEAVE_CHANNEL": "Error al salir del canal"
+    },
+    "SUCCESS": {
+      "CREATE_CHANNEL": "Canal creado correctamente",
+      "UPDATE_CHANNEL": "Canal actualizado correctamente",
+      "DELETE_CHANNEL": "Canal eliminado correctamente",
+      "JOIN_CHANNEL": "Te has unido al canal correctamente",
+      "LEAVE_CHANNEL": "Has salido del canal correctamente"
+    },
+    "MODAL": {
+      "CREATE_TITLE": "Crear Nuevo Canal",
+      "EDIT_TITLE": "Editar Canal",
+      "NAME": "Nombre del Canal",
+      "DESCRIPTION": "Descripción",
+      "CATEGORY": "Categoría",
+      "SELECT_CATEGORY": "Seleccionar categoría",
+      "CANCEL": "Cancelar",
+      "CREATE": "Crear",
+      "SAVE": "Guardar"
+    },
+    "DELETE_CONFIRM_TITLE": "Eliminar Canal",
+    "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar el canal {{name}}? Esta acción no se puede deshacer."
   }
 }

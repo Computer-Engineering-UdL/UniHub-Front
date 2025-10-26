@@ -95,7 +95,6 @@ export class AuthService {
 
   async login(email: string, password: string): Promise<void> {
     try {
-      // OAuth2 expects form data with username and password
       const formData = new URLSearchParams();
       formData.append('username', email);
       formData.append('password', password);
@@ -106,10 +105,9 @@ export class AuthService {
       });
 
       const tokenResponse: OAuth2TokenResponse = await firstValueFrom(
-        this.apiService.post<OAuth2TokenResponse>('auth/login', formData.toString(), headers)
+        this.apiService.post<OAuth2TokenResponse>('auth/login', formData.toString(), headers, false)
       );
 
-      // Get user data with the access token and map fields
       const apiUser = await this.getCurrentUser(tokenResponse.access_token);
       const user: User = this.mapUserFromApi(apiUser);
       this.storeAuth(tokenResponse.access_token, tokenResponse.refresh_token, user);
@@ -123,8 +121,7 @@ export class AuthService {
       Authorization: `Bearer ${token}`
     });
 
-    // return raw api user (mapping applied by caller)
-    return await firstValueFrom(this.apiService.get<any>('auth/me', undefined, headers));
+    return await firstValueFrom(this.apiService.get<any>('auth/me', undefined, headers, false));
   }
 
   async refreshToken(): Promise<void> {
@@ -142,7 +139,7 @@ export class AuthService {
       });
 
       const tokenResponse: OAuth2TokenResponse = await firstValueFrom(
-        this.apiService.post<OAuth2TokenResponse>('auth/refresh', formData.toString(), headers)
+        this.apiService.post<OAuth2TokenResponse>('auth/refresh', formData.toString(), headers, false)
       );
 
       const apiUser = await this.getCurrentUser(tokenResponse.access_token);
@@ -156,10 +153,8 @@ export class AuthService {
 
   async signup(data: any): Promise<void> {
     try {
-      // First create the account
-      await firstValueFrom(this.apiService.post('auth/signup', data));
+      await firstValueFrom(this.apiService.post('auth/signup', data, undefined, false));
 
-      // Then login with the credentials
       await this.login(data.email, data.password);
     } catch (error) {
       throw error;
@@ -197,9 +192,8 @@ export class AuthService {
           try {
             const { token } = event.data;
             const response: OAuth2TokenResponse = await firstValueFrom(
-              this.apiService.post<OAuth2TokenResponse>(`auth/${provider}/callback`, { token })
+              this.apiService.post<OAuth2TokenResponse>(`auth/${provider}/callback`, { token }, undefined, false)
             );
-            // Get user data with the access token
             const apiUser = await this.getCurrentUser(response.access_token);
             const user: User = this.mapUserFromApi(apiUser);
             this.storeAuth(response.access_token, response.refresh_token, user);
@@ -227,22 +221,15 @@ export class AuthService {
     this.currentUserSubject.next(null);
   }
 
-  private buildAuthHeaders(): HttpHeaders {
-    const token = this.getToken();
-    return token ? new HttpHeaders({ Authorization: `Bearer ${token}` }) : new HttpHeaders();
-  }
-
   async reloadCurrentUserFromServer(): Promise<User> {
-    const headers = this.buildAuthHeaders();
-    const apiUser = await firstValueFrom(this.apiService.get<any>('auth/me', undefined, headers));
+    const apiUser = await firstValueFrom(this.apiService.get<any>('auth/me'));
     const user = this.mapUserFromApi(apiUser);
     this.storeUserOnly(user);
     return user;
   }
 
   async fetchUserById(userId: string): Promise<User> {
-    const headers = this.buildAuthHeaders();
-    const apiUser = await firstValueFrom(this.apiService.get<any>(`user/${userId}`, undefined, headers));
+    const apiUser = await firstValueFrom(this.apiService.get<any>(`user/${userId}`));
     return this.mapUserFromApi(apiUser);
   }
 
@@ -250,28 +237,23 @@ export class AuthService {
     if (!this.currentUser) {
       throw new Error('No current user');
     }
-    const headers = this.buildAuthHeaders();
     const payload = this.prepareUserPayloadForApi(data);
-    const apiUser = await firstValueFrom(this.apiService.patch<any>(`user/${this.currentUser.id}`, payload, headers));
+    const apiUser = await firstValueFrom(this.apiService.patch<any>(`user/${this.currentUser.id}`, payload));
     const updated = this.mapUserFromApi(apiUser);
     this.storeUserOnly(updated);
     return updated;
   }
 
   async getUserInterests(userId: string): Promise<Interest[]> {
-    const headers = this.buildAuthHeaders();
-    return await firstValueFrom(this.apiService.get<Interest[]>(`interest/user/${userId}`, undefined, headers));
+    return await firstValueFrom(this.apiService.get<Interest[]>(`interest/user/${userId}`));
   }
 
   async getAllInterests(): Promise<Interest[]> {
-    const headers = this.buildAuthHeaders();
-    return await firstValueFrom(this.apiService.get<Interest[]>(`interest`, undefined, headers));
+    return await firstValueFrom(this.apiService.get<Interest[]>(`interest`));
   }
 
   async addInterestToUser(userId: string, interestId: string): Promise<void> {
-    const headers = this.buildAuthHeaders();
-    await firstValueFrom(this.apiService.post(`interest/user/${userId}`, { interest_id: interestId }, headers));
-    // refresh stored user interests
+    await firstValueFrom(this.apiService.post(`interest/user/${userId}`, { interest_id: interestId }));
     if (this.currentUser && this.currentUser.id === userId) {
       const interests = await this.getUserInterests(userId);
       const updated = { ...this.currentUser, interests } as User;
@@ -280,8 +262,7 @@ export class AuthService {
   }
 
   async removeInterestFromUser(userId: string, interestId: string): Promise<void> {
-    const headers = this.buildAuthHeaders();
-    await firstValueFrom(this.apiService.delete(`interest/user/${userId}/${interestId}`, undefined, headers));
+    await firstValueFrom(this.apiService.delete(`interest/user/${userId}/${interestId}`));
     if (this.currentUser && this.currentUser.id === userId) {
       const interests = await this.getUserInterests(userId);
       const updated = { ...this.currentUser, interests } as User;

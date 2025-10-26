@@ -1,3 +1,5 @@
+@import '../../../styles/shared-components';
+
 .admin-users-container {
   padding: 2rem;
   max-width: 1400px;
@@ -230,48 +232,14 @@ ion-button {
   }
 }
 
-.search-box {
+.users-searchbar {
   flex: 1 1 280px;
   min-width: 200px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  background: var(--ion-card-background, #fff);
-  border: 1px solid var(--ion-border-color, #e0e0e0);
-  border-radius: 8px;
-  padding: 0.5rem 0.875rem;
-  transition: all 0.2s ease;
 
   @media (max-width: 768px) {
     flex: 1 1 auto;
     min-width: unset;
     width: 100%;
-  }
-
-  &:focus-within {
-    border-color: var(--ion-color-primary);
-    box-shadow: 0 0 0 3px rgba(var(--ion-color-primary-rgb), 0.1);
-  }
-
-  ion-icon {
-    font-size: 18px;
-    color: var(--ion-color-medium);
-    margin-right: 0.5rem;
-    flex-shrink: 0;
-  }
-
-  input {
-    flex: 1;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-size: 0.8125rem;
-    color: var(--ion-text-color);
-    min-width: 0;
-
-    &::placeholder {
-      color: var(--ion-color-medium);
-    }
   }
 }
 
