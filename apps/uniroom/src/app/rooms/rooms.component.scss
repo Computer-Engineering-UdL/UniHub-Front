@@ -4,10 +4,31 @@
   gap: 24px;
   padding: 20px;
   width: 100%;
+  position: relative;
 
   @media (max-width: 992px) {
     grid-template-columns: 1fr;
     padding: 16px;
+  }
+}
+
+.filters-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+
+  @media (max-width: 992px) {
+    &.visible {
+      display: block;
+      opacity: 1;
+    }
   }
 }
 
@@ -24,7 +45,26 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 
   @media (max-width: 992px) {
-    display: none;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    bottom: 0;
+    width: 85%;
+    max-width: 320px;
+    max-height: 100vh;
+    border-radius: 0;
+    border-right: 1px solid var(--ion-border-color);
+    border-left: none;
+    border-top: none;
+    border-bottom: none;
+    z-index: 999;
+    transition: left 0.3s ease;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+
+    &.mobile-visible {
+      left: 0;
+    }
   }
 
   .filters-header {
@@ -40,6 +80,22 @@
       font-weight: 600;
       color: var(--ion-text-color);
       margin: 0;
+    }
+
+    .filter-header-actions {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .close-filters-mobile {
+      display: none;
+      --padding-start: 8px;
+      --padding-end: 8px;
+
+      @media (max-width: 992px) {
+        display: inline-flex;
+      }
     }
 
     ion-button {
@@ -209,6 +265,10 @@
     height: 200px;
     overflow: hidden;
 
+    @media (max-width: 576px) {
+      height: 160px;
+    }
+
     img {
       width: 100%;
       height: 100%;
@@ -227,6 +287,12 @@
       font-weight: 600;
       text-transform: uppercase;
       font-size: 11px;
+
+      @media (max-width: 576px) {
+        top: 8px;
+        right: 8px;
+        font-size: 10px;
+      }
     }
 
     .trash-button {
@@ -244,16 +310,29 @@
       justify-content: center;
       background: rgba(255, 255, 255, 0.9);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+
+      @media (max-width: 576px) {
+        --min-width: 32px;
+        height: 32px;
+      }
     }
 
     .trash-button ion-icon {
       font-size: 18px;
       color: var(--ion-color-danger);
+
+      @media (max-width: 576px) {
+        font-size: 16px;
+      }
     }
   }
 
   ion-card-content {
     padding: 16px;
+
+    @media (max-width: 576px) {
+      padding: 12px;
+    }
   }
 
   .room-header {
@@ -263,6 +342,11 @@
     margin-bottom: 16px;
     gap: 12px;
 
+    @media (max-width: 576px) {
+      margin-bottom: 12px;
+      gap: 8px;
+    }
+
     h3 {
       font-size: 18px;
       font-weight: 600;
@@ -270,6 +354,10 @@
       margin: 0;
       flex: 1;
       line-height: 1.3;
+
+      @media (max-width: 576px) {
+        font-size: 16px;
+      }
     }
 
     .price-tag {
@@ -282,12 +370,20 @@
         font-weight: 700;
         color: var(--ion-color-primary);
         line-height: 1;
+
+        @media (max-width: 576px) {
+          font-size: 18px;
+        }
       }
 
       .period {
         font-size: 12px;
         color: var(--ion-color-medium);
         margin-top: 2px;
+
+        @media (max-width: 576px) {
+          font-size: 10px;
+        }
       }
     }
   }
@@ -298,6 +394,11 @@
     gap: 8px;
     margin-bottom: 16px;
 
+    @media (max-width: 576px) {
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
     .detail-item {
       display: flex;
       align-items: center;
@@ -305,9 +406,18 @@
       font-size: 14px;
       color: var(--ion-color-medium);
 
+      @media (max-width: 576px) {
+        gap: 6px;
+        font-size: 13px;
+      }
+
       ion-icon {
         font-size: 18px;
         flex-shrink: 0;
+
+        @media (max-width: 576px) {
+          font-size: 16px;
+        }
       }
 
       span {
@@ -321,6 +431,13 @@
     --border-radius: 12px;
     font-weight: 600;
     text-transform: none;
+
+    @media (max-width: 576px) {
+      margin-top: 4px;
+      font-size: 14px;
+      --padding-top: 8px;
+      --padding-bottom: 8px;
+    }
   }
 }
 

@@ -6,17 +6,32 @@
   </ion-header>
 
   <div class="rooms-container">
-    <aside class="filters-sidebar">
+    <!-- Mobile filters overlay -->
+    <div
+      class="filters-overlay"
+      [class.visible]="showMobileFilters"
+      (click)="toggleMobileFilters()"></div>
+
+    <aside class="filters-sidebar" [class.mobile-visible]="showMobileFilters">
       <div class="filters-header">
         <h3>{{ 'ROOM.FILTERS.TITLE' | translate }}</h3>
-        <ion-button
-          fill="clear"
-          size="small"
-          *ngIf="hasActiveFilters"
-          (click)="clearFilters()"
-          [title]="'ROOM.FILTERS.CLEAR' | translate">
-          <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
-        </ion-button>
+        <div class="filter-header-actions">
+          <ion-button
+            class="close-filters-mobile"
+            fill="clear"
+            size="small"
+            (click)="toggleMobileFilters()">
+            <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+          </ion-button>
+          <ion-button
+            fill="clear"
+            size="small"
+            *ngIf="hasActiveFilters"
+            (click)="clearFilters()"
+            [title]="'ROOM.FILTERS.CLEAR' | translate">
+            <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+          </ion-button>
+        </div>
       </div>
 
       <div class="filter-section">
@@ -39,7 +54,6 @@
             [placeholder]="'ROOM.FILTERS.MIN' | translate"
             fill="outline">
           </ion-input>
-          <span class="range-separator">-</span>
           <ion-input
             type="number"
             [(ngModel)]="filters.maxPrice"
