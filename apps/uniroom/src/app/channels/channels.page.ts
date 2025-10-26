@@ -114,9 +114,9 @@ export class ChannelsPage implements OnInit, OnDestroy {
     this.filterChannels();
   }
 
-  onTabChange(tab: 'explore' | 'myChannels'): void {
+  async onTabChange(tab: 'explore' | 'myChannels'): Promise<void> {
     this.selectedTab = tab;
-    this.filterChannels();
+    await this.loadChannels();
   }
 
   onCategoryChange(category: ChannelCategory | 'All'): void {
