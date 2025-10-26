@@ -192,6 +192,14 @@ ion-content {
   }
 }
 
+ion-modal ion-content {
+  --offset-top: 0;
+
+  &::part(scroll) {
+    padding-top: 0;
+  }
+}
+
 ion-header {
   &.top-bar {
     position: fixed;
