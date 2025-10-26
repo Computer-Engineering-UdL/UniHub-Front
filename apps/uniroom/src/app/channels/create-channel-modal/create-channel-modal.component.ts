@@ -1,10 +1,19 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  AsyncValidatorFn,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { from, map, Observable } from 'rxjs';
 import { ChannelService } from '../../services/channel.service';
-import { ChannelCategory, CreateChannelDto } from '../../models/channel.types';
+import { Channel, ChannelCategory, CreateChannelDto } from '../../models/channel.types';
 import { NotificationService } from '../../services/notification.service';
 
 @Component({
@@ -28,10 +37,34 @@ export class CreateChannelModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.channelForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      name: [
+        '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(50)],
+        [this.channelNameValidator()]
+      ],
       description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
       category: ['General', Validators.required]
     });
+  }
+
+  private channelNameValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (!control.value) {
+        return new Observable((observer) => {
+          observer.next(null);
+          observer.complete();
+        });
+      }
+
+      return from(this.channelService.fetchChannels()).pipe(
+        map((channels: Channel[]) => {
+          const nameExists: boolean = channels.some(
+            (channel: Channel): boolean => channel.name.toLowerCase() === control.value.toLowerCase()
+          );
+          return nameExists ? { channelExists: true } : null;
+        })
+      );
+    };
   }
 
   async onSubmit(): Promise<void> {
@@ -65,6 +98,10 @@ export class CreateChannelModalComponent implements OnInit {
     const control = this.channelForm.get(fieldName);
     if (!control) {
       return '';
+    }
+
+    if (control.hasError('channelExists')) {
+      return this.translate.instant('CHANNELS.MODAL.ERROR.NAME_EXISTS');
     }
 
     let minLength: number = 0;

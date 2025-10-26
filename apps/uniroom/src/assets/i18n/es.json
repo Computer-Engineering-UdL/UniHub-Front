@@ -363,7 +363,10 @@
       "SELECT_CATEGORY": "Seleccionar categoría",
       "CANCEL": "Cancelar",
       "CREATE": "Crear",
-      "SAVE": "Guardar"
+      "SAVE": "Guardar",
+      "ERROR": {
+        "NAME_EXISTS": "Ya existe un canal con este nombre"
+      }
     },
     "DELETE_CONFIRM_TITLE": "Eliminar Canal",
     "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar el canal {{name}}? Esta acción no se puede deshacer."
