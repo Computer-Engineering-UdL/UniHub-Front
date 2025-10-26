@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ChannelService } from '../services/channel.service';
 import { AuthService } from '../services/auth.service';
-import { Channel, ChannelCategory } from '../models/channel.types';
+import { Channel, ChannelCategory, ChannelMember } from '../models/channel.types';
 import { User } from '../models/auth.types';
 import { CreateChannelModalComponent } from './create-channel-modal/create-channel-modal.component';
 import { NotificationService } from '../services/notification.service';
@@ -78,6 +78,7 @@ export class ChannelsPage implements OnInit, OnDestroy {
     this.isLoading = true;
     try {
       this.channels = await this.channelService.fetchChannels();
+      await this.loadChannelMembers();
       this.filterChannels();
     } catch (error) {
       console.error('Error loading channels:', error);
@@ -85,6 +86,19 @@ export class ChannelsPage implements OnInit, OnDestroy {
     } finally {
       this.isLoading = false;
     }
+  }
+
+  private async loadChannelMembers(): Promise<void> {
+    await Promise.all(
+      this.channels.map(async (channel: Channel): Promise<void> => {
+        try {
+          const members: ChannelMember[] = await this.channelService.getChannelMembers(channel.id);
+          channel.member_count = members.length;
+        } catch (_) {
+          channel.member_count = channel.member_count || 0;
+        }
+      })
+    );
   }
 
   filterChannels(): void {
