@@ -168,13 +168,13 @@ export class ChannelsPage implements OnInit, OnDestroy {
     }
 
     try {
+      // Mark this channel as a member locally to avoid reloading all channels
+      channel.is_member = true;
       await this.channelService.joinChannel(channel.id, this.currentUser.id);
       await this.notificationService.success('CHANNELS.SUCCESS.JOIN_CHANNEL');
-      await this.loadChannels();
-      this.selectedTab = 'myChannels';
       this.filterChannels();
-    } catch (error) {
-      console.error('Error joining channel:', error);
+    } catch (_) {
+      channel.is_member = false;
       await this.notificationService.error('CHANNELS.ERROR.JOIN_CHANNEL');
     }
   }
@@ -183,11 +183,19 @@ export class ChannelsPage implements OnInit, OnDestroy {
     if (!this.currentUser) return;
 
     try {
+      // Mark this channel as not a member locally to avoid reloading all channels
+      if (this.selectedTab !== 'myChannels') {
+        // Do this only if we are not in myChannels tab to avoid flickering
+        channel.is_member = false;
+      }
       await this.channelService.leaveChannel(channel.id, this.currentUser.id);
       await this.notificationService.success('CHANNELS.SUCCESS.LEAVE_CHANNEL');
-      await this.loadChannels();
-    } catch (error) {
-      console.error('Error leaving channel:', error);
+      if (this.selectedTab === 'myChannels') {
+        channel.is_member = false;
+      }
+      this.filterChannels();
+    } catch (_) {
+      channel.is_member = true;
       await this.notificationService.error('CHANNELS.ERROR.LEAVE_CHANNEL');
     }
   }
