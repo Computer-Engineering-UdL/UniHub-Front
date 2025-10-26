@@ -1,23 +1,148 @@
 .rooms-container {
-  max-width: 1400px;
-  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
   padding: 20px;
+  width: 100%;
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
 }
 
-.rooms-section {
-  .section-header {
+.filters-sidebar {
+  background: var(--ion-card-background);
+  border: 1px solid var(--ion-border-color);
+  border-radius: 16px;
+  padding: 20px;
+  height: fit-content;
+  position: sticky;
+  top: 76px;
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  @media (max-width: 992px) {
+    display: none;
+  }
+
+  .filters-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    gap: 16px;
-    flex-wrap: wrap;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--ion-border-color);
 
-    h2 {
-      font-size: clamp(20px, 3vw, 28px);
+    h3 {
+      font-size: 18px;
       font-weight: 600;
       color: var(--ion-text-color);
       margin: 0;
+    }
+
+    ion-button {
+      --padding-start: 8px;
+      --padding-end: 8px;
+      font-size: 13px;
+    }
+  }
+
+  .filter-section {
+    margin-bottom: 20px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .filter-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ion-text-color);
+      margin-bottom: 8px;
+    }
+
+    ion-searchbar {
+      --background: var(--ion-background-color);
+      --border-radius: 12px;
+      padding: 0;
+    }
+
+    ion-select,
+    ion-input {
+      --border-radius: 12px;
+      font-size: 14px;
+    }
+
+    ion-segment {
+      --background: var(--ion-background-color);
+      border-radius: 12px;
+
+      ion-segment-button {
+        --indicator-color: var(--ion-color-primary);
+        font-size: 13px;
+        min-height: 36px;
+      }
+    }
+
+    .price-inputs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      ion-input {
+        flex: 1;
+      }
+
+      .range-separator {
+        color: var(--ion-color-medium);
+        font-weight: 600;
+      }
+    }
+
+    ion-range {
+      padding: 8px 0;
+    }
+  }
+}
+
+.toggle-filters-mobile {
+  display: none;
+
+  @media (max-width: 992px) {
+    display: inline-flex;
+  }
+}
+
+.rooms-section {
+  min-width: 0;
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    .header-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+
+      h2 {
+        font-size: clamp(20px, 3vw, 28px);
+        font-weight: 600;
+        color: var(--ion-text-color);
+        margin: 0;
+      }
+
+      ion-chip {
+        font-weight: 600;
+      }
     }
 
     .header-actions {
@@ -26,8 +151,12 @@
       gap: 12px;
       flex-wrap: wrap;
 
-      ion-chip {
-        font-weight: 600;
+      @media (max-width: 576px) {
+        width: 100%;
+
+        ion-button {
+          flex: 1;
+        }
       }
     }
   }
@@ -38,6 +167,19 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
   animation: fadeInUp 0.6s ease-out;
+
+  @media (min-width: 1600px) {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  @media (max-width: 576px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .room-card {
