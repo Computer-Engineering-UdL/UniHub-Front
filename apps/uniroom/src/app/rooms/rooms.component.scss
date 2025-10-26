@@ -189,15 +189,9 @@
       gap: 12px;
       flex-wrap: wrap;
 
-      h2 {
-        font-size: clamp(20px, 3vw, 28px);
-        font-weight: 600;
-        color: var(--ion-text-color);
-        margin: 0;
-      }
-
       ion-chip {
         font-weight: 600;
+        font-size: 14px;
       }
     }
 
@@ -206,6 +200,7 @@
       align-items: center;
       gap: 12px;
       flex-wrap: wrap;
+      margin-left: auto;
 
       @media (max-width: 576px) {
         width: 100%;
