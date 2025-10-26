@@ -26,14 +26,18 @@
           [(ngModel)]="searchQuery"
           (ionInput)="onSearchChange($event)"
           class="mobile-searchbar"></ion-searchbar>
-        <button class="tab-btn" [class.active]="selectedTab === 'all'" (click)="onTabChange('all')">
-          {{ 'CHANNELS.ALL_CHANNELS' | translate }}
-        </button>
         <button
+          *ngIf="currentUser"
           class="tab-btn"
           [class.active]="selectedTab === 'myChannels'"
           (click)="onTabChange('myChannels')">
           {{ 'CHANNELS.MY_CHANNELS' | translate }}
+        </button>
+        <button
+          class="tab-btn"
+          [class.active]="selectedTab === 'explore'"
+          (click)="onTabChange('explore')">
+          {{ 'CHANNELS.EXPLORE_CHANNELS' | translate }}
         </button>
       </div>
 
@@ -62,7 +66,10 @@
     </div>
 
     <div *ngIf="!isLoading && filteredChannels.length > 0" class="channels-grid">
-      <div *ngFor="let channel of filteredChannels" class="channel-card">
+      <div
+        *ngFor="let channel of filteredChannels"
+        class="channel-card"
+        [attr.data-category]="channel.category">
         <div class="channel-icon">
           <ion-icon name="megaphone"></ion-icon>
         </div>
@@ -81,7 +88,7 @@
               <ion-button
                 *ngIf="!channel.is_member"
                 fill="solid"
-                color="primary"
+                class="join-btn"
                 size="small"
                 (click)="joinChannel(channel)">
                 {{ 'CHANNELS.JOIN' | translate }}

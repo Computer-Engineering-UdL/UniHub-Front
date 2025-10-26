@@ -1,6 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ChannelService } from '../services/channel.service';
 import { AuthService } from '../services/auth.service';
 import { Channel, ChannelCategory } from '../models/channel.types';
@@ -14,20 +16,23 @@ import { NotificationService } from '../services/notification.service';
   styleUrls: ['./channels.page.scss'],
   standalone: false
 })
-export class ChannelsPage implements OnInit {
+export class ChannelsPage implements OnInit, OnDestroy {
   private channelService: ChannelService = inject(ChannelService);
   private authService: AuthService = inject(AuthService);
   private modalController: ModalController = inject(ModalController);
   private alertController: AlertController = inject(AlertController);
   private notificationService: NotificationService = inject(NotificationService);
   private translate: TranslateService = inject(TranslateService);
+  private router: Router = inject(Router);
+
+  private userSubscription?: Subscription;
 
   channels: Channel[] = [];
   filteredChannels: Channel[] = [];
   currentUser: User | null = null;
   isLoading: boolean = true;
   searchQuery: string = '';
-  selectedTab: 'all' | 'faculty' | 'myChannels' = 'all';
+  selectedTab: 'explore' | 'myChannels' = 'explore';
   selectedCategory: ChannelCategory | 'All' = 'All';
   isAdminMode: boolean = false;
 
@@ -42,8 +47,31 @@ export class ChannelsPage implements OnInit {
   ];
 
   async ngOnInit(): Promise<void> {
+    this.userSubscription = this.authService.currentUser$.subscribe(async (user: User | null): Promise<void> => {
+      const previousUser: User | null = this.currentUser;
+      this.currentUser = user;
+
+      // If user auth changed
+      if ((previousUser === null && user !== null) || (previousUser !== null && user === null)) {
+        if (this.currentUser) {
+          this.selectedTab = 'myChannels';
+        } else {
+          this.selectedTab = 'explore';
+        }
+
+        await this.loadChannels();
+      }
+    });
+
     this.currentUser = this.authService.currentUser;
+    if (this.currentUser) {
+      this.selectedTab = 'myChannels';
+    }
     await this.loadChannels();
+  }
+
+  ngOnDestroy(): void {
+    this.userSubscription?.unsubscribe();
   }
 
   async loadChannels(): Promise<void> {
@@ -86,7 +114,7 @@ export class ChannelsPage implements OnInit {
     this.filterChannels();
   }
 
-  onTabChange(tab: 'all' | 'faculty' | 'myChannels'): void {
+  onTabChange(tab: 'explore' | 'myChannels'): void {
     this.selectedTab = tab;
     this.filterChannels();
   }
@@ -111,12 +139,17 @@ export class ChannelsPage implements OnInit {
   }
 
   async joinChannel(channel: Channel): Promise<void> {
-    if (!this.currentUser) return;
+    if (!this.currentUser) {
+      await this.router.navigate(['/login']);
+      return;
+    }
 
     try {
       await this.channelService.joinChannel(channel.id, this.currentUser.id);
       await this.notificationService.success('CHANNELS.SUCCESS.JOIN_CHANNEL');
       await this.loadChannels();
+      this.selectedTab = 'myChannels';
+      this.filterChannels();
     } catch (error) {
       console.error('Error joining channel:', error);
       await this.notificationService.error('CHANNELS.ERROR.JOIN_CHANNEL');
