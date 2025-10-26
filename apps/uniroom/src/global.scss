@@ -65,6 +65,40 @@
 }
 
 /**
+ * Custom Delete Alert
+ * -----------------------------------------------------
+ * Styles for the delete confirmation alert
+ */
+.custom-delete-alert {
+  .alert-button.danger-btn {
+    color: var(--ion-color-danger, #eb445a) !important;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .alert-button.danger-btn:hover,
+  .alert-button.danger-btn:focus {
+    background-color: rgba(235, 68, 90, 0.1) !important;
+    color: var(--ion-color-danger, #eb445a) !important;
+  }
+
+  .alert-button.danger-btn:active {
+    background-color: rgba(235, 68, 90, 0.2) !important;
+  }
+
+  .alert-button[role='cancel'] {
+    color: var(--ion-color-primary, #3880ff);
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .alert-button[role='cancel']:hover,
+  .alert-button[role='cancel']:focus {
+    background-color: rgba(56, 128, 255, 0.1) !important;
+  }
+}
+
+/**
  * Create Offer Modal
  */
 .create-offer-modal {

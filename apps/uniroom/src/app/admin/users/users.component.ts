@@ -257,6 +257,7 @@ export class AdminUsersComponent implements OnInit {
 
   async deleteUser(user: User): Promise<void> {
     const alert: HTMLIonAlertElement = await this.alertController.create({
+      cssClass: 'custom-delete-alert',
       header: this.translateService.instant('ADMIN.USERS.DELETE_CONFIRM_TITLE'),
       message: this.translateService.instant('ADMIN.USERS.DELETE_CONFIRM_MESSAGE', {
         username: user.username
@@ -268,6 +269,7 @@ export class AdminUsersComponent implements OnInit {
         },
         {
           text: this.translateService.instant('COMMON.DELETE'),
+          cssClass: 'danger-btn',
           role: 'destructive',
           handler: async () => {
             await this.confirmDeleteUser(user);
@@ -303,6 +305,7 @@ export class AdminUsersComponent implements OnInit {
     }
 
     const alert: HTMLIonAlertElement = await this.alertController.create({
+      cssClass: 'custom-delete-alert',
       header: this.translateService.instant('ADMIN.USERS.DELETE_BULK_TITLE'),
       message: this.translateService.instant('ADMIN.USERS.DELETE_BULK_MESSAGE', {
         count: this.selectedUsers.size
@@ -314,6 +317,7 @@ export class AdminUsersComponent implements OnInit {
         },
         {
           text: this.translateService.instant('COMMON.DELETE'),
+          cssClass: 'danger-btn',
           role: 'destructive',
           handler: async (): Promise<void> => {
             await this.confirmDeleteBulkUsers();

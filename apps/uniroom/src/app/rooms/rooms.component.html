@@ -9,8 +9,13 @@
     <aside class="filters-sidebar">
       <div class="filters-header">
         <h3>{{ 'ROOM.FILTERS.TITLE' | translate }}</h3>
-        <ion-button fill="clear" size="small" (click)="clearFilters()">
-          {{ 'ROOM.FILTERS.CLEAR' | translate }}
+        <ion-button
+          fill="clear"
+          size="small"
+          *ngIf="hasActiveFilters"
+          (click)="clearFilters()"
+          [title]="'ROOM.FILTERS.CLEAR' | translate">
+          <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
         </ion-button>
       </div>
 

@@ -33,7 +33,7 @@ export class RoomsComponent implements OnInit {
   public canCreateOffer: boolean = false;
   public availableCities: string[] = [];
   public showMobileFilters: boolean = false;
-
+  public hasActiveFilters: boolean = false;
   public filters: Filters = {
     search: '',
     minPrice: null,
@@ -144,6 +144,7 @@ export class RoomsComponent implements OnInit {
     filtered = this.sortOffers(filtered);
 
     this.filteredOffers = filtered;
+    this.updateHasActiveFilters();
   }
 
   private sortOffers(offers: OfferListItem[]): OfferListItem[] {
@@ -192,22 +193,38 @@ export class RoomsComponent implements OnInit {
     this.applyFilters();
   }
 
+  private updateHasActiveFilters(): void {
+    this.hasActiveFilters = !!(
+      this.filters.search ||
+      (this.filters.minPrice !== null && this.filters.minPrice > 0) ||
+      (this.filters.maxPrice !== null && this.filters.maxPrice > 0) ||
+      this.filters.city ||
+      this.filters.areaRange.lower !== 0 ||
+      this.filters.areaRange.upper !== 200 ||
+      this.filters.status ||
+      this.filters.sortBy !== 'date_desc'
+    );
+  }
+
   public toggleMobileFilters(): void {
     this.showMobileFilters = !this.showMobileFilters;
   }
 
-  public formatAreaPin = (value: number): string => {
-    return `${value} m²`;
+  public formatAreaPin: (value: number) => string = (value: number): string => {
+    return `${value}`;
   };
 
   public async confirmDeleteOffer(offerId: string): Promise<void> {
     const alert: HTMLIonAlertElement = await this.alertController.create({
+      cssClass: 'custom-delete-alert',
       header: this.translate.instant('ROOM.DELETE_CONFIRM_TITLE'),
       message: this.translate.instant('ROOM.DELETE_CONFIRM_MESSAGE'),
       buttons: [
         { text: this.translate.instant('COMMON.CANCEL'), role: 'cancel' },
         {
           text: this.translate.instant('COMMON.DELETE') || 'Delete',
+          cssClass: 'danger-btn',
+          role: 'destructive',
           handler: async (): Promise<void> => {
             await this.deleteOffer(offerId);
           }
@@ -234,7 +251,11 @@ export class RoomsComponent implements OnInit {
       'https://images.unsplash.com/photo-1502672023488-70e25813eb80?w=800&h=600&fit=crop',
       'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&h=600&fit=crop',
       'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop'
+      'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1494526585095-c41746248156?w=800&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=600&fit=crop'
     ];
 
     this.offers.forEach((offer: any, index: number): void => {
