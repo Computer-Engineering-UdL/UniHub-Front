@@ -94,8 +94,17 @@ export class ChannelsPage implements OnInit, OnDestroy {
         try {
           const members: ChannelMember[] = await this.channelService.getChannelMembers(channel.id);
           channel.member_count = members.length;
+
+          if (this.currentUser) {
+            channel.is_member = members.some(
+              (member: ChannelMember): boolean => member.user_id === this.currentUser!.id
+            );
+          } else {
+            channel.is_member = false;
+          }
         } catch (_) {
           channel.member_count = channel.member_count || 0;
+          channel.is_member = false;
         }
       })
     );
