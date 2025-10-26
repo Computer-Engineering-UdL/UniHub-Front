@@ -34,7 +34,6 @@ export class ChannelsPage implements OnInit, OnDestroy {
   searchQuery: string = '';
   selectedTab: 'explore' | 'myChannels' = 'explore';
   selectedCategory: ChannelCategory | 'All' = 'All';
-  isAdminMode: boolean = false;
 
   readonly categories: (ChannelCategory | 'All')[] = [
     'All',
@@ -202,6 +201,7 @@ export class ChannelsPage implements OnInit, OnDestroy {
 
   async deleteChannel(channel: Channel): Promise<void> {
     const alert: HTMLIonAlertElement = await this.alertController.create({
+      cssClass: 'custom-delete-alert',
       header: this.translate.instant('CHANNELS.DELETE_CONFIRM_TITLE'),
       message: this.translate.instant('CHANNELS.DELETE_CONFIRM_MESSAGE', { name: channel.name }),
       buttons: [
@@ -211,6 +211,7 @@ export class ChannelsPage implements OnInit, OnDestroy {
         },
         {
           text: this.translate.instant('COMMON.DELETE'),
+          cssClass: 'danger-btn',
           role: 'destructive',
           handler: async () => {
             try {
