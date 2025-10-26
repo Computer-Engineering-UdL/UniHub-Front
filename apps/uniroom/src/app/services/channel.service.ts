@@ -13,55 +13,55 @@ export class ChannelService {
   public channels$: Observable<Channel[]> = this.channelsSubject.asObservable();
 
   async fetchChannels(): Promise<Channel[]> {
-    const channels: Channel[] = await firstValueFrom(this.apiService.get<Channel[]>('api/v1/channel'));
+    const channels: Channel[] = await firstValueFrom(this.apiService.get<Channel[]>('channel'));
     this.channelsSubject.next(channels);
     return channels;
   }
 
   async fetchChannelById(channelId: string): Promise<Channel> {
-    return await firstValueFrom(this.apiService.get<Channel>(`api/v1/channel/${channelId}`));
+    return await firstValueFrom(this.apiService.get<Channel>(`channel/${channelId}`));
   }
 
   async createChannel(data: CreateChannelDto): Promise<Channel> {
-    const channel: Channel = await firstValueFrom(this.apiService.post<Channel>(`api/v1/channel`, data));
+    const channel: Channel = await firstValueFrom(this.apiService.post<Channel>(`channel`, data));
     await this.fetchChannels();
     return channel;
   }
 
   async updateChannel(channelId: string, data: UpdateChannelDto): Promise<Channel> {
-    const channel: Channel = await firstValueFrom(this.apiService.patch<Channel>(`api/v1/channel/${channelId}`, data));
+    const channel: Channel = await firstValueFrom(this.apiService.patch<Channel>(`channel/${channelId}`, data));
     await this.fetchChannels();
     return channel;
   }
 
   async deleteChannel(channelId: string): Promise<void> {
-    await firstValueFrom(this.apiService.delete<void>(`api/v1/channel/${channelId}`));
+    await firstValueFrom(this.apiService.delete<void>(`channel/${channelId}`));
     await this.fetchChannels();
   }
 
   async joinChannel(channelId: string, memberId: string): Promise<void> {
-    await firstValueFrom(this.apiService.post<void>(`api/v1/channel/${channelId}/add_member/${memberId}`, {}));
+    await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/add_member/${memberId}`, {}));
     await this.fetchChannels();
   }
 
   async leaveChannel(channelId: string, memberId: string): Promise<void> {
-    await firstValueFrom(this.apiService.post<void>(`api/v1/channel/${channelId}/remove_member/${memberId}`, {}));
+    await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/remove_member/${memberId}`, {}));
     await this.fetchChannels();
   }
 
   async banMember(channelId: string, data: { user_id: string }): Promise<void> {
-    await firstValueFrom(this.apiService.post<void>(`api/v1/channel/${channelId}/ban`, data));
+    await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/ban`, data));
   }
 
   async unbanMember(channelId: string, data: { user_id: string }): Promise<void> {
-    await firstValueFrom(this.apiService.post<void>(`api/v1/channel/${channelId}/unban`, data));
+    await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/unban`, data));
   }
 
   async getChannelMembers(channelId: string): Promise<ChannelMember[]> {
-    return await firstValueFrom(this.apiService.get<ChannelMember[]>(`api/v1/channel/${channelId}/members`));
+    return await firstValueFrom(this.apiService.get<ChannelMember[]>(`channel/${channelId}/members`));
   }
 
   async getMemberInfo(channelId: string, userId: string): Promise<ChannelMember> {
-    return await firstValueFrom(this.apiService.get<ChannelMember>(`api/v1/channel/${channelId}/member/${userId}`));
+    return await firstValueFrom(this.apiService.get<ChannelMember>(`channel/${channelId}/member/${userId}`));
   }
 }
