@@ -41,6 +41,10 @@
   @media (max-width: 768px) {
     flex-direction: column;
     width: 100%;
+
+    .create-action-btn {
+      width: 100%;
+    }
   }
 }
 
@@ -61,15 +65,6 @@
 
   @media (max-width: 768px) {
     display: block;
-  }
-}
-
-.create-btn {
-  --border-radius: 10px;
-  font-weight: 600;
-
-  @media (max-width: 768px) {
-    width: 100%;
   }
 }
 

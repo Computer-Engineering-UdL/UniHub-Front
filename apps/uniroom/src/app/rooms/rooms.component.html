@@ -134,26 +134,23 @@
     <div class="rooms-section">
       <div class="section-header">
         <div class="header-info">
-          <ion-chip color="primary">
+          <ion-button
+            *ngIf="canCreateOffer"
+            (click)="openCreateOfferModal()"
+            class="create-action-btn"
+            fill="solid"
+            color="primary">
+            <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+            {{ 'ROOM.CREATE_OFFER' | translate }}
+          </ion-button>
+          <ion-chip color="primary" class="count-chip">
             {{ filteredOffers.length }} {{ 'ROOM.OFFERS_COUNT' | translate }}
           </ion-chip>
         </div>
         <div class="header-actions">
-          <ion-button
-            class="toggle-filters-mobile"
-            fill="outline"
-            size="small"
-            (click)="toggleMobileFilters()">
+          <ion-button class="toggle-filters-mobile" fill="outline" (click)="toggleMobileFilters()">
             <ion-icon slot="start" name="options-outline"></ion-icon>
             {{ 'ROOM.FILTERS.TITLE' | translate }}
-          </ion-button>
-          <ion-button
-            *ngIf="canCreateOffer"
-            (click)="openCreateOfferModal()"
-            color="primary"
-            size="small">
-            <ion-icon slot="start" name="add-circle-outline"></ion-icon>
-            {{ 'ROOM.CREATE_OFFER' | translate }}
           </ion-button>
         </div>
       </div>
