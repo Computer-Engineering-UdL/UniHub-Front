@@ -73,12 +73,16 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   async ionViewWillEnter(): Promise<void> {
-    if (!this.authService.currentUser) return;
+    // IMPORTANT: This method is called every time the view is about to enter even IDE shows it is not used
+    if (!this.authService.currentUser) {
+      return;
+    }
     this.user = await this.authService.fetchUserById(this.authService.currentUser.id);
     this.updateAvatarSrc();
     this.setBasicInfo();
     if (this.user) {
       await this.loadUserInterests(this.user.id);
+      await this.parseStats();
     }
   }
 
