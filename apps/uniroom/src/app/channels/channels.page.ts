@@ -106,7 +106,7 @@ export class ChannelsPage implements OnInit {
     const { data } = await modal.onWillDismiss();
     if (data?.created) {
       await this.loadChannels();
-      await this.notificationService.error('CHANNELS.SUCCESS.CREATE_CHANNEL');
+      await this.notificationService.success('CHANNELS.SUCCESS.CREATE_CHANNEL');
     }
   }
 
@@ -115,7 +115,7 @@ export class ChannelsPage implements OnInit {
 
     try {
       await this.channelService.joinChannel(channel.id, this.currentUser.id);
-      await this.notificationService.error('CHANNELS.SUCCESS.JOIN_CHANNEL');
+      await this.notificationService.success('CHANNELS.SUCCESS.JOIN_CHANNEL');
       await this.loadChannels();
     } catch (error) {
       console.error('Error joining channel:', error);
@@ -128,7 +128,7 @@ export class ChannelsPage implements OnInit {
 
     try {
       await this.channelService.leaveChannel(channel.id, this.currentUser.id);
-      await this.notificationService.error('CHANNELS.SUCCESS.LEAVE_CHANNEL');
+      await this.notificationService.success('CHANNELS.SUCCESS.LEAVE_CHANNEL');
       await this.loadChannels();
     } catch (error) {
       console.error('Error leaving channel:', error);
@@ -151,7 +151,7 @@ export class ChannelsPage implements OnInit {
           handler: async () => {
             try {
               await this.channelService.deleteChannel(channel.id);
-              await this.notificationService.error('CHANNELS.SUCCESS.DELETE_CHANNEL');
+              await this.notificationService.success('CHANNELS.SUCCESS.DELETE_CHANNEL');
               await this.loadChannels();
             } catch (error) {
               console.error('Error deleting channel:', error);
