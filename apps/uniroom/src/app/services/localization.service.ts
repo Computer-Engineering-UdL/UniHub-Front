@@ -172,6 +172,12 @@ export class LocalizationService {
     if (!isFinite(this.toNumber(value))) {
       return '—';
     }
+
+    // Special case for EUR: always on the right
+    if (currency === 'EUR') {
+      return `${this.formatNumber(num, maxFractionDigits, removeTrailingZeros)} €`;
+    }
+
     const locale: string = this.getLocale();
 
     try {

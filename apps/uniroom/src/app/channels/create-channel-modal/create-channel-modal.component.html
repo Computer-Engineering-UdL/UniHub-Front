@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'CHANNELS.MODAL.CREATE_TITLE' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="create-channel-modal">
+  <form [formGroup]="channelForm" (ngSubmit)="onSubmit()" class="channel-form">
+    <div class="form-group">
+      <ion-label class="form-label" position="stacked">
+        {{ 'CHANNELS.MODAL.NAME' | translate }}
+      </ion-label>
+      <ion-input
+        formControlName="name"
+        type="text"
+        [placeholder]="'CHANNELS.MODAL.NAME' | translate"
+        class="form-input"></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="channelForm.get('name')?.invalid && channelForm.get('name')?.touched"
+        class="error-text">
+        <small>{{ 'CHANNELS.MODAL.NAME' | translate }} is required (3-50 characters)</small>
+      </ion-text>
+    </div>
+
+    <div class="form-group">
+      <ion-label class="form-label" position="stacked">
+        {{ 'CHANNELS.MODAL.DESCRIPTION' | translate }}
+      </ion-label>
+      <ion-textarea
+        formControlName="description"
+        [placeholder]="'CHANNELS.MODAL.DESCRIPTION' | translate"
+        rows="4"
+        class="form-input"></ion-textarea>
+      <ion-text
+        color="danger"
+        *ngIf="channelForm.get('description')?.invalid && channelForm.get('description')?.touched"
+        class="error-text">
+        <small
+          >{{ 'CHANNELS.MODAL.DESCRIPTION' | translate }} is required (10-200 characters)</small
+        >
+      </ion-text>
+    </div>
+
+    <div class="form-group">
+      <ion-label class="form-label" position="stacked">
+        {{ 'CHANNELS.MODAL.CATEGORY' | translate }}
+      </ion-label>
+      <ion-select
+        formControlName="category"
+        [placeholder]="'CHANNELS.MODAL.SELECT_CATEGORY' | translate"
+        interface="popover"
+        class="form-input">
+        <ion-select-option *ngFor="let category of categories" [value]="category">
+          {{ getCategoryTranslation(category) }}
+        </ion-select-option>
+      </ion-select>
+    </div>
+
+    <div class="form-actions">
+      <ion-button
+        expand="block"
+        fill="outline"
+        color="medium"
+        (click)="dismiss()"
+        [disabled]="isSubmitting">
+        {{ 'CHANNELS.MODAL.CANCEL' | translate }}
+      </ion-button>
+      <ion-button expand="block" type="submit" [disabled]="channelForm.invalid || isSubmitting">
+        <ion-spinner *ngIf="isSubmitting" name="crescent"></ion-spinner>
+        <span *ngIf="!isSubmitting">{{ 'CHANNELS.MODAL.CREATE' | translate }}</span>
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

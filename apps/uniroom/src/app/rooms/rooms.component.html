@@ -6,12 +6,148 @@
   </ion-header>
 
   <div class="rooms-container">
+    <!-- Mobile filters overlay -->
+    <div
+      class="filters-overlay"
+      [class.visible]="showMobileFilters"
+      (click)="toggleMobileFilters()"></div>
+
+    <aside class="filters-sidebar" [class.mobile-visible]="showMobileFilters">
+      <div class="filters-header">
+        <h3>{{ 'ROOM.FILTERS.TITLE' | translate }}</h3>
+        <div class="filter-header-actions">
+          <ion-button
+            class="close-filters-mobile"
+            fill="clear"
+            size="small"
+            (click)="toggleMobileFilters()">
+            <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+          </ion-button>
+          <ion-button
+            fill="clear"
+            size="small"
+            *ngIf="hasActiveFilters"
+            (click)="clearFilters()"
+            [title]="'ROOM.FILTERS.CLEAR' | translate">
+            <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <label class="filter-label">{{ 'ROOM.FILTERS.SEARCH' | translate }}</label>
+        <ion-searchbar
+          [(ngModel)]="filters.search"
+          (ionInput)="applyFilters()"
+          [placeholder]="'ROOM.FILTERS.SEARCH_PLACEHOLDER' | translate"
+          [debounce]="300">
+        </ion-searchbar>
+      </div>
+
+      <div class="filter-section">
+        <label class="filter-label">{{ 'ROOM.FILTERS.PRICE_RANGE' | translate }}</label>
+        <div class="price-inputs">
+          <ion-input
+            type="number"
+            [(ngModel)]="filters.minPrice"
+            (ionChange)="applyFilters()"
+            [placeholder]="'ROOM.FILTERS.MIN' | translate"
+            fill="outline">
+          </ion-input>
+          <ion-input
+            type="number"
+            [(ngModel)]="filters.maxPrice"
+            (ionChange)="applyFilters()"
+            [placeholder]="'ROOM.FILTERS.MAX' | translate"
+            fill="outline">
+          </ion-input>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <label class="filter-label">{{ 'ROOM.FILTERS.CITY' | translate }}</label>
+        <ion-select
+          [(ngModel)]="filters.city"
+          (ionChange)="applyFilters()"
+          [placeholder]="'ROOM.FILTERS.ALL_CITIES' | translate"
+          interface="popover">
+          <ion-select-option value="">{{
+            'ROOM.FILTERS.ALL_CITIES' | translate
+          }}</ion-select-option>
+          <ion-select-option *ngFor="let city of availableCities" [value]="city">{{
+            city
+          }}</ion-select-option>
+        </ion-select>
+      </div>
+
+      <div class="filter-section">
+        <label class="filter-label">{{ 'ROOM.FILTERS.AREA' | translate }} (m²)</label>
+        <ion-range
+          [(ngModel)]="filters.areaRange"
+          (ionChange)="applyFilters()"
+          [dualKnobs]="true"
+          [min]="0"
+          [max]="200"
+          [step]="5"
+          [pin]="true"
+          [pinFormatter]="formatAreaPin">
+        </ion-range>
+      </div>
+
+      <div class="filter-section">
+        <label class="filter-label">{{ 'ROOM.FILTERS.STATUS' | translate }}</label>
+        <ion-segment [(ngModel)]="filters.status" (ionChange)="applyFilters()">
+          <ion-segment-button value="">
+            <ion-label>{{ 'ROOM.FILTERS.ALL' | translate }}</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="active">
+            <ion-label>{{ 'ROOM.STATUS.ACTIVE' | translate }}</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+
+      <div class="filter-section">
+        <label class="filter-label">{{ 'ROOM.FILTERS.SORT_BY' | translate }}</label>
+        <ion-select [(ngModel)]="filters.sortBy" (ionChange)="applyFilters()" interface="popover">
+          <ion-select-option value="date_desc">{{
+            'ROOM.FILTERS.NEWEST' | translate
+          }}</ion-select-option>
+          <ion-select-option value="date_asc">{{
+            'ROOM.FILTERS.OLDEST' | translate
+          }}</ion-select-option>
+          <ion-select-option value="price_asc">{{
+            'ROOM.FILTERS.PRICE_LOW' | translate
+          }}</ion-select-option>
+          <ion-select-option value="price_desc">{{
+            'ROOM.FILTERS.PRICE_HIGH' | translate
+          }}</ion-select-option>
+          <ion-select-option value="area_asc">{{
+            'ROOM.FILTERS.AREA_SMALL' | translate
+          }}</ion-select-option>
+          <ion-select-option value="area_desc">{{
+            'ROOM.FILTERS.AREA_LARGE' | translate
+          }}</ion-select-option>
+        </ion-select>
+      </div>
+    </aside>
+
     <div class="rooms-section">
       <div class="section-header">
-        <div class="header-actions">
+        <div class="header-info">
+          <h2>{{ 'ROOM.TITLE' | translate }}</h2>
           <ion-chip color="primary">
-            {{ offers.length }} {{ 'ROOM.OFFERS_COUNT' | translate }}
+            {{ filteredOffers.length }} {{ 'ROOM.OFFERS_COUNT' | translate }}
           </ion-chip>
+        </div>
+        <div class="header-actions">
+          <ion-button
+            class="toggle-filters-mobile"
+            fill="outline"
+            size="small"
+            (click)="toggleMobileFilters()">
+            <ion-icon slot="start" name="options-outline"></ion-icon>
+            {{ 'ROOM.FILTERS.TITLE' | translate }}
+          </ion-button>
           <ion-button
             *ngIf="canCreateOffer"
             (click)="openCreateOfferModal()"
@@ -25,7 +161,7 @@
 
       <div class="rooms-grid">
         <ion-card
-          *ngFor="let offer of offers"
+          *ngFor="let offer of filteredOffers"
           class="room-card"
           [class.inactive]="offer.status !== 'active'"
           (click)="viewOfferDetails(offer.id)">
@@ -84,10 +220,13 @@
         </ion-card>
       </div>
 
-      <div *ngIf="offers.length === 0" class="empty-state">
-        <ion-icon name="home-outline"></ion-icon>
-        <h3>{{ 'ROOM.NO_OFFERS' | translate }}</h3>
-        <p>{{ 'ROOM.NO_OFFERS_DESCRIPTION' | translate }}</p>
+      <div *ngIf="filteredOffers.length === 0" class="empty-state">
+        <ion-icon name="search-outline"></ion-icon>
+        <h3>{{ 'ROOM.NO_RESULTS' | translate }}</h3>
+        <p>{{ 'ROOM.NO_RESULTS_DESCRIPTION' | translate }}</p>
+        <ion-button fill="outline" (click)="clearFilters()">
+          {{ 'ROOM.FILTERS.CLEAR' | translate }}
+        </ion-button>
       </div>
     </div>
   </div>

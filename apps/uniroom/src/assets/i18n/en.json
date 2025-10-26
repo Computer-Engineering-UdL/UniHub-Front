@@ -88,7 +88,8 @@
       "MY_LISTINGS": "My Listings"
     },
     "INTERESTS": {
-      "TITLE": "Interests"
+      "TITLE": "Interests",
+      "EMPTY": "You have no selected interests"
     },
     "RECENT_ACTIVITY": {
       "TITLE": "Recent Activity",
@@ -149,6 +150,7 @@
     "MESSAGES": "Messages"
   },
   "ROOM": {
+    "TITLE": "Rooms",
     "ANNOUNCEMENTS": "Room Announcements",
     "ANNOUNCEMENTS_COUNT": "rooms",
     "NOT_AVAILABLE": "Not Available",
@@ -159,6 +161,8 @@
     "CREATE_OFFER": "Create Offer",
     "NO_OFFERS": "No offers available",
     "NO_OFFERS_DESCRIPTION": "There are no housing offers available at the moment. Check back later!",
+    "NO_RESULTS": "No results found",
+    "NO_RESULTS_DESCRIPTION": "Try adjusting the filters to see more offers.",
     "VIEW_DETAILS": "View Details",
     "PER_MONTH": "/month",
     "DELETE": "Delete",
@@ -166,6 +170,27 @@
     "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this offer? This action cannot be undone.",
     "DELETE_SUCCESS": "Offer deleted successfully.",
     "DELETE_FAILED": "Failed to delete the offer. Please try again.",
+    "FILTERS": {
+      "TITLE": "Filters",
+      "CLEAR": "Clear",
+      "SEARCH": "Search",
+      "SEARCH_PLACEHOLDER": "Search offers...",
+      "PRICE_RANGE": "Price Range",
+      "MIN": "Min",
+      "MAX": "Max",
+      "CITY": "City",
+      "ALL_CITIES": "All cities",
+      "AREA": "Area",
+      "STATUS": "Status",
+      "ALL": "All",
+      "SORT_BY": "Sort by",
+      "NEWEST": "Newest",
+      "OLDEST": "Oldest",
+      "PRICE_LOW": "Price: Low to High",
+      "PRICE_HIGH": "Price: High to Low",
+      "AREA_SMALL": "Area: Small to Large",
+      "AREA_LARGE": "Area: Large to Small"
+    },
     "STATUS": {
       "ACTIVE": "Active",
       "INACTIVE": "Inactive",
@@ -288,5 +313,56 @@
     "DAYS": "{{count}} days ago",
     "WEEKS": "{{count}} weeks ago",
     "MONTHS": "{{count}} months ago"
+  },
+  "CHANNELS": {
+    "TITLE": "Channels",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "SEARCH_CHANNELS": "Search channels...",
+    "CREATE_CHANNEL": "Create Channel",
+    "ALL_CHANNELS": "All Channels",
+    "EXPLORE_CHANNELS": "Explore Channels",
+    "MY_FACULTY": "My Faculty",
+    "MY_CHANNELS": "My Channels",
+    "ALL": "All",
+    "GENERAL": "General",
+    "ENGINEERING": "Engineering",
+    "SCIENCES": "Sciences",
+    "BUSINESS": "Business",
+    "ARTS": "Arts",
+    "MEDICINE": "Medicine",
+    "MEMBERS": "{{count}} members",
+    "JOIN": "Join",
+    "LEAVE": "Leave",
+    "NO_CHANNELS": "No channels found",
+    "NO_CHANNELS_DESCRIPTION": "There are no channels available at the moment",
+    "LOADING": "Loading channels...",
+    "ERROR": {
+      "LOAD_CHANNELS": "Error loading channels",
+      "CREATE_CHANNEL": "Error creating channel",
+      "UPDATE_CHANNEL": "Error updating channel",
+      "DELETE_CHANNEL": "Error deleting channel",
+      "JOIN_CHANNEL": "Error joining channel",
+      "LEAVE_CHANNEL": "Error leaving channel"
+    },
+    "SUCCESS": {
+      "CREATE_CHANNEL": "Channel created successfully",
+      "UPDATE_CHANNEL": "Channel updated successfully",
+      "DELETE_CHANNEL": "Channel deleted successfully",
+      "JOIN_CHANNEL": "You have joined the channel successfully",
+      "LEAVE_CHANNEL": "You have left the channel successfully"
+    },
+    "MODAL": {
+      "CREATE_TITLE": "Create New Channel",
+      "EDIT_TITLE": "Edit Channel",
+      "NAME": "Channel Name",
+      "DESCRIPTION": "Description",
+      "CATEGORY": "Category",
+      "SELECT_CATEGORY": "Select category",
+      "CANCEL": "Cancel",
+      "CREATE": "Create",
+      "SAVE": "Save"
+    },
+    "DELETE_CONFIRM_TITLE": "Delete Channel",
+    "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete the channel {{name}}? This action cannot be undone."
   }
 }

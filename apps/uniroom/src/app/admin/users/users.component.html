@@ -43,14 +43,13 @@
     </div>
 
     <div class="controls-bar">
-      <div class="search-box">
-        <ion-icon name="search-outline"></ion-icon>
-        <input
-          type="text"
-          [placeholder]="'ADMIN.USERS.SEARCH_PLACEHOLDER' | translate"
-          (input)="onSearchInput($event)"
-          [value]="searchTerm" />
-      </div>
+      <ion-searchbar
+        class="users-searchbar"
+        [placeholder]="'ADMIN.USERS.SEARCH_PLACEHOLDER' | translate"
+        [(ngModel)]="searchTerm"
+        (ionInput)="onSearchInput($event)"
+        debounce="300">
+      </ion-searchbar>
 
       <div class="filters">
         <div class="filter-wrapper">
@@ -122,11 +121,19 @@
         >
       </div>
       <div class="bulk-actions-buttons">
-        <ion-button fill="outline" color="success" (click)="activateUsers()">
+        <ion-button
+          *ngIf="hasInactiveUsersSelected"
+          fill="outline"
+          color="success"
+          (click)="activateUsers()">
           <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
           {{ 'ADMIN.USERS.ACTIVATE' | translate }}
         </ion-button>
-        <ion-button fill="outline" color="warning" (click)="suspendUsers()">
+        <ion-button
+          *ngIf="hasActiveUsersSelected"
+          fill="outline"
+          color="warning"
+          (click)="suspendUsers()">
           <ion-icon slot="start" name="ban-outline"></ion-icon>
           {{ 'ADMIN.USERS.SUSPEND' | translate }}
         </ion-button>

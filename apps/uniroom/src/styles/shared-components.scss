@@ -80,3 +80,103 @@ ion-content.page-container {
     animation: none !important;
   }
 }
+
+/**
+ * Searchbar Mixin
+ * -----------------------------------------------------
+ */
+@mixin searchbar-styles {
+  padding: 0 !important;
+  height: 48px;
+
+  &::part(native) {
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    border-radius: 24px !important;
+    background: var(--ion-card-background) !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    padding-left: 44px !important;
+    padding-right: 16px !important;
+    height: 48px !important;
+  }
+
+  &::part(icon) {
+    left: 16px !important;
+    width: 20px !important;
+    height: 20px !important;
+    opacity: 0.45 !important;
+    color: #a1a5ab !important;
+  }
+
+  &::part(value) {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.01em !important;
+    color: var(--ion-text-color) !important;
+  }
+
+  input.searchbar-input {
+    color: var(--ion-text-color) !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+
+    &::placeholder {
+      color: #a1a5ab !important;
+      opacity: 1 !important;
+    }
+  }
+
+  .searchbar-search-icon {
+    left: 16px !important;
+    width: 20px !important;
+    height: 20px !important;
+    opacity: 0.45 !important;
+    color: #a1a5ab !important;
+  }
+
+  .searchbar-clear-button {
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+    color: #6b7280 !important;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &.searchbar-has-focus::part(native) {
+    border-color: rgba(0, 0, 0, 0.12) !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+    outline: none !important;
+  }
+
+  &:hover:not(.searchbar-has-focus)::part(native) {
+    border-color: rgba(0, 0, 0, 0.1) !important;
+  }
+
+  @media (max-width: 768px) {
+    height: 44px;
+
+    &::part(native) {
+      border-radius: 20px !important;
+      height: 44px !important;
+      padding-left: 40px !important;
+    }
+
+    &::part(icon) {
+      left: 14px !important;
+      width: 18px !important;
+      height: 18px !important;
+    }
+
+    .searchbar-search-icon {
+      left: 14px !important;
+      width: 18px !important;
+      height: 18px !important;
+    }
+
+    input.searchbar-input {
+      font-size: 14px !important;
+    }
+  }
+}
