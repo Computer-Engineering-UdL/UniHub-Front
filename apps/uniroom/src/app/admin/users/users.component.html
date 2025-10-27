@@ -107,7 +107,7 @@
           </ion-select-option>
         </ion-select>
 
-        <ion-button fill="outline" class="export-button" (click)="exportUsers()">
+        <ion-button fill="outline" class="export-button" (click)="exportUsers()" [disabled]="users.length === 0">
           <ion-icon slot="start" name="download-outline"></ion-icon>
           {{ 'ADMIN.USERS.EXPORT' | translate }}
         </ion-button>
