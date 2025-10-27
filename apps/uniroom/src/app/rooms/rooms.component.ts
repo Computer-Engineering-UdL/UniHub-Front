@@ -140,12 +140,11 @@ export class RoomsComponent implements OnInit {
       );
     }
 
-    if (this.filters.minPrice !== null && this.filters.minPrice > 0) {
-      filtered = filtered.filter((offer: OfferListItem): boolean => (offer.price ?? 0) >= (this.filters.minPrice ?? 0));
-    }
-
-    if (this.filters.maxPrice !== null && this.filters.maxPrice > 0) {
-      filtered = filtered.filter((offer: OfferListItem): boolean => (offer.price ?? 0) <= (this.filters.maxPrice ?? 0));
+    if (this.filters.priceRange) {
+      filtered = filtered.filter((offer: OfferListItem): boolean => {
+        const price: number = offer.price ?? 0;
+        return price >= this.filters.priceRange.lower && price <= this.filters.priceRange.upper;
+      });
     }
 
     if (this.filters.city) {
@@ -219,8 +218,8 @@ export class RoomsComponent implements OnInit {
   private updateHasActiveFilters(): void {
     this.hasActiveFilters = !!(
       this.filters.search ||
-      (this.filters.minPrice !== null && this.filters.minPrice > 0) ||
-      (this.filters.maxPrice !== null && this.filters.maxPrice > 0) ||
+      this.filters.priceRange.lower !== 0 ||
+      this.filters.priceRange.upper !== this.maxAvailablePrice ||
       this.filters.city ||
       this.filters.areaRange.lower !== 0 ||
       this.filters.areaRange.upper !== this.maxAvailableArea ||
@@ -249,13 +248,19 @@ export class RoomsComponent implements OnInit {
 
   public onMinPriceChange(): void {
     const minValue: number = this.filters.minPrice ?? 0;
-    this.filters.priceRange.lower = Math.max(0, Math.min(minValue, this.maxAvailablePrice));
+    this.filters.priceRange = {
+      lower: Math.max(0, Math.min(minValue, this.maxAvailablePrice)),
+      upper: this.filters.priceRange.upper
+    };
     this.applyFilters();
   }
 
   public onMaxPriceChange(): void {
     const maxValue: number = this.filters.maxPrice ?? this.maxAvailablePrice;
-    this.filters.priceRange.upper = Math.max(0, Math.min(maxValue, this.maxAvailablePrice));
+    this.filters.priceRange = {
+      lower: this.filters.priceRange.lower,
+      upper: Math.max(0, Math.min(maxValue, this.maxAvailablePrice))
+    };
     this.applyFilters();
   }
 
