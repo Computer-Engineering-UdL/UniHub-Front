@@ -8,7 +8,7 @@ import { AuthService } from '../services/auth.service';
 import { Channel, ChannelCategory, ChannelMember } from '../models/channel.types';
 import { User } from '../models/auth.types';
 import { CreateChannelModalComponent } from './create-channel-modal/create-channel-modal.component';
-import { NotificationService } from '../services/notification.service';
+import NotificationService from '../services/notification.service';
 
 @Component({
   selector: 'app-channels',

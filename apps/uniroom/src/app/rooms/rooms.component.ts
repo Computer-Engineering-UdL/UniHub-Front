@@ -7,7 +7,7 @@ import { OfferListItem } from '../models/offer.types';
 import { User } from '../models/auth.types';
 import { CreateOfferModalComponent } from './create-offer-modal/create-offer-modal.component';
 import { LocalizationService } from '../services/localization.service';
-import { NotificationService } from '../services/notification.service';
+import NotificationService from '../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 
 interface Filters {

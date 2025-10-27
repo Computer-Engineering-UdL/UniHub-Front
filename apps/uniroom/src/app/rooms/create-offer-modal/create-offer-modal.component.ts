@@ -5,7 +5,7 @@ import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { CreateOfferData, GenderPreference, OfferStatus } from '../../models/offer.types';
 import { firstValueFrom } from 'rxjs';
-import { NotificationService } from '../../services/notification.service';
+import NotificationService from '../../services/notification.service';
 
 @Component({
   selector: 'app-create-offer-modal',

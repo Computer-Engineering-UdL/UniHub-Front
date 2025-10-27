@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../services/auth.service';
-import { NotificationService } from '../services/notification.service';
+import NotificationService from '../services/notification.service';
 import { SignupData } from '../models/auth.types';
 import { LangCode, LocalizationService } from '../services/localization.service';
 

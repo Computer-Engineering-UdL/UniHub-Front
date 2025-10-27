@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
-import { NotificationService } from '../../services/notification.service';
+import NotificationService from '../../services/notification.service';
 import { LocalizationService } from '../../services/localization.service';
 import { AuthService } from '../../services/auth.service';
 import { Role, User } from '../../models/auth.types';

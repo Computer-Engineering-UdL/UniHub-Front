@@ -14,7 +14,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { from, map, Observable } from 'rxjs';
 import { ChannelService } from '../../services/channel.service';
 import { Channel, ChannelCategory, CreateChannelDto } from '../../models/channel.types';
-import { NotificationService } from '../../services/notification.service';
+import NotificationService from '../../services/notification.service';
 
 @Component({
   selector: 'app-create-channel-modal',
