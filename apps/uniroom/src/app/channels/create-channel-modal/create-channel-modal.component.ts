@@ -80,7 +80,7 @@ export class CreateChannelModalComponent implements OnInit {
       await this.modalController.dismiss({ created: true });
     } catch (error) {
       console.error('Error creating channel:', error);
-      await this.notificationService.error('CHANNELS.ERROR.CREATE_CHANNEL');
+      this.notificationService.error('CHANNELS.ERROR.CREATE_CHANNEL');
     } finally {
       this.isSubmitting = false;
     }

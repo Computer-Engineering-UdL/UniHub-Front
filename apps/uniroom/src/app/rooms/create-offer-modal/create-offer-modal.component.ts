@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { CreateOfferData, GenderPreference, OfferStatus } from '../../models/offer.types';
 import { firstValueFrom } from 'rxjs';
 import NotificationService from '../../services/notification.service';
+import { User } from '../../models/auth.types';
 
 @Component({
   selector: 'app-create-offer-modal',
@@ -30,7 +31,7 @@ export class CreateOfferModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
-    this.loadCategories();
+    void this.loadCategories();
   }
 
   private initializeForm(): void {
@@ -71,7 +72,7 @@ export class CreateOfferModalComponent implements OnInit {
       console.error('Failed to load categories:', error);
       // Notify user (translation key assumed); if not available it will show the key
       try {
-        await this.notificationService.error('ERROR.LOAD_CATEGORIES');
+        this.notificationService.error('ERROR.LOAD_CATEGORIES');
       } catch (e) {
         // swallow notification errors
       }
@@ -81,7 +82,6 @@ export class CreateOfferModalComponent implements OnInit {
     }
   }
 
-  // New: detect desktop vs mobile to choose a better ion-select interface
   get selectInterface(): 'popover' | 'action-sheet' {
     try {
       return window && window.innerWidth >= 768 ? 'popover' : 'action-sheet';
@@ -90,7 +90,6 @@ export class CreateOfferModalComponent implements OnInit {
     }
   }
 
-  // Options for the select interfaces (used to apply a wider popover on desktop)
   get selectInterfaceOptions(): any {
     if (this.selectInterface === 'popover') {
       return { cssClass: 'category-popover' };
@@ -107,9 +106,9 @@ export class CreateOfferModalComponent implements OnInit {
     this.isSubmitting = true;
 
     try {
-      const user = await firstValueFrom(this.authService.currentUser$);
+      const user: User | null = await firstValueFrom(this.authService.currentUser$);
       if (!user) {
-        await this.notificationService.error('ERROR.NOT_AUTHENTICATED');
+        this.notificationService.error('ERROR.NOT_AUTHENTICATED');
         this.isSubmitting = false;
         return;
       }

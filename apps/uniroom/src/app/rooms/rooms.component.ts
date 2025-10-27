@@ -238,11 +238,11 @@ export class RoomsComponent implements OnInit {
   private async deleteOffer(offerId: string): Promise<void> {
     try {
       await firstValueFrom(this.apiService.delete(`offers/offers/${offerId}`));
-      await this.notificationService.success('ROOM.DELETE_SUCCESS');
+      this.notificationService.success('ROOM.DELETE_SUCCESS');
       await this.loadOffers();
     } catch (error) {
       console.error('Error deleting offer:', error);
-      await this.notificationService.error('ROOM.DELETE_FAILED');
+      this.notificationService.error('ROOM.DELETE_FAILED');
     }
   }
 

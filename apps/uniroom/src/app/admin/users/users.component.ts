@@ -108,7 +108,7 @@ export class AdminUsersComponent implements OnInit {
         this.calculateStats();
       }
     } catch (error) {
-      await this.notificationService.error('ERROR.LOAD_USERS');
+      this.notificationService.error('ERROR.LOAD_USERS');
     } finally {
       this.loading = false;
     }
@@ -222,9 +222,9 @@ export class AdminUsersComponent implements OnInit {
       link.click();
       document.body.removeChild(link);
 
-      await this.notificationService.success('ADMIN.USERS.EXPORT_SUCCESS');
+      this.notificationService.success('ADMIN.USERS.EXPORT_SUCCESS');
     } catch (error) {
-      await this.notificationService.error('ADMIN.USERS.EXPORT_ERROR');
+      this.notificationService.error('ADMIN.USERS.EXPORT_ERROR');
     }
   }
 
@@ -286,16 +286,16 @@ export class AdminUsersComponent implements OnInit {
       // Prevent self-deletion
       const currentUser: User | null = this.authService.currentUser;
       if (currentUser && user.id === currentUser.id) {
-        await this.notificationService.error('ADMIN.USERS.DELETE_SELF_ERROR');
+        this.notificationService.error('ADMIN.USERS.DELETE_SELF_ERROR');
         return;
       }
 
       await lastValueFrom(this.apiService.delete(`user/${user.id}`));
-      await this.notificationService.success('ADMIN.USERS.DELETE_SUCCESS');
+      this.notificationService.success('ADMIN.USERS.DELETE_SUCCESS');
       this.selectedUsers.delete(user.username);
       await this.loadUsers();
     } catch (error) {
-      await this.notificationService.error('ADMIN.USERS.DELETE_ERROR');
+      this.notificationService.error('ADMIN.USERS.DELETE_ERROR');
     }
   }
 
@@ -340,11 +340,11 @@ export class AdminUsersComponent implements OnInit {
       });
 
       if (currentUser && this.selectedUsers.has(currentUser.username)) {
-        await this.notificationService.warning('ADMIN.USERS.DELETE_SELF_SKIPPED');
+        this.notificationService.warning('ADMIN.USERS.DELETE_SELF_SKIPPED');
       }
 
       if (usersToDelete.length === 0) {
-        await this.notificationService.error('ADMIN.USERS.NO_USERS_TO_DELETE');
+        this.notificationService.error('ADMIN.USERS.NO_USERS_TO_DELETE');
         return;
       }
 
@@ -353,11 +353,11 @@ export class AdminUsersComponent implements OnInit {
       );
 
       await Promise.all(deletePromises);
-      await this.notificationService.success('ADMIN.USERS.DELETE_BULK_SUCCESS');
+      this.notificationService.success('ADMIN.USERS.DELETE_BULK_SUCCESS');
       this.selectedUsers.clear();
       await this.loadUsers();
     } catch (error) {
-      await this.notificationService.error('ADMIN.USERS.DELETE_BULK_ERROR');
+      this.notificationService.error('ADMIN.USERS.DELETE_BULK_ERROR');
     }
   }
 
@@ -373,11 +373,11 @@ export class AdminUsersComponent implements OnInit {
       );
 
       await Promise.all(updatePromises);
-      await this.notificationService.success('ADMIN.USERS.ACTIVATE_SUCCESS');
+      this.notificationService.success('ADMIN.USERS.ACTIVATE_SUCCESS');
       this.selectedUsers.clear();
       await this.loadUsers();
     } catch (_) {
-      await this.notificationService.error('ADMIN.USERS.ACTIVATE_ERROR');
+      this.notificationService.error('ADMIN.USERS.ACTIVATE_ERROR');
     }
   }
 
@@ -418,11 +418,11 @@ export class AdminUsersComponent implements OnInit {
       );
 
       await Promise.all(updatePromises);
-      await this.notificationService.success('ADMIN.USERS.SUSPEND_SUCCESS');
+      this.notificationService.success('ADMIN.USERS.SUSPEND_SUCCESS');
       this.selectedUsers.clear();
       await this.loadUsers();
     } catch (_) {
-      await this.notificationService.error('ADMIN.USERS.SUSPEND_ERROR');
+      this.notificationService.error('ADMIN.USERS.SUSPEND_ERROR');
     }
   }
 
@@ -505,11 +505,11 @@ export class AdminUsersComponent implements OnInit {
       );
 
       await Promise.all(updatePromises);
-      await this.notificationService.success('ADMIN.USERS.CHANGE_ROLE_SUCCESS');
+      this.notificationService.success('ADMIN.USERS.CHANGE_ROLE_SUCCESS');
       this.selectedUsers.clear();
       await this.loadUsers();
     } catch (_) {
-      await this.notificationService.error('ADMIN.USERS.CHANGE_ROLE_ERROR');
+      this.notificationService.error('ADMIN.USERS.CHANGE_ROLE_ERROR');
     }
   }
 

@@ -102,27 +102,27 @@ export class SignupPage {
       this.emailTouched = true;
       this.passwordTouched = true;
       this.confirmPasswordTouched = true;
-      await this.notificationService.error(this.translate.instant('SIGNUP.ERROR.EMPTY_FIELDS'));
+      this.notificationService.error(this.translate.instant('SIGNUP.ERROR.EMPTY_FIELDS'));
       return;
     }
     if (!this.validateEmail(this.email)) {
       this.emailTouched = true;
-      await this.notificationService.error(this.translate.instant('SIGNUP.ERROR.INVALID_EMAIL'));
+      this.notificationService.error(this.translate.instant('SIGNUP.ERROR.INVALID_EMAIL'));
       return;
     }
     if (this.phone && !this.validatePhone(this.phone)) {
       this.phoneTouched = true;
-      await this.notificationService.error(this.translate.instant('SIGNUP.ERROR.INVALID_PHONE'));
+      this.notificationService.error(this.translate.instant('SIGNUP.ERROR.INVALID_PHONE'));
       return;
     }
     if (this.password.length < 8) {
       this.passwordTouched = true;
-      await this.notificationService.error(this.translate.instant('SIGNUP.ERROR.PASSWORD_TOO_SHORT'));
+      this.notificationService.error(this.translate.instant('SIGNUP.ERROR.PASSWORD_TOO_SHORT'));
       return;
     }
     if (this.password !== this.confirmPassword) {
       this.confirmPasswordTouched = true;
-      await this.notificationService.error(this.translate.instant('SIGNUP.ERROR.PASSWORD_MISMATCH'));
+      this.notificationService.error(this.translate.instant('SIGNUP.ERROR.PASSWORD_MISMATCH'));
       return;
     }
 
@@ -134,7 +134,7 @@ export class SignupPage {
       await this.router.navigate(['/home']);
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : this.translate.instant('SIGNUP.ERROR.SIGNUP_FAILED');
-      await this.notificationService.error(message);
+      this.notificationService.error(message);
     } finally {
       this.isLoading = false;
     }
@@ -147,7 +147,7 @@ export class SignupPage {
       await this.router.navigate(['/home']);
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : this.translate.instant('LOGIN.ERROR.GITHUB_FAILED');
-      await this.notificationService.error(message);
+      this.notificationService.error(message);
     } finally {
       this.isLoading = false;
     }
@@ -160,7 +160,7 @@ export class SignupPage {
       await this.router.navigate(['/home']);
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : this.translate.instant('LOGIN.ERROR.GOOGLE_FAILED');
-      await this.notificationService.error(message);
+      this.notificationService.error(message);
     } finally {
       this.isLoading = false;
     }
