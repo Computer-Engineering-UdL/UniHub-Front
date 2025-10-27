@@ -7,7 +7,7 @@ import { OfferListItem } from '../models/offer.types';
 import { User } from '../models/auth.types';
 import { CreateOfferModalComponent } from './create-offer-modal/create-offer-modal.component';
 import { LocalizationService } from '../services/localization.service';
-import { NotificationService } from '../services/notification.service';
+import NotificationService from '../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 
 interface Filters {
@@ -238,11 +238,11 @@ export class RoomsComponent implements OnInit {
   private async deleteOffer(offerId: string): Promise<void> {
     try {
       await firstValueFrom(this.apiService.delete(`offers/offers/${offerId}`));
-      await this.notificationService.success('ROOM.DELETE_SUCCESS');
+      this.notificationService.success('ROOM.DELETE_SUCCESS');
       await this.loadOffers();
     } catch (error) {
       console.error('Error deleting offer:', error);
-      await this.notificationService.error('ROOM.DELETE_FAILED');
+      this.notificationService.error('ROOM.DELETE_FAILED');
     }
   }
 

@@ -13,7 +13,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "ionic-start": "ionic serve",
-    "format": "prettier -w .",
+    "format": "prettier -w . | grep -v '(unchanged)' || true",
     "format:check": "prettier -c ."
   },
   "dependencies": {

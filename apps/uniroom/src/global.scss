@@ -40,30 +40,10 @@
 @import '@ionic/angular/css/palettes/dark.system.css';
 
 /**
- * Toast Notifications
+ * Create Action Button
  * -----------------------------------------------------
- * Custom styles for toast notifications
+ * Styles for the create action button used in various pages
  */
-.toast-success {
-  --background: var(--ion-color-success);
-  --color: var(--ion-color-success-contrast);
-}
-
-.toast-error {
-  --background: var(--ion-color-danger);
-  --color: var(--ion-color-danger-contrast);
-}
-
-.toast-warning {
-  --background: var(--ion-color-warning);
-  --color: var(--ion-color-warning-contrast);
-}
-
-.toast-info {
-  --background: var(--ion-color-primary);
-  --color: var(--ion-color-primary-contrast);
-}
-
 .create-action-btn {
   --border-radius: 12px;
   --padding-start: 24px;
@@ -189,6 +169,14 @@ ion-content {
 
   &::part(scroll) {
     padding-top: 56px;
+  }
+}
+
+ion-modal ion-content {
+  --offset-top: 0;
+
+  &::part(scroll) {
+    padding-top: 0;
   }
 }
 

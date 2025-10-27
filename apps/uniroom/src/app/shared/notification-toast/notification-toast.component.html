@@ -1,0 +1,9 @@
+<div class="notification-toast" [@slideIn] [attr.data-type]="type">
+  <div class="toast-content">
+    <ion-icon [name]="getIcon()" class="toast-icon"></ion-icon>
+    <span class="toast-message">{{ message }}</span>
+    <button class="toast-close" (click)="onDismiss()">
+      <ion-icon name="close"></ion-icon>
+    </button>
+  </div>
+</div>

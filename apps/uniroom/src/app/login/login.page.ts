@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { NotificationService } from '../services/notification.service';
+import NotificationService from '../services/notification.service';
 import { LangCode, LocalizationService } from '../services/localization.service';
 
 @Component({
@@ -44,17 +44,17 @@ export class LoginPage {
     if (!this.email || !this.password) {
       this.emailTouched = true;
       this.passwordTouched = true;
-      await this.notificationService.error('LOGIN.ERROR.EMPTY_CREDENTIALS');
+      this.notificationService.error('LOGIN.ERROR.EMPTY_CREDENTIALS');
       return;
     }
     if (!this.validateEmail(this.email)) {
       this.emailTouched = true;
-      await this.notificationService.error('LOGIN.ERROR.INVALID_EMAIL');
+      this.notificationService.error('LOGIN.ERROR.INVALID_EMAIL');
       return;
     }
     if (this.password.length < 8) {
       this.passwordTouched = true;
-      await this.notificationService.error('SIGNUP.ERROR.PASSWORD_TOO_SHORT');
+      this.notificationService.error('SIGNUP.ERROR.PASSWORD_TOO_SHORT');
       return;
     }
 
@@ -65,7 +65,7 @@ export class LoginPage {
       await this.router.navigate(['/home']);
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'LOGIN.ERROR.LOGIN_FAILED';
-      await this.notificationService.error(message);
+      this.notificationService.error(message);
     } finally {
       this.isLoading = false;
     }
@@ -78,7 +78,7 @@ export class LoginPage {
       await this.router.navigate(['/home']);
     } catch (error: unknown) {
       const message: string = error instanceof Error ? error.message : 'LOGIN.ERROR.GITHUB_FAILED';
-      await this.notificationService.error(message);
+      this.notificationService.error(message);
     } finally {
       this.isLoading = false;
     }
@@ -91,7 +91,7 @@ export class LoginPage {
       await this.router.navigate(['/home']);
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'LOGIN.ERROR.GOOGLE_FAILED';
-      await this.notificationService.error(message);
+      this.notificationService.error(message);
     } finally {
       this.isLoading = false;
     }
