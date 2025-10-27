@@ -455,3 +455,21 @@ ion-searchbar {
     color: white;
   }
 }
+
+/**
+ * Ion Range Pin Styles
+ * -----------------------------------------------------
+ */
+ion-range::part(pin) {
+  min-width: 50px !important;
+  width: auto !important;
+  padding: 5px 10px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: auto !important;
+  line-height: 1.3 !important;
+}

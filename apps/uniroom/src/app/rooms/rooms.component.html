@@ -46,18 +46,28 @@
 
       <div class="filter-section">
         <label class="filter-label">{{ 'ROOM.FILTERS.PRICE_RANGE' | translate }}</label>
+        <ion-range
+          [(ngModel)]="filters.priceRange"
+          (ionChange)="onPriceRangeChange()"
+          [dualKnobs]="true"
+          [min]="0"
+          [max]="maxAvailablePrice"
+          [step]="50"
+          [pin]="true"
+          [pinFormatter]="formatPricePin">
+        </ion-range>
         <div class="price-inputs">
           <ion-input
             type="number"
             [(ngModel)]="filters.minPrice"
-            (ionChange)="applyFilters()"
+            (ionChange)="onMinPriceChange()"
             [placeholder]="'ROOM.FILTERS.MIN' | translate"
             fill="outline">
           </ion-input>
           <ion-input
             type="number"
             [(ngModel)]="filters.maxPrice"
-            (ionChange)="applyFilters()"
+            (ionChange)="onMaxPriceChange()"
             [placeholder]="'ROOM.FILTERS.MAX' | translate"
             fill="outline">
           </ion-input>
@@ -87,7 +97,7 @@
           (ionChange)="applyFilters()"
           [dualKnobs]="true"
           [min]="0"
-          [max]="200"
+          [max]="maxAvailableArea"
           [step]="5"
           [pin]="true"
           [pinFormatter]="formatAreaPin">
