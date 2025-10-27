@@ -45,7 +45,7 @@
               [placeholder]="'LOGIN.PASSWORD' | translate"
               [(ngModel)]="password"
               name="password"
-              required="true"
+              required
               (ionBlur)="passwordTouched = true"
               (ionInput)="onPasswordInput()"
               [ngClass]="{'invalid': passwordTouched && password.length < 8}"></ion-input>

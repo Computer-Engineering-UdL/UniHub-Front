@@ -1,54 +1,64 @@
 import { Injectable, inject } from '@angular/core';
-import { ToastController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export type NotificationType = 'success' | 'error' | 'warning' | 'info';
-export type NotificationColor = 'success' | 'danger' | 'warning' | 'primary';
+
+export interface ToastNotification {
+  id: string;
+  message: string;
+  type: NotificationType;
+  duration: number;
+}
 
 @Injectable({ providedIn: 'root' })
-export class NotificationService {
-  private toastController: ToastController = inject(ToastController);
+class NotificationService {
   private translateService: TranslateService = inject(TranslateService);
+  private notificationsSubject: BehaviorSubject<ToastNotification[]> = new BehaviorSubject<ToastNotification[]>([]);
+  public notifications$: Observable<ToastNotification[]> = this.notificationsSubject.asObservable();
 
-  async show(message: string, type: NotificationType = 'info', duration: number = 3000): Promise<void> {
+  show(message: string, type: NotificationType = 'info', duration: number = 3000): void {
     const safeMessage: string = (message ?? '').toString();
-    const toast: HTMLIonToastElement = await this.toastController.create({
+    const notification: ToastNotification = {
+      id: this.generateId(),
       message: this.translateService.instant(safeMessage),
-      duration,
-      position: 'top',
-      color: this.getColorForType(type),
-      cssClass: `toast-${type}`,
-      buttons: [{ text: '✕', role: 'cancel' }]
-    });
+      type,
+      duration
+    };
 
-    await toast.present();
-  }
+    const currentNotifications: ToastNotification[] = this.notificationsSubject.value;
+    this.notificationsSubject.next([...currentNotifications, notification]);
 
-  async success(message: string, duration: number = 3000): Promise<void> {
-    await this.show(message, 'success', duration);
-  }
-  async error(message: string, duration: number = 4000): Promise<void> {
-    await this.show(message, 'error', duration);
-  }
-  async warning(message: string, duration: number = 3000): Promise<void> {
-    await this.show(message, 'warning', duration);
-  }
-  async info(message: string, duration: number = 3000): Promise<void> {
-    await this.show(message, 'info', duration);
-  }
-
-  // Map notification type to Ionic color token
-  private getColorForType(type: NotificationType): NotificationColor {
-    switch (type) {
-      case 'success':
-        return 'success';
-      case 'error':
-        return 'danger';
-      case 'warning':
-        return 'warning';
-      case 'info':
-      default:
-        return 'primary';
+    if (duration > 0) {
+      setTimeout((): void => {
+        this.remove(notification.id);
+      }, duration);
     }
   }
+
+  success(message: string, duration: number = 3000): void {
+    this.show(message, 'success', duration);
+  }
+
+  error(message: string, duration: number = 4000): void {
+    this.show(message, 'error', duration);
+  }
+
+  warning(message: string, duration: number = 3000): void {
+    this.show(message, 'warning', duration);
+  }
+
+  info(message: string, duration: number = 3000): void {
+    this.show(message, 'info', duration);
+  }
+
+  public remove(id: string): void {
+    const currentNotifications: ToastNotification[] = this.notificationsSubject.value;
+    this.notificationsSubject.next(currentNotifications.filter((n: ToastNotification): boolean => n.id !== id));
+  }
+
+  private generateId(): string {
+    return `toast-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+  }
 }
+export default NotificationService;

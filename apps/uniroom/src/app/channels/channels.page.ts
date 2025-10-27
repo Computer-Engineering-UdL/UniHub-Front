@@ -8,7 +8,7 @@ import { AuthService } from '../services/auth.service';
 import { Channel, ChannelCategory, ChannelMember } from '../models/channel.types';
 import { User } from '../models/auth.types';
 import { CreateChannelModalComponent } from './create-channel-modal/create-channel-modal.component';
-import { NotificationService } from '../services/notification.service';
+import NotificationService from '../services/notification.service';
 
 @Component({
   selector: 'app-channels',
@@ -81,7 +81,7 @@ export class ChannelsPage implements OnInit, OnDestroy {
       this.filterChannels();
     } catch (error) {
       console.error('Error loading channels:', error);
-      await this.notificationService.error('CHANNELS.ERROR.LOAD_CHANNELS');
+      this.notificationService.error('CHANNELS.ERROR.LOAD_CHANNELS');
     } finally {
       this.isLoading = false;
     }
@@ -156,7 +156,7 @@ export class ChannelsPage implements OnInit, OnDestroy {
     const { data } = await modal.onWillDismiss();
     if (data?.created) {
       await this.loadChannels();
-      await this.notificationService.success('CHANNELS.SUCCESS.CREATE_CHANNEL');
+      this.notificationService.success('CHANNELS.SUCCESS.CREATE_CHANNEL');
     }
   }
 
@@ -170,11 +170,11 @@ export class ChannelsPage implements OnInit, OnDestroy {
       // Mark this channel as a member locally to avoid reloading all channels
       channel.is_member = true;
       await this.channelService.joinChannel(channel.id, this.currentUser.id);
-      await this.notificationService.success('CHANNELS.SUCCESS.JOIN_CHANNEL');
+      this.notificationService.success('CHANNELS.SUCCESS.JOIN_CHANNEL');
       this.filterChannels();
     } catch (_) {
       channel.is_member = false;
-      await this.notificationService.error('CHANNELS.ERROR.JOIN_CHANNEL');
+      this.notificationService.error('CHANNELS.ERROR.JOIN_CHANNEL');
     }
   }
 
@@ -188,14 +188,14 @@ export class ChannelsPage implements OnInit, OnDestroy {
         channel.is_member = false;
       }
       await this.channelService.leaveChannel(channel.id, this.currentUser.id);
-      await this.notificationService.success('CHANNELS.SUCCESS.LEAVE_CHANNEL');
+      this.notificationService.success('CHANNELS.SUCCESS.LEAVE_CHANNEL');
       if (this.selectedTab === 'myChannels') {
         channel.is_member = false;
       }
       this.filterChannels();
     } catch (_) {
       channel.is_member = true;
-      await this.notificationService.error('CHANNELS.ERROR.LEAVE_CHANNEL');
+      this.notificationService.error('CHANNELS.ERROR.LEAVE_CHANNEL');
     }
   }
 
@@ -216,11 +216,11 @@ export class ChannelsPage implements OnInit, OnDestroy {
           handler: async () => {
             try {
               await this.channelService.deleteChannel(channel.id);
-              await this.notificationService.success('CHANNELS.SUCCESS.DELETE_CHANNEL');
+              this.notificationService.success('CHANNELS.SUCCESS.DELETE_CHANNEL');
               await this.loadChannels();
             } catch (error) {
               console.error('Error deleting channel:', error);
-              await this.notificationService.error('CHANNELS.ERROR.DELETE_CHANNEL');
+              this.notificationService.error('CHANNELS.ERROR.DELETE_CHANNEL');
             }
           }
         }

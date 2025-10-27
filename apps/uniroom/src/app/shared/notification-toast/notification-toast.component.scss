@@ -1,0 +1,148 @@
+:host {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.notification-toast {
+  background: var(--ion-background-color, #ffffff);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 300px;
+  max-width: 450px;
+  width: max-content;
+  border-left: 4px solid;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &[data-type='success'] {
+    border-left-color: var(--ion-color-success);
+
+    .toast-icon {
+      color: var(--ion-color-success);
+    }
+
+    .toast-message {
+      color: var(--ion-color-success);
+    }
+  }
+
+  &[data-type='error'] {
+    border-left-color: var(--ion-color-danger);
+
+    .toast-icon {
+      color: var(--ion-color-danger);
+    }
+
+    .toast-message {
+      color: var(--ion-color-danger);
+    }
+  }
+
+  &[data-type='warning'] {
+    border-left-color: var(--ion-color-warning);
+
+    .toast-icon {
+      color: var(--ion-color-warning);
+    }
+
+    .toast-message {
+      color: var(--ion-color-warning);
+    }
+  }
+
+  &[data-type='info'] {
+    border-left-color: var(--ion-color-primary);
+
+    .toast-icon {
+      color: var(--ion-color-primary);
+    }
+
+    .toast-message {
+      color: var(--ion-color-primary);
+    }
+  }
+
+  &:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 12px;
+}
+
+.toast-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.toast-message {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+
+  ion-icon {
+    font-size: 18px;
+    color: var(--ion-color-medium);
+  }
+
+  &:hover {
+    background-color: var(--ion-color-light);
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .notification-toast {
+    background: var(--ion-background-color, #1e1e1e);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+
+    &:hover {
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+// Mobile responsive
+@media (max-width: 768px) {
+  .notification-toast {
+    min-width: 280px;
+    max-width: calc(100vw - 32px);
+  }
+
+  .toast-content {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .toast-icon {
+    font-size: 20px;
+  }
+
+  .toast-message {
+    font-size: 13px;
+  }
+
+  .toast-close ion-icon {
+    font-size: 16px;
+  }
+}
