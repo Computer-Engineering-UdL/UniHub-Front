@@ -14,6 +14,7 @@ interface Filters {
   search: string;
   minPrice: number | null;
   maxPrice: number | null;
+  priceRange: { lower: number; upper: number };
   city: string;
   areaRange: { lower: number; upper: number };
   status: string;
@@ -34,10 +35,13 @@ export class RoomsComponent implements OnInit {
   public availableCities: string[] = [];
   public showMobileFilters: boolean = false;
   public hasActiveFilters: boolean = false;
+  public maxAvailablePrice: number = 2000;
+  public maxAvailableArea: number = 200;
   public filters: Filters = {
     search: '',
     minPrice: null,
     maxPrice: null,
+    priceRange: { lower: 0, upper: 2000 },
     city: '',
     areaRange: { lower: 0, upper: 200 },
     status: '',
@@ -73,6 +77,8 @@ export class RoomsComponent implements OnInit {
       this.offers = await firstValueFrom(this.apiService.get<OfferListItem[]>('offers/offers/'));
       this.formatOffers();
       this.extractAvailableCities();
+      this.calculateMaxPrice();
+      this.calculateMaxArea();
       this.applyFilters();
     } catch (error) {
       console.error('Error loading offers:', error);
@@ -103,6 +109,22 @@ export class RoomsComponent implements OnInit {
     this.availableCities = Array.from(citiesSet).sort();
   }
 
+  private calculateMaxPrice(): void {
+    if (this.offers.length > 0) {
+      const maxPrice: number = Math.max(...this.offers.map((offer: OfferListItem): number => offer.price ?? 0));
+      this.maxAvailablePrice = Math.ceil(maxPrice / 100) * 100;
+      this.filters.priceRange.upper = this.maxAvailablePrice;
+    }
+  }
+
+  private calculateMaxArea(): void {
+    if (this.offers.length > 0) {
+      const maxArea: number = Math.max(...this.offers.map((offer: OfferListItem): number => offer.area ?? 0));
+      this.maxAvailableArea = Math.ceil(maxArea / 10) * 10;
+      this.filters.areaRange.upper = this.maxAvailableArea;
+    }
+  }
+
   public applyFilters(): void {
     let filtered: OfferListItem[] = [...this.offers];
 
@@ -118,12 +140,11 @@ export class RoomsComponent implements OnInit {
       );
     }
 
-    if (this.filters.minPrice !== null && this.filters.minPrice > 0) {
-      filtered = filtered.filter((offer: OfferListItem): boolean => (offer.price ?? 0) >= (this.filters.minPrice ?? 0));
-    }
-
-    if (this.filters.maxPrice !== null && this.filters.maxPrice > 0) {
-      filtered = filtered.filter((offer: OfferListItem): boolean => (offer.price ?? 0) <= (this.filters.maxPrice ?? 0));
+    if (this.filters.priceRange) {
+      filtered = filtered.filter((offer: OfferListItem): boolean => {
+        const price: number = offer.price ?? 0;
+        return price >= this.filters.priceRange.lower && price <= this.filters.priceRange.upper;
+      });
     }
 
     if (this.filters.city) {
@@ -185,8 +206,9 @@ export class RoomsComponent implements OnInit {
       search: '',
       minPrice: null,
       maxPrice: null,
+      priceRange: { lower: 0, upper: this.maxAvailablePrice },
       city: '',
-      areaRange: { lower: 0, upper: 200 },
+      areaRange: { lower: 0, upper: this.maxAvailableArea },
       status: '',
       sortBy: 'date_desc'
     };
@@ -196,11 +218,11 @@ export class RoomsComponent implements OnInit {
   private updateHasActiveFilters(): void {
     this.hasActiveFilters = !!(
       this.filters.search ||
-      (this.filters.minPrice !== null && this.filters.minPrice > 0) ||
-      (this.filters.maxPrice !== null && this.filters.maxPrice > 0) ||
+      this.filters.priceRange.lower !== 0 ||
+      this.filters.priceRange.upper !== this.maxAvailablePrice ||
       this.filters.city ||
       this.filters.areaRange.lower !== 0 ||
-      this.filters.areaRange.upper !== 200 ||
+      this.filters.areaRange.upper !== this.maxAvailableArea ||
       this.filters.status ||
       this.filters.sortBy !== 'date_desc'
     );
@@ -211,8 +233,36 @@ export class RoomsComponent implements OnInit {
   }
 
   public formatAreaPin: (value: number) => string = (value: number): string => {
-    return `${value}`;
+    return `${value} m²`;
   };
+
+  public formatPricePin: (value: number) => string = (value: number): string => {
+    return this.localizationService.formatPrice(value, 'EUR');
+  };
+
+  public onPriceRangeChange(): void {
+    this.filters.minPrice = this.filters.priceRange.lower;
+    this.filters.maxPrice = this.filters.priceRange.upper;
+    this.applyFilters();
+  }
+
+  public onMinPriceChange(): void {
+    const minValue: number = this.filters.minPrice ?? 0;
+    this.filters.priceRange = {
+      lower: Math.max(0, Math.min(minValue, this.maxAvailablePrice)),
+      upper: this.filters.priceRange.upper
+    };
+    this.applyFilters();
+  }
+
+  public onMaxPriceChange(): void {
+    const maxValue: number = this.filters.maxPrice ?? this.maxAvailablePrice;
+    this.filters.priceRange = {
+      lower: this.filters.priceRange.lower,
+      upper: Math.max(0, Math.min(maxValue, this.maxAvailablePrice))
+    };
+    this.applyFilters();
+  }
 
   public async confirmDeleteOffer(offerId: string): Promise<void> {
     const alert: HTMLIonAlertElement = await this.alertController.create({

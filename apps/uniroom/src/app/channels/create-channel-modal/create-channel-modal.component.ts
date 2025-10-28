@@ -90,7 +90,10 @@ export class CreateChannelModalComponent implements OnInit {
     await this.modalController.dismiss();
   }
 
-  getCategoryTranslation(category: string): string {
+  getCategoryTranslation(category: ChannelCategory): string {
+    if (!category) {
+      return this.translate.instant('CHANNELS.GENERAL');
+    }
     return this.translate.instant(`CHANNELS.${category.toUpperCase()}`);
   }
 

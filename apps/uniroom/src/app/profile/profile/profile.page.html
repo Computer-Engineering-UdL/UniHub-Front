@@ -16,14 +16,6 @@
           </div>
 
           <div class="profile-actions">
-            <ion-button
-              color="danger"
-              class="logout-button-header"
-              (click)="logout()"
-              fill="outline">
-              <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
-            </ion-button>
-
             <!-- EDIT MODAL -->
             <ion-button
               expand="block"
@@ -32,6 +24,14 @@
               (click)="openEditModal()">
               <ion-icon name="create-outline" slot="start"></ion-icon>
               {{ 'PROFILE.EDIT_PROFILE' | translate }}
+            </ion-button>
+            <!-- LOGOUT BUTTON -->
+            <ion-button
+              color="danger"
+              class="logout-button-header"
+              (click)="logout()"
+              fill="outline">
+              <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
             </ion-button>
           </div>
         </div>
