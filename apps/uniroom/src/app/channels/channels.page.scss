@@ -139,11 +139,15 @@
   }
 
   &:hover {
-    background: var(--ion-color-primary-tint);
+    background: rgba(56, 128, 255, 0.15);
     border-color: var(--ion-color-primary);
-    color: var(--ion-color-primary);
+    color: #2d5fcf;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(56, 128, 255, 0.25);
+    box-shadow: 0 4px 8px rgba(56, 128, 255, 0.3);
+
+    ion-icon {
+      color: #2d5fcf;
+    }
   }
 
   &.active {
