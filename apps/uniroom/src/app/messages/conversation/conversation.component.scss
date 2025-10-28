@@ -1,3 +1,9 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .mobile-only {
   display: none;
 
@@ -12,6 +18,15 @@ ion-header {
       --border-width: 0 0 1px 0;
     }
   }
+}
+
+ion-content {
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
+ion-footer {
+  margin-top: auto;
 }
 
 .conversation-header {

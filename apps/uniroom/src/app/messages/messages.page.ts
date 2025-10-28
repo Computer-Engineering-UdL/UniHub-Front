@@ -2,7 +2,6 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 import { MessageService } from '../services/message.service';
@@ -10,6 +9,7 @@ import { AuthService } from '../services/auth.service';
 import { LocalizationService } from '../services/localization.service';
 import { ConversationWithOtherUser } from '../models/message.types';
 import { DEFAULT_USER_URL, User } from '../models/auth.types';
+import { ConversationComponent } from './conversation/conversation.component';
 
 const ENABLE_MOCK: boolean = true;
 const MOCK_CONVERSATIONS: ConversationWithOtherUser[] = [
@@ -98,13 +98,12 @@ const MOCK_CONVERSATIONS: ConversationWithOtherUser[] = [
   templateUrl: './messages.page.html',
   styleUrls: ['./messages.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, TranslateModule, RouterModule]
+  imports: [CommonModule, FormsModule, IonicModule, TranslateModule, ConversationComponent]
 })
 export class MessagesPage implements OnInit, OnDestroy {
   private messageService: MessageService = inject(MessageService);
   private authService: AuthService = inject(AuthService);
   private localizationService: LocalizationService = inject(LocalizationService);
-  private router: Router = inject(Router);
   private destroy$: Subject<void> = new Subject<void>();
 
   conversations: ConversationWithOtherUser[] = [];
@@ -123,15 +122,6 @@ export class MessagesPage implements OnInit, OnDestroy {
     this.loadConversations();
 
     window.addEventListener('resize', () => this.checkIfMobile());
-
-    this.router.events.subscribe(() => {
-      const urlParts: string[] = this.router.url.split('/');
-      if (urlParts.includes('conversation')) {
-        this.selectedConversationId = urlParts[urlParts.length - 1];
-      } else {
-        this.selectedConversationId = null;
-      }
-    });
   }
 
   ngOnDestroy(): void {
@@ -152,6 +142,10 @@ export class MessagesPage implements OnInit, OnDestroy {
         this.conversations = MOCK_CONVERSATIONS;
         this.filteredConversations = this.conversations;
         this.loading = false;
+
+        if (!this.isMobile && this.filteredConversations.length > 0) {
+          this.selectedConversationId = this.filteredConversations[0].id;
+        }
       }, 500);
       return;
     }
@@ -168,9 +162,12 @@ export class MessagesPage implements OnInit, OnDestroy {
           });
           this.filteredConversations = this.conversations;
           this.loading = false;
+
+          if (!this.isMobile && this.filteredConversations.length > 0) {
+            this.selectedConversationId = this.filteredConversations[0].id;
+          }
         },
-        error: (error: Error) => {
-          console.error('Error loading conversations:', error);
+        error: (_): void => {
           this.loading = false;
         }
       });
@@ -186,7 +183,7 @@ export class MessagesPage implements OnInit, OnDestroy {
       return;
     }
 
-    this.filteredConversations = this.conversations.filter((conv: ConversationWithOtherUser) => {
+    this.filteredConversations = this.conversations.filter((conv: ConversationWithOtherUser): boolean => {
       const otherUser: User = conv.other_user;
       const fullName: string = `${otherUser.firstName || ''} ${otherUser.lastName || ''}`.toLowerCase();
       const username: string = (otherUser.username || '').toLowerCase();
@@ -197,7 +194,13 @@ export class MessagesPage implements OnInit, OnDestroy {
   }
 
   openConversation(conversation: ConversationWithOtherUser): void {
-    void this.router.navigate(['/messages/conversation', conversation.id]);
+    this.selectedConversationId = conversation.id;
+  }
+
+  onBackFromConversation(): void {
+    if (this.isMobile) {
+      this.selectedConversationId = null;
+    }
   }
 
   getUserAvatar(user: User): string {
@@ -242,7 +245,7 @@ export class MessagesPage implements OnInit, OnDestroy {
 
   handleRefresh(event: any): void {
     this.loadConversations();
-    setTimeout(() => {
+    setTimeout((): void => {
       event.target.complete();
     }, 1000);
   }

@@ -1,71 +1,27 @@
-import { Component, OnInit, OnDestroy, ViewChild, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, IonContent } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { IonContent, IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { Subject, takeUntil, interval } from 'rxjs';
+import { interval, Subject, takeUntil } from 'rxjs';
 import { MessageService } from '../../services/message.service';
 import { AuthService } from '../../services/auth.service';
 import { LocalizationService } from '../../services/localization.service';
-import { Message, Conversation } from '../../models/message.types';
-import { User, DEFAULT_USER_URL } from '../../models/auth.types';
+import { Conversation, Message } from '../../models/message.types';
+import { DEFAULT_USER_URL, User } from '../../models/auth.types';
 
 const ENABLE_MOCK: boolean = true;
-const MOCK_CONVERSATION: Conversation = {
-  id: '1',
-  participant1_id: 'current-user-id',
-  participant2_id: 'user-1',
-  created_at: new Date().toISOString(),
-  updated_at: new Date().toISOString(),
-  participant1: {
-    id: 'current-user-id',
-    username: 'current.user',
-    email: 'current@example.com',
-    firstName: 'Current',
-    lastName: 'User',
-    role: 'Basic' as const
-  },
-  participant2: {
-    id: 'user-1',
-    username: 'marco.rossi',
-    email: 'marco@example.com',
-    firstName: 'Marco',
-    lastName: 'Rossi',
-    role: 'Basic' as const,
-    avatar_url: 'https://i.pravatar.cc/150?img=12'
-  }
-};
-
-const MOCK_MESSAGES: Message[] = [
-  {
-    id: 'msg-1',
-    conversation_id: '1',
-    sender_id: 'user-1',
-    content: "Hi! I'm interested in the room you posted. Is it still available?",
-    created_at: new Date(Date.now() - 600000).toISOString(),
-    updated_at: new Date(Date.now() - 600000).toISOString(),
-    is_read: true
-  },
-  {
-    id: 'msg-2',
-    conversation_id: '1',
-    sender_id: 'current-user-id',
-    content: "Yes, it's still available! Would you like to schedule a viewing?",
-    created_at: new Date(Date.now() - 300000).toISOString(),
-    updated_at: new Date(Date.now() - 300000).toISOString(),
-    is_read: true
-  },
-  {
-    id: 'msg-3',
-    conversation_id: '1',
-    sender_id: 'user-1',
-    content: 'That would be great! When would be a good time?',
-    created_at: new Date(Date.now() - 120000).toISOString(),
-    updated_at: new Date(Date.now() - 120000).toISOString(),
-    is_read: false
-  }
-];
 
 @Component({
   selector: 'app-conversation',
@@ -74,16 +30,18 @@ const MOCK_MESSAGES: Message[] = [
   standalone: true,
   imports: [CommonModule, FormsModule, IonicModule, TranslateModule]
 })
-export class ConversationComponent implements OnInit, OnDestroy {
+export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild(IonContent) content!: IonContent;
+
+  @Input() conversationId: string = '';
+  @Input() isMobile: boolean = false;
+  @Output() backClicked: EventEmitter<void> = new EventEmitter<void>();
 
   private messageService: MessageService = inject(MessageService);
   private authService: AuthService = inject(AuthService);
   private localizationService: LocalizationService = inject(LocalizationService);
-  private route: ActivatedRoute = inject(ActivatedRoute);
   private destroy$: Subject<void> = new Subject<void>();
 
-  conversationId: string = '';
   messages: Message[] = [];
   conversation: Conversation | null = null;
   otherUser: User | null = null;
@@ -96,7 +54,6 @@ export class ConversationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.currentUser = this.authService.currentUser;
-    this.conversationId = this.route.snapshot.paramMap.get('id') || '';
 
     if (this.conversationId) {
       this.loadConversation();
@@ -108,16 +65,149 @@ export class ConversationComponent implements OnInit, OnDestroy {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['conversationId']) {
+      const newConversationId: string = changes['conversationId'].currentValue;
+      if (newConversationId && newConversationId !== changes['conversationId'].previousValue) {
+        this.conversationId = newConversationId;
+        this.messages = [];
+        this.loading = true;
+        this.loadConversation();
+        this.loadMessages();
+      }
+    }
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
+  onBackClick(): void {
+    this.backClicked.emit();
+  }
+
   loadConversation(): void {
     if (ENABLE_MOCK) {
       setTimeout(() => {
-        this.conversation = MOCK_CONVERSATION;
-        this.otherUser = MOCK_CONVERSATION.participant2!;
+        const mockConversations: { [key: string]: { user: User; messages: Message[] } } = {
+          '1': {
+            user: {
+              id: 'user-1',
+              username: 'marco.rossi',
+              email: 'marco@example.com',
+              firstName: 'Marco',
+              lastName: 'Rossi',
+              role: 'Basic' as const,
+              avatar_url: 'https://i.pravatar.cc/150?img=12'
+            },
+            messages: [
+              {
+                id: 'msg-1-1',
+                conversation_id: '1',
+                sender_id: 'user-1',
+                content: "Hi! I'm interested in the room you posted. Is it still available?",
+                created_at: new Date(Date.now() - 600000).toISOString(),
+                updated_at: new Date(Date.now() - 600000).toISOString(),
+                is_read: true
+              },
+              {
+                id: 'msg-1-2',
+                conversation_id: '1',
+                sender_id: 'current-user-id',
+                content: "Yes, it's still available! Would you like to schedule a viewing?",
+                created_at: new Date(Date.now() - 300000).toISOString(),
+                updated_at: new Date(Date.now() - 300000).toISOString(),
+                is_read: true
+              },
+              {
+                id: 'msg-1-3',
+                conversation_id: '1',
+                sender_id: 'user-1',
+                content: 'That would be great! When would be a good time?',
+                created_at: new Date(Date.now() - 120000).toISOString(),
+                updated_at: new Date(Date.now() - 120000).toISOString(),
+                is_read: false
+              }
+            ]
+          },
+          '2': {
+            user: {
+              id: 'user-2',
+              username: 'sofia.chen',
+              email: 'sofia@example.com',
+              firstName: 'Sofia',
+              lastName: 'Chen',
+              role: 'Seller' as const,
+              avatar_url: 'https://i.pravatar.cc/150?img=5'
+            },
+            messages: [
+              {
+                id: 'msg-2-1',
+                conversation_id: '2',
+                sender_id: 'current-user-id',
+                content: 'Hi Sofia! I saw your listing and I would like to visit the apartment.',
+                created_at: new Date(Date.now() - 7200000).toISOString(),
+                updated_at: new Date(Date.now() - 7200000).toISOString(),
+                is_read: true
+              },
+              {
+                id: 'msg-2-2',
+                conversation_id: '2',
+                sender_id: 'user-2',
+                content: 'That would be great! When would be a good time?',
+                created_at: new Date(Date.now() - 3600000).toISOString(),
+                updated_at: new Date(Date.now() - 3600000).toISOString(),
+                is_read: false
+              }
+            ]
+          },
+          '3': {
+            user: {
+              id: 'user-3',
+              username: 'luca.ferrari',
+              email: 'luca@example.com',
+              firstName: 'Luca',
+              lastName: 'Ferrari',
+              role: 'Admin' as const,
+              avatar_url: 'https://i.pravatar.cc/150?img=8'
+            },
+            messages: [
+              {
+                id: 'msg-3-1',
+                conversation_id: '3',
+                sender_id: 'user-3',
+                content: 'Hello! Is the textbook still in good condition?',
+                created_at: new Date(Date.now() - 21600000).toISOString(),
+                updated_at: new Date(Date.now() - 21600000).toISOString(),
+                is_read: true
+              },
+              {
+                id: 'msg-3-2',
+                conversation_id: '3',
+                sender_id: 'current-user-id',
+                content: 'The textbook is in perfect condition!',
+                created_at: new Date(Date.now() - 10800000).toISOString(),
+                updated_at: new Date(Date.now() - 10800000).toISOString(),
+                is_read: true
+              }
+            ]
+          }
+        };
+
+        const mockData = mockConversations[this.conversationId];
+        if (mockData) {
+          this.otherUser = mockData.user;
+          this.conversation = {
+            id: this.conversationId,
+            participant1_id: 'current-user-id',
+            participant2_id: mockData.user.id,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+            participant1: this.currentUser!,
+            participant2: mockData.user
+          };
+        }
       }, 300);
       return;
     }
@@ -142,7 +232,79 @@ export class ConversationComponent implements OnInit, OnDestroy {
   loadMessages(): void {
     if (ENABLE_MOCK) {
       setTimeout(() => {
-        this.messages = MOCK_MESSAGES;
+        const mockConversations: { [key: string]: Message[] } = {
+          '1': [
+            {
+              id: 'msg-1-1',
+              conversation_id: '1',
+              sender_id: 'user-1',
+              content: "Hi! I'm interested in the room you posted. Is it still available?",
+              created_at: new Date(Date.now() - 600000).toISOString(),
+              updated_at: new Date(Date.now() - 600000).toISOString(),
+              is_read: true
+            },
+            {
+              id: 'msg-1-2',
+              conversation_id: '1',
+              sender_id: 'current-user-id',
+              content: "Yes, it's still available! Would you like to schedule a viewing?",
+              created_at: new Date(Date.now() - 300000).toISOString(),
+              updated_at: new Date(Date.now() - 300000).toISOString(),
+              is_read: true
+            },
+            {
+              id: 'msg-1-3',
+              conversation_id: '1',
+              sender_id: 'user-1',
+              content: 'That would be great! When would be a good time?',
+              created_at: new Date(Date.now() - 120000).toISOString(),
+              updated_at: new Date(Date.now() - 120000).toISOString(),
+              is_read: false
+            }
+          ],
+          '2': [
+            {
+              id: 'msg-2-1',
+              conversation_id: '2',
+              sender_id: 'current-user-id',
+              content: 'Hi Sofia! I saw your listing and I would like to visit the apartment.',
+              created_at: new Date(Date.now() - 7200000).toISOString(),
+              updated_at: new Date(Date.now() - 7200000).toISOString(),
+              is_read: true
+            },
+            {
+              id: 'msg-2-2',
+              conversation_id: '2',
+              sender_id: 'user-2',
+              content: 'That would be great! When would be a good time?',
+              created_at: new Date(Date.now() - 3600000).toISOString(),
+              updated_at: new Date(Date.now() - 3600000).toISOString(),
+              is_read: false
+            }
+          ],
+          '3': [
+            {
+              id: 'msg-3-1',
+              conversation_id: '3',
+              sender_id: 'user-3',
+              content: 'Hello! Is the textbook still in good condition?',
+              created_at: new Date(Date.now() - 21600000).toISOString(),
+              updated_at: new Date(Date.now() - 21600000).toISOString(),
+              is_read: true
+            },
+            {
+              id: 'msg-3-2',
+              conversation_id: '3',
+              sender_id: 'current-user-id',
+              content: 'The textbook is in perfect condition!',
+              created_at: new Date(Date.now() - 10800000).toISOString(),
+              updated_at: new Date(Date.now() - 10800000).toISOString(),
+              is_read: true
+            }
+          ]
+        };
+
+        this.messages = mockConversations[this.conversationId] || [];
         this.loading = false;
         this.scrollToBottom();
       }, 500);

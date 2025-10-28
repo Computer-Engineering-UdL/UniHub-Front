@@ -101,7 +101,12 @@
         <p>{{ 'MESSAGES.SELECT_CONVERSATION_DESCRIPTION' | translate }}</p>
       </div>
 
-      <router-outlet></router-outlet>
+      <app-conversation
+        *ngIf="selectedConversationId"
+        [conversationId]="selectedConversationId"
+        [isMobile]="isMobile"
+        (backClicked)="onBackFromConversation()">
+      </app-conversation>
     </div>
   </div>
 </ion-content>

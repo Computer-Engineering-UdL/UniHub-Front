@@ -1,7 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start" class="mobile-only">
-      <ion-back-button defaultHref="/messages"></ion-back-button>
+    <ion-buttons slot="start" *ngIf="isMobile">
+      <ion-button (click)="onBackClick()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
     </ion-buttons>
 
     <ion-title *ngIf="otherUser">
