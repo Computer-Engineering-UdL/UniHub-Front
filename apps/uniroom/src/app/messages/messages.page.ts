@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 import { MessageService } from '../services/message.service';
@@ -98,7 +98,7 @@ const MOCK_CONVERSATIONS: ConversationWithOtherUser[] = [
   templateUrl: './messages.page.html',
   styleUrls: ['./messages.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, TranslateModule]
+  imports: [CommonModule, FormsModule, IonicModule, TranslateModule, RouterModule]
 })
 export class MessagesPage implements OnInit, OnDestroy {
   private messageService: MessageService = inject(MessageService);
@@ -112,17 +112,36 @@ export class MessagesPage implements OnInit, OnDestroy {
   searchQuery: string = '';
   loading: boolean = true;
   currentUser: User | null = null;
+  selectedConversationId: string | null = null;
+  isMobile: boolean = false;
 
   readonly defaultUserUrl: string = DEFAULT_USER_URL;
 
   ngOnInit(): void {
     this.currentUser = this.authService.currentUser;
+    this.checkIfMobile();
     this.loadConversations();
+
+    window.addEventListener('resize', () => this.checkIfMobile());
+
+    this.router.events.subscribe(() => {
+      const urlParts: string[] = this.router.url.split('/');
+      if (urlParts.includes('conversation')) {
+        this.selectedConversationId = urlParts[urlParts.length - 1];
+      } else {
+        this.selectedConversationId = null;
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    window.removeEventListener('resize', () => this.checkIfMobile());
+  }
+
+  checkIfMobile(): void {
+    this.isMobile = window.innerWidth < 768 || navigator.userAgent.includes('Mobile');
   }
 
   loadConversations(): void {

@@ -398,6 +398,8 @@
     "NO_CONVERSATIONS_DESCRIPTION": "Start a conversation to see your messages",
     "NO_MESSAGES": "No messages",
     "NO_MESSAGES_DESCRIPTION": "Send a message to start the conversation",
+    "SELECT_CONVERSATION": "Select a conversation",
+    "SELECT_CONVERSATION_DESCRIPTION": "Choose a conversation from the list to start chatting",
     "TYPE_MESSAGE": "Type a message...",
     "SEND": "Send",
     "DELETE_CONVERSATION": "Delete conversation",

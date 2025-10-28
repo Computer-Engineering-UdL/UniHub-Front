@@ -1,3 +1,19 @@
+.mobile-only {
+  display: none;
+
+  @media (max-width: 767px) {
+    display: flex;
+  }
+}
+
+ion-header {
+  @media (min-width: 768px) {
+    ion-toolbar {
+      --border-width: 0 0 1px 0;
+    }
+  }
+}
+
 .conversation-header {
   display: flex;
   align-items: center;

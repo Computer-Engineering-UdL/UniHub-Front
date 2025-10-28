@@ -398,6 +398,8 @@
     "NO_CONVERSATIONS_DESCRIPTION": "Comença una conversa per veure els teus missatges",
     "NO_MESSAGES": "No hi ha missatges",
     "NO_MESSAGES_DESCRIPTION": "Envia un missatge per començar la conversa",
+    "SELECT_CONVERSATION": "Selecciona una conversa",
+    "SELECT_CONVERSATION_DESCRIPTION": "Tria una conversa de la llista per començar a xatejar",
     "TYPE_MESSAGE": "Escriu un missatge...",
     "SEND": "Enviar",
     "DELETE_CONVERSATION": "Eliminar conversa",
