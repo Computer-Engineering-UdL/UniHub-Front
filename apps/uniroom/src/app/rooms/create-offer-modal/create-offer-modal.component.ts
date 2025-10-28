@@ -8,6 +8,7 @@ import { Subscription, firstValueFrom } from 'rxjs';
 import { LocalizationService } from '../../services/localization.service';
 import { User } from '../../models/auth.types';
 import NotificationService from "../../services/notification.service";
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-offer-modal',
@@ -213,6 +214,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   private normalizeCategoryName(name: string): string {
     return name.toUpperCase().replace(/ /g, '_');
   }
+
   getCategoryLabel(category: { id: string; name: string }): string {
     if (!category) {
       return '';
