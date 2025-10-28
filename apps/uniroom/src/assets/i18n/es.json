@@ -415,5 +415,12 @@
       "MESSAGE_SENT": "Mensaje enviado",
       "CONVERSATION_DELETED": "Conversación eliminada"
     }
+  },
+  "TIME": {
+    "JUST_NOW": "ahora mismo",
+    "MINUTES_AGO": "hace {{count}} min",
+    "HOURS_AGO": "hace {{count}}h",
+    "YESTERDAY": "ayer",
+    "DAYS_AGO": "hace {{count}} días"
   }
 }

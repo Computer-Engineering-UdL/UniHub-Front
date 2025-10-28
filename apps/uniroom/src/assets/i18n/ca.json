@@ -415,5 +415,12 @@
       "MESSAGE_SENT": "Missatge enviat",
       "CONVERSATION_DELETED": "Conversa eliminada"
     }
+  },
+  "TIME": {
+    "JUST_NOW": "ara mateix",
+    "MINUTES_AGO": "fa {{count}} min",
+    "HOURS_AGO": "fa {{count}}h",
+    "YESTERDAY": "ahir",
+    "DAYS_AGO": "fa {{count}} dies"
   }
 }

@@ -127,7 +127,7 @@ export class MessagesPage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    window.removeEventListener('resize', () => this.checkIfMobile());
+    window.removeEventListener('resize', (): void => this.checkIfMobile());
   }
 
   checkIfMobile(): void {
@@ -138,7 +138,7 @@ export class MessagesPage implements OnInit, OnDestroy {
     this.loading = true;
 
     if (ENABLE_MOCK) {
-      setTimeout(() => {
+      setTimeout((): void => {
         this.conversations = MOCK_CONVERSATIONS;
         this.filteredConversations = this.conversations;
         this.loading = false;
@@ -154,8 +154,8 @@ export class MessagesPage implements OnInit, OnDestroy {
       .getConversations()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (conversations: ConversationWithOtherUser[]) => {
-          this.conversations = conversations.sort((a, b) => {
+        next: (conversations: ConversationWithOtherUser[]): void => {
+          this.conversations = conversations.sort((a, b): number => {
             const dateA: Date = new Date(a.last_message?.created_at || a.updated_at);
             const dateB: Date = new Date(b.last_message?.created_at || b.updated_at);
             return dateB.getTime() - dateA.getTime();
@@ -207,33 +207,8 @@ export class MessagesPage implements OnInit, OnDestroy {
     return user.avatar_url || user.imgUrl || this.defaultUserUrl;
   }
 
-  getUserInitials(user: User): string {
-    const firstName: string = user.firstName || user.name || '';
-    const lastName: string = user.lastName || '';
-    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase() || user.username.charAt(0).toUpperCase();
-  }
-
   formatTime(timestamp: string): string {
-    const date: Date = new Date(timestamp);
-    const now: Date = new Date();
-    const diffMs: number = now.getTime() - date.getTime();
-    const diffMins: number = Math.floor(diffMs / 60000);
-    const diffHours: number = Math.floor(diffMs / 3600000);
-    const diffDays: number = Math.floor(diffMs / 86400000);
-
-    if (diffMins < 1) {
-      return 'ara mateix';
-    } else if (diffMins < 60) {
-      return `fa ${diffMins} min`;
-    } else if (diffHours < 24) {
-      return `fa ${diffHours}h`;
-    } else if (diffDays === 1) {
-      return 'ahir';
-    } else if (diffDays < 7) {
-      return `fa ${diffDays} dies`;
-    } else {
-      return this.localizationService.formatDate(date, { day: 'numeric', month: 'short' });
-    }
+    return this.localizationService.formatRelativeTime(timestamp);
   }
 
   truncateMessage(message: string, maxLength: number = 50): string {

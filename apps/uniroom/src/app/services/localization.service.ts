@@ -251,4 +251,31 @@ export class LocalizationService {
       return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;
     }
   }
+
+  formatRelativeTime(timestamp: string | Date): string {
+    const date: Date = this.toDate(timestamp)!;
+    if (!date) {
+      return '—';
+    }
+
+    const now: Date = new Date();
+    const diffMs: number = now.getTime() - date.getTime();
+    const diffMins: number = Math.floor(diffMs / 60000);
+    const diffHours: number = Math.floor(diffMs / 3600000);
+    const diffDays: number = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 1) {
+      return this.translate.instant('TIME.JUST_NOW');
+    } else if (diffMins < 60) {
+      return this.translate.instant('TIME.MINUTES_AGO', { count: diffMins });
+    } else if (diffHours < 24) {
+      return this.translate.instant('TIME.HOURS_AGO', { count: diffHours });
+    } else if (diffDays === 1) {
+      return this.translate.instant('TIME.YESTERDAY');
+    } else if (diffDays < 7) {
+      return this.translate.instant('TIME.DAYS_AGO', { count: diffDays });
+    } else {
+      return this.formatDate(date, { day: 'numeric', month: 'short' });
+    }
+  }
 }
