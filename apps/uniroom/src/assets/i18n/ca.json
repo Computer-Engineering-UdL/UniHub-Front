@@ -390,5 +390,37 @@
     },
     "DELETE_CONFIRM_TITLE": "Eliminar Canal",
     "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar el canal {{name}}? Aquesta acció no es pot desfer."
+  },
+  "MESSAGES": {
+    "TITLE": "Missatges",
+    "CONVERSATIONS": "Converses",
+    "NO_CONVERSATIONS": "No hi ha converses",
+    "NO_CONVERSATIONS_DESCRIPTION": "Comença una conversa per veure els teus missatges",
+    "NO_MESSAGES": "No hi ha missatges",
+    "NO_MESSAGES_DESCRIPTION": "Envia un missatge per començar la conversa",
+    "SELECT_CONVERSATION": "Selecciona una conversa",
+    "SELECT_CONVERSATION_DESCRIPTION": "Tria una conversa de la llista per començar a xatejar",
+    "TYPE_MESSAGE": "Escriu un missatge...",
+    "SEND": "Enviar",
+    "DELETE_CONVERSATION": "Eliminar conversa",
+    "DELETE_CONVERSATION_CONFIRM": "Estàs segur que vols eliminar aquesta conversa?",
+    "LOADING": "Carregant missatges...",
+    "ERROR": {
+      "LOAD_CONVERSATIONS": "Error al carregar les converses",
+      "LOAD_MESSAGES": "Error al carregar els missatges",
+      "SEND_MESSAGE": "Error en enviar el missatge",
+      "DELETE_CONVERSATION": "Error en eliminar la conversa"
+    },
+    "SUCCESS": {
+      "MESSAGE_SENT": "Missatge enviat",
+      "CONVERSATION_DELETED": "Conversa eliminada"
+    }
+  },
+  "TIME": {
+    "JUST_NOW": "ara mateix",
+    "MINUTES_AGO": "fa {{count}} min",
+    "HOURS_AGO": "fa {{count}}h",
+    "YESTERDAY": "ahir",
+    "DAYS_AGO": "fa {{count}} dies"
   }
 }

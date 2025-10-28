@@ -49,7 +49,7 @@
   <ng-container *ngIf="currentUser$ | async as user; else notAuth">
     <a
       *ngFor="let item of mobileNavItemsAuth"
-      [routerLink]="item.route"
+      [routerLink]="item.icon === 'menu-outline' ? null : item.route"
       routerLinkActive="active"
       class="nav-item"
       (click)="item.icon === 'menu-outline' ? onBurgerClick() : closeBurgerMenu()"
@@ -61,7 +61,7 @@
   <ng-template #notAuth>
     <a
       *ngFor="let item of mobileNavItemsNotAuth"
-      [routerLink]="item.route"
+      [routerLink]="item.icon === 'menu-outline' ? null : item.route"
       routerLinkActive="active"
       class="nav-item"
       (click)="item.icon === 'menu-outline' ? onBurgerClick() : closeBurgerMenu()">

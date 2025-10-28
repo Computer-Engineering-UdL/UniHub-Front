@@ -390,5 +390,37 @@
     },
     "DELETE_CONFIRM_TITLE": "Eliminar Canal",
     "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar el canal {{name}}? Esta acción no se puede deshacer."
+  },
+  "MESSAGES": {
+    "TITLE": "Mensajes",
+    "CONVERSATIONS": "Conversaciones",
+    "NO_CONVERSATIONS": "No hay conversaciones",
+    "NO_CONVERSATIONS_DESCRIPTION": "Comienza una conversación para ver tus mensajes",
+    "NO_MESSAGES": "No hay mensajes",
+    "NO_MESSAGES_DESCRIPTION": "Envía un mensaje para comenzar la conversación",
+    "SELECT_CONVERSATION": "Selecciona una conversación",
+    "SELECT_CONVERSATION_DESCRIPTION": "Elige una conversación de la lista para comenzar a chatear",
+    "TYPE_MESSAGE": "Escribe un mensaje...",
+    "SEND": "Enviar",
+    "DELETE_CONVERSATION": "Eliminar conversación",
+    "DELETE_CONVERSATION_CONFIRM": "¿Estás seguro de que quieres eliminar esta conversación?",
+    "LOADING": "Cargando mensajes...",
+    "ERROR": {
+      "LOAD_CONVERSATIONS": "Error al cargar las conversaciones",
+      "LOAD_MESSAGES": "Error al cargar los mensajes",
+      "SEND_MESSAGE": "Error al enviar el mensaje",
+      "DELETE_CONVERSATION": "Error al eliminar la conversación"
+    },
+    "SUCCESS": {
+      "MESSAGE_SENT": "Mensaje enviado",
+      "CONVERSATION_DELETED": "Conversación eliminada"
+    }
+  },
+  "TIME": {
+    "JUST_NOW": "ahora mismo",
+    "MINUTES_AGO": "hace {{count}} min",
+    "HOURS_AGO": "hace {{count}}h",
+    "YESTERDAY": "ayer",
+    "DAYS_AGO": "hace {{count}} días"
   }
 }

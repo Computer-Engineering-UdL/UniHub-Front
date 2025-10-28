@@ -1,0 +1,111 @@
+<ion-header [translucent]="true" [class.mobile-hidden]="selectedConversationId && isMobile">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ 'MESSAGES.TITLE' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="messages-main-content">
+  <div class="messages-layout">
+    <div class="conversations-sidebar" [class.mobile-hidden]="selectedConversationId && isMobile">
+      <div class="sidebar-header">
+        <ion-searchbar
+          [(ngModel)]="searchQuery"
+          (ionInput)="onSearchChange($event)"
+          [placeholder]="'MESSAGES.CONVERSATIONS' | translate"
+          animated="true"
+          class="compact-searchbar">
+        </ion-searchbar>
+      </div>
+
+      <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+
+      <div class="conversations-container" *ngIf="!loading; else loadingTemplate">
+        <div *ngIf="filteredConversations.length === 0" class="no-conversations">
+          <ion-icon name="chatbubbles-outline"></ion-icon>
+          <h3>{{ 'MESSAGES.NO_CONVERSATIONS' | translate }}</h3>
+          <p>{{ 'MESSAGES.NO_CONVERSATIONS_DESCRIPTION' | translate }}</p>
+        </div>
+
+        <ion-list *ngIf="filteredConversations.length > 0" class="conversations-list">
+          <ion-item
+            *ngFor="let conversation of filteredConversations"
+            button
+            (click)="openConversation(conversation)"
+            [detail]="false"
+            [class.selected]="selectedConversationId === conversation.id"
+            class="conversation-item">
+            <ion-avatar slot="start" class="user-avatar">
+              <img
+                [src]="getUserAvatar(conversation.other_user)"
+                [alt]="conversation.other_user.username" />
+            </ion-avatar>
+
+            <ion-label>
+              <div class="conversation-header">
+                <h2 class="user-name">
+                  {{ conversation.other_user.firstName || conversation.other_user.name }} {{
+                  conversation.other_user.lastName }}
+                </h2>
+                <span class="message-time">
+                  {{ formatTime(conversation.last_message?.created_at || conversation.updated_at) }}
+                </span>
+              </div>
+
+              <div class="conversation-info">
+                <p class="user-role">
+                  {{ 'ROLE.' + conversation.other_user.role.toUpperCase() | translate }}
+                </p>
+              </div>
+
+              <div class="conversation-subject" *ngIf="conversation.last_message">
+                <p class="last-message">
+                  <span
+                    *ngIf="conversation.last_message.sender_id === currentUser?.id"
+                    class="you-prefix">
+                    Tu:
+                  </span>
+                  {{ truncateMessage(conversation.last_message.content) }}
+                </p>
+              </div>
+            </ion-label>
+
+            <ion-badge
+              *ngIf="conversation.unread_count && conversation.unread_count > 0"
+              slot="end"
+              color="danger"
+              class="unread-badge">
+              {{ conversation.unread_count }}
+            </ion-badge>
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <ng-template #loadingTemplate>
+        <div class="loading-container">
+          <ion-spinner name="crescent"></ion-spinner>
+          <p>{{ 'MESSAGES.LOADING' | translate }}</p>
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="conversation-area" [class.mobile-active]="selectedConversationId && isMobile">
+      <div *ngIf="!selectedConversationId" class="no-conversation-selected">
+        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+        <h3>{{ 'MESSAGES.SELECT_CONVERSATION' | translate }}</h3>
+        <p>{{ 'MESSAGES.SELECT_CONVERSATION_DESCRIPTION' | translate }}</p>
+      </div>
+
+      <app-conversation
+        *ngIf="selectedConversationId"
+        [conversationId]="selectedConversationId"
+        [isMobile]="isMobile"
+        (backClicked)="onBackFromConversation()">
+      </app-conversation>
+    </div>
+  </div>
+</ion-content>

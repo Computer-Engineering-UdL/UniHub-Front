@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" *ngIf="isMobile">
+      <ion-button (click)="onBackClick()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title *ngIf="otherUser">
+      <div class="conversation-header">
+        <ion-avatar class="header-avatar">
+          <img [src]="getUserAvatar(otherUser)" [alt]="otherUser.name || otherUser.username" />
+        </ion-avatar>
+        <div class="header-info">
+          <h3>{{ otherUser.firstName || otherUser.name }} {{ otherUser.lastName }}</h3>
+          <p>{{ 'ROLE.' + otherUser.role.toUpperCase() | translate }}</p>
+        </div>
+      </div>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="messages-container" *ngIf="!loading; else loadingTemplate">
+    <div *ngIf="messages.length === 0" class="no-messages">
+      <ion-icon name="chatbubbles-outline"></ion-icon>
+      <h3>{{ 'MESSAGES.NO_MESSAGES' | translate }}</h3>
+      <p>{{ 'MESSAGES.NO_MESSAGES_DESCRIPTION' | translate }}</p>
+    </div>
+
+    <div class="messages-list" *ngIf="messages.length > 0">
+      <div
+        *ngFor="let message of messages"
+        class="message-wrapper"
+        [class.my-message]="isMyMessage(message)"
+        [class.other-message]="!isMyMessage(message)">
+        <div class="message-bubble">
+          <p class="message-content">{{ message.content }}</p>
+          <span class="message-time">
+            {{ formatTime(message.created_at) }}
+            <ion-icon
+              *ngIf="isMyMessage(message)"
+              [name]="message.is_read ? 'checkmark-done' : 'checkmark'"
+              class="read-status">
+            </ion-icon>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loadingTemplate>
+    <div class="loading-container">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>{{ 'MESSAGES.LOADING' | translate }}</p>
+    </div>
+  </ng-template>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar class="message-input-toolbar">
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon slot="icon-only" name="attach"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-item lines="none" class="message-input-item">
+      <ion-textarea
+        [(ngModel)]="newMessage"
+        [placeholder]="'MESSAGES.TYPE_MESSAGE' | translate"
+        [autoGrow]="true"
+        [rows]="1"
+        [maxlength]="1000"
+        (keydown.enter)="$event.preventDefault(); sendMessage()">
+      </ion-textarea>
+    </ion-item>
+
+    <ion-buttons slot="end">
+      <ion-button
+        [disabled]="!newMessage.trim() || sending"
+        (click)="sendMessage()"
+        color="primary">
+        <ion-icon slot="icon-only" name="send"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

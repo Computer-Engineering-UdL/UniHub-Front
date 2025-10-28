@@ -40,6 +40,12 @@ const routes: Routes = [
     data: { titleKey: 'TOPBAR.PROFILE' }
   },
   {
+    path: 'messages',
+    loadChildren: () => import('./messages/messages.module').then((m) => m.MessagesModule),
+    canActivate: [AuthGuard],
+    data: { titleKey: 'TOPBAR.MESSAGES' }
+  },
+  {
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
     canActivate: [AuthGuard],
