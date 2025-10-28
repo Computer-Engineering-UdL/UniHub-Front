@@ -390,5 +390,28 @@
     },
     "DELETE_CONFIRM_TITLE": "Delete Channel",
     "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete the channel {{name}}? This action cannot be undone."
+  },
+  "MESSAGES": {
+    "TITLE": "Messages",
+    "CONVERSATIONS": "Conversations",
+    "NO_CONVERSATIONS": "No conversations",
+    "NO_CONVERSATIONS_DESCRIPTION": "Start a conversation to see your messages",
+    "NO_MESSAGES": "No messages",
+    "NO_MESSAGES_DESCRIPTION": "Send a message to start the conversation",
+    "TYPE_MESSAGE": "Type a message...",
+    "SEND": "Send",
+    "DELETE_CONVERSATION": "Delete conversation",
+    "DELETE_CONVERSATION_CONFIRM": "Are you sure you want to delete this conversation?",
+    "LOADING": "Loading messages...",
+    "ERROR": {
+      "LOAD_CONVERSATIONS": "Error loading conversations",
+      "LOAD_MESSAGES": "Error loading messages",
+      "SEND_MESSAGE": "Error sending message",
+      "DELETE_CONVERSATION": "Error deleting conversation"
+    },
+    "SUCCESS": {
+      "MESSAGE_SENT": "Message sent",
+      "CONVERSATION_DELETED": "Conversation deleted"
+    }
   }
 }
