@@ -7,7 +7,7 @@ import { CreateOfferData, GenderPreference, OfferStatus } from '../../models/off
 import { Subscription, firstValueFrom } from 'rxjs';
 import { LocalizationService } from '../../services/localization.service';
 import { User } from '../../models/auth.types';
-import NotificationService from "../../services/notification.service";
+import NotificationService from '../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -31,7 +31,6 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     { value: 'Tarragona', label: 'Tarragona', disabled: true },
     { value: 'Girona', label: 'Girona', disabled: true }
   ];
-
 
   public readonly todayISO: string = new Date().toISOString().split('T')[0];
   public endDateMin: string = this.todayISO;
@@ -79,24 +78,21 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     });
 
     this.endDateMin = this.todayISO;
-    this.startDateSubscription = this.offerForm
-      .get('start_date')
-      ?.valueChanges.subscribe((value: string) => {
-        if (!value) {
-          this.endDateMin = this.todayISO;
-          return;
-        }
+    this.startDateSubscription = this.offerForm.get('start_date')?.valueChanges.subscribe((value: string) => {
+      if (!value) {
+        this.endDateMin = this.todayISO;
+        return;
+      }
 
-        this.endDateMin = value;
-        const endDateControl = this.offerForm.get('end_date');
-        const currentEndDate = endDateControl?.value as string;
-        if (currentEndDate && new Date(currentEndDate) < new Date(value)) {
-          endDateControl?.setValue(value);
-        }
-      });
+      this.endDateMin = value;
+      const endDateControl = this.offerForm.get('end_date');
+      const currentEndDate = endDateControl?.value as string;
+      if (currentEndDate && new Date(currentEndDate) < new Date(value)) {
+        endDateControl?.setValue(value);
+      }
+    });
   }
 
-  // New: load categories from API
   private async loadCategories(): Promise<void> {
     this.categoryLoading = true;
     try {
@@ -119,7 +115,6 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  // New: detect desktop vs mobile to choose a better ion-select interface
   get selectInterface(): 'popover' | 'action-sheet' {
     try {
       return window && window.innerWidth >= 768 ? 'popover' : 'action-sheet';
@@ -128,7 +123,6 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Options for the select interfaces (used to apply a wider popover on desktop)
   get selectInterfaceOptions(): any {
     if (this.selectInterface === 'popover') {
       return { cssClass: 'category-popover' };

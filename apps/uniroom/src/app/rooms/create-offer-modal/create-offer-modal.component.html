@@ -41,9 +41,7 @@
               [interfaceOptions]="selectInterfaceOptions"
               placeholder="{{ 'ROOM.FORM.SELECT_CATEGORY' | translate }}">
               @for (cat of categories; track cat.id) {
-                <ion-select-option [value]="cat.id">{{
-                  getCategoryLabel(cat)
-                }}</ion-select-option>
+                <ion-select-option [value]="cat.id">{{ getCategoryLabel(cat) }}</ion-select-option>
               }
             </ion-select>
           </ion-item>
@@ -67,13 +65,9 @@
             formControlName="city"
             interface="popover"
             placeholder="{{ 'ROOM.FORM.SELECT_CITY' | translate }}"
-            [attr.aria-label]="'ROOM.FORM.CITY' | translate"
-          >
+            [attr.aria-label]="'ROOM.FORM.CITY' | translate">
             @for (city of availableCities; track city.value) {
-              <ion-select-option
-                [value]="city.value"
-                [disabled]="city.disabled"
-              >
+              <ion-select-option [value]="city.value" [disabled]="city.disabled">
                 {{ getCityLabel(city) }}
               </ion-select-option>
             }
@@ -93,7 +87,7 @@
           <ion-item [class.item-has-error]="isFieldInvalid('price')" class="field-with-helper">
             <ion-icon aria-hidden="true" slot="start" name="cash-outline"></ion-icon>
             <ion-label position="stacked"
-            >{{ 'ROOM.FORM.PRICE' | translate }} * (€/{{
+              >{{ 'ROOM.FORM.PRICE' | translate }} * (€/{{
                 'ROOM.FORM.MONTH' | translate
               }})</ion-label
             >
@@ -102,9 +96,10 @@
               type="number"
               [min]="0"
               inputmode="decimal"
-              aria-describedby="price-helper"
-            ></ion-input>
-            <ion-note id="price-helper" slot="helper">{{ formattedMonthlyPrice }} / {{ 'ROOM.FORM.MONTH' | translate }}</ion-note>
+              aria-describedby="price-helper"></ion-input>
+            <ion-note id="price-helper" slot="helper"
+              >{{ formattedMonthlyPrice }} / {{ 'ROOM.FORM.MONTH' | translate }}</ion-note
+            >
           </ion-item>
 
           <ion-item [class.item-has-error]="isFieldInvalid('deposit')" class="field-with-helper">
@@ -115,8 +110,7 @@
               type="number"
               [min]="0"
               inputmode="decimal"
-              aria-describedby="deposit-helper"
-            ></ion-input>
+              aria-describedby="deposit-helper"></ion-input>
             <ion-note id="deposit-helper" slot="helper">{{ formattedDeposit }}</ion-note>
           </ion-item>
         </div>
@@ -124,7 +118,12 @@
         <ion-item [class.item-has-error]="isFieldInvalid('area')" class="field-with-helper">
           <ion-icon aria-hidden="true" slot="start" name="resize-outline"></ion-icon>
           <ion-label position="stacked">{{ 'ROOM.FORM.AREA' | translate }} * (m²)</ion-label>
-          <ion-input formControlName="area" type="number" [min]="0" inputmode="decimal" aria-describedby="area-helper"></ion-input>
+          <ion-input
+            formControlName="area"
+            type="number"
+            [min]="0"
+            inputmode="decimal"
+            aria-describedby="area-helper"></ion-input>
           <ion-note id="area-helper" slot="helper">{{ formattedArea }}</ion-note>
         </ion-item>
       </div>
@@ -135,7 +134,9 @@
         <div class="two-columns range-grid">
           <div class="range-field" [class.field-has-error]="isFieldInvalid('num_rooms')">
             <div class="range-header">
-              <label class="range-label" for="rooms-range">{{ 'ROOM.FORM.NUM_ROOMS' | translate }} *</label>
+              <label class="range-label" for="rooms-range"
+                >{{ 'ROOM.FORM.NUM_ROOMS' | translate }} *</label
+              >
               <span class="range-value" aria-live="polite">{{ getRangeValue('num_rooms') }}</span>
             </div>
             <ion-range
@@ -148,14 +149,17 @@
               [step]="1"
               [snaps]="true"
               [ticks]="true"
-              [pin]="true"
-            ></ion-range>
+              [pin]="true"></ion-range>
           </div>
 
           <div class="range-field" [class.field-has-error]="isFieldInvalid('num_bathrooms')">
             <div class="range-header">
-              <label class="range-label" for="bathrooms-range">{{ 'ROOM.FORM.NUM_BATHROOMS' | translate }} *</label>
-              <span class="range-value" aria-live="polite">{{ offerForm.get('num_bathrooms')?.value }}</span>
+              <label class="range-label" for="bathrooms-range"
+                >{{ 'ROOM.FORM.NUM_BATHROOMS' | translate }} *</label
+              >
+              <span class="range-value" aria-live="polite">{{
+                offerForm.get('num_bathrooms')?.value
+              }}</span>
             </div>
             <ion-range
               class="range-control"
@@ -167,8 +171,7 @@
               [step]="1"
               [snaps]="true"
               [ticks]="true"
-              [pin]="true"
-            ></ion-range>
+              [pin]="true"></ion-range>
           </div>
         </div>
 
@@ -215,9 +218,10 @@
             formControlName="start_date"
             type="date"
             [min]="todayISO"
-            aria-describedby="start-date-helper"
-          ></ion-input>
-          <ion-note id="start-date-helper" slot="helper">{{ getFormattedDate('start_date') }}</ion-note>
+            aria-describedby="start-date-helper"></ion-input>
+          <ion-note id="start-date-helper" slot="helper">{{
+            getFormattedDate('start_date')
+          }}</ion-note>
         </ion-item>
 
         <ion-item [class.item-has-error]="isFieldInvalid('end_date')" class="field-with-helper">
@@ -227,21 +231,23 @@
             formControlName="end_date"
             type="date"
             [min]="endDateMin"
-            aria-describedby="end-date-helper"
-          ></ion-input>
+            aria-describedby="end-date-helper"></ion-input>
           <ion-note id="end-date-helper" slot="helper">{{ getFormattedDate('end_date') }}</ion-note>
         </ion-item>
 
-        <ion-item [class.item-has-error]="isFieldInvalid('offer_valid_until')" class="field-with-helper">
+        <ion-item
+          [class.item-has-error]="isFieldInvalid('offer_valid_until')"
+          class="field-with-helper">
           <ion-icon aria-hidden="true" slot="start" name="time-outline"></ion-icon>
           <ion-label position="stacked">{{ 'ROOM.FORM.VALID_UNTIL' | translate }} *</ion-label>
           <ion-input
             formControlName="offer_valid_until"
             type="date"
             [min]="offerValidMin"
-            aria-describedby="valid-until-helper"
-          ></ion-input>
-          <ion-note id="valid-until-helper" slot="helper">{{ getFormattedDate('offer_valid_until') }}</ion-note>
+            aria-describedby="valid-until-helper"></ion-input>
+          <ion-note id="valid-until-helper" slot="helper">{{
+            getFormattedDate('offer_valid_until')
+          }}</ion-note>
         </ion-item>
       </div>
 
