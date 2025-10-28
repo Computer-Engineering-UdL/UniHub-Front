@@ -212,6 +212,7 @@
       "CATEGORY": "Categoría",
       "SELECT_CATEGORY": "Seleccionar categoría",
       "CITY": "Ciudad",
+      "SELECT_CITY": "Selecciona una ciudad",
       "ADDRESS": "Dirección",
       "PRICE": "Precio",
       "MONTH": "mes",
@@ -233,6 +234,25 @@
         "FEMALE": "Femenino",
         "OTHER": "Otro"
       }
+    },
+    "CITIES": {
+      "LLEIDA": "Lleida",
+      "BARCELONA": "Barcelona",
+      "TARRAGONA": "Tarragona",
+      "GIRONA": "Girona"
+    },
+    "CATEGORY_NAMES": {
+      "SHARED_ROOM": "Habitación compartida",
+      "PRIVATE_ROOM": "Habitación privada",
+      "ENTIRE_APARTMENT": "Apartamento completo",
+      "STUDIO": "Estudio",
+      "RESIDENCE": "Residencia",
+      "DORMITORY": "Dormitorio",
+      "STUDENT_HOUSING": "Alojamiento para estudiantes",
+      "OTHER": "Otros",
+      "ROOM": "Habitación",
+      "FLAT": "Piso",
+      "DETACHED_HOUSE": "Casa Independente"
     }
   },
   "ADMIN": {

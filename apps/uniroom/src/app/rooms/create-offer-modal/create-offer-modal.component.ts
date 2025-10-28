@@ -24,6 +24,14 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   categories: { id: string; name: string }[] = [];
   categoryLoading: boolean = true;
 
+  readonly availableCities: Array<{ value: string; label: string; disabled?: boolean }> = [
+    { value: 'Lleida', label: 'Lleida' },
+    { value: 'Barcelona', label: 'Barcelona', disabled: true },
+    { value: 'Tarragona', label: 'Tarragona', disabled: true },
+    { value: 'Girona', label: 'Girona', disabled: true }
+  ];
+
+
   public readonly todayISO: string = new Date().toISOString().split('T')[0];
   public endDateMin: string = this.todayISO;
   public readonly offerValidMin: string = this.todayISO;
@@ -36,6 +44,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   private authService: AuthService = inject(AuthService);
   private notificationService: NotificationService = inject(NotificationService);
   private localizationService: LocalizationService = inject(LocalizationService);
+  private translateService: TranslateService = inject(TranslateService);
 
   ngOnInit(): void {
     this.initializeForm();
@@ -109,6 +118,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     }
   }
 
+  // New: detect desktop vs mobile to choose a better ion-select interface
   get selectInterface(): 'popover' | 'action-sheet' {
     try {
       return window && window.innerWidth >= 768 ? 'popover' : 'action-sheet';
@@ -117,6 +127,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Options for the select interfaces (used to apply a wider popover on desktop)
   get selectInterfaceOptions(): any {
     if (this.selectInterface === 'popover') {
       return { cssClass: 'category-popover' };
@@ -199,9 +210,45 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     return Number(raw ?? 0);
   }
 
+  private normalizeCategoryName(name: string): string {
+    return name.toUpperCase().replace(/ /g, '_');
+  }
+  getCategoryLabel(category: { id: string; name: string }): string {
+    if (!category) {
+      return '';
+    }
+    const key = `ROOM.CATEGORY_NAMES.${this.normalizeCategoryName(category.name)}`;
+    const translated = this.translateService.instant(key);
+    // If the key is not found, instant() returns the key itself.
+    // In that case, we should return the original category name.
+    return translated !== key ? translated : category.name;
+  }
+
+  getCityLabel(city: { value: string; label: string }): string {
+    if (!city) {
+      return '';
+    }
+    const key: string = `ROOM.CITIES.${this.normalizeCityKey(city.label)}`;
+    const translated: string = this.translateService.instant(key);
+    if (translated && translated !== key) {
+      return translated;
+    }
+    return city.label;
+  }
+
+  private normalizeCityKey(name: string): string {
+    return name?.trim().toUpperCase().replace(/\s+/g, '_') ?? '';
+  }
+
   getFormattedDate(field: 'start_date' | 'end_date' | 'offer_valid_until'): string {
     const value = this.offerForm?.get(field)?.value;
     return value ? this.localizationService.formatDate(value) : '—';
   }
-}
 
+  toggleAmenity(fieldName: string): void {
+    const control = this.offerForm.get(fieldName);
+    if (control) {
+      control.setValue(!control.value);
+    }
+  }
+}
