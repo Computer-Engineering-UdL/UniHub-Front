@@ -2,7 +2,7 @@ export interface Channel {
   id: string;
   name: string;
   description: string;
-  category: string;
+  category?: ChannelCategory;
   created_at: string;
   member_count: number;
   is_member?: boolean;
@@ -20,13 +20,13 @@ export interface ChannelMember {
 export interface CreateChannelDto {
   name: string;
   description: string;
-  category: string;
+  category: ChannelCategory;
 }
 
 export interface UpdateChannelDto {
   name?: string;
   description?: string;
-  category?: string;
+  category?: ChannelCategory;
 }
 
 export type ChannelCategory = 'General' | 'Engineering' | 'Sciences' | 'Business' | 'Arts' | 'Medicine';

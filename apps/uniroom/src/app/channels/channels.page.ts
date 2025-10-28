@@ -230,8 +230,27 @@ export class ChannelsPage implements OnInit, OnDestroy {
     await alert.present();
   }
 
-  getCategoryTranslation(category: string): string {
+  getCategoryTranslation(category?: ChannelCategory | 'All' | string): string {
+    if (!category) {
+      return this.translate.instant('CHANNELS.GENERAL');
+    }
     return this.translate.instant(`CHANNELS.${category.toUpperCase()}`);
+  }
+
+  getCategoryIcon(category?: ChannelCategory | 'All'): string {
+    if (!category) {
+      return 'chatbubbles-outline';
+    }
+    const iconMap: Record<ChannelCategory | 'All', string> = {
+      All: 'apps-outline',
+      General: 'chatbubbles-outline',
+      Engineering: 'construct-outline',
+      Sciences: 'flask-outline',
+      Business: 'briefcase-outline',
+      Arts: 'color-palette-outline',
+      Medicine: 'medical-outline'
+    };
+    return iconMap[category] || 'megaphone-outline';
   }
 
   get isAdmin(): boolean {

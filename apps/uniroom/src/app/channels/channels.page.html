@@ -47,6 +47,7 @@
           class="category-chip"
           [class.active]="selectedCategory === category"
           (click)="onCategoryChange(category)">
+          <ion-icon [name]="getCategoryIcon(category)"></ion-icon>
           {{ getCategoryTranslation(category) }}
         </button>
       </div>
@@ -71,12 +72,15 @@
         class="channel-card"
         [attr.data-category]="channel.category">
         <div class="channel-icon">
-          <ion-icon name="megaphone"></ion-icon>
+          <ion-icon [name]="getCategoryIcon(channel?.category)"></ion-icon>
         </div>
         <div class="channel-info">
           <div class="channel-header">
             <h3 class="channel-name">{{ channel.name }}</h3>
-            <span class="channel-category">{{ channel.category }}</span>
+            <span class="channel-category">
+              <ion-icon [name]="getCategoryIcon(channel?.category)"></ion-icon>
+              {{ getCategoryTranslation(channel?.category) }}
+            </span>
           </div>
           <p class="channel-description">{{ channel.description }}</p>
           <div class="channel-footer">
