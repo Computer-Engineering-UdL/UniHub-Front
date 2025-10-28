@@ -26,7 +26,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <div class="messages-container" *ngIf="!loading; else loadingTemplate">
     <div *ngIf="messages.length === 0" class="no-messages">
       <ion-icon name="chatbubbles-outline"></ion-icon>

@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonicModule } from '@ionic/angular';
+import { IonContent, IonicModule, Platform } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { interval, Subject, takeUntil } from 'rxjs';
 import { MessageService } from '../../services/message.service';
@@ -40,6 +40,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   private messageService: MessageService = inject(MessageService);
   private authService: AuthService = inject(AuthService);
   private localizationService: LocalizationService = inject(LocalizationService);
+  private platform: Platform = inject(Platform);
   private destroy$: Subject<void> = new Subject<void>();
 
   messages: Message[] = [];
@@ -62,6 +63,12 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
       if (!ENABLE_MOCK) {
         this.startMessagePolling();
       }
+    }
+
+    if (this.isMobile) {
+      this.platform.backButton.subscribeWithPriority(10, () => {
+        this.onBackClick();
+      });
     }
   }
 
