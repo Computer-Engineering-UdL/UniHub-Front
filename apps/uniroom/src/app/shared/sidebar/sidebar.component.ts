@@ -63,7 +63,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   mobileNavItemsAuth: NavItem[] = [
     { translationKey: 'SIDEBAR.HOME', route: '/home', icon: 'home-outline' },
     { translationKey: 'SIDEBAR.OTHERS', route: '', icon: 'menu-outline' },
-    { translationKey: 'SIDEBAR.MESSAGES', route: '/channels', icon: 'chatbubbles-outline' },
+    { translationKey: 'SIDEBAR.MESSAGES', route: '/messages', icon: 'mail-outline' },
     { translationKey: 'SIDEBAR.PROFILE', route: '/profile', icon: 'person-outline' }
   ];
 
@@ -75,6 +75,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ];
 
   burgerMenuItems: NavItem[] = [
+    { translationKey: 'SIDEBAR.CHANNELS', route: '/channels', icon: 'chatbubbles-outline' },
     { translationKey: 'SIDEBAR.UNIROOM', route: '/rooms', icon: 'business-outline' },
     { translationKey: 'SIDEBAR.UNIITEMS', route: '/uniitems', icon: 'cube-outline' },
     { translationKey: 'SIDEBAR.UNISERVICES', route: '/uniservices', icon: 'construct-outline' },
@@ -111,6 +112,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.filteredMobileNavItems = user ? this.mobileNavItemsAuth : this.mobileNavItemsNotAuth;
 
       this.burgerMenuItems = [
+        { translationKey: 'SIDEBAR.CHANNELS', route: '/channels', icon: 'chatbubbles-outline' },
         { translationKey: 'SIDEBAR.UNIROOM', route: '/rooms', icon: 'business-outline' },
         { translationKey: 'SIDEBAR.UNIITEMS', route: '/uniitems', icon: 'cube-outline' },
         { translationKey: 'SIDEBAR.UNISERVICES', route: '/uniservices', icon: 'construct-outline' },
