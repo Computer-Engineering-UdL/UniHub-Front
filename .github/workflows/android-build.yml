@@ -63,5 +63,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug.apk
+          name: unihub-${{ github.sha }}.apk
           path: apps/uniroom/android/app/build/outputs/apk/debug/app-debug.apk

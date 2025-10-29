@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">uniroom</string>
-    <string name="title_activity_main">uniroom</string>
+    <string name="app_name">UniHub</string>
+    <string name="title_activity_main">UniHub</string>
     <string name="package_name">com.tuorg.uniroom</string>
     <string name="custom_url_scheme">com.tuorg.uniroom</string>
 </resources>
