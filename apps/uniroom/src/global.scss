@@ -220,6 +220,11 @@ ion-header {
 @media (max-width: 767px) {
   ion-content {
     --offset-top: 56px;
+    --offset-bottom: 60px;
+
+    &::part(scroll) {
+      padding-bottom: 60px;
+    }
   }
 
   ion-header.top-bar {
