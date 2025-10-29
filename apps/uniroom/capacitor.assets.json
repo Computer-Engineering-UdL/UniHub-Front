@@ -1,27 +1,18 @@
 {
   "android": {
     "icon": {
-      "sources": [
-        "resources/icon.png"
-      ]
+      "sources": ["resources/icon.png"]
     },
     "splash": {
-      "sources": [
-        "resources/splash.png"
-      ]
+      "sources": ["resources/splash.png"]
     }
   },
   "ios": {
     "icon": {
-      "sources": [
-        "resources/icon.png"
-      ]
+      "sources": ["resources/icon.png"]
     },
     "splash": {
-      "sources": [
-        "resources/splash.png"
-      ]
+      "sources": ["resources/splash.png"]
     }
   }
 }
-
