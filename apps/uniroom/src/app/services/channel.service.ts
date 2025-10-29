@@ -13,7 +13,7 @@ export class ChannelService {
   public channels$: Observable<Channel[]> = this.channelsSubject.asObservable();
 
   async fetchChannels(): Promise<Channel[]> {
-    const channels: Channel[] = await firstValueFrom(this.apiService.get<Channel[]>('channel'));
+    const channels: Channel[] = await firstValueFrom(this.apiService.get<Channel[]>('channel/'));
     this.channelsSubject.next(channels);
     return channels;
   }
@@ -23,7 +23,7 @@ export class ChannelService {
   }
 
   async createChannel(data: CreateChannelDto): Promise<Channel> {
-    const channel: Channel = await firstValueFrom(this.apiService.post<Channel>(`channel`, data));
+    const channel: Channel = await firstValueFrom(this.apiService.post<Channel>(`channel/`, data));
     await this.fetchChannels();
     return channel;
   }
