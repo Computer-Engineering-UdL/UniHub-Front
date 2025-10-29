@@ -229,10 +229,12 @@
       <div *ngIf="filteredOffers.length === 0" class="empty-state">
         <ion-icon name="search-outline"></ion-icon>
         <h3>{{ 'ROOM.NO_RESULTS' | translate }}</h3>
-        <p>{{ 'ROOM.NO_RESULTS_DESCRIPTION' | translate }}</p>
-        <ion-button fill="outline" (click)="clearFilters()">
-          {{ 'ROOM.FILTERS.CLEAR' | translate }}
-        </ion-button>
+        <ng-container *ngIf="hasActiveFilters">
+          <p>{{ 'ROOM.NO_RESULTS_DESCRIPTION' | translate }}</p>
+          <ion-button fill="outline" (click)="clearFilters()">
+            {{ 'ROOM.FILTERS.CLEAR' | translate }}
+          </ion-button>
+        </ng-container>
       </div>
     </div>
   </div>
