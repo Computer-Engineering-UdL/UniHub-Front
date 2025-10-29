@@ -117,6 +117,18 @@
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }
 
 .category-chip {
@@ -132,6 +144,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
 
   ion-icon {
     font-size: 16px;
@@ -148,6 +161,10 @@
     ion-icon {
       color: #2d5fcf;
     }
+  }
+
+  @media (max-width: 768px) {
+    flex-shrink: 0;
   }
 
   &.active {
