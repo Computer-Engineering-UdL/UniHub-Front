@@ -249,7 +249,7 @@ export class AuthService {
   }
 
   async getAllInterests(): Promise<Interest[]> {
-    return await firstValueFrom(this.apiService.get<Interest[]>(`interest`));
+    return await firstValueFrom(this.apiService.get<Interest[]>(`interest/`));
   }
 
   async addInterestToUser(userId: string, interestId: string): Promise<void> {
