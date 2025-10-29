@@ -482,18 +482,17 @@ export class AdminUsersComponent implements OnInit {
   }
 
   /**
-   * Check if there is only one user selected and if its role matches the given role
+   * Check if all selected users have the same role that matches the given role
    */
   private getCheckedRole(role: Role): boolean {
-    if (this.selectedUsers.size !== 1) {
+    if (this.selectedUsers.size <= 0) {
       return false;
     }
 
-    return ((): boolean => {
-      const username: string = Array.from(this.selectedUsers)[0];
-      const user: User | undefined = this.users.find((user: User): boolean => user.username === username);
-      return user ? user.role === role : false;
-    })();
+    const selectedUsersList: User[] = this.users.filter((user: User): boolean => this.selectedUsers.has(user.username));
+
+    // Check if all selected users have the same role
+    return selectedUsersList.every((user: User): boolean => user.role === role);
   }
 
   private async confirmChangeRoleUsers(newRole: Role): Promise<void> {
