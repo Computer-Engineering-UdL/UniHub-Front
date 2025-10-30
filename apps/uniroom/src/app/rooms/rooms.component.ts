@@ -9,6 +9,7 @@ import { CreateOfferModalComponent } from './create-offer-modal/create-offer-mod
 import { LocalizationService } from '../services/localization.service';
 import NotificationService from '../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 interface Filters {
   search: string;
@@ -58,6 +59,7 @@ export class RoomsComponent implements OnInit {
   private alertController: AlertController = inject(AlertController);
   private notificationService: NotificationService = inject(NotificationService);
   private translate: TranslateService = inject(TranslateService);
+  private router: Router = inject(Router);
 
   async ngOnInit(): Promise<void> {
     this.authService.currentUser$.subscribe((user: User | null): void => {
@@ -331,7 +333,7 @@ export class RoomsComponent implements OnInit {
   }
 
   async viewOfferDetails(offerId: string): Promise<void> {
-    // TODO: Implement view offer details
-    console.log('View offer details:', offerId);
+    this.showMobileFilters = false;
+    await this.router.navigate(['/rooms', 'details', offerId]);
   }
 }

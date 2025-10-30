@@ -252,7 +252,91 @@
       "OTHER": "Otros",
       "ROOM": "Habitación",
       "FLAT": "Piso",
-      "DETACHED_HOUSE": "Casa Independente"
+      "DETACHED_HOUSE": "Casa independiente"
+    },
+    "DETAILS": {
+      "PAGE_TITLE": "Detalles del anuncio",
+      "BACK_TO_LIST": "Volver a los anuncios",
+      "LOADING": "Cargando información del piso...",
+      "ERROR_TITLE": "Algo ha salido mal",
+      "ERROR_MESSAGE": "No hemos podido cargar este anuncio ahora mismo. Inténtalo de nuevo más tarde.",
+      "GO_BACK": "Volver",
+      "STATUS": {
+        "AVAILABLE": "Disponible",
+        "UNAVAILABLE": "No disponible"
+      },
+      "AVAILABLE_FROM": "Disponible a partir del {{date}}",
+      "POSTED_ON": "Publicado el {{date}}",
+      "DESCRIPTION_TITLE": "Descripción",
+      "PLACEHOLDER_DESCRIPTION": "El propietario aún no ha proporcionado una descripción para este anuncio.",
+      "AMENITIES_TITLE": "Servicios",
+      "AMENITIES": {
+        "WIFI": "Wi-Fi de alta velocidad",
+        "UTILITIES": "Suministros incluidos",
+        "FURNISHED": "Amueblado",
+        "HEATING": "Calefacción",
+        "PARKING": "Aparcamiento",
+        "KITCHEN": "Cocina equipada",
+        "TV": "Televisión",
+        "SECURITY": "Seguridad",
+        "BALCONY": "Balcón",
+        "INCLUDED": "Incluido",
+        "NOT_AVAILABLE": "No disponible",
+        "NOT_SPECIFIED": "No especificado"
+      },
+      "HOUSE_RULES_TITLE": "Normas de la casa",
+      "HOUSE_RULES": {
+        "ALLOWED": "Permitido",
+        "NOT_ALLOWED": "No permitido",
+        "SMOKING": "Fumar",
+        "PETS": "Mascotas",
+        "COUPLES": "Parejas"
+      },
+      "FINANCIAL_TITLE": "Detalles económicos",
+      "FINANCIAL": {
+        "MONTHLY_RENT": "Alquiler mensual",
+        "DEPOSIT": "Depósito de seguridad",
+        "UTILITIES": "Suministros",
+        "CONTRACT_TYPE": "Tipo de contrato",
+        "INCLUDED": "Incluido",
+        "NOT_INCLUDED": "No incluido",
+        "NOT_SPECIFIED": "No especificado",
+        "LONG_TERM": "Largo plazo (mín. 6 meses)",
+        "MONTH": "mes"
+      },
+      "MAIN_FEATURES": {
+        "ROOMS": "Habitaciones",
+        "BATHROOMS": "Baños",
+        "AREA": "Superficie",
+        "FLOOR": "Planta",
+        "DEPOSIT": "Depósito",
+        "UTILITIES": "Suministros"
+      },
+      "MAP": {
+        "UNAVAILABLE": "No hay información de mapa disponible para este anuncio."
+      },
+      "LOCATION_TITLE": "Ubicación",
+      "LOCATION": {
+        "DISTANCE_FROM_CAMPUS": "{{distance}} del campus"
+      },
+      "LANDLORD_TITLE": "Propietario",
+      "LANDLORD": {
+        "DEFAULT_NAME": "Propietario verificado",
+        "MEMBER_SINCE": "Miembro desde {{date}}",
+        "LAST_SEEN": "Última conexión {{time}}",
+        "RESPONSE_TIME_PLACEHOLDER": "Suele responder en menos de 24 horas",
+        "ACTIONS": {
+          "MESSAGE": "Enviar mensaje",
+          "SCHEDULE": "Concertar visita",
+          "CALL": "Llamar al propietario"
+        }
+      },
+      "AVAILABILITY_TITLE": "Disponibilidad",
+      "AVAILABLE_FROM_LABEL": "Disponible desde",
+      "POSTED_ON_LABEL": "Publicado el",
+      "DEPOSIT_LABEL": "Depósito",
+      "CONTRACT_TYPE_LABEL": "Tipo de contrato",
+      "REPORT_LISTING": "Reportar anuncio"
     }
   },
   "ADMIN": {

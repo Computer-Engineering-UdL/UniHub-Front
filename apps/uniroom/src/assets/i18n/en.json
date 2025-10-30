@@ -253,6 +253,90 @@
       "ROOM": "Room",
       "FLAT": "Flat",
       "DETACHED_HOUSE": "Detached House"
+    },
+    "DETAILS": {
+      "PAGE_TITLE": "Room Details",
+      "BACK_TO_LIST": "Back to listings",
+      "LOADING": "Loading room information...",
+      "ERROR_TITLE": "Something went wrong",
+      "ERROR_MESSAGE": "We couldn't load this room right now. Please try again later.",
+      "GO_BACK": "Go back",
+      "STATUS": {
+        "AVAILABLE": "Available",
+        "UNAVAILABLE": "Unavailable"
+      },
+      "AVAILABLE_FROM": "Available from {{date}}",
+      "POSTED_ON": "Posted on {{date}}",
+      "DESCRIPTION_TITLE": "Description",
+      "PLACEHOLDER_DESCRIPTION": "The landlord has not provided a description for this listing yet.",
+      "AMENITIES_TITLE": "Amenities",
+      "AMENITIES": {
+        "WIFI": "High-speed Wi-Fi",
+        "UTILITIES": "Utilities included",
+        "FURNISHED": "Furnished",
+        "HEATING": "Heating",
+        "PARKING": "Parking",
+        "KITCHEN": "Fully equipped kitchen",
+        "TV": "TV",
+        "SECURITY": "Security",
+        "BALCONY": "Balcony",
+        "INCLUDED": "Included",
+        "NOT_AVAILABLE": "Not available",
+        "NOT_SPECIFIED": "Not specified"
+      },
+      "HOUSE_RULES_TITLE": "House Rules",
+      "HOUSE_RULES": {
+        "ALLOWED": "Allowed",
+        "NOT_ALLOWED": "Not allowed",
+        "SMOKING": "Smoking",
+        "PETS": "Pets",
+        "COUPLES": "Couples"
+      },
+      "FINANCIAL_TITLE": "Financial Details",
+      "FINANCIAL": {
+        "MONTHLY_RENT": "Monthly rent",
+        "DEPOSIT": "Security deposit",
+        "UTILITIES": "Utilities",
+        "CONTRACT_TYPE": "Contract type",
+        "INCLUDED": "Included",
+        "NOT_INCLUDED": "Not included",
+        "NOT_SPECIFIED": "Not specified",
+        "LONG_TERM": "Long-term (min. 6 months)",
+        "MONTH": "month"
+      },
+      "MAIN_FEATURES": {
+        "ROOMS": "Rooms",
+        "BATHROOMS": "Bathrooms",
+        "AREA": "Living space",
+        "FLOOR": "Floor",
+        "DEPOSIT": "Deposit",
+        "UTILITIES": "Utilities"
+      },
+      "MAP": {
+        "UNAVAILABLE": "Map information is not available for this listing."
+      },
+      "LOCATION_TITLE": "Location",
+      "LOCATION": {
+        "DISTANCE_FROM_CAMPUS": "{{distance}} from campus"
+      },
+      "LANDLORD_TITLE": "Landlord",
+      "LANDLORD": {
+        "DEFAULT_NAME": "Verified landlord",
+        "MEMBER_SINCE": "Member since {{date}}",
+        "LAST_SEEN": "Last seen {{time}}",
+        "RESPONSE_TIME_PLACEHOLDER": "Usually responds within 24 hours",
+        "ACTIONS": {
+          "MESSAGE": "Send Message",
+          "SCHEDULE": "Schedule Viewing",
+          "CALL": "Call Landlord"
+        }
+      },
+      "AVAILABILITY_TITLE": "Availability",
+      "AVAILABLE_FROM_LABEL": "Available from",
+      "POSTED_ON_LABEL": "Listed on",
+      "DEPOSIT_LABEL": "Deposit",
+      "CONTRACT_TYPE_LABEL": "Contract type",
+      "REPORT_LISTING": "Report Listing"
     }
   },
   "ADMIN": {
