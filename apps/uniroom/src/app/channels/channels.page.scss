@@ -336,6 +336,15 @@
     color: white;
   }
 
+  &.emoji-icon {
+    background: rgba(var(--ion-color-primary-rgb), 0.1);
+  }
+
+  .channel-emoji {
+    font-size: 28px;
+    line-height: 1;
+  }
+
   .channel-card:hover & {
     transform: scale(1.1);
   }

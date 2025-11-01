@@ -71,8 +71,9 @@
         *ngFor="let channel of filteredChannels"
         class="channel-card"
         [attr.data-category]="channel.category">
-        <div class="channel-icon">
-          <ion-icon [name]="getCategoryIcon(channel?.category)"></ion-icon>
+        <div class="channel-icon" [class.emoji-icon]="channel.emoji">
+          <span *ngIf="channel.emoji" class="channel-emoji">{{ channel.emoji }}</span>
+          <ion-icon *ngIf="!channel.emoji" [name]="getCategoryIcon(channel?.category)"></ion-icon>
         </div>
         <div class="channel-info">
           <div class="channel-header">

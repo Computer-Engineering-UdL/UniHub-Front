@@ -14,12 +14,27 @@ export class ChannelService {
 
   async fetchChannels(): Promise<Channel[]> {
     const channels: Channel[] = await firstValueFrom(this.apiService.get<Channel[]>('channel/'));
+    channels.forEach((channel: Channel): void => {
+      this.extractEmojiFromName(channel);
+    });
     this.channelsSubject.next(channels);
     return channels;
   }
 
+  private extractEmojiFromName(channel: Channel): void {
+    const emojiRegex: RegExp = /^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F)\s*/u;
+    const match: RegExpMatchArray | null = channel.name.match(emojiRegex);
+
+    if (match) {
+      channel.emoji = match[0].trim();
+      channel.name = channel.name.replace(emojiRegex, '').trim();
+    }
+  }
+
   async fetchChannelById(channelId: string): Promise<Channel> {
-    return await firstValueFrom(this.apiService.get<Channel>(`channel/${channelId}`));
+    const channel: Channel = await firstValueFrom(this.apiService.get<Channel>(`channel/${channelId}`));
+    this.extractEmojiFromName(channel);
+    return channel;
   }
 
   async createChannel(data: CreateChannelDto): Promise<Channel> {

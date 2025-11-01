@@ -1,6 +1,7 @@
 export interface Channel {
   id: string;
   name: string;
+  emoji?: string;
   description: string;
   category?: ChannelCategory;
   created_at: string;
