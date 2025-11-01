@@ -45,7 +45,7 @@ export class CreateChannelModalComponent implements OnInit {
     this.isEditMode = !!this.channel;
 
     if (this.channel?.emoji) {
-      this.selectedEmoji = this.channel.emoji;
+      this.selectedEmoji = this.channel.emoji.trim();
     }
 
     this.channelForm = this.formBuilder.group({
@@ -89,7 +89,7 @@ export class CreateChannelModalComponent implements OnInit {
       translucent: true,
       cssClass: 'emoji-picker-popover-wrapper',
       componentProps: {
-        currentEmoji: this.selectedEmoji
+        currentEmoji: this.selectedEmoji || null
       }
     });
 

@@ -273,6 +273,25 @@ export class ChannelsPage implements OnInit, OnDestroy {
     return iconMap[category] || 'megaphone-outline';
   }
 
+  getCategoryEmoji(category?: ChannelCategory): string {
+    if (!category) {
+      return '💬';
+    }
+    const emojiMap: Record<ChannelCategory, string> = {
+      General: '💬',
+      Engineering: '🔧',
+      Sciences: '🔬',
+      Business: '💼',
+      Arts: '🎨',
+      Medicine: '⚕️'
+    };
+    return emojiMap[category] || '💬';
+  }
+
+  getChannelEmoji(channel: Channel): string {
+    return channel.emoji || this.getCategoryEmoji(channel.category);
+  }
+
   get isAdmin(): boolean {
     return this.currentUser?.role === 'Admin';
   }
