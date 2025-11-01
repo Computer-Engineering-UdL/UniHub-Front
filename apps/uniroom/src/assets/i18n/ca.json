@@ -377,6 +377,9 @@
     "MODAL": {
       "CREATE_TITLE": "Crear Nou Canal",
       "EDIT_TITLE": "Editar Canal",
+      "EMOJI": "Emoji",
+      "SELECT_EMOJI": "Selecciona un emoji",
+      "REMOVE_EMOJI": "Eliminar emoji",
       "NAME": "Nom del Canal",
       "DESCRIPTION": "Descripció",
       "CATEGORY": "Categoria",

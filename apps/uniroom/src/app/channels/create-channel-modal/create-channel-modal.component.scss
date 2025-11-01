@@ -15,6 +15,56 @@
   gap: 8px;
 }
 
+.name-emoji-wrapper {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.name-input {
+  flex: 1;
+}
+
+.emoji-picker-btn-compact {
+  width: 56px;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ion-card-background);
+  border: 1px solid var(--ion-border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  padding: 0;
+
+  .selected-emoji {
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  ion-icon {
+    font-size: 26px;
+    color: var(--ion-color-medium);
+  }
+
+  &:hover {
+    background: rgba(var(--ion-color-primary-rgb), 0.08);
+    border-color: var(--ion-color-primary);
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(var(--ion-color-primary-rgb), 0.2);
+
+    ion-icon {
+      color: var(--ion-color-primary);
+    }
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
 .form-label {
   font-size: 14px;
   font-weight: 600;

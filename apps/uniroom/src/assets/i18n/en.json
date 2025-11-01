@@ -377,6 +377,9 @@
     "MODAL": {
       "CREATE_TITLE": "Create New Channel",
       "EDIT_TITLE": "Edit Channel",
+      "EMOJI": "Emoji",
+      "SELECT_EMOJI": "Select an emoji",
+      "REMOVE_EMOJI": "Remove emoji",
       "NAME": "Channel Name",
       "DESCRIPTION": "Description",
       "CATEGORY": "Category",
