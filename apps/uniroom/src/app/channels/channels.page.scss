@@ -177,6 +177,120 @@
       color: white;
     }
   }
+
+  &[data-category='General'] {
+    &:hover {
+      background: rgba(102, 126, 234, 0.15);
+      border-color: #667eea;
+      color: #4c5fc7;
+      box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+
+      ion-icon {
+        color: #4c5fc7;
+      }
+    }
+
+    &.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-color: #667eea;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+  }
+
+  &[data-category='Engineering'] {
+    &:hover {
+      background: rgba(245, 87, 108, 0.15);
+      border-color: #f5576c;
+      color: #d93651;
+      box-shadow: 0 4px 8px rgba(245, 87, 108, 0.3);
+
+      ion-icon {
+        color: #d93651;
+      }
+    }
+
+    &.active {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      border-color: #f5576c;
+      box-shadow: 0 4px 12px rgba(245, 87, 108, 0.4);
+    }
+  }
+
+  &[data-category='Sciences'] {
+    &:hover {
+      background: rgba(79, 172, 254, 0.15);
+      border-color: #4facfe;
+      color: #2b7fcc;
+      box-shadow: 0 4px 8px rgba(79, 172, 254, 0.3);
+
+      ion-icon {
+        color: #2b7fcc;
+      }
+    }
+
+    &.active {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      border-color: #4facfe;
+      box-shadow: 0 4px 12px rgba(79, 172, 254, 0.4);
+    }
+  }
+
+  &[data-category='Business'] {
+    &:hover {
+      background: rgba(67, 233, 123, 0.15);
+      border-color: #43e97b;
+      color: #2fb862;
+      box-shadow: 0 4px 8px rgba(67, 233, 123, 0.3);
+
+      ion-icon {
+        color: #2fb862;
+      }
+    }
+
+    &.active {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      border-color: #43e97b;
+      box-shadow: 0 4px 12px rgba(67, 233, 123, 0.4);
+    }
+  }
+
+  &[data-category='Arts'] {
+    &:hover {
+      background: rgba(250, 112, 154, 0.15);
+      border-color: #fa709a;
+      color: #e84d82;
+      box-shadow: 0 4px 8px rgba(250, 112, 154, 0.3);
+
+      ion-icon {
+        color: #e84d82;
+      }
+    }
+
+    &.active {
+      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      border-color: #fa709a;
+      box-shadow: 0 4px 12px rgba(250, 112, 154, 0.4);
+    }
+  }
+
+  &[data-category='Medicine'] {
+    &:hover {
+      background: rgba(48, 207, 208, 0.15);
+      border-color: #30cfd0;
+      color: #1fa8a9;
+      box-shadow: 0 4px 8px rgba(48, 207, 208, 0.3);
+
+      ion-icon {
+        color: #1fa8a9;
+      }
+    }
+
+    &.active {
+      background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+      border-color: #30cfd0;
+      box-shadow: 0 4px 12px rgba(48, 207, 208, 0.4);
+    }
+  }
 }
 
 .channels-content {

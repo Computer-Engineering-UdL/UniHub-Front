@@ -46,6 +46,7 @@
           *ngFor="let category of categories"
           class="category-chip"
           [class.active]="selectedCategory === category"
+          [attr.data-category]="category"
           (click)="onCategoryChange(category)">
           <ion-icon [name]="getCategoryIcon(category)"></ion-icon>
           {{ getCategoryTranslation(category) }}
