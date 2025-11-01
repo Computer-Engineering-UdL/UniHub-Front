@@ -23,14 +23,34 @@
     color: var(--ion-text-color);
   }
 
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .remove-btn,
   .close-btn {
     margin: 0;
     --padding-start: 8px;
     --padding-end: 8px;
+  }
+
+  .remove-btn {
+    --color: var(--ion-color-danger);
+
+    &:hover {
+      --background: rgba(var(--ion-color-danger-rgb), 0.1);
+      --color: var(--ion-color-danger-shade);
+    }
+  }
+
+  .close-btn {
     --color: var(--ion-color-medium);
 
     &:hover {
-      --color: var(--ion-color-dark);
+      --background: var(--ion-color-light);
+      --color: var(--ion-text-color);
     }
   }
 }
@@ -39,7 +59,6 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 12px 18px 12px 16px;
   background: var(--ion-background-color);
   min-height: 0;
 
@@ -96,18 +115,3 @@
   }
 }
 
-.picker-footer {
-  padding: 12px;
-  border-top: 1px solid var(--ion-border-color);
-  background: var(--ion-background-color);
-  flex-shrink: 0;
-
-  ion-button {
-    --border-radius: 8px;
-    margin: 0;
-    font-weight: 600;
-    font-size: 13px;
-    text-transform: none;
-    height: 40px;
-  }
-}

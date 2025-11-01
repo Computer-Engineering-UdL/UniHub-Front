@@ -1,9 +1,14 @@
 <div class="emoji-picker-popover">
   <div class="picker-header">
     <h3 class="picker-title">{{ 'CHANNELS.MODAL.SELECT_EMOJI' | translate }}</h3>
-    <ion-button fill="clear" size="small" (click)="close()" class="close-btn">
-      <ion-icon slot="icon-only" name="close"></ion-icon>
-    </ion-button>
+    <div class="header-actions">
+      <ion-button fill="clear" size="small" (click)="removeEmoji()" class="remove-btn" color="danger">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" size="small" (click)="close()" class="close-btn">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </div>
   </div>
 
   <div class="emoji-grid-container">
@@ -17,12 +22,5 @@
         {{ emoji }}
       </button>
     </div>
-  </div>
-
-  <div class="picker-footer">
-    <ion-button expand="block" fill="outline" color="danger" (click)="removeEmoji()">
-      <ion-icon slot="start" name="close-circle-outline"></ion-icon>
-      {{ 'CHANNELS.MODAL.REMOVE_EMOJI' | translate }}
-    </ion-button>
   </div>
 </div>
