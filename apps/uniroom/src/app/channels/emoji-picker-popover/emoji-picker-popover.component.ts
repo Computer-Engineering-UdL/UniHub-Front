@@ -32,7 +32,7 @@ export class EmojiPickerPopoverComponent implements OnInit, AfterViewInit {
           if (selectedElement && emojiGrid) {
             const gridRect = emojiGrid.getBoundingClientRect();
             const elementRect = selectedElement.getBoundingClientRect();
-            const scrollOffset = elementRect.top - gridRect.top - (gridRect.height / 2) + (elementRect.height / 2);
+            const scrollOffset = elementRect.top - gridRect.top - gridRect.height / 2 + elementRect.height / 2;
             emojiGrid.scrollTo({
               top: emojiGrid.scrollTop + scrollOffset,
               behavior: 'smooth'
