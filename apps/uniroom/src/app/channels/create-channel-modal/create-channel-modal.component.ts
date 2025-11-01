@@ -87,7 +87,10 @@ export class CreateChannelModalComponent implements OnInit {
       component: EmojiPickerPopoverComponent,
       event: event,
       translucent: true,
-      cssClass: 'emoji-picker-popover-wrapper'
+      cssClass: 'emoji-picker-popover-wrapper',
+      componentProps: {
+        currentEmoji: this.selectedEmoji
+      }
     });
 
     await popover.present();

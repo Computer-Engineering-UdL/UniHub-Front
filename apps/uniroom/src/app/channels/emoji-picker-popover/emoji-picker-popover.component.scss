@@ -1,18 +1,20 @@
 .emoji-picker-popover {
-  width: 320px;
-  max-height: 450px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: var(--ion-background-color);
+  overflow: hidden;
 }
 
 .picker-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
+  padding: 14px 16px;
   border-bottom: 1px solid var(--ion-border-color);
   background: var(--ion-background-color);
+  flex-shrink: 0;
 
   .picker-title {
     margin: 0;
@@ -37,51 +39,52 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 16px;
+  padding: 12px 16px;
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: 4px;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px 4px;
   background: var(--ion-background-color);
+  min-height: 0;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 
   &::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--ion-color-medium);
-    border-radius: 4px;
-
-    &:hover {
-      background: var(--ion-color-medium-shade);
-    }
+    display: none;
   }
 }
 
 .emoji-item {
+  width: 100%;
   aspect-ratio: 1;
-  font-size: 28px;
+  font-size: 26px;
   background: transparent;
-  border: none;
+  border: 2px solid transparent;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background 0.2s ease, border-color 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  padding: 4px;
+  will-change: transform;
+  box-sizing: border-box;
 
-  &:hover {
+  &.selected {
+    background: rgba(var(--ion-color-primary-rgb), 0.15);
+    border-color: var(--ion-color-primary);
+  }
+
+  &:hover:not(.selected) {
     background: var(--ion-color-light);
-    transform: scale(1.2);
+  }
+
+  &.selected:hover {
+    background: rgba(var(--ion-color-primary-rgb), 0.2);
   }
 
   &:active {
-    transform: scale(1.1);
-    background: var(--ion-color-light-shade);
+    transform: scale(0.92);
   }
 }
 
@@ -89,6 +92,7 @@
   padding: 12px;
   border-top: 1px solid var(--ion-border-color);
   background: var(--ion-background-color);
+  flex-shrink: 0;
 
   ion-button {
     --border-radius: 8px;
@@ -96,5 +100,6 @@
     font-weight: 600;
     font-size: 13px;
     text-transform: none;
+    height: 40px;
   }
 }
