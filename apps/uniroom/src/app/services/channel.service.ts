@@ -55,13 +55,12 @@ export class ChannelService {
   }
 
   async joinChannel(channelId: string, memberId: string): Promise<void> {
-    // TODO: Change this since this endpoint is admin protected. There should be a public join endpoint.
-    await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/add_member/${memberId}`, {}));
+    await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/join`, {}));
     await this.fetchChannels();
   }
 
   async leaveChannel(channelId: string, memberId: string): Promise<void> {
-    await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/remove_member/${memberId}`, {}));
+    await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/leave`, {}));
     await this.fetchChannels();
   }
 
