@@ -97,6 +97,30 @@
 }
 
 /**
+ * Emoji Picker Popover
+ * -----------------------------------------------------
+ * Styles for the emoji picker popover
+ */
+.emoji-picker-popover-wrapper {
+  --width: 450px;
+  --height: 450px;
+  --border-radius: 12px;
+  --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+
+  @media (max-width: 768px) {
+    --width: 90vw;
+    --max-width: 360px;
+    --height: 65vh;
+    --border-radius: 16px;
+  }
+
+  .popover-content {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+}
+
+/**
  * Custom Delete Alert
  * -----------------------------------------------------
  * Styles for the delete confirmation alert

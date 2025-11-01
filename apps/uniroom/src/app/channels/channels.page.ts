@@ -160,6 +160,23 @@ export class ChannelsPage implements OnInit, OnDestroy {
     }
   }
 
+  async editChannel(channel: Channel): Promise<void> {
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: CreateChannelModalComponent,
+      componentProps: {
+        channel: channel
+      }
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data?.updated) {
+      await this.loadChannels();
+      this.notificationService.success('CHANNELS.SUCCESS.UPDATE_CHANNEL');
+    }
+  }
+
   async joinChannel(channel: Channel): Promise<void> {
     if (!this.currentUser) {
       await this.router.navigate(['/login']);

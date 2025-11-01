@@ -1,6 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ 'CHANNELS.MODAL.CREATE_TITLE' | translate }}</ion-title>
+    <ion-title>{{
+      (isEditMode ? 'CHANNELS.MODAL.EDIT_TITLE' : 'CHANNELS.MODAL.CREATE_TITLE') | translate
+    }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="dismiss()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
@@ -15,11 +17,17 @@
       <ion-label class="form-label" position="stacked">
         {{ 'CHANNELS.MODAL.NAME' | translate }}
       </ion-label>
-      <ion-input
-        formControlName="name"
-        type="text"
-        [placeholder]="'CHANNELS.MODAL.NAME' | translate"
-        class="form-input"></ion-input>
+      <div class="name-emoji-wrapper">
+        <ion-input
+          formControlName="name"
+          type="text"
+          [placeholder]="'CHANNELS.MODAL.NAME' | translate"
+          class="form-input name-input"></ion-input>
+        <button type="button" class="emoji-picker-btn-compact" (click)="openEmojiPicker($event)">
+          <span *ngIf="selectedEmoji" class="selected-emoji">{{ selectedEmoji }}</span>
+          <ion-icon *ngIf="!selectedEmoji" name="happy-outline"></ion-icon>
+        </button>
+      </div>
       <ion-text
         color="danger"
         *ngIf="channelForm.get('name')?.invalid && channelForm.get('name')?.touched"
@@ -71,7 +79,9 @@
       </ion-button>
       <ion-button expand="block" type="submit" [disabled]="channelForm.invalid || isSubmitting">
         <ion-spinner *ngIf="isSubmitting" name="crescent"></ion-spinner>
-        <span *ngIf="!isSubmitting">{{ 'CHANNELS.MODAL.CREATE' | translate }}</span>
+        <span *ngIf="!isSubmitting">{{
+          (isEditMode ? 'CHANNELS.MODAL.SAVE' : 'CHANNELS.MODAL.CREATE') | translate
+        }}</span>
       </ion-button>
     </div>
   </form>
