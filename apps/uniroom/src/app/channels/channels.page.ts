@@ -128,6 +128,9 @@ export class ChannelsPage implements OnInit, OnDestroy {
       );
     }
 
+    // Sort channels by member count descending
+    filtered.sort((a: Channel, b: Channel): number => (b.member_count || 0) - (a.member_count || 0));
+
     this.filteredChannels = filtered;
   }
 
