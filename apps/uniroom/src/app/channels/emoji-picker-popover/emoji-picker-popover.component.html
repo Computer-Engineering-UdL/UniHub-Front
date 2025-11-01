@@ -6,15 +6,17 @@
     </ion-button>
   </div>
 
-  <div class="emoji-grid">
-    <button
-      *ngFor="let emoji of emojis"
-      type="button"
-      class="emoji-item"
-      [class.selected]="emoji === currentEmoji"
-      (click)="selectEmoji(emoji)">
-      {{ emoji }}
-    </button>
+  <div class="emoji-grid-container">
+    <div class="emoji-grid">
+      <button
+        *ngFor="let emoji of emojis"
+        type="button"
+        class="emoji-item"
+        [class.selected]="emoji === currentEmoji"
+        (click)="selectEmoji(emoji)">
+        {{ emoji }}
+      </button>
+    </div>
   </div>
 
   <div class="picker-footer">
