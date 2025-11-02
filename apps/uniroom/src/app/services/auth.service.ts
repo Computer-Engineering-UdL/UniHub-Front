@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
-import { User, Interest } from '../models/auth.types';
+import { User, Interest, InterestCategory } from '../models/auth.types';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from './api.service';
 import { HttpHeaders } from '@angular/common/http';
@@ -284,7 +284,10 @@ export class AuthService {
 
   async getAllInterests(): Promise<Interest[]> {
     try {
-      return await firstValueFrom(this.apiService.get<Interest[]>(`interest/`));
+      const categories: InterestCategory[] = await firstValueFrom(this.apiService.get<InterestCategory[]>(`interest/`));
+      return categories.reduce((acc: Interest[], category: InterestCategory): Interest[] => {
+        return [...acc, ...category.interests];
+      }, []);
     } catch (_) {
       return [];
     }

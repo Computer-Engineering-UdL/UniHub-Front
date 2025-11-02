@@ -5,6 +5,12 @@ export interface Interest {
   name: string;
 }
 
+export interface InterestCategory {
+  id: string;
+  name: string;
+  interests: Interest[];
+}
+
 export interface User {
   id: string;
   username: string;
