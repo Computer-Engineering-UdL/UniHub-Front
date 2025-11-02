@@ -275,17 +275,25 @@ export class AuthService {
   }
 
   async getUserInterests(userId: string): Promise<Interest[]> {
-    return await firstValueFrom(this.apiService.get<Interest[]>(`interest/user/${userId}`));
+    try {
+      return await firstValueFrom(this.apiService.get<Interest[]>(`interest/user/${userId}`));
+    } catch (_) {
+      return [];
+    }
   }
 
   async getAllInterests(): Promise<Interest[]> {
-    return await firstValueFrom(this.apiService.get<Interest[]>(`interest/`));
+    try {
+      return await firstValueFrom(this.apiService.get<Interest[]>(`interest/`));
+    } catch (_) {
+      return [];
+    }
   }
 
   async addInterestToUser(userId: string, interestId: string): Promise<void> {
     await firstValueFrom(this.apiService.post(`interest/user/${userId}`, { interest_id: interestId }));
     if (this.currentUser && this.currentUser.id === userId) {
-      const interests = await this.getUserInterests(userId);
+      const interests: Interest[] = await this.getUserInterests(userId);
       const updated = { ...this.currentUser, interests } as User;
       await this.storeUserOnly(updated);
     }
@@ -294,7 +302,7 @@ export class AuthService {
   async removeInterestFromUser(userId: string, interestId: string): Promise<void> {
     await firstValueFrom(this.apiService.delete(`interest/user/${userId}/${interestId}`));
     if (this.currentUser && this.currentUser.id === userId) {
-      const interests = await this.getUserInterests(userId);
+      const interests: Interest[] = await this.getUserInterests(userId);
       const updated = { ...this.currentUser, interests } as User;
       await this.storeUserOnly(updated);
     }

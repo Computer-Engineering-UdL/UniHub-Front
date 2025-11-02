@@ -211,7 +211,6 @@ export class ProfilePage implements OnInit, OnDestroy {
       this.loadingInterests = true;
       this.availableInterests = await this.authService.getAllInterests();
     } catch (_) {
-      // mantener estado silencioso
     } finally {
       this.loadingInterests = false;
     }
@@ -236,8 +235,7 @@ export class ProfilePage implements OnInit, OnDestroy {
       this.loadingInterests = true;
       await this.authService.removeInterestFromUser(this.user.id, interest.id);
       await this.loadUserInterests(this.user.id);
-    } catch (error) {
-      console.error('Error removing interest:', error);
+    } catch (_) {
     } finally {
       this.loadingInterests = false;
     }
@@ -250,8 +248,7 @@ export class ProfilePage implements OnInit, OnDestroy {
       this.loadingInterests = true;
       await this.authService.addInterestToUser(this.user.id, interest.id);
       await this.loadUserInterests(this.user.id);
-    } catch (error) {
-      console.error('Error adding interest:', error);
+    } catch (_) {
     } finally {
       this.loadingInterests = false;
     }
