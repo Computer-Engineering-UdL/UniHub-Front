@@ -74,7 +74,7 @@ export class RoomsComponent implements OnInit {
 
   private async loadOffers(): Promise<void> {
     try {
-      this.offers = await firstValueFrom(this.apiService.get<OfferListItem[]>('offers/offers/'));
+      this.offers = await firstValueFrom(this.apiService.get<OfferListItem[]>('offers/'));
       this.formatOffers();
       this.extractAvailableCities();
       this.calculateMaxPrice();
