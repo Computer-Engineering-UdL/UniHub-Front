@@ -201,7 +201,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   async logout(): Promise<void> {
-    this.authService.logout();
+    await this.authService.logout();
     await this.router.navigate(['/login']);
   }
 

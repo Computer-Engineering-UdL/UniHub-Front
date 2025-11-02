@@ -1,6 +1,6 @@
 import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, Observable, throwError, switchMap, BehaviorSubject, filter, take, Subscriber } from 'rxjs';
+import { catchError, Observable, throwError, switchMap, BehaviorSubject, filter, take, Subscriber, from } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 let isRefreshing = false;
@@ -11,27 +11,33 @@ export const authInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
   const authService: AuthService = inject(AuthService);
-  const token: string | null = authService.getToken();
 
-  // Skip auth header for login and refresh endpoints
   if (req.url.includes('/auth/login') || req.url.includes('/auth/refresh') || req.url.includes('/auth/signup')) {
     return next(req);
   }
 
-  // Add token to request if available
-  let authReq = req;
-  if (token) {
-    authReq = addTokenToRequest(req, token);
-  }
-
-  return next(authReq).pipe(
-    catchError((error: HttpErrorResponse) => {
-      // If 401 error and we have a refresh token, try to refresh
-      if (error.status === 401 && authService.getRefreshToken()) {
-        return handle401Error(authReq, next, authService);
+  return from(authService.getToken()).pipe(
+    switchMap((token: string | null) => {
+      let authReq = req;
+      if (token) {
+        authReq = addTokenToRequest(req, token);
       }
 
-      return throwError(() => error);
+      return next(authReq).pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 401) {
+            return from(authService.getRefreshToken()).pipe(
+              switchMap((refreshToken: string | null) => {
+                if (refreshToken) {
+                  return handle401Error(authReq, next, authService);
+                }
+                return throwError(() => error);
+              })
+            );
+          }
+          return throwError(() => error);
+        })
+      );
     })
   );
 };
@@ -55,13 +61,12 @@ function handle401Error(
 
     return new Observable<HttpEvent<any>>((observer: Subscriber<HttpEvent<any>>): void => {
       authService.refreshToken().then(
-        (): void => {
+        async (): Promise<void> => {
           isRefreshing = false;
-          const newToken = authService.getToken();
+          const newToken: string | null = await authService.getToken();
           refreshTokenSubject.next(newToken);
 
           if (newToken) {
-            // Retry the original request with the new token
             next(addTokenToRequest(request, newToken)).subscribe({
               next: (event) => observer.next(event),
               error: (err) => observer.error(err),
@@ -71,9 +76,9 @@ function handle401Error(
             observer.error(new Error('No token available'));
           }
         },
-        (error): void => {
+        async (error): Promise<void> => {
           isRefreshing = false;
-          authService.logout();
+          await authService.logout();
           observer.error(error);
         }
       );

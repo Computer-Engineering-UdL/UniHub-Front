@@ -1,13 +1,15 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
+import { from, Observable, switchMap } from 'rxjs';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   private http = inject(HttpClient);
+  private storage = inject(StorageService);
   public readonly API_URL = environment.apiUrl;
 
   get<T>(
@@ -17,23 +19,35 @@ export class ApiService {
     requiresAuth: boolean = true
   ): Observable<T> {
     const httpParams = this.buildHttpParams(params);
-    const finalHeaders = this.buildHeaders(headers, requiresAuth);
-    return this.http.get<T>(`${this.API_URL}/${endpoint}`, { params: httpParams, headers: finalHeaders });
+    return from(this.buildHeaders(headers, requiresAuth)).pipe(
+      switchMap((finalHeaders: HttpHeaders) =>
+        this.http.get<T>(`${this.API_URL}/${endpoint}`, { params: httpParams, headers: finalHeaders })
+      )
+    );
   }
 
   post<T, B = any>(endpoint: string, body: B, headers?: HttpHeaders, requiresAuth: boolean = true): Observable<T> {
-    const finalHeaders = this.buildHeaders(headers, requiresAuth);
-    return this.http.post<T>(`${this.API_URL}/${endpoint}`, body, { headers: finalHeaders });
+    return from(this.buildHeaders(headers, requiresAuth)).pipe(
+      switchMap((finalHeaders: HttpHeaders) =>
+        this.http.post<T>(`${this.API_URL}/${endpoint}`, body, { headers: finalHeaders })
+      )
+    );
   }
 
   put<T, B = any>(endpoint: string, body: B, headers?: HttpHeaders, requiresAuth: boolean = true): Observable<T> {
-    const finalHeaders = this.buildHeaders(headers, requiresAuth);
-    return this.http.put<T>(`${this.API_URL}/${endpoint}`, body, { headers: finalHeaders });
+    return from(this.buildHeaders(headers, requiresAuth)).pipe(
+      switchMap((finalHeaders: HttpHeaders) =>
+        this.http.put<T>(`${this.API_URL}/${endpoint}`, body, { headers: finalHeaders })
+      )
+    );
   }
 
   patch<T, B = any>(endpoint: string, body: B, headers?: HttpHeaders, requiresAuth: boolean = true): Observable<T> {
-    const finalHeaders = this.buildHeaders(headers, requiresAuth);
-    return this.http.patch<T>(`${this.API_URL}/${endpoint}`, body, { headers: finalHeaders });
+    return from(this.buildHeaders(headers, requiresAuth)).pipe(
+      switchMap((finalHeaders: HttpHeaders) =>
+        this.http.patch<T>(`${this.API_URL}/${endpoint}`, body, { headers: finalHeaders })
+      )
+    );
   }
 
   delete<T>(
@@ -43,15 +57,18 @@ export class ApiService {
     requiresAuth: boolean = true
   ): Observable<T> {
     const httpParams = this.buildHttpParams(params);
-    const finalHeaders = this.buildHeaders(headers, requiresAuth);
-    return this.http.delete<T>(`${this.API_URL}/${endpoint}`, { params: httpParams, headers: finalHeaders });
+    return from(this.buildHeaders(headers, requiresAuth)).pipe(
+      switchMap((finalHeaders: HttpHeaders) =>
+        this.http.delete<T>(`${this.API_URL}/${endpoint}`, { params: httpParams, headers: finalHeaders })
+      )
+    );
   }
 
-  private buildHeaders(customHeaders?: HttpHeaders, requiresAuth: boolean = true): HttpHeaders {
+  private async buildHeaders(customHeaders?: HttpHeaders, requiresAuth: boolean = true): Promise<HttpHeaders> {
     let headers: HttpHeaders = customHeaders || new HttpHeaders();
 
     if (requiresAuth) {
-      const token: string | null = localStorage.getItem('auth_token');
+      const token: string | null = await this.storage.get('auth_token');
       if (token) {
         headers = headers.set('Authorization', `Bearer ${token}`);
       }

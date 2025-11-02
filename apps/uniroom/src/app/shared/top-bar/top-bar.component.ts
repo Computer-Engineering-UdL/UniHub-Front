@@ -63,8 +63,8 @@ export class TopBarComponent implements OnInit, OnDestroy {
     this.currentTheme = this.themeService.getTheme();
   }
 
-  changeLanguage(lang: LangCode): void {
-    this.localizationService.changeLanguage(lang);
+  async changeLanguage(lang: LangCode): Promise<void> {
+    await this.localizationService.changeLanguage(lang);
     this.currentLanguage = lang;
     this.updateCurrentLangIcon();
   }

@@ -188,7 +188,7 @@ export class SignupPage {
     this.phone = cleaned;
   }
 
-  changeLanguage(lang: LangCode): void {
-    this.localizationService.changeLanguage(lang);
+  async changeLanguage(lang: LangCode): Promise<void> {
+    await this.localizationService.changeLanguage(lang);
   }
 }
