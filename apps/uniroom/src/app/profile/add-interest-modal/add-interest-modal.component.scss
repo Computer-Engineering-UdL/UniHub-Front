@@ -1,0 +1,76 @@
+.interests-list {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.selectable-interest {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  font-weight: 600;
+  height: 38px;
+  border-radius: 20px;
+  padding: 8px 12px 8px 16px;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    --background: var(--ion-color-primary);
+    --color: var(--ion-color-primary-contrast);
+
+    ion-icon {
+      color: var(--ion-color-primary-contrast);
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  ion-label {
+    margin: 0 4px;
+  }
+
+  ion-icon {
+    margin-inline-start: 6px;
+    font-size: 1.3rem;
+    color: var(--ion-color-success);
+    transition: color 0.2s ease;
+  }
+}
+
+body.theme-dark {
+  .selectable-interest {
+    --background: rgba(255, 255, 255, 0.1);
+    --color: var(--ion-text-color);
+
+    &:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    }
+  }
+}
+
+.no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  width: 100%;
+
+  ion-icon {
+    font-size: 3rem;
+    color: var(--ion-text-color-secondary);
+    opacity: 0.5;
+    margin-bottom: 16px;
+  }
+
+  p {
+    color: var(--ion-text-color-secondary);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+}

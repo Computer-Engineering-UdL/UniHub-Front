@@ -5,6 +5,7 @@ import { ChannelService } from '../../services/channel.service';
 import { DEFAULT_USER_URL, Interest, Role, User } from '../../models/auth.types';
 import { ModalController } from '@ionic/angular';
 import { ProfileEditModal } from '../profile-edit.modal';
+import { AddInterestModalComponent } from '../add-interest-modal/add-interest-modal.component';
 import { Subscription } from 'rxjs';
 import { LocalizationService } from '../../services/localization.service';
 import { Channel, ChannelMember } from '../../models/channel.types';
@@ -225,19 +226,56 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   isUserHasInterest(interestId: string): boolean {
-    return this.userInterests.some((i) => i.id === interestId);
+    return this.userInterests.some((i: Interest): boolean => i.id === interestId);
   }
 
-  async toggleInterest(interest: Interest): Promise<void> {
-    if (!this.user) return;
+  async removeInterest(interest: Interest): Promise<void> {
+    if (!this.user || this.loadingInterests) return;
+
     try {
-      if (this.isUserHasInterest(interest.id)) {
-        await this.authService.removeInterestFromUser(this.user.id, interest.id);
-      } else {
-        await this.authService.addInterestToUser(this.user.id, interest.id);
-      }
+      this.loadingInterests = true;
+      await this.authService.removeInterestFromUser(this.user.id, interest.id);
       await this.loadUserInterests(this.user.id);
-    } catch (_) {}
+    } catch (error) {
+      console.error('Error removing interest:', error);
+    } finally {
+      this.loadingInterests = false;
+    }
+  }
+
+  async addInterest(interest: Interest): Promise<void> {
+    if (!this.user || this.loadingInterests) return;
+
+    try {
+      this.loadingInterests = true;
+      await this.authService.addInterestToUser(this.user.id, interest.id);
+      await this.loadUserInterests(this.user.id);
+    } catch (error) {
+      console.error('Error adding interest:', error);
+    } finally {
+      this.loadingInterests = false;
+    }
+  }
+
+  async openAddInterestModal(): Promise<void> {
+    if (!this.user) return;
+
+    const availableToAdd: Interest[] = this.availableInterests.filter(
+      (interest: Interest): boolean => !this.isUserHasInterest(interest.id)
+    );
+
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: AddInterestModalComponent,
+      componentProps: {
+        availableInterests: availableToAdd,
+        onAdd: async (interest: Interest): Promise<void> => {
+          await this.addInterest(interest);
+        }
+      },
+      cssClass: 'add-interest-modal'
+    });
+
+    await modal.present();
   }
 
   async openEditModal(): Promise<void> {

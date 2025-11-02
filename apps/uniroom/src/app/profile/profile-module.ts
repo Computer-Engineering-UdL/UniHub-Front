@@ -7,9 +7,10 @@ import { ProfileRoutingModule } from './profile-routing-module';
 import { ProfilePage } from './profile/profile.page';
 import { FormsModule } from '@angular/forms';
 import { ProfileEditModal } from './profile-edit.modal';
+import { AddInterestModalComponent } from './add-interest-modal/add-interest-modal.component';
 
 @NgModule({
-  declarations: [ProfilePage],
+  declarations: [ProfilePage, AddInterestModalComponent],
   imports: [
     CommonModule,
     IonicModule,

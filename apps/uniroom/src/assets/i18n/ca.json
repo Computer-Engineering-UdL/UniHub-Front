@@ -89,7 +89,13 @@
     },
     "INTERESTS": {
       "TITLE": "Interessos",
-      "EMPTY": "No s'han definit interessos encara"
+      "DESCRIPTION": "Gestiona els teus interessos",
+      "EMPTY": "No s'han definit interessos encara",
+      "NO_INTERESTS": "Encara no tens interessos. Afegeix-ne alguns!",
+      "ADD": "Afegir",
+      "ADD_INTEREST": "Afegir interès",
+      "SEARCH": "Buscar interessos...",
+      "NO_RESULTS": "No s'han trobat interessos"
     },
     "RECENT_ACTIVITY": {
       "TITLE": "Activitat Recent",

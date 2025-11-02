@@ -113,19 +113,32 @@
         <div class="content-grid">
           <!-- INTERESTS -->
           <div class="content-card">
-            <h2 class="card-title">{{ 'PROFILE.INTERESTS.TITLE' | translate }}</h2>
-            <div class="interests-container">
+            <div class="card-header-with-action">
+              <h2 class="card-title">{{ 'PROFILE.INTERESTS.TITLE' | translate }}</h2>
+              <ion-button (click)="openAddInterestModal()" [disabled]="loadingInterests">
+                <ion-icon name="add" slot="start"></ion-icon>
+                {{ 'PROFILE.INTERESTS.ADD' | translate }}
+              </ion-button>
+            </div>
+
+            <div class="user-interests-container">
               <ion-spinner *ngIf="loadingInterests"></ion-spinner>
 
               <ion-chip
-                *ngFor="let interest of availableInterests"
-                [color]="isUserHasInterest(interest.id) ? 'primary' : 'medium'"
-                (click)="toggleInterest(interest)">
+                *ngFor="let interest of userInterests"
+                color="primary"
+                class="user-interest-chip">
                 <ion-label>{{ interest.name }}</ion-label>
+                <ion-icon
+                  name="close-circle"
+                  (click)="removeInterest(interest)"
+                  [class.disabled]="loadingInterests">
+                </ion-icon>
               </ion-chip>
 
-              <div *ngIf="!loadingInterests && availableInterests.length === 0" class="small-muted">
-                {{ 'PROFILE.INTERESTS.EMPTY' | translate }}
+              <div *ngIf="!loadingInterests && userInterests.length === 0" class="empty-interests">
+                <ion-icon name="heart-outline"></ion-icon>
+                <p>{{ 'PROFILE.INTERESTS.NO_INTERESTS' | translate }}</p>
               </div>
             </div>
           </div>

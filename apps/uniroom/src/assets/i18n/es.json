@@ -89,7 +89,13 @@
     },
     "INTERESTS": {
       "TITLE": "Intereses",
-      "EMPTY": "No tienes intereses seleccionados"
+      "DESCRIPTION": "Gestiona tus intereses",
+      "EMPTY": "No hay intereses definidos todavía",
+      "NO_INTERESTS": "Aún no tienes intereses. ¡Añade algunos!",
+      "ADD": "Añadir",
+      "ADD_INTEREST": "Añadir interés",
+      "SEARCH": "Buscar intereses...",
+      "NO_RESULTS": "No se encontraron intereses"
     },
     "RECENT_ACTIVITY": {
       "TITLE": "Actividad Reciente",
