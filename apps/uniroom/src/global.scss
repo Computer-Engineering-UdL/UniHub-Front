@@ -174,6 +174,40 @@
   }
 }
 
+/**
+ * Add Interest Modal
+ * -----------------------------------------------------
+ * Modal styles for adding interests with proper sizing
+ */
+.add-interest-modal {
+  --width: 95%;
+  --max-width: 1400px;
+  --height: 85%;
+  --max-height: 850px;
+  --border-radius: 20px;
+  --box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+
+  ion-backdrop {
+    --backdrop-opacity: 0.6;
+    backdrop-filter: blur(4px);
+  }
+
+  @media (max-width: 768px) {
+    --width: 100%;
+    --height: 95%;
+    --max-height: 95vh;
+    --border-radius: 16px 16px 0 0;
+  }
+
+  @media (min-width: 1024px) {
+    --width: 90%;
+  }
+
+  @media (min-width: 1400px) {
+    --max-width: 1500px;
+  }
+}
+
 .bottom-nav .nav-item.burger,
 .bottom-nav .nav-item.burger.active,
 .bottom-nav .nav-item.burger:active,

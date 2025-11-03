@@ -77,6 +77,25 @@ export class AddInterestModalComponent implements OnInit {
     await this.modalCtrl.dismiss();
   }
 
+  getCategoryEmoji(categoryName: string): string {
+    const emojiMap: { [key: string]: string } = {
+      'Academics & Learning': '📚',
+      'Arts & Culture': '🎨',
+      'Career & Entrepreneurship': '💼',
+      'Finance & Investing (students)': '💰',
+      'Food, Coffee & Lifestyle': '☕',
+      'Housing & Daily Life': '🏠',
+      'Mobility & Carpool': '🚗',
+      'Social, Events & Nightlife': '🎉',
+      'Sports & Fitness': '⚽',
+      'Tech, Maker & Gaming': '💻',
+      'Travel & Languages': '✈️',
+      'Volunteering & Sustainability': '🌱',
+      'Wellbeing & Mindfulness': '🧘'
+    };
+    return emojiMap[categoryName] || '📌';
+  }
+
   dismiss(): void {
     this.modalCtrl.dismiss();
   }

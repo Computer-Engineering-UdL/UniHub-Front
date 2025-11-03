@@ -22,7 +22,10 @@
   <div class="interests-container">
     <div *ngFor="let filteredCategory of filteredCategories" class="category-section">
       <h3 class="category-title">
-        {{ filteredCategory.category.name | interestTranslate: 'category' }}
+        <span class="category-emoji">{{ getCategoryEmoji(filteredCategory.category.name) }}</span>
+        <span class="category-name">{{
+          filteredCategory.category.name | interestTranslate: 'category'
+        }}</span>
       </h3>
       <div class="interests-list">
         <ion-chip
