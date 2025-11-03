@@ -10,6 +10,7 @@
   <ion-toolbar>
     <ion-searchbar
       [(ngModel)]="searchTerm"
+      (ionChange)="onSearchChange()"
       [placeholder]="'PROFILE.INTERESTS.SEARCH' | translate"
       animated="true">
     </ion-searchbar>
@@ -17,16 +18,23 @@
 </ion-header>
 
 <ion-content>
-  <div class="interests-list">
-    <ion-chip
-      *ngFor="let interest of filteredInterests"
-      (click)="selectInterest(interest)"
-      class="selectable-interest">
-      <ion-label>{{ interest.name }}</ion-label>
-      <ion-icon name="add-circle"></ion-icon>
-    </ion-chip>
+  <div class="interests-container">
+    <div *ngFor="let filteredCategory of filteredCategories" class="category-section">
+      <h3 class="category-title">
+        {{ filteredCategory.category.name | interestTranslate: 'category' }}
+      </h3>
+      <div class="interests-list">
+        <ion-chip
+          *ngFor="let interest of filteredCategory.interests"
+          (click)="selectInterest(interest)"
+          class="selectable-interest">
+          <ion-label>{{ interest.name | interestTranslate: 'interest' }}</ion-label>
+          <ion-icon name="add-circle"></ion-icon>
+        </ion-chip>
+      </div>
+    </div>
 
-    <div *ngIf="filteredInterests.length === 0" class="no-results">
+    <div *ngIf="filteredCategories.length === 0" class="no-results">
       <ion-icon name="search-outline"></ion-icon>
       <p>{{ 'PROFILE.INTERESTS.NO_RESULTS' | translate }}</p>
     </div>

@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ChannelService } from '../../services/channel.service';
-import { DEFAULT_USER_URL, Interest, Role, User } from '../../models/auth.types';
+import { DEFAULT_USER_URL, Interest, InterestCategory, Role, User } from '../../models/auth.types';
 import { ModalController } from '@ionic/angular';
 import { ProfileEditModal } from '../profile-edit.modal';
 import { AddInterestModalComponent } from '../add-interest-modal/add-interest-modal.component';
@@ -42,7 +42,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     channels: 0
   };
 
-  availableInterests: Interest[] = [];
+  availableCategories: InterestCategory[] = [];
   userInterests: Interest[] = [];
 
   loadingInterests: boolean = false;
@@ -209,7 +209,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   private async loadAvailableInterests(): Promise<void> {
     try {
       this.loadingInterests = true;
-      this.availableInterests = await this.authService.getAllInterests();
+      this.availableCategories = await this.authService.getAllInterestCategories();
     } catch (_) {
     } finally {
       this.loadingInterests = false;
@@ -222,10 +222,6 @@ export class ProfilePage implements OnInit, OnDestroy {
     } catch (_) {
       this.userInterests = [];
     }
-  }
-
-  isUserHasInterest(interestId: string): boolean {
-    return this.userInterests.some((i: Interest): boolean => i.id === interestId);
   }
 
   async removeInterest(interest: Interest): Promise<void> {
@@ -257,14 +253,13 @@ export class ProfilePage implements OnInit, OnDestroy {
   async openAddInterestModal(): Promise<void> {
     if (!this.user) return;
 
-    const availableToAdd: Interest[] = this.availableInterests.filter(
-      (interest: Interest): boolean => !this.isUserHasInterest(interest.id)
-    );
+    const userInterestIds: string[] = this.userInterests.map((i: Interest) => i.id);
 
     const modal: HTMLIonModalElement = await this.modalCtrl.create({
       component: AddInterestModalComponent,
       componentProps: {
-        availableInterests: availableToAdd,
+        availableCategories: this.availableCategories,
+        userInterestIds: userInterestIds,
         onAdd: async (interest: Interest): Promise<void> => {
           await this.addInterest(interest);
         }

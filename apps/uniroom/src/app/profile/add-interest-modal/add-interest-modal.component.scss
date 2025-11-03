@@ -1,5 +1,25 @@
+.interests-container {
+  padding: 16px;
+}
+
+.category-section {
+  margin-bottom: 32px;
+
+  &:last-child {
+    margin-bottom: 16px;
+  }
+}
+
+.category-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+  margin: 0 0 12px 4px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--ion-color-primary);
+}
+
 .interests-list {
-  padding: 20px;
   display: flex;
   flex-wrap: wrap;
   gap: 12px;

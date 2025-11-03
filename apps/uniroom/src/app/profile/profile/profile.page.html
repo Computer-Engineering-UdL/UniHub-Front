@@ -128,7 +128,7 @@
                 *ngFor="let interest of userInterests"
                 color="primary"
                 class="user-interest-chip">
-                <ion-label>{{ interest.name }}</ion-label>
+                <ion-label>{{ interest.name | interestTranslate:'interest' }}</ion-label>
                 <ion-icon
                   name="close-circle"
                   (click)="removeInterest(interest)"

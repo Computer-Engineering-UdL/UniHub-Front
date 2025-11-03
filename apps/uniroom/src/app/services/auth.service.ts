@@ -293,6 +293,14 @@ export class AuthService {
     }
   }
 
+  async getAllInterestCategories(): Promise<InterestCategory[]> {
+    try {
+      return await firstValueFrom(this.apiService.get<InterestCategory[]>(`interest/`));
+    } catch (_) {
+      return [];
+    }
+  }
+
   async addInterestToUser(userId: string, interestId: string): Promise<void> {
     await firstValueFrom(this.apiService.post(`interest/user/${userId}`, { interest_id: interestId }));
     if (this.currentUser && this.currentUser.id === userId) {
