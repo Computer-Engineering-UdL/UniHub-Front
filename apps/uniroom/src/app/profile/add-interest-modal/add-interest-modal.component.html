@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ 'PROFILE.INTERESTS.MANAGE_INTERESTS' | translate }}</ion-title>
+    <ion-title>
+      {{ 'PROFILE.INTERESTS.MANAGE_INTERESTS' | translate }}
+      <ion-badge [color]="userInterestIds.length >= MAX_INTERESTS ? 'warning' : 'primary'">
+        {{ userInterestIds.length }}/{{ MAX_INTERESTS }}
+      </ion-badge>
+    </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="dismiss()">
         <ion-icon name="close" slot="icon-only"></ion-icon>

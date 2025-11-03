@@ -97,6 +97,8 @@
       "MANAGE_INTERESTS": "Gestionar interessos",
       "SEARCH": "Buscar interessos...",
       "NO_RESULTS": "No s'han trobat interessos",
+      "MAX_LIMIT_REACHED": "Has arribat al màxim de {{max}} interessos",
+      "EXCESS_REMOVED": "S'han eliminat {{count}} interessos per complir el límit màxim de {{max}}",
       "CATEGORIES": {
         "ACADEMICS_&_LEARNING": "Acadèmics i Aprenentatge",
         "ARTS_&_CULTURE": "Art i Cultura",

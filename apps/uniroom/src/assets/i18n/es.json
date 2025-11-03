@@ -97,6 +97,8 @@
       "MANAGE_INTERESTS": "Gestionar intereses",
       "SEARCH": "Buscar intereses...",
       "NO_RESULTS": "No se encontraron intereses",
+      "MAX_LIMIT_REACHED": "Has alcanzado el máximo de {{max}} intereses",
+      "EXCESS_REMOVED": "Se han eliminado {{count}} intereses para cumplir el límite máximo de {{max}}",
       "CATEGORIES": {
         "ACADEMICS_&_LEARNING": "Académicos y Aprendizaje",
         "ARTS_&_CULTURE": "Arte y Cultura",
