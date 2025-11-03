@@ -67,8 +67,7 @@ export class AddInterestModalComponent implements OnInit {
   }
 
   private getTranslatedInterestName(interestName: string): string {
-    const key = getInterestTranslationPath(interestName);
-    return this.translate.instant(key);
+    return this.translate.instant(getInterestTranslationPath(interestName));
   }
 
   async selectInterest(interest: Interest): Promise<void> {

@@ -10,9 +10,10 @@
   <ion-toolbar>
     <ion-searchbar
       [(ngModel)]="searchTerm"
-      (ionChange)="onSearchChange()"
+      (ionInput)="onSearchChange()"
       [placeholder]="'PROFILE.INTERESTS.SEARCH' | translate"
-      animated="true">
+      [animated]="true"
+      [debounce]="200">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
