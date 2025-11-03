@@ -92,8 +92,9 @@
       "DESCRIPTION": "Manage your interests",
       "EMPTY": "No interests defined yet",
       "NO_INTERESTS": "You don't have any interests yet. Add some!",
-      "ADD": "Add",
+      "ADD": "Manage",
       "ADD_INTEREST": "Add Interest",
+      "MANAGE_INTERESTS": "Manage Interests",
       "SEARCH": "Search interests...",
       "NO_RESULTS": "No interests found",
       "CATEGORIES": {

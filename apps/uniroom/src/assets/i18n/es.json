@@ -92,8 +92,9 @@
       "DESCRIPTION": "Gestiona tus intereses",
       "EMPTY": "No hay intereses definidos todavía",
       "NO_INTERESTS": "Aún no tienes intereses. ¡Añade algunos!",
-      "ADD": "Añadir",
+      "ADD": "Modificar",
       "ADD_INTEREST": "Añadir interés",
+      "MANAGE_INTERESTS": "Gestionar intereses",
       "SEARCH": "Buscar intereses...",
       "NO_RESULTS": "No se encontraron intereses",
       "CATEGORIES": {

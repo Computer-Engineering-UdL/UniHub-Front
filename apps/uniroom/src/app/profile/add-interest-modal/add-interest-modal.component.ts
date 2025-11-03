@@ -18,7 +18,7 @@ interface FilteredCategory {
 export class AddInterestModalComponent implements OnInit {
   @Input() availableCategories: InterestCategory[] = [];
   @Input() userInterestIds: string[] = [];
-  @Input() onAdd!: (interest: Interest) => Promise<void>;
+  @Input() onToggle!: (interest: Interest, isSelected: boolean) => Promise<void>;
 
   searchTerm: string = '';
   filteredCategories: FilteredCategory[] = [];
@@ -41,19 +41,18 @@ export class AddInterestModalComponent implements OnInit {
 
     this.filteredCategories = this.availableCategories
       .map((category: InterestCategory): FilteredCategory => {
-        // Filter by the interests the user does not have
-        const availableInterests: Interest[] = category.interests.filter(
-          (interest: Interest): boolean => !this.userInterestIds.includes(interest.id)
-        );
+        // Show ALL interests
+        const allInterests: Interest[] = category.interests;
 
         if (!term) {
           return {
             category,
-            interests: availableInterests
+            interests: allInterests
           };
         }
 
-        const filtered: Interest[] = availableInterests.filter((interest: Interest): boolean => {
+        // Filter by search term
+        const filtered: Interest[] = allInterests.filter((interest: Interest): boolean => {
           const translatedName: string = this.getTranslatedInterestName(interest.name).toLowerCase();
           return translatedName.includes(term) || interest.name.toLowerCase().includes(term);
         });
@@ -70,11 +69,26 @@ export class AddInterestModalComponent implements OnInit {
     return this.translate.instant(getInterestTranslationPath(interestName));
   }
 
-  async selectInterest(interest: Interest): Promise<void> {
-    if (this.onAdd) {
-      await this.onAdd(interest);
+  isInterestSelected(interestId: string): boolean {
+    return this.userInterestIds.includes(interestId);
+  }
+
+  async toggleInterest(interest: Interest): Promise<void> {
+    const isSelected = this.isInterestSelected(interest.id);
+
+    if (this.onToggle) {
+      await this.onToggle(interest, isSelected);
     }
-    await this.modalCtrl.dismiss();
+
+    // Update local state
+    if (isSelected) {
+      const index = this.userInterestIds.indexOf(interest.id);
+      if (index > -1) {
+        this.userInterestIds.splice(index, 1);
+      }
+    } else {
+      this.userInterestIds.push(interest.id);
+    }
   }
 
   getCategoryEmoji(categoryName: string): string {

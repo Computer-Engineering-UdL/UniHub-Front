@@ -260,8 +260,14 @@ export class ProfilePage implements OnInit, OnDestroy {
       componentProps: {
         availableCategories: this.availableCategories,
         userInterestIds: userInterestIds,
-        onAdd: async (interest: Interest): Promise<void> => {
-          await this.addInterest(interest);
+        onToggle: async (interest: Interest, isSelected: boolean): Promise<void> => {
+          if (isSelected) {
+            // Remove interest
+            await this.removeInterest(interest);
+          } else {
+            // Add interest
+            await this.addInterest(interest);
+          }
         }
       },
       cssClass: 'add-interest-modal'

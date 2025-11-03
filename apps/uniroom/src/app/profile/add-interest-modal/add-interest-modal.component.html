@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ 'PROFILE.INTERESTS.ADD_INTEREST' | translate }}</ion-title>
+    <ion-title>{{ 'PROFILE.INTERESTS.MANAGE_INTERESTS' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="dismiss()">
         <ion-icon name="close" slot="icon-only"></ion-icon>
@@ -30,10 +30,12 @@
       <div class="interests-list">
         <ion-chip
           *ngFor="let interest of filteredCategory.interests"
-          (click)="selectInterest(interest)"
-          class="selectable-interest">
+          (click)="toggleInterest(interest)"
+          class="selectable-interest"
+          [class.selected]="isInterestSelected(interest.id)">
           <ion-label>{{ interest.name | interestTranslate: 'interest' }}</ion-label>
-          <ion-icon name="add-circle"></ion-icon>
+          <ion-icon
+            [name]="isInterestSelected(interest.id) ? 'checkmark-circle' : 'add-circle'"></ion-icon>
         </ion-chip>
       </div>
     </div>
