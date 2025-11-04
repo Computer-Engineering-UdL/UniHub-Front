@@ -13,7 +13,7 @@ export interface Offer {
   address: string;
   start_date: string;
   end_date: string;
-  deposit: number;
+  deposit: number | null;
   num_rooms: number;
   num_bathrooms: number;
   furnished: boolean;
@@ -24,6 +24,15 @@ export interface Offer {
   user_id: string;
   posted_date: string;
   photos: OfferPhoto[];
+  floor?: number | null;
+  distance_from_campus?: string | null;
+  utilities_cost?: number | null;
+  utilities_description?: string | null;
+  contract_type?: string | null;
+  amenities?: OfferAmenity[] | null;
+  rules?: OfferHouseRules | null;
+  latitude?: number | null;
+  longitude?: number | null;
 }
 
 export interface OfferPhoto {
@@ -31,6 +40,18 @@ export interface OfferPhoto {
   url: string;
   is_primary?: boolean;
 }
+
+export interface CreateOfferPhoto {
+  url: string;
+  is_primary?: boolean;
+}
+
+export interface OfferAmenity {
+  key: string;
+  available?: boolean | null;
+}
+
+export type OfferHouseRules = Record<string, boolean>;
 
 export interface OfferListItem {
   id: string;
@@ -58,7 +79,7 @@ export interface CreateOfferData {
   address: string;
   start_date: string;
   end_date: string;
-  deposit: number;
+  deposit: number | null;
   num_rooms: number;
   num_bathrooms: number;
   furnished: boolean;
@@ -67,4 +88,14 @@ export interface CreateOfferData {
   gender_preference: GenderPreference;
   status: OfferStatus;
   user_id: string;
+  floor?: number | null;
+  distance_from_campus?: string | null;
+  utilities_cost?: number | null;
+  utilities_description?: string | null;
+  contract_type?: string | null;
+  amenities?: OfferAmenity[] | null;
+  rules?: OfferHouseRules | null;
+  latitude?: number | null;
+  longitude?: number | null;
+  photos?: CreateOfferPhoto[] | null;
 }

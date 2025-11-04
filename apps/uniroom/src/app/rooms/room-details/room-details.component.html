@@ -78,8 +78,7 @@
         <section class="gallery">
           <div class="main-image">
             <img
-              [ngSrc]="room.photos[selectedImageIndex].url"
-              fill
+              [src]="room.photos[selectedImageIndex].url"
               [alt]="room.title"
               class="hero-image" />
             @if (room.photos.length > 1) {
@@ -107,7 +106,7 @@
                   class="thumbnail"
                   [class.active]="$index === selectedImageIndex"
                   (click)="selectImage($index)">
-                  <img [ngSrc]="photo.url" [alt]="room.title" fill />
+                  <img [src]="photo.url" [alt]="room.title" />
                 </button>
               }
             </div>
@@ -146,32 +145,6 @@
                   <div>
                     <span class="label">{{ 'ROOM.DETAILS.MAIN_FEATURES.FLOOR' | translate }}</span>
                     <span class="value">{{ room.floor ?? '—' }}</span>
-                  </div>
-                </div>
-                <div class="summary-item">
-                  <ion-icon name="cash-outline"></ion-icon>
-                  <div>
-                    <span class="label">{{ 'ROOM.DETAILS.MAIN_FEATURES.DEPOSIT' | translate }}</span>
-                    <span class="value">{{ room.depositFormatted || ('ROOM.DETAILS.FINANCIAL.NOT_SPECIFIED' | translate) }}</span>
-                  </div>
-                </div>
-                <div class="summary-item">
-                  <ion-icon name="flash-outline"></ion-icon>
-                  <div>
-                    <span class="label">{{ 'ROOM.DETAILS.MAIN_FEATURES.UTILITIES' | translate }}</span>
-                    <span class="value">
-                      @switch (room.utilitiesIncluded) {
-                        @case (true) {
-                          <span>{{ 'ROOM.DETAILS.FINANCIAL.INCLUDED' | translate }}</span>
-                        }
-                        @case (false) {
-                          <span>{{ 'ROOM.DETAILS.FINANCIAL.NOT_INCLUDED' | translate }}</span>
-                        }
-                        @default {
-                          <span>{{ 'ROOM.DETAILS.FINANCIAL.NOT_SPECIFIED' | translate }}</span>
-                        }
-                      }
-                    </span>
                   </div>
                 </div>
               </div>
@@ -363,25 +336,27 @@
             </ion-card-header>
             <ion-card-content>
               <div class="availability-item">
-                <span class="label">{{ 'ROOM.DETAILS.AVAILABLE_FROM_LABEL' | translate }}</span>
+                <span class="label">{{ 'ROOM.DETAILS.AVAILABILITY.LEASE_START' | translate }}</span>
                 <span class="value">
                   {{ room.availableFrom || ('ROOM.DETAILS.FINANCIAL.NOT_SPECIFIED' | translate) }}
                 </span>
               </div>
-              <div class="availability-item">
-                <span class="label">{{ 'ROOM.DETAILS.POSTED_ON_LABEL' | translate }}</span>
-                <span class="value">{{ room.postedDate || ('ROOM.DETAILS.FINANCIAL.NOT_SPECIFIED' | translate) }}</span>
-              </div>
-              <div class="availability-item">
-                <span class="label">{{ 'ROOM.DETAILS.DEPOSIT_LABEL' | translate }}</span>
-                <span class="value">{{ room.depositFormatted || ('ROOM.DETAILS.FINANCIAL.NOT_SPECIFIED' | translate) }}</span>
-              </div>
-              @if (room.contractType) {
+              @if (room.leaseEnd) {
                 <div class="availability-item">
-                  <span class="label">{{ 'ROOM.DETAILS.CONTRACT_TYPE_LABEL' | translate }}</span>
-                  <span class="value">{{ room.contractType }}</span>
+                  <span class="label">{{ 'ROOM.DETAILS.AVAILABILITY.LEASE_END' | translate }}</span>
+                  <span class="value">{{ room.leaseEnd }}</span>
                 </div>
               }
+              @if (room.offerValidUntil) {
+                <div class="availability-item">
+                  <span class="label">{{ 'ROOM.DETAILS.AVAILABILITY.OFFER_VALID_UNTIL' | translate }}</span>
+                  <span class="value">{{ room.offerValidUntil }}</span>
+                </div>
+              }
+              <div class="availability-item">
+                <span class="label">{{ 'ROOM.DETAILS.AVAILABILITY.LISTED_ON' | translate }}</span>
+                <span class="value">{{ room.postedDate || ('ROOM.DETAILS.FINANCIAL.NOT_SPECIFIED' | translate) }}</span>
+              </div>
             </ion-card-content>
           </ion-card>
 

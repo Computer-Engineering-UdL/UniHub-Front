@@ -67,6 +67,8 @@ interface RoomDetailsViewModel {
   mapUrl?: SafeResourceUrl;
   utilitiesCost?: string;
   contractType?: string;
+  leaseEnd?: string;
+  offerValidUntil?: string;
 }
 
 type OfferDetailsResponse = Offer & {
@@ -210,8 +212,17 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     const postedDate: string | undefined = offer.posted_date
       ? this.localization.formatDate(offer.posted_date)
       : undefined;
+    const leaseEnd: string | undefined = offer.end_date
+      ? this.localization.formatDate(offer.end_date, {
+        year: 'numeric',
+        month: 'long',
+        day: '2-digit'
+      })
+      : undefined;
 
-    const distanceFromCampus: string | undefined = offer.distance_from_campus ?? offer.distanceFromCampus;
+    const offerValidUntil: string | undefined = offer.offer_valid_until
+      ? this.localization.formatDate(offer.offer_valid_until)
+      : undefined;
 
     return {
       id: offer.id,
@@ -222,7 +233,6 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       currency,
       address: offer.address,
       city: offer.city,
-      distanceFromCampus,
       availableFrom,
       postedDate,
       description: offer.description,
@@ -242,7 +252,9 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
         offer.utilities_cost != null
           ? this.localization.formatPrice(offer.utilities_cost, currency)
           : undefined,
-      contractType: offer.contract_type ?? undefined
+      contractType: offer.contract_type ?? undefined,
+      leaseEnd,
+      offerValidUntil
     };
   }
 

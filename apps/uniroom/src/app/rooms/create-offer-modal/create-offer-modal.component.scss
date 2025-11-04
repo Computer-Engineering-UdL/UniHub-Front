@@ -151,6 +151,9 @@ ion-item.field-with-helper {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 12px;
   }
+  .amenities-grid--secondary {
+    margin-top: 16px;
+  }
 
   .amenity-item {
     display: flex;
@@ -164,26 +167,160 @@ ion-item.field-with-helper {
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: var(--elevation-2, 0 2px 8px rgba(0, 0, 0, 0.08));
+  }
+}
 
-    &:hover {
-      border-color: var(--ion-color-primary);
+.form-section--house-rules {
+  .section-helper {
+    margin: -8px 0 16px 0;
+    color: var(--ion-color-medium);
+    font-size: 14px;
+  }
+}
+
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.rule-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--ion-card-background);
+  border: 1px solid var(--card-border-color);
+  border-radius: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--elevation-1, 0 1px 4px rgba(0, 0, 0, 0.08));
+
+  &:hover {
+    border-color: var(--ion-color-primary);
+    background: var(--ion-color-primary-tint);
+  }
+
+  ion-checkbox {
+    --size: 20px;
+    --checkbox-background-checked: var(--ion-color-primary);
+    --checkbox-background: var(--ion-color-light-shade);
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  span {
+    font-weight: 500;
+    color: var(--ion-text-color);
+    flex: 1;
+  }
+}
+
+.form-section--photos {
+  .photo-upload {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .photo-upload__trigger {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border: 2px dashed var(--ion-color-primary);
+    border-radius: 12px;
+    color: var(--ion-color-primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    ion-icon {
+      font-size: 22px;
+    }
+
+    input[type='file'] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    &:hover:not(.disabled) {
       background: var(--ion-color-primary-tint);
-    }
-
-    ion-checkbox {
-      --size: 20px;
-      --checkbox-background-checked: var(--ion-color-primary);
-      --checkbox-background: var(--ion-color-light-shade);
-      margin: 0;
-      flex-shrink: 0;
-    }
-
-    span {
-      font-weight: 500;
-      color: var(--ion-text-color);
-      flex: 1;
+      border-color: var(--ion-color-primary-shade);
     }
   }
+
+  .photo-upload__note {
+    font-size: 13px;
+  }
+
+  .photo-upload__error {
+    display: block;
+    margin-top: 8px;
+    font-weight: 600;
+  }
+
+  .photo-upload__empty {
+    margin: 16px 0 0 0;
+    color: var(--ion-color-medium);
+    font-style: italic;
+  }
+}
+
+.photo-preview-grid {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.photo-card {
+  position: relative;
+  background: var(--ion-card-background);
+  border: 1px solid var(--card-border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  box-shadow: var(--elevation-2, 0 2px 8px rgba(0, 0, 0, 0.08));
+
+  img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+  }
+}
+
+.photo-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+
+  ion-button {
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 8px;
+    --padding-end: 8px;
+  }
+}
+
+.photo-card__badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1;
 }
 
 .form-actions {
@@ -213,6 +350,100 @@ ion-spinner {
 .category-popover .popover-content {
   min-width: 480px;
   max-width: 80vw;
+}
+
+/* Dates section: ensure date inputs are visible, tall enough and with readable text */
+.form-section--dates {
+  ion-item {
+    border: 1px solid var(--ion-border-color);
+    border-radius: 10px;
+    --inner-padding-end: 16px;
+  }
+
+  .native-date {
+    display: block;
+    width: 100%;
+    height: 48px;
+    padding: 10px 12px;
+    font-size: 16px;
+    line-height: 1.4;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    font-family: inherit;
+  }
+
+  .native-date::-webkit-datetime-edit-fields-wrapper,
+  .native-date::-webkit-datetime-edit-text,
+  .native-date::-webkit-datetime-edit-year-field,
+  .native-date::-webkit-datetime-edit-month-field,
+  .native-date::-webkit-datetime-edit-day-field {
+    padding: 2px;
+  }
+
+  /* Ensure calendar icon is visible and clickable */
+  .native-date::-webkit-calendar-picker-indicator {
+    opacity: 1;
+    cursor: pointer;
+    padding: 4px;
+    margin-left: 8px;
+  }
+}
+
+/* Light theme: dark text on light background */
+.theme-light .form-section--dates {
+  .native-date {
+    background: #ffffff;
+    color: #000000;
+    border: 1px solid #e0e0e0;
+  }
+
+  .native-date::-webkit-datetime-edit-fields-wrapper,
+  .native-date::-webkit-datetime-edit-text,
+  .native-date::-webkit-datetime-edit-year-field,
+  .native-date::-webkit-datetime-edit-month-field,
+  .native-date::-webkit-datetime-edit-day-field {
+    color: #000000;
+  }
+
+  /* Calendar icon in black for light mode */
+  .native-date::-webkit-calendar-picker-indicator {
+    filter: none;
+    opacity: 1;
+  }
+
+  .native-date:focus {
+    border-color: var(--ion-color-primary);
+    box-shadow: 0 0 0 2px rgba(56, 128, 255, 0.2);
+  }
+}
+
+/* Dark theme: light text on dark background */
+.theme-dark .form-section--dates {
+  .native-date {
+    background: #2c2c2c;
+    color: #ffffff;
+    border: 1px solid #444444;
+  }
+
+  .native-date::-webkit-datetime-edit-fields-wrapper,
+  .native-date::-webkit-datetime-edit-text,
+  .native-date::-webkit-datetime-edit-year-field,
+  .native-date::-webkit-datetime-edit-month-field,
+  .native-date::-webkit-datetime-edit-day-field {
+    color: #ffffff;
+  }
+
+  /* Calendar icon inverted to white for dark mode */
+  .native-date::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.9;
+  }
+
+  .native-date:focus {
+    border-color: var(--ion-color-primary);
+    box-shadow: 0 0 0 2px rgba(56, 128, 255, 0.3);
+  }
 }
 
 @media (max-width: 768px) {
