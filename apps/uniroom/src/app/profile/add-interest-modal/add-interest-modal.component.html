@@ -13,13 +13,15 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar
-      [(ngModel)]="searchTerm"
-      (ionInput)="onSearchChange()"
-      [placeholder]="'PROFILE.INTERESTS.SEARCH' | translate"
-      [animated]="true"
-      [debounce]="200">
-    </ion-searchbar>
+    <div class="searchbar-container">
+      <ion-searchbar
+        [(ngModel)]="searchTerm"
+        (ionInput)="onSearchChange()"
+        [placeholder]="'PROFILE.INTERESTS.SEARCH' | translate"
+        [animated]="true"
+        [debounce]="200">
+      </ion-searchbar>
+    </div>
   </ion-toolbar>
 </ion-header>
 
