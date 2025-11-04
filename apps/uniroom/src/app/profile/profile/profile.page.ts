@@ -2,9 +2,10 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ChannelService } from '../../services/channel.service';
-import { DEFAULT_USER_URL, Interest, Role, User } from '../../models/auth.types';
+import { DEFAULT_USER_URL, Interest, InterestCategory, Role, User } from '../../models/auth.types';
 import { ModalController } from '@ionic/angular';
 import { ProfileEditModal } from '../profile-edit.modal';
+import { AddInterestModalComponent } from '../add-interest-modal/add-interest-modal.component';
 import { Subscription } from 'rxjs';
 import { LocalizationService } from '../../services/localization.service';
 import { Channel, ChannelMember } from '../../models/channel.types';
@@ -41,7 +42,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     channels: 0
   };
 
-  availableInterests: Interest[] = [];
+  availableCategories: InterestCategory[] = [];
   userInterests: Interest[] = [];
 
   loadingInterests: boolean = false;
@@ -201,16 +202,15 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   async logout(): Promise<void> {
-    this.authService.logout();
+    await this.authService.logout();
     await this.router.navigate(['/login']);
   }
 
   private async loadAvailableInterests(): Promise<void> {
     try {
       this.loadingInterests = true;
-      this.availableInterests = await this.authService.getAllInterests();
+      this.availableCategories = await this.authService.getAllInterestCategories();
     } catch (_) {
-      // mantener estado silencioso
     } finally {
       this.loadingInterests = false;
     }
@@ -224,20 +224,56 @@ export class ProfilePage implements OnInit, OnDestroy {
     }
   }
 
-  isUserHasInterest(interestId: string): boolean {
-    return this.userInterests.some((i) => i.id === interestId);
+  async removeInterest(interest: Interest): Promise<void> {
+    if (!this.user || this.loadingInterests) return;
+
+    try {
+      this.loadingInterests = true;
+      await this.authService.removeInterestFromUser(this.user.id, interest.id);
+      await this.loadUserInterests(this.user.id);
+    } catch (_) {
+    } finally {
+      this.loadingInterests = false;
+    }
   }
 
-  async toggleInterest(interest: Interest): Promise<void> {
-    if (!this.user) return;
+  async addInterest(interest: Interest): Promise<void> {
+    if (!this.user || this.loadingInterests) return;
+
     try {
-      if (this.isUserHasInterest(interest.id)) {
-        await this.authService.removeInterestFromUser(this.user.id, interest.id);
-      } else {
-        await this.authService.addInterestToUser(this.user.id, interest.id);
-      }
+      this.loadingInterests = true;
+      await this.authService.addInterestToUser(this.user.id, interest.id);
       await this.loadUserInterests(this.user.id);
-    } catch (_) {}
+    } catch (_) {
+    } finally {
+      this.loadingInterests = false;
+    }
+  }
+
+  async openAddInterestModal(): Promise<void> {
+    if (!this.user) return;
+
+    const userInterestIds: string[] = this.userInterests.map((i: Interest) => i.id);
+
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: AddInterestModalComponent,
+      componentProps: {
+        availableCategories: this.availableCategories,
+        userInterestIds: userInterestIds,
+        onToggle: async (interest: Interest, isSelected: boolean): Promise<void> => {
+          if (isSelected) {
+            // Remove interest
+            await this.removeInterest(interest);
+          } else {
+            // Add interest
+            await this.addInterest(interest);
+          }
+        }
+      },
+      cssClass: 'add-interest-modal'
+    });
+
+    await modal.present();
   }
 
   async openEditModal(): Promise<void> {

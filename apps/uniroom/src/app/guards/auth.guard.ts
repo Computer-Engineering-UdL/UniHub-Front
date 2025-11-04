@@ -10,9 +10,9 @@ export class AuthGuard implements CanActivate {
   private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
+  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
     const data: RouteAccessData = (route.data || {}) as RouteAccessData;
-    const isAuth = this.authService.isAuthenticated();
+    const isAuth: boolean = await this.authService.isAuthenticated();
     const { public: isPublic, guestOnly, roles } = data;
 
     if (isPublic) {

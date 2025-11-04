@@ -1,0 +1,116 @@
+.emoji-picker-popover {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--ion-background-color);
+  overflow: hidden;
+}
+
+.picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--ion-border-color);
+  background: var(--ion-background-color);
+  flex-shrink: 0;
+
+  .picker-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .remove-btn,
+  .close-btn {
+    margin: 0;
+    --padding-start: 8px;
+    --padding-end: 8px;
+  }
+
+  .remove-btn {
+    --color: var(--ion-color-danger);
+
+    &:hover {
+      --background: rgba(var(--ion-color-danger-rgb), 0.1);
+      --color: var(--ion-color-danger-shade);
+    }
+  }
+
+  .close-btn {
+    --color: var(--ion-color-medium);
+
+    &:hover {
+      --background: var(--ion-color-light);
+      --color: var(--ion-text-color);
+    }
+  }
+}
+
+.emoji-grid-container {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--ion-background-color);
+  min-height: 0;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px 4px;
+  width: 100%;
+}
+
+.emoji-item {
+  width: 100%;
+  aspect-ratio: 1;
+  font-size: 26px;
+  background: transparent;
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  will-change: transform;
+  box-sizing: border-box;
+
+  &.selected {
+    background: rgba(var(--ion-color-primary-rgb), 0.15);
+    border-color: var(--ion-color-primary);
+    box-shadow: inset 0 0 0 1px var(--ion-color-primary);
+  }
+
+  &:hover:not(.selected) {
+    background: var(--ion-color-light);
+  }
+
+  &.selected:hover {
+    background: rgba(var(--ion-color-primary-rgb), 0.2);
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+}

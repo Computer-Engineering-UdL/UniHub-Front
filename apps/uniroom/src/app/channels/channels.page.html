@@ -46,6 +46,7 @@
           *ngFor="let category of categories"
           class="category-chip"
           [class.active]="selectedCategory === category"
+          [attr.data-category]="category"
           (click)="onCategoryChange(category)">
           <ion-icon [name]="getCategoryIcon(category)"></ion-icon>
           {{ getCategoryTranslation(category) }}
@@ -71,8 +72,8 @@
         *ngFor="let channel of filteredChannels"
         class="channel-card"
         [attr.data-category]="channel.category">
-        <div class="channel-icon">
-          <ion-icon [name]="getCategoryIcon(channel?.category)"></ion-icon>
+        <div class="channel-icon emoji-icon">
+          <span class="channel-emoji">{{ getChannelEmoji(channel) }}</span>
         </div>
         <div class="channel-info">
           <div class="channel-header">
@@ -94,7 +95,7 @@
                 fill="solid"
                 class="join-btn"
                 size="small"
-                (click)="joinChannel(channel)">
+                (click)="joinChannel(channel); $event.stopPropagation()">
                 {{ 'CHANNELS.JOIN' | translate }}
               </ion-button>
               <ion-button
@@ -102,15 +103,23 @@
                 fill="outline"
                 color="medium"
                 size="small"
-                (click)="leaveChannel(channel)">
+                (click)="leaveChannel(channel); $event.stopPropagation()">
                 {{ 'CHANNELS.LEAVE' | translate }}
+              </ion-button>
+              <ion-button
+                *ngIf="isAdmin"
+                fill="outline"
+                color="primary"
+                size="small"
+                (click)="editChannel(channel); $event.stopPropagation()">
+                <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
               </ion-button>
               <ion-button
                 *ngIf="isAdmin"
                 fill="solid"
                 color="danger"
                 size="small"
-                (click)="deleteChannel(channel)">
+                (click)="deleteChannel(channel); $event.stopPropagation()">
                 <ion-icon slot="icon-only" name="trash"></ion-icon>
               </ion-button>
             </div>

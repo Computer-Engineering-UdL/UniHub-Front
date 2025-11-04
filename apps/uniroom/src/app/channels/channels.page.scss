@@ -177,6 +177,186 @@
       color: white;
     }
   }
+
+  &[data-category='General'] {
+    &:hover {
+      background: rgba(102, 126, 234, 0.2);
+      border-color: #667eea;
+      color: #4c5fc7;
+      box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+
+      ion-icon {
+        color: #4c5fc7;
+      }
+    }
+
+    &.active {
+      background: #667eea;
+      border-color: #667eea;
+      color: white;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+
+      ion-icon {
+        color: white;
+      }
+
+      &:hover {
+        background: #5a6fd4;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(102, 126, 234, 0.6);
+      }
+    }
+  }
+
+  &[data-category='Engineering'] {
+    &:hover {
+      background: rgba(245, 87, 108, 0.2);
+      border-color: #f5576c;
+      color: #d93651;
+      box-shadow: 0 4px 8px rgba(245, 87, 108, 0.3);
+
+      ion-icon {
+        color: #d93651;
+      }
+    }
+
+    &.active {
+      background: #f5576c;
+      border-color: #f5576c;
+      color: white;
+      box-shadow: 0 4px 12px rgba(245, 87, 108, 0.4);
+
+      ion-icon {
+        color: white;
+      }
+
+      &:hover {
+        background: #e5485c;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(245, 87, 108, 0.6);
+      }
+    }
+  }
+
+  &[data-category='Sciences'] {
+    &:hover {
+      background: rgba(79, 172, 254, 0.2);
+      border-color: #4facfe;
+      color: #2b7fcc;
+      box-shadow: 0 4px 8px rgba(79, 172, 254, 0.3);
+
+      ion-icon {
+        color: #2b7fcc;
+      }
+    }
+
+    &.active {
+      background: #4facfe;
+      border-color: #4facfe;
+      color: white;
+      box-shadow: 0 4px 12px rgba(79, 172, 254, 0.4);
+
+      ion-icon {
+        color: white;
+      }
+
+      &:hover {
+        background: #3f9ee8;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(79, 172, 254, 0.6);
+      }
+    }
+  }
+
+  &[data-category='Business'] {
+    &:hover {
+      background: rgba(67, 233, 123, 0.2);
+      border-color: #43e97b;
+      color: #2da860;
+      box-shadow: 0 4px 8px rgba(67, 233, 123, 0.3);
+
+      ion-icon {
+        color: #2da860;
+      }
+    }
+
+    &.active {
+      background: #43e97b;
+      border-color: #43e97b;
+      color: white;
+      box-shadow: 0 4px 12px rgba(67, 233, 123, 0.4);
+
+      ion-icon {
+        color: white;
+      }
+
+      &:hover {
+        background: #3ad36d;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(67, 233, 123, 0.6);
+      }
+    }
+  }
+
+  &[data-category='Arts'] {
+    &:hover {
+      background: rgba(250, 112, 154, 0.2);
+      border-color: #fa709a;
+      color: #d6527a;
+      box-shadow: 0 4px 8px rgba(250, 112, 154, 0.3);
+
+      ion-icon {
+        color: #d6527a;
+      }
+    }
+
+    &.active {
+      background: #fa709a;
+      border-color: #fa709a;
+      color: white;
+      box-shadow: 0 4px 12px rgba(250, 112, 154, 0.4);
+
+      ion-icon {
+        color: white;
+      }
+
+      &:hover {
+        background: #ea608a;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(250, 112, 154, 0.6);
+      }
+    }
+  }
+
+  &[data-category='Medicine'] {
+    &:hover {
+      background: rgba(48, 207, 208, 0.2);
+      border-color: #30cfd0;
+      color: #259fa0;
+      box-shadow: 0 4px 8px rgba(48, 207, 208, 0.3);
+
+      ion-icon {
+        color: #259fa0;
+      }
+    }
+
+    &.active {
+      background: #30cfd0;
+      border-color: #30cfd0;
+      color: white;
+      box-shadow: 0 4px 12px rgba(48, 207, 208, 0.4);
+
+      ion-icon {
+        color: white;
+      }
+
+      &:hover {
+        background: #28bfc0;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(48, 207, 208, 0.6);
+      }
+    }
+  }
 }
 
 .channels-content {
@@ -257,72 +437,12 @@
     box-shadow: 0 8px 24px var(--ion-shadow-color);
     border-color: var(--ion-color-primary-tint);
   }
-
-  &[data-category='General'] {
-    .channel-icon {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-
-      ion-icon {
-        color: white;
-      }
-    }
-  }
-
-  &[data-category='Engineering'] {
-    .channel-icon {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-
-      ion-icon {
-        color: white;
-      }
-    }
-  }
-
-  &[data-category='Sciences'] {
-    .channel-icon {
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-
-      ion-icon {
-        color: white;
-      }
-    }
-  }
-
-  &[data-category='Business'] {
-    .channel-icon {
-      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-
-      ion-icon {
-        color: white;
-      }
-    }
-  }
-
-  &[data-category='Arts'] {
-    .channel-icon {
-      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-
-      ion-icon {
-        color: white;
-      }
-    }
-  }
-
-  &[data-category='Medicine'] {
-    .channel-icon {
-      background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
-
-      ion-icon {
-        color: white;
-      }
-    }
-  }
 }
 
 .channel-icon {
   width: 48px;
   height: 48px;
-  background: var(--ion-color-primary);
+  background: rgba(var(--ion-color-primary-rgb), 0.1);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -333,7 +453,17 @@
 
   ion-icon {
     font-size: 24px;
-    color: white;
+    color: black;
+    font-weight: 400;
+  }
+
+  &.emoji-icon {
+    background: rgba(var(--ion-color-primary-rgb), 0.1);
+  }
+
+  .channel-emoji {
+    font-size: 28px;
+    line-height: 1;
   }
 
   .channel-card:hover & {

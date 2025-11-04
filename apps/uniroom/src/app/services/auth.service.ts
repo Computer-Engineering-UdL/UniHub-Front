@@ -1,11 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
-import { User, Interest } from '../models/auth.types';
+import { User, Interest, InterestCategory } from '../models/auth.types';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from './api.service';
 import { HttpHeaders } from '@angular/common/http';
 import { OAuth2TokenResponse } from '../models/auth.types';
 import { LocalizationService } from './localization.service';
+import { StorageService } from './storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -13,16 +14,39 @@ export class AuthService {
   private readonly REFRESH_TOKEN_KEY = 'refresh_token';
   private readonly USER_KEY = 'user_data';
 
-  private currentUserSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(this.getStoredUser());
+  private currentUserSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   public currentUser$: Observable<User | null> = this.currentUserSubject.asObservable();
 
   private apiService: ApiService = inject(ApiService);
   private translate: TranslateService = inject(TranslateService);
   private localization: LocalizationService = inject(LocalizationService);
+  private storage: StorageService = inject(StorageService);
 
-  private getStoredUser(): User | null {
-    const userJson: string | null = localStorage.getItem(this.USER_KEY);
-    return userJson ? (JSON.parse(userJson) as User) : null;
+  private initializationPromise: Promise<void> | null = null;
+
+  async initialize(): Promise<void> {
+    if (this.initializationPromise) {
+      return this.initializationPromise;
+    }
+
+    this.initializationPromise = this.loadStoredUser();
+    return this.initializationPromise;
+  }
+
+  private async loadStoredUser(): Promise<void> {
+    try {
+      const [token, refreshToken, user] = await Promise.all([
+        this.storage.get(this.AUTH_TOKEN_KEY),
+        this.storage.get(this.REFRESH_TOKEN_KEY),
+        this.storage.getObject<User>(this.USER_KEY)
+      ]);
+
+      if (token && refreshToken && user) {
+        this.currentUserSubject.next(user);
+      }
+    } catch (error) {
+      console.error('Error loading stored user:', error);
+    }
   }
 
   // map API user (snake_case) to app User (camelCase)
@@ -65,15 +89,17 @@ export class AuthService {
     return payload;
   }
 
-  private storeAuth(accessToken: string, refreshToken: string, user: User): void {
-    localStorage.setItem(this.AUTH_TOKEN_KEY, accessToken);
-    localStorage.setItem(this.REFRESH_TOKEN_KEY, refreshToken);
-    localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+  private async storeAuth(accessToken: string, refreshToken: string, user: User): Promise<void> {
+    await Promise.all([
+      this.storage.set(this.AUTH_TOKEN_KEY, accessToken),
+      this.storage.set(this.REFRESH_TOKEN_KEY, refreshToken),
+      this.storage.setObject(this.USER_KEY, user)
+    ]);
     this.currentUserSubject.next(user);
   }
 
-  private storeUserOnly(user: User): void {
-    localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+  private async storeUserOnly(user: User): Promise<void> {
+    await this.storage.setObject(this.USER_KEY, user);
     this.currentUserSubject.next(user);
   }
 
@@ -81,16 +107,18 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  isAuthenticated(): boolean {
-    return !!localStorage.getItem(this.AUTH_TOKEN_KEY);
+  async isAuthenticated(): Promise<boolean> {
+    await this.initialize();
+    const token: string | null = await this.storage.get(this.AUTH_TOKEN_KEY);
+    return !!token;
   }
 
-  getToken(): string | null {
-    return localStorage.getItem(this.AUTH_TOKEN_KEY);
+  async getToken(): Promise<string | null> {
+    return await this.storage.get(this.AUTH_TOKEN_KEY);
   }
 
-  getRefreshToken(): string | null {
-    return localStorage.getItem(this.REFRESH_TOKEN_KEY);
+  async getRefreshToken(): Promise<string | null> {
+    return await this.storage.get(this.REFRESH_TOKEN_KEY);
   }
 
   async login(email: string, password: string): Promise<void> {
@@ -110,7 +138,7 @@ export class AuthService {
 
       const apiUser = await this.getCurrentUser(tokenResponse.access_token);
       const user: User = this.mapUserFromApi(apiUser);
-      this.storeAuth(tokenResponse.access_token, tokenResponse.refresh_token, user);
+      await this.storeAuth(tokenResponse.access_token, tokenResponse.refresh_token, user);
     } catch (error) {
       throw error;
     }
@@ -125,7 +153,7 @@ export class AuthService {
   }
 
   async refreshToken(): Promise<void> {
-    const refreshToken: string | null = this.getRefreshToken();
+    const refreshToken: string | null = await this.getRefreshToken();
     if (!refreshToken) {
       throw new Error('No refresh token available');
     }
@@ -144,9 +172,9 @@ export class AuthService {
 
       const apiUser = await this.getCurrentUser(tokenResponse.access_token);
       const user: User = this.mapUserFromApi(apiUser);
-      this.storeAuth(tokenResponse.access_token, tokenResponse.refresh_token, user);
+      await this.storeAuth(tokenResponse.access_token, tokenResponse.refresh_token, user);
     } catch (error) {
-      this.logout();
+      await this.logout();
       throw error;
     }
   }
@@ -196,7 +224,7 @@ export class AuthService {
             );
             const apiUser = await this.getCurrentUser(response.access_token);
             const user: User = this.mapUserFromApi(apiUser);
-            this.storeAuth(response.access_token, response.refresh_token, user);
+            await this.storeAuth(response.access_token, response.refresh_token, user);
             resolve();
           } catch (err) {
             reject(err);
@@ -214,17 +242,19 @@ export class AuthService {
     });
   }
 
-  logout(): void {
-    localStorage.removeItem(this.AUTH_TOKEN_KEY);
-    localStorage.removeItem(this.REFRESH_TOKEN_KEY);
-    localStorage.removeItem(this.USER_KEY);
+  async logout(): Promise<void> {
+    await Promise.all([
+      this.storage.remove(this.AUTH_TOKEN_KEY),
+      this.storage.remove(this.REFRESH_TOKEN_KEY),
+      this.storage.remove(this.USER_KEY)
+    ]);
     this.currentUserSubject.next(null);
   }
 
   async reloadCurrentUserFromServer(): Promise<User> {
     const apiUser = await firstValueFrom(this.apiService.get<any>('auth/me'));
     const user = this.mapUserFromApi(apiUser);
-    this.storeUserOnly(user);
+    await this.storeUserOnly(user);
     return user;
   }
 
@@ -240,33 +270,52 @@ export class AuthService {
     const payload = this.prepareUserPayloadForApi(data);
     const apiUser = await firstValueFrom(this.apiService.patch<any>(`user/${this.currentUser.id}`, payload));
     const updated = this.mapUserFromApi(apiUser);
-    this.storeUserOnly(updated);
+    await this.storeUserOnly(updated);
     return updated;
   }
 
   async getUserInterests(userId: string): Promise<Interest[]> {
-    return await firstValueFrom(this.apiService.get<Interest[]>(`interest/user/${userId}`));
+    try {
+      return await firstValueFrom(this.apiService.get<Interest[]>(`interest/user/${userId}`));
+    } catch (_) {
+      return [];
+    }
   }
 
   async getAllInterests(): Promise<Interest[]> {
-    return await firstValueFrom(this.apiService.get<Interest[]>(`interest/`));
+    try {
+      const categories: InterestCategory[] = await firstValueFrom(this.apiService.get<InterestCategory[]>(`interest/`));
+      return categories.reduce((acc: Interest[], category: InterestCategory): Interest[] => {
+        return [...acc, ...category.interests];
+      }, []);
+    } catch (_) {
+      return [];
+    }
+  }
+
+  async getAllInterestCategories(): Promise<InterestCategory[]> {
+    try {
+      return await firstValueFrom(this.apiService.get<InterestCategory[]>(`interest/`));
+    } catch (_) {
+      return [];
+    }
   }
 
   async addInterestToUser(userId: string, interestId: string): Promise<void> {
     await firstValueFrom(this.apiService.post(`interest/user/${userId}`, { interest_id: interestId }));
     if (this.currentUser && this.currentUser.id === userId) {
-      const interests = await this.getUserInterests(userId);
+      const interests: Interest[] = await this.getUserInterests(userId);
       const updated = { ...this.currentUser, interests } as User;
-      this.storeUserOnly(updated);
+      await this.storeUserOnly(updated);
     }
   }
 
   async removeInterestFromUser(userId: string, interestId: string): Promise<void> {
     await firstValueFrom(this.apiService.delete(`interest/user/${userId}/${interestId}`));
     if (this.currentUser && this.currentUser.id === userId) {
-      const interests = await this.getUserInterests(userId);
+      const interests: Interest[] = await this.getUserInterests(userId);
       const updated = { ...this.currentUser, interests } as User;
-      this.storeUserOnly(updated);
+      await this.storeUserOnly(updated);
     }
   }
 }

@@ -1,0 +1,31 @@
+<div class="emoji-picker-popover">
+  <div class="picker-header">
+    <h3 class="picker-title">{{ 'CHANNELS.MODAL.SELECT_EMOJI' | translate }}</h3>
+    <div class="header-actions">
+      <ion-button
+        fill="clear"
+        size="small"
+        (click)="removeEmoji()"
+        class="remove-btn"
+        color="danger">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" size="small" (click)="close()" class="close-btn">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+
+  <div class="emoji-grid-container">
+    <div class="emoji-grid">
+      <button
+        *ngFor="let emoji of emojis"
+        type="button"
+        class="emoji-item"
+        [class.selected]="emoji === currentEmoji"
+        (click)="selectEmoji(emoji)">
+        {{ emoji }}
+      </button>
+    </div>
+  </div>
+</div>

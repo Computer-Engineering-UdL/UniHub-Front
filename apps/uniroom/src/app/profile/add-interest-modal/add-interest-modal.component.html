@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      {{ 'PROFILE.INTERESTS.MANAGE_INTERESTS' | translate }}
+      <ion-badge [color]="userInterestIds.length >= MAX_INTERESTS ? 'warning' : 'primary'">
+        {{ userInterestIds.length }}/{{ MAX_INTERESTS }}
+      </ion-badge>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <div class="searchbar-container">
+      <ion-searchbar
+        [(ngModel)]="searchTerm"
+        (ionInput)="onSearchChange()"
+        [placeholder]="'PROFILE.INTERESTS.SEARCH' | translate"
+        [animated]="true"
+        [debounce]="200">
+      </ion-searchbar>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="interests-container">
+    <div *ngFor="let filteredCategory of filteredCategories" class="category-section">
+      <h3 class="category-title">
+        <span class="category-emoji">{{ getCategoryEmoji(filteredCategory.category.name) }}</span>
+        <span class="category-name">{{
+          filteredCategory.category.name | interestTranslate: 'category'
+        }}</span>
+      </h3>
+      <div class="interests-list">
+        <ion-chip
+          *ngFor="let interest of filteredCategory.interests"
+          (click)="toggleInterest(interest)"
+          class="selectable-interest"
+          [class.selected]="isInterestSelected(interest.id)">
+          <ion-label>{{ interest.name | interestTranslate: 'interest' }}</ion-label>
+          <ion-icon
+            [name]="isInterestSelected(interest.id) ? 'checkmark-circle' : 'add-circle'"></ion-icon>
+        </ion-chip>
+      </div>
+    </div>
+
+    <div *ngIf="filteredCategories.length === 0" class="no-results">
+      <ion-icon name="search-outline"></ion-icon>
+      <p>{{ 'PROFILE.INTERESTS.NO_RESULTS' | translate }}</p>
+    </div>
+  </div>
+</ion-content>

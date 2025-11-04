@@ -1,14 +1,16 @@
 import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs';
+import { StorageService } from './storage.service';
 
 export type LangCode = 'en' | 'es' | 'ca';
-export type TNumber = number | string; // accepted input types for formatting
+export type TNumber = number | string;
 export type TDateInput = Date | string | number | null | undefined;
 
 @Injectable({ providedIn: 'root' })
 export class LocalizationService {
   private translate: TranslateService = inject(TranslateService);
+  private storage: StorageService = inject(StorageService);
   private readonly supportedLanguages: ReadonlyArray<LangCode> = ['en', 'es', 'ca'];
   private readonly defaultLanguage: LangCode = 'en';
   private readonly LANG_KEY: string = 'lang';
@@ -20,37 +22,30 @@ export class LocalizationService {
     this.translate.addLangs(this.supportedLanguages as string[]);
     this.translate.setFallbackLang(this.defaultLanguage);
 
-    const saved: string | null = localStorage.getItem(this.LANG_KEY);
+    const saved: string | null = await this.storage.get(this.LANG_KEY);
     const browser: string | undefined = this.translate.getBrowserLang?.();
     const lang: LangCode = this.normalize(saved || browser || this.defaultLanguage);
 
-    localStorage.setItem(this.LANG_KEY, lang);
+    await this.storage.set(this.LANG_KEY, lang);
     await lastValueFrom(this.translate.use(lang));
     this.languageSubject.next(lang);
   }
 
-  changeLanguage(lang: LangCode): void {
+  async changeLanguage(lang: LangCode): Promise<void> {
     const normalized: LangCode = this.normalize(lang);
     this.translate.use(normalized);
-    localStorage.setItem(this.LANG_KEY, normalized);
+    await this.storage.set(this.LANG_KEY, normalized);
     this.languageSubject.next(normalized);
   }
 
   getCurrentLanguage(): LangCode {
-    return (
-      this.languageSubject.value ??
-      this.normalize(
-        localStorage.getItem(this.LANG_KEY) ||
-          this.translate.getCurrentLang?.() ||
-          this.translate.getBrowserLang?.() ||
-          this.defaultLanguage
-      )
-    );
+    return this.languageSubject.value ?? this.defaultLanguage;
   }
 
-  syncLanguage(): void {
-    const lang: LangCode = this.getCurrentLanguage();
-    this.changeLanguage(lang);
+  async syncLanguage(): Promise<void> {
+    const saved: string | null = await this.storage.get(this.LANG_KEY);
+    const lang: LangCode = this.normalize(saved || this.translate.getCurrentLang?.() || this.defaultLanguage);
+    await this.changeLanguage(lang);
   }
 
   private normalize(v: string): LangCode {

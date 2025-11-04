@@ -128,6 +128,9 @@ export class ChannelsPage implements OnInit, OnDestroy {
       );
     }
 
+    // Sort channels by member count descending
+    filtered.sort((a: Channel, b: Channel): number => (b.member_count || 0) - (a.member_count || 0));
+
     this.filteredChannels = filtered;
   }
 
@@ -157,6 +160,23 @@ export class ChannelsPage implements OnInit, OnDestroy {
     if (data?.created) {
       await this.loadChannels();
       this.notificationService.success('CHANNELS.SUCCESS.CREATE_CHANNEL');
+    }
+  }
+
+  async editChannel(channel: Channel): Promise<void> {
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: CreateChannelModalComponent,
+      componentProps: {
+        channel: channel
+      }
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data?.updated) {
+      await this.loadChannels();
+      this.notificationService.success('CHANNELS.SUCCESS.UPDATE_CHANNEL');
     }
   }
 
@@ -251,6 +271,25 @@ export class ChannelsPage implements OnInit, OnDestroy {
       Medicine: 'medical-outline'
     };
     return iconMap[category] || 'megaphone-outline';
+  }
+
+  getCategoryEmoji(category?: ChannelCategory): string {
+    if (!category) {
+      return '💬';
+    }
+    const emojiMap: Record<ChannelCategory, string> = {
+      General: '💬',
+      Engineering: '🔧',
+      Sciences: '🔬',
+      Business: '💼',
+      Arts: '🎨',
+      Medicine: '⚕️'
+    };
+    return emojiMap[category] || '💬';
+  }
+
+  getChannelEmoji(channel: Channel): string {
+    return channel.emoji || this.getCategoryEmoji(channel.category);
   }
 
   get isAdmin(): boolean {
