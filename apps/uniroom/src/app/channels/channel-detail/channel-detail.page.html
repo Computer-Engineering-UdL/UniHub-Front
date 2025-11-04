@@ -15,6 +15,19 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+
+  <div class="channel-info-bar" *ngIf="channel">
+    <div class="channel-info-content">
+      <div class="channel-icon-small">
+        <span *ngIf="channel.emoji">{{ channel.emoji }}</span>
+        <ion-icon *ngIf="!channel.emoji" name="chatbubbles-outline"></ion-icon>
+      </div>
+      <div class="channel-info-text">
+        <h3>{{ channel.name }}</h3>
+        <p>{{ getCategoryTranslation(channel.category || 'General') | translate }}</p>
+      </div>
+    </div>
+  </div>
 </ion-header>
 
 <ion-content #content>

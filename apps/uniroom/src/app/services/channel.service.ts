@@ -3,6 +3,8 @@ import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { AuthService } from './auth.service';
 import { Channel, ChannelMember, CreateChannelDto, UpdateChannelDto } from '../models/channel.types';
+import { ChannelMessage } from '../models/message.types';
+import { User } from '../models/auth.types';
 
 @Injectable({ providedIn: 'root' })
 export class ChannelService {
@@ -80,8 +82,25 @@ export class ChannelService {
     return await firstValueFrom(this.apiService.get<ChannelMember>(`channel/${channelId}/member/${userId}`));
   }
 
-  async getChannelMessages(channelId: string): Promise<any[]> {
-    return await firstValueFrom(this.apiService.get<any[]>(`channel/${channelId}/messages`));
+  async getChannelMessages(channelId: string): Promise<ChannelMessage[]> {
+    const messages: any[] = await firstValueFrom(this.apiService.get<any[]>(`channel/${channelId}/messages`));
+
+    const messagesWithSender: ChannelMessage[] = await Promise.all(
+      messages.map(async (msg: any): Promise<ChannelMessage> => {
+        try {
+          const sender: User = await firstValueFrom(this.apiService.get<User>(`users/${msg.user_id}`));
+          return {
+            ...msg,
+            sender
+          };
+        } catch (error) {
+          console.error(`Error fetching user ${msg.user_id}:`, error);
+          return msg;
+        }
+      })
+    );
+
+    return messagesWithSender;
   }
 
   async sendChannelMessage(channelId: string, userId: string, content: string): Promise<any> {

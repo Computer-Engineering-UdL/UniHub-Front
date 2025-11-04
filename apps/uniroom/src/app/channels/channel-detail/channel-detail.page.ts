@@ -160,7 +160,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
 
     try {
       await this.channelService.sendChannelMessage(this.channelId, this.currentUser.id, content);
-      await this.loadMessages();
+      await this.loadMessages(false);
     } catch (error) {
       console.error('Error sending message:', error);
       this.notificationService.error('CHANNELS.DETAIL.ERROR.SEND_MESSAGE');
@@ -253,10 +253,16 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   getUserAvatar(message: ChannelMessage): string {
+    if (this.isMyMessage(message) && this.currentUser) {
+      return this.currentUser.avatar_url || this.currentUser.imgUrl || this.defaultUserUrl;
+    }
     return message.sender?.avatar_url || message.sender?.imgUrl || this.defaultUserUrl;
   }
 
   getUserName(message: ChannelMessage): string {
+    if (this.isMyMessage(message) && this.currentUser) {
+      return this.currentUser.fullName || this.currentUser.name || this.currentUser.username || this.currentUser.id;
+    }
     if (message.sender) {
       return message.sender.fullName || message.sender.name || message.sender.username || message.sender_id;
     }
@@ -270,5 +276,9 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
       admin: 'CHANNELS.DETAIL.ADMIN'
     };
     return roleMap[role] || 'CHANNELS.DETAIL.MEMBER';
+  }
+
+  getCategoryTranslation(category: string): string {
+    return `CHANNELS.${category.toUpperCase()}`;
   }
 }
