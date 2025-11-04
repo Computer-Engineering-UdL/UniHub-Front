@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ChannelsRoutingModule } from './channels-routing.module';
 import { ChannelsPage } from './channels.page';
+import { ChannelDetailPage } from './channel-detail/channel-detail.page';
 import { CreateChannelModalComponent } from './create-channel-modal/create-channel-modal.component';
 
 @NgModule({
@@ -17,6 +18,6 @@ import { CreateChannelModalComponent } from './create-channel-modal/create-chann
     ChannelsRoutingModule,
     CreateChannelModalComponent
   ],
-  declarations: [ChannelsPage]
+  declarations: [ChannelsPage, ChannelDetailPage]
 })
 export class ChannelsModule {}

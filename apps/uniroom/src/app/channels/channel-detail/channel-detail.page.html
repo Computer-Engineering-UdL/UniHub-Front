@@ -1,0 +1,130 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/channels"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="channel">
+      <span *ngIf="channel.emoji" class="channel-emoji">{{ channel.emoji }}</span>
+      {{ channel.name }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        (click)="selectedSegment = selectedSegment === 'messages' ? 'members' : 'messages'; onSegmentChange({detail: {value: selectedSegment}})">
+        <ion-icon
+          [name]="selectedSegment === 'messages' ? 'people-outline' : 'chatbubbles-outline'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #content>
+  <div class="channel-detail-container" *ngIf="!isLoading && channel">
+    <div *ngIf="selectedSegment === 'messages'" class="messages-section">
+      <div class="messages-list" *ngIf="!isLoadingMessages">
+        <div *ngIf="messageGroups.length === 0" class="empty-state">
+          <ion-icon name="chatbubbles-outline"></ion-icon>
+          <h3>{{ 'CHANNELS.DETAIL.NO_MESSAGES' | translate }}</h3>
+          <p>{{ 'CHANNELS.DETAIL.NO_MESSAGES_DESCRIPTION' | translate }}</p>
+        </div>
+
+        <div *ngFor="let group of messageGroups" class="message-date-group">
+          <div class="date-separator">
+            <span>{{ formatDateSeparator(group.date) }}</span>
+          </div>
+
+          <div
+            class="message-wrapper"
+            *ngFor="let message of group.messages"
+            [class.my-message]="isMyMessage(message)">
+            <ion-avatar class="message-avatar" *ngIf="!isMyMessage(message)">
+              <img [src]="getUserAvatar(message)" [alt]="getUserName(message)" />
+            </ion-avatar>
+
+            <div class="message-bubble">
+              <div class="message-header" *ngIf="!isMyMessage(message)">
+                <span class="message-sender">{{ getUserName(message) }}</span>
+                <span class="message-time">{{ formatMessageTime(message.created_at) }}</span>
+              </div>
+              <div class="message-content">{{ message.content }}</div>
+              <div class="message-footer" *ngIf="isMyMessage(message)">
+                <span class="message-time">{{ formatMessageTime(message.created_at) }}</span>
+                <ion-button
+                  *ngIf="canDeleteMessage(message)"
+                  fill="clear"
+                  size="small"
+                  class="delete-btn"
+                  (click)="deleteMessage(message)">
+                  <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
+
+            <ion-avatar class="message-avatar" *ngIf="isMyMessage(message)">
+              <img [src]="getUserAvatar(message)" [alt]="getUserName(message)" />
+            </ion-avatar>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isLoadingMessages" class="loading-state">
+        <ion-spinner></ion-spinner>
+        <p>{{ 'CHANNELS.DETAIL.LOADING' | translate }}</p>
+      </div>
+    </div>
+
+    <div *ngIf="selectedSegment === 'members'" class="members-section">
+      <ion-list>
+        <div *ngIf="members.length === 0" class="empty-state">
+          <ion-icon name="people-outline"></ion-icon>
+          <p>{{ 'CHANNELS.DETAIL.NO_MEMBERS' | translate }}</p>
+        </div>
+
+        <ion-item *ngFor="let member of members">
+          <ion-avatar slot="start">
+            <ion-icon name="person-circle-outline"></ion-icon>
+          </ion-avatar>
+          <ion-label>
+            <h3>{{ member.user_id }}</h3>
+            <p>{{ getRoleTranslationKey(member.role) | translate }}</p>
+          </ion-label>
+          <ion-badge
+            slot="end"
+            [color]="member.role === 'admin' ? 'danger' : member.role === 'moderator' ? 'warning' : 'primary'">
+            {{ getRoleTranslationKey(member.role) | translate }}
+          </ion-badge>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner></ion-spinner>
+    <p>{{ 'CHANNELS.DETAIL.LOADING' | translate }}</p>
+  </div>
+</ion-content>
+
+<ion-footer *ngIf="!isLoading && channel && selectedSegment === 'messages'">
+  <ion-toolbar>
+    <div class="message-input-container">
+      <ion-textarea
+        [(ngModel)]="messageContent"
+        [placeholder]="'CHANNELS.DETAIL.TYPE_MESSAGE' | translate"
+        [rows]="1"
+        [autoGrow]="true"
+        [disabled]="!canWriteInChannel()"
+        class="message-input"
+        (keydown.enter)="$event.preventDefault(); sendMessage()">
+      </ion-textarea>
+      <ion-button
+        [disabled]="!messageContent.trim() || !canWriteInChannel()"
+        (click)="sendMessage()"
+        class="send-button">
+        <ion-icon slot="icon-only" name="send"></ion-icon>
+      </ion-button>
+    </div>
+    <div *ngIf="!canWriteInChannel()" class="role-warning">
+      <ion-icon name="lock-closed-outline"></ion-icon>
+      <span>{{ 'CHANNELS.DETAIL.INSUFFICIENT_ROLE_WRITE' | translate }}</span>
+    </div>
+  </ion-toolbar>
+</ion-footer>

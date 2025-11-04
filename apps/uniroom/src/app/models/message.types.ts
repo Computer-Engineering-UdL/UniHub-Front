@@ -11,6 +11,17 @@ export interface Message {
   sender?: User;
 }
 
+export interface ChannelMessage {
+  id: string;
+  channel_id: string;
+  sender_id: string;
+  content: string;
+  created_at: string;
+  updated_at?: string;
+  sender?: User;
+  reply_to?: string;
+}
+
 export interface Conversation {
   id: string;
   participant1_id: string;

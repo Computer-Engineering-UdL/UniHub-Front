@@ -546,7 +546,35 @@
       }
     },
     "DELETE_CONFIRM_TITLE": "Eliminar Canal",
-    "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar el canal {{name}}? Aquesta acció no es pot desfer."
+    "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar el canal {{name}}? Aquesta acció no es pot desfer.",
+    "DETAIL": {
+      "MEMBERS_TAB": "Membres",
+      "MEMBERS_COUNT": "{{count}} membres",
+      "LOADING": "Carregant...",
+      "NO_MEMBERS": "No hi ha membres",
+      "NO_MESSAGES": "No hi ha missatges",
+      "NO_MESSAGES_DESCRIPTION": "Sigues el primer en enviar un missatge",
+      "ROLE_BASIC": "Bàsic",
+      "ROLE_SELLER": "Venedor",
+      "ROLE_ADMIN": "Administrador",
+      "MEMBER": "Membre",
+      "MODERATOR": "Moderador",
+      "ADMIN": "Admin",
+      "INSUFFICIENT_ROLE_WRITE": "No tens el rol necessari per escriure en aquest canal",
+      "TYPE_MESSAGE": "Escriu un missatge...",
+      "DELETE_MESSAGE": "Eliminar missatge",
+      "DELETE_MESSAGE_CONFIRM": "Estàs segur que vols eliminar aquest missatge?",
+      "ERROR": {
+        "LOAD_CHANNEL": "Error al carregar el canal",
+        "LOAD_MEMBERS": "Error al carregar els membres",
+        "LOAD_MESSAGES": "Error al carregar els missatges",
+        "SEND_MESSAGE": "Error en enviar el missatge",
+        "DELETE_MESSAGE": "Error en eliminar el missatge"
+      },
+      "SUCCESS": {
+        "DELETE_MESSAGE": "Missatge eliminat correctament"
+      }
+    }
   },
   "MESSAGES": {
     "TITLE": "Missatges",
@@ -577,7 +605,8 @@
     "JUST_NOW": "ara mateix",
     "MINUTES_AGO": "fa {{count}} min",
     "HOURS_AGO": "fa {{count}}h",
-    "YESTERDAY": "ahir",
+    "TODAY": "Avui",
+    "YESTERDAY": "Ahir",
     "DAYS_AGO": "fa {{count}} dies"
   }
 }

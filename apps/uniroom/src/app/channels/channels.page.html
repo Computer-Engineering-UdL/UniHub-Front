@@ -71,7 +71,9 @@
       <div
         *ngFor="let channel of filteredChannels"
         class="channel-card"
-        [attr.data-category]="channel.category">
+        [attr.data-category]="channel.category"
+        [class.clickable]="channel.is_member"
+        (click)="channel.is_member && navigateToChannelDetail(channel.id)">
         <div class="channel-icon emoji-icon">
           <span class="channel-emoji">{{ getChannelEmoji(channel) }}</span>
         </div>

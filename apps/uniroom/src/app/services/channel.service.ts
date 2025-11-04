@@ -79,4 +79,22 @@ export class ChannelService {
   async getMemberInfo(channelId: string, userId: string): Promise<ChannelMember> {
     return await firstValueFrom(this.apiService.get<ChannelMember>(`channel/${channelId}/member/${userId}`));
   }
+
+  async getChannelMessages(channelId: string): Promise<any[]> {
+    return await firstValueFrom(this.apiService.get<any[]>(`channel/${channelId}/messages`));
+  }
+
+  async sendChannelMessage(channelId: string, userId: string, content: string): Promise<any> {
+    return await firstValueFrom(
+      this.apiService.post<any>(`channel/${channelId}/messages`, {
+        channel_id: channelId,
+        user_id: userId,
+        content
+      })
+    );
+  }
+
+  async deleteChannelMessage(channelId: string, messageId: string): Promise<void> {
+    await firstValueFrom(this.apiService.delete<void>(`channel/${channelId}/messages/${messageId}`));
+  }
 }

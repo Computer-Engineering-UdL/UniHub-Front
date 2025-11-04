@@ -292,6 +292,10 @@ export class ChannelsPage implements OnInit, OnDestroy {
     return channel.emoji || this.getCategoryEmoji(channel.category);
   }
 
+  navigateToChannelDetail(channelId: string): void {
+    void this.router.navigate(['/channels', channelId]);
+  }
+
   get isAdmin(): boolean {
     return this.currentUser?.role === 'Admin';
   }
