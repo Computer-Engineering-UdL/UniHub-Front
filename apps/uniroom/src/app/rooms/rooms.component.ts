@@ -289,7 +289,7 @@ export class RoomsComponent implements OnInit {
 
   private async deleteOffer(offerId: string): Promise<void> {
     try {
-      await firstValueFrom(this.apiService.delete(`offers/offers/${offerId}`));
+      await firstValueFrom(this.apiService.delete(`offers/${offerId}`));
       this.notificationService.success('ROOM.DELETE_SUCCESS');
       await this.loadOffers();
     } catch (error) {

@@ -259,7 +259,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       };
 
       const createdOffer: Offer = await firstValueFrom(
-        this.apiService.post<Offer>('offers/offers/', offerData)
+        this.apiService.post<Offer>('offers/', offerData)
       );
 
       await this.uploadPhotosForOffer(createdOffer.id);
@@ -611,7 +611,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       formData.append('is_primary', String(index === 0));
 
       try {
-        await firstValueFrom(this.apiService.post('offers/photos/', formData));
+        await firstValueFrom(this.apiService.post('photos/photos/', formData));
       } catch (error) {
         console.error('Failed to upload photo:', error);
         throw error;

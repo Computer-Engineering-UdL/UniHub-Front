@@ -144,11 +144,11 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
     try {
       const response: OfferDetailsResponse = await firstValueFrom(
-        this.apiService.get<OfferDetailsResponse>(`offers/offers/${offerId}`)
+        this.apiService.get<OfferDetailsResponse>(`offers/${offerId}`)
       );
       const landlordUser: User | null = await this.resolveLandlordUser(response.user_id);
       this.offer = this.mapToViewModel(response, landlordUser);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error loading offer details', err);
       this.error = true;
     } finally {
