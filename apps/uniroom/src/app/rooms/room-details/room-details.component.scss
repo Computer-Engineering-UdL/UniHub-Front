@@ -325,7 +325,9 @@ ion-content {
     border-radius: 14px;
     background: var(--ion-background-color, #f6f7fb);
     border: 1px solid transparent;
-    transition: border-color 0.2s ease, background 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease;
 
     ion-icon {
       font-size: 20px;

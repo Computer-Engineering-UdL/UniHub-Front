@@ -193,20 +193,16 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     const photos: GalleryImage[] = this.buildGallery(offer.photos);
     const amenities: AmenityItem[] = this.buildAmenities(offer);
     const rules: HouseRuleItem[] = this.buildHouseRules(offer);
-    const financialDetails: FinancialDetailItem[] = this.buildFinancialDetails(
-      offer,
-      currency,
-      depositFormatted
-    );
+    const financialDetails: FinancialDetailItem[] = this.buildFinancialDetails(offer, currency, depositFormatted);
     const landlord: LandlordInfo = this.buildLandlordInfo(offer, landlordUser);
     const mapUrl: SafeResourceUrl | undefined = this.buildMapUrl(offer);
 
     const availableFrom: string | undefined = offer.start_date
       ? this.localization.formatDate(offer.start_date, {
-        year: 'numeric',
-        month: 'long',
-        day: '2-digit'
-      })
+          year: 'numeric',
+          month: 'long',
+          day: '2-digit'
+        })
       : undefined;
 
     const postedDate: string | undefined = offer.posted_date
@@ -214,10 +210,10 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       : undefined;
     const leaseEnd: string | undefined = offer.end_date
       ? this.localization.formatDate(offer.end_date, {
-        year: 'numeric',
-        month: 'long',
-        day: '2-digit'
-      })
+          year: 'numeric',
+          month: 'long',
+          day: '2-digit'
+        })
       : undefined;
 
     const offerValidUntil: string | undefined = offer.offer_valid_until
@@ -249,9 +245,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       landlord,
       mapUrl,
       utilitiesCost:
-        offer.utilities_cost != null
-          ? this.localization.formatPrice(offer.utilities_cost, currency)
-          : undefined,
+        offer.utilities_cost != null ? this.localization.formatPrice(offer.utilities_cost, currency) : undefined,
       contractType: offer.contract_type ?? undefined,
       leaseEnd,
       offerValidUntil
@@ -288,15 +282,11 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       let baseAvailability: boolean | null | undefined;
 
       if (relatedField && relatedField in offer) {
-        baseAvailability = offer[relatedField as keyof OfferDetailsResponse] as
-          | boolean
-          | null
-          | undefined;
+        baseAvailability = offer[relatedField as keyof OfferDetailsResponse] as boolean | null | undefined;
       }
 
       const initialAvailability: boolean | null =
-        baseAvailability ??
-        (definition.defaultAvailable !== undefined ? definition.defaultAvailable : null);
+        baseAvailability ?? (definition.defaultAvailable !== undefined ? definition.defaultAvailable : null);
 
       amenityMap.set(definition.key, {
         icon: definition.icon,
@@ -343,8 +333,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
         return;
       }
 
-      const resolvedAvailability: boolean | null =
-        available ?? amenityMap.get(key)?.available ?? true;
+      const resolvedAvailability: boolean | null = available ?? amenityMap.get(key)?.available ?? true;
 
       const amenity = amenityMap.get(key);
       if (amenity) {
@@ -435,19 +424,17 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       },
       {
         labelKey: 'ROOM.DETAILS.FINANCIAL.DEPOSIT',
-        value:
-          depositFormatted ?? this.translate.instant('ROOM.DETAILS.FINANCIAL.NOT_SPECIFIED')
+        value: depositFormatted ?? this.translate.instant('ROOM.DETAILS.FINANCIAL.NOT_SPECIFIED')
       },
       {
         labelKey: 'ROOM.DETAILS.FINANCIAL.UTILITIES',
-        value:
-          offer.utilities_included
-            ? this.translate.instant('ROOM.DETAILS.FINANCIAL.INCLUDED')
-            : offer.utilities_cost != null
-              ? `${this.localization.formatPrice(offer.utilities_cost, currency)} / ${this.translate.instant(
+        value: offer.utilities_included
+          ? this.translate.instant('ROOM.DETAILS.FINANCIAL.INCLUDED')
+          : offer.utilities_cost != null
+            ? `${this.localization.formatPrice(offer.utilities_cost, currency)} / ${this.translate.instant(
                 'ROOM.DETAILS.FINANCIAL.MONTH'
               )}`
-              : this.translate.instant('ROOM.DETAILS.FINANCIAL.NOT_INCLUDED'),
+            : this.translate.instant('ROOM.DETAILS.FINANCIAL.NOT_INCLUDED'),
         description: offer.utilities_description ?? undefined
       }
     ];
@@ -483,19 +470,19 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
     const memberSince: string | undefined = landlordUser?.joinedDate
       ? this.localization.formatDate(landlordUser.joinedDate, {
-        year: 'numeric',
-        month: 'long'
-      })
-      : landlordData.member_since
-        ? this.localization.formatDate(landlordData.member_since, {
           year: 'numeric',
           month: 'long'
         })
-        : offer.posted_date
-          ? this.localization.formatDate(offer.posted_date, {
+      : landlordData.member_since
+        ? this.localization.formatDate(landlordData.member_since, {
             year: 'numeric',
             month: 'long'
           })
+        : offer.posted_date
+          ? this.localization.formatDate(offer.posted_date, {
+              year: 'numeric',
+              month: 'long'
+            })
           : undefined;
 
     const lastSeen: string | undefined = landlordData.last_seen
@@ -512,8 +499,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       avatar: landlordUser?.avatar_url || landlordUser?.imgUrl || landlordData.avatar || undefined,
       memberSince,
       responseTime:
-        landlordData.response_time ||
-        this.translate.instant('ROOM.DETAILS.LANDLORD.RESPONSE_TIME_PLACEHOLDER'),
+        landlordData.response_time || this.translate.instant('ROOM.DETAILS.LANDLORD.RESPONSE_TIME_PLACEHOLDER'),
       lastSeen,
       phone: landlordUser?.phone || landlordData.phone || undefined,
       email: landlordUser?.email || landlordData.email || undefined
@@ -529,7 +515,9 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       return user.fullName;
     }
 
-    const parts: string[] = [user.firstName, user.lastName].filter((part): part is string => !!part && part.trim().length > 0);
+    const parts: string[] = [user.firstName, user.lastName].filter(
+      (part): part is string => !!part && part.trim().length > 0
+    );
     if (parts.length) {
       return parts.join(' ');
     }
@@ -555,9 +543,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   private buildMapUrl(offer: OfferDetailsResponse): SafeResourceUrl | undefined {
     if (offer.latitude != null && offer.longitude != null) {
       const coords: string = `${offer.latitude},${offer.longitude}`;
-      return this.sanitizer.bypassSecurityTrustResourceUrl(
-        `https://www.google.com/maps?q=${coords}&z=15&output=embed`
-      );
+      return this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.google.com/maps?q=${coords}&z=15&output=embed`);
     }
 
     if (offer.address || offer.city) {
@@ -565,9 +551,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       if (query.length === 0) {
         return undefined;
       }
-      return this.sanitizer.bypassSecurityTrustResourceUrl(
-        `https://www.google.com/maps?q=${query}&z=15&output=embed`
-      );
+      return this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.google.com/maps?q=${query}&z=15&output=embed`);
     }
 
     return undefined;

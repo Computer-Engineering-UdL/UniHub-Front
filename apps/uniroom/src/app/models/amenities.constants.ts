@@ -79,17 +79,21 @@ const AMENITY_DEFINITIONS_INTERNAL: AmenityDefinition[] = [
 
 export const AMENITY_DEFINITIONS: AmenityDefinition[] = AMENITY_DEFINITIONS_INTERNAL;
 
-export const AMENITY_DEFINITIONS_BY_KEY: Record<string, AmenityDefinition> =
-  AMENITY_DEFINITIONS_INTERNAL.reduce((accumulator, definition) => {
+export const AMENITY_DEFINITIONS_BY_KEY: Record<string, AmenityDefinition> = AMENITY_DEFINITIONS_INTERNAL.reduce(
+  (accumulator, definition) => {
     accumulator[definition.key.toLowerCase()] = definition;
     return accumulator;
-  }, {} as Record<string, AmenityDefinition>);
+  },
+  {} as Record<string, AmenityDefinition>
+);
 
-export const AMENITY_DEFINITIONS_BY_CODE: Record<string, AmenityDefinition> =
-  AMENITY_DEFINITIONS_INTERNAL.reduce((accumulator, definition) => {
+export const AMENITY_DEFINITIONS_BY_CODE: Record<string, AmenityDefinition> = AMENITY_DEFINITIONS_INTERNAL.reduce(
+  (accumulator, definition) => {
     accumulator[String(definition.code)] = definition;
     return accumulator;
-  }, {} as Record<string, AmenityDefinition>);
+  },
+  {} as Record<string, AmenityDefinition>
+);
 
 export const AMENITY_KEY_TO_CODE: Record<string, number> = AMENITY_DEFINITIONS_INTERNAL.reduce(
   (accumulator, definition) => {

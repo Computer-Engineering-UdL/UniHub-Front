@@ -16,10 +16,7 @@ import { LocalizationService } from '../../services/localization.service';
 import { User } from '../../models/auth.types';
 import NotificationService from '../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  ADDITIONAL_AMENITIES,
-  AMENITY_KEY_TO_CODE
-} from '../../models/amenities.constants';
+import { ADDITIONAL_AMENITIES, AMENITY_KEY_TO_CODE } from '../../models/amenities.constants';
 
 interface SelectedPhotoPreview {
   file: File;
@@ -174,7 +171,6 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       })
     });
 
-
     this.endDateMin = this.todayISO;
     const startDateSub: Subscription | undefined = this.offerForm
       .get('start_date')
@@ -256,9 +252,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
         user_id: user.id
       };
 
-      const createdOffer: Offer = await firstValueFrom(
-        this.apiService.post<Offer>('offers/', offerData)
-      );
+      const createdOffer: Offer = await firstValueFrom(this.apiService.post<Offer>('offers/', offerData));
 
       await this.uploadPhotosForOffer(createdOffer.id);
 
@@ -319,7 +313,6 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   get canAddMorePhotos(): boolean {
     return this.photoPreviews.length < this.maxPhotoCount;
   }
-
 
   private normalizeCategoryName(name: string): string {
     return name.toUpperCase().replace(/ /g, '_');
@@ -412,10 +405,12 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     if (index < 0 || index >= this.photoPreviews.length) {
       return;
     }
-    this.photoPreviews = this.photoPreviews.filter((_, i) => i !== index).map((photo, idx) => ({
-      ...photo,
-      isPrimary: idx === 0
-    }));
+    this.photoPreviews = this.photoPreviews
+      .filter((_, i) => i !== index)
+      .map((photo, idx) => ({
+        ...photo,
+        isPrimary: idx === 0
+      }));
     if (this.photoPreviews.length < this.maxPhotoCount) {
       this.photoUploadError = null;
     }
@@ -427,9 +422,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     }
     const newOrder: SelectedPhotoPreview[] = [
       { ...this.photoPreviews[index], isPrimary: true },
-      ...this.photoPreviews
-        .filter((_, i) => i !== index)
-        .map((photo, idx) => ({ ...photo, isPrimary: idx === 0 }))
+      ...this.photoPreviews.filter((_, i) => i !== index).map((photo, idx) => ({ ...photo, isPrimary: idx === 0 }))
     ];
     this.photoPreviews = newOrder.map((photo, idx) => ({ ...photo, isPrimary: idx === 0 }));
   }
@@ -550,12 +543,12 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   }
 
   private composeFullAddress({
-                               street,
-                               street_number,
-                               apartment,
-                               postal_code,
-                               city
-                             }: {
+    street,
+    street_number,
+    apartment,
+    postal_code,
+    city
+  }: {
     street: string;
     street_number: string;
     apartment: string | null;

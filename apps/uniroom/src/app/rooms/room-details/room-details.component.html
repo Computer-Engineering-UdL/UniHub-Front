@@ -29,7 +29,9 @@
         </ion-button>
 
         <div class="status-chip" [class.available]="room.isAvailable">
-          <ion-icon [name]="room.isAvailable ? 'checkmark-circle' : 'pause-circle'" aria-hidden="true"></ion-icon>
+          <ion-icon
+            [name]="room.isAvailable ? 'checkmark-circle' : 'pause-circle'"
+            aria-hidden="true"></ion-icon>
           <span>
             {{
               room.isAvailable
@@ -129,7 +131,9 @@
                 <div class="summary-item">
                   <ion-icon name="water-outline"></ion-icon>
                   <div>
-                    <span class="label">{{ 'ROOM.DETAILS.MAIN_FEATURES.BATHROOMS' | translate }}</span>
+                    <span class="label">{{
+                      'ROOM.DETAILS.MAIN_FEATURES.BATHROOMS' | translate
+                    }}</span>
                     <span class="value">{{ room.numBathrooms ?? '—' }}</span>
                   </div>
                 </div>
@@ -202,7 +206,9 @@
                   <div class="rule">
                     <span class="rule-label">{{ rule.labelKey | translate }}</span>
                     <ion-chip [color]="rule.allowed ? 'success' : 'medium'">
-                      <ion-icon [name]="rule.allowed ? 'checkmark-circle-outline' : 'close-circle-outline'" slot="start"></ion-icon>
+                      <ion-icon
+                        [name]="rule.allowed ? 'checkmark-circle-outline' : 'close-circle-outline'"
+                        slot="start"></ion-icon>
                       {{
                         rule.allowed
                           ? ('ROOM.DETAILS.HOUSE_RULES.ALLOWED' | translate)
@@ -239,7 +245,10 @@
               <ion-card-title>{{ 'ROOM.DETAILS.LOCATION_TITLE' | translate }}</ion-card-title>
               @if (room.distanceFromCampus) {
                 <ion-card-subtitle>
-                  {{ 'ROOM.DETAILS.LOCATION.DISTANCE_FROM_CAMPUS' | translate: { distance: room.distanceFromCampus } }}
+                  {{
+                    'ROOM.DETAILS.LOCATION.DISTANCE_FROM_CAMPUS'
+                      | translate: { distance: room.distanceFromCampus }
+                  }}
                 </ion-card-subtitle>
               }
             </ion-card-header>
@@ -282,7 +291,10 @@
                   <h3>{{ room.landlord.name }}</h3>
                   @if (room.landlord.memberSince) {
                     <p>
-                      {{ 'ROOM.DETAILS.LANDLORD.MEMBER_SINCE' | translate: { date: room.landlord.memberSince } }}
+                      {{
+                        'ROOM.DETAILS.LANDLORD.MEMBER_SINCE'
+                          | translate: { date: room.landlord.memberSince }
+                      }}
                     </p>
                   }
                   @if (room.landlord.responseTime) {
@@ -290,7 +302,10 @@
                   }
                   @if (room.landlord.lastSeen) {
                     <p>
-                      {{ 'ROOM.DETAILS.LANDLORD.LAST_SEEN' | translate: { time: room.landlord.lastSeen } }}
+                      {{
+                        'ROOM.DETAILS.LANDLORD.LAST_SEEN'
+                          | translate: { time: room.landlord.lastSeen }
+                      }}
                     </p>
                   }
                 </div>
@@ -349,13 +364,17 @@
               }
               @if (room.offerValidUntil) {
                 <div class="availability-item">
-                  <span class="label">{{ 'ROOM.DETAILS.AVAILABILITY.OFFER_VALID_UNTIL' | translate }}</span>
+                  <span class="label">{{
+                    'ROOM.DETAILS.AVAILABILITY.OFFER_VALID_UNTIL' | translate
+                  }}</span>
                   <span class="value">{{ room.offerValidUntil }}</span>
                 </div>
               }
               <div class="availability-item">
                 <span class="label">{{ 'ROOM.DETAILS.AVAILABILITY.LISTED_ON' | translate }}</span>
-                <span class="value">{{ room.postedDate || ('ROOM.DETAILS.FINANCIAL.NOT_SPECIFIED' | translate) }}</span>
+                <span class="value">{{
+                  room.postedDate || ('ROOM.DETAILS.FINANCIAL.NOT_SPECIFIED' | translate)
+                }}</span>
               </div>
             </ion-card-content>
           </ion-card>

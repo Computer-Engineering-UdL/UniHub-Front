@@ -50,10 +50,10 @@ export type OfferAmenity =
   | string
   | number
   | {
-  code?: string | number;
-  key?: string;
-  available?: boolean | null;
-};
+      code?: string | number;
+      key?: string;
+      available?: boolean | null;
+    };
 
 export type OfferHouseRules = Record<string, boolean>;
 
