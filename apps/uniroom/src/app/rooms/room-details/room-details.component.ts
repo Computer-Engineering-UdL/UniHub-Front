@@ -8,6 +8,11 @@ import { Offer, OfferAmenity, OfferPhoto } from '../../models/offer.types';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/auth.types';
+import {
+  AMENITY_DEFINITIONS,
+  AMENITY_DEFINITIONS_BY_CODE,
+  AMENITY_DEFINITIONS_BY_KEY
+} from '../../models/amenities.constants';
 
 interface AmenityItem {
   icon: string;
@@ -144,8 +149,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       );
       const landlordUser: User | null = this.getCachedLandlordUser(response.user_id);
       this.offer = this.mapToViewModel(response, landlordUser);
-    } catch (err: any) {
-      console.error('Error loading offer details', err);
+    } catch (error: unknown) {
+      console.error('Error loading offer details', error);
       this.error = true;
     } finally {
       this.loading = false;
@@ -178,11 +183,6 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   goBackToList(): void {
     void this.router.navigate(['/rooms']);
   }
-
-  trackByIndex(index: number): number {
-    return index;
-  }
-
   private mapToViewModel(offer: OfferDetailsResponse, landlordUser?: User | null): RoomDetailsViewModel {
     const currency: string = offer.currency ?? 'EUR';
     const priceFormatted: string = this.localization.formatPrice(offer.price ?? 0, currency);
@@ -280,73 +280,84 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   }
 
   private buildAmenities(offer: OfferDetailsResponse): AmenityItem[] {
-    const amenityLookup: Record<string, AmenityItem> = {
-      wifi: {
-        icon: 'wifi-outline',
-        labelKey: 'ROOM.DETAILS.AMENITIES.WIFI',
-        available: offer.internet_included ?? null
-      },
-      utilities: {
-        icon: 'flash-outline',
-        labelKey: 'ROOM.DETAILS.AMENITIES.UTILITIES',
-        available: offer.utilities_included ?? null
-      },
-      furnished: {
-        icon: 'bed-outline',
-        labelKey: 'ROOM.DETAILS.AMENITIES.FURNISHED',
-        available: offer.furnished ?? null
-      },
-      heating: {
-        icon: 'flame-outline',
-        labelKey: 'ROOM.DETAILS.AMENITIES.HEATING',
-        available: null
-      },
-      parking: {
-        icon: 'car-outline',
-        labelKey: 'ROOM.DETAILS.AMENITIES.PARKING',
-        available: null
-      },
-      kitchen: {
-        icon: 'restaurant-outline',
-        labelKey: 'ROOM.DETAILS.AMENITIES.KITCHEN',
-        available: true
-      },
-      tv: {
-        icon: 'tv-outline',
-        labelKey: 'ROOM.DETAILS.AMENITIES.TV',
-        available: null
-      },
-      security: {
-        icon: 'shield-checkmark-outline',
-        labelKey: 'ROOM.DETAILS.AMENITIES.SECURITY',
-        available: null
-      },
-      balcony: {
-        icon: 'home-outline',
-        labelKey: 'ROOM.DETAILS.AMENITIES.BALCONY',
-        available: null
+    const amenityMap: Map<string, AmenityItem> = new Map();
+    const extraAmenityKeys: Set<string> = new Set();
+
+    AMENITY_DEFINITIONS.forEach((definition) => {
+      const relatedField = definition.relatedOfferField;
+      let baseAvailability: boolean | null | undefined;
+
+      if (relatedField && relatedField in offer) {
+        baseAvailability = offer[relatedField as keyof OfferDetailsResponse] as
+          | boolean
+          | null
+          | undefined;
       }
+
+      const initialAvailability: boolean | null =
+        baseAvailability ??
+        (definition.defaultAvailable !== undefined ? definition.defaultAvailable : null);
+
+      amenityMap.set(definition.key, {
+        icon: definition.icon,
+        labelKey: definition.labelKey,
+        available: initialAvailability
+      });
+    });
+
+    const resolveAmenityKey = (identifier: unknown): string | null => {
+      if (identifier === null || identifier === undefined) {
+        return null;
+      }
+
+      if (typeof identifier === 'number') {
+        const definition = AMENITY_DEFINITIONS_BY_CODE[String(identifier)];
+        return definition ? definition.key : String(identifier);
+      }
+
+      if (typeof identifier === 'string') {
+        const trimmed: string = identifier.trim();
+        if (!trimmed) {
+          return null;
+        }
+
+        const definitionByCode = AMENITY_DEFINITIONS_BY_CODE[trimmed];
+        if (definitionByCode) {
+          return definitionByCode.key;
+        }
+
+        const lower = trimmed.toLowerCase();
+        if (AMENITY_DEFINITIONS_BY_KEY[lower]) {
+          return lower;
+        }
+
+        return lower;
+      }
+
+      return null;
     };
 
-    const updateAmenityAvailability = (code: string, available?: boolean | null): void => {
-      const normalizedCode: string = code.trim().toLowerCase();
-      if (!normalizedCode) {
+    const applyAvailability = (identifier: unknown, available?: boolean | null): void => {
+      const key = resolveAmenityKey(identifier);
+      if (!key) {
         return;
       }
 
       const resolvedAvailability: boolean | null =
-        available ?? amenityLookup[normalizedCode]?.available ?? true;
+        available ?? amenityMap.get(key)?.available ?? true;
 
-      if (amenityLookup[normalizedCode]) {
-        amenityLookup[normalizedCode].available = resolvedAvailability;
+      const amenity = amenityMap.get(key);
+      if (amenity) {
+        amenity.available = resolvedAvailability;
         return;
       }
 
-      amenityLookup[normalizedCode] = {
+      amenityMap.set(key, {
         icon: 'ellipse-outline',
-        labelKey: `ROOM.DETAILS.AMENITIES.${normalizedCode.toUpperCase()}`,
+        labelKey: `ROOM.DETAILS.AMENITIES.${key.toUpperCase()}`,
         available: resolvedAvailability
-      };
+      });
+      extraAmenityKeys.add(key);
     };
 
     const amenitiesFromResponse: OfferAmenity[] = Array.isArray(offer.amenities)
@@ -355,25 +366,40 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
     if (amenitiesFromResponse.length > 0) {
       amenitiesFromResponse.forEach((item: OfferAmenity) => {
-        if (!item) {
+        if (item === null || item === undefined) {
           return;
         }
 
-        if (typeof item === 'string') {
-          updateAmenityAvailability(item, true);
+        if (typeof item === 'string' || typeof item === 'number') {
+          applyAvailability(item, true);
           return;
         }
 
-        const code: string | undefined = item.code || item.key;
-        if (!code) {
-          return;
-        }
-
-        updateAmenityAvailability(code, item.available);
+        const identifier = item.code ?? item.key;
+        applyAvailability(identifier, item.available);
       });
     }
 
-    return Object.values(amenityLookup);
+    const orderedAmenities: AmenityItem[] = AMENITY_DEFINITIONS.map((definition) => {
+      const amenity = amenityMap.get(definition.key);
+      if (amenity) {
+        return amenity;
+      }
+      return {
+        icon: definition.icon,
+        labelKey: definition.labelKey,
+        available: definition.defaultAvailable ?? null
+      };
+    }).filter((amenity): amenity is AmenityItem => !!amenity);
+
+    extraAmenityKeys.forEach((key) => {
+      const amenity = amenityMap.get(key);
+      if (amenity) {
+        orderedAmenities.push(amenity);
+      }
+    });
+
+    return orderedAmenities;
   }
 
   private buildHouseRules(offer: OfferDetailsResponse): HouseRuleItem[] {

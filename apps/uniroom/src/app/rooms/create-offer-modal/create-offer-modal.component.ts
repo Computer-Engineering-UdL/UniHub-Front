@@ -8,7 +8,6 @@ import {
   CreateOfferPhoto,
   GenderPreference,
   Offer,
-  OfferAmenity,
   OfferHouseRules,
   OfferStatus
 } from '../../models/offer.types';
@@ -17,6 +16,10 @@ import { LocalizationService } from '../../services/localization.service';
 import { User } from '../../models/auth.types';
 import NotificationService from '../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import {
+  ADDITIONAL_AMENITIES,
+  AMENITY_KEY_TO_CODE
+} from '../../models/amenities.constants';
 
 interface SelectedPhotoPreview {
   file: File;
@@ -77,14 +80,12 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   photoUploadError: string | null = null;
   photoPreviews: SelectedPhotoPreview[] = [];
 
-  readonly additionalAmenities: Array<{ control: string; labelKey: string }> = [
-    { control: 'heating', labelKey: 'ROOM.FORM.HEATING' },
-    { control: 'parking', labelKey: 'ROOM.FORM.PARKING' },
-    { control: 'kitchen', labelKey: 'ROOM.FORM.KITCHEN' },
-    { control: 'tv', labelKey: 'ROOM.FORM.TV' },
-    { control: 'security', labelKey: 'ROOM.FORM.SECURITY' },
-    { control: 'balcony', labelKey: 'ROOM.FORM.BALCONY' }
-  ];
+  readonly additionalAmenities: Array<{ control: string; labelKey: string; defaultSelected: boolean }> =
+    ADDITIONAL_AMENITIES.map((amenity) => ({
+      control: amenity.key,
+      labelKey: amenity.formLabelKey ?? amenity.labelKey,
+      defaultSelected: amenity.defaultSelected ?? false
+    }));
 
   readonly houseRuleControls: Array<{ control: string; labelKey: string }> = [
     { control: 'smoking', labelKey: 'ROOM.FORM.RULE_SMOKING' },
@@ -131,6 +132,10 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   }
 
   private initializeForm(): void {
+    const amenityControls: Record<string, [boolean]> = {};
+    this.additionalAmenities.forEach((amenity) => {
+      amenityControls[amenity.control] = [amenity.defaultSelected ?? false];
+    });
     this.offerForm = this.formBuilder.group({
       category_id: ['', Validators.required],
       title: ['', [Validators.required, Validators.maxLength(100)]],
@@ -161,14 +166,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       contract_type: ['', [Validators.maxLength(100)]],
       latitude: [null, [Validators.min(-90), Validators.max(90)]],
       longitude: [null, [Validators.min(-180), Validators.max(180)]],
-      amenities: this.formBuilder.group({
-        heating: [false],
-        parking: [false],
-        kitchen: [true],
-        tv: [false],
-        security: [false],
-        balcony: [false]
-      }),
+      amenities: this.formBuilder.group(amenityControls),
       house_rules: this.formBuilder.group({
         smoking: [false],
         pets: [false],
@@ -486,12 +484,17 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     } as Omit<CreateOfferData, 'user_id'>;
   }
 
-  private mapAmenitiesToPayload(amenities: Record<string, boolean>): string[] | null {
-    const selectedCodes: string[] = Object.entries(amenities || {})
-      .filter(([_, value]) => value)
-      .map(([key]) => key);
+  private mapAmenitiesToPayload(amenities: Record<string, boolean>): number[] | null {
+    const selectedCodes: number[] = Object.entries(amenities || {})
+      .filter(([, value]) => value)
+      .map(([key]) => AMENITY_KEY_TO_CODE[key.toLowerCase()])
+      .filter((code): code is number => code !== undefined);
 
-    return selectedCodes.length > 0 ? selectedCodes : null;
+    if (selectedCodes.length === 0) {
+      return null;
+    }
+
+    return [...new Set(selectedCodes)].sort((a, b) => a - b);
   }
 
   private normalizeRules(rules: OfferHouseRules): OfferHouseRules {

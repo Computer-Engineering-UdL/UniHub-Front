@@ -48,8 +48,9 @@ export interface CreateOfferPhoto {
 
 export type OfferAmenity =
   | string
+  | number
   | {
-  code?: string;
+  code?: string | number;
   key?: string;
   available?: boolean | null;
 };
