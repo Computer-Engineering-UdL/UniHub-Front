@@ -7,6 +7,7 @@ import {
   CreateOfferData,
   CreateOfferPhoto,
   GenderPreference,
+  Offer,
   OfferAmenity,
   OfferHouseRules,
   OfferStatus
@@ -32,6 +33,10 @@ type OfferFormValue = {
   offer_valid_until: string;
   city: string;
   address: string;
+  street: string;
+  street_number: string;
+  apartment: string | null;
+  postal_code: string;
   start_date: string;
   end_date: string;
   deposit: number | null;
@@ -105,7 +110,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   public endDateMin: string = this.todayISO;
   public readonly offerValidMin: string = this.todayISO;
 
-  private startDateSubscription?: Subscription;
+  private subscriptions: Subscription[] = [];
 
   private modalController: ModalController = inject(ModalController);
   private formBuilder: FormBuilder = inject(FormBuilder);
@@ -121,7 +126,8 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.startDateSubscription?.unsubscribe();
+    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+    this.subscriptions = [];
   }
 
   private initializeForm(): void {
@@ -134,6 +140,10 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       offer_valid_until: ['', Validators.required],
       city: ['', [Validators.required, Validators.maxLength(50)]],
       address: ['', [Validators.required, Validators.maxLength(200)]],
+      street: ['', [Validators.required, Validators.maxLength(120)]],
+      street_number: ['', [Validators.required, Validators.maxLength(10)]],
+      apartment: ['', [Validators.maxLength(50)]],
+      postal_code: ['', [Validators.required, Validators.maxLength(15)]],
       start_date: [this.todayISO, Validators.required],
       end_date: ['', Validators.required],
       deposit: [0, [Validators.min(0)]],
@@ -168,19 +178,26 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
 
 
     this.endDateMin = this.todayISO;
-    this.startDateSubscription = this.offerForm.get('start_date')?.valueChanges.subscribe((value: string) => {
-      if (!value) {
-        this.endDateMin = this.todayISO;
-        return;
-      }
+    const startDateSub: Subscription | undefined = this.offerForm
+      .get('start_date')
+      ?.valueChanges.subscribe((value: string) => {
+        if (!value) {
+          this.endDateMin = this.todayISO;
+          return;
+        }
 
-      this.endDateMin = value;
-      const endDateControl = this.offerForm.get('end_date');
-      const currentEndDate = endDateControl?.value as string;
-      if (currentEndDate && new Date(currentEndDate) < new Date(value)) {
-        endDateControl?.setValue(value);
-      }
-    });
+        this.endDateMin = value;
+        const endDateControl = this.offerForm.get('end_date');
+        const currentEndDate = endDateControl?.value as string;
+        if (currentEndDate && new Date(currentEndDate) < new Date(value)) {
+          endDateControl?.setValue(value);
+        }
+      });
+    if (startDateSub) {
+      this.subscriptions.push(startDateSub);
+    }
+
+    this.setupAddressSynchronization();
   }
 
   private async loadCategories(): Promise<void> {
@@ -196,7 +213,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       // Notify user (translation key assumed); if not available it will show the key
       try {
         this.notificationService.error('ERROR.LOAD_CATEGORIES');
-      } catch (e) {
+      } catch {
         // swallow notification errors
       }
       this.categories = [];
@@ -208,12 +225,12 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   get selectInterface(): 'popover' | 'action-sheet' {
     try {
       return window && window.innerWidth >= 768 ? 'popover' : 'action-sheet';
-    } catch (e) {
+    } catch {
       return 'action-sheet';
     }
   }
 
-  get selectInterfaceOptions(): any {
+  get selectInterfaceOptions(): Record<string, unknown> {
     if (this.selectInterface === 'popover') {
       return { cssClass: 'category-popover' };
     }
@@ -241,11 +258,17 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
         user_id: user.id
       };
 
-      const createdOffer: unknown = await firstValueFrom(this.apiService.post('offers/offers/', offerData));
+      const createdOffer: Offer = await firstValueFrom(
+        this.apiService.post<Offer>('offers/offers/', offerData)
+      );
+
+      await this.uploadPhotosForOffer(createdOffer.id);
 
       await this.modalController.dismiss(createdOffer, 'created');
     } catch (error) {
       this.isSubmitting = false;
+      console.error('Failed to create offer', error);
+      this.notificationService.error('ROOM.FORM.CREATE_ERROR');
     }
   }
 
@@ -424,11 +447,24 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       contract_type,
       latitude,
       longitude,
+      street,
+      street_number,
+      apartment,
+      postal_code,
       ...formData
     } = this.offerForm.getRawValue() as OfferFormValue;
 
+    const address: string = this.composeFullAddress({
+      street,
+      street_number,
+      apartment,
+      postal_code,
+      city: formData.city
+    });
+
     return {
       ...formData,
+      address,
       price: this.toNumber(formData.price),
       area: this.toNumber(formData.area),
       deposit: this.toNullableNumber(formData.deposit),
@@ -474,6 +510,120 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       url: photo.preview,
       is_primary: index === 0
     }));
+  }
+
+  private setupAddressSynchronization(): void {
+    const controls: string[] = ['street', 'street_number', 'apartment', 'postal_code', 'city'];
+    controls.forEach((controlName: string) => {
+      const control: AbstractControl | null = this.offerForm.get(controlName);
+      if (!control) {
+        return;
+      }
+      const subscription: Subscription = control.valueChanges.subscribe(() => {
+        this.updateAddressValue();
+      });
+      this.subscriptions.push(subscription);
+    });
+
+    this.updateAddressValue();
+  }
+
+  private updateAddressValue(): void {
+    const rawValue = this.offerForm.getRawValue() as OfferFormValue;
+    const address: string = this.composeFullAddress({
+      street: rawValue.street,
+      street_number: rawValue.street_number,
+      apartment: rawValue.apartment,
+      postal_code: rawValue.postal_code,
+      city: rawValue.city
+    });
+
+    const addressControl: AbstractControl | null = this.offerForm.get('address');
+    if (addressControl && addressControl.value !== address) {
+      addressControl.setValue(address, { emitEvent: false });
+      addressControl.updateValueAndValidity({ emitEvent: false });
+    }
+  }
+
+  private composeFullAddress({
+                               street,
+                               street_number,
+                               apartment,
+                               postal_code,
+                               city
+                             }: {
+    street: string;
+    street_number: string;
+    apartment: string | null;
+    postal_code: string;
+    city: string;
+  }): string {
+    const normalizedStreet: string | null = this.normalizeString(street);
+    const normalizedNumber: string | null = this.normalizeString(street_number);
+    const normalizedApartment: string | null = this.normalizeString(apartment);
+    const normalizedPostal: string | null = this.normalizeString(postal_code);
+    const normalizedCity: string | null = this.normalizeString(city);
+
+    const line1Parts: string[] = [];
+    if (normalizedStreet) {
+      line1Parts.push(normalizedStreet);
+    }
+    if (normalizedNumber) {
+      line1Parts.push(normalizedNumber);
+    }
+    const line1: string | null = line1Parts.length ? line1Parts.join(' ') : null;
+
+    const line2Parts: string[] = [];
+    if (normalizedApartment) {
+      line2Parts.push(normalizedApartment);
+    }
+    const localityParts: string[] = [];
+    if (normalizedPostal) {
+      localityParts.push(normalizedPostal);
+    }
+    if (normalizedCity) {
+      localityParts.push(normalizedCity);
+    }
+    if (localityParts.length) {
+      line2Parts.push(localityParts.join(' '));
+    }
+
+    const parts: string[] = [];
+    if (line1) {
+      parts.push(line1);
+    }
+    if (line2Parts.length) {
+      parts.push(line2Parts.join(', '));
+    }
+
+    return parts.join(', ');
+  }
+
+  private async uploadPhotosForOffer(offerId: string): Promise<void> {
+    if (!offerId || !this.photoPreviews.length) {
+      return;
+    }
+
+    const uploadPromises: Promise<void>[] = this.photoPreviews.map(async (photo, index) => {
+      const formData = new FormData();
+      formData.append('offer_id', offerId);
+      formData.append('file', photo.file);
+      formData.append('is_primary', String(index === 0));
+
+      try {
+        await firstValueFrom(this.apiService.post('offers/photos/', formData));
+      } catch (error) {
+        console.error('Failed to upload photo:', error);
+        throw error;
+      }
+    });
+
+    try {
+      await Promise.all(uploadPromises);
+    } catch (error) {
+      console.error('Some photos failed to upload:', error);
+      this.notificationService.warning('ROOM.FORM.PHOTO_UPLOAD_PARTIAL');
+    }
   }
 
   private normalizeString(value: string | null | undefined): string | null {

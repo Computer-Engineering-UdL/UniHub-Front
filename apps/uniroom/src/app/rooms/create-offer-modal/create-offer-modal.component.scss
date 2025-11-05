@@ -57,6 +57,22 @@ ion-item.field-with-helper {
   gap: 12px;
 }
 
+.location-grid {
+  margin-bottom: 12px;
+
+  ion-item {
+    margin-bottom: 0;
+  }
+}
+
+.address-preview {
+  display: block;
+  margin: 4px 0 16px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+
 .range-grid {
   gap: 20px;
   margin-bottom: 20px;

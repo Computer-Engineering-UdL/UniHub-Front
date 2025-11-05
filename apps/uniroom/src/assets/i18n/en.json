@@ -407,6 +407,17 @@
       "DISTANCE_FROM_CAMPUS": "Distance from campus",
       "DISTANCE_HELPER": "Optional: commute time or distance",
       "LATITUDE": "Latitude",
+      "STREET": "Street",
+      "STREET_PLACEHOLDER": "Ex: Main Avenue",
+      "STREET_NUMBER": "Number",
+      "STREET_NUMBER_PLACEHOLDER": "Ex: 42",
+      "APARTMENT": "Apartment / Floor",
+      "APARTMENT_PLACEHOLDER": "Ex: 3º 1ª or Apt. 2B",
+      "APARTMENT_HELPER": "Optional: add floor, door or apartment details",
+      "POSTAL_CODE": "Postal code",
+      "POSTAL_CODE_PLACEHOLDER": "Ex: 25001",
+      "FULL_ADDRESS_PREVIEW": "Full address",
+      "ADDRESS_PREVIEW_EMPTY": "Complete the fields above to generate it",
       "LONGITUDE": "Longitude",
       "COORDINATES_HELPER": "Used to display the map location",
       "UPLOAD_BUTTON": "Choose photos",
@@ -425,7 +436,10 @@
         "MALE": "Male",
         "FEMALE": "Female",
         "OTHER": "Other"
-      }
+      },
+      "CREATE_ERROR": "We couldn't create the offer. Please review the form and try again.",
+      "PHOTO_UPLOAD_FAILED": "We couldn't upload the photos. You can edit the offer later to try again.",
+      "PHOTO_UPLOAD_PARTIAL": "Some photos couldn't be uploaded. The offer was created without them."
     },
     "CITIES": {
       "LLEIDA": "Lleida",

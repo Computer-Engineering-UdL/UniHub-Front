@@ -408,6 +408,17 @@
       "DISTANCE_HELPER": "Opcional: tiempo o distancia del trayecto",
       "LATITUDE": "Latitud",
       "LONGITUDE": "Longitud",
+      "STREET": "Calle",
+      "STREET_PLACEHOLDER": "Ej: Avenida Principal",
+      "STREET_NUMBER": "Número",
+      "STREET_NUMBER_PLACEHOLDER": "Ej: 42",
+      "APARTMENT": "Piso / Puerta",
+      "APARTMENT_PLACEHOLDER": "Ej: 3º 1ª o Apt. 2B",
+      "APARTMENT_HELPER": "Opcional: añade planta, puerta o detalles del piso",
+      "POSTAL_CODE": "Código postal",
+      "POSTAL_CODE_PLACEHOLDER": "Ej: 25001",
+      "FULL_ADDRESS_PREVIEW": "Dirección completa",
+      "ADDRESS_PREVIEW_EMPTY": "Completa los campos para generarla",
       "COORDINATES_HELPER": "Se utiliza para mostrar la ubicación en el mapa",
       "UPLOAD_BUTTON": "Elegir fotos",
       "UPLOAD_PHOTOS_HELPER": "Añade hasta {{max}} imágenes para mostrar tu oferta.",
@@ -425,7 +436,10 @@
         "MALE": "Masculino",
         "FEMALE": "Femenino",
         "OTHER": "Otro"
-      }
+      },
+      "CREATE_ERROR": "No hemos podido crear la oferta. Revisa el formulario e inténtalo de nuevo.",
+      "PHOTO_UPLOAD_FAILED": "No se pudieron subir las fotos. Podrás editarlas más tarde desde la oferta.",
+      "PHOTO_UPLOAD_PARTIAL": "Algunas fotos no se subieron. La oferta se creó sin ellas."
     },
     "CITIES": {
       "LLEIDA": "Lleida",

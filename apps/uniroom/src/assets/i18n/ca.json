@@ -387,6 +387,17 @@
       "UTILITIES_DESCRIPTION_HELPER": "Afegeix context extra sobre factures o despeses compartides",
       "NUM_ROOMS": "Nombre d'Habitacions",
       "NUM_BATHROOMS": "Nombre de Banys",
+      "STREET": "Carrer",
+      "STREET_PLACEHOLDER": "Ex: Avinguda Principal",
+      "STREET_NUMBER": "Número",
+      "STREET_NUMBER_PLACEHOLDER": "Ex: 42",
+      "APARTMENT": "Pis / Porta",
+      "APARTMENT_PLACEHOLDER": "Ex: 3r 1a o Apt. 2B",
+      "APARTMENT_HELPER": "Opcional: afegeix planta, porta o detalls del pis",
+      "POSTAL_CODE": "Codi postal",
+      "POSTAL_CODE_PLACEHOLDER": "Ex: 25001",
+      "FULL_ADDRESS_PREVIEW": "Adreça completa",
+      "ADDRESS_PREVIEW_EMPTY": "Omple els camps per generar-la",
       "GENDER_PREFERENCE": "Preferència de Gènere",
       "FURNISHED": "Moblat",
       "UTILITIES_INCLUDED": "Subministraments Inclosos",
@@ -424,7 +435,10 @@
         "MALE": "Masculí",
         "FEMALE": "Femení",
         "OTHER": "Altre"
-      }
+      },
+      "CREATE_ERROR": "No s'ha pogut crear l'anunci. Revisa el formulari i torna-ho a provar.",
+      "PHOTO_UPLOAD_FAILED": "No s'han pogut pujar les fotos. Podràs afegir-les més endavant des de l'anunci.",
+      "PHOTO_UPLOAD_PARTIAL": "Algunes fotos no s'han pujat. L'anunci s'ha creat sense elles."
     },
     "CITIES": {
       "LLEIDA": "Lleida",

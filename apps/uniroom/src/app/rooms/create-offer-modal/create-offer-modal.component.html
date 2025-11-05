@@ -124,10 +124,49 @@
           </ion-select>
         </ion-item>
 
-        <ion-item [class.item-has-error]="isFieldInvalid('address')">
-          <ion-label position="stacked">{{ 'ROOM.FORM.ADDRESS' | translate }} *</ion-label>
-          <ion-input formControlName="address" type="text" placeholder="Street, Number"></ion-input>
-        </ion-item>
+        <div class="two-columns location-grid">
+          <ion-item [class.item-has-error]="isFieldInvalid('street')">
+            <ion-label position="stacked">{{ 'ROOM.FORM.STREET' | translate }} *</ion-label>
+            <ion-input
+              formControlName="street"
+              type="text"
+              placeholder="{{ 'ROOM.FORM.STREET_PLACEHOLDER' | translate }}"></ion-input>
+          </ion-item>
+
+          <ion-item [class.item-has-error]="isFieldInvalid('street_number')">
+            <ion-label position="stacked">{{ 'ROOM.FORM.STREET_NUMBER' | translate }} *</ion-label>
+            <ion-input
+              formControlName="street_number"
+              type="text"
+              inputmode="text"
+              placeholder="{{ 'ROOM.FORM.STREET_NUMBER_PLACEHOLDER' | translate }}"></ion-input>
+          </ion-item>
+        </div>
+
+        <div class="two-columns location-grid">
+          <ion-item class="field-with-helper">
+            <ion-label position="stacked">{{ 'ROOM.FORM.APARTMENT' | translate }}</ion-label>
+            <ion-input
+              formControlName="apartment"
+              type="text"
+              placeholder="{{ 'ROOM.FORM.APARTMENT_PLACEHOLDER' | translate }}"></ion-input>
+            <ion-note slot="helper">{{ 'ROOM.FORM.APARTMENT_HELPER' | translate }}</ion-note>
+          </ion-item>
+
+          <ion-item [class.item-has-error]="isFieldInvalid('postal_code')">
+            <ion-label position="stacked">{{ 'ROOM.FORM.POSTAL_CODE' | translate }} *</ion-label>
+            <ion-input
+              formControlName="postal_code"
+              type="text"
+              inputmode="text"
+              placeholder="{{ 'ROOM.FORM.POSTAL_CODE_PLACEHOLDER' | translate }}"></ion-input>
+          </ion-item>
+        </div>
+
+        <ion-note class="address-preview" color="medium">
+          {{ 'ROOM.FORM.FULL_ADDRESS_PREVIEW' | translate }}:
+          {{ offerForm.get('address')?.value || ('ROOM.FORM.ADDRESS_PREVIEW_EMPTY' | translate) }}
+        </ion-note>
 
         <ion-item class="field-with-helper">
           <ion-label position="stacked">{{ 'ROOM.FORM.DISTANCE_FROM_CAMPUS' | translate }}</ion-label>

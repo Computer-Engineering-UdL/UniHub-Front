@@ -6,6 +6,8 @@ import { ApiService } from '../../services/api.service';
 import { LocalizationService } from '../../services/localization.service';
 import { Offer, OfferPhoto } from '../../models/offer.types';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../models/auth.types';
 
 interface AmenityItem {
   icon: string;
@@ -110,6 +112,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly router: Router = inject(Router);
   private readonly translate: TranslateService = inject(TranslateService);
+  private readonly authService: AuthService = inject(AuthService);
 
   loading: boolean = false;
   error: boolean = false;
@@ -143,7 +146,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       const response: OfferDetailsResponse = await firstValueFrom(
         this.apiService.get<OfferDetailsResponse>(`offers/offers/${offerId}`)
       );
-      this.offer = this.mapToViewModel(response);
+      const landlordUser: User | null = await this.resolveLandlordUser(response.user_id);
+      this.offer = this.mapToViewModel(response, landlordUser);
     } catch (err) {
       console.error('Error loading offer details', err);
       this.error = true;
@@ -183,7 +187,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     return index;
   }
 
-  private mapToViewModel(offer: OfferDetailsResponse): RoomDetailsViewModel {
+  private mapToViewModel(offer: OfferDetailsResponse, landlordUser?: User | null): RoomDetailsViewModel {
     const currency: string = offer.currency ?? 'EUR';
     const priceFormatted: string = this.localization.formatPrice(offer.price ?? 0, currency);
     const areaFormatted: string = this.localization.formatNumber(offer.area ?? 0, 0);
@@ -198,7 +202,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       currency,
       depositFormatted
     );
-    const landlord: LandlordInfo = this.buildLandlordInfo(offer);
+    const landlord: LandlordInfo = this.buildLandlordInfo(offer, landlordUser);
     const mapUrl: SafeResourceUrl | undefined = this.buildMapUrl(offer);
 
     const availableFrom: string | undefined = offer.start_date
@@ -398,43 +402,85 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     return items;
   }
 
-  private buildLandlordInfo(offer: OfferDetailsResponse): LandlordInfo {
+  private async resolveLandlordUser(userId?: string): Promise<User | null> {
+    if (!userId) {
+      return null;
+    }
+
+    try {
+      return await this.authService.fetchUserById(userId);
+    } catch (error) {
+      console.warn('Failed to load landlord user', error);
+      return null;
+    }
+  }
+
+  private buildLandlordInfo(offer: OfferDetailsResponse, landlordUser?: User | null): LandlordInfo {
     const fallbackName: string = this.translate.instant('ROOM.DETAILS.LANDLORD.DEFAULT_NAME');
     const landlordData = offer.landlord ?? {};
 
-    const name: string = landlordData.name || fallbackName;
+    const userDisplayName: string | undefined = this.getUserDisplayName(landlordUser);
+    const name: string = userDisplayName || landlordData.name || fallbackName;
     const initials: string = this.computeInitials(name);
 
-    const memberSince: string | undefined = landlordData.member_since
-      ? this.localization.formatDate(landlordData.member_since, {
+    const memberSince: string | undefined = landlordUser?.joinedDate
+      ? this.localization.formatDate(landlordUser.joinedDate, {
         year: 'numeric',
         month: 'long'
       })
-      : offer.posted_date
-        ? this.localization.formatDate(offer.posted_date, {
+      : landlordData.member_since
+        ? this.localization.formatDate(landlordData.member_since, {
           year: 'numeric',
           month: 'long'
         })
-        : undefined;
+        : offer.posted_date
+          ? this.localization.formatDate(offer.posted_date, {
+            year: 'numeric',
+            month: 'long'
+          })
+          : undefined;
 
     const lastSeen: string | undefined = landlordData.last_seen
       ? this.localization.formatRelativeTime(landlordData.last_seen)
-      : offer.posted_date
-        ? this.localization.formatRelativeTime(offer.posted_date)
-        : undefined;
+      : landlordUser?.joinedDate
+        ? this.localization.formatRelativeTime(landlordUser.joinedDate)
+        : offer.posted_date
+          ? this.localization.formatRelativeTime(offer.posted_date)
+          : undefined;
 
     return {
       name,
       initials,
-      avatar: landlordData.avatar || undefined,
+      avatar: landlordUser?.avatar_url || landlordUser?.imgUrl || landlordData.avatar || undefined,
       memberSince,
       responseTime:
         landlordData.response_time ||
         this.translate.instant('ROOM.DETAILS.LANDLORD.RESPONSE_TIME_PLACEHOLDER'),
       lastSeen,
-      phone: landlordData.phone || undefined,
-      email: landlordData.email || undefined
+      phone: landlordUser?.phone || landlordData.phone || undefined,
+      email: landlordUser?.email || landlordData.email || undefined
     };
+  }
+
+  private getUserDisplayName(user?: User | null): string | undefined {
+    if (!user) {
+      return undefined;
+    }
+
+    if (user.fullName && user.fullName.trim().length > 0) {
+      return user.fullName;
+    }
+
+    const parts: string[] = [user.firstName, user.lastName].filter((part): part is string => !!part && part.trim().length > 0);
+    if (parts.length) {
+      return parts.join(' ');
+    }
+
+    if (user.name && user.name.trim().length > 0) {
+      return user.name;
+    }
+
+    return user.username;
   }
 
   private computeInitials(name: string): string {
