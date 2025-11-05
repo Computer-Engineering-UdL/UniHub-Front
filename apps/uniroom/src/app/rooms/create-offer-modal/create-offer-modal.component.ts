@@ -486,11 +486,12 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     } as Omit<CreateOfferData, 'user_id'>;
   }
 
-  private mapAmenitiesToPayload(amenities: Record<string, boolean>): OfferAmenity[] {
-    return Object.entries(amenities || {}).map(([key, value]) => ({
-      key,
-      available: value
-    }));
+  private mapAmenitiesToPayload(amenities: Record<string, boolean>): string[] | null {
+    const selectedCodes: string[] = Object.entries(amenities || {})
+      .filter(([_, value]) => value)
+      .map(([key]) => key);
+
+    return selectedCodes.length > 0 ? selectedCodes : null;
   }
 
   private normalizeRules(rules: OfferHouseRules): OfferHouseRules {

@@ -4,7 +4,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { ApiService } from '../../services/api.service';
 import { LocalizationService } from '../../services/localization.service';
-import { Offer, OfferPhoto } from '../../models/offer.types';
+import { Offer, OfferAmenity, OfferPhoto } from '../../models/offer.types';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/auth.types';
@@ -87,10 +87,6 @@ type OfferDetailsResponse = Offer & {
     phone?: string;
     email?: string;
   } | null;
-  amenities?: Array<{
-    key: string;
-    available?: boolean;
-  }>;
   rules?: Record<string, boolean>;
   utilities_cost?: number;
   utilities_description?: string;
@@ -146,7 +142,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       const response: OfferDetailsResponse = await firstValueFrom(
         this.apiService.get<OfferDetailsResponse>(`offers/${offerId}`)
       );
-      const landlordUser: User | null = await this.resolveLandlordUser(response.user_id);
+      const landlordUser: User | null = this.getCachedLandlordUser(response.user_id);
       this.offer = this.mapToViewModel(response, landlordUser);
     } catch (err: any) {
       console.error('Error loading offer details', err);
@@ -332,12 +328,48 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       }
     };
 
-    if (offer.amenities && offer.amenities.length > 0) {
-      offer.amenities.forEach((item) => {
-        const key: string = item.key.toLowerCase();
-        if (amenityLookup[key]) {
-          amenityLookup[key].available = item.available ?? amenityLookup[key].available;
+    const updateAmenityAvailability = (code: string, available?: boolean | null): void => {
+      const normalizedCode: string = code.trim().toLowerCase();
+      if (!normalizedCode) {
+        return;
+      }
+
+      const resolvedAvailability: boolean | null =
+        available ?? amenityLookup[normalizedCode]?.available ?? true;
+
+      if (amenityLookup[normalizedCode]) {
+        amenityLookup[normalizedCode].available = resolvedAvailability;
+        return;
+      }
+
+      amenityLookup[normalizedCode] = {
+        icon: 'ellipse-outline',
+        labelKey: `ROOM.DETAILS.AMENITIES.${normalizedCode.toUpperCase()}`,
+        available: resolvedAvailability
+      };
+    };
+
+    const amenitiesFromResponse: OfferAmenity[] = Array.isArray(offer.amenities)
+      ? (offer.amenities as OfferAmenity[])
+      : [];
+
+    if (amenitiesFromResponse.length > 0) {
+      amenitiesFromResponse.forEach((item: OfferAmenity) => {
+        if (!item) {
+          return;
         }
+
+        if (typeof item === 'string') {
+          updateAmenityAvailability(item, true);
+          return;
+        }
+
+        const code: string | undefined = item.code || item.key;
+        if (!code) {
+          return;
+        }
+
+        updateAmenityAvailability(code, item.available);
       });
     }
 
@@ -402,17 +434,17 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     return items;
   }
 
-  private async resolveLandlordUser(userId?: string): Promise<User | null> {
+  private getCachedLandlordUser(userId?: string): User | null {
     if (!userId) {
       return null;
     }
 
-    try {
-      return await this.authService.fetchUserById(userId);
-    } catch (error) {
-      console.warn('Failed to load landlord user', error);
-      return null;
+    const currentUser: User | null = this.authService.currentUser;
+    if (currentUser?.id === userId) {
+      return currentUser;
     }
+
+    return null;
   }
 
   private buildLandlordInfo(offer: OfferDetailsResponse, landlordUser?: User | null): LandlordInfo {

@@ -46,10 +46,13 @@ export interface CreateOfferPhoto {
   is_primary?: boolean;
 }
 
-export interface OfferAmenity {
-  key: string;
+export type OfferAmenity =
+  | string
+  | {
+  code?: string;
+  key?: string;
   available?: boolean | null;
-}
+};
 
 export type OfferHouseRules = Record<string, boolean>;
 
