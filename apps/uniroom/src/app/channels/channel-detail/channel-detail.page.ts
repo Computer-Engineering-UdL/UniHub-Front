@@ -1,17 +1,6 @@
-import {
-  Component,
-  inject,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  AfterViewInit,
-  ChangeDetectorRef,
-  ElementRef,
-  ViewChildren,
-  QueryList
-} from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewChildren, ElementRef, QueryList } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, IonContent } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription, interval } from 'rxjs';
 import { Channel, ChannelMember, ChannelRole } from '../../models/channel.types';
@@ -21,7 +10,6 @@ import { ChannelService } from '../../services/channel.service';
 import { AuthService } from '../../services/auth.service';
 import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
-import { NgZone } from '@angular/core';
 
 interface MessageGroup {
   date: string;
@@ -34,8 +22,7 @@ interface MessageGroup {
   styleUrls: ['./channel-detail.page.scss'],
   standalone: false
 })
-export class ChannelDetailPage implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('content', { read: IonContent, static: false }) content?: IonContent;
+export class ChannelDetailPage implements OnInit, OnDestroy {
   @ViewChildren('messageItem') messageItems?: QueryList<ElementRef>;
 
   private route: ActivatedRoute = inject(ActivatedRoute);
@@ -46,14 +33,9 @@ export class ChannelDetailPage implements OnInit, OnDestroy, AfterViewInit {
   private notificationService: NotificationService = inject(NotificationService);
   private localizationService: LocalizationService = inject(LocalizationService);
   private translate: TranslateService = inject(TranslateService);
-  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
-  private zone: NgZone = inject(NgZone);
 
   private userSubscription?: Subscription;
   private messagesRefreshSubscription?: Subscription;
-  private messageItemsChangesSub?: Subscription;
-
-  private shouldScrollToBottom: boolean = false;
 
   channelId: string = '';
   channel: Channel | null = null;
@@ -83,19 +65,9 @@ export class ChannelDetailPage implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
-    if (this.messageItems && this.messageItems.length) {
-      void this.queueScrollIfNeeded(true);
-    }
-    this.messageItemsChangesSub = this.messageItems?.changes.subscribe(() => {
-      void this.queueScrollIfNeeded(true);
-    });
-  }
-
   ngOnDestroy(): void {
     this.userSubscription?.unsubscribe();
     this.messagesRefreshSubscription?.unsubscribe();
-    this.messageItemsChangesSub?.unsubscribe();
   }
 
   private startMessagesRefresh(): void {
@@ -118,28 +90,14 @@ export class ChannelDetailPage implements OnInit, OnDestroy, AfterViewInit {
 
   async loadMessages(silent: boolean = false, scrollToBottom: boolean = true): Promise<void> {
     if (!this.channelId) return;
-
     try {
-      if (!silent) {
-        this.isLoadingMessages = true;
-      }
-
+      if (!silent) this.isLoadingMessages = true;
       this.messages = await this.channelService.getChannelMessages(this.channelId);
       this.groupMessagesByDate();
-
-      if (scrollToBottom) {
-        this.shouldScrollToBottom = true;
-        this.cdr.detectChanges();
-        await this.queueScrollIfNeeded();
-      }
     } catch {
-      if (!silent) {
-        this.notificationService.error('CHANNELS.DETAIL.ERROR.LOAD_MESSAGES');
-      }
+      if (!silent) this.notificationService.error('CHANNELS.DETAIL.ERROR.LOAD_MESSAGES');
     } finally {
-      if (!silent) {
-        this.isLoadingMessages = false;
-      }
+      if (!silent) this.isLoadingMessages = false;
     }
   }
 
@@ -152,7 +110,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy, AfterViewInit {
       arr.push(m);
       map.set(keyDate, arr);
     }
-    const sorted = Array.from(map.entries()).sort((a, b) => a[0] - b[0]);
+    const sorted = Array.from(map.entries()).sort((a, b) => b[0] - a[0]);
     this.messageGroups = sorted.map(([ts, msgs]) => ({
       date: new Date(ts).toISOString(),
       messages: msgs.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
@@ -161,7 +119,6 @@ export class ChannelDetailPage implements OnInit, OnDestroy, AfterViewInit {
 
   async loadMembers(): Promise<void> {
     if (!this.channelId) return;
-
     try {
       this.members = await this.channelService.getChannelMembers(this.channelId);
     } catch {
@@ -171,17 +128,12 @@ export class ChannelDetailPage implements OnInit, OnDestroy, AfterViewInit {
 
   async onSegmentChange(event: any): Promise<void> {
     this.selectedSegment = event.detail.value;
-    if (this.selectedSegment === 'messages') {
-      await this.queueScrollIfNeeded(true);
-    }
   }
 
   async sendMessage(): Promise<void> {
     if (!this.messageContent.trim() || !this.canWriteInChannel() || !this.currentUser) return;
-
     const content: string = this.messageContent.trim();
     this.messageContent = '';
-
     try {
       if (this.editingMessageId) {
         await this.channelService.updateChannelMessage(this.channelId, this.editingMessageId, content);
@@ -208,16 +160,12 @@ export class ChannelDetailPage implements OnInit, OnDestroy, AfterViewInit {
 
   async deleteMessage(message: ChannelMessage): Promise<void> {
     if (!this.canDeleteMessage(message)) return;
-
     const alert: HTMLIonAlertElement = await this.alertController.create({
       cssClass: 'custom-delete-alert',
       header: this.translate.instant('CHANNELS.DETAIL.DELETE_MESSAGE'),
       message: this.translate.instant('CHANNELS.DETAIL.DELETE_MESSAGE_CONFIRM'),
       buttons: [
-        {
-          text: this.translate.instant('COMMON.CANCEL'),
-          role: 'cancel'
-        },
+        { text: this.translate.instant('COMMON.CANCEL'), role: 'cancel' },
         {
           text: this.translate.instant('COMMON.DELETE'),
           role: 'destructive',
@@ -234,7 +182,6 @@ export class ChannelDetailPage implements OnInit, OnDestroy, AfterViewInit {
         }
       ]
     });
-
     await alert.present();
   }
 
@@ -262,13 +209,11 @@ export class ChannelDetailPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   scrollToMessage(messageId: string): void {
-    const messageElement: HTMLElement | null = document.getElementById(`message-${messageId}`);
-    if (messageElement) {
-      messageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      messageElement.classList.add('highlight-message');
-      setTimeout((): void => {
-        messageElement.classList.remove('highlight-message');
-      }, 2000);
+    const el = document.getElementById(`message-${messageId}`);
+    if (el) {
+      el.scrollIntoView({ behavior: 'auto', block: 'nearest' });
+      el.classList.add('highlight-message');
+      setTimeout(() => el.classList.remove('highlight-message'), 2000);
     }
   }
 
@@ -281,9 +226,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy, AfterViewInit {
 
   getReplyMessageSender(message: ChannelMessage): string {
     if (!message.reply_message) return '';
-    if (message.reply_message.user_id === this.currentUser?.id) {
-      return this.translate.instant('COMMON.YOU');
-    }
+    if (message.reply_message.user_id === this.currentUser?.id) return this.translate.instant('COMMON.YOU');
     if (message.reply_message.sender) {
       return (
         message.reply_message.sender.fullName ||
@@ -301,18 +244,8 @@ export class ChannelDetailPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private hasRequiredRole(userRole: Role, requiredRole: ChannelRole): boolean {
-    const roleHierarchy: Record<Role, number> = {
-      Basic: 1,
-      Seller: 2,
-      Admin: 3
-    };
-
-    const requiredRoleMapping: Record<ChannelRole, Role> = {
-      Basic: 'Basic',
-      Seller: 'Seller',
-      Admin: 'Admin'
-    };
-
+    const roleHierarchy: Record<Role, number> = { Basic: 1, Seller: 2, Admin: 3 };
+    const requiredRoleMapping: Record<ChannelRole, Role> = { Basic: 'Basic', Seller: 'Seller', Admin: 'Admin' };
     return roleHierarchy[userRole] >= roleHierarchy[requiredRoleMapping[requiredRole]];
   }
 
@@ -334,20 +267,13 @@ export class ChannelDetailPage implements OnInit, OnDestroy, AfterViewInit {
     const today: Date = new Date();
     const yesterday: Date = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
-
-    if (date.toDateString() === today.toDateString()) {
-      return this.translate.instant('TIME.TODAY');
-    } else if (date.toDateString() === yesterday.toDateString()) {
-      return this.translate.instant('TIME.YESTERDAY');
-    }
-
+    if (date.toDateString() === today.toDateString()) return this.translate.instant('TIME.TODAY');
+    if (date.toDateString() === yesterday.toDateString()) return this.translate.instant('TIME.YESTERDAY');
     return this.localizationService.formatDate(date, { weekday: 'long', day: 'numeric', month: 'long' });
   }
 
   getUserAvatar(message: ChannelMessage): string {
-    if (this.isMyMessage(message) && this.currentUser) {
-      return this.currentUser.imgUrl || this.defaultUserUrl;
-    }
+    if (this.isMyMessage(message) && this.currentUser) return this.currentUser.imgUrl || this.defaultUserUrl;
     return message.sender?.imgUrl || this.defaultUserUrl;
   }
 
@@ -376,81 +302,5 @@ export class ChannelDetailPage implements OnInit, OnDestroy, AfterViewInit {
 
   trackByMessage(index: number, message: ChannelMessage): string {
     return message.id;
-  }
-
-  private async onStableOnce(): Promise<void> {
-    return new Promise((resolve) => {
-      const sub = this.zone.onStable.subscribe(() => {
-        sub.unsubscribe();
-        resolve();
-      });
-    });
-  }
-
-  private getScrollHostEl(): HTMLElement | null {
-    const list = document.querySelector('.messages-list') as HTMLElement | null;
-    if (list) return list;
-    const container = document.querySelector('.channel-detail-container') as HTMLElement | null;
-    if (container) return container;
-    return null;
-  }
-
-  private async queueScrollIfNeeded(force: boolean = false): Promise<void> {
-    if (!force && !this.shouldScrollToBottom) return;
-
-    await this.onStableOnce();
-
-    await new Promise<void>((r) => {
-      if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
-        window.requestAnimationFrame(() => r());
-      } else {
-        setTimeout(r, 0);
-      }
-    });
-
-    await new Promise<void>((r) => {
-      if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
-        window.requestAnimationFrame(() => r());
-      } else {
-        setTimeout(r, 0);
-      }
-    });
-
-    let scrolled = false;
-    const host = this.getScrollHostEl();
-    if (host) {
-      scrolled = await this.forceScrollOnElement(host, 10);
-    } else if (this.content) {
-      scrolled = await this.forceScrollWithIonContent(6);
-    }
-
-    if (!scrolled) {
-      const last = this.messageItems?.last?.nativeElement as HTMLElement | undefined;
-      if (last) last.scrollIntoView({ behavior: 'auto', block: 'end' });
-    }
-
-    this.shouldScrollToBottom = false;
-  }
-
-  private async forceScrollOnElement(el: HTMLElement, retries: number = 4): Promise<boolean> {
-    for (let i = 0; i < retries; i++) {
-      el.scrollTo({ top: el.scrollHeight, behavior: 'auto' });
-      const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 2;
-      if (atBottom) return true;
-      await new Promise((r) => setTimeout(r, 0));
-    }
-    return false;
-  }
-
-  private async forceScrollWithIonContent(retries: number = 3): Promise<boolean> {
-    if (!this.content) return false;
-    for (let i = 0; i < retries; i++) {
-      const el = await this.content.getScrollElement();
-      await this.content.scrollToPoint(0, el.scrollHeight, 0);
-      const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 2;
-      if (atBottom) return true;
-      await new Promise((r) => setTimeout(r, 0));
-    }
-    return false;
   }
 }

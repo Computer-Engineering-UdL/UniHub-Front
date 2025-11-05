@@ -571,3 +571,27 @@ ion-footer {
     }
   }
 }
+
+.channel-detail-container,
+.messages-section {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.messages-list {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.no-top-padding {
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
+.highlight-message {
+  outline: 2px solid var(--ion-color-primary);
+  transition: outline 2s ease;
+}
