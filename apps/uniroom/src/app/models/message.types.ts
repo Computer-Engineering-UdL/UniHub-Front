@@ -14,12 +14,16 @@ export interface Message {
 export interface ChannelMessage {
   id: string;
   channel_id: string;
-  sender_id: string;
+  user_id: string;
   content: string;
   created_at: string;
-  updated_at?: string;
+  updated_at: string | null;
+  is_edited: boolean;
+  parent_message_id: string | null;
   sender?: User;
+  sender_id?: string;
   reply_to?: string;
+  reply_message?: ChannelMessage;
 }
 
 export interface Conversation {

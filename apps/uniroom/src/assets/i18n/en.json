@@ -270,6 +270,7 @@
     "CANCEL": "Cancel",
     "CONFIRM": "Confirm",
     "SUSPEND": "Suspend",
+    "YOU": "You",
     "VALIDATION": {
       "FIELD_REQUIRED": "This field is required ({{min}}-{{max}} characters)"
     }
@@ -564,15 +565,23 @@
       "TYPE_MESSAGE": "Type a message...",
       "DELETE_MESSAGE": "Delete message",
       "DELETE_MESSAGE_CONFIRM": "Are you sure you want to delete this message?",
+      "EDITING_MESSAGE": "Editing message",
+      "REPLYING_TO": "Replying to",
+      "REPLY_TO": "Reply to",
+      "EDITED": "edited",
       "ERROR": {
         "LOAD_CHANNEL": "Error loading channel",
         "LOAD_MEMBERS": "Error loading members",
         "LOAD_MESSAGES": "Error loading messages",
         "SEND_MESSAGE": "Error sending message",
-        "DELETE_MESSAGE": "Error deleting message"
+        "DELETE_MESSAGE": "Error deleting message",
+        "EDIT_MESSAGE": "Error editing message",
+        "REPLY_MESSAGE": "Error replying message"
       },
       "SUCCESS": {
-        "DELETE_MESSAGE": "Message deleted successfully"
+        "DELETE_MESSAGE": "Message deleted successfully",
+        "EDIT_MESSAGE": "Message edited successfully",
+        "REPLY_MESSAGE": "Reply sent successfully"
       }
     }
   },

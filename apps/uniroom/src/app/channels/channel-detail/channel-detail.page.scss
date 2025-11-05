@@ -102,6 +102,11 @@
   display: flex;
   align-items: flex-end;
   gap: 0.5rem;
+  transition: transform 0.3s ease;
+
+  &.highlight-message {
+    animation: highlightPulse 1s ease-in-out;
+  }
 
   &.my-message {
     flex-direction: row-reverse;
@@ -116,6 +121,17 @@
         color: rgba(255, 255, 255, 0.8);
       }
     }
+  }
+}
+
+@keyframes highlightPulse {
+  0%,
+  100% {
+    background: transparent;
+  }
+  50% {
+    background: rgba(var(--ion-color-primary-rgb), 0.2);
+    border-radius: 16px;
   }
 }
 
@@ -162,35 +178,165 @@
     }
   }
 
+  .reply-preview {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    background: rgba(var(--ion-color-primary-rgb), 0.05);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: rgba(var(--ion-color-primary-rgb), 0.1);
+    }
+
+    .reply-preview-bar {
+      width: 3px;
+      background: var(--ion-color-primary);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .reply-preview-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
+      min-width: 0;
+      flex: 1;
+
+      .reply-preview-sender {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--ion-color-primary);
+      }
+
+      .reply-preview-text {
+        font-size: 0.813rem;
+        color: var(--ion-text-color-secondary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
   .message-content {
     word-wrap: break-word;
     white-space: pre-wrap;
     line-height: 1.4;
     font-size: 0.938rem;
+
+    .reply-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.75rem;
+      color: var(--ion-text-color-secondary);
+      margin-bottom: 0.25rem;
+      font-style: italic;
+
+      ion-icon {
+        font-size: 0.875rem;
+      }
+    }
+
+    .edited-indicator {
+      font-size: 0.75rem;
+      color: var(--ion-text-color-secondary);
+      font-style: italic;
+      margin-left: 0.25rem;
+    }
   }
 
   .message-footer {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     gap: 0.5rem;
     margin-top: 0.5rem;
 
+    &.footer-left {
+      justify-content: flex-start;
+    }
+
     .message-time {
       font-size: 0.75rem;
+      color: var(--ion-text-color-secondary);
+    }
+
+    .message-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+
+      .action-btn {
+        --padding-start: 0.25rem;
+        --padding-end: 0.25rem;
+        height: 28px;
+        width: 28px;
+        margin: 0;
+
+        ion-icon {
+          font-size: 1rem;
+        }
+
+        &.delete-btn {
+          --color: var(--ion-color-danger);
+        }
+      }
+    }
+  }
+
+  &:hover .message-footer .message-actions {
+    opacity: 1;
+  }
+}
+
+.message-wrapper.my-message .message-bubble {
+  .reply-preview {
+    background: rgba(255, 255, 255, 0.15);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .reply-preview-bar {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .reply-preview-content {
+      .reply-preview-sender {
+        color: rgba(255, 255, 255, 0.95);
+      }
+
+      .reply-preview-text {
+        color: rgba(255, 255, 255, 0.75);
+      }
+    }
+  }
+
+  .message-footer {
+    .message-time {
       color: rgba(255, 255, 255, 0.8);
     }
 
-    .delete-btn {
-      --padding-start: 0.25rem;
-      --padding-end: 0.25rem;
-      height: 28px;
-      width: 28px;
-      margin: 0;
+    .message-actions .action-btn {
+      --color: rgba(255, 255, 255, 0.9);
 
-      ion-icon {
-        font-size: 1rem;
+      &.delete-btn {
+        --color: rgba(255, 255, 255, 0.9);
       }
+    }
+  }
+
+  .message-content {
+    .reply-indicator,
+    .edited-indicator {
+      color: rgba(255, 255, 255, 0.8);
     }
   }
 }
@@ -243,6 +389,67 @@ ion-footer {
     --background: var(--ion-card-background);
     --border-color: var(--ion-border-color);
     padding: 0.5rem;
+  }
+
+  .editing-indicator,
+  .replying-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.75rem;
+    background: rgba(var(--ion-color-primary-rgb), 0.1);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+
+    .indicator-content {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex: 1;
+      min-width: 0;
+
+      ion-icon {
+        font-size: 1.25rem;
+        color: var(--ion-color-primary);
+        flex-shrink: 0;
+      }
+
+      span {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--ion-color-primary);
+      }
+
+      .reply-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.125rem;
+        min-width: 0;
+        flex: 1;
+
+        .reply-label {
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: var(--ion-color-primary);
+        }
+
+        .reply-text {
+          font-size: 0.813rem;
+          color: var(--ion-text-color-secondary);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+
+    ion-button {
+      --padding-start: 0.25rem;
+      --padding-end: 0.25rem;
+      height: 32px;
+      width: 32px;
+      margin: 0;
+    }
   }
 
   .message-input-container {

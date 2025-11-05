@@ -270,6 +270,7 @@
     "CANCEL": "Cancel·lar",
     "CONFIRM": "Confirmar",
     "SUSPEND": "Suspendre",
+    "YOU": "Tu",
     "VALIDATION": {
       "FIELD_REQUIRED": "Aquest camp és obligatori ({{min}}-{{max}} caràcters)"
     }
@@ -564,15 +565,23 @@
       "TYPE_MESSAGE": "Escriu un missatge...",
       "DELETE_MESSAGE": "Eliminar missatge",
       "DELETE_MESSAGE_CONFIRM": "Estàs segur que vols eliminar aquest missatge?",
+      "EDITING_MESSAGE": "Editant missatge",
+      "REPLYING_TO": "Responent a",
+      "REPLY_TO": "Resposta a",
+      "EDITED": "editat",
       "ERROR": {
         "LOAD_CHANNEL": "Error al carregar el canal",
         "LOAD_MEMBERS": "Error al carregar els membres",
         "LOAD_MESSAGES": "Error al carregar els missatges",
         "SEND_MESSAGE": "Error en enviar el missatge",
-        "DELETE_MESSAGE": "Error en eliminar el missatge"
+        "DELETE_MESSAGE": "Error en eliminar el missatge",
+        "EDIT_MESSAGE": "Error en editar el missatge",
+        "REPLY_MESSAGE": "Error en respondre el missatge"
       },
       "SUCCESS": {
-        "DELETE_MESSAGE": "Missatge eliminat correctament"
+        "DELETE_MESSAGE": "Missatge eliminat correctament",
+        "EDIT_MESSAGE": "Missatge editat correctament",
+        "REPLY_MESSAGE": "Resposta enviada correctament"
       }
     }
   },

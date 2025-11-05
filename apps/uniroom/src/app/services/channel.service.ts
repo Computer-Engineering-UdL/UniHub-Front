@@ -91,10 +91,17 @@ export class ChannelService {
           const sender: User = await firstValueFrom(this.apiService.get<User>(`users/${msg.user_id}`));
           return {
             ...msg,
+            sender_id: msg.user_id,
+            reply_to: msg.parent_message_id,
             sender
           };
-        } catch (_) {
-          return msg;
+        } catch (error) {
+          console.error(`Error fetching user ${msg.user_id}:`, error);
+          return {
+            ...msg,
+            sender_id: msg.user_id,
+            reply_to: msg.parent_message_id
+          };
         }
       })
     );
@@ -112,5 +119,19 @@ export class ChannelService {
 
   async deleteChannelMessage(channelId: string, messageId: string): Promise<void> {
     await firstValueFrom(this.apiService.delete<void>(`channel/${channelId}/messages/${messageId}`));
+  }
+
+  async updateChannelMessage(channelId: string, messageId: string, content: string): Promise<any> {
+    return await firstValueFrom(this.apiService.put<any>(`channel/${channelId}/messages/${messageId}`, { content }));
+  }
+
+  async replyToChannelMessage(channelId: string, messageId: string, userId: string, content: string): Promise<any> {
+    return await firstValueFrom(
+      this.apiService.post<any>(`channel/${channelId}/messages/${messageId}/reply`, {
+        channel_id: channelId,
+        user_id: userId,
+        content
+      })
+    );
   }
 }

@@ -270,6 +270,7 @@
     "CANCEL": "Cancelar",
     "CONFIRM": "Confirmar",
     "SUSPEND": "Suspender",
+    "YOU": "Tú",
     "VALIDATION": {
       "FIELD_REQUIRED": "Este campo es obligatorio ({{min}}-{{max}} caracteres)"
     }
@@ -564,15 +565,23 @@
       "TYPE_MESSAGE": "Escribe un mensaje...",
       "DELETE_MESSAGE": "Eliminar mensaje",
       "DELETE_MESSAGE_CONFIRM": "¿Estás seguro de que quieres eliminar este mensaje?",
+      "EDITING_MESSAGE": "Editando mensaje",
+      "REPLYING_TO": "Respondiendo a",
+      "REPLY_TO": "Respuesta a",
+      "EDITED": "editado",
       "ERROR": {
         "LOAD_CHANNEL": "Error al cargar el canal",
         "LOAD_MEMBERS": "Error al cargar los miembros",
         "LOAD_MESSAGES": "Error al cargar los mensajes",
         "SEND_MESSAGE": "Error al enviar el mensaje",
-        "DELETE_MESSAGE": "Error al eliminar el mensaje"
+        "DELETE_MESSAGE": "Error al eliminar el mensaje",
+        "EDIT_MESSAGE": "Error al editar el mensaje",
+        "REPLY_MESSAGE": "Error al responder el mensaje"
       },
       "SUCCESS": {
-        "DELETE_MESSAGE": "Mensaje eliminado correctamente"
+        "DELETE_MESSAGE": "Mensaje eliminado correctamente",
+        "EDIT_MESSAGE": "Mensaje editado correctamente",
+        "REPLY_MESSAGE": "Respuesta enviada correctamente"
       }
     }
   },

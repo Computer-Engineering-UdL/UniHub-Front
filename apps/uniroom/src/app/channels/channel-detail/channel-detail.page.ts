@@ -47,6 +47,8 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   isLoadingMessages: boolean = false;
   messageContent: string = '';
   selectedSegment: 'messages' | 'members' = 'messages';
+  editingMessageId: string | null = null;
+  replyingToMessage: ChannelMessage | null = null;
 
   readonly defaultUserUrl: string = DEFAULT_USER_URL;
 
@@ -70,7 +72,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
 
   private startMessagesRefresh(): void {
     this.messagesRefreshSubscription = interval(5000).subscribe(async (): Promise<void> => {
-      await this.loadMessages(true);
+      await this.loadMessages(true, false);
     });
   }
 
@@ -87,19 +89,19 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     }
   }
 
-  async loadMessages(silent: boolean = false): Promise<void> {
+  async loadMessages(silent: boolean = false, scrollToBottom: boolean = true): Promise<void> {
     if (!this.channelId) return;
 
     try {
       if (!silent) {
         this.isLoadingMessages = true;
       }
+
       this.messages = await this.channelService.getChannelMessages(this.channelId);
       this.groupMessagesByDate();
-      if (!silent) {
-        setTimeout((): void => {
-          this.scrollToBottom();
-        }, 100);
+
+      if (scrollToBottom) {
+        this.performScrollToBottom();
       }
     } catch (error) {
       console.error('Error loading messages:', error);
@@ -111,6 +113,31 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
         this.isLoadingMessages = false;
       }
     }
+  }
+
+  private performScrollToBottom(): void {
+    const attemptScroll = (attempt: number = 0): void => {
+      if (!this.content) {
+        if (attempt < 5) {
+          setTimeout((): void => attemptScroll(attempt + 1), 50);
+        }
+        return;
+      }
+
+      this.content
+        .scrollToBottom(attempt === 0 ? 300 : 0)
+        .then((): void => {
+          console.log('Scroll completed successfully');
+        })
+        .catch((error: any): void => {
+          console.warn('Scroll attempt failed:', error);
+          if (attempt < 3) {
+            setTimeout((): void => attemptScroll(attempt + 1), 100);
+          }
+        });
+    };
+
+    setTimeout((): void => attemptScroll(), 150);
   }
 
   private groupMessagesByDate(): void {
@@ -159,8 +186,23 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     this.messageContent = '';
 
     try {
-      await this.channelService.sendChannelMessage(this.channelId, this.currentUser.id, content);
-      await this.loadMessages(false);
+      if (this.editingMessageId) {
+        await this.channelService.updateChannelMessage(this.channelId, this.editingMessageId, content);
+        this.editingMessageId = null;
+        this.notificationService.success('CHANNELS.DETAIL.SUCCESS.EDIT_MESSAGE');
+      } else if (this.replyingToMessage) {
+        await this.channelService.replyToChannelMessage(
+          this.channelId,
+          this.replyingToMessage.id,
+          this.currentUser.id,
+          content
+        );
+        this.replyingToMessage = null;
+        this.notificationService.success('CHANNELS.DETAIL.SUCCESS.REPLY_MESSAGE');
+      } else {
+        await this.channelService.sendChannelMessage(this.channelId, this.currentUser.id, content);
+      }
+      await this.loadMessages(false, true);
     } catch (error) {
       console.error('Error sending message:', error);
       this.notificationService.error('CHANNELS.DETAIL.ERROR.SEND_MESSAGE');
@@ -169,7 +211,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   async deleteMessage(message: ChannelMessage): Promise<void> {
-    if (message.sender_id !== this.currentUser?.id && this.currentUser?.role !== 'Admin') return;
+    if (!this.canDeleteMessage(message)) return;
 
     const alert: HTMLIonAlertElement = await this.alertController.create({
       header: this.translate.instant('CHANNELS.DETAIL.DELETE_MESSAGE'),
@@ -185,7 +227,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
           handler: async (): Promise<void> => {
             try {
               await this.channelService.deleteChannelMessage(this.channelId, message.id);
-              await this.loadMessages();
+              await this.loadMessages(false, false);
               this.notificationService.success('CHANNELS.DETAIL.SUCCESS.DELETE_MESSAGE');
             } catch (error) {
               console.error('Error deleting message:', error);
@@ -199,8 +241,61 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     await alert.present();
   }
 
-  private scrollToBottom(): void {
-    this.content?.scrollToBottom(300);
+  startEditMessage(message: ChannelMessage): void {
+    if (!this.isMyMessage(message)) return;
+    this.editingMessageId = message.id;
+    this.messageContent = message.content;
+    this.replyingToMessage = null;
+  }
+
+  cancelEdit(): void {
+    this.editingMessageId = null;
+    this.messageContent = '';
+  }
+
+  startReplyMessage(message: ChannelMessage): void {
+    this.replyingToMessage = message;
+    this.editingMessageId = null;
+    this.messageContent = '';
+  }
+
+  cancelReply(): void {
+    this.replyingToMessage = null;
+    this.messageContent = '';
+  }
+
+  scrollToMessage(messageId: string): void {
+    const messageElement: HTMLElement | null = document.getElementById(`message-${messageId}`);
+    if (messageElement) {
+      messageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      messageElement.classList.add('highlight-message');
+      setTimeout((): void => {
+        messageElement.classList.remove('highlight-message');
+      }, 2000);
+    }
+  }
+
+  getReplyMessageContent(message: ChannelMessage): string {
+    if (!message.reply_message) return '';
+    return message.reply_message.content.length > 50
+      ? message.reply_message.content.substring(0, 50) + '...'
+      : message.reply_message.content;
+  }
+
+  getReplyMessageSender(message: ChannelMessage): string {
+    if (!message.reply_message) return '';
+    if (message.reply_message.user_id === this.currentUser?.id) {
+      return this.translate.instant('COMMON.YOU');
+    }
+    if (message.reply_message.sender) {
+      return (
+        message.reply_message.sender.fullName ||
+        message.reply_message.sender.name ||
+        message.reply_message.sender.username ||
+        message.reply_message.user_id
+      );
+    }
+    return message.reply_message.user_id;
   }
 
   canWriteInChannel(): boolean {
@@ -225,7 +320,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   isMyMessage(message: ChannelMessage): boolean {
-    return message.sender_id === this.currentUser?.id;
+    return message.user_id === this.currentUser?.id || message.sender_id === this.currentUser?.id;
   }
 
   canDeleteMessage(message: ChannelMessage): boolean {
@@ -254,9 +349,9 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
 
   getUserAvatar(message: ChannelMessage): string {
     if (this.isMyMessage(message) && this.currentUser) {
-      return this.currentUser.avatar_url || this.currentUser.imgUrl || this.defaultUserUrl;
+      return this.currentUser.imgUrl || this.defaultUserUrl;
     }
-    return message.sender?.avatar_url || message.sender?.imgUrl || this.defaultUserUrl;
+    return message.sender?.imgUrl || this.defaultUserUrl;
   }
 
   getUserName(message: ChannelMessage): string {
@@ -264,9 +359,9 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
       return this.currentUser.fullName || this.currentUser.name || this.currentUser.username || this.currentUser.id;
     }
     if (message.sender) {
-      return message.sender.fullName || message.sender.name || message.sender.username || message.sender_id;
+      return message.sender.fullName || message.sender.name || message.sender.username || message.user_id;
     }
-    return message.sender_id;
+    return message.user_id;
   }
 
   getRoleTranslationKey(role: string): string {
