@@ -30,7 +30,7 @@
   </div>
 </ion-header>
 
-<ion-content #content>
+<ion-content #content class="no-top-padding">
   <div class="channel-detail-container" *ngIf="!isLoading && channel">
     <div *ngIf="selectedSegment === 'messages'" class="messages-section">
       <div class="messages-list" *ngIf="!isLoadingMessages">

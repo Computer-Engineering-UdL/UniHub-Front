@@ -1,3 +1,11 @@
+ion-content.no-top-padding {
+  --offset-top: 0;
+
+  &::part(scroll) {
+    padding-top: 0;
+  }
+}
+
 .channel-detail-container {
   height: 100%;
   display: flex;
