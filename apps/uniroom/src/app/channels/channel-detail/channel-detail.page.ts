@@ -1,4 +1,15 @@
-import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+  ChangeDetectorRef,
+  ElementRef,
+  ViewChildren,
+  QueryList
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, IonContent } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,6 +21,7 @@ import { ChannelService } from '../../services/channel.service';
 import { AuthService } from '../../services/auth.service';
 import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
+import { NgZone } from '@angular/core';
 
 interface MessageGroup {
   date: string;
@@ -22,8 +34,9 @@ interface MessageGroup {
   styleUrls: ['./channel-detail.page.scss'],
   standalone: false
 })
-export class ChannelDetailPage implements OnInit, OnDestroy {
-  @ViewChild(IonContent) content?: IonContent;
+export class ChannelDetailPage implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('content', { read: IonContent, static: false }) content?: IonContent;
+  @ViewChildren('messageItem') messageItems?: QueryList<ElementRef>;
 
   private route: ActivatedRoute = inject(ActivatedRoute);
   private router: Router = inject(Router);
@@ -33,9 +46,14 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   private notificationService: NotificationService = inject(NotificationService);
   private localizationService: LocalizationService = inject(LocalizationService);
   private translate: TranslateService = inject(TranslateService);
+  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private zone: NgZone = inject(NgZone);
 
   private userSubscription?: Subscription;
   private messagesRefreshSubscription?: Subscription;
+  private messageItemsChangesSub?: Subscription;
+
+  private shouldScrollToBottom: boolean = false;
 
   channelId: string = '';
   channel: Channel | null = null;
@@ -65,9 +83,19 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     }
   }
 
+  ngAfterViewInit(): void {
+    if (this.messageItems && this.messageItems.length) {
+      void this.queueScrollIfNeeded(true);
+    }
+    this.messageItemsChangesSub = this.messageItems?.changes.subscribe(() => {
+      void this.queueScrollIfNeeded(true);
+    });
+  }
+
   ngOnDestroy(): void {
     this.userSubscription?.unsubscribe();
     this.messagesRefreshSubscription?.unsubscribe();
+    this.messageItemsChangesSub?.unsubscribe();
   }
 
   private startMessagesRefresh(): void {
@@ -80,8 +108,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     try {
       this.isLoading = true;
       this.channel = await this.channelService.fetchChannelById(this.channelId);
-    } catch (error) {
-      console.error('Error loading channel:', error);
+    } catch {
       this.notificationService.error('CHANNELS.DETAIL.ERROR.LOAD_CHANNEL');
       await this.router.navigate(['/channels']);
     } finally {
@@ -101,10 +128,11 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
       this.groupMessagesByDate();
 
       if (scrollToBottom) {
-        this.performScrollToBottom();
+        this.shouldScrollToBottom = true;
+        this.cdr.detectChanges();
+        await this.queueScrollIfNeeded();
       }
-    } catch (error) {
-      console.error('Error loading messages:', error);
+    } catch {
       if (!silent) {
         this.notificationService.error('CHANNELS.DETAIL.ERROR.LOAD_MESSAGES');
       }
@@ -115,46 +143,20 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     }
   }
 
-  private performScrollToBottom(): void {
-    if (!this.content) {
-      setTimeout((): void => this.performScrollToBottom(), 100);
-      return;
-    }
-
-    setTimeout(async (): Promise<void> => {
-      try {
-        const scrollElement: HTMLElement = await this.content!.getScrollElement();
-        scrollElement.scrollTo({
-          top: scrollElement.scrollHeight,
-          behavior: 'smooth'
-        });
-      } catch {
-        try {
-          await this.content!.scrollToBottom(300);
-        } catch {}
-      }
-    }, 300);
-  }
-
   private groupMessagesByDate(): void {
-    const groups: Map<string, ChannelMessage[]> = new Map();
-
-    this.messages.forEach((message: ChannelMessage): void => {
-      const date: Date = new Date(message.created_at);
-      const dateKey: string = date.toDateString();
-
-      if (!groups.has(dateKey)) {
-        groups.set(dateKey, []);
-      }
-      groups.get(dateKey)!.push(message);
-    });
-
-    this.messageGroups = Array.from(groups.entries()).map(
-      ([date, messages]): MessageGroup => ({
-        date,
-        messages
-      })
-    );
+    const map = new Map<number, ChannelMessage[]>();
+    for (const m of this.messages) {
+      const d = new Date(m.created_at);
+      const keyDate = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+      const arr = map.get(keyDate) ?? [];
+      arr.push(m);
+      map.set(keyDate, arr);
+    }
+    const sorted = Array.from(map.entries()).sort((a, b) => a[0] - b[0]);
+    this.messageGroups = sorted.map(([ts, msgs]) => ({
+      date: new Date(ts).toISOString(),
+      messages: msgs.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+    }));
   }
 
   async loadMembers(): Promise<void> {
@@ -162,16 +164,15 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
 
     try {
       this.members = await this.channelService.getChannelMembers(this.channelId);
-    } catch (error) {
-      console.error('Error loading members:', error);
+    } catch {
       this.notificationService.error('CHANNELS.DETAIL.ERROR.LOAD_MEMBERS');
     }
   }
 
   async onSegmentChange(event: any): Promise<void> {
     this.selectedSegment = event.detail.value;
-    if (this.selectedSegment === 'members' && this.members.length === 0) {
-      await this.loadMembers();
+    if (this.selectedSegment === 'messages') {
+      await this.queueScrollIfNeeded(true);
     }
   }
 
@@ -199,8 +200,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
         await this.channelService.sendChannelMessage(this.channelId, this.currentUser.id, content);
       }
       await this.loadMessages(false, true);
-    } catch (error) {
-      console.error('Error sending message:', error);
+    } catch {
       this.notificationService.error('CHANNELS.DETAIL.ERROR.SEND_MESSAGE');
       this.messageContent = content;
     }
@@ -227,8 +227,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
               await this.channelService.deleteChannelMessage(this.channelId, message.id);
               await this.loadMessages(false, false);
               this.notificationService.success('CHANNELS.DETAIL.SUCCESS.DELETE_MESSAGE');
-            } catch (error) {
-              console.error('Error deleting message:', error);
+            } catch {
               this.notificationService.error('CHANNELS.DETAIL.ERROR.DELETE_MESSAGE');
             }
           }
@@ -373,5 +372,85 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
 
   getCategoryTranslation(category: string): string {
     return `CHANNELS.${category.toUpperCase()}`;
+  }
+
+  trackByMessage(index: number, message: ChannelMessage): string {
+    return message.id;
+  }
+
+  private async onStableOnce(): Promise<void> {
+    return new Promise((resolve) => {
+      const sub = this.zone.onStable.subscribe(() => {
+        sub.unsubscribe();
+        resolve();
+      });
+    });
+  }
+
+  private getScrollHostEl(): HTMLElement | null {
+    const list = document.querySelector('.messages-list') as HTMLElement | null;
+    if (list) return list;
+    const container = document.querySelector('.channel-detail-container') as HTMLElement | null;
+    if (container) return container;
+    return null;
+  }
+
+  private async queueScrollIfNeeded(force: boolean = false): Promise<void> {
+    if (!force && !this.shouldScrollToBottom) return;
+
+    await this.onStableOnce();
+
+    await new Promise<void>((r) => {
+      if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
+        window.requestAnimationFrame(() => r());
+      } else {
+        setTimeout(r, 0);
+      }
+    });
+
+    await new Promise<void>((r) => {
+      if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
+        window.requestAnimationFrame(() => r());
+      } else {
+        setTimeout(r, 0);
+      }
+    });
+
+    let scrolled = false;
+    const host = this.getScrollHostEl();
+    if (host) {
+      scrolled = await this.forceScrollOnElement(host, 10);
+    } else if (this.content) {
+      scrolled = await this.forceScrollWithIonContent(6);
+    }
+
+    if (!scrolled) {
+      const last = this.messageItems?.last?.nativeElement as HTMLElement | undefined;
+      if (last) last.scrollIntoView({ behavior: 'auto', block: 'end' });
+    }
+
+    this.shouldScrollToBottom = false;
+  }
+
+  private async forceScrollOnElement(el: HTMLElement, retries: number = 4): Promise<boolean> {
+    for (let i = 0; i < retries; i++) {
+      el.scrollTo({ top: el.scrollHeight, behavior: 'auto' });
+      const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 2;
+      if (atBottom) return true;
+      await new Promise((r) => setTimeout(r, 0));
+    }
+    return false;
+  }
+
+  private async forceScrollWithIonContent(retries: number = 3): Promise<boolean> {
+    if (!this.content) return false;
+    for (let i = 0; i < retries; i++) {
+      const el = await this.content.getScrollElement();
+      await this.content.scrollToPoint(0, el.scrollHeight, 0);
+      const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 2;
+      if (atBottom) return true;
+      await new Promise((r) => setTimeout(r, 0));
+    }
+    return false;
   }
 }

@@ -46,9 +46,10 @@
           </div>
 
           <div
+            #messageItem
             [id]="'message-' + message.id"
             class="message-wrapper"
-            *ngFor="let message of group.messages"
+            *ngFor="let message of group.messages; trackBy: trackByMessage"
             [class.my-message]="isMyMessage(message)">
             <ion-avatar class="message-avatar" *ngIf="!isMyMessage(message)">
               <img [src]="getUserAvatar(message)" [alt]="getUserName(message)" />
