@@ -111,7 +111,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   private async getUserChannels(): Promise<number> {
     try {
       const allChannels: Channel[] = await this.channelService.fetchChannels();
-      const membershipChecks: Awaited<boolean>[] = await Promise.all(
+      const membershipChecks: boolean[] = await Promise.all(
         allChannels.map(async (channel: Channel): Promise<boolean> => {
           try {
             const members: ChannelMember[] = await this.channelService.getChannelMembers(channel.id);

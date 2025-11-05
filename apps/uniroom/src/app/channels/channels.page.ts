@@ -91,10 +91,10 @@ export class ChannelsPage implements OnInit, OnDestroy {
     await Promise.all(
       this.channels.map(async (channel: Channel): Promise<void> => {
         try {
-          const members: ChannelMember[] = await this.channelService.getChannelMembers(channel.id);
-          channel.member_count = members.length;
+          channel.member_count = channel.members_count || 0;
 
           if (this.currentUser) {
+            const members: ChannelMember[] = await this.channelService.getChannelMembers(channel.id);
             channel.is_member = members.some(
               (member: ChannelMember): boolean => member.user_id === this.currentUser!.id
             );
@@ -102,7 +102,7 @@ export class ChannelsPage implements OnInit, OnDestroy {
             channel.is_member = false;
           }
         } catch (_) {
-          channel.member_count = channel.member_count || 0;
+          channel.member_count = channel.members_count || 0;
           channel.is_member = false;
         }
       })

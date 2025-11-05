@@ -1,5 +1,23 @@
 export type ChannelType = 'public' | 'private';
 export type ChannelRole = 'Basic' | 'Seller' | 'Admin';
+export type ChannelCategory = 'General' | 'Engineering' | 'Sciences' | 'Business' | 'Arts' | 'Medicine';
+
+export interface ChannelMembership {
+  id: string;
+  user_id: string;
+  channel_id: string;
+  role: 'member' | 'moderator' | 'admin';
+  joined_at: string;
+}
+
+export interface ChannelBan {
+  id: string;
+  user_id: string;
+  channel_id: string;
+  banned_by: string;
+  banned_at: string;
+  reason?: string;
+}
 
 export interface Channel {
   id: string;
@@ -17,23 +35,6 @@ export interface Channel {
   is_member?: boolean;
   memberships?: ChannelMembership[];
   bans?: ChannelBan[];
-}
-
-export interface ChannelMembership {
-  id: string;
-  user_id: string;
-  channel_id: string;
-  role: 'member' | 'moderator' | 'admin';
-  joined_at: string;
-}
-
-export interface ChannelBan {
-  id: string;
-  user_id: string;
-  channel_id: string;
-  banned_by: string;
-  banned_at: string;
-  reason?: string;
 }
 
 export interface ChannelMember {
@@ -56,5 +57,3 @@ export interface UpdateChannelDto {
   description?: string;
   category?: ChannelCategory;
 }
-
-export type ChannelCategory = 'General' | 'Engineering' | 'Sciences' | 'Business' | 'Arts' | 'Medicine';
