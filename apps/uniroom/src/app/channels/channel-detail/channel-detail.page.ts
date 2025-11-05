@@ -116,28 +116,24 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   private performScrollToBottom(): void {
-    const attemptScroll = (attempt: number = 0): void => {
-      if (!this.content) {
-        if (attempt < 5) {
-          setTimeout((): void => attemptScroll(attempt + 1), 50);
-        }
-        return;
-      }
+    if (!this.content) {
+      setTimeout((): void => this.performScrollToBottom(), 100);
+      return;
+    }
 
-      this.content
-        .scrollToBottom(attempt === 0 ? 300 : 0)
-        .then((): void => {
-          console.log('Scroll completed successfully');
-        })
-        .catch((error: any): void => {
-          console.warn('Scroll attempt failed:', error);
-          if (attempt < 3) {
-            setTimeout((): void => attemptScroll(attempt + 1), 100);
-          }
+    setTimeout(async (): Promise<void> => {
+      try {
+        const scrollElement: HTMLElement = await this.content!.getScrollElement();
+        scrollElement.scrollTo({
+          top: scrollElement.scrollHeight,
+          behavior: 'smooth'
         });
-    };
-
-    setTimeout((): void => attemptScroll(), 150);
+      } catch {
+        try {
+          await this.content!.scrollToBottom(300);
+        } catch {}
+      }
+    }, 300);
   }
 
   private groupMessagesByDate(): void {
@@ -214,6 +210,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     if (!this.canDeleteMessage(message)) return;
 
     const alert: HTMLIonAlertElement = await this.alertController.create({
+      cssClass: 'custom-delete-alert',
       header: this.translate.instant('CHANNELS.DETAIL.DELETE_MESSAGE'),
       message: this.translate.instant('CHANNELS.DETAIL.DELETE_MESSAGE_CONFIRM'),
       buttons: [
@@ -224,6 +221,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
         {
           text: this.translate.instant('COMMON.DELETE'),
           role: 'destructive',
+          cssClass: 'danger-btn',
           handler: async (): Promise<void> => {
             try {
               await this.channelService.deleteChannelMessage(this.channelId, message.id);
