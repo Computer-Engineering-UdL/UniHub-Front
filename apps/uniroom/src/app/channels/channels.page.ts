@@ -90,23 +90,25 @@ export class ChannelsPage implements OnInit, OnDestroy {
   private async loadChannelMembers(): Promise<void> {
     await Promise.all(
       this.channels.map(async (channel: Channel): Promise<void> => {
-        try {
-          const members: ChannelMember[] = await this.channelService.getChannelMembers(channel.id);
-          channel.member_count = members.length;
-
-          if (this.currentUser) {
-            channel.is_member = members.some(
-              (member: ChannelMember): boolean => member.user_id === this.currentUser!.id
-            );
-          } else {
-            channel.is_member = false;
-          }
-        } catch (_) {
-          channel.member_count = channel.member_count || 0;
-          channel.is_member = false;
-        }
+        await this.reloadChannelMembers(channel);
       })
     );
+  }
+
+  private async reloadChannelMembers(channel: Channel): Promise<void> {
+    try {
+      const members: ChannelMember[] = await this.channelService.getChannelMembers(channel.id);
+      channel.member_count = members.length;
+
+      if (this.currentUser) {
+        channel.is_member = members.some((member: ChannelMember): boolean => member.user_id === this.currentUser!.id);
+      } else {
+        channel.is_member = false;
+      }
+    } catch (_) {
+      channel.member_count = channel.member_count || 0;
+      channel.is_member = false;
+    }
   }
 
   filterChannels(): void {
@@ -190,31 +192,25 @@ export class ChannelsPage implements OnInit, OnDestroy {
       // Mark this channel as a member locally to avoid reloading all channels
       channel.is_member = true;
       await this.channelService.joinChannel(channel.id, this.currentUser.id);
+      await this.reloadChannelMembers(channel);
       this.notificationService.success('CHANNELS.SUCCESS.JOIN_CHANNEL');
       this.filterChannels();
     } catch (_) {
-      channel.is_member = false;
       this.notificationService.error('CHANNELS.ERROR.JOIN_CHANNEL');
     }
   }
 
   async leaveChannel(channel: Channel): Promise<void> {
-    if (!this.currentUser) return;
+    if (!this.currentUser) {
+      return;
+    }
 
     try {
-      // Mark this channel as not a member locally to avoid reloading all channels
-      if (this.selectedTab !== 'myChannels') {
-        // Do this only if we are not in myChannels tab to avoid flickering
-        channel.is_member = false;
-      }
       await this.channelService.leaveChannel(channel.id, this.currentUser.id);
+      await this.reloadChannelMembers(channel);
       this.notificationService.success('CHANNELS.SUCCESS.LEAVE_CHANNEL');
-      if (this.selectedTab === 'myChannels') {
-        channel.is_member = false;
-      }
       this.filterChannels();
     } catch (_) {
-      channel.is_member = true;
       this.notificationService.error('CHANNELS.ERROR.LEAVE_CHANNEL');
     }
   }
