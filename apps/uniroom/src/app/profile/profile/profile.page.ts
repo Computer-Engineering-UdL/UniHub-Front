@@ -2,13 +2,15 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ChannelService } from '../../services/channel.service';
+import { ApiService } from '../../services/api.service';
 import { DEFAULT_USER_URL, Interest, InterestCategory, Role, User } from '../../models/auth.types';
 import { ModalController } from '@ionic/angular';
 import { ProfileEditModal } from '../profile-edit.modal';
 import { AddInterestModalComponent } from '../add-interest-modal/add-interest-modal.component';
-import { Subscription } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { LocalizationService } from '../../services/localization.service';
 import { Channel, ChannelMember } from '../../models/channel.types';
+import { OfferListItem } from '../../models/offer.types';
 
 interface ProfileStats {
   posts: number;
@@ -44,8 +46,10 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   availableCategories: InterestCategory[] = [];
   userInterests: Interest[] = [];
+  userOffers: OfferListItem[] = [];
 
   loadingInterests: boolean = false;
+  loadingOffers: boolean = false;
 
   recentActivity: RecentActivity[] = [
     { type: 'post', translationKey: 'PROFILE.RECENT_ACTIVITY.POSTED_IN', daysAgo: 2 },
@@ -56,6 +60,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   private modalCtrl: ModalController = inject(ModalController);
   private authService: AuthService = inject(AuthService);
   private channelService: ChannelService = inject(ChannelService);
+  private apiService: ApiService = inject(ApiService);
   private router: Router = inject(Router);
   private userSub?: Subscription;
   private localization: LocalizationService = inject(LocalizationService);
@@ -68,6 +73,7 @@ export class ProfilePage implements OnInit, OnDestroy {
       if (this.user) {
         void this.loadAvailableInterests();
         void this.loadUserInterests(this.user.id);
+        void this.loadUserOffers(this.user.id);
         void this.parseStats();
       }
     });
@@ -83,6 +89,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.setBasicInfo();
     if (this.user) {
       await this.loadUserInterests(this.user.id);
+      await this.loadUserOffers(this.user.id);
       await this.parseStats();
     }
   }
@@ -102,7 +109,7 @@ export class ProfilePage implements OnInit, OnDestroy {
 
     this.stats = {
       posts: 0,
-      listings: 0,
+      listings: this.userOffers.length,
       helpful: 0,
       channels: await this.getUserChannels()
     };
@@ -222,6 +229,30 @@ export class ProfilePage implements OnInit, OnDestroy {
     } catch (_) {
       this.userInterests = [];
     }
+  }
+
+  private async loadUserOffers(userId: string): Promise<void> {
+    try {
+      this.loadingOffers = true;
+      this.userOffers = await firstValueFrom(this.apiService.get<OfferListItem[]>(`offers/user/${userId}`));
+      this.formatUserOffers();
+    } catch (_) {
+      this.userOffers = [];
+    } finally {
+      this.loadingOffers = false;
+    }
+  }
+
+  private formatUserOffers(): void {
+    this.userOffers.forEach((offer: OfferListItem): void => {
+      const rawPrice: number = offer.price ?? 0;
+      const currency: string = (offer.currency as string) ?? 'EUR';
+
+      offer.priceFormatted = this.localization.formatPrice(rawPrice, currency);
+
+      const rawArea: number = offer.area ?? 0;
+      offer.areaFormatted = this.localization.formatNumber(rawArea, 2);
+    });
   }
 
   async removeInterest(interest: Interest): Promise<void> {
