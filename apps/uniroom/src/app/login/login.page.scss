@@ -180,7 +180,7 @@
 }
 
 .auth-card {
-  margin: 0 auto;
+  margin: 0 15%;
   max-width: 480px;
 
   @media (min-width: 768px) {
@@ -195,11 +195,11 @@
     padding: 32px 28px;
 
     @media (min-width: 768px) {
-      padding: 40px 48px;
+      padding: 40px 32px;
     }
 
     @media (min-width: 1024px) {
-      padding: 48px 60px;
+      padding: 48px 40px;
     }
 
     @media (max-width: 576px) {

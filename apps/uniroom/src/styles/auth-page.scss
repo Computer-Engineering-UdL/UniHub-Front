@@ -151,8 +151,8 @@
   --background: var(--ion-item-background);
   --border-radius: 12px;
   margin-bottom: 12px;
-  --padding-start: 15px;
-  --padding-end: 15px;
+  --padding-start: 12px;
+  --padding-end: 12px;
   --inner-padding-end: 0;
   --inner-padding-start: 0;
   --padding-top: 0;
@@ -164,8 +164,8 @@
 
   @media (min-width: 768px) {
     --border-radius: 14px;
-    --padding-start: 20px;
-    --padding-end: 20px;
+    --padding-start: 16px;
+    --padding-end: 16px;
     margin-bottom: 16px;
     --min-height: 62px;
     min-height: 62px;
@@ -174,21 +174,21 @@
 
   @media (min-width: 1024px) {
     --border-radius: 16px;
-    --padding-start: 24px;
-    --padding-end: 24px;
+    --padding-start: 18px;
+    --padding-end: 18px;
     margin-bottom: 18px;
     --min-height: 66px;
     min-height: 66px;
     height: 66px;
   }
 
-  &[slot="start"] {
+  &[slot='start'] {
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  ion-icon[slot="start"] {
+  ion-icon[slot='start'] {
     color: var(--ion-color-medium);
     margin: 0;
     padding: 0;
