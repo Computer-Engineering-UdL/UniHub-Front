@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ChannelService } from '../../services/channel.service';
 import { ApiService } from '../../services/api.service';
@@ -62,10 +62,16 @@ export class ProfilePage implements OnInit, OnDestroy {
   private channelService: ChannelService = inject(ChannelService);
   private apiService: ApiService = inject(ApiService);
   private router: Router = inject(Router);
+  private route: ActivatedRoute = inject(ActivatedRoute);
   private userSub?: Subscription;
   private localization: LocalizationService = inject(LocalizationService);
 
   ngOnInit(): void {
+    const tab: string | null = this.route.snapshot.queryParamMap.get('tab');
+    if (tab === 'overview' || tab === 'posts' || tab === 'listings') {
+      this.selectedTab = tab;
+    }
+
     this.userSub = this.authService.currentUser$.subscribe((user: User | null): void => {
       this.user = user;
       this.updateAvatarSrc();
@@ -100,6 +106,11 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   selectTab(tab: 'overview' | 'posts' | 'listings'): void {
     this.selectedTab = tab;
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { tab },
+      queryParamsHandling: 'merge'
+    });
   }
 
   private async parseStats(): Promise<void> {
@@ -252,6 +263,10 @@ export class ProfilePage implements OnInit, OnDestroy {
 
       const rawArea: number = offer.area ?? 0;
       offer.areaFormatted = this.localization.formatNumber(rawArea, 2);
+
+      if (!offer.image) {
+        offer.image = 'https://via.placeholder.com/400x300/e0e0e0/666666?text=No+Image';
+      }
     });
   }
 

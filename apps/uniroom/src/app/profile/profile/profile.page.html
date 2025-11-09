@@ -181,7 +181,7 @@
 
         <div *ngIf="!loadingOffers && userOffers.length > 0" class="listings-grid">
           <div *ngFor="let offer of userOffers" class="listing-card">
-            <div class="listing-image" [style.background-image]="'url(' + offer.image + ')'">
+            <div class="listing-image" [style.background-image]="offer.image ? 'url(' + offer.image + ')' : 'url(https://via.placeholder.com/400x300/e0e0e0/666666?text=No+Image)'">
               <ion-badge
                 [color]="offer.status === 'active' ? 'success' : 'medium'"
                 class="status-badge">
