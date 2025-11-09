@@ -271,7 +271,9 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   async removeInterest(interest: Interest): Promise<void> {
-    if (!this.user || this.loadingInterests) return;
+    if (!this.user || this.loadingInterests) {
+      return;
+    }
 
     try {
       this.loadingInterests = true;
@@ -284,7 +286,9 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   async addInterest(interest: Interest): Promise<void> {
-    if (!this.user || this.loadingInterests) return;
+    if (!this.user || this.loadingInterests) {
+      return;
+    }
 
     try {
       this.loadingInterests = true;
@@ -297,7 +301,9 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   async openAddInterestModal(): Promise<void> {
-    if (!this.user) return;
+    if (!this.user) {
+      return;
+    }
 
     const userInterestIds: string[] = this.userInterests.map((i: Interest) => i.id);
 

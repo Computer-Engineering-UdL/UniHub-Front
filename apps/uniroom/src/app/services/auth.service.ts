@@ -79,12 +79,24 @@ export class AuthService {
   // prepare payload to send to API (camelCase -> snake_case)
   private prepareUserPayloadForApi(data: Partial<User>): any {
     const payload: any = {};
-    if (data.firstName !== undefined) payload.first_name = data.firstName;
-    if (data.lastName !== undefined) payload.last_name = data.lastName;
-    if (data.phone !== undefined) payload.phone = data.phone;
-    if (data.university !== undefined) payload.university = data.university;
-    if (data.imgUrl !== undefined) payload.avatar_url = data.imgUrl;
-    if (data.yearOfStudy !== undefined) payload.year_of_study = data.yearOfStudy;
+    if (data.firstName !== undefined) {
+      payload.first_name = data.firstName;
+    }
+    if (data.lastName !== undefined) {
+      payload.last_name = data.lastName;
+    }
+    if (data.phone !== undefined) {
+      payload.phone = data.phone;
+    }
+    if (data.university !== undefined) {
+      payload.university = data.university;
+    }
+    if (data.imgUrl !== undefined) {
+      payload.avatar_url = data.imgUrl;
+    }
+    if (data.yearOfStudy !== undefined) {
+      payload.year_of_study = data.yearOfStudy;
+    }
     // do not include interests here (as they have separate endpoints)
     return payload;
   }
