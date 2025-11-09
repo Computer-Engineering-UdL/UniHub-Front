@@ -562,11 +562,17 @@
     "DELETE_CONVERSATION": "Eliminar conversa",
     "DELETE_CONVERSATION_CONFIRM": "Estàs segur que vols eliminar aquesta conversa?",
     "LOADING": "Carregant missatges...",
+    "CONNECTING": "Connectant...",
+    "CONNECTED": "Connectat",
+    "DISCONNECTED": "Desconnectat",
+    "RECONNECTING": "Reconnectant...",
     "ERROR": {
       "LOAD_CONVERSATIONS": "Error al carregar les converses",
       "LOAD_MESSAGES": "Error al carregar els missatges",
       "SEND_MESSAGE": "Error en enviar el missatge",
-      "DELETE_CONVERSATION": "Error en eliminar la conversa"
+      "DELETE_CONVERSATION": "Error en eliminar la conversa",
+      "CONNECTION_FAILED": "Error de connexió",
+      "WEBSOCKET_ERROR": "Error de connexió en temps real"
     },
     "SUCCESS": {
       "MESSAGE_SENT": "Missatge enviat",

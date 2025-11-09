@@ -562,11 +562,17 @@
     "DELETE_CONVERSATION": "Delete conversation",
     "DELETE_CONVERSATION_CONFIRM": "Are you sure you want to delete this conversation?",
     "LOADING": "Loading messages...",
+    "CONNECTING": "Connecting...",
+    "CONNECTED": "Connected",
+    "DISCONNECTED": "Disconnected",
+    "RECONNECTING": "Reconnecting...",
     "ERROR": {
       "LOAD_CONVERSATIONS": "Error loading conversations",
       "LOAD_MESSAGES": "Error loading messages",
       "SEND_MESSAGE": "Error sending message",
-      "DELETE_CONVERSATION": "Error deleting conversation"
+      "DELETE_CONVERSATION": "Error deleting conversation",
+      "CONNECTION_FAILED": "Connection error",
+      "WEBSOCKET_ERROR": "Real-time connection error"
     },
     "SUCCESS": {
       "MESSAGE_SENT": "Message sent",

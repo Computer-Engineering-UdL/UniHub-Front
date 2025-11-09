@@ -14,14 +14,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonicModule, Platform } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { interval, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { MessageService } from '../../services/message.service';
 import { AuthService } from '../../services/auth.service';
 import { LocalizationService } from '../../services/localization.service';
 import { Conversation, Message } from '../../models/message.types';
 import { DEFAULT_USER_URL, User } from '../../models/auth.types';
-
-const ENABLE_MOCK: boolean = true;
 
 @Component({
   selector: 'app-conversation',
@@ -59,17 +57,25 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
     if (this.conversationId) {
       this.loadConversation();
       this.loadMessages();
-
-      if (!ENABLE_MOCK) {
-        this.startMessagePolling();
-      }
+      this.subscribeToMessages();
     }
 
     if (this.isMobile) {
-      this.platform.backButton.subscribeWithPriority(10, () => {
+      this.platform.backButton.subscribeWithPriority(10, (): void => {
         this.onBackClick();
       });
     }
+  }
+
+  private subscribeToMessages(): void {
+    this.messageService.messages$.pipe(takeUntil(this.destroy$)).subscribe((messages: Message[]): void => {
+      this.messages = messages.sort((a: Message, b: Message): number => {
+        return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+      });
+      setTimeout((): void => {
+        void this.scrollToBottom();
+      }, 100);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -79,6 +85,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
         this.conversationId = newConversationId;
         this.messages = [];
         this.loading = true;
+        this.messageService.clearMessages();
         this.loadConversation();
         this.loadMessages();
       }
@@ -95,130 +102,6 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   loadConversation(): void {
-    if (ENABLE_MOCK) {
-      setTimeout(() => {
-        const mockConversations: { [key: string]: { user: User; messages: Message[] } } = {
-          '1': {
-            user: {
-              id: 'user-1',
-              username: 'marco.rossi',
-              email: 'marco@example.com',
-              firstName: 'Marco',
-              lastName: 'Rossi',
-              role: 'Basic' as const,
-              avatar_url: 'https://i.pravatar.cc/150?img=12'
-            },
-            messages: [
-              {
-                id: 'msg-1-1',
-                conversation_id: '1',
-                sender_id: 'user-1',
-                content: "Hi! I'm interested in the room you posted. Is it still available?",
-                created_at: new Date(Date.now() - 600000).toISOString(),
-                updated_at: new Date(Date.now() - 600000).toISOString(),
-                is_read: true
-              },
-              {
-                id: 'msg-1-2',
-                conversation_id: '1',
-                sender_id: 'current-user-id',
-                content: "Yes, it's still available! Would you like to schedule a viewing?",
-                created_at: new Date(Date.now() - 300000).toISOString(),
-                updated_at: new Date(Date.now() - 300000).toISOString(),
-                is_read: true
-              },
-              {
-                id: 'msg-1-3',
-                conversation_id: '1',
-                sender_id: 'user-1',
-                content: 'That would be great! When would be a good time?',
-                created_at: new Date(Date.now() - 120000).toISOString(),
-                updated_at: new Date(Date.now() - 120000).toISOString(),
-                is_read: false
-              }
-            ]
-          },
-          '2': {
-            user: {
-              id: 'user-2',
-              username: 'sofia.chen',
-              email: 'sofia@example.com',
-              firstName: 'Sofia',
-              lastName: 'Chen',
-              role: 'Seller' as const,
-              avatar_url: 'https://i.pravatar.cc/150?img=5'
-            },
-            messages: [
-              {
-                id: 'msg-2-1',
-                conversation_id: '2',
-                sender_id: 'current-user-id',
-                content: 'Hi Sofia! I saw your listing and I would like to visit the apartment.',
-                created_at: new Date(Date.now() - 7200000).toISOString(),
-                updated_at: new Date(Date.now() - 7200000).toISOString(),
-                is_read: true
-              },
-              {
-                id: 'msg-2-2',
-                conversation_id: '2',
-                sender_id: 'user-2',
-                content: 'That would be great! When would be a good time?',
-                created_at: new Date(Date.now() - 3600000).toISOString(),
-                updated_at: new Date(Date.now() - 3600000).toISOString(),
-                is_read: false
-              }
-            ]
-          },
-          '3': {
-            user: {
-              id: 'user-3',
-              username: 'luca.ferrari',
-              email: 'luca@example.com',
-              firstName: 'Luca',
-              lastName: 'Ferrari',
-              role: 'Admin' as const,
-              avatar_url: 'https://i.pravatar.cc/150?img=8'
-            },
-            messages: [
-              {
-                id: 'msg-3-1',
-                conversation_id: '3',
-                sender_id: 'user-3',
-                content: 'Hello! Is the textbook still in good condition?',
-                created_at: new Date(Date.now() - 21600000).toISOString(),
-                updated_at: new Date(Date.now() - 21600000).toISOString(),
-                is_read: true
-              },
-              {
-                id: 'msg-3-2',
-                conversation_id: '3',
-                sender_id: 'current-user-id',
-                content: 'The textbook is in perfect condition!',
-                created_at: new Date(Date.now() - 10800000).toISOString(),
-                updated_at: new Date(Date.now() - 10800000).toISOString(),
-                is_read: true
-              }
-            ]
-          }
-        };
-
-        const mockData = mockConversations[this.conversationId];
-        if (mockData) {
-          this.otherUser = mockData.user;
-          this.conversation = {
-            id: this.conversationId,
-            participant1_id: 'current-user-id',
-            participant2_id: mockData.user.id,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-            participant1: this.currentUser!,
-            participant2: mockData.user
-          };
-        }
-      }, 300);
-      return;
-    }
-
     this.messageService
       .getConversation(this.conversationId)
       .pipe(takeUntil(this.destroy$))
@@ -230,116 +113,27 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
               ? conversation.participant2!
               : conversation.participant1!;
         },
-        error: (error: Error) => {
-          console.error('Error loading conversation:', error);
+        error: (_): void => {
+          this.loading = false;
         }
       });
   }
 
   loadMessages(): void {
-    if (ENABLE_MOCK) {
-      setTimeout(() => {
-        const mockConversations: { [key: string]: Message[] } = {
-          '1': [
-            {
-              id: 'msg-1-1',
-              conversation_id: '1',
-              sender_id: 'user-1',
-              content: "Hi! I'm interested in the room you posted. Is it still available?",
-              created_at: new Date(Date.now() - 600000).toISOString(),
-              updated_at: new Date(Date.now() - 600000).toISOString(),
-              is_read: true
-            },
-            {
-              id: 'msg-1-2',
-              conversation_id: '1',
-              sender_id: 'current-user-id',
-              content: "Yes, it's still available! Would you like to schedule a viewing?",
-              created_at: new Date(Date.now() - 300000).toISOString(),
-              updated_at: new Date(Date.now() - 300000).toISOString(),
-              is_read: true
-            },
-            {
-              id: 'msg-1-3',
-              conversation_id: '1',
-              sender_id: 'user-1',
-              content: 'That would be great! When would be a good time?',
-              created_at: new Date(Date.now() - 120000).toISOString(),
-              updated_at: new Date(Date.now() - 120000).toISOString(),
-              is_read: false
-            }
-          ],
-          '2': [
-            {
-              id: 'msg-2-1',
-              conversation_id: '2',
-              sender_id: 'current-user-id',
-              content: 'Hi Sofia! I saw your listing and I would like to visit the apartment.',
-              created_at: new Date(Date.now() - 7200000).toISOString(),
-              updated_at: new Date(Date.now() - 7200000).toISOString(),
-              is_read: true
-            },
-            {
-              id: 'msg-2-2',
-              conversation_id: '2',
-              sender_id: 'user-2',
-              content: 'That would be great! When would be a good time?',
-              created_at: new Date(Date.now() - 3600000).toISOString(),
-              updated_at: new Date(Date.now() - 3600000).toISOString(),
-              is_read: false
-            }
-          ],
-          '3': [
-            {
-              id: 'msg-3-1',
-              conversation_id: '3',
-              sender_id: 'user-3',
-              content: 'Hello! Is the textbook still in good condition?',
-              created_at: new Date(Date.now() - 21600000).toISOString(),
-              updated_at: new Date(Date.now() - 21600000).toISOString(),
-              is_read: true
-            },
-            {
-              id: 'msg-3-2',
-              conversation_id: '3',
-              sender_id: 'current-user-id',
-              content: 'The textbook is in perfect condition!',
-              created_at: new Date(Date.now() - 10800000).toISOString(),
-              updated_at: new Date(Date.now() - 10800000).toISOString(),
-              is_read: true
-            }
-          ]
-        };
-
-        this.messages = mockConversations[this.conversationId] || [];
-        this.loading = false;
-        this.scrollToBottom();
-      }, 500);
-      return;
-    }
-
     this.messageService
       .getMessages(this.conversationId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (messages: Message[]): void => {
-          this.messages = messages;
           this.loading = false;
-          this.scrollToBottom();
-          this.markMessagesAsRead();
+          setTimeout((): void => {
+            void this.scrollToBottom();
+          }, 100);
+          this.markConversationAsRead();
         },
-        error: (error: Error) => {
-          console.error('Error loading messages:', error);
+        error: (_): void => {
           this.loading = false;
         }
-      });
-  }
-
-  startMessagePolling(): void {
-    interval(3000)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.loadMessages();
       });
   }
 
@@ -353,33 +147,24 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
     this.newMessage = '';
 
     this.messageService
-      .sendMessage({
-        conversation_id: this.conversationId,
-        content: messageContent
-      })
+      .sendMessage(this.conversationId, messageContent)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (message: Message) => {
-          this.messages.push(message);
+        next: (): void => {
           this.sending = false;
-          this.scrollToBottom();
+          setTimeout((): void => {
+            void this.scrollToBottom();
+          }, 100);
         },
-        error: (error: Error) => {
-          console.error('Error sending message:', error);
+        error: (_): void => {
           this.newMessage = messageContent;
           this.sending = false;
         }
       });
   }
 
-  markMessagesAsRead(): void {
-    const unreadMessages: Message[] = this.messages.filter(
-      (msg: Message) => !msg.is_read && msg.sender_id !== this.currentUser?.id
-    );
-
-    unreadMessages.forEach((msg: Message) => {
-      this.messageService.markAsRead(msg.id).subscribe();
-    });
+  markConversationAsRead(): void {
+    this.messageService.markAsRead(this.conversationId).pipe(takeUntil(this.destroy$)).subscribe();
   }
 
   scrollToBottom(): void {
