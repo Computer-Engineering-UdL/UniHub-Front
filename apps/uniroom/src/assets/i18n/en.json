@@ -4,8 +4,9 @@
   },
   "LOGIN": {
     "TITLE": "Welcome back!",
-    "SUBTITLE": "Find your perfect student accommodation",
+    "SUBTITLE": "Connect with students, find housing and share resources",
     "EMAIL": "Email",
+    "EMAIL_OR_USERNAME": "Email or username",
     "PASSWORD": "Password",
     "SIGN_IN": "Sign In",
     "OR_CONTINUE_WITH": "or continue with",

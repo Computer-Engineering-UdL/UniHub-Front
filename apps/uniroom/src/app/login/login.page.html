@@ -1,47 +1,47 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <div class="auth-container">
-    <!-- Language Selector -->
     <div class="language-selector">
       <ion-button fill="clear" size="small" (click)="changeLanguage('en')"> EN </ion-button>
       <ion-button fill="clear" size="small" (click)="changeLanguage('es')"> ES </ion-button>
       <ion-button fill="clear" size="small" (click)="changeLanguage('ca')"> CA </ion-button>
     </div>
 
-    <!-- Logo Section -->
     <div class="auth-header">
-      <img ngSrc="assets/icon/unihub.png" alt="Logo" height="150" width="150" />
+      <img src="assets/icon/unihub.png" alt="Logo" height="150" width="150" />
       <p class="subtitle">{{ 'LOGIN.SUBTITLE' | translate }}</p>
     </div>
 
-    <!-- Login Form -->
     <ion-card class="auth-card">
       <ion-card-content>
         <form (ngSubmit)="login()" #loginForm="ngForm" autocomplete="on">
           <ion-item
             lines="none"
             class="input-item"
-            [class.input-error]="emailTouched && !validateEmail(email)">
-            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            [class.input-error]="emailOrUsernameTouched && !validateEmailOrUsername(emailOrUsername)">
+            <ion-icon name="person-outline" slot="start"></ion-icon>
             <ion-input
-              type="email"
-              [placeholder]="'LOGIN.EMAIL' | translate"
-              [(ngModel)]="email"
-              name="email"
+              type="text"
+              [placeholder]="'LOGIN.EMAIL_OR_USERNAME' | translate"
+              [(ngModel)]="emailOrUsername"
+              name="emailOrUsername"
               required
-              (ionBlur)="emailTouched = true"
-              (ionInput)="onEmailInput()"
-              [ngClass]="{'invalid': emailTouched && !validateEmail(email)}"></ion-input>
+              (ionBlur)="emailOrUsernameTouched = true"
+              (ionInput)="onEmailOrUsernameInput()"
+              [ngClass]="{'invalid': emailOrUsernameTouched && !validateEmailOrUsername(emailOrUsername)}"></ion-input>
           </ion-item>
-          <div *ngIf="emailTouched && !validateEmail(email)" class="input-error-message">
-            {{ 'LOGIN.ERROR.INVALID_EMAIL' | translate }}
+          <div
+            *ngIf="emailOrUsernameTouched && !validateEmailOrUsername(emailOrUsername)"
+            class="input-error-message">
+            {{ 'LOGIN.ERROR.EMPTY_CREDENTIALS' | translate }}
           </div>
+
           <ion-item
             lines="none"
-            class="input-item"
+            class="input-item password-item"
             [class.input-error]="passwordTouched && password.length < 8">
             <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
             <ion-input
-              type="password"
+              [type]="showPassword ? 'text' : 'password'"
               [placeholder]="'LOGIN.PASSWORD' | translate"
               [(ngModel)]="password"
               name="password"
@@ -49,37 +49,35 @@
               (ionBlur)="passwordTouched = true"
               (ionInput)="onPasswordInput()"
               [ngClass]="{'invalid': passwordTouched && password.length < 8}"></ion-input>
+            <ion-button
+              fill="clear"
+              slot="end"
+              (click)="togglePasswordVisibility()"
+              class="password-toggle">
+              <ion-icon
+                [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+                slot="icon-only"></ion-icon>
+            </ion-button>
           </ion-item>
           <div *ngIf="passwordTouched && password.length < 8" class="input-error-message">
             {{ 'SIGNUP.ERROR.PASSWORD_TOO_SHORT' | translate }}
           </div>
+
           <ion-button
             expand="block"
             type="submit"
             class="auth-button"
-            [disabled]="isLoading || !validateEmail(email) || password.length < 8">
+            [disabled]="isLoading || !validateEmailOrUsername(emailOrUsername) || password.length < 8">
             <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
             <span *ngIf="!isLoading">{{ 'LOGIN.SIGN_IN' | translate }}</span>
           </ion-button>
         </form>
 
-        <!-- Divider -->
         <div class="divider">
           <span>{{ 'LOGIN.OR_CONTINUE_WITH' | translate }}</span>
         </div>
 
-        <!-- Social Login Buttons -->
         <div class="social-buttons">
-          <ion-button
-            expand="block"
-            fill="outline"
-            class="social-button github-button"
-            (click)="loginWithGithub()"
-            [disabled]="isLoading">
-            <ion-icon name="logo-github" slot="start"></ion-icon>
-            {{ 'COMMON.GITHUB' | translate }}
-          </ion-button>
-
           <ion-button
             expand="block"
             fill="outline"
@@ -93,7 +91,6 @@
       </ion-card-content>
     </ion-card>
 
-    <!-- Sign Up Link -->
     <div class="auth-link">
       <p>
         {{ 'LOGIN.NO_ACCOUNT' | translate }}
