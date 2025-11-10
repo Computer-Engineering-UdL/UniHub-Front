@@ -246,7 +246,11 @@
   </div>
 </ion-content>
 
-<ion-modal #membersModal class="members-modal" [isOpen]="showMembersModal" (didDismiss)="closeMembersModal()">
+<ion-modal
+  #membersModal
+  class="members-modal"
+  [isOpen]="showMembersModal"
+  (didDismiss)="closeMembersModal()">
   <ng-template>
     <ion-header>
       <ion-toolbar>
@@ -325,4 +329,3 @@
     </ion-content>
   </ng-template>
 </ion-modal>
-

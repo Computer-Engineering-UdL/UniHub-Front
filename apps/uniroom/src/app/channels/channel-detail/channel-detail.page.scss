@@ -777,34 +777,34 @@ ion-header {
   }
 }
 
-ion-modal.members-modal {
-  --background: #ffffff !important;
-
-  ion-header ion-toolbar {
-    --background: #ffffff !important;
-  }
-
-  ion-content {
-    --background: #ffffff !important;
-  }
-
-  .role-group-header {
-    background: #f0f0f0 !important;
-    border-color: #d0d0d0 !important;
-  }
-
-  .member-item {
-    background: #ffffff !important;
-    border-color: #e0e0e0 !important;
-  }
-
-  ion-avatar {
-    border-color: #d0d0d0 !important;
-  }
-}
-
-.theme-dark {
+::ng-deep {
   ion-modal.members-modal {
+    --background: #ffffff !important;
+
+    ion-header ion-toolbar {
+      --background: #ffffff !important;
+    }
+
+    ion-content {
+      --background: #ffffff !important;
+    }
+
+    .role-group-header {
+      background: #f0f0f0 !important;
+      border-color: #d0d0d0 !important;
+    }
+
+    .member-item {
+      background: #ffffff !important;
+      border-color: #e0e0e0 !important;
+    }
+
+    ion-avatar {
+      border-color: #d0d0d0 !important;
+    }
+  }
+
+  .theme-dark ion-modal.members-modal {
     --background: #1e1e1e !important;
 
     ion-header ion-toolbar {
@@ -923,4 +923,3 @@ ion-modal.members-modal {
     padding: 3rem 1rem;
   }
 }
-
