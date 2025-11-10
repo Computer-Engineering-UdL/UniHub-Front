@@ -1,4 +1,4 @@
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true">
   <div class="auth-container">
     <div class="language-selector">
       <ion-button fill="clear" size="small" (click)="changeLanguage('en')"> EN </ion-button>
@@ -24,7 +24,7 @@
               [placeholder]="'LOGIN.EMAIL_OR_USERNAME' | translate"
               [(ngModel)]="emailOrUsername"
               name="emailOrUsername"
-              required
+              [required]="true"
               (ionBlur)="emailOrUsernameTouched = true"
               (ionInput)="onEmailOrUsernameInput()"
               [ngClass]="{'invalid': emailOrUsernameTouched && !validateEmailOrUsername(emailOrUsername)}"></ion-input>
@@ -45,7 +45,7 @@
               [placeholder]="'LOGIN.PASSWORD' | translate"
               [(ngModel)]="password"
               name="password"
-              required
+              [required]="true"
               (ionBlur)="passwordTouched = true"
               (ionInput)="onPasswordInput()"
               [ngClass]="{'invalid': passwordTouched && password.length < 8}"></ion-input>

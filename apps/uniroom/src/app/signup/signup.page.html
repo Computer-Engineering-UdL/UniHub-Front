@@ -1,4 +1,4 @@
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true">
   <div class="auth-container">
     <!-- Language Selector -->
     <div class="language-selector">
@@ -28,7 +28,7 @@
               [placeholder]="'SIGNUP.FIRST_NAME' | translate"
               [(ngModel)]="firstName"
               name="firstName"
-              required
+              [required]="true"
               (ionBlur)="firstNameTouched = true"
               (ionInput)="onFirstNameInput()"></ion-input>
           </ion-item>
@@ -46,7 +46,7 @@
               [placeholder]="'SIGNUP.LAST_NAME' | translate"
               [(ngModel)]="lastName"
               name="lastName"
-              required
+              [required]="true"
               (ionBlur)="lastNameTouched = true"
               (ionInput)="onLastNameInput()"></ion-input>
           </ion-item>
@@ -64,7 +64,7 @@
               [placeholder]="'SIGNUP.EMAIL' | translate"
               [(ngModel)]="email"
               name="email"
-              required
+              [required]="true"
               (ionBlur)="emailTouched = true"
               (ionInput)="onEmailInput()"></ion-input>
           </ion-item>
@@ -81,7 +81,7 @@
               type="tel"
               inputmode="tel"
               pattern="^[+]?\\d{0,15}$"
-              maxlength="16"
+              [maxlength]="16"
               [placeholder]="'SIGNUP.PHONE' | translate"
               [(ngModel)]="phone"
               name="phone"
@@ -111,7 +111,7 @@
               [placeholder]="'SIGNUP.PASSWORD' | translate"
               [(ngModel)]="password"
               name="password"
-              required
+              [required]="true"
               (ionBlur)="passwordTouched = true"
               (ionInput)="onPasswordInput()"></ion-input>
           </ion-item>
@@ -129,7 +129,7 @@
               [placeholder]="'SIGNUP.CONFIRM_PASSWORD' | translate"
               [(ngModel)]="confirmPassword"
               name="confirmPassword"
-              required
+              [required]="true"
               (ionBlur)="confirmPasswordTouched = true"
               (ionInput)="onConfirmPasswordInput()"></ion-input>
           </ion-item>
@@ -143,7 +143,7 @@
             expand="block"
             type="submit"
             class="auth-button"
-            [disabled]="isLoading || !firstName || !lastName || !validateEmail(email) || password.length < 8 || password !== confirmPassword || (phone && !validatePhone(phone))">
+            [disabled]="isLoading || !firstName || !lastName || !validateEmail(email) || password.length < 8 || password !== confirmPassword || (!!phone && !validatePhone(phone))">
             <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
             <span *ngIf="!isLoading">{{ 'SIGNUP.SIGN_UP' | translate }}</span>
           </ion-button>

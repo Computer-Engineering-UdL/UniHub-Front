@@ -1,8 +1,12 @@
 /* Page-specific styles for login page */
 /* Shared auth styles are imported from global.scss */
 
+.auth-container {
+  max-width: 660px;
+}
+
 .auth-header {
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 
   @media (min-width: 768px) {
     margin-bottom: 36px;
@@ -12,8 +16,8 @@
     margin-bottom: 40px;
   }
 
-  @media (max-width: 576px) {
-    margin-bottom: 24px;
+  @media (max-height: 700px) {
+    margin-bottom: 8px;
   }
 
   img {
@@ -26,87 +30,18 @@
       height: 170px !important;
       width: 170px !important;
     }
+
+    @media (max-height: 700px) {
+      height: 100px !important;
+      width: 100px !important;
+    }
   }
 }
 
-.logo-icon {
-  font-size: 80px;
-  margin-bottom: 20px;
-
-  @media (min-width: 768px) {
-    font-size: 100px;
-    margin-bottom: 24px;
-  }
-
-  @media (min-width: 1024px) {
-    font-size: 120px;
-    margin-bottom: 28px;
-  }
-
-  @media (max-width: 576px) {
-    font-size: 60px;
-    margin-bottom: 16px;
-  }
-}
-
-.auth-header h1 {
-  font-size: 36px;
-
-  @media (min-width: 768px) {
-    font-size: 42px;
-  }
-
-  @media (min-width: 1024px) {
-    font-size: 48px;
-  }
-
-  @media (max-width: 576px) {
-    font-size: 28px;
-  }
-}
-
-.subtitle {
-  font-size: 16px;
-  color: var(--ion-color-medium);
-  margin-top: 12px;
-
-  @media (min-width: 768px) {
-    font-size: 18px;
-    margin-top: 16px;
-  }
-
-  @media (min-width: 1024px) {
-    font-size: 19px;
-    margin-top: 18px;
-  }
-
-  @media (max-width: 576px) {
-    font-size: 14px;
-    margin-top: 8px;
-    padding: 0 16px;
-  }
-}
-
-.input-item {
-  margin-bottom: 15px;
-
-  &.password-item {
-    --padding-end: 0;
-    display: flex;
-    align-items: center;
-  }
-
-  @media (min-width: 768px) {
-    margin-bottom: 18px;
-  }
-
-  @media (min-width: 1024px) {
-    margin-bottom: 20px;
-  }
-
-  @media (max-width: 576px) {
-    margin-bottom: 12px;
-  }
+.password-item {
+  --padding-end: 0;
+  display: flex;
+  align-items: center;
 }
 
 .password-toggle {
@@ -126,17 +61,21 @@
   }
 
   ion-icon {
-    font-size: 22px;
+    font-size: 20px;
     color: var(--ion-color-medium);
     display: block;
     line-height: 1;
 
     @media (min-width: 768px) {
-      font-size: 24px;
+      font-size: 22px;
     }
 
     @media (min-width: 1024px) {
-      font-size: 26px;
+      font-size: 24px;
+    }
+
+    @media (max-height: 700px) {
+      font-size: 18px;
     }
   }
 
@@ -145,203 +84,20 @@
   }
 }
 
-.divider {
-  margin: 24px 0 20px 0;
-
-  @media (min-width: 768px) {
-    margin: 28px 0 24px 0;
-  }
-
-  @media (min-width: 1024px) {
-    margin: 32px 0 28px 0;
-  }
-
-  @media (max-width: 576px) {
-    margin: 20px 0 16px 0;
-  }
-}
-
-.social-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-
-  @media (min-width: 768px) {
-    gap: 14px;
-  }
-
-  @media (min-width: 1024px) {
-    gap: 16px;
-  }
-
-  @media (max-width: 576px) {
-    gap: 10px;
-  }
-}
-
-.auth-card {
-  margin: 0 15%;
-  max-width: 480px;
-
-  @media (min-width: 768px) {
-    max-width: 100%;
-  }
-
-  @media (max-width: 576px) {
-    margin: 0 8px;
-  }
-
-  ion-card-content {
-    padding: 32px 28px;
-
-    @media (min-width: 768px) {
-      padding: 40px 32px;
-    }
-
-    @media (min-width: 1024px) {
-      padding: 48px 40px;
-    }
-
-    @media (max-width: 576px) {
-      padding: 24px 16px;
-    }
-  }
-}
-
-.auth-button {
-  margin-top: 24px;
-  height: 48px;
-  font-size: 16px;
-  font-weight: 600;
-
-  @media (min-width: 768px) {
-    margin-top: 28px;
-    height: 56px;
-    font-size: 17px;
-  }
-
-  @media (min-width: 1024px) {
-    margin-top: 32px;
-    height: 60px;
-    font-size: 18px;
-  }
-
-  @media (max-width: 576px) {
-    margin-top: 20px;
-    height: 44px;
-    font-size: 15px;
-  }
-}
-
-.language-selector {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  display: flex;
-  gap: 4px;
-  z-index: 10;
-
-  @media (min-width: 768px) {
-    top: 24px;
-    right: 24px;
-    gap: 6px;
-  }
-
-  @media (min-width: 1024px) {
-    top: 32px;
-    right: 32px;
-    gap: 8px;
-  }
-
-  @media (max-width: 576px) {
-    top: 12px;
-    right: 12px;
-    gap: 2px;
-  }
-
-  ion-button {
-    font-size: 13px;
-    font-weight: 600;
-    --padding-start: 8px;
-    --padding-end: 8px;
-    min-height: 32px;
-
-    @media (min-width: 768px) {
-      font-size: 14px;
-      --padding-start: 10px;
-      --padding-end: 10px;
-      min-height: 36px;
-    }
-
-    @media (min-width: 1024px) {
-      font-size: 15px;
-      --padding-start: 12px;
-      --padding-end: 12px;
-      min-height: 40px;
-    }
-
-    @media (max-width: 576px) {
-      font-size: 12px;
-      --padding-start: 6px;
-      --padding-end: 6px;
-      min-height: 28px;
-    }
-  }
-}
-
-.auth-link {
-  margin-top: 24px;
-
-  @media (min-width: 768px) {
-    margin-top: 32px;
-  }
-
-  @media (min-width: 1024px) {
-    margin-top: 36px;
-  }
-
-  @media (max-width: 576px) {
-    margin-top: 20px;
-    padding: 0 16px;
-  }
-
-  p {
-    font-size: 15px;
-
-    @media (min-width: 768px) {
-      font-size: 16px;
-    }
-
-    @media (min-width: 1024px) {
-      font-size: 17px;
-    }
-
-    @media (max-width: 576px) {
-      font-size: 14px;
-    }
-  }
-}
-
 .input-error-message {
-  font-size: 13px;
-  margin-top: -10px;
-  margin-bottom: 8px;
+  font-size: 12px;
+  margin-top: -8px;
+  margin-bottom: 6px;
 
   @media (min-width: 768px) {
-    font-size: 14px;
-    margin-top: -12px;
-    margin-bottom: 10px;
+    font-size: 13px;
+    margin-top: -10px;
+    margin-bottom: 8px;
   }
 
-  @media (min-width: 1024px) {
-    font-size: 14px;
-    margin-top: -14px;
-    margin-bottom: 12px;
-  }
-
-  @media (max-width: 576px) {
-    font-size: 12px;
-    margin-top: -8px;
-    margin-bottom: 6px;
+  @media (max-height: 700px) {
+    font-size: 11px;
+    margin-top: -4px;
+    margin-bottom: 4px;
   }
 }

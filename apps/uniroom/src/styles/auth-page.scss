@@ -7,40 +7,91 @@
   min-height: 100%;
   max-width: 480px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 12px;
 
   @media (min-width: 768px) {
     max-width: 720px;
-    padding: 40px 24px;
+    padding: 24px;
   }
 
   @media (min-width: 1024px) {
     max-width: 820px;
-    padding: 60px 32px;
+    padding: 32px;
+  }
+
+  @media (max-height: 700px) {
+    justify-content: flex-start;
+    padding: 8px;
   }
 }
 
 .language-selector {
+  position: absolute;
+  top: 16px;
+  right: 16px;
   display: flex;
-  justify-content: flex-end;
-  gap: 5px;
-  margin-bottom: 10px;
-}
+  gap: 4px;
+  z-index: 10;
 
-.language-selector ion-button {
-  font-size: 12px;
-  font-weight: bold;
-  --padding-start: 8px;
-  --padding-end: 8px;
+  @media (min-width: 768px) {
+    top: 24px;
+    right: 24px;
+    gap: 6px;
+  }
+
+  @media (min-width: 1024px) {
+    top: 32px;
+    right: 32px;
+    gap: 8px;
+  }
+
+  @media (max-width: 576px) {
+    top: 12px;
+    right: 12px;
+    gap: 2px;
+  }
+
+  ion-button {
+    font-size: 13px;
+    font-weight: 600;
+    --padding-start: 8px;
+    --padding-end: 8px;
+    min-height: 32px;
+
+    @media (min-width: 768px) {
+      font-size: 14px;
+      --padding-start: 10px;
+      --padding-end: 10px;
+      min-height: 36px;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 15px;
+      --padding-start: 12px;
+      --padding-end: 12px;
+      min-height: 40px;
+    }
+
+    @media (max-width: 576px) {
+      font-size: 12px;
+      --padding-start: 6px;
+      --padding-end: 6px;
+      min-height: 28px;
+    }
+  }
 }
 
 .auth-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 16px;
   animation: fadeInDown 0.6s ease-out;
 
   @media (min-width: 768px) {
     margin-bottom: 40px;
+  }
+
+  @media (max-height: 700px) {
+    margin-bottom: 8px;
   }
 
   img {
@@ -53,13 +104,18 @@
       height: 200px !important;
       width: 200px !important;
     }
+
+    @media (max-height: 700px) {
+      height: 100px !important;
+      width: 100px !important;
+    }
   }
 }
 
 .logo-icon {
-  font-size: 60px;
+  font-size: 50px;
   color: var(--ion-color-primary);
-  margin-bottom: 15px;
+  margin-bottom: 8px;
 
   @media (min-width: 768px) {
     font-size: 80px;
@@ -70,10 +126,15 @@
     font-size: 100px;
     margin-bottom: 24px;
   }
+
+  @media (max-height: 700px) {
+    font-size: 40px;
+    margin-bottom: 6px;
+  }
 }
 
 .auth-header h1 {
-  font-size: 32px;
+  font-size: 24px;
   font-weight: bold;
   margin: 0;
   color: var(--ion-color-primary);
@@ -89,12 +150,16 @@
   @media (min-width: 1024px) {
     font-size: 42px;
   }
+
+  @media (max-height: 700px) {
+    font-size: 20px;
+  }
 }
 
 .subtitle {
-  font-size: 16px;
+  font-size: 14px;
   color: var(--ion-text-color-secondary);
-  margin-top: 10px;
+  margin-top: 6px;
 
   @media (min-width: 768px) {
     font-size: 18px;
@@ -104,6 +169,11 @@
   @media (min-width: 1024px) {
     font-size: 19px;
     margin-top: 16px;
+  }
+
+  @media (max-height: 700px) {
+    font-size: 12px;
+    margin-top: 4px;
   }
 }
 
@@ -135,7 +205,7 @@
   }
 
   ion-card-content {
-    padding: 24px 20px;
+    padding: 16px 14px;
 
     @media (min-width: 768px) {
       padding: 32px 28px;
@@ -144,23 +214,27 @@
     @media (min-width: 1024px) {
       padding: 40px 36px;
     }
+
+    @media (max-height: 700px) {
+      padding: 12px 10px;
+    }
   }
 }
 
 .input-item {
   --background: var(--ion-item-background);
   --border-radius: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   --padding-start: 12px;
   --padding-end: 12px;
   --inner-padding-end: 0;
   --inner-padding-start: 0;
   --padding-top: 0;
   --padding-bottom: 0;
-  --min-height: 52px;
+  --min-height: 48px;
   border: 1px solid var(--ion-border-color);
-  min-height: 52px;
-  height: 52px;
+  min-height: 48px;
+  height: 48px;
 
   @media (min-width: 768px) {
     --border-radius: 14px;
@@ -182,6 +256,16 @@
     height: 66px;
   }
 
+  @media (max-height: 700px) {
+    --border-radius: 10px;
+    --padding-start: 10px;
+    --padding-end: 10px;
+    margin-bottom: 6px;
+    --min-height: 42px;
+    min-height: 42px;
+    height: 42px;
+  }
+
   &[slot='start'] {
     display: flex;
     align-items: center;
@@ -192,7 +276,7 @@
     color: var(--ion-color-medium);
     margin: 0;
     padding: 0;
-    font-size: 22px;
+    font-size: 20px;
     line-height: 1;
     display: block;
 
@@ -203,10 +287,14 @@
     @media (min-width: 1024px) {
       font-size: 26px;
     }
+
+    @media (max-height: 700px) {
+      font-size: 18px;
+    }
   }
 
   ion-input {
-    font-size: 16px;
+    font-size: 15px;
     --padding-top: 0;
     --padding-bottom: 0;
     --padding-start: 12px;
@@ -222,13 +310,18 @@
       font-size: 18px;
       --padding-start: 16px;
     }
+
+    @media (max-height: 700px) {
+      font-size: 14px;
+      --padding-start: 10px;
+    }
   }
 }
 
 .auth-button {
-  margin-top: 20px;
+  margin-top: 16px;
   --border-radius: 12px;
-  height: 50px;
+  height: 46px;
   font-weight: bold;
   text-transform: none;
   letter-spacing: 0.5px;
@@ -249,15 +342,21 @@
     font-size: 17px;
     letter-spacing: 0.7px;
   }
+
+  @media (max-height: 700px) {
+    margin-top: 10px;
+    height: 40px;
+    font-size: 14px;
+  }
 }
 
 .divider {
   display: flex;
   align-items: center;
   text-align: center;
-  margin: 25px 0;
+  margin: 16px 0;
   color: var(--ion-text-color-secondary);
-  font-size: 14px;
+  font-size: 13px;
 
   @media (min-width: 768px) {
     margin: 30px 0;
@@ -267,6 +366,11 @@
   @media (min-width: 1024px) {
     margin: 32px 0;
     font-size: 16px;
+  }
+
+  @media (max-height: 700px) {
+    margin: 10px 0;
+    font-size: 12px;
   }
 }
 
@@ -292,7 +396,7 @@
 .social-buttons {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 
   @media (min-width: 768px) {
     gap: 14px;
@@ -301,11 +405,15 @@
   @media (min-width: 1024px) {
     gap: 16px;
   }
+
+  @media (max-height: 700px) {
+    gap: 8px;
+  }
 }
 
 .social-button {
   --border-radius: 12px;
-  height: 50px;
+  height: 46px;
   font-weight: 600;
   text-transform: none;
   font-size: 15px;
@@ -320,6 +428,11 @@
     --border-radius: 16px;
     height: 58px;
     font-size: 17px;
+  }
+
+  @media (max-height: 700px) {
+    height: 40px;
+    font-size: 14px;
   }
 
   ion-icon {
@@ -357,11 +470,15 @@
 
 .auth-link {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 16px;
   animation: fadeIn 1s ease-out;
 
   @media (min-width: 768px) {
     margin-top: 28px;
+  }
+
+  @media (max-height: 700px) {
+    margin-top: 10px;
   }
 
   @media (min-width: 1024px) {
@@ -379,6 +496,10 @@
 
   @media (min-width: 1024px) {
     font-size: 16px;
+  }
+
+  @media (max-height: 700px) {
+    font-size: 13px;
   }
 }
 
@@ -437,16 +558,5 @@
   60%,
   80% {
     transform: translateX(5px);
-  }
-}
-
-/* Responsive design */
-@media (max-width: 576px) {
-  .auth-header h1 {
-    font-size: 26px;
-  }
-
-  .logo-icon {
-    font-size: 50px;
   }
 }

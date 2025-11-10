@@ -35,6 +35,9 @@ export class ChannelsPage implements OnInit, OnDestroy {
   selectedTab: 'explore' | 'myChannels' = 'explore';
   selectedCategory: ChannelCategory | 'All' = 'All';
 
+  myChannelsCount: number = 0;
+  exploreChannelsCount: number = 0;
+
   readonly categories: (ChannelCategory | 'All')[] = [
     'All',
     'General',
@@ -78,6 +81,7 @@ export class ChannelsPage implements OnInit, OnDestroy {
     try {
       this.channels = await this.channelService.fetchChannels();
       await this.loadChannelMembers();
+      this.updateChannelCounts();
       this.filterChannels();
     } catch (error) {
       console.error('Error loading channels:', error);
@@ -85,6 +89,11 @@ export class ChannelsPage implements OnInit, OnDestroy {
     } finally {
       this.isLoading = false;
     }
+  }
+
+  private updateChannelCounts(): void {
+    this.myChannelsCount = this.channels.filter((channel: Channel): boolean | undefined => channel.is_member).length;
+    this.exploreChannelsCount = this.channels.length;
   }
 
   private async loadChannelMembers(): Promise<void> {
@@ -189,9 +198,10 @@ export class ChannelsPage implements OnInit, OnDestroy {
     }
 
     try {
-      // Mark this channel as a member locally to avoid reloading all channels
       channel.is_member = true;
       await this.channelService.joinChannel(channel.id, this.currentUser.id);
+      await this.reloadChannelMembers(channel);
+      this.updateChannelCounts();
       this.notificationService.success('CHANNELS.SUCCESS.JOIN_CHANNEL');
       this.filterChannels();
     } catch (_) {
@@ -212,6 +222,8 @@ export class ChannelsPage implements OnInit, OnDestroy {
         channel.is_member = false;
       }
       await this.channelService.leaveChannel(channel.id, this.currentUser.id);
+      await this.reloadChannelMembers(channel);
+      this.updateChannelCounts();
       this.notificationService.success('CHANNELS.SUCCESS.LEAVE_CHANNEL');
       if (this.selectedTab === 'myChannels') {
         channel.is_member = false;
@@ -298,5 +310,16 @@ export class ChannelsPage implements OnInit, OnDestroy {
 
   get isAdmin(): boolean {
     return this.currentUser?.role === 'Admin';
+  }
+
+  navigateToChannelDetail(channel: Channel): void {
+    if (!channel.is_member) {
+      return;
+    }
+
+    if (!this.currentUser) {
+      void this.router.navigate(['/login']);
+    }
+    void this.router.navigate(['/channels', channel.id]);
   }
 }
