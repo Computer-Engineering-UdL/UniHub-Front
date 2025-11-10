@@ -2,7 +2,7 @@
 /* Shared auth styles are imported from global.scss */
 
 .auth-header {
-  margin-bottom: 32px;
+  margin-bottom: 20px;
 
   @media (min-width: 768px) {
     margin-bottom: 36px;
@@ -13,7 +13,11 @@
   }
 
   @media (max-width: 576px) {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
+  }
+
+  @media (max-height: 700px) {
+    margin-bottom: 12px;
   }
 
   img {
@@ -25,6 +29,11 @@
     @media (min-width: 1024px) {
       height: 170px !important;
       width: 170px !important;
+    }
+
+    @media (max-height: 700px) {
+      height: 120px !important;
+      width: 120px !important;
     }
   }
 }
@@ -146,7 +155,7 @@
 }
 
 .divider {
-  margin: 24px 0 20px 0;
+  margin: 20px 0 16px 0;
 
   @media (min-width: 768px) {
     margin: 28px 0 24px 0;
@@ -157,7 +166,11 @@
   }
 
   @media (max-width: 576px) {
-    margin: 20px 0 16px 0;
+    margin: 16px 0 12px 0;
+  }
+
+  @media (max-height: 700px) {
+    margin: 12px 0 10px 0;
   }
 }
 
@@ -192,7 +205,7 @@
   }
 
   ion-card-content {
-    padding: 32px 28px;
+    padding: 24px 20px;
 
     @media (min-width: 768px) {
       padding: 40px 32px;
@@ -203,13 +216,17 @@
     }
 
     @media (max-width: 576px) {
-      padding: 24px 16px;
+      padding: 20px 16px;
+    }
+
+    @media (max-height: 700px) {
+      padding: 16px 14px;
     }
   }
 }
 
 .auth-button {
-  margin-top: 24px;
+  margin-top: 20px;
   height: 48px;
   font-size: 16px;
   font-weight: 600;
@@ -227,9 +244,14 @@
   }
 
   @media (max-width: 576px) {
-    margin-top: 20px;
+    margin-top: 16px;
     height: 44px;
     font-size: 15px;
+  }
+
+  @media (max-height: 700px) {
+    margin-top: 12px;
+    height: 40px;
   }
 }
 
@@ -290,7 +312,7 @@
 }
 
 .auth-link {
-  margin-top: 24px;
+  margin-top: 20px;
 
   @media (min-width: 768px) {
     margin-top: 32px;
@@ -300,8 +322,11 @@
     margin-top: 36px;
   }
 
+  @media (max-height: 700px) {
+    margin-top: 12px;
+  }
+
   @media (max-width: 576px) {
-    margin-top: 20px;
     padding: 0 16px;
   }
 
