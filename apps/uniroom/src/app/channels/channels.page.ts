@@ -205,6 +205,7 @@ export class ChannelsPage implements OnInit, OnDestroy {
       this.notificationService.success('CHANNELS.SUCCESS.JOIN_CHANNEL');
       this.filterChannels();
     } catch (_) {
+      channel.is_member = false;
       this.notificationService.error('CHANNELS.ERROR.JOIN_CHANNEL');
     }
   }
@@ -215,12 +216,21 @@ export class ChannelsPage implements OnInit, OnDestroy {
     }
 
     try {
+      // Mark this channel as not a member locally to avoid reloading all channels
+      if (this.selectedTab !== 'myChannels') {
+        // Do this only if we are not in myChannels tab to avoid flickering
+        channel.is_member = false;
+      }
       await this.channelService.leaveChannel(channel.id, this.currentUser.id);
       await this.reloadChannelMembers(channel);
       this.updateChannelCounts();
       this.notificationService.success('CHANNELS.SUCCESS.LEAVE_CHANNEL');
+      if (this.selectedTab === 'myChannels') {
+        channel.is_member = false;
+      }
       this.filterChannels();
     } catch (_) {
+      channel.is_member = true;
       this.notificationService.error('CHANNELS.ERROR.LEAVE_CHANNEL');
     }
   }
@@ -302,9 +312,14 @@ export class ChannelsPage implements OnInit, OnDestroy {
     return this.currentUser?.role === 'Admin';
   }
 
-  async onChannelCardClick(_channel: Channel): Promise<void> {
-    if (!this.currentUser) {
-      await this.router.navigate(['/login']);
+  navigateToChannelDetail(channel: Channel): void {
+    if (!channel.is_member) {
+      return;
     }
+
+    if (!this.currentUser) {
+      void this.router.navigate(['/login']);
+    }
+    void this.router.navigate(['/channels', channel.id]);
   }
 }
