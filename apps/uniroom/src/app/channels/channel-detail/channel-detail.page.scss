@@ -464,27 +464,32 @@ ion-footer {
     display: flex;
     align-items: flex-end;
     gap: 0.75rem;
+    padding: 0.25rem 0;
 
     .message-input {
       flex: 1;
       --padding-start: 1rem;
       --padding-end: 1rem;
-      --padding-top: 0.625rem;
-      --padding-bottom: 0.625rem;
+      --padding-top: 0.75rem;
+      --padding-bottom: 0.75rem;
       --background: var(--ion-color-light);
-      --color: var(--ion-text-color);
-      --placeholder-color: var(--ion-text-color-secondary);
-      --placeholder-opacity: 0.65;
-      font-size: 0.938rem;
+      --placeholder-opacity: 0.6;
       background: var(--ion-color-light);
-      border-radius: 20px;
+      border-radius: 24px;
       max-height: 120px;
-      min-height: 40px;
+      min-height: 44px;
+      font-size: 0.938rem;
+
+      ::ng-deep .textarea-wrapper {
+        border-radius: 10px !important;
+      }
+
+      ::ng-deep .native-wrapper {
+        border-radius: 10px !important;
+      }
     }
 
     .send-button {
-      --padding-start: 0;
-      --padding-end: 0;
       --border-radius: 50%;
       height: 44px;
       width: 44px;
