@@ -109,14 +109,50 @@ ion-header {
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  padding: 1rem;
+  overflow: hidden;
   min-width: 0;
   order: 1;
 
   @media (max-width: 768px) {
     flex: 1;
     order: 1;
+  }
+
+  .messages-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1.5rem;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(var(--ion-color-medium-rgb), 0.3);
+      border-radius: 10px;
+      transition: background 0.2s;
+
+      &:hover {
+        background: rgba(var(--ion-color-medium-rgb), 0.5);
+      }
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: rgba(var(--ion-color-medium-rgb), 0.3) transparent;
+  }
+
+  .message-input-footer {
+    border-top: 1px solid var(--ion-border-color);
+    background: var(--ion-card-background);
+    padding: 0.5rem 1rem;
+    flex-shrink: 0;
   }
 }
 
@@ -130,6 +166,27 @@ ion-header {
   background: var(--ion-card-background);
   overflow-y: auto;
   order: 2;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(var(--ion-color-medium-rgb), 0.3);
+    border-radius: 10px;
+    transition: background 0.2s;
+
+    &:hover {
+      background: rgba(var(--ion-color-medium-rgb), 0.5);
+    }
+  }
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--ion-color-medium-rgb), 0.3) transparent;
 
   @media (max-width: 768px) {
     display: none;
@@ -255,13 +312,6 @@ ion-header {
   .empty-state {
     padding: 2rem 1rem;
   }
-}
-
-.messages-list {
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 1.5rem;
-  overflow-y: auto;
 }
 
 .message-date-group {
@@ -530,13 +580,7 @@ ion-header {
   }
 }
 
-ion-footer {
-  ion-toolbar {
-    --background: var(--ion-card-background);
-    --border-color: var(--ion-border-color);
-    padding: 0.5rem;
-  }
-
+.message-input-footer {
   .editing-indicator,
   .replying-indicator {
     display: flex;

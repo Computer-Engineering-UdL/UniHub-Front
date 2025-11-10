@@ -17,7 +17,7 @@
 </ion-header>
 
 <!--MEMBERS-->
-<ion-content #content class="no-top-padding">
+<ion-content class="no-top-padding">
   <div class="channel-detail-container" *ngIf="!isLoading && channel">
     <div class="messages-section">
       <div class="messages-list" *ngIf="!isLoadingMessages">
@@ -110,6 +110,58 @@
         <ion-spinner></ion-spinner>
         <p>{{ 'CHANNELS.DETAIL.LOADING' | translate }}</p>
       </div>
+
+      <div class="message-input-footer" *ngIf="!isLoading && channel">
+        <div *ngIf="editingMessageId" class="editing-indicator">
+          <div class="indicator-content">
+            <ion-icon name="create-outline"></ion-icon>
+            <span>{{ 'CHANNELS.DETAIL.EDITING_MESSAGE' | translate }}</span>
+          </div>
+          <ion-button fill="clear" size="small" (click)="cancelEdit()">
+            <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+          </ion-button>
+        </div>
+
+        <div *ngIf="replyingToMessage" class="replying-indicator">
+          <div class="indicator-content">
+            <ion-icon name="arrow-undo-outline"></ion-icon>
+            <div class="reply-info">
+              <span class="reply-label">{{ 'CHANNELS.DETAIL.REPLYING_TO' | translate }}</span>
+              <span class="reply-text"
+                >{{ getUserName(replyingToMessage) }}: {{ replyingToMessage.content }}</span
+              >
+            </div>
+          </div>
+          <ion-button fill="clear" size="small" (click)="cancelReply()">
+            <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+          </ion-button>
+        </div>
+
+        <div class="message-input-container">
+          <ion-textarea
+            [(ngModel)]="messageContent"
+            [placeholder]="'CHANNELS.DETAIL.TYPE_MESSAGE' | translate"
+            [rows]="1"
+            [autoGrow]="true"
+            [disabled]="!canWriteInChannel()"
+            [maxlength]="1000"
+            class="message-input"
+            (keydown.enter)="$event.preventDefault(); sendMessage()">
+          </ion-textarea>
+          <ion-button
+            [disabled]="!messageContent.trim() || !canWriteInChannel()"
+            (click)="sendMessage()"
+            class="send-button"
+            fill="solid"
+            color="primary">
+            <ion-icon slot="icon-only" name="send"></ion-icon>
+          </ion-button>
+        </div>
+        <div *ngIf="!canWriteInChannel()" class="role-warning">
+          <ion-icon name="lock-closed-outline"></ion-icon>
+          <span>{{ 'CHANNELS.DETAIL.INSUFFICIENT_ROLE_WRITE' | translate }}</span>
+        </div>
+      </div>
     </div>
 
     <div class="members-section">
@@ -189,57 +241,3 @@
     <p>{{ 'CHANNELS.DETAIL.LOADING' | translate }}</p>
   </div>
 </ion-content>
-
-<ion-footer *ngIf="!isLoading && channel">
-  <ion-toolbar>
-    <div *ngIf="editingMessageId" class="editing-indicator">
-      <div class="indicator-content">
-        <ion-icon name="create-outline"></ion-icon>
-        <span>{{ 'CHANNELS.DETAIL.EDITING_MESSAGE' | translate }}</span>
-      </div>
-      <ion-button fill="clear" size="small" (click)="cancelEdit()">
-        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
-      </ion-button>
-    </div>
-
-    <div *ngIf="replyingToMessage" class="replying-indicator">
-      <div class="indicator-content">
-        <ion-icon name="arrow-undo-outline"></ion-icon>
-        <div class="reply-info">
-          <span class="reply-label">{{ 'CHANNELS.DETAIL.REPLYING_TO' | translate }}</span>
-          <span class="reply-text"
-            >{{ getUserName(replyingToMessage) }}: {{ replyingToMessage.content }}</span
-          >
-        </div>
-      </div>
-      <ion-button fill="clear" size="small" (click)="cancelReply()">
-        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
-      </ion-button>
-    </div>
-
-    <div class="message-input-container">
-      <ion-textarea
-        [(ngModel)]="messageContent"
-        [placeholder]="'CHANNELS.DETAIL.TYPE_MESSAGE' | translate"
-        [rows]="1"
-        [autoGrow]="true"
-        [disabled]="!canWriteInChannel()"
-        [maxlength]="1000"
-        class="message-input"
-        (keydown.enter)="$event.preventDefault(); sendMessage()">
-      </ion-textarea>
-      <ion-button
-        [disabled]="!messageContent.trim() || !canWriteInChannel()"
-        (click)="sendMessage()"
-        class="send-button"
-        fill="solid"
-        color="primary">
-        <ion-icon slot="icon-only" name="send"></ion-icon>
-      </ion-button>
-    </div>
-    <div *ngIf="!canWriteInChannel()" class="role-warning">
-      <ion-icon name="lock-closed-outline"></ion-icon>
-      <span>{{ 'CHANNELS.DETAIL.INSUFFICIENT_ROLE_WRITE' | translate }}</span>
-    </div>
-  </ion-toolbar>
-</ion-footer>
