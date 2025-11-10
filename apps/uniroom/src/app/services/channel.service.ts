@@ -88,7 +88,7 @@ export class ChannelService {
     return await Promise.all(
       messages.map(async (msg: any): Promise<ChannelMessage> => {
         try {
-          const sender: User = await firstValueFrom(this.apiService.get<User>(`user/${msg.user_id}`));
+          const sender: User = await firstValueFrom(this.apiService.get<User>(`user/public/${msg.user_id}`));
           return {
             ...msg,
             sender_id: msg.user_id,
