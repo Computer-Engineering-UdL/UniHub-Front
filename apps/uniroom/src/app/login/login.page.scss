@@ -1,6 +1,10 @@
 /* Page-specific styles for login page */
 /* Shared auth styles are imported from global.scss */
 
+.auth-container {
+  max-width: 660px;
+}
+
 .auth-header {
   margin-bottom: 16px;
 
