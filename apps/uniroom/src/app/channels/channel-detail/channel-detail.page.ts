@@ -301,10 +301,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   getUserAvatar(message: ChannelMessage): string {
-    if (this.isMyMessage(message) && this.currentUser) {
-      return this.currentUser.imgUrl || this.defaultUserUrl;
-    }
-    return message.sender?.imgUrl || this.defaultUserUrl;
+    return message.sender?.avatar_url || this.defaultUserUrl;
   }
 
   getUserName(message: ChannelMessage): string {

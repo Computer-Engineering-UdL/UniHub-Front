@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -16,7 +16,8 @@ import { CreateChannelModalComponent } from './create-channel-modal/create-chann
     IonicModule,
     TranslateModule,
     ChannelsRoutingModule,
-    CreateChannelModalComponent
+    CreateChannelModalComponent,
+    NgOptimizedImage
   ],
   declarations: [ChannelsPage, ChannelDetailPage]
 })
