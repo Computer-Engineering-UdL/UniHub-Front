@@ -100,6 +100,9 @@
   margin-bottom: -2px;
   transition: all 0.2s;
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
   &:hover {
     color: var(--ion-color-primary);
@@ -110,7 +113,24 @@
     color: var(--ion-color-primary);
     border-bottom-color: var(--ion-color-primary);
     background: rgba(56, 128, 255, 0.08);
+
+    .tab-badge {
+      background: var(--ion-color-primary);
+      color: white;
+    }
   }
+}
+
+.tab-badge {
+  background: var(--ion-color-light);
+  color: var(--ion-color-medium);
+  border-radius: 10px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  min-width: 24px;
+  text-align: center;
+  transition: all 0.2s;
 }
 
 .category-filters {

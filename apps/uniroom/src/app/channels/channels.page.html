@@ -31,13 +31,15 @@
           class="tab-btn"
           [class.active]="selectedTab === 'myChannels'"
           (click)="onTabChange('myChannels')">
-          {{ 'CHANNELS.MY_CHANNELS' | translate }} ({{ getMyChannelsCount() }})
+          {{ 'CHANNELS.MY_CHANNELS' | translate }}
+          <span class="tab-badge">{{ myChannelsCount }}</span>
         </button>
         <button
           class="tab-btn"
           [class.active]="selectedTab === 'explore'"
           (click)="onTabChange('explore')">
-          {{ 'CHANNELS.EXPLORE_CHANNELS' | translate }} ({{ getExploreChannelsCount() }})
+          {{ 'CHANNELS.EXPLORE_CHANNELS' | translate }}
+          <span class="tab-badge">{{ exploreChannelsCount }}</span>
         </button>
       </div>
 
