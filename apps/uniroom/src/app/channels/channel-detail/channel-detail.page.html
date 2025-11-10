@@ -1,22 +1,8 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/channels"></ion-back-button>
-    </ion-buttons>
-    <ion-title *ngIf="channel">
-      <span *ngIf="channel.emoji" class="channel-emoji">{{ channel.emoji }}</span>
-      {{ channel.name }}
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-button
-        (click)="selectedSegment = selectedSegment === 'messages' ? 'members' : 'messages'; onSegmentChange({detail: {value: selectedSegment}})">
-        <ion-icon
-          [name]="selectedSegment === 'messages' ? 'people-outline' : 'chatbubbles-outline'"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-
   <div class="channel-info-bar" *ngIf="channel">
+    <ion-button fill="clear" class="back-button" (click)="goBack()">
+      <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
+    </ion-button>
     <div class="channel-info-content">
       <div class="channel-icon-small">
         <span *ngIf="channel.emoji">{{ channel.emoji }}</span>
@@ -27,6 +13,13 @@
         <p>{{ getCategoryTranslation(channel.category || 'General') | translate }}</p>
       </div>
     </div>
+    <ion-button
+      fill="clear"
+      class="toggle-segment-button"
+      (click)="selectedSegment = selectedSegment === 'messages' ? 'members' : 'messages'; onSegmentChange({detail: {value: selectedSegment}})">
+      <ion-icon
+        [name]="selectedSegment === 'messages' ? 'people-outline' : 'chatbubbles-outline'"></ion-icon>
+    </ion-button>
   </div>
 </ion-header>
 

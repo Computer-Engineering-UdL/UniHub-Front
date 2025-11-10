@@ -70,6 +70,10 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     this.messagesRefreshSubscription?.unsubscribe();
   }
 
+  goBack(): void {
+    void this.router.navigate(['/channels']);
+  }
+
   private startMessagesRefresh(): void {
     this.messagesRefreshSubscription = interval(5000).subscribe(async (): Promise<void> => {
       await this.loadMessages(true, false);
