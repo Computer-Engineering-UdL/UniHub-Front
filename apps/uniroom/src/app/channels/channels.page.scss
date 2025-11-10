@@ -179,9 +179,10 @@
   }
 
   &[data-category='General'] {
+    border-color: #667eea;
+
     &:hover {
       background: rgba(102, 126, 234, 0.2);
-      border-color: #667eea;
       color: #4c5fc7;
       box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
 
@@ -209,9 +210,10 @@
   }
 
   &[data-category='Engineering'] {
+    border-color: #f5576c;
+
     &:hover {
       background: rgba(245, 87, 108, 0.2);
-      border-color: #f5576c;
       color: #d93651;
       box-shadow: 0 4px 8px rgba(245, 87, 108, 0.3);
 
@@ -239,9 +241,10 @@
   }
 
   &[data-category='Sciences'] {
+    border-color: #4facfe;
+
     &:hover {
       background: rgba(79, 172, 254, 0.2);
-      border-color: #4facfe;
       color: #2b7fcc;
       box-shadow: 0 4px 8px rgba(79, 172, 254, 0.3);
 
@@ -269,9 +272,10 @@
   }
 
   &[data-category='Business'] {
+    border-color: #43e97b;
+
     &:hover {
       background: rgba(67, 233, 123, 0.2);
-      border-color: #43e97b;
       color: #2da860;
       box-shadow: 0 4px 8px rgba(67, 233, 123, 0.3);
 
@@ -299,9 +303,10 @@
   }
 
   &[data-category='Arts'] {
+    border-color: #fa709a;
+
     &:hover {
       background: rgba(250, 112, 154, 0.2);
-      border-color: #fa709a;
       color: #d6527a;
       box-shadow: 0 4px 8px rgba(250, 112, 154, 0.3);
 
@@ -329,9 +334,10 @@
   }
 
   &[data-category='Medicine'] {
+    border-color: #30cfd0;
+
     &:hover {
       background: rgba(48, 207, 208, 0.2);
-      border-color: #30cfd0;
       color: #259fa0;
       box-shadow: 0 4px 8px rgba(48, 207, 208, 0.3);
 

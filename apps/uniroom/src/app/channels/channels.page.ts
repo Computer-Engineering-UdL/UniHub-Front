@@ -291,4 +291,12 @@ export class ChannelsPage implements OnInit, OnDestroy {
   get isAdmin(): boolean {
     return this.currentUser?.role === 'Admin';
   }
+
+  getMyChannelsCount(): number {
+    return this.channels.filter((channel: Channel): boolean | undefined => channel.is_member).length;
+  }
+
+  getExploreChannelsCount(): number {
+    return this.channels.length;
+  }
 }
