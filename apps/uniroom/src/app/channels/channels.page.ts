@@ -301,4 +301,10 @@ export class ChannelsPage implements OnInit, OnDestroy {
   get isAdmin(): boolean {
     return this.currentUser?.role === 'Admin';
   }
+
+  async onChannelCardClick(_channel: Channel): Promise<void> {
+    if (!this.currentUser) {
+      await this.router.navigate(['/login']);
+    }
+  }
 }

@@ -73,7 +73,8 @@
       <div
         *ngFor="let channel of filteredChannels"
         class="channel-card"
-        [attr.data-category]="channel.category">
+        [attr.data-category]="channel.category"
+        (click)="onChannelCardClick(channel)">
         <div class="channel-icon emoji-icon">
           <span class="channel-emoji">{{ getChannelEmoji(channel) }}</span>
         </div>
@@ -93,7 +94,7 @@
             </div>
             <div class="channel-actions">
               <ion-button
-                *ngIf="!channel.is_member"
+                *ngIf="currentUser && !channel.is_member"
                 fill="solid"
                 class="join-btn"
                 size="small"
@@ -101,7 +102,7 @@
                 {{ 'CHANNELS.JOIN' | translate }}
               </ion-button>
               <ion-button
-                *ngIf="channel.is_member"
+                *ngIf="currentUser && channel.is_member"
                 fill="outline"
                 color="medium"
                 size="small"
