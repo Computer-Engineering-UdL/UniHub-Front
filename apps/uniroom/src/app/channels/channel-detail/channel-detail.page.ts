@@ -144,7 +144,9 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
       this.members = await Promise.all(
         membersData.map(async (member: ChannelMember): Promise<ChannelMember> => {
           try {
-            const user: User = await firstValueFrom(this.apiService.get<User>(`user/public/${member.user_id}`));
+            const user: User = this.authService.mapUserFromApi(
+              await firstValueFrom(this.apiService.get<User>(`user/public/${member.user_id}`))
+            );
             return { ...member, user };
           } catch (_) {
             return member;

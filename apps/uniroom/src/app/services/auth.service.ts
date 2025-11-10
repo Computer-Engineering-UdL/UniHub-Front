@@ -50,7 +50,7 @@ export class AuthService {
   }
 
   // map API user (snake_case) to app User (camelCase)
-  private mapUserFromApi(apiUser: any): User {
+  public mapUserFromApi(apiUser: any): User {
     if (!apiUser) {
       return apiUser;
     }
@@ -63,7 +63,12 @@ export class AuthService {
       name: apiUser.name || apiUser.username,
       firstName: apiUser.first_name || apiUser.firstName,
       lastName: apiUser.last_name || apiUser.lastName,
-      fullName: apiUser.first_name?.trim() || apiUser.firstName?.trim() || '',
+      fullName: (() => {
+        const firstName: string = apiUser.first_name?.trim() || apiUser.firstName?.trim() || '';
+        const lastName: string = apiUser.last_name?.trim() || apiUser.lastName?.trim() || '';
+        const full: string = `${firstName} ${lastName}`.trim();
+        return full || apiUser.username;
+      })(),
       phone: apiUser.phone,
       university: apiUser.university,
       provider: apiUser.provider,

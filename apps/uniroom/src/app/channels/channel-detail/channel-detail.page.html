@@ -40,7 +40,7 @@
             [class.my-message]="isMyMessage(message)">
             <ion-avatar class="message-avatar" *ngIf="!isMyMessage(message)">
               <img
-                [src]="message.sender?.avatar_url || this.defaultUserUrl"
+                [src]="message.sender?.imgUrl || this.defaultUserUrl"
                 [alt]="getUserName(message)" />
             </ion-avatar>
 
@@ -99,7 +99,7 @@
 
             <ion-avatar class="message-avatar" *ngIf="isMyMessage(message)">
               <img
-                [src]="message.sender?.avatar_url || this.defaultUserUrl"
+                [src]="message.sender?.imgUrl || this.defaultUserUrl"
                 [alt]="getUserName(message)" />
             </ion-avatar>
           </div>
@@ -185,11 +185,11 @@
           <div class="member-item" *ngFor="let member of adminMembers">
             <ion-avatar>
               <img
-                [src]="member.user?.avatar_url || defaultUserUrl"
+                [src]="member.user?.imgUrl || defaultUserUrl"
                 [alt]="member.user?.username || member.user_id" />
             </ion-avatar>
             <div class="member-info">
-              <span class="member-name">{{ member.user?.username || member.user_id }}</span>
+              <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
               <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
             </div>
           </div>
@@ -204,11 +204,11 @@
           <div class="member-item" *ngFor="let member of moderatorMembers">
             <ion-avatar>
               <img
-                [src]="member.user?.avatar_url || defaultUserUrl"
+                [src]="member.user?.imgUrl || defaultUserUrl"
                 [alt]="member.user?.username || member.user_id" />
             </ion-avatar>
             <div class="member-info">
-              <span class="member-name">{{ member.user?.username || member.user_id }}</span>
+              <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
               <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
             </div>
           </div>
@@ -223,11 +223,11 @@
           <div class="member-item" *ngFor="let member of regularMembers">
             <ion-avatar>
               <img
-                [src]="member.user?.avatar_url || defaultUserUrl"
+                [src]="member.user?.imgUrl || defaultUserUrl"
                 [alt]="member.user?.username || member.user_id" />
             </ion-avatar>
             <div class="member-info">
-              <span class="member-name">{{ member.user?.username || member.user_id }}</span>
+              <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
               <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
             </div>
           </div>
