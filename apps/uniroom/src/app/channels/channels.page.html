@@ -32,12 +32,14 @@
           [class.active]="selectedTab === 'myChannels'"
           (click)="onTabChange('myChannels')">
           {{ 'CHANNELS.MY_CHANNELS' | translate }}
+          <span class="tab-badge">{{ myChannelsCount }}</span>
         </button>
         <button
           class="tab-btn"
           [class.active]="selectedTab === 'explore'"
           (click)="onTabChange('explore')">
           {{ 'CHANNELS.EXPLORE_CHANNELS' | translate }}
+          <span class="tab-badge">{{ exploreChannelsCount }}</span>
         </button>
       </div>
 
@@ -85,7 +87,7 @@
           </div>
           <p class="channel-description">{{ channel.description }}</p>
           <div class="channel-footer">
-            <div class="member-count">
+            <div class="member-count" *ngIf="currentUser">
               <ion-icon name="people"></ion-icon>
               <span>{{ 'CHANNELS.MEMBERS' | translate: { count: channel.member_count } }}</span>
             </div>
