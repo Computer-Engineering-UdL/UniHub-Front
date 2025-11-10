@@ -9,7 +9,7 @@
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
 [![Web](https://img.shields.io/website?url=https://computer-engineering-udl.github.io/UniHub-Front/&label=Website&up_message=online&down_message=offline)](https://computer-engineering-udl.github.io/UniHub-Front/)
-[![CI](https://img.shields.io/github/actions/workflow/status/Computer-Engineering-UdL/UniHub-Front/ci.yml?branch=main&label=CI)](https://github.com/Computer-Engineering-UdL/UniHub-Front/actions/workflows/tests.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/Computer-Engineering-UdL/UniHub-Front/ci.yml?branch=main&label=CI)](https://github.com/Computer-Engineering-UdL/UniHub-Front/actions/workflows/ci.yml)
 [![Last commit](https://img.shields.io/github/last-commit/Computer-Engineering-UdL/UniHub-Front?label=Last%20commit)](https://github.com/Computer-Engineering-UdL/UniHub-Front/commits)
 [![Issues](https://img.shields.io/github/issues/Computer-Engineering-UdL/UniHub-Front?label=Issues)](https://github.com/Computer-Engineering-UdL/UniHub-Front/issues)
 [![PRs](https://img.shields.io/github/issues-pr/Computer-Engineering-UdL/UniHub-Front?label=PRs)](https://github.com/Computer-Engineering-UdL/UniHub-Front/pulls)
