@@ -53,6 +53,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   messageContent: string = '';
   editingMessageId: string | null = null;
   replyingToMessage: ChannelMessage | null = null;
+  showMembersModal: boolean = false;
 
   readonly defaultUserUrl: string = DEFAULT_USER_URL;
 
@@ -340,7 +341,8 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     const roleMap: Record<string, string> = {
       member: 'CHANNELS.DETAIL.MEMBER',
       moderator: 'CHANNELS.DETAIL.MODERATOR',
-      admin: 'CHANNELS.DETAIL.ADMIN'
+      admin: 'CHANNELS.DETAIL.ADMIN',
+      user: 'CHANNELS.DETAIL.MEMBER'
     };
     return roleMap[role] || 'CHANNELS.DETAIL.MEMBER';
   }
@@ -351,5 +353,13 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
 
   trackByMessage(index: number, message: ChannelMessage): string {
     return message.id;
+  }
+
+  openMembersModal(): void {
+    this.showMembersModal = true;
+  }
+
+  closeMembersModal(): void {
+    this.showMembersModal = false;
   }
 }

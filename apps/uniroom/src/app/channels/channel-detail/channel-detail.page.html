@@ -13,6 +13,10 @@
         <p>{{ getCategoryTranslation(channel.category || 'General') | translate }}</p>
       </div>
     </div>
+    <ion-button fill="clear" class="members-button-mobile" (click)="openMembersModal()">
+      <ion-icon slot="icon-only" name="people-outline"></ion-icon>
+      <ion-badge color="primary">{{ members.length }}</ion-badge>
+    </ion-button>
   </div>
 </ion-header>
 
@@ -241,3 +245,84 @@
     <p>{{ 'CHANNELS.DETAIL.LOADING' | translate }}</p>
   </div>
 </ion-content>
+
+<ion-modal #membersModal class="members-modal" [isOpen]="showMembersModal" (didDismiss)="closeMembersModal()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>{{ 'CHANNELS.DETAIL.MEMBERS' | translate }} ({{ members.length }})</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeMembersModal()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <div class="members-list-modal">
+        <div *ngIf="members.length === 0" class="empty-state">
+          <ion-icon name="people-outline"></ion-icon>
+          <p>{{ 'CHANNELS.DETAIL.NO_MEMBERS' | translate }}</p>
+        </div>
+
+        <div *ngIf="adminMembers.length > 0" class="member-role-group">
+          <div class="role-group-header">
+            <ion-icon name="shield-checkmark"></ion-icon>
+            <span>{{ 'CHANNELS.DETAIL.ADMINS' | translate }}</span>
+            <ion-badge color="danger">{{ adminMembers.length }}</ion-badge>
+          </div>
+          <div class="member-item" *ngFor="let member of adminMembers">
+            <ion-avatar>
+              <img
+                [src]="member.user?.imgUrl || defaultUserUrl"
+                [alt]="member.user?.fullName || member.user_id" />
+            </ion-avatar>
+            <div class="member-info">
+              <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
+              <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="moderatorMembers.length > 0" class="member-role-group">
+          <div class="role-group-header">
+            <ion-icon name="star"></ion-icon>
+            <span>{{ 'CHANNELS.DETAIL.MODERATORS' | translate }}</span>
+            <ion-badge color="warning">{{ moderatorMembers.length }}</ion-badge>
+          </div>
+          <div class="member-item" *ngFor="let member of moderatorMembers">
+            <ion-avatar>
+              <img
+                [src]="member.user?.imgUrl || defaultUserUrl"
+                [alt]="member.user?.fullName || member.user_id" />
+            </ion-avatar>
+            <div class="member-info">
+              <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
+              <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="regularMembers.length > 0" class="member-role-group">
+          <div class="role-group-header">
+            <ion-icon name="people"></ion-icon>
+            <span>{{ 'CHANNELS.DETAIL.REGULAR_MEMBERS' | translate }}</span>
+            <ion-badge color="primary">{{ regularMembers.length }}</ion-badge>
+          </div>
+          <div class="member-item" *ngFor="let member of regularMembers">
+            <ion-avatar>
+              <img
+                [src]="member.user?.imgUrl || defaultUserUrl"
+                [alt]="member.user?.fullName || member.user_id" />
+            </ion-avatar>
+            <div class="member-info">
+              <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
+              <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
