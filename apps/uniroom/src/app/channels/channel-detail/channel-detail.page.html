@@ -186,13 +186,16 @@
         [rows]="1"
         [autoGrow]="true"
         [disabled]="!canWriteInChannel()"
+        [maxlength]="1000"
         class="message-input"
         (keydown.enter)="$event.preventDefault(); sendMessage()">
       </ion-textarea>
       <ion-button
         [disabled]="!messageContent.trim() || !canWriteInChannel()"
         (click)="sendMessage()"
-        class="send-button">
+        class="send-button"
+        fill="solid"
+        color="primary">
         <ion-icon slot="icon-only" name="send"></ion-icon>
       </ion-button>
     </div>
