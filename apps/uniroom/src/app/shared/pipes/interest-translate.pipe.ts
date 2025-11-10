@@ -11,7 +11,9 @@ export class InterestTranslatePipe implements PipeTransform {
   constructor(private translate: TranslateService) {}
 
   transform(value: string, type: 'interest' | 'category' = 'interest'): string {
-    if (!value) return '';
+    if (!value) {
+      return '';
+    }
 
     const key = type === 'category' ? getCategoryTranslationPath(value) : getInterestTranslationPath(value);
 

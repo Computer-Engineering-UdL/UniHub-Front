@@ -1,7 +1,10 @@
 <ion-content>
   <div class="admin-users-container">
     <div class="stats-grid">
-      <div class="stat-card">
+      <div
+        class="stat-card"
+        [class.filter-active]="selectedStatus === 'all'"
+        (click)="filterByStatus('all')">
         <div class="stat-icon">
           <ion-icon name="people-outline"></ion-icon>
         </div>
@@ -11,7 +14,10 @@
         </div>
       </div>
 
-      <div class="stat-card stat-active">
+      <div
+        class="stat-card stat-active"
+        [class.filter-active]="selectedStatus === 'active'"
+        (click)="filterByStatus('active')">
         <div class="stat-icon">
           <ion-icon name="checkmark-circle-outline"></ion-icon>
         </div>
@@ -21,7 +27,10 @@
         </div>
       </div>
 
-      <div class="stat-card stat-pending">
+      <div
+        class="stat-card stat-pending"
+        [class.filter-active]="selectedStatus === 'pending'"
+        (click)="filterByStatus('pending')">
         <div class="stat-icon">
           <ion-icon name="time-outline"></ion-icon>
         </div>
@@ -31,7 +40,10 @@
         </div>
       </div>
 
-      <div class="stat-card stat-suspended">
+      <div
+        class="stat-card stat-suspended"
+        [class.filter-active]="selectedStatus === 'suspended'"
+        (click)="filterByStatus('suspended')">
         <div class="stat-icon">
           <ion-icon name="close-circle-outline"></ion-icon>
         </div>

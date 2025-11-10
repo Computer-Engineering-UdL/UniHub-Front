@@ -126,6 +126,7 @@ ion-button {
   align-items: center;
   gap: 1rem;
   transition: all 0.2s ease;
+  cursor: pointer;
 
   @media (max-width: 480px) {
     padding: 1rem;
@@ -139,6 +140,12 @@ ion-button {
     @media (max-width: 768px) {
       transform: none;
     }
+  }
+
+  &.filter-active {
+    border: 2px solid var(--ion-color-primary);
+    box-shadow: 0 4px 16px rgba(var(--ion-color-primary-rgb), 0.2);
+    background: rgba(var(--ion-color-primary-rgb), 0.03);
   }
 
   .stat-icon {

@@ -11,11 +11,12 @@ import { LangCode, LocalizationService } from '../services/localization.service'
   standalone: false
 })
 export class LoginPage {
-  email: string = '';
+  emailOrUsername: string = '';
   password: string = '';
   isLoading: boolean = false;
-  emailTouched: boolean = false;
+  emailOrUsernameTouched: boolean = false;
   passwordTouched: boolean = false;
+  showPassword: boolean = false;
 
   private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
@@ -24,13 +25,17 @@ export class LoginPage {
 
   private readonly emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  validateEmail(email: string): boolean {
-    return this.emailRegex.test(email);
+  validateEmailOrUsername(value: string): boolean {
+    return value.trim().length > 0;
   }
 
-  onEmailInput(): void {
-    if (!this.emailTouched) {
-      this.emailTouched = true;
+  isEmail(value: string): boolean {
+    return this.emailRegex.test(value);
+  }
+
+  onEmailOrUsernameInput(): void {
+    if (!this.emailOrUsernameTouched) {
+      this.emailOrUsernameTouched = true;
     }
   }
 
@@ -40,16 +45,15 @@ export class LoginPage {
     }
   }
 
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
   async login(): Promise<void> {
-    if (!this.email || !this.password) {
-      this.emailTouched = true;
+    if (!this.emailOrUsername || !this.password) {
+      this.emailOrUsernameTouched = true;
       this.passwordTouched = true;
       this.notificationService.error('LOGIN.ERROR.EMPTY_CREDENTIALS');
-      return;
-    }
-    if (!this.validateEmail(this.email)) {
-      this.emailTouched = true;
-      this.notificationService.error('LOGIN.ERROR.INVALID_EMAIL');
       return;
     }
     if (this.password.length < 8) {
@@ -61,7 +65,7 @@ export class LoginPage {
     this.isLoading = true;
 
     try {
-      await this.authService.login(this.email, this.password);
+      await this.authService.login(this.emailOrUsername, this.password);
       await this.router.navigate(['/home']);
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'LOGIN.ERROR.LOGIN_FAILED';

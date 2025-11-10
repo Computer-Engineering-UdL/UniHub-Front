@@ -4,8 +4,9 @@
   },
   "LOGIN": {
     "TITLE": "Benvingut de nou!",
-    "SUBTITLE": "Troba el teu allotjament estudiantil perfecte",
+    "SUBTITLE": "Connecta amb estudiants, troba allotjament i comparteix recursos",
     "EMAIL": "Correu electrònic",
+    "EMAIL_OR_USERNAME": "Correu electrònic o nom d'usuari",
     "PASSWORD": "Contrasenya",
     "SIGN_IN": "Inicia sessió",
     "OR_CONTINUE_WITH": "o continua amb",

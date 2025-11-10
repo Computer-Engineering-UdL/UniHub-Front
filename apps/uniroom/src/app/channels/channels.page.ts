@@ -90,23 +90,25 @@ export class ChannelsPage implements OnInit, OnDestroy {
   private async loadChannelMembers(): Promise<void> {
     await Promise.all(
       this.channels.map(async (channel: Channel): Promise<void> => {
-        try {
-          channel.member_count = channel.members_count || 0;
-
-          if (this.currentUser) {
-            const members: ChannelMember[] = await this.channelService.getChannelMembers(channel.id);
-            channel.is_member = members.some(
-              (member: ChannelMember): boolean => member.user_id === this.currentUser!.id
-            );
-          } else {
-            channel.is_member = false;
-          }
-        } catch (_) {
-          channel.member_count = channel.members_count || 0;
-          channel.is_member = false;
-        }
+        await this.reloadChannelMembers(channel);
       })
     );
+  }
+
+  private async reloadChannelMembers(channel: Channel): Promise<void> {
+    try {
+      const members: ChannelMember[] = await this.channelService.getChannelMembers(channel.id);
+      channel.member_count = members.length;
+
+      if (this.currentUser) {
+        channel.is_member = members.some((member: ChannelMember): boolean => member.user_id === this.currentUser!.id);
+      } else {
+        channel.is_member = false;
+      }
+    } catch (_) {
+      channel.member_count = channel.member_count || 0;
+      channel.is_member = false;
+    }
   }
 
   filterChannels(): void {
@@ -290,10 +292,6 @@ export class ChannelsPage implements OnInit, OnDestroy {
 
   getChannelEmoji(channel: Channel): string {
     return channel.emoji || this.getCategoryEmoji(channel.category);
-  }
-
-  navigateToChannelDetail(channelId: string): void {
-    void this.router.navigate(['/channels', channelId]);
   }
 
   get isAdmin(): boolean {

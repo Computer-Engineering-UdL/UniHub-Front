@@ -4,8 +4,9 @@
   },
   "LOGIN": {
     "TITLE": "¡Bienvenido de nuevo!",
-    "SUBTITLE": "Encuentra tu alojamiento estudiantil perfecto",
+    "SUBTITLE": "Conecta con estudiantes, encuentra alojamiento y comparte recursos",
     "EMAIL": "Correo electrónico",
+    "EMAIL_OR_USERNAME": "Correo electrónico o nombre de usuario",
     "PASSWORD": "Contraseña",
     "SIGN_IN": "Iniciar sesión",
     "OR_CONTINUE_WITH": "o continuar con",
