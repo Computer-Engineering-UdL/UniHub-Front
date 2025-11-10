@@ -89,15 +89,23 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   async loadMessages(silent: boolean = false, scrollToBottom: boolean = true): Promise<void> {
-    if (!this.channelId) return;
+    if (!this.channelId) {
+      return;
+    }
     try {
-      if (!silent) this.isLoadingMessages = true;
+      if (!silent) {
+        this.isLoadingMessages = true;
+      }
       this.messages = await this.channelService.getChannelMessages(this.channelId);
       this.groupMessagesByDate();
     } catch {
-      if (!silent) this.notificationService.error('CHANNELS.DETAIL.ERROR.LOAD_MESSAGES');
+      if (!silent) {
+        this.notificationService.error('CHANNELS.DETAIL.ERROR.LOAD_MESSAGES');
+      }
     } finally {
-      if (!silent) this.isLoadingMessages = false;
+      if (!silent) {
+        this.isLoadingMessages = false;
+      }
     }
   }
 
@@ -118,7 +126,9 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   async loadMembers(): Promise<void> {
-    if (!this.channelId) return;
+    if (!this.channelId) {
+      return;
+    }
     try {
       this.members = await this.channelService.getChannelMembers(this.channelId);
     } catch {
@@ -131,7 +141,9 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   async sendMessage(): Promise<void> {
-    if (!this.messageContent.trim() || !this.canWriteInChannel() || !this.currentUser) return;
+    if (!this.messageContent.trim() || !this.canWriteInChannel() || !this.currentUser) {
+      return;
+    }
     const content: string = this.messageContent.trim();
     this.messageContent = '';
     try {
@@ -159,7 +171,9 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   async deleteMessage(message: ChannelMessage): Promise<void> {
-    if (!this.canDeleteMessage(message)) return;
+    if (!this.canDeleteMessage(message)) {
+      return;
+    }
     const alert: HTMLIonAlertElement = await this.alertController.create({
       cssClass: 'custom-delete-alert',
       header: this.translate.instant('CHANNELS.DETAIL.DELETE_MESSAGE'),
@@ -186,7 +200,9 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   startEditMessage(message: ChannelMessage): void {
-    if (!this.isMyMessage(message)) return;
+    if (!this.isMyMessage(message)) {
+      return;
+    }
     this.editingMessageId = message.id;
     this.messageContent = message.content;
     this.replyingToMessage = null;
@@ -218,15 +234,21 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   getReplyMessageContent(message: ChannelMessage): string {
-    if (!message.reply_message) return '';
+    if (!message.reply_message) {
+      return '';
+    }
     return message.reply_message.content.length > 50
       ? message.reply_message.content.substring(0, 50) + '...'
       : message.reply_message.content;
   }
 
   getReplyMessageSender(message: ChannelMessage): string {
-    if (!message.reply_message) return '';
-    if (message.reply_message.user_id === this.currentUser?.id) return this.translate.instant('COMMON.YOU');
+    if (!message.reply_message) {
+      return '';
+    }
+    if (message.reply_message.user_id === this.currentUser?.id) {
+      return this.translate.instant('COMMON.YOU');
+    }
     if (message.reply_message.sender) {
       return (
         message.reply_message.sender.fullName ||
@@ -239,7 +261,9 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   canWriteInChannel(): boolean {
-    if (!this.channel || !this.currentUser) return false;
+    if (!this.channel || !this.currentUser) {
+      return false;
+    }
     return this.hasRequiredRole(this.currentUser.role, this.channel.required_role_write);
   }
 
@@ -267,13 +291,19 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     const today: Date = new Date();
     const yesterday: Date = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
-    if (date.toDateString() === today.toDateString()) return this.translate.instant('TIME.TODAY');
-    if (date.toDateString() === yesterday.toDateString()) return this.translate.instant('TIME.YESTERDAY');
+    if (date.toDateString() === today.toDateString()) {
+      return this.translate.instant('TIME.TODAY');
+    }
+    if (date.toDateString() === yesterday.toDateString()) {
+      return this.translate.instant('TIME.YESTERDAY');
+    }
     return this.localizationService.formatDate(date, { weekday: 'long', day: 'numeric', month: 'long' });
   }
 
   getUserAvatar(message: ChannelMessage): string {
-    if (this.isMyMessage(message) && this.currentUser) return this.currentUser.imgUrl || this.defaultUserUrl;
+    if (this.isMyMessage(message) && this.currentUser) {
+      return this.currentUser.imgUrl || this.defaultUserUrl;
+    }
     return message.sender?.imgUrl || this.defaultUserUrl;
   }
 

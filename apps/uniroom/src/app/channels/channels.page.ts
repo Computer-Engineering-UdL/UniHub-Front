@@ -201,7 +201,9 @@ export class ChannelsPage implements OnInit, OnDestroy {
   }
 
   async leaveChannel(channel: Channel): Promise<void> {
-    if (!this.currentUser) return;
+    if (!this.currentUser) {
+      return;
+    }
 
     try {
       // Mark this channel as not a member locally to avoid reloading all channels
