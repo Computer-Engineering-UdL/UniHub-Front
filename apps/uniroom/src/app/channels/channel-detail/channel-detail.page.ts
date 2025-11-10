@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, OnInit, ViewChildren, ElementRef, QueryLi
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription, interval } from 'rxjs';
+import { Subscription, interval, firstValueFrom } from 'rxjs';
 import { Channel, ChannelMember, ChannelRole } from '../../models/channel.types';
 import { ChannelMessage } from '../../models/message.types';
 import { User, Role, DEFAULT_USER_URL } from '../../models/auth.types';
@@ -10,6 +10,7 @@ import { ChannelService } from '../../services/channel.service';
 import { AuthService } from '../../services/auth.service';
 import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
+import { ApiService } from '../../services/api.service';
 
 interface MessageGroup {
   date: string;
@@ -29,6 +30,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   private router: Router = inject(Router);
   private channelService: ChannelService = inject(ChannelService);
   private authService: AuthService = inject(AuthService);
+  private apiService: ApiService = inject(ApiService);
   private alertController: AlertController = inject(AlertController);
   private notificationService: NotificationService = inject(NotificationService);
   private localizationService: LocalizationService = inject(LocalizationService);
@@ -42,11 +44,13 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   messages: ChannelMessage[] = [];
   messageGroups: MessageGroup[] = [];
   members: ChannelMember[] = [];
+  adminMembers: ChannelMember[] = [];
+  moderatorMembers: ChannelMember[] = [];
+  regularMembers: ChannelMember[] = [];
   currentUser: User | null = null;
   isLoading: boolean = true;
   isLoadingMessages: boolean = false;
   messageContent: string = '';
-  selectedSegment: 'messages' | 'members' = 'messages';
   editingMessageId: string | null = null;
   replyingToMessage: ChannelMessage | null = null;
 
@@ -61,6 +65,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     if (this.channelId) {
       await this.loadChannel();
       await this.loadMessages();
+      await this.loadMembers();
       this.startMessagesRefresh();
     }
   }
@@ -134,14 +139,25 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
       return;
     }
     try {
-      this.members = await this.channelService.getChannelMembers(this.channelId);
+      const membersData: ChannelMember[] = await this.channelService.getChannelMembers(this.channelId);
+
+      this.members = await Promise.all(
+        membersData.map(async (member: ChannelMember): Promise<ChannelMember> => {
+          try {
+            const user: User = await firstValueFrom(this.apiService.get<User>(`user/${member.user_id}`));
+            return { ...member, user };
+          } catch (_) {
+            return member;
+          }
+        })
+      );
+
+      this.adminMembers = this.members.filter((member: ChannelMember): boolean => member.role === 'admin');
+      this.moderatorMembers = this.members.filter((member: ChannelMember): boolean => member.role === 'moderator');
+      this.regularMembers = this.members.filter((member: ChannelMember): boolean => member.role === 'user');
     } catch {
       this.notificationService.error('CHANNELS.DETAIL.ERROR.LOAD_MEMBERS');
     }
-  }
-
-  async onSegmentChange(event: any): Promise<void> {
-    this.selectedSegment = event.detail.value;
   }
 
   async sendMessage(): Promise<void> {

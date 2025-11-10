@@ -551,7 +551,11 @@
     "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar el canal {{name}}? Esta acción no se puede deshacer.",
     "DETAIL": {
       "MEMBERS_TAB": "Miembros",
+      "MEMBERS": "Miembros",
       "MEMBERS_COUNT": "{{count}} miembros",
+      "ADMINS": "Administradores",
+      "MODERATORS": "Moderadores",
+      "REGULAR_MEMBERS": "Miembros",
       "LOADING": "Cargando...",
       "NO_MEMBERS": "No hay miembros",
       "NO_MESSAGES": "No hay mensajes",

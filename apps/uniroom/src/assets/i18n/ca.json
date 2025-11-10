@@ -551,7 +551,11 @@
     "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar el canal {{name}}? Aquesta acció no es pot desfer.",
     "DETAIL": {
       "MEMBERS_TAB": "Membres",
+      "MEMBERS": "Membres",
       "MEMBERS_COUNT": "{{count}} membres",
+      "ADMINS": "Administradors",
+      "MODERATORS": "Moderadors",
+      "REGULAR_MEMBERS": "Membres",
       "LOADING": "Carregant...",
       "NO_MEMBERS": "No hi ha membres",
       "NO_MESSAGES": "No hi ha missatges",

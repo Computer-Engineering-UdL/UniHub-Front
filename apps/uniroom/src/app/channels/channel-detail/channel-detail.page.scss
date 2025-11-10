@@ -96,11 +96,13 @@ ion-header {
 .channel-detail-container {
   height: 100%;
   display: flex;
-  flex-direction: column;
-}
+  flex-direction: row;
+  gap: 0;
+  overflow: hidden;
 
-.channel-emoji {
-  margin-right: 0.5rem;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
 .messages-section {
@@ -109,12 +111,157 @@ ion-header {
   flex-direction: column;
   overflow-y: auto;
   padding: 1rem;
+  min-width: 0;
+  order: 1;
+
+  @media (max-width: 768px) {
+    flex: 1;
+    order: 1;
+  }
+}
+
+.members-section {
+  width: 320px;
+  min-width: 320px;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--ion-border-color);
+  background: var(--ion-card-background);
+  overflow-y: auto;
+  order: 2;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+
+  .members-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid var(--ion-border-color);
+    position: sticky;
+    top: 0;
+    background: var(--ion-card-background);
+    z-index: 10;
+
+    h4 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ion-text-color);
+    }
+
+    ion-badge {
+      font-size: 0.75rem;
+    }
+  }
+
+  .members-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem;
+  }
+
+  .member-role-group {
+    margin-bottom: 1.5rem;
+
+    &:last-child {
+      margin-bottom: 0.5rem;
+    }
+
+    .role-group-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      margin-bottom: 0.5rem;
+      background: rgba(var(--ion-color-primary-rgb), 0.05);
+      border-radius: 8px;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+
+      ion-icon {
+        font-size: 1.125rem;
+        color: var(--ion-color-primary);
+      }
+
+      span {
+        font-size: 0.813rem;
+        font-weight: 600;
+        color: var(--ion-text-color);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        flex: 1;
+      }
+
+      ion-badge {
+        font-size: 0.688rem;
+      }
+    }
+
+    .member-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      margin-bottom: 0.25rem;
+      border-radius: 8px;
+      transition: background 0.2s;
+      cursor: pointer;
+
+      &:hover {
+        background: var(--ion-color-light);
+      }
+
+      ion-avatar {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .member-info {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.125rem;
+
+        .member-name {
+          font-size: 0.938rem;
+          font-weight: 600;
+          color: var(--ion-text-color);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .member-role {
+          font-size: 0.75rem;
+          color: var(--ion-text-color-secondary);
+        }
+      }
+    }
+  }
+
+  .empty-state {
+    padding: 2rem 1rem;
+  }
 }
 
 .messages-list {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 1.5rem;
+  overflow-y: auto;
 }
 
 .message-date-group {
@@ -383,49 +530,6 @@ ion-header {
   }
 }
 
-.members-section {
-  flex: 1;
-  overflow-y: auto;
-  padding: 1rem;
-
-  ion-list {
-    background: transparent;
-
-    ion-item {
-      margin-bottom: 0.5rem;
-      border-radius: 8px;
-      --background: var(--ion-card-background);
-      box-shadow: 0 2px 4px var(--ion-shadow-color);
-
-      ion-avatar {
-        width: 40px;
-        height: 40px;
-
-        ion-icon {
-          font-size: 40px;
-          color: var(--ion-color-medium);
-        }
-      }
-
-      ion-label {
-        h3 {
-          font-weight: 600;
-          color: var(--ion-text-color);
-        }
-
-        p {
-          color: var(--ion-text-color-secondary);
-          font-size: 0.875rem;
-        }
-      }
-
-      ion-badge {
-        font-size: 0.75rem;
-      }
-    }
-  }
-}
-
 ion-footer {
   ion-toolbar {
     --background: var(--ion-card-background);
@@ -594,50 +698,4 @@ ion-footer {
   p {
     color: var(--ion-text-color-secondary);
   }
-}
-
-.channel-emoji {
-  margin-right: 0.5rem;
-}
-
-@media (max-width: 768px) {
-  .channel-detail-container {
-    padding: 0.5rem;
-  }
-
-  .channel-header {
-    .channel-info {
-      h1 {
-        font-size: 1.5rem;
-      }
-
-      .channel-meta {
-        justify-content: center;
-      }
-    }
-  }
-}
-
-.channel-detail-container,
-.messages-section {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.messages-list {
-  flex: 1;
-  overflow: auto;
-  display: flex;
-  flex-direction: column-reverse;
-}
-
-.no-top-padding {
-  --padding-top: 0;
-  --padding-bottom: 0;
-}
-
-.highlight-message {
-  outline: 2px solid var(--ion-color-primary);
-  transition: outline 2s ease;
 }

@@ -1,3 +1,5 @@
+import { User } from './auth.types';
+
 export type ChannelType = 'public' | 'private';
 export type ChannelRole = 'Basic' | 'Seller' | 'Admin';
 export type ChannelCategory = 'General' | 'Engineering' | 'Sciences' | 'Business' | 'Arts' | 'Medicine';
@@ -6,7 +8,7 @@ export interface ChannelMembership {
   id: string;
   user_id: string;
   channel_id: string;
-  role: 'member' | 'moderator' | 'admin';
+  role: 'user' | 'member' | 'moderator' | 'admin';
   joined_at: string;
 }
 
@@ -38,12 +40,13 @@ export interface Channel {
 }
 
 export interface ChannelMember {
-  id: string;
+  id?: string;
   user_id: string;
   channel_id: string;
-  role: 'member' | 'moderator' | 'admin';
+  role: 'user' | 'member' | 'moderator' | 'admin';
   joined_at: string;
   is_banned: boolean;
+  user?: User;
 }
 
 export interface CreateChannelDto {
