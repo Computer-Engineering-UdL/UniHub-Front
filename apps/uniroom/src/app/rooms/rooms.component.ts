@@ -310,7 +310,10 @@ export class RoomsComponent implements OnInit {
       'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=600&fit=crop'
     ];
 
-    this.offers.forEach((offer: any, index: number): void => {
+    this.offers.forEach((offer: OfferListItem & { image?: string | null }, index: number): void => {
+      if (!offer.image && offer.base_image) {
+        offer.image = offer.base_image;
+      }
       if (!offer.image) {
         offer.image = placeholderImages[index % placeholderImages.length];
       }

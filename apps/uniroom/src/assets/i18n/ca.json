@@ -423,6 +423,8 @@
       "COORDINATES_HELPER": "S'utilitza per mostrar la ubicació al mapa",
       "UPLOAD_BUTTON": "Tria fotos",
       "UPLOAD_PHOTOS_HELPER": "Afegeix fins a {{max}} imatges per mostrar la teva oferta.",
+      "PHOTO_TYPE_NOT_ALLOWED": "Només s'admeten imatges JPEG, PNG, GIF o WebP.",
+      "PHOTO_SIZE_EXCEEDED": "Cada foto ha de ser més petita de {{maxSize}} MB.",
       "PHOTOS_LIMIT": "Pots pujar fins a {{max}} fotos.",
       "NO_PHOTOS": "Encara no hi ha fotos seleccionades",
       "PRIMARY_BADGE": "Portada",

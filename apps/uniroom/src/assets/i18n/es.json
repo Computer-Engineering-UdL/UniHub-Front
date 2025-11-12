@@ -424,6 +424,8 @@
       "COORDINATES_HELPER": "Se utiliza para mostrar la ubicación en el mapa",
       "UPLOAD_BUTTON": "Elegir fotos",
       "UPLOAD_PHOTOS_HELPER": "Añade hasta {{max}} imágenes para mostrar tu oferta.",
+      "PHOTO_TYPE_NOT_ALLOWED": "Solo se admiten imágenes JPEG, PNG, GIF o WebP.",
+      "PHOTO_SIZE_EXCEEDED": "Cada foto debe tener menos de {{maxSize}} MB.",
       "PHOTOS_LIMIT": "Puedes subir hasta {{max}} fotos.",
       "NO_PHOTOS": "Aún no hay fotos seleccionadas",
       "PRIMARY_BADGE": "Portada",

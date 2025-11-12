@@ -5,7 +5,7 @@ import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import {
   CreateOfferData,
-  CreateOfferPhoto,
+  FileMetadata,
   GenderPreference,
   Offer,
   OfferHouseRules,
@@ -22,6 +22,12 @@ interface SelectedPhotoPreview {
   file: File;
   preview: string;
   isPrimary: boolean;
+}
+class PhotoUploadException extends Error {
+  constructor(message: string = 'PHOTO_UPLOAD_FAILED') {
+    super(message);
+    this.name = 'PhotoUploadException';
+  }
 }
 
 type OfferFormValue = {
@@ -76,6 +82,15 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   readonly maxPhotoCount: number = 10;
   photoUploadError: string | null = null;
   photoPreviews: SelectedPhotoPreview[] = [];
+
+  readonly allowedPhotoMimeTypes: Set<string> = new Set([
+    'image/jpeg',
+    'image/png',
+    'image/gif',
+    'image/webp'
+  ]);
+  readonly maxPhotoSizeBytes: number = 10 * 1024 * 1024;
+  readonly maxPhotoSizeMB: number = 10;
 
   readonly additionalAmenities: Array<{ control: string; labelKey: string; defaultSelected: boolean }> =
     ADDITIONAL_AMENITIES.map((amenity) => ({
@@ -238,7 +253,9 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     }
 
     this.isSubmitting = true;
+    this.photoUploadError = null;
 
+    let uploadedFiles: FileMetadata[] = [];
     try {
       const user: User | null = await firstValueFrom(this.authService.currentUser$);
       if (!user) {
@@ -247,20 +264,31 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
         return;
       }
 
+      uploadedFiles = await this.uploadSelectedPhotos();
+      const photoIds: string[] | null = uploadedFiles.length
+        ? uploadedFiles.map((file) => file.id)
+        : null;
+
       const offerData: CreateOfferData = {
-        ...this.buildOfferPayload(),
+        ...this.buildOfferPayload(photoIds),
         user_id: user.id
       };
 
       const createdOffer: Offer = await firstValueFrom(this.apiService.post<Offer>('offers/', offerData));
 
-      await this.uploadPhotosForOffer(createdOffer.id);
-
       await this.modalController.dismiss(createdOffer, 'created');
     } catch (error) {
-      this.isSubmitting = false;
       console.error('Failed to create offer', error);
+      if (error instanceof PhotoUploadException) {
+        // Upload method already notified the user.
+        return;
+      }
+      if (uploadedFiles.length) {
+        await this.cleanupUploadedFiles(uploadedFiles.map((file) => file.id));
+      }
       this.notificationService.error('ROOM.FORM.CREATE_ERROR');
+    } finally {
+      this.isSubmitting = false;
     }
   }
 
@@ -371,15 +399,32 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     const availableSlots: number = this.maxPhotoCount - this.photoPreviews.length;
     const filesToProcess: File[] = Array.from(files).slice(0, Math.max(availableSlots, 0));
 
+    let errorKey: string | null = null;
+    let errorParams: Record<string, unknown> = {};
+
     if (files.length > filesToProcess.length) {
-      this.photoUploadError = this.translateService.instant('ROOM.FORM.PHOTOS_LIMIT', {
-        max: this.maxPhotoCount
-      });
-    } else {
-      this.photoUploadError = null;
+      errorKey = 'ROOM.FORM.PHOTOS_LIMIT';
+      errorParams = { max: this.maxPhotoCount };
     }
 
-    filesToProcess.forEach((file: File) => {
+    const validFiles: File[] = filesToProcess.filter((file: File) => {
+      if (!this.allowedPhotoMimeTypes.has(file.type)) {
+        if (!errorKey) {
+          errorKey = 'ROOM.FORM.PHOTO_TYPE_NOT_ALLOWED';
+        }
+        return false;
+      }
+      if (file.size > this.maxPhotoSizeBytes) {
+        errorKey = 'ROOM.FORM.PHOTO_SIZE_EXCEEDED';
+        errorParams = { maxSize: this.maxPhotoSizeMB };
+        return false;
+      }
+      return true;
+    });
+
+    this.photoUploadError = errorKey ? this.translateService.instant(errorKey, errorParams) : null;
+
+    validFiles.forEach((file: File) => {
       const reader: FileReader = new FileReader();
       reader.onload = () => {
         const preview: string = typeof reader.result === 'string' ? reader.result : '';
@@ -427,7 +472,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     this.photoPreviews = newOrder.map((photo, idx) => ({ ...photo, isPrimary: idx === 0 }));
   }
 
-  private buildOfferPayload(): Omit<CreateOfferData, 'user_id'> {
+  private buildOfferPayload(photoIds: string[] | null): Omit<CreateOfferData, 'user_id'> {
     const {
       amenities,
       house_rules,
@@ -470,7 +515,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       longitude: this.toNullableNumber(longitude),
       amenities: this.mapAmenitiesToPayload(amenities),
       rules: this.normalizeRules(house_rules),
-      photos: this.buildPhotoPayload(),
+      photo_ids: photoIds && photoIds.length ? photoIds : null,
       furnished: formData.furnished,
       utilities_included: formData.utilities_included,
       internet_included: formData.internet_included
@@ -496,17 +541,6 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       normalized[key] = value;
     });
     return normalized;
-  }
-
-  private buildPhotoPayload(): CreateOfferPhoto[] | null {
-    if (!this.photoPreviews.length) {
-      return null;
-    }
-
-    return this.photoPreviews.map((photo, index) => ({
-      url: photo.preview,
-      is_primary: index === 0
-    }));
   }
 
   private setupAddressSynchronization(): void {
@@ -596,31 +630,47 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     return parts.join(', ');
   }
 
-  private async uploadPhotosForOffer(offerId: string): Promise<void> {
-    if (!offerId || !this.photoPreviews.length) {
-      return;
+  private async uploadSelectedPhotos(): Promise<FileMetadata[]> {
+    if (!this.photoPreviews.length) {
+      return [];
     }
 
-    const uploadPromises: Promise<void>[] = this.photoPreviews.map(async (photo, index) => {
-      const formData = new FormData();
-      formData.append('offer_id', offerId);
-      formData.append('file', photo.file);
-      formData.append('is_primary', String(index === 0));
+    const uploadedFiles: FileMetadata[] = [];
 
+    try {
+      for (const photo of this.photoPreviews) {
+        const formData: FormData = new FormData();
+        formData.append('file', photo.file);
+        formData.append('is_public', 'true');
+
+        const response: FileMetadata = await firstValueFrom(
+          this.apiService.post<FileMetadata>('files/', formData)
+        );
+        uploadedFiles.push(response);
+      }
+
+      return uploadedFiles;
+    } catch (error) {
+      console.error('Failed to upload photo:', error);
+      const uploadedIds: string[] = uploadedFiles.map((file) => file.id);
+      if (uploadedIds.length) {
+        await this.cleanupUploadedFiles(uploadedIds);
+      }
+      this.notificationService.error('ROOM.FORM.PHOTO_UPLOAD_FAILED');
+      throw new PhotoUploadException();
+    }
+  }
+
+  private async cleanupUploadedFiles(fileIds: string[]): Promise<void> {
+    const cleanupTasks: Promise<void>[] = fileIds.map(async (fileId: string) => {
       try {
-        await firstValueFrom(this.apiService.post('photos/photos/', formData));
-      } catch (error) {
-        console.error('Failed to upload photo:', error);
-        throw error;
+        await firstValueFrom(this.apiService.delete(`files/${fileId}`));
+      } catch (cleanupError) {
+        console.warn('Failed to clean up uploaded file', cleanupError);
       }
     });
 
-    try {
-      await Promise.all(uploadPromises);
-    } catch (error) {
-      console.error('Some photos failed to upload:', error);
-      this.notificationService.warning('ROOM.FORM.PHOTO_UPLOAD_PARTIAL');
-    }
+    await Promise.all(cleanupTasks);
   }
 
   private normalizeString(value: string | null | undefined): string | null {

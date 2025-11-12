@@ -1,6 +1,26 @@
 export type OfferStatus = 'active' | 'inactive' | 'pending' | 'expired';
 export type GenderPreference = 'any' | 'male' | 'female' | 'other';
 
+export interface FileMetadata {
+  id: string;
+  filename: string;
+  content_type: string;
+  file_size: number;
+  uploaded_at: string;
+  is_public: boolean;
+  public_url?: string | null;
+}
+
+export interface OfferPhoto {
+  id: string;
+  order: number;
+  category: string;
+  file_id: string;
+  url?: string | null;
+  file_metadata?: FileMetadata | null;
+  is_primary?: boolean;
+}
+
 export interface Offer {
   id: string;
   category_id: string;
@@ -23,7 +43,9 @@ export interface Offer {
   status: OfferStatus;
   user_id: string;
   posted_date: string;
-  photos: OfferPhoto[];
+  photos?: OfferPhoto[] | null;
+  photo_count?: number;
+  base_image?: string | null;
   floor?: number | null;
   distance_from_campus?: string | null;
   utilities_cost?: number | null;
@@ -33,27 +55,17 @@ export interface Offer {
   rules?: OfferHouseRules | null;
   latitude?: number | null;
   longitude?: number | null;
-}
-
-export interface OfferPhoto {
-  id: string;
-  url: string;
-  is_primary?: boolean;
-}
-
-export interface CreateOfferPhoto {
-  url: string;
-  is_primary?: boolean;
+  category?: string | null;
 }
 
 export type OfferAmenity =
   | string
   | number
   | {
-      code?: string | number;
-      key?: string;
-      available?: boolean | null;
-    };
+  code?: string | number;
+  key?: string;
+  available?: boolean | null;
+};
 
 export type OfferHouseRules = Record<string, boolean>;
 
@@ -67,9 +79,12 @@ export interface OfferListItem {
   status: OfferStatus;
   posted_date: string;
   city: string;
-  image?: string;
+  base_image?: string | null;
+  image?: string | null;
   currency?: string;
   description?: string;
+  photo_count?: number;
+  amenities?: OfferAmenity[] | null;
 }
 
 export interface CreateOfferData {
@@ -101,5 +116,5 @@ export interface CreateOfferData {
   rules?: OfferHouseRules | null;
   latitude?: number | null;
   longitude?: number | null;
-  photos?: CreateOfferPhoto[] | null;
+  photo_ids?: string[] | null;
 }

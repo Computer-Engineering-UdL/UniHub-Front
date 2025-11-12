@@ -424,6 +424,8 @@
       "COORDINATES_HELPER": "Used to display the map location",
       "UPLOAD_BUTTON": "Choose photos",
       "UPLOAD_PHOTOS_HELPER": "Add up to {{max}} images to showcase your offer.",
+      "PHOTO_TYPE_NOT_ALLOWED": "Only JPEG, PNG, GIF or WebP images are supported.",
+      "PHOTO_SIZE_EXCEEDED": "Each photo must be smaller than {{maxSize}} MB.",
       "PHOTOS_LIMIT": "You can upload up to {{max}} photos.",
       "NO_PHOTOS": "No photos selected yet",
       "PRIMARY_BADGE": "Cover",

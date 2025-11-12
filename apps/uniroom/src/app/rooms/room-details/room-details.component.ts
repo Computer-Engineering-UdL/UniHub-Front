@@ -260,16 +260,29 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       'https://images.unsplash.com/photo-1505691723518-36a5ac3be353?w=1200&h=800&fit=crop'
     ];
 
-    if (!photos || photos.length === 0) {
-      return placeholders.map((url: string, index: number) => ({
-        url,
-        isPrimary: index === 0
-      }));
+    const normalizedPhotos: GalleryImage[] = (photos ?? [])
+      .slice()
+      .sort((a: OfferPhoto, b: OfferPhoto) => (a.order ?? 0) - (b.order ?? 0))
+      .map((photo: OfferPhoto, index: number) => {
+        const resolvedUrl: string | null =
+          photo.url ?? photo.file_metadata?.public_url ?? null;
+        if (!resolvedUrl) {
+          return null;
+        }
+        return {
+          url: resolvedUrl,
+          isPrimary: photo.is_primary === true || index === 0
+        };
+      })
+      .filter((photo): photo is GalleryImage => !!photo);
+
+    if (normalizedPhotos.length > 0) {
+      return normalizedPhotos;
     }
 
-    return photos.map((photo: OfferPhoto, index: number) => ({
-      url: photo.url,
-      isPrimary: photo.is_primary === true || index === 0
+    return placeholders.map((url: string, index: number) => ({
+      url,
+      isPrimary: index === 0
     }));
   }
 
