@@ -1,6 +1,26 @@
 export type OfferStatus = 'active' | 'inactive' | 'pending' | 'expired';
 export type GenderPreference = 'any' | 'male' | 'female' | 'other';
 
+export interface FileMetadata {
+  id: string;
+  filename: string;
+  content_type: string;
+  file_size: number;
+  uploaded_at: string;
+  is_public: boolean;
+  public_url?: string | null;
+}
+
+export interface OfferPhoto {
+  id: string;
+  order: number;
+  category: string;
+  file_id: string;
+  url?: string | null;
+  file_metadata?: FileMetadata | null;
+  is_primary?: boolean;
+}
+
 export interface Offer {
   id: string;
   category_id: string;
@@ -13,7 +33,7 @@ export interface Offer {
   address: string;
   start_date: string;
   end_date: string;
-  deposit: number;
+  deposit: number | null;
   num_rooms: number;
   num_bathrooms: number;
   furnished: boolean;
@@ -23,14 +43,31 @@ export interface Offer {
   status: OfferStatus;
   user_id: string;
   posted_date: string;
-  photos: OfferPhoto[];
+  photos?: OfferPhoto[] | null;
+  photo_count?: number;
+  base_image?: string | null;
+  floor?: number | null;
+  distance_from_campus?: string | null;
+  utilities_cost?: number | null;
+  utilities_description?: string | null;
+  contract_type?: string | null;
+  amenities?: OfferAmenity[] | null;
+  rules?: OfferHouseRules | null;
+  latitude?: number | null;
+  longitude?: number | null;
+  category?: string | null;
 }
 
-export interface OfferPhoto {
-  id: string;
-  url: string;
-  is_primary?: boolean;
-}
+export type OfferAmenity =
+  | string
+  | number
+  | {
+      code?: string | number;
+      key?: string;
+      available?: boolean | null;
+    };
+
+export type OfferHouseRules = Record<string, boolean>;
 
 export interface OfferListItem {
   id: string;
@@ -42,9 +79,12 @@ export interface OfferListItem {
   status: OfferStatus;
   posted_date: string;
   city: string;
-  image?: string;
+  base_image?: string | null;
+  image?: string | null;
   currency?: string;
   description?: string;
+  photo_count?: number;
+  amenities?: OfferAmenity[] | null;
 }
 
 export interface CreateOfferData {
@@ -58,7 +98,7 @@ export interface CreateOfferData {
   address: string;
   start_date: string;
   end_date: string;
-  deposit: number;
+  deposit: number | null;
   num_rooms: number;
   num_bathrooms: number;
   furnished: boolean;
@@ -67,4 +107,14 @@ export interface CreateOfferData {
   gender_preference: GenderPreference;
   status: OfferStatus;
   user_id: string;
+  floor?: number | null;
+  distance_from_campus?: string | null;
+  utilities_cost?: number | null;
+  utilities_description?: string | null;
+  contract_type?: string | null;
+  amenities?: OfferAmenity[] | null;
+  rules?: OfferHouseRules | null;
+  latitude?: number | null;
+  longitude?: number | null;
+  photo_ids?: string[] | null;
 }

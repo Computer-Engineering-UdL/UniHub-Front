@@ -1,0 +1,394 @@
+<ion-content [fullscreen]="true">
+  @if (loading) {
+    <div class="state-wrapper">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>{{ 'ROOM.DETAILS.LOADING' | translate }}</p>
+    </div>
+  }
+
+  @if (!loading && error) {
+    <div class="state-wrapper error">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <h2>{{ 'ROOM.DETAILS.ERROR_TITLE' | translate }}</h2>
+      <p>{{ 'ROOM.DETAILS.ERROR_MESSAGE' | translate }}</p>
+      <div class="error-actions">
+        <ion-button color="primary" (click)="goBackToList()">
+          <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+          {{ 'ROOM.DETAILS.GO_BACK' | translate }}
+        </ion-button>
+      </div>
+    </div>
+  }
+
+  @if (!loading && !error && offer; as room) {
+    <div class="room-details-page">
+      <div class="page-header">
+        <ion-button fill="clear" class="back-button" size="small" (click)="goBackToList()">
+          <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+          {{ 'ROOM.DETAILS.BACK_TO_LIST' | translate }}
+        </ion-button>
+
+        <div class="status-chip" [class.available]="room.isAvailable">
+          <ion-icon
+            [name]="room.isAvailable ? 'checkmark-circle' : 'pause-circle'"
+            aria-hidden="true"></ion-icon>
+          <span>
+            {{
+              room.isAvailable
+                ? ('ROOM.DETAILS.STATUS.AVAILABLE' | translate)
+                : ('ROOM.DETAILS.STATUS.UNAVAILABLE' | translate)
+            }}
+          </span>
+        </div>
+      </div>
+
+      <div class="title-section">
+        <div class="title-texts">
+          <h1>{{ room.title }}</h1>
+          <div class="address-line">
+            <ion-icon name="location-outline"></ion-icon>
+            <span class="address">{{ room.address }}, {{ room.city }}</span>
+            @if (room.distanceFromCampus) {
+              <ion-badge color="secondary" class="distance-chip">
+                {{ room.distanceFromCampus }}
+              </ion-badge>
+            }
+          </div>
+          @if (room.availableFrom || room.postedDate) {
+            <div class="availability-line">
+              <ion-icon name="calendar-outline"></ion-icon>
+              @if (room.availableFrom) {
+                <span>
+                  {{ 'ROOM.DETAILS.AVAILABLE_FROM' | translate: { date: room.availableFrom } }}
+                </span>
+              }
+              @if (room.postedDate) {
+                <span>
+                  · {{ 'ROOM.DETAILS.POSTED_ON' | translate: { date: room.postedDate } }}
+                </span>
+              }
+            </div>
+          }
+        </div>
+        <div class="price-highlight">
+          <span class="price">{{ room.priceFormatted }}</span>
+          <span class="period">{{ 'ROOM.PER_MONTH' | translate }}</span>
+        </div>
+      </div>
+
+      @if (room.photos.length > 0) {
+        <section class="gallery">
+          <div class="main-image">
+            <img
+              [src]="room.photos[selectedImageIndex].url"
+              [alt]="room.title"
+              class="hero-image" />
+            @if (room.photos.length > 1) {
+              <button type="button" class="nav prev" (click)="showPreviousImage()">
+                <ion-icon name="chevron-back"></ion-icon>
+              </button>
+            }
+            @if (room.photos.length > 1) {
+              <button type="button" class="nav next" (click)="showNextImage()">
+                <ion-icon name="chevron-forward"></ion-icon>
+              </button>
+            }
+            @if (room.photos.length > 1) {
+              <div class="image-counter">
+                {{ selectedImageIndex + 1 }} / {{ room.photos.length }}
+              </div>
+            }
+          </div>
+
+          @if (room.photos.length > 1) {
+            <div class="thumbnails">
+              @for (photo of room.photos; track $index) {
+                <button
+                  type="button"
+                  class="thumbnail"
+                  [class.active]="$index === selectedImageIndex"
+                  (click)="selectImage($index)">
+                  <img [src]="photo.url" [alt]="room.title" />
+                </button>
+              }
+            </div>
+          }
+        </section>
+      }
+
+      <div class="content-grid">
+        <div class="main-column">
+          <ion-card class="summary-card">
+            <ion-card-content>
+              <div class="summary-grid">
+                <div class="summary-item">
+                  <ion-icon name="business-outline"></ion-icon>
+                  <div>
+                    <span class="label">{{ 'ROOM.DETAILS.MAIN_FEATURES.ROOMS' | translate }}</span>
+                    <span class="value">{{ room.numRooms ?? '—' }}</span>
+                  </div>
+                </div>
+                <div class="summary-item">
+                  <ion-icon name="water-outline"></ion-icon>
+                  <div>
+                    <span class="label">{{
+                      'ROOM.DETAILS.MAIN_FEATURES.BATHROOMS' | translate
+                    }}</span>
+                    <span class="value">{{ room.numBathrooms ?? '—' }}</span>
+                  </div>
+                </div>
+                <div class="summary-item">
+                  <ion-icon name="resize-outline"></ion-icon>
+                  <div>
+                    <span class="label">{{ 'ROOM.DETAILS.MAIN_FEATURES.AREA' | translate }}</span>
+                    <span class="value">{{ room.areaFormatted }} m²</span>
+                  </div>
+                </div>
+                <div class="summary-item">
+                  <ion-icon name="trending-up-outline"></ion-icon>
+                  <div>
+                    <span class="label">{{ 'ROOM.DETAILS.MAIN_FEATURES.FLOOR' | translate }}</span>
+                    <span class="value">{{ room.floor ?? '—' }}</span>
+                  </div>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="description-card">
+            <ion-card-header>
+              <ion-card-title>{{ 'ROOM.DETAILS.DESCRIPTION_TITLE' | translate }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p>
+                {{ room.description || ('ROOM.DETAILS.PLACEHOLDER_DESCRIPTION' | translate) }}
+              </p>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="amenities-card">
+            <ion-card-header>
+              <ion-card-title>{{ 'ROOM.DETAILS.AMENITIES_TITLE' | translate }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="amenities-grid">
+                @for (amenity of room.amenities; track $index) {
+                  <div
+                    class="amenity"
+                    [class.available]="amenity.available === true"
+                    [class.unavailable]="amenity.available === false">
+                    <ion-icon [name]="amenity.icon"></ion-icon>
+                    <div class="amenity-text">
+                      <span>{{ amenity.labelKey | translate }}</span>
+                      @if (amenity.available === true) {
+                        <small>{{ 'ROOM.DETAILS.AMENITIES.INCLUDED' | translate }}</small>
+                      }
+                      @if (amenity.available === false) {
+                        <small>{{ 'ROOM.DETAILS.AMENITIES.NOT_AVAILABLE' | translate }}</small>
+                      }
+                      @if (amenity.available === null) {
+                        <small>{{ 'ROOM.DETAILS.AMENITIES.NOT_SPECIFIED' | translate }}</small>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="house-rules-card">
+            <ion-card-header>
+              <ion-card-title>{{ 'ROOM.DETAILS.HOUSE_RULES_TITLE' | translate }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="rules-list">
+                @for (rule of room.houseRules; track $index) {
+                  <div class="rule">
+                    <span class="rule-label">{{ rule.labelKey | translate }}</span>
+                    <ion-chip [color]="rule.allowed ? 'success' : 'medium'">
+                      <ion-icon
+                        [name]="rule.allowed ? 'checkmark-circle-outline' : 'close-circle-outline'"
+                        slot="start"></ion-icon>
+                      {{
+                        rule.allowed
+                          ? ('ROOM.DETAILS.HOUSE_RULES.ALLOWED' | translate)
+                          : ('ROOM.DETAILS.HOUSE_RULES.NOT_ALLOWED' | translate)
+                      }}
+                    </ion-chip>
+                  </div>
+                }
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="financial-card">
+            <ion-card-header>
+              <ion-card-title>{{ 'ROOM.DETAILS.FINANCIAL_TITLE' | translate }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="financial-list">
+                @for (item of room.financialDetails; track $index) {
+                  <div class="financial-item">
+                    <span class="label">{{ item.labelKey | translate }}</span>
+                    <span class="value">{{ item.value }}</span>
+                    @if (item.description) {
+                      <span class="description">{{ item.description }}</span>
+                    }
+                  </div>
+                }
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="map-card">
+            <ion-card-header>
+              <ion-card-title>{{ 'ROOM.DETAILS.LOCATION_TITLE' | translate }}</ion-card-title>
+              @if (room.distanceFromCampus) {
+                <ion-card-subtitle>
+                  {{
+                    'ROOM.DETAILS.LOCATION.DISTANCE_FROM_CAMPUS'
+                      | translate: { distance: room.distanceFromCampus }
+                  }}
+                </ion-card-subtitle>
+              }
+            </ion-card-header>
+            <ion-card-content>
+              @if (room.mapUrl) {
+                <div class="map-wrapper">
+                  <iframe
+                    [src]="room.mapUrl"
+                    loading="lazy"
+                    width="100%"
+                    height="300"
+                    allowfullscreen
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+              } @else {
+                <div class="map-fallback">
+                  <ion-icon name="map-outline"></ion-icon>
+                  <p>{{ 'ROOM.DETAILS.MAP.UNAVAILABLE' | translate }}</p>
+                </div>
+              }
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+        <aside class="sidebar">
+          <ion-card class="landlord-card">
+            <ion-card-header>
+              <ion-card-title>{{ 'ROOM.DETAILS.LANDLORD_TITLE' | translate }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="landlord-header">
+                <div class="avatar" [class.has-image]="!!room.landlord.avatar">
+                  @if (room.landlord.avatar) {
+                    <img [ngSrc]="room.landlord.avatar" alt="{{ room.landlord.name }}" fill />
+                  } @else {
+                    <span>{{ room.landlord.initials }}</span>
+                  }
+                </div>
+                <div class="landlord-meta">
+                  <h3>{{ room.landlord.name }}</h3>
+                  @if (room.landlord.memberSince) {
+                    <p>
+                      {{
+                        'ROOM.DETAILS.LANDLORD.MEMBER_SINCE'
+                          | translate: { date: room.landlord.memberSince }
+                      }}
+                    </p>
+                  }
+                  @if (room.landlord.responseTime) {
+                    <p>{{ room.landlord.responseTime }}</p>
+                  }
+                  @if (room.landlord.lastSeen) {
+                    <p>
+                      {{
+                        'ROOM.DETAILS.LANDLORD.LAST_SEEN'
+                          | translate: { time: room.landlord.lastSeen }
+                      }}
+                    </p>
+                  }
+                </div>
+              </div>
+
+              @if (room.landlord.phone || room.landlord.email) {
+                <ion-list lines="none">
+                  @if (room.landlord.phone) {
+                    <ion-item>
+                      <ion-icon slot="start" name="call-outline"></ion-icon>
+                      <ion-label>{{ room.landlord.phone }}</ion-label>
+                    </ion-item>
+                  }
+                  @if (room.landlord.email) {
+                    <ion-item>
+                      <ion-icon slot="start" name="mail-outline"></ion-icon>
+                      <ion-label>{{ room.landlord.email }}</ion-label>
+                    </ion-item>
+                  }
+                </ion-list>
+              }
+
+              <div class="contact-actions">
+                <ion-button expand="block" color="primary">
+                  <ion-icon slot="start" name="chatbubble-ellipses-outline"></ion-icon>
+                  {{ 'ROOM.DETAILS.LANDLORD.ACTIONS.MESSAGE' | translate }}
+                </ion-button>
+                <ion-button expand="block" color="secondary" fill="outline">
+                  <ion-icon slot="start" name="calendar-clear-outline"></ion-icon>
+                  {{ 'ROOM.DETAILS.LANDLORD.ACTIONS.SCHEDULE' | translate }}
+                </ion-button>
+                <ion-button expand="block" color="medium" fill="outline">
+                  <ion-icon slot="start" name="call-outline"></ion-icon>
+                  {{ 'ROOM.DETAILS.LANDLORD.ACTIONS.CALL' | translate }}
+                </ion-button>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="availability-card">
+            <ion-card-header>
+              <ion-card-title>{{ 'ROOM.DETAILS.AVAILABILITY_TITLE' | translate }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="availability-item">
+                <span class="label">{{ 'ROOM.DETAILS.AVAILABILITY.LEASE_START' | translate }}</span>
+                <span class="value">
+                  {{ room.availableFrom || ('ROOM.DETAILS.FINANCIAL.NOT_SPECIFIED' | translate) }}
+                </span>
+              </div>
+              @if (room.leaseEnd) {
+                <div class="availability-item">
+                  <span class="label">{{ 'ROOM.DETAILS.AVAILABILITY.LEASE_END' | translate }}</span>
+                  <span class="value">{{ room.leaseEnd }}</span>
+                </div>
+              }
+              @if (room.offerValidUntil) {
+                <div class="availability-item">
+                  <span class="label">{{
+                    'ROOM.DETAILS.AVAILABILITY.OFFER_VALID_UNTIL' | translate
+                  }}</span>
+                  <span class="value">{{ room.offerValidUntil }}</span>
+                </div>
+              }
+              <div class="availability-item">
+                <span class="label">{{ 'ROOM.DETAILS.AVAILABILITY.LISTED_ON' | translate }}</span>
+                <span class="value">{{
+                  room.postedDate || ('ROOM.DETAILS.FINANCIAL.NOT_SPECIFIED' | translate)
+                }}</span>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="report-card">
+            <ion-card-content>
+              <ion-button expand="block" color="danger" fill="clear">
+                <ion-icon slot="start" name="flag-outline"></ion-icon>
+                {{ 'ROOM.DETAILS.REPORT_LISTING' | translate }}
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+        </aside>
+      </div>
+    </div>
+  }
+</ion-content>
