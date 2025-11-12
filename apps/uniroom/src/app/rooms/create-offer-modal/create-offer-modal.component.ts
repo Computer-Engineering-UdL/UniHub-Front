@@ -83,12 +83,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   photoUploadError: string | null = null;
   photoPreviews: SelectedPhotoPreview[] = [];
 
-  readonly allowedPhotoMimeTypes: Set<string> = new Set([
-    'image/jpeg',
-    'image/png',
-    'image/gif',
-    'image/webp'
-  ]);
+  readonly allowedPhotoMimeTypes: Set<string> = new Set(['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
   readonly maxPhotoSizeBytes: number = 10 * 1024 * 1024;
   readonly maxPhotoSizeMB: number = 10;
 
@@ -265,9 +260,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       }
 
       uploadedFiles = await this.uploadSelectedPhotos();
-      const photoIds: string[] | null = uploadedFiles.length
-        ? uploadedFiles.map((file) => file.id)
-        : null;
+      const photoIds: string[] | null = uploadedFiles.length ? uploadedFiles.map((file) => file.id) : null;
 
       const offerData: CreateOfferData = {
         ...this.buildOfferPayload(photoIds),
@@ -643,9 +636,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
         formData.append('file', photo.file);
         formData.append('is_public', 'true');
 
-        const response: FileMetadata = await firstValueFrom(
-          this.apiService.post<FileMetadata>('files/', formData)
-        );
+        const response: FileMetadata = await firstValueFrom(this.apiService.post<FileMetadata>('files/', formData));
         uploadedFiles.push(response);
       }
 

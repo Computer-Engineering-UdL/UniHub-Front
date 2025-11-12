@@ -264,8 +264,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       .slice()
       .sort((a: OfferPhoto, b: OfferPhoto) => (a.order ?? 0) - (b.order ?? 0))
       .map((photo: OfferPhoto, index: number) => {
-        const resolvedUrl: string | null =
-          photo.url ?? photo.file_metadata?.public_url ?? null;
+        const resolvedUrl: string | null = photo.url ?? photo.file_metadata?.public_url ?? null;
         if (!resolvedUrl) {
           return null;
         }
