@@ -4,8 +4,9 @@
   },
   "LOGIN": {
     "TITLE": "¡Bienvenido de nuevo!",
-    "SUBTITLE": "Encuentra tu alojamiento estudiantil perfecto",
+    "SUBTITLE": "Conecta con estudiantes, encuentra alojamiento y comparte recursos",
     "EMAIL": "Correo electrónico",
+    "EMAIL_OR_USERNAME": "Correo electrónico o nombre de usuario",
     "PASSWORD": "Contraseña",
     "SIGN_IN": "Iniciar sesión",
     "OR_CONTINUE_WITH": "o continuar con",
@@ -270,6 +271,7 @@
     "CANCEL": "Cancelar",
     "CONFIRM": "Confirmar",
     "SUSPEND": "Suspender",
+    "YOU": "Tú",
     "VALIDATION": {
       "FIELD_REQUIRED": "Este campo es obligatorio ({{min}}-{{max}} caracteres)"
     }
@@ -684,7 +686,47 @@
       }
     },
     "DELETE_CONFIRM_TITLE": "Eliminar Canal",
-    "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar el canal {{name}}? Esta acción no se puede deshacer."
+    "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar el canal {{name}}? Esta acción no se puede deshacer.",
+    "DETAIL": {
+      "MEMBERS_TAB": "Miembros",
+      "MEMBERS": "Miembros",
+      "MEMBERS_COUNT": "{{count}} miembros",
+      "ADMINS": "Administradores",
+      "MODERATORS": "Moderadores",
+      "REGULAR_MEMBERS": "Miembros",
+      "LOADING": "Cargando...",
+      "NO_MEMBERS": "No hay miembros",
+      "NO_MESSAGES": "No hay mensajes",
+      "NO_MESSAGES_DESCRIPTION": "Sé el primero en enviar un mensaje",
+      "ROLE_BASIC": "Básico",
+      "ROLE_SELLER": "Vendedor",
+      "ROLE_ADMIN": "Administrador",
+      "MEMBER": "Miembro",
+      "MODERATOR": "Moderador",
+      "ADMIN": "Admin",
+      "INSUFFICIENT_ROLE_WRITE": "No tienes el rol necesario para escribir en este canal",
+      "TYPE_MESSAGE": "Escribe un mensaje...",
+      "DELETE_MESSAGE": "Eliminar mensaje",
+      "DELETE_MESSAGE_CONFIRM": "¿Estás seguro de que quieres eliminar este mensaje?",
+      "EDITING_MESSAGE": "Editando mensaje",
+      "REPLYING_TO": "Respondiendo a",
+      "REPLY_TO": "Respuesta a",
+      "EDITED": "editado",
+      "ERROR": {
+        "LOAD_CHANNEL": "Error al cargar el canal",
+        "LOAD_MEMBERS": "Error al cargar los miembros",
+        "LOAD_MESSAGES": "Error al cargar los mensajes",
+        "SEND_MESSAGE": "Error al enviar el mensaje",
+        "DELETE_MESSAGE": "Error al eliminar el mensaje",
+        "EDIT_MESSAGE": "Error al editar el mensaje",
+        "REPLY_MESSAGE": "Error al responder el mensaje"
+      },
+      "SUCCESS": {
+        "DELETE_MESSAGE": "Mensaje eliminado correctamente",
+        "EDIT_MESSAGE": "Mensaje editado correctamente",
+        "REPLY_MESSAGE": "Respuesta enviada correctamente"
+      }
+    }
   },
   "MESSAGES": {
     "TITLE": "Mensajes",
@@ -712,10 +754,11 @@
     }
   },
   "TIME": {
-    "JUST_NOW": "ahora mismo",
+    "JUST_NOW": "justo ahora",
     "MINUTES_AGO": "hace {{count}} min",
     "HOURS_AGO": "hace {{count}}h",
-    "YESTERDAY": "ayer",
+    "TODAY": "Hoy",
+    "YESTERDAY": "Ayer",
     "DAYS_AGO": "hace {{count}} días"
   }
 }
