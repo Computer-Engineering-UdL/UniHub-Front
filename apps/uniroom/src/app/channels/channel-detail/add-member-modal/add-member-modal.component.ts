@@ -4,7 +4,7 @@ import { User } from '../../../models/auth.types';
 import { UserService } from '../../../services/user.service';
 import { ChannelService } from '../../../services/channel.service';
 import NotificationService from '../../../services/notification.service';
-import { Subject } from 'rxjs';
+import { async, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
@@ -22,6 +22,7 @@ import { AuthService } from '../../../services/auth.service';
 export class AddMemberModalComponent implements OnInit {
   @Input() channelId: string = '';
   @Input() existingMembers: User[] = [];
+  @Input() bannedMemberIds: string[] = [];
 
   private modalController: ModalController = inject(ModalController);
   private userService: UserService = inject(UserService);
@@ -81,8 +82,11 @@ export class AddMemberModalComponent implements OnInit {
 
   private filterUsers(users: User[]): User[] {
     const existingMemberIds: Set<string> = new Set(this.existingMembers.map((member: User): string => member.id));
+    const bannedIds: Set<string> = new Set(this.bannedMemberIds);
     return users.filter((user: User): boolean => {
-      return user.id !== this.currentUser?.id && !existingMemberIds.has(user.id);
+      return user.id !== this.currentUser?.id &&
+             !existingMemberIds.has(user.id) &&
+             !bannedIds.has(user.id);
     });
   }
 

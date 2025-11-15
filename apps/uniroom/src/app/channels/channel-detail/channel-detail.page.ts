@@ -383,7 +383,8 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
       component: AddMemberModalComponent,
       componentProps: {
         channelId: this.channelId,
-        existingMembers: this.members.map((m) => m.user).filter(Boolean) as User[]
+        existingMembers: this.members.map((m) => m.user).filter(Boolean) as User[],
+        bannedMemberIds: this.bannedMembers.map((m) => m.user_id)
       }
     });
     await modal.present();
