@@ -6,11 +6,17 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RoomsComponent } from './rooms.component';
 import { CreateOfferModalComponent } from './create-offer-modal/create-offer-modal.component';
+import { RoomDetailsComponent } from './room-details/room-details.component';
 
 const routes: Routes = [
   {
     path: '',
     component: RoomsComponent
+  },
+  {
+    path: 'details/:id',
+    component: RoomDetailsComponent,
+    data: { titleKey: 'ROOM.DETAILS.PAGE_TITLE' }
   }
 ];
 
@@ -24,6 +30,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     NgOptimizedImage
   ],
-  declarations: [RoomsComponent, CreateOfferModalComponent]
+  declarations: [RoomsComponent, CreateOfferModalComponent, RoomDetailsComponent]
 })
 export class RoomsModule {}

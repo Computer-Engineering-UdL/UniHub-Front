@@ -4,8 +4,9 @@
   },
   "LOGIN": {
     "TITLE": "Benvingut de nou!",
-    "SUBTITLE": "Troba el teu allotjament estudiantil perfecte",
+    "SUBTITLE": "Connecta amb estudiants, troba allotjament i comparteix recursos",
     "EMAIL": "Correu electrònic",
+    "EMAIL_OR_USERNAME": "Correu electrònic o nom d'usuari",
     "PASSWORD": "Contrasenya",
     "SIGN_IN": "Inicia sessió",
     "OR_CONTINUE_WITH": "o continua amb",
@@ -270,6 +271,7 @@
     "CANCEL": "Cancel·lar",
     "CONFIRM": "Confirmar",
     "SUSPEND": "Suspendre",
+    "YOU": "Tu",
     "VALIDATION": {
       "FIELD_REQUIRED": "Aquest camp és obligatori ({{min}}-{{max}} caràcters)"
     }
@@ -359,7 +361,7 @@
       "LOCATION": "Ubicació",
       "PRICING_DETAILS": "Preu i Detalls",
       "PROPERTY_DETAILS": "Detalls de la Propietat",
-      "AMENITIES": "Comoditats",
+      "PHOTOS": "Fotos",
       "DATES": "Dates",
       "TITLE": "Títol",
       "DESCRIPTION": "Descripció",
@@ -372,12 +374,62 @@
       "MONTH": "mes",
       "DEPOSIT": "Dipòsit",
       "AREA": "Àrea",
+      "FLOOR": "Planta",
+      "FLOOR_HELPER": "Número de planta opcional (0 per a planta baixa)",
+      "CONTRACT_TYPE": "Tipus de contracte",
+      "CONTRACT_TYPE_PLACEHOLDER": "Selecciona el tipus de contracte",
+      "CONTRACT_TYPE_LONG": "Llarg termini (mín. 6 mesos)",
+      "CONTRACT_TYPE_SHORT": "Curt termini (1-6 mesos)",
+      "CONTRACT_TYPE_ACADEMIC": "Estada acadèmica",
+      "CONTRACT_TYPE_OTHER": "Altres",
+      "UTILITIES_COST": "Cost estimat dels subministraments",
+      "UTILITIES_COST_HELPER": "Si no estan inclosos, indica un cost mensual aproximat",
+      "UTILITIES_DESCRIPTION": "Notes dels subministraments",
+      "UTILITIES_DESCRIPTION_PLACEHOLDER": "Descriu què inclouen els subministraments...",
+      "UTILITIES_DESCRIPTION_HELPER": "Afegeix context extra sobre factures o despeses compartides",
       "NUM_ROOMS": "Nombre d'Habitacions",
       "NUM_BATHROOMS": "Nombre de Banys",
+      "STREET": "Carrer",
+      "STREET_PLACEHOLDER": "Ex: Avinguda Principal",
+      "STREET_NUMBER": "Número",
+      "STREET_NUMBER_PLACEHOLDER": "Ex: 42",
+      "APARTMENT": "Pis / Porta",
+      "APARTMENT_PLACEHOLDER": "Ex: 3r 1a o Apt. 2B",
+      "APARTMENT_HELPER": "Opcional: afegeix planta, porta o detalls del pis",
+      "POSTAL_CODE": "Codi postal",
+      "POSTAL_CODE_PLACEHOLDER": "Ex: 25001",
+      "FULL_ADDRESS_PREVIEW": "Adreça completa",
+      "ADDRESS_PREVIEW_EMPTY": "Omple els camps per generar-la",
       "GENDER_PREFERENCE": "Preferència de Gènere",
       "FURNISHED": "Moblat",
       "UTILITIES_INCLUDED": "Subministraments Inclosos",
       "INTERNET_INCLUDED": "Internet Inclòs",
+      "ADDITIONAL_AMENITIES": "Serveis addicionals",
+      "HEATING": "Calefacció",
+      "PARKING": "Aparcament",
+      "KITCHEN": "Cuina equipada",
+      "TV": "Televisió",
+      "SECURITY": "Seguretat",
+      "BALCONY": "Balcó",
+      "HOUSE_RULES": "Normes de la casa",
+      "HOUSE_RULES_HELPER": "Indica què està permès a l'habitatge",
+      "RULE_SMOKING": "Es permet fumar",
+      "RULE_PETS": "Es permeten mascotes",
+      "RULE_COUPLES": "Es permeten parelles",
+      "DISTANCE_FROM_CAMPUS": "Distància al campus",
+      "DISTANCE_HELPER": "Opcional: temps o distància del trajecte",
+      "LATITUDE": "Latitud",
+      "LONGITUDE": "Longitud",
+      "COORDINATES_HELPER": "S'utilitza per mostrar la ubicació al mapa",
+      "UPLOAD_BUTTON": "Tria fotos",
+      "UPLOAD_PHOTOS_HELPER": "Afegeix fins a {{max}} imatges per mostrar la teva oferta.",
+      "PHOTO_TYPE_NOT_ALLOWED": "Només s'admeten imatges JPEG, PNG, GIF o WebP.",
+      "PHOTO_SIZE_EXCEEDED": "Cada foto ha de ser més petita de {{maxSize}} MB.",
+      "PHOTOS_LIMIT": "Pots pujar fins a {{max}} fotos.",
+      "NO_PHOTOS": "Encara no hi ha fotos seleccionades",
+      "PRIMARY_BADGE": "Portada",
+      "MAKE_PRIMARY": "Estableix com a portada",
+      "REMOVE_PHOTO": "Elimina la foto",
       "START_DATE": "Data d'Inici",
       "END_DATE": "Data de Fi",
       "VALID_UNTIL": "Oferta Vàlida Fins",
@@ -387,7 +439,10 @@
         "MALE": "Masculí",
         "FEMALE": "Femení",
         "OTHER": "Altre"
-      }
+      },
+      "CREATE_ERROR": "No s'ha pogut crear l'anunci. Revisa el formulari i torna-ho a provar.",
+      "PHOTO_UPLOAD_FAILED": "No s'han pogut pujar les fotos. Podràs afegir-les més endavant des de l'anunci.",
+      "PHOTO_UPLOAD_PARTIAL": "Algunes fotos no s'han pujat. L'anunci s'ha creat sense elles."
     },
     "CITIES": {
       "LLEIDA": "Lleida",
@@ -406,7 +461,93 @@
       "OTHER": "Altres",
       "ROOM": "Habitació",
       "FLAT": "Pis",
-      "DETACHED_HOUSE": "Casa Independent"
+      "DETACHED_HOUSE": "Casa independent"
+    },
+    "DETAILS": {
+      "PAGE_TITLE": "Detalls de l'anunci",
+      "BACK_TO_LIST": "Torna als anuncis",
+      "LOADING": "Carregant la informació de l'habitatge...",
+      "ERROR_TITLE": "Hi ha hagut un error",
+      "ERROR_MESSAGE": "No hem pogut carregar aquest anunci ara mateix. Torna-ho a provar més tard.",
+      "GO_BACK": "Torna enrere",
+      "STATUS": {
+        "AVAILABLE": "Disponible",
+        "UNAVAILABLE": "No disponible"
+      },
+      "AVAILABLE_FROM": "Disponible a partir del {{date}}",
+      "POSTED_ON": "Publicat el {{date}}",
+      "DESCRIPTION_TITLE": "Descripció",
+      "PLACEHOLDER_DESCRIPTION": "El propietari encara no ha facilitat cap descripció per a aquest anunci.",
+      "AMENITIES_TITLE": "Serveis",
+      "AMENITIES": {
+        "WIFI": "Wi-Fi d'alta velocitat",
+        "UTILITIES": "Subministraments inclosos",
+        "FURNISHED": "Moblat",
+        "HEATING": "Calefacció",
+        "PARKING": "Aparcament",
+        "KITCHEN": "Cuina equipada",
+        "TV": "Televisor",
+        "SECURITY": "Seguretat",
+        "BALCONY": "Balcó",
+        "INCLUDED": "Inclòs",
+        "NOT_AVAILABLE": "No disponible",
+        "NOT_SPECIFIED": "No especificat"
+      },
+      "HOUSE_RULES_TITLE": "Normes de la casa",
+      "HOUSE_RULES": {
+        "ALLOWED": "Permès",
+        "NOT_ALLOWED": "No permès",
+        "SMOKING": "Fumar",
+        "PETS": "Animals de companyia",
+        "COUPLES": "Parelles"
+      },
+      "FINANCIAL_TITLE": "Detalls econòmics",
+      "FINANCIAL": {
+        "MONTHLY_RENT": "Lloguer mensual",
+        "DEPOSIT": "Fiança",
+        "UTILITIES": "Subministraments",
+        "CONTRACT_TYPE": "Tipus de contracte",
+        "INCLUDED": "Inclòs",
+        "NOT_INCLUDED": "No inclòs",
+        "NOT_SPECIFIED": "No especificat",
+        "LONG_TERM": "Llarg termini (mín. 6 mesos)",
+        "MONTH": "mes"
+      },
+      "MAIN_FEATURES": {
+        "ROOMS": "Habitacions",
+        "BATHROOMS": "Banys",
+        "AREA": "Superfície",
+        "FLOOR": "Planta",
+        "DEPOSIT": "Fiança",
+        "UTILITIES": "Subministraments"
+      },
+      "MAP": {
+        "UNAVAILABLE": "No hi ha informació del mapa disponible per a aquest anunci."
+      },
+      "LOCATION_TITLE": "Ubicació",
+      "LOCATION": {
+        "DISTANCE_FROM_CAMPUS": "{{distance}} del campus"
+      },
+      "LANDLORD_TITLE": "Propietari",
+      "LANDLORD": {
+        "DEFAULT_NAME": "Propietari verificat",
+        "MEMBER_SINCE": "Membre des de {{date}}",
+        "LAST_SEEN": "Última connexió {{time}}",
+        "RESPONSE_TIME_PLACEHOLDER": "Sovint respon en menys de 24 hores",
+        "ACTIONS": {
+          "MESSAGE": "Envia un missatge",
+          "SCHEDULE": "Programa una visita",
+          "CALL": "Truca al propietari"
+        }
+      },
+      "AVAILABILITY_TITLE": "Disponibilitat",
+      "AVAILABILITY": {
+        "LEASE_START": "Inici del contracte",
+        "LEASE_END": "Fi del contracte",
+        "OFFER_VALID_UNTIL": "Oferta vàlida fins",
+        "LISTED_ON": "Publicat el"
+      },
+      "REPORT_LISTING": "Reporta l'anunci"
     }
   },
   "ADMIN": {
@@ -546,7 +687,47 @@
       }
     },
     "DELETE_CONFIRM_TITLE": "Eliminar Canal",
-    "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar el canal {{name}}? Aquesta acció no es pot desfer."
+    "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar el canal {{name}}? Aquesta acció no es pot desfer.",
+    "DETAIL": {
+      "MEMBERS_TAB": "Membres",
+      "MEMBERS": "Membres",
+      "MEMBERS_COUNT": "{{count}} membres",
+      "ADMINS": "Administradors",
+      "MODERATORS": "Moderadors",
+      "REGULAR_MEMBERS": "Membres",
+      "LOADING": "Carregant...",
+      "NO_MEMBERS": "No hi ha membres",
+      "NO_MESSAGES": "No hi ha missatges",
+      "NO_MESSAGES_DESCRIPTION": "Sigues el primer en enviar un missatge",
+      "ROLE_BASIC": "Bàsic",
+      "ROLE_SELLER": "Venedor",
+      "ROLE_ADMIN": "Administrador",
+      "MEMBER": "Membre",
+      "MODERATOR": "Moderador",
+      "ADMIN": "Admin",
+      "INSUFFICIENT_ROLE_WRITE": "No tens el rol necessari per escriure en aquest canal",
+      "TYPE_MESSAGE": "Escriu un missatge...",
+      "DELETE_MESSAGE": "Eliminar missatge",
+      "DELETE_MESSAGE_CONFIRM": "Estàs segur que vols eliminar aquest missatge?",
+      "EDITING_MESSAGE": "Editant missatge",
+      "REPLYING_TO": "Responent a",
+      "REPLY_TO": "Resposta a",
+      "EDITED": "editat",
+      "ERROR": {
+        "LOAD_CHANNEL": "Error al carregar el canal",
+        "LOAD_MEMBERS": "Error al carregar els membres",
+        "LOAD_MESSAGES": "Error al carregar els missatges",
+        "SEND_MESSAGE": "Error en enviar el missatge",
+        "DELETE_MESSAGE": "Error en eliminar el missatge",
+        "EDIT_MESSAGE": "Error en editar el missatge",
+        "REPLY_MESSAGE": "Error en respondre el missatge"
+      },
+      "SUCCESS": {
+        "DELETE_MESSAGE": "Missatge eliminat correctament",
+        "EDIT_MESSAGE": "Missatge editat correctament",
+        "REPLY_MESSAGE": "Resposta enviada correctament"
+      }
+    }
   },
   "MESSAGES": {
     "TITLE": "Missatges",
@@ -583,7 +764,8 @@
     "JUST_NOW": "ara mateix",
     "MINUTES_AGO": "fa {{count}} min",
     "HOURS_AGO": "fa {{count}}h",
-    "YESTERDAY": "ahir",
+    "TODAY": "Avui",
+    "YESTERDAY": "Ahir",
     "DAYS_AGO": "fa {{count}} dies"
   }
 }

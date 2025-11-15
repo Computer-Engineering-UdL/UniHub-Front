@@ -567,6 +567,21 @@ ion-input {
   --highlight-color-focused: var(--ion-color-primary) !important;
   --highlight-color-valid: var(--ion-color-primary) !important;
   --highlight-color: var(--ion-color-primary) !important;
+
+  .native-input {
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: normal !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  input.native-input {
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: normal !important;
+  }
 }
 
 ion-select::part(container) {

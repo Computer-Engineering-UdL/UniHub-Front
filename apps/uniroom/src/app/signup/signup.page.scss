@@ -1,4 +1,186 @@
 /* Page-specific styles for signup page */
 /* Shared auth styles are imported from global.scss */
 
-/* No overrides needed for signup page - uses default auth styles */
+.auth-header {
+  margin-bottom: 12px;
+
+  @media (min-width: 768px) {
+    margin-bottom: 24px;
+  }
+
+  @media (max-height: 700px) {
+    margin-bottom: 6px;
+  }
+
+  .logo-icon {
+    font-size: 50px;
+
+    @media (min-width: 768px) {
+      font-size: 80px;
+    }
+
+    @media (max-height: 700px) {
+      font-size: 40px;
+    }
+  }
+
+  h1 {
+    font-size: 24px;
+    margin: 6px 0;
+
+    @media (min-width: 768px) {
+      font-size: 36px;
+      margin: 12px 0;
+    }
+
+    @media (max-height: 700px) {
+      font-size: 20px;
+      margin: 4px 0;
+    }
+  }
+
+  .subtitle {
+    font-size: 13px;
+    margin-top: 4px;
+
+    @media (min-width: 768px) {
+      font-size: 16px;
+      margin-top: 8px;
+    }
+
+    @media (max-height: 700px) {
+      font-size: 12px;
+      margin-top: 2px;
+    }
+  }
+}
+
+.auth-card {
+  margin: 0 8px;
+
+  @media (min-width: 768px) {
+    margin: 0 15%;
+  }
+
+  ion-card-content {
+    padding: 12px 10px;
+
+    @media (min-width: 768px) {
+      padding: 24px 20px;
+    }
+
+    @media (max-height: 700px) {
+      padding: 8px 8px;
+    }
+  }
+}
+
+.input-item {
+  margin-bottom: 6px;
+
+  @media (min-width: 768px) {
+    margin-bottom: 12px;
+  }
+
+  @media (max-height: 700px) {
+    margin-bottom: 4px;
+  }
+}
+
+.input-error-message {
+  margin-top: -4px;
+  margin-bottom: 4px;
+  font-size: 12px;
+
+  @media (min-width: 768px) {
+    margin-top: -8px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+
+  @media (max-height: 700px) {
+    margin-top: -2px;
+    margin-bottom: 2px;
+    font-size: 11px;
+  }
+}
+
+.auth-button {
+  margin-top: 12px;
+  height: 44px;
+
+  @media (min-width: 768px) {
+    margin-top: 20px;
+    height: 48px;
+  }
+
+  @media (max-height: 700px) {
+    margin-top: 8px;
+    height: 38px;
+  }
+}
+
+.divider {
+  margin: 12px 0 8px 0;
+
+  @media (min-width: 768px) {
+    margin: 20px 0 16px 0;
+  }
+
+  @media (max-height: 700px) {
+    margin: 8px 0 6px 0;
+  }
+}
+
+.social-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  @media (min-width: 768px) {
+    gap: 10px;
+  }
+
+  @media (max-height: 700px) {
+    gap: 6px;
+  }
+}
+
+.social-button {
+  height: 44px;
+  font-size: 14px;
+
+  @media (min-width: 768px) {
+    height: 48px;
+    font-size: 16px;
+  }
+
+  @media (max-height: 700px) {
+    height: 38px;
+    font-size: 13px;
+  }
+}
+
+.auth-link {
+  margin-top: 12px;
+
+  @media (min-width: 768px) {
+    margin-top: 20px;
+  }
+
+  @media (max-height: 700px) {
+    margin-top: 8px;
+  }
+
+  p {
+    font-size: 13px;
+
+    @media (min-width: 768px) {
+      font-size: 15px;
+    }
+
+    @media (max-height: 700px) {
+      font-size: 12px;
+    }
+  }
+}

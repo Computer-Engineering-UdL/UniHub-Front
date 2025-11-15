@@ -167,6 +167,12 @@ export class AdminUsersComponent implements OnInit {
     void this.loadUsers();
   }
 
+  filterByStatus(status: string): void {
+    this.selectedStatus = status;
+    this.currentPage = 0;
+    void this.loadUsers();
+  }
+
   onRoleChange(event: any): void {
     this.selectedRole = event.detail.value;
     this.currentPage = 0;

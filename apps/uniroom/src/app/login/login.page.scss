@@ -1,37 +1,103 @@
 /* Page-specific styles for login page */
 /* Shared auth styles are imported from global.scss */
 
-/* Override header for login page */
+.auth-container {
+  max-width: 660px;
+}
+
 .auth-header {
-  margin-bottom: 40px;
-}
+  margin-bottom: 16px;
 
-.logo-icon {
-  font-size: 80px;
-  margin-bottom: 20px;
-}
-
-.auth-header h1 {
-  font-size: 36px;
-}
-
-/* Override input item spacing for login */
-.input-item {
-  margin-bottom: 15px;
-}
-
-/* Override divider margin for login */
-.divider {
-  margin: 30px 0;
-}
-
-/* Responsive overrides */
-@media (max-width: 576px) {
-  .auth-header h1 {
-    font-size: 28px;
+  @media (min-width: 768px) {
+    margin-bottom: 36px;
   }
 
-  .logo-icon {
-    font-size: 60px;
+  @media (min-width: 1024px) {
+    margin-bottom: 40px;
+  }
+
+  @media (max-height: 700px) {
+    margin-bottom: 8px;
+  }
+
+  img {
+    @media (min-width: 768px) {
+      height: 160px !important;
+      width: 160px !important;
+    }
+
+    @media (min-width: 1024px) {
+      height: 170px !important;
+      width: 170px !important;
+    }
+
+    @media (max-height: 700px) {
+      height: 100px !important;
+      width: 100px !important;
+    }
+  }
+}
+
+.password-item {
+  --padding-end: 0;
+  display: flex;
+  align-items: center;
+}
+
+.password-toggle {
+  --padding-start: 8px;
+  --padding-end: 12px;
+  height: 100%;
+  margin: 0;
+
+  @media (min-width: 768px) {
+    --padding-start: 10px;
+    --padding-end: 14px;
+  }
+
+  @media (min-width: 1024px) {
+    --padding-start: 12px;
+    --padding-end: 16px;
+  }
+
+  ion-icon {
+    font-size: 20px;
+    color: var(--ion-color-medium);
+    display: block;
+    line-height: 1;
+
+    @media (min-width: 768px) {
+      font-size: 22px;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 24px;
+    }
+
+    @media (max-height: 700px) {
+      font-size: 18px;
+    }
+  }
+
+  &:hover ion-icon {
+    color: var(--ion-color-primary);
+  }
+}
+
+.input-error-message {
+  font-size: 12px;
+  margin-top: -8px;
+  margin-bottom: 6px;
+
+  @media (min-width: 768px) {
+    font-size: 13px;
+    margin-top: -10px;
+    margin-bottom: 8px;
+  }
+
+  @media (max-height: 700px) {
+    font-size: 11px;
+    margin-top: -4px;
+    margin-bottom: 4px;
   }
 }

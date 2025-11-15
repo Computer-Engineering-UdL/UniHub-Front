@@ -9,6 +9,7 @@ import { CreateOfferModalComponent } from './create-offer-modal/create-offer-mod
 import { LocalizationService } from '../services/localization.service';
 import NotificationService from '../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 interface Filters {
   search: string;
@@ -58,6 +59,7 @@ export class RoomsComponent implements OnInit {
   private alertController: AlertController = inject(AlertController);
   private notificationService: NotificationService = inject(NotificationService);
   private translate: TranslateService = inject(TranslateService);
+  private router: Router = inject(Router);
 
   async ngOnInit(): Promise<void> {
     this.authService.currentUser$.subscribe((user: User | null): void => {
@@ -287,7 +289,7 @@ export class RoomsComponent implements OnInit {
 
   private async deleteOffer(offerId: string): Promise<void> {
     try {
-      await firstValueFrom(this.apiService.delete(`offers/offers/${offerId}`));
+      await firstValueFrom(this.apiService.delete(`offers/${offerId}`));
       this.notificationService.success('ROOM.DELETE_SUCCESS');
       await this.loadOffers();
     } catch (error) {
@@ -308,7 +310,10 @@ export class RoomsComponent implements OnInit {
       'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=600&fit=crop'
     ];
 
-    this.offers.forEach((offer: any, index: number): void => {
+    this.offers.forEach((offer: OfferListItem & { image?: string | null }, index: number): void => {
+      if (!offer.image && offer.base_image) {
+        offer.image = offer.base_image;
+      }
       if (!offer.image) {
         offer.image = placeholderImages[index % placeholderImages.length];
       }
@@ -331,7 +336,7 @@ export class RoomsComponent implements OnInit {
   }
 
   async viewOfferDetails(offerId: string): Promise<void> {
-    // TODO: Implement view offer details
-    console.log('View offer details:', offerId);
+    this.showMobileFilters = false;
+    await this.router.navigate(['/rooms', 'details', offerId]);
   }
 }

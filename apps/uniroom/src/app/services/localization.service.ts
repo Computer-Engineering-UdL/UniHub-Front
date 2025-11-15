@@ -201,8 +201,12 @@ export class LocalizationService {
 
   /** Try to convert any input into a valid Date object. */
   private toDate(input: TDateInput): Date | null {
-    if (input == null) return null;
-    if (input instanceof Date) return isNaN(input.getTime()) ? null : input;
+    if (input == null) {
+      return null;
+    }
+    if (input instanceof Date) {
+      return isNaN(input.getTime()) ? null : input;
+    }
     const s = String(input).trim();
     // Allow ISO or epoch
     const asNumber = Number(s);
@@ -216,7 +220,9 @@ export class LocalizationService {
   /** Format only date (no time) using current locale. */
   formatDate(input: TDateInput, options?: Intl.DateTimeFormatOptions): string {
     const d = this.toDate(input);
-    if (!d) return '—';
+    if (!d) {
+      return '—';
+    }
     const locale = this.getLocale();
     // default: e.g., 18 Oct 2025 (dependiendo de locale)
     const fmt: Intl.DateTimeFormatOptions = options ?? { year: 'numeric', month: 'short', day: '2-digit' };
@@ -230,7 +236,9 @@ export class LocalizationService {
   /** Format date and time using current locale. */
   formatDateTime(input: TDateInput, options?: Intl.DateTimeFormatOptions): string {
     const d = this.toDate(input);
-    if (!d) return '—';
+    if (!d) {
+      return '—';
+    }
     const locale = this.getLocale();
     // default: include hours and minutes in 2-digit format
     const fmt: Intl.DateTimeFormatOptions = options ?? {

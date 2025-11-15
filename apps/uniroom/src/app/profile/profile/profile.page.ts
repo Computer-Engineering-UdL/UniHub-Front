@@ -129,7 +129,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   private async getUserChannels(): Promise<number> {
     try {
       const allChannels: Channel[] = await this.channelService.fetchChannels();
-      const membershipChecks: Awaited<boolean>[] = await Promise.all(
+      const membershipChecks: boolean[] = await Promise.all(
         allChannels.map(async (channel: Channel): Promise<boolean> => {
           try {
             const members: ChannelMember[] = await this.channelService.getChannelMembers(channel.id);
@@ -271,7 +271,9 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   async removeInterest(interest: Interest): Promise<void> {
-    if (!this.user || this.loadingInterests) return;
+    if (!this.user || this.loadingInterests) {
+      return;
+    }
 
     try {
       this.loadingInterests = true;
@@ -284,7 +286,9 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   async addInterest(interest: Interest): Promise<void> {
-    if (!this.user || this.loadingInterests) return;
+    if (!this.user || this.loadingInterests) {
+      return;
+    }
 
     try {
       this.loadingInterests = true;
@@ -297,7 +301,9 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   async openAddInterestModal(): Promise<void> {
-    if (!this.user) return;
+    if (!this.user) {
+      return;
+    }
 
     const userInterestIds: string[] = this.userInterests.map((i: Interest) => i.id);
 

@@ -3,6 +3,8 @@ import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { AuthService } from './auth.service';
 import { Channel, ChannelMember, CreateChannelDto, UpdateChannelDto } from '../models/channel.types';
+import { ChannelMessage } from '../models/message.types';
+import { User } from '../models/auth.types';
 
 @Injectable({ providedIn: 'root' })
 export class ChannelService {
@@ -78,5 +80,59 @@ export class ChannelService {
 
   async getMemberInfo(channelId: string, userId: string): Promise<ChannelMember> {
     return await firstValueFrom(this.apiService.get<ChannelMember>(`channel/${channelId}/member/${userId}`));
+  }
+
+  async getChannelMessages(channelId: string): Promise<ChannelMessage[]> {
+    const messages: any[] = await firstValueFrom(this.apiService.get<any[]>(`channel/${channelId}/messages`));
+
+    return await Promise.all(
+      messages.map(async (msg: any): Promise<ChannelMessage> => {
+        try {
+          const sender: User = this.authService.mapUserFromApi(
+            await firstValueFrom(this.apiService.get<User>(`user/public/${msg.user_id}`))
+          );
+          return {
+            ...msg,
+            sender_id: msg.user_id,
+            reply_to: msg.parent_message_id,
+            sender
+          };
+        } catch (_) {
+          return {
+            ...msg,
+            sender_id: msg.user_id,
+            reply_to: msg.parent_message_id
+          };
+        }
+      })
+    );
+  }
+
+  async sendChannelMessage(channelId: string, userId: string, content: string): Promise<any> {
+    return await firstValueFrom(
+      this.apiService.post<any>(`channel/${channelId}/messages`, {
+        channel_id: channelId,
+        user_id: userId,
+        content
+      })
+    );
+  }
+
+  async deleteChannelMessage(channelId: string, messageId: string): Promise<void> {
+    await firstValueFrom(this.apiService.delete<void>(`channel/${channelId}/messages/${messageId}`));
+  }
+
+  async updateChannelMessage(channelId: string, messageId: string, content: string): Promise<any> {
+    return await firstValueFrom(this.apiService.put<any>(`channel/${channelId}/messages/${messageId}`, { content }));
+  }
+
+  async replyToChannelMessage(channelId: string, messageId: string, userId: string, content: string): Promise<any> {
+    return await firstValueFrom(
+      this.apiService.post<any>(`channel/${channelId}/messages/${messageId}/reply`, {
+        channel_id: channelId,
+        user_id: userId,
+        content
+      })
+    );
   }
 }

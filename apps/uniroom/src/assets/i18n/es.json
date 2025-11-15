@@ -4,8 +4,9 @@
   },
   "LOGIN": {
     "TITLE": "¡Bienvenido de nuevo!",
-    "SUBTITLE": "Encuentra tu alojamiento estudiantil perfecto",
+    "SUBTITLE": "Conecta con estudiantes, encuentra alojamiento y comparte recursos",
     "EMAIL": "Correo electrónico",
+    "EMAIL_OR_USERNAME": "Correo electrónico o nombre de usuario",
     "PASSWORD": "Contraseña",
     "SIGN_IN": "Iniciar sesión",
     "OR_CONTINUE_WITH": "o continuar con",
@@ -270,6 +271,7 @@
     "CANCEL": "Cancelar",
     "CONFIRM": "Confirmar",
     "SUSPEND": "Suspender",
+    "YOU": "Tú",
     "VALIDATION": {
       "FIELD_REQUIRED": "Este campo es obligatorio ({{min}}-{{max}} caracteres)"
     }
@@ -360,6 +362,7 @@
       "PRICING_DETAILS": "Precio y Detalles",
       "PROPERTY_DETAILS": "Detalles de la Propiedad",
       "AMENITIES": "Comodidades",
+      "PHOTOS": "Fotos",
       "DATES": "Fechas",
       "TITLE": "Título",
       "DESCRIPTION": "Descripción",
@@ -372,12 +375,62 @@
       "MONTH": "mes",
       "DEPOSIT": "Depósito",
       "AREA": "Área",
+      "FLOOR": "Planta",
+      "FLOOR_HELPER": "Número de planta opcional (0 para planta baja)",
+      "CONTRACT_TYPE": "Tipo de contrato",
+      "CONTRACT_TYPE_PLACEHOLDER": "Selecciona el tipo de contrato",
+      "CONTRACT_TYPE_LONG": "Largo plazo (mín. 6 meses)",
+      "CONTRACT_TYPE_SHORT": "Corto plazo (1-6 meses)",
+      "CONTRACT_TYPE_ACADEMIC": "Estancia académica",
+      "CONTRACT_TYPE_OTHER": "Otro",
+      "UTILITIES_COST": "Coste estimado de suministros",
+      "UTILITIES_COST_HELPER": "Si no están incluidos, indica un coste mensual aproximado",
+      "UTILITIES_DESCRIPTION": "Notas sobre los suministros",
+      "UTILITIES_DESCRIPTION_PLACEHOLDER": "Describe qué incluyen los suministros...",
+      "UTILITIES_DESCRIPTION_HELPER": "Añade contexto extra sobre facturas o gastos compartidos",
       "NUM_ROOMS": "Número de Habitaciones",
       "NUM_BATHROOMS": "Número de Baños",
       "GENDER_PREFERENCE": "Preferencia de Género",
       "FURNISHED": "Amueblado",
       "UTILITIES_INCLUDED": "Servicios Incluidos",
       "INTERNET_INCLUDED": "Internet Incluido",
+      "ADDITIONAL_AMENITIES": "Servicios adicionales",
+      "HEATING": "Calefacción",
+      "PARKING": "Aparcamiento",
+      "KITCHEN": "Cocina equipada",
+      "TV": "Televisión",
+      "SECURITY": "Seguridad",
+      "BALCONY": "Balcón",
+      "HOUSE_RULES": "Normas de la casa",
+      "HOUSE_RULES_HELPER": "Indica qué está permitido en la vivienda",
+      "RULE_SMOKING": "Se permite fumar",
+      "RULE_PETS": "Se permiten mascotas",
+      "RULE_COUPLES": "Se permiten parejas",
+      "DISTANCE_FROM_CAMPUS": "Distancia al campus",
+      "DISTANCE_HELPER": "Opcional: tiempo o distancia del trayecto",
+      "LATITUDE": "Latitud",
+      "LONGITUDE": "Longitud",
+      "STREET": "Calle",
+      "STREET_PLACEHOLDER": "Ej: Avenida Principal",
+      "STREET_NUMBER": "Número",
+      "STREET_NUMBER_PLACEHOLDER": "Ej: 42",
+      "APARTMENT": "Piso / Puerta",
+      "APARTMENT_PLACEHOLDER": "Ej: 3º 1ª o Apt. 2B",
+      "APARTMENT_HELPER": "Opcional: añade planta, puerta o detalles del piso",
+      "POSTAL_CODE": "Código postal",
+      "POSTAL_CODE_PLACEHOLDER": "Ej: 25001",
+      "FULL_ADDRESS_PREVIEW": "Dirección completa",
+      "ADDRESS_PREVIEW_EMPTY": "Completa los campos para generarla",
+      "COORDINATES_HELPER": "Se utiliza para mostrar la ubicación en el mapa",
+      "UPLOAD_BUTTON": "Elegir fotos",
+      "UPLOAD_PHOTOS_HELPER": "Añade hasta {{max}} imágenes para mostrar tu oferta.",
+      "PHOTO_TYPE_NOT_ALLOWED": "Solo se admiten imágenes JPEG, PNG, GIF o WebP.",
+      "PHOTO_SIZE_EXCEEDED": "Cada foto debe tener menos de {{maxSize}} MB.",
+      "PHOTOS_LIMIT": "Puedes subir hasta {{max}} fotos.",
+      "NO_PHOTOS": "Aún no hay fotos seleccionadas",
+      "PRIMARY_BADGE": "Portada",
+      "MAKE_PRIMARY": "Establecer como portada",
+      "REMOVE_PHOTO": "Eliminar foto",
       "START_DATE": "Fecha de Inicio",
       "END_DATE": "Fecha de Fin",
       "VALID_UNTIL": "Oferta Válida Hasta",
@@ -387,7 +440,10 @@
         "MALE": "Masculino",
         "FEMALE": "Femenino",
         "OTHER": "Otro"
-      }
+      },
+      "CREATE_ERROR": "No hemos podido crear la oferta. Revisa el formulario e inténtalo de nuevo.",
+      "PHOTO_UPLOAD_FAILED": "No se pudieron subir las fotos. Podrás editarlas más tarde desde la oferta.",
+      "PHOTO_UPLOAD_PARTIAL": "Algunas fotos no se subieron. La oferta se creó sin ellas."
     },
     "CITIES": {
       "LLEIDA": "Lleida",
@@ -406,7 +462,93 @@
       "OTHER": "Otros",
       "ROOM": "Habitación",
       "FLAT": "Piso",
-      "DETACHED_HOUSE": "Casa Independente"
+      "DETACHED_HOUSE": "Casa independiente"
+    },
+    "DETAILS": {
+      "PAGE_TITLE": "Detalles del anuncio",
+      "BACK_TO_LIST": "Volver a los anuncios",
+      "LOADING": "Cargando información del piso...",
+      "ERROR_TITLE": "Algo ha salido mal",
+      "ERROR_MESSAGE": "No hemos podido cargar este anuncio ahora mismo. Inténtalo de nuevo más tarde.",
+      "GO_BACK": "Volver",
+      "STATUS": {
+        "AVAILABLE": "Disponible",
+        "UNAVAILABLE": "No disponible"
+      },
+      "AVAILABLE_FROM": "Disponible a partir del {{date}}",
+      "POSTED_ON": "Publicado el {{date}}",
+      "DESCRIPTION_TITLE": "Descripción",
+      "PLACEHOLDER_DESCRIPTION": "El propietario aún no ha proporcionado una descripción para este anuncio.",
+      "AMENITIES_TITLE": "Servicios",
+      "AMENITIES": {
+        "WIFI": "Wi-Fi de alta velocidad",
+        "UTILITIES": "Suministros incluidos",
+        "FURNISHED": "Amueblado",
+        "HEATING": "Calefacción",
+        "PARKING": "Aparcamiento",
+        "KITCHEN": "Cocina equipada",
+        "TV": "Televisión",
+        "SECURITY": "Seguridad",
+        "BALCONY": "Balcón",
+        "INCLUDED": "Incluido",
+        "NOT_AVAILABLE": "No disponible",
+        "NOT_SPECIFIED": "No especificado"
+      },
+      "HOUSE_RULES_TITLE": "Normas de la casa",
+      "HOUSE_RULES": {
+        "ALLOWED": "Permitido",
+        "NOT_ALLOWED": "No permitido",
+        "SMOKING": "Fumar",
+        "PETS": "Mascotas",
+        "COUPLES": "Parejas"
+      },
+      "FINANCIAL_TITLE": "Detalles económicos",
+      "FINANCIAL": {
+        "MONTHLY_RENT": "Alquiler mensual",
+        "DEPOSIT": "Depósito de seguridad",
+        "UTILITIES": "Suministros",
+        "CONTRACT_TYPE": "Tipo de contrato",
+        "INCLUDED": "Incluido",
+        "NOT_INCLUDED": "No incluido",
+        "NOT_SPECIFIED": "No especificado",
+        "LONG_TERM": "Largo plazo (mín. 6 meses)",
+        "MONTH": "mes"
+      },
+      "MAIN_FEATURES": {
+        "ROOMS": "Habitaciones",
+        "BATHROOMS": "Baños",
+        "AREA": "Superficie",
+        "FLOOR": "Planta",
+        "DEPOSIT": "Depósito",
+        "UTILITIES": "Suministros"
+      },
+      "MAP": {
+        "UNAVAILABLE": "No hay información de mapa disponible para este anuncio."
+      },
+      "LOCATION_TITLE": "Ubicación",
+      "LOCATION": {
+        "DISTANCE_FROM_CAMPUS": "{{distance}} del campus"
+      },
+      "LANDLORD_TITLE": "Propietario",
+      "LANDLORD": {
+        "DEFAULT_NAME": "Propietario verificado",
+        "MEMBER_SINCE": "Miembro desde {{date}}",
+        "LAST_SEEN": "Última conexión {{time}}",
+        "RESPONSE_TIME_PLACEHOLDER": "Suele responder en menos de 24 horas",
+        "ACTIONS": {
+          "MESSAGE": "Enviar mensaje",
+          "SCHEDULE": "Concertar visita",
+          "CALL": "Llamar al propietario"
+        }
+      },
+      "AVAILABILITY_TITLE": "Disponibilidad",
+      "AVAILABILITY": {
+        "LEASE_START": "Inicio del contrato",
+        "LEASE_END": "Fin del contrato",
+        "OFFER_VALID_UNTIL": "Oferta válida hasta",
+        "LISTED_ON": "Publicado el"
+      },
+      "REPORT_LISTING": "Reportar anuncio"
     }
   },
   "ADMIN": {
@@ -546,7 +688,47 @@
       }
     },
     "DELETE_CONFIRM_TITLE": "Eliminar Canal",
-    "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar el canal {{name}}? Esta acción no se puede deshacer."
+    "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar el canal {{name}}? Esta acción no se puede deshacer.",
+    "DETAIL": {
+      "MEMBERS_TAB": "Miembros",
+      "MEMBERS": "Miembros",
+      "MEMBERS_COUNT": "{{count}} miembros",
+      "ADMINS": "Administradores",
+      "MODERATORS": "Moderadores",
+      "REGULAR_MEMBERS": "Miembros",
+      "LOADING": "Cargando...",
+      "NO_MEMBERS": "No hay miembros",
+      "NO_MESSAGES": "No hay mensajes",
+      "NO_MESSAGES_DESCRIPTION": "Sé el primero en enviar un mensaje",
+      "ROLE_BASIC": "Básico",
+      "ROLE_SELLER": "Vendedor",
+      "ROLE_ADMIN": "Administrador",
+      "MEMBER": "Miembro",
+      "MODERATOR": "Moderador",
+      "ADMIN": "Admin",
+      "INSUFFICIENT_ROLE_WRITE": "No tienes el rol necesario para escribir en este canal",
+      "TYPE_MESSAGE": "Escribe un mensaje...",
+      "DELETE_MESSAGE": "Eliminar mensaje",
+      "DELETE_MESSAGE_CONFIRM": "¿Estás seguro de que quieres eliminar este mensaje?",
+      "EDITING_MESSAGE": "Editando mensaje",
+      "REPLYING_TO": "Respondiendo a",
+      "REPLY_TO": "Respuesta a",
+      "EDITED": "editado",
+      "ERROR": {
+        "LOAD_CHANNEL": "Error al cargar el canal",
+        "LOAD_MEMBERS": "Error al cargar los miembros",
+        "LOAD_MESSAGES": "Error al cargar los mensajes",
+        "SEND_MESSAGE": "Error al enviar el mensaje",
+        "DELETE_MESSAGE": "Error al eliminar el mensaje",
+        "EDIT_MESSAGE": "Error al editar el mensaje",
+        "REPLY_MESSAGE": "Error al responder el mensaje"
+      },
+      "SUCCESS": {
+        "DELETE_MESSAGE": "Mensaje eliminado correctamente",
+        "EDIT_MESSAGE": "Mensaje editado correctamente",
+        "REPLY_MESSAGE": "Respuesta enviada correctamente"
+      }
+    }
   },
   "MESSAGES": {
     "TITLE": "Mensajes",
@@ -580,10 +762,11 @@
     }
   },
   "TIME": {
-    "JUST_NOW": "ahora mismo",
+    "JUST_NOW": "justo ahora",
     "MINUTES_AGO": "hace {{count}} min",
     "HOURS_AGO": "hace {{count}}h",
-    "YESTERDAY": "ayer",
+    "TODAY": "Hoy",
+    "YESTERDAY": "Ayer",
     "DAYS_AGO": "hace {{count}} días"
   }
 }

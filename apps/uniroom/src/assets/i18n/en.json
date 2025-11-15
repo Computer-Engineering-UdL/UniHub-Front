@@ -4,8 +4,9 @@
   },
   "LOGIN": {
     "TITLE": "Welcome back!",
-    "SUBTITLE": "Find your perfect student accommodation",
+    "SUBTITLE": "Connect with students, find housing and share resources",
     "EMAIL": "Email",
+    "EMAIL_OR_USERNAME": "Email or username",
     "PASSWORD": "Password",
     "SIGN_IN": "Sign In",
     "OR_CONTINUE_WITH": "or continue with",
@@ -270,6 +271,7 @@
     "CANCEL": "Cancel",
     "CONFIRM": "Confirm",
     "SUSPEND": "Suspend",
+    "YOU": "You",
     "VALIDATION": {
       "FIELD_REQUIRED": "This field is required ({{min}}-{{max}} characters)"
     }
@@ -360,6 +362,7 @@
       "PRICING_DETAILS": "Pricing & Details",
       "PROPERTY_DETAILS": "Property Details",
       "AMENITIES": "Amenities",
+      "PHOTOS": "Photos",
       "DATES": "Dates",
       "TITLE": "Title",
       "DESCRIPTION": "Description",
@@ -372,12 +375,62 @@
       "MONTH": "month",
       "DEPOSIT": "Deposit",
       "AREA": "Area",
+      "FLOOR": "Floor",
+      "FLOOR_HELPER": "Optional floor number (0 for ground floor)",
+      "CONTRACT_TYPE": "Contract type",
+      "CONTRACT_TYPE_PLACEHOLDER": "Select contract type",
+      "CONTRACT_TYPE_LONG": "Long-term (min. 6 months)",
+      "CONTRACT_TYPE_SHORT": "Short-term (1-6 months)",
+      "CONTRACT_TYPE_ACADEMIC": "Academic stay",
+      "CONTRACT_TYPE_OTHER": "Other",
+      "UTILITIES_COST": "Estimated utilities cost",
+      "UTILITIES_COST_HELPER": "If utilities aren't included, add an estimated monthly cost",
+      "UTILITIES_DESCRIPTION": "Utilities notes",
+      "UTILITIES_DESCRIPTION_PLACEHOLDER": "Describe what the utilities cover...",
+      "UTILITIES_DESCRIPTION_HELPER": "Give extra context about bills or shared costs",
       "NUM_ROOMS": "Number of Rooms",
       "NUM_BATHROOMS": "Number of Bathrooms",
       "GENDER_PREFERENCE": "Gender Preference",
       "FURNISHED": "Furnished",
       "UTILITIES_INCLUDED": "Utilities Included",
       "INTERNET_INCLUDED": "Internet Included",
+      "ADDITIONAL_AMENITIES": "Additional amenities",
+      "HEATING": "Heating",
+      "PARKING": "Parking",
+      "KITCHEN": "Fully equipped kitchen",
+      "TV": "TV",
+      "SECURITY": "Security",
+      "BALCONY": "Balcony",
+      "HOUSE_RULES": "House rules",
+      "HOUSE_RULES_HELPER": "Tell students what's allowed in the property",
+      "RULE_SMOKING": "Smoking allowed",
+      "RULE_PETS": "Pets allowed",
+      "RULE_COUPLES": "Couples allowed",
+      "DISTANCE_FROM_CAMPUS": "Distance from campus",
+      "DISTANCE_HELPER": "Optional: commute time or distance",
+      "LATITUDE": "Latitude",
+      "STREET": "Street",
+      "STREET_PLACEHOLDER": "Ex: Main Avenue",
+      "STREET_NUMBER": "Number",
+      "STREET_NUMBER_PLACEHOLDER": "Ex: 42",
+      "APARTMENT": "Apartment / Floor",
+      "APARTMENT_PLACEHOLDER": "Ex: 3º 1ª or Apt. 2B",
+      "APARTMENT_HELPER": "Optional: add floor, door or apartment details",
+      "POSTAL_CODE": "Postal code",
+      "POSTAL_CODE_PLACEHOLDER": "Ex: 25001",
+      "FULL_ADDRESS_PREVIEW": "Full address",
+      "ADDRESS_PREVIEW_EMPTY": "Complete the fields above to generate it",
+      "LONGITUDE": "Longitude",
+      "COORDINATES_HELPER": "Used to display the map location",
+      "UPLOAD_BUTTON": "Choose photos",
+      "UPLOAD_PHOTOS_HELPER": "Add up to {{max}} images to showcase your offer.",
+      "PHOTO_TYPE_NOT_ALLOWED": "Only JPEG, PNG, GIF or WebP images are supported.",
+      "PHOTO_SIZE_EXCEEDED": "Each photo must be smaller than {{maxSize}} MB.",
+      "PHOTOS_LIMIT": "You can upload up to {{max}} photos.",
+      "NO_PHOTOS": "No photos selected yet",
+      "PRIMARY_BADGE": "Cover",
+      "MAKE_PRIMARY": "Set as cover",
+      "REMOVE_PHOTO": "Remove photo",
       "START_DATE": "Start Date",
       "END_DATE": "End Date",
       "VALID_UNTIL": "Offer Valid Until",
@@ -387,7 +440,10 @@
         "MALE": "Male",
         "FEMALE": "Female",
         "OTHER": "Other"
-      }
+      },
+      "CREATE_ERROR": "We couldn't create the offer. Please review the form and try again.",
+      "PHOTO_UPLOAD_FAILED": "We couldn't upload the photos. You can edit the offer later to try again.",
+      "PHOTO_UPLOAD_PARTIAL": "Some photos couldn't be uploaded. The offer was created without them."
     },
     "CITIES": {
       "LLEIDA": "Lleida",
@@ -407,6 +463,92 @@
       "ROOM": "Room",
       "FLAT": "Flat",
       "DETACHED_HOUSE": "Detached House"
+    },
+    "DETAILS": {
+      "PAGE_TITLE": "Room Details",
+      "BACK_TO_LIST": "Back to listings",
+      "LOADING": "Loading room information...",
+      "ERROR_TITLE": "Something went wrong",
+      "ERROR_MESSAGE": "We couldn't load this room right now. Please try again later.",
+      "GO_BACK": "Go back",
+      "STATUS": {
+        "AVAILABLE": "Available",
+        "UNAVAILABLE": "Unavailable"
+      },
+      "AVAILABLE_FROM": "Available from {{date}}",
+      "POSTED_ON": "Posted on {{date}}",
+      "DESCRIPTION_TITLE": "Description",
+      "PLACEHOLDER_DESCRIPTION": "The landlord has not provided a description for this listing yet.",
+      "AMENITIES_TITLE": "Amenities",
+      "AMENITIES": {
+        "WIFI": "High-speed Wi-Fi",
+        "UTILITIES": "Utilities included",
+        "FURNISHED": "Furnished",
+        "HEATING": "Heating",
+        "PARKING": "Parking",
+        "KITCHEN": "Fully equipped kitchen",
+        "TV": "TV",
+        "SECURITY": "Security",
+        "BALCONY": "Balcony",
+        "INCLUDED": "Included",
+        "NOT_AVAILABLE": "Not available",
+        "NOT_SPECIFIED": "Not specified"
+      },
+      "HOUSE_RULES_TITLE": "House Rules",
+      "HOUSE_RULES": {
+        "ALLOWED": "Allowed",
+        "NOT_ALLOWED": "Not allowed",
+        "SMOKING": "Smoking",
+        "PETS": "Pets",
+        "COUPLES": "Couples"
+      },
+      "FINANCIAL_TITLE": "Financial Details",
+      "FINANCIAL": {
+        "MONTHLY_RENT": "Monthly rent",
+        "DEPOSIT": "Security deposit",
+        "UTILITIES": "Utilities",
+        "CONTRACT_TYPE": "Contract type",
+        "INCLUDED": "Included",
+        "NOT_INCLUDED": "Not included",
+        "NOT_SPECIFIED": "Not specified",
+        "LONG_TERM": "Long-term (min. 6 months)",
+        "MONTH": "month"
+      },
+      "MAIN_FEATURES": {
+        "ROOMS": "Rooms",
+        "BATHROOMS": "Bathrooms",
+        "AREA": "Living space",
+        "FLOOR": "Floor",
+        "DEPOSIT": "Deposit",
+        "UTILITIES": "Utilities"
+      },
+      "MAP": {
+        "UNAVAILABLE": "Map information is not available for this listing."
+      },
+      "LOCATION_TITLE": "Location",
+      "LOCATION": {
+        "DISTANCE_FROM_CAMPUS": "{{distance}} from campus"
+      },
+      "LANDLORD_TITLE": "Landlord",
+      "LANDLORD": {
+        "DEFAULT_NAME": "Verified landlord",
+        "MEMBER_SINCE": "Member since {{date}}",
+        "LAST_SEEN": "Last seen {{time}}",
+        "RESPONSE_TIME_PLACEHOLDER": "Usually responds within 24 hours",
+        "ACTIONS": {
+          "MESSAGE": "Send Message",
+          "SCHEDULE": "Schedule Viewing",
+          "CALL": "Call Landlord"
+        }
+      },
+      "AVAILABILITY_TITLE": "Availability",
+      "AVAILABILITY": {
+        "LEASE_START": "Lease starts",
+        "LEASE_END": "Lease ends",
+        "OFFER_VALID_UNTIL": "Offer valid until",
+        "LISTED_ON": "Listed on"
+      },
+      "REPORT_LISTING": "Report Listing"
     }
   },
   "ADMIN": {
@@ -546,7 +688,47 @@
       }
     },
     "DELETE_CONFIRM_TITLE": "Delete Channel",
-    "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete the channel {{name}}? This action cannot be undone."
+    "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete the channel {{name}}? This action cannot be undone.",
+    "DETAIL": {
+      "MEMBERS_TAB": "Members",
+      "MEMBERS": "Members",
+      "MEMBERS_COUNT": "{{count}} members",
+      "ADMINS": "Administrators",
+      "MODERATORS": "Moderators",
+      "REGULAR_MEMBERS": "Members",
+      "LOADING": "Loading...",
+      "NO_MEMBERS": "No members",
+      "NO_MESSAGES": "No messages",
+      "NO_MESSAGES_DESCRIPTION": "Be the first to send a message",
+      "ROLE_BASIC": "Basic",
+      "ROLE_SELLER": "Seller",
+      "ROLE_ADMIN": "Administrator",
+      "MEMBER": "Member",
+      "MODERATOR": "Moderator",
+      "ADMIN": "Admin",
+      "INSUFFICIENT_ROLE_WRITE": "You don't have the required role to write in this channel",
+      "TYPE_MESSAGE": "Type a message...",
+      "DELETE_MESSAGE": "Delete message",
+      "DELETE_MESSAGE_CONFIRM": "Are you sure you want to delete this message?",
+      "EDITING_MESSAGE": "Editing message",
+      "REPLYING_TO": "Replying to",
+      "REPLY_TO": "Reply to",
+      "EDITED": "edited",
+      "ERROR": {
+        "LOAD_CHANNEL": "Error loading channel",
+        "LOAD_MEMBERS": "Error loading members",
+        "LOAD_MESSAGES": "Error loading messages",
+        "SEND_MESSAGE": "Error sending message",
+        "DELETE_MESSAGE": "Error deleting message",
+        "EDIT_MESSAGE": "Error editing message",
+        "REPLY_MESSAGE": "Error replying message"
+      },
+      "SUCCESS": {
+        "DELETE_MESSAGE": "Message deleted successfully",
+        "EDIT_MESSAGE": "Message edited successfully",
+        "REPLY_MESSAGE": "Reply sent successfully"
+      }
+    }
   },
   "MESSAGES": {
     "TITLE": "Messages",
@@ -583,7 +765,8 @@
     "JUST_NOW": "just now",
     "MINUTES_AGO": "{{count}} min ago",
     "HOURS_AGO": "{{count}}h ago",
-    "YESTERDAY": "yesterday",
+    "TODAY": "Today",
+    "YESTERDAY": "Yesterday",
     "DAYS_AGO": "{{count}} days ago"
   }
 }

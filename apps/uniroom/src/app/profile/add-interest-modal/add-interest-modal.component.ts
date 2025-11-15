@@ -62,7 +62,9 @@ export class AddInterestModalComponent implements OnInit {
   private findInterestById(interestId: string): Interest | undefined {
     for (const category of this.availableCategories) {
       const found = category.interests.find((i) => i.id === interestId);
-      if (found) return found;
+      if (found) {
+        return found;
+      }
     }
     return undefined;
   }

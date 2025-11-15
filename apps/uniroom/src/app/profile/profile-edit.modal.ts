@@ -32,7 +32,9 @@ export class ProfileEditModal implements OnInit {
   }
 
   onImgUrlInput(value: string): void {
-    if (!this.user) return;
+    if (!this.user) {
+      return;
+    }
     this.user.imgUrl = value;
     this.avatarSrc = this.computeAvatarSrc();
   }
@@ -47,7 +49,9 @@ export class ProfileEditModal implements OnInit {
   }
 
   computeAvatarSrc(): string {
-    if (this.user && this.user.imgUrl) return this.user.imgUrl;
+    if (this.user && this.user.imgUrl) {
+      return this.user.imgUrl;
+    }
     const first: string = this.user?.firstName?.trim() || '';
     const last: string = this.user?.lastName?.trim() || '';
     const name: string =
