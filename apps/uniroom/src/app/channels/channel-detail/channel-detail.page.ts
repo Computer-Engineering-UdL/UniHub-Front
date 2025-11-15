@@ -391,7 +391,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   async presentMemberActionSheet(event: Event, member: ChannelMember) {
     event.stopPropagation();
 
-    const actions: MemberAction[] = [
+    const allActions: MemberAction[] = [
       {
         icon: 'shield-checkmark',
         text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.SET_ADMIN'),
@@ -433,6 +433,8 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
         isDestructive: true
       }
     ];
+
+    const actions: MemberAction[] = allActions.filter((action: MemberAction): boolean => !action.isSelected);
 
     const popover = await this.popoverCtrl.create({
       component: MemberActionsComponent,
