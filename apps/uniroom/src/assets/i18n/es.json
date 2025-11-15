@@ -728,6 +728,40 @@
         "EDIT_MESSAGE": "Mensaje editado correctamente",
         "REPLY_MESSAGE": "Respuesta enviada correctamente"
       }
+    },
+    "MEMBER_ACTIONS": {
+      "SET_ADMIN": "Hacer administrador",
+      "SET_MODERATOR": "Hacer moderador",
+      "SET_USER": "Hacer usuario",
+      "KICK": "Expulsar",
+      "BAN": "Banear",
+      "KICK_CONFIRM_TITLE": "Expulsar miembro",
+      "KICK_CONFIRM_MESSAGE": "¿Estás seguro de que quieres expulsar a {{user}}?",
+      "BAN_CONFIRM_TITLE": "Banear miembro",
+      "BAN_CONFIRM_MESSAGE": "¿Estás seguro de que quieres banear a {{user}}? No podrá volver a unirse.",
+      "SUCCESS": {
+        "SET_ROLE": "Rol actualizado correctamente.",
+        "KICK": "Miembro expulsado correctamente.",
+        "BAN": "Miembro baneado correctamente."
+      },
+      "ERROR": {
+        "SET_ROLE": "No se pudo actualizar el rol.",
+        "KICK": "No se pudo expulsar al miembro.",
+        "BAN": "No se pudo banear al miembro."
+      }
+    },
+    "ADD_MEMBER": {
+      "TITLE": "Añadir Miembro",
+      "SEARCH_PLACEHOLDER": "Buscar usuarios por nombre o email...",
+      "NO_RESULTS": "No se encontraron usuarios.",
+      "ADD_BUTTON": "Añadir",
+      "SUCCESS": {
+        "ADD": "Miembro añadido correctamente."
+      },
+      "ERROR": {
+        "SEARCH": "No se pudieron buscar usuarios.",
+        "ADD": "No se pudo añadir el miembro."
+      }
     }
   },
   "MESSAGES": {

@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'CHANNELS.ADD_MEMBER.TITLE' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="onSearchChange($event)"
+      [placeholder]="'CHANNELS.ADD_MEMBER.SEARCH_PLACEHOLDER' | translate"
+      debounce="300">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isLoading" class="loading-spinner">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <ion-list *ngIf="!isLoading && users.length > 0">
+    <ion-item *ngFor="let user of users">
+      <ion-avatar slot="start">
+        <img [src]="user.imgUrl" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ user.fullName || user.username }}</h2>
+        <p>{{ user.email }}</p>
+      </ion-label>
+      <ion-button slot="end" (click)="addMember(user)">
+        {{ 'CHANNELS.ADD_MEMBER.ADD_BUTTON' | translate }}
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="!isLoading && users.length === 0 && searchTerm.length >= 3" class="empty-state">
+    <ion-icon name="person-remove-outline"></ion-icon>
+    <p>{{ 'CHANNELS.ADD_MEMBER.NO_RESULTS' | translate }}</p>
+  </div>
+</ion-content>

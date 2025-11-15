@@ -728,6 +728,40 @@
         "EDIT_MESSAGE": "Message edited successfully",
         "REPLY_MESSAGE": "Reply sent successfully"
       }
+    },
+    "MEMBER_ACTIONS": {
+      "SET_ADMIN": "Set as Admin",
+      "SET_MODERATOR": "Set as Moderator",
+      "SET_USER": "Set as User",
+      "KICK": "Kick",
+      "BAN": "Ban",
+      "KICK_CONFIRM_TITLE": "Kick Member",
+      "KICK_CONFIRM_MESSAGE": "Are you sure you want to kick {{user}}?",
+      "BAN_CONFIRM_TITLE": "Ban Member",
+      "BAN_CONFIRM_MESSAGE": "Are you sure you want to ban {{user}}? They won't be able to join again.",
+      "SUCCESS": {
+        "SET_ROLE": "Role updated successfully.",
+        "KICK": "Member kicked successfully.",
+        "BAN": "Member banned successfully."
+      },
+      "ERROR": {
+        "SET_ROLE": "Could not update role.",
+        "KICK": "Could not kick member.",
+        "BAN": "Could not ban member."
+      }
+    },
+    "ADD_MEMBER": {
+      "TITLE": "Add Member",
+      "SEARCH_PLACEHOLDER": "Search users by name or email...",
+      "NO_RESULTS": "No users found.",
+      "ADD_BUTTON": "Add",
+      "SUCCESS": {
+        "ADD": "Member added successfully."
+      },
+      "ERROR": {
+        "SEARCH": "Could not search for users.",
+        "ADD": "Could not add member."
+      }
     }
   },
   "MESSAGES": {

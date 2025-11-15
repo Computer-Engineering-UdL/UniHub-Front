@@ -54,9 +54,9 @@
                 <span class="message-time">{{ formatMessageTime(message.created_at) }}</span>
               </div>
               <div
-                *ngIf="message.reply_message"
+                *ngIf="message.parent_message"
                 class="reply-preview"
-                (click)="scrollToMessage(message.reply_to || message.parent_message_id!)">
+                (click)="scrollToMessage(message.parent_message_id!)">
                 <div class="reply-preview-bar"></div>
                 <div class="reply-preview-content">
                   <span class="reply-preview-sender">{{ getReplyMessageSender(message) }}</span>
@@ -171,7 +171,17 @@
     <div class="members-section">
       <div class="members-header">
         <h4>{{ 'CHANNELS.DETAIL.MEMBERS' | translate }}</h4>
-        <ion-badge color="primary">{{ members.length }}</ion-badge>
+        <div class="header-actions">
+          <ion-button
+            *ngIf="isCurrentUserChannelAdmin()"
+            fill="clear"
+            size="small"
+            class="add-member-btn"
+            (click)="openAddMemberModal()">
+            <ion-icon slot="icon-only" name="person-add-outline"></ion-icon>
+          </ion-button>
+          <ion-badge color="primary">{{ members.length }}</ion-badge>
+        </div>
       </div>
 
       <div class="members-list">
@@ -196,6 +206,16 @@
               <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
               <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
             </div>
+            <div
+              class="member-actions"
+              *ngIf="isCurrentUserChannelAdmin() && member.user_id !== currentUser?.id">
+              <ion-button
+                fill="clear"
+                size="small"
+                (click)="presentMemberActionSheet($event, member)">
+                <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+              </ion-button>
+            </div>
           </div>
         </div>
 
@@ -215,6 +235,16 @@
               <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
               <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
             </div>
+            <div
+              class="member-actions"
+              *ngIf="isCurrentUserChannelAdmin() && member.user_id !== currentUser?.id">
+              <ion-button
+                fill="clear"
+                size="small"
+                (click)="presentMemberActionSheet($event, member)">
+                <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+              </ion-button>
+            </div>
           </div>
         </div>
 
@@ -233,6 +263,16 @@
             <div class="member-info">
               <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
               <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
+            </div>
+            <div
+              class="member-actions"
+              *ngIf="isCurrentUserChannelAdmin() && member.user_id !== currentUser?.id">
+              <ion-button
+                fill="clear"
+                size="small"
+                (click)="presentMemberActionSheet($event, member)">
+                <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+              </ion-button>
             </div>
           </div>
         </div>
@@ -285,6 +325,16 @@
               <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
               <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
             </div>
+            <div
+              class="member-actions"
+              *ngIf="isCurrentUserChannelAdmin() && member.user_id !== currentUser?.id">
+              <ion-button
+                fill="clear"
+                size="small"
+                (click)="presentMemberActionSheet($event, member)">
+                <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+              </ion-button>
+            </div>
           </div>
         </div>
 
@@ -304,6 +354,16 @@
               <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
               <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
             </div>
+            <div
+              class="member-actions"
+              *ngIf="isCurrentUserChannelAdmin() && member.user_id !== currentUser?.id">
+              <ion-button
+                fill="clear"
+                size="small"
+                (click)="presentMemberActionSheet($event, member)">
+                <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+              </ion-button>
+            </div>
           </div>
         </div>
 
@@ -322,6 +382,16 @@
             <div class="member-info">
               <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
               <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
+            </div>
+            <div
+              class="member-actions"
+              *ngIf="isCurrentUserChannelAdmin() && member.user_id !== currentUser?.id">
+              <ion-button
+                fill="clear"
+                size="small"
+                (click)="presentMemberActionSheet($event, member)">
+                <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+              </ion-button>
             </div>
           </div>
         </div>

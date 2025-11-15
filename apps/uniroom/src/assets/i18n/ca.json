@@ -727,6 +727,40 @@
         "EDIT_MESSAGE": "Missatge editat correctament",
         "REPLY_MESSAGE": "Resposta enviada correctament"
       }
+    },
+    "MEMBER_ACTIONS": {
+      "SET_ADMIN": "Fer administrador",
+      "SET_MODERATOR": "Fer moderador",
+      "SET_USER": "Fer usuari",
+      "KICK": "Expulsar",
+      "BAN": "Banejar",
+      "KICK_CONFIRM_TITLE": "Expulsar membre",
+      "KICK_CONFIRM_MESSAGE": "Estàs segur que vols expulsar a {{user}}?",
+      "BAN_CONFIRM_TITLE": "Banejar membre",
+      "BAN_CONFIRM_MESSAGE": "Estàs segur que vols banejar a {{user}}? No podrà tornar a unir-se.",
+      "SUCCESS": {
+        "SET_ROLE": "Rol actualitzat correctament.",
+        "KICK": "Membre expulsat correctament.",
+        "BAN": "Membre banejat correctament."
+      },
+      "ERROR": {
+        "SET_ROLE": "No s'ha pogut actualitzar el rol.",
+        "KICK": "No s'ha pogut expulsar al membre.",
+        "BAN": "No s'ha pogut banejar al membre."
+      }
+    },
+    "ADD_MEMBER": {
+      "TITLE": "Afegir Membre",
+      "SEARCH_PLACEHOLDER": "Buscar usuaris per nom o email...",
+      "NO_RESULTS": "No s'han trobat usuaris.",
+      "ADD_BUTTON": "Afegir",
+      "SUCCESS": {
+        "ADD": "Membre afegit correctament."
+      },
+      "ERROR": {
+        "SEARCH": "No s'han pogut buscar usuaris.",
+        "ADD": "No s'ha pogut afegir el membre."
+      }
     }
   },
   "MESSAGES": {
