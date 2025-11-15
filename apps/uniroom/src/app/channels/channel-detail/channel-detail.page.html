@@ -173,7 +173,7 @@
         <h4>{{ 'CHANNELS.DETAIL.MEMBERS' | translate }}</h4>
         <div class="header-actions">
           <ion-button
-            *ngIf="isCurrentUserChannelAdmin()"
+            *ngIf="isAdmin()"
             fill="clear"
             size="small"
             class="add-member-btn"

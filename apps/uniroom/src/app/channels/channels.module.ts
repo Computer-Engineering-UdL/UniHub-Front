@@ -7,6 +7,9 @@ import { ChannelsRoutingModule } from './channels-routing.module';
 import { ChannelsPage } from './channels.page';
 import { ChannelDetailPage } from './channel-detail/channel-detail.page';
 import { CreateChannelModalComponent } from './create-channel-modal/create-channel-modal.component';
+import { AddMemberModalComponent } from './channel-detail/add-member-modal/add-member-modal.component';
+import { MemberActionsComponent } from './channel-detail/member-actions/member-actions.component';
+import { BanMemberModalComponent } from './channel-detail/ban-member-modal/ban-member-modal.component';
 
 @NgModule({
   imports: [
@@ -17,6 +20,9 @@ import { CreateChannelModalComponent } from './create-channel-modal/create-chann
     TranslateModule,
     ChannelsRoutingModule,
     CreateChannelModalComponent,
+    AddMemberModalComponent,
+    MemberActionsComponent,
+    BanMemberModalComponent,
     NgOptimizedImage
   ],
   declarations: [ChannelsPage, ChannelDetailPage]

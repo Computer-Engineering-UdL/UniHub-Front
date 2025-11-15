@@ -1,19 +1,26 @@
-import { Component, inject, OnDestroy, OnInit, ViewChildren, ElementRef, QueryList } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription, interval, firstValueFrom } from 'rxjs';
+import { firstValueFrom, interval, Subscription } from 'rxjs';
 import { Channel, ChannelMember, ChannelRole } from '../../models/channel.types';
 import { ChannelMessage } from '../../models/message.types';
-import { User, Role, DEFAULT_USER_URL } from '../../models/auth.types';
+import { DEFAULT_USER_URL, Role, User } from '../../models/auth.types';
 import { ChannelService } from '../../services/channel.service';
 import { AuthService } from '../../services/auth.service';
 import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
 import { ApiService } from '../../services/api.service';
-import { AddMemberModalComponent } from './add-member-modal/add-member-modal.component';
-import { MemberActionsComponent, MemberAction } from './member-actions/member-actions.component';
-import { BanMemberModalComponent } from './ban-member-modal/ban-member-modal.component';
+import { MemberActionsComponent } from "./member-actions/member-actions.component";
+import { BanMemberModalComponent } from "./ban-member-modal/ban-member-modal.component";
+
+interface MemberAction {
+  icon: string;
+  text: string;
+  handler: () => void;
+  isDestructive?: boolean;
+  isSelected?: boolean;
+}
 
 interface MessageGroup {
   date: string;
@@ -377,7 +384,13 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     return member?.role === 'admin';
   }
 
+  isAdmin(): boolean {
+    const member = this.members.find((m) => m.user_id === this.currentUser?.id);
+    return member?.user?.role === 'Admin';
+  }
+
   async openAddMemberModal() {
+    const { AddMemberModalComponent } = await import('./add-member-modal/add-member-modal.component');
     const modal = await this.modalController.create({
       component: AddMemberModalComponent,
       componentProps: {
@@ -442,6 +455,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
 
     const actions: MemberAction[] = allActions.filter((action: MemberAction): boolean => !action.isSelected);
 
+    const { MemberActionsComponent } = await import('./member-actions/member-actions.component');
     const popover = await this.popoverCtrl.create({
       component: MemberActionsComponent,
       componentProps: {
