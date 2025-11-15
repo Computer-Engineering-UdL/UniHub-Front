@@ -208,7 +208,7 @@
             </div>
             <div
               class="member-actions"
-              *ngIf="isCurrentUserChannelAdmin() && member.user_id !== currentUser?.id">
+              *ngIf="canManageMembers() && member.user_id !== currentUser?.id">
               <ion-button
                 fill="clear"
                 size="small"
@@ -237,7 +237,7 @@
             </div>
             <div
               class="member-actions"
-              *ngIf="isCurrentUserChannelAdmin() && member.user_id !== currentUser?.id">
+              *ngIf="canManageMembers() && member.user_id !== currentUser?.id">
               <ion-button
                 fill="clear"
                 size="small"
@@ -266,7 +266,7 @@
             </div>
             <div
               class="member-actions"
-              *ngIf="isCurrentUserChannelAdmin() && member.user_id !== currentUser?.id">
+              *ngIf="canManageMembers() && member.user_id !== currentUser?.id">
               <ion-button
                 fill="clear"
                 size="small"
@@ -278,7 +278,7 @@
         </div>
 
         <div
-          *ngIf="bannedMembers.length > 0 && isCurrentUserChannelAdmin()"
+          *ngIf="bannedMembers.length > 0 && canManageMembers()"
           class="member-role-group banned-section">
           <div class="role-group-header">
             <ion-icon name="ban" color="danger"></ion-icon>
@@ -355,7 +355,7 @@
             </div>
             <div
               class="member-actions"
-              *ngIf="isCurrentUserChannelAdmin() && member.user_id !== currentUser?.id">
+              *ngIf="canManageMembers() && member.user_id !== currentUser?.id">
               <ion-button
                 fill="clear"
                 size="small"
@@ -384,7 +384,7 @@
             </div>
             <div
               class="member-actions"
-              *ngIf="isCurrentUserChannelAdmin() && member.user_id !== currentUser?.id">
+              *ngIf="canManageMembers() && member.user_id !== currentUser?.id">
               <ion-button
                 fill="clear"
                 size="small"
@@ -413,7 +413,7 @@
             </div>
             <div
               class="member-actions"
-              *ngIf="isCurrentUserChannelAdmin() && member.user_id !== currentUser?.id">
+              *ngIf="canManageMembers() && member.user_id !== currentUser?.id">
               <ion-button
                 fill="clear"
                 size="small"
@@ -425,7 +425,7 @@
         </div>
 
         <div
-          *ngIf="bannedMembers.length > 0 && isCurrentUserChannelAdmin()"
+          *ngIf="bannedMembers.length > 0 && canManageMembers()"
           class="member-role-group banned-section">
           <div class="role-group-header">
             <ion-icon name="ban" color="danger"></ion-icon>

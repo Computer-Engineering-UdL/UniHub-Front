@@ -11,8 +11,8 @@ import { AuthService } from '../../services/auth.service';
 import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
 import { ApiService } from '../../services/api.service';
-import { MemberActionsComponent } from "./member-actions/member-actions.component";
-import { BanMemberModalComponent } from "./ban-member-modal/ban-member-modal.component";
+import { MemberActionsComponent } from './member-actions/member-actions.component';
+import { BanMemberModalComponent } from './ban-member-modal/ban-member-modal.component';
 
 interface MemberAction {
   icon: string;
@@ -306,6 +306,10 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     return this.hasRequiredRole(this.currentUser.role, this.channel.required_role_write);
   }
 
+  private getCurrentMember(): ChannelMember | undefined {
+    return this.members.find((m): boolean => m.user_id === this.currentUser?.id);
+  }
+
   private hasRequiredRole(userRole: Role, requiredRole: ChannelRole): boolean {
     const roleHierarchy: Record<Role, number> = { Basic: 1, Seller: 2, Admin: 3 };
     const requiredRoleMapping: Record<ChannelRole, Role> = { Basic: 'Basic', Seller: 'Seller', Admin: 'Admin' };
@@ -317,7 +321,14 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   canDeleteMessage(message: ChannelMessage): boolean {
-    return this.isMyMessage(message) || this.currentUser?.role === 'Admin';
+    if (this.isMyMessage(message)) {
+      return true;
+    }
+    if (this.currentUser?.role === 'Admin') {
+      return true;
+    }
+    const member = this.getCurrentMember();
+    return member?.role === 'admin' || member?.role === 'moderator';
   }
 
   formatMessageTime(date: string): string {
@@ -380,12 +391,17 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   isCurrentUserChannelAdmin(): boolean {
-    const member = this.members.find((m) => m.user_id === this.currentUser?.id);
+    const member = this.getCurrentMember();
     return member?.role === 'admin';
   }
 
+  canManageMembers(): boolean {
+    const member = this.getCurrentMember();
+    return member?.role === 'admin' || member?.role === 'moderator';
+  }
+
   isAdmin(): boolean {
-    const member = this.members.find((m) => m.user_id === this.currentUser?.id);
+    const member = this.getCurrentMember();
     return member?.user?.role === 'Admin';
   }
 
@@ -410,31 +426,47 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   async presentMemberActionSheet(event: Event, member: ChannelMember) {
     event.stopPropagation();
 
-    const allActions: MemberAction[] = [
-      {
-        icon: 'shield-checkmark',
-        text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.SET_ADMIN'),
-        handler: () => {
-          this.setMemberRole(member, 'admin');
+    const currentMember = this.getCurrentMember();
+    const isChannelAdmin = currentMember?.role === 'admin';
+    const isChannelModerator = currentMember?.role === 'moderator';
+    const canManageMembers = isChannelAdmin || isChannelModerator;
+
+    if (!canManageMembers) {
+      return;
+    }
+
+    const allActions: MemberAction[] = [];
+
+    if (isChannelAdmin) {
+      allActions.push(
+        {
+          icon: 'shield-checkmark',
+          text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.SET_ADMIN'),
+          handler: () => {
+            this.setMemberRole(member, 'admin');
+          },
+          isSelected: member.role === 'admin'
         },
-        isSelected: member.role === 'admin'
-      },
-      {
-        icon: 'star',
-        text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.SET_MODERATOR'),
-        handler: () => {
-          this.setMemberRole(member, 'moderator');
+        {
+          icon: 'star',
+          text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.SET_MODERATOR'),
+          handler: () => {
+            this.setMemberRole(member, 'moderator');
+          },
+          isSelected: member.role === 'moderator'
         },
-        isSelected: member.role === 'moderator'
-      },
-      {
-        icon: 'people',
-        text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.SET_USER'),
-        handler: () => {
-          this.setMemberRole(member, 'user');
-        },
-        isSelected: member.role === 'user' || member.role === 'member'
-      },
+        {
+          icon: 'people',
+          text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.SET_USER'),
+          handler: () => {
+            this.setMemberRole(member, 'user');
+          },
+          isSelected: member.role === 'user' || member.role === 'member'
+        }
+      );
+    }
+
+    allActions.push(
       {
         icon: 'exit-outline',
         text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.KICK'),
@@ -451,7 +483,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
         },
         isDestructive: true
       }
-    ];
+    );
 
     const actions: MemberAction[] = allActions.filter((action: MemberAction): boolean => !action.isSelected);
 
