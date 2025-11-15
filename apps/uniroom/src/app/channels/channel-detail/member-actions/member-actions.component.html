@@ -1,0 +1,15 @@
+<ion-list class="member-actions-list">
+  <ion-item
+    *ngFor="let action of actions"
+    button
+    (click)="executeAction(action)"
+    [class.destructive]="action.isDestructive"
+    [class.selected]="action.isSelected"
+    [class.admin-action]="action.icon === 'shield-checkmark'"
+    [class.moderator-action]="action.icon === 'star'"
+    [class.user-action]="action.icon === 'people'"
+    lines="none">
+    <ion-icon [name]="action.icon" slot="start"></ion-icon>
+    <ion-label>{{ action.text }}</ion-label>
+  </ion-item>
+</ion-list>

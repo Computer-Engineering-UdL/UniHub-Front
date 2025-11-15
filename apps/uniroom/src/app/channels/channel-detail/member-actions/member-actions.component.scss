@@ -1,0 +1,79 @@
+.member-actions-list {
+  padding: 0;
+  margin: 0;
+  min-width: 220px;
+
+  ion-item {
+    --background: var(--ion-background-color);
+    --color: var(--ion-text-color);
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --min-height: 52px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      --background: var(--ion-color-light);
+    }
+
+    ion-icon {
+      font-size: 22px;
+      margin-right: 14px;
+      transition: transform 0.2s ease;
+    }
+
+    ion-label {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    &.admin-action {
+      ion-icon {
+        color: var(--ion-color-primary);
+      }
+    }
+
+    &.moderator-action {
+      ion-icon {
+        color: #f59e0b;
+      }
+    }
+
+    &.user-action {
+      ion-icon {
+        color: var(--ion-color-medium);
+      }
+    }
+
+    &:hover {
+      ion-icon {
+        transform: scale(1.1);
+      }
+    }
+
+    &.selected {
+      --color: var(--ion-color-primary);
+      --background: var(--ion-color-primary-tint);
+
+      ion-icon {
+        color: var(--ion-color-primary);
+      }
+
+      ion-label {
+        font-weight: 600;
+      }
+    }
+
+    &.destructive {
+      --color: var(--ion-color-danger);
+
+      ion-icon {
+        color: var(--ion-color-danger);
+      }
+
+      &:hover {
+        --background: rgba(var(--ion-color-danger-rgb), 0.1);
+      }
+    }
+  }
+}

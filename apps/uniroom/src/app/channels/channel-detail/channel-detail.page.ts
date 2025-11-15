@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit, ViewChildren, ElementRef, QueryList } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription, interval, firstValueFrom } from 'rxjs';
 import { Channel, ChannelMember, ChannelRole } from '../../models/channel.types';
@@ -11,6 +11,9 @@ import { AuthService } from '../../services/auth.service';
 import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
 import { ApiService } from '../../services/api.service';
+import { AddMemberModalComponent } from './add-member-modal/add-member-modal.component';
+import { MemberActionsComponent, MemberAction } from './member-actions/member-actions.component';
+import { BanMemberModalComponent } from './ban-member-modal/ban-member-modal.component';
 
 interface MessageGroup {
   date: string;
@@ -35,6 +38,8 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   private notificationService: NotificationService = inject(NotificationService);
   private localizationService: LocalizationService = inject(LocalizationService);
   private translate: TranslateService = inject(TranslateService);
+  private modalController: ModalController = inject(ModalController);
+  private popoverCtrl: PopoverController = inject(PopoverController);
 
   private userSubscription?: Subscription;
   private messagesRefreshSubscription?: Subscription;
@@ -46,6 +51,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   members: ChannelMember[] = [];
   adminMembers: ChannelMember[] = [];
   moderatorMembers: ChannelMember[] = [];
+  bannedMembers: ChannelMember[] = [];
   regularMembers: ChannelMember[] = [];
   currentUser: User | null = null;
   isLoading: boolean = true;
@@ -142,7 +148,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     try {
       const membersData: ChannelMember[] = await this.channelService.getChannelMembers(this.channelId);
 
-      this.members = await Promise.all(
+      const allMembers: ChannelMember[] = await Promise.all(
         membersData.map(async (member: ChannelMember): Promise<ChannelMember> => {
           try {
             const user: User = this.authService.mapUserFromApi(
@@ -154,6 +160,9 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
           }
         })
       );
+
+      this.members = allMembers.filter((member: ChannelMember): boolean => !member.is_banned);
+      this.bannedMembers = allMembers.filter((member: ChannelMember): boolean => !!member.is_banned);
 
       this.adminMembers = this.members.filter((member: ChannelMember): boolean => member.role === 'admin');
       this.moderatorMembers = this.members.filter((member: ChannelMember): boolean => member.role === 'moderator');
@@ -257,30 +266,30 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   getReplyMessageContent(message: ChannelMessage): string {
-    if (!message.reply_message) {
+    if (!message.parent_message) {
       return '';
     }
-    return message.reply_message.content.length > 50
-      ? message.reply_message.content.substring(0, 50) + '...'
-      : message.reply_message.content;
+    return message.parent_message.content.length > 50
+      ? message.parent_message.content.substring(0, 50) + '...'
+      : message.parent_message.content;
   }
 
   getReplyMessageSender(message: ChannelMessage): string {
-    if (!message.reply_message) {
+    if (!message.parent_message) {
       return '';
     }
-    if (message.reply_message.user_id === this.currentUser?.id) {
+    if (message.parent_message.user_id === this.currentUser?.id) {
       return this.translate.instant('COMMON.YOU');
     }
-    if (message.reply_message.sender) {
+    if (message.parent_message.sender) {
       return (
-        message.reply_message.sender.fullName ||
-        message.reply_message.sender.name ||
-        message.reply_message.sender.username ||
-        message.reply_message.user_id
+        message.parent_message.sender.fullName ||
+        message.parent_message.sender.name ||
+        message.parent_message.sender.username ||
+        message.parent_message.user_id
       );
     }
-    return message.reply_message.user_id;
+    return message.parent_message.user_id;
   }
 
   canWriteInChannel(): boolean {
@@ -361,5 +370,181 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
 
   closeMembersModal(): void {
     this.showMembersModal = false;
+  }
+
+  isCurrentUserChannelAdmin(): boolean {
+    const member = this.members.find((m) => m.user_id === this.currentUser?.id);
+    return member?.role === 'admin';
+  }
+
+  async openAddMemberModal() {
+    const modal = await this.modalController.create({
+      component: AddMemberModalComponent,
+      componentProps: {
+        channelId: this.channelId,
+        existingMembers: this.members.map((m) => m.user).filter(Boolean) as User[],
+        bannedMemberIds: this.bannedMembers.map((m) => m.user_id)
+      }
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      await this.loadMembers();
+    }
+  }
+
+  async presentMemberActionSheet(event: Event, member: ChannelMember) {
+    event.stopPropagation();
+
+    const allActions: MemberAction[] = [
+      {
+        icon: 'shield-checkmark',
+        text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.SET_ADMIN'),
+        handler: () => {
+          this.setMemberRole(member, 'admin');
+        },
+        isSelected: member.role === 'admin'
+      },
+      {
+        icon: 'star',
+        text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.SET_MODERATOR'),
+        handler: () => {
+          this.setMemberRole(member, 'moderator');
+        },
+        isSelected: member.role === 'moderator'
+      },
+      {
+        icon: 'people',
+        text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.SET_USER'),
+        handler: () => {
+          this.setMemberRole(member, 'user');
+        },
+        isSelected: member.role === 'user' || member.role === 'member'
+      },
+      {
+        icon: 'exit-outline',
+        text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.KICK'),
+        handler: () => {
+          this.kickMember(member);
+        },
+        isDestructive: true
+      },
+      {
+        icon: 'ban-outline',
+        text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.BAN'),
+        handler: () => {
+          this.banMember(member);
+        },
+        isDestructive: true
+      }
+    ];
+
+    const actions: MemberAction[] = allActions.filter((action: MemberAction): boolean => !action.isSelected);
+
+    const popover = await this.popoverCtrl.create({
+      component: MemberActionsComponent,
+      componentProps: {
+        member,
+        actions
+      },
+      event,
+      translucent: true
+    });
+
+    await popover.present();
+  }
+
+  async setMemberRole(member: ChannelMember, role: 'admin' | 'moderator' | 'user') {
+    try {
+      await this.channelService.setMemberRole(this.channelId, member.user_id, role);
+      this.notificationService.success('CHANNELS.MEMBER_ACTIONS.SUCCESS.SET_ROLE');
+      await this.loadMembers();
+    } catch (error) {
+      this.notificationService.error('CHANNELS.MEMBER_ACTIONS.ERROR.SET_ROLE');
+    }
+  }
+
+  async kickMember(member: ChannelMember) {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('CHANNELS.MEMBER_ACTIONS.KICK_CONFIRM_TITLE'),
+      message: this.translate.instant('CHANNELS.MEMBER_ACTIONS.KICK_CONFIRM_MESSAGE', {
+        user: member.user?.fullName || member.user?.username
+      }),
+      buttons: [
+        { text: this.translate.instant('COMMON.CANCEL'), role: 'cancel' },
+        {
+          text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.KICK'),
+          handler: async () => {
+            try {
+              await this.channelService.removeMember(this.channelId, member.user_id);
+              this.notificationService.success('CHANNELS.MEMBER_ACTIONS.SUCCESS.KICK');
+              await this.loadMembers();
+            } catch (error) {
+              this.notificationService.error('CHANNELS.MEMBER_ACTIONS.ERROR.KICK');
+            }
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async banMember(member: ChannelMember) {
+    await this.openBanModal(member);
+  }
+
+  async openBanModal(member: ChannelMember) {
+    const modal = await this.modalController.create({
+      component: BanMemberModalComponent,
+      componentProps: {
+        member
+      }
+    });
+
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+
+    if (data?.confirmed) {
+      try {
+        await this.channelService.banMember(this.channelId, {
+          user_id: member.user_id,
+          motive: data.motive,
+          duration_days: data.duration_days
+        });
+        this.notificationService.success('CHANNELS.MEMBER_ACTIONS.SUCCESS.BAN');
+        await this.loadMembers();
+      } catch (_) {
+        this.notificationService.error('CHANNELS.MEMBER_ACTIONS.ERROR.BAN');
+      }
+    }
+  }
+
+  async unbanMember(member: ChannelMember) {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('CHANNELS.MEMBER_ACTIONS.UNBAN_CONFIRM_TITLE'),
+      message: this.translate.instant('CHANNELS.MEMBER_ACTIONS.UNBAN_CONFIRM_MESSAGE', {
+        user: member.user?.fullName || member.user?.username
+      }),
+      buttons: [
+        { text: this.translate.instant('COMMON.CANCEL'), role: 'cancel' },
+        {
+          text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.UNBAN'),
+          handler: async () => {
+            try {
+              await this.channelService.unbanMember(this.channelId, {
+                user_id: member.user_id,
+                motive: 'Unbanned by administrator'
+              });
+              this.notificationService.success('CHANNELS.MEMBER_ACTIONS.SUCCESS.UNBAN');
+              await this.loadMembers();
+            } catch (_) {
+              this.notificationService.error('CHANNELS.MEMBER_ACTIONS.ERROR.UNBAN');
+            }
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

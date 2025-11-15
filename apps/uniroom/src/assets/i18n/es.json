@@ -696,6 +696,8 @@
       "ADMINS": "Administradores",
       "MODERATORS": "Moderadores",
       "REGULAR_MEMBERS": "Miembros",
+      "BANNED_MEMBERS": "Miembros baneados",
+      "BANNED": "Baneado",
       "LOADING": "Cargando...",
       "NO_MEMBERS": "No hay miembros",
       "NO_MESSAGES": "No hay mensajes",
@@ -727,6 +729,53 @@
         "DELETE_MESSAGE": "Mensaje eliminado correctamente",
         "EDIT_MESSAGE": "Mensaje editado correctamente",
         "REPLY_MESSAGE": "Respuesta enviada correctamente"
+      }
+    },
+    "MEMBER_ACTIONS": {
+      "SET_ADMIN": "Hacer administrador",
+      "SET_MODERATOR": "Hacer moderador",
+      "SET_USER": "Hacer usuario",
+      "KICK": "Expulsar",
+      "BAN": "Banear",
+      "UNBAN": "Desbanear",
+      "KICK_CONFIRM_TITLE": "Expulsar miembro",
+      "KICK_CONFIRM_MESSAGE": "¿Estás seguro de que quieres expulsar a {{user}}?",
+      "BAN_CONFIRM_TITLE": "Banear miembro",
+      "BAN_CONFIRM_MESSAGE": "¿Estás seguro de que quieres banear a {{user}}?",
+      "BAN_MOTIVE_LABEL": "Motivo del ban",
+      "BAN_MOTIVE_PLACEHOLDER": "Escribe el motivo del ban (mínimo 3 caracteres)",
+      "BAN_DURATION_LABEL": "Duración del ban",
+      "BAN_DURATION_PLACEHOLDER": "Días de duración (1-365)",
+      "DAY": "día",
+      "DAYS": "días",
+      "UNBAN_CONFIRM_TITLE": "Desbanear miembro",
+      "UNBAN_CONFIRM_MESSAGE": "¿Estás seguro de que quieres desbanear a {{user}}?",
+      "SUCCESS": {
+        "SET_ROLE": "Rol actualizado correctamente.",
+        "KICK": "Miembro expulsado correctamente.",
+        "BAN": "Miembro baneado correctamente.",
+        "UNBAN": "Miembro desbaneado correctamente."
+      },
+      "ERROR": {
+        "SET_ROLE": "No se pudo actualizar el rol.",
+        "KICK": "No se pudo expulsar al miembro.",
+        "BAN": "No se pudo banear al miembro.",
+        "UNBAN": "No se pudo desbanear al miembro.",
+        "BAN_MOTIVE_REQUIRED": "El motivo del ban es obligatorio (mínimo 3 caracteres).",
+        "BAN_DURATION_REQUIRED": "La duración del ban es obligatoria (mínimo 1 día)."
+      }
+    },
+    "ADD_MEMBER": {
+      "TITLE": "Añadir Miembro",
+      "SEARCH_PLACEHOLDER": "Buscar usuarios por nombre o email...",
+      "NO_RESULTS": "No se encontraron usuarios.",
+      "ADD_BUTTON": "Añadir",
+      "SUCCESS": {
+        "ADD": "Miembro añadido correctamente."
+      },
+      "ERROR": {
+        "SEARCH": "No se pudieron buscar usuarios.",
+        "ADD": "No se pudo añadir el miembro."
       }
     }
   },

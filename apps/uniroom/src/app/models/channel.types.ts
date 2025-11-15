@@ -49,6 +49,21 @@ export interface ChannelMember {
   user?: User;
 }
 
+export interface ChannelMessage {
+  id: string;
+  channel_id: string;
+  user_id: string;
+  content: string;
+  created_at: string;
+  updated_at: string | null;
+  is_edited: boolean;
+  parent_message_id: string | null;
+  parent_message?: ChannelMessage;
+  sender_id?: string;
+  reply_to?: string | null;
+  sender?: User;
+}
+
 export interface CreateChannelDto {
   name: string;
   description: string;

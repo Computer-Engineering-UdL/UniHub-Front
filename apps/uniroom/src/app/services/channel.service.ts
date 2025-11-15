@@ -66,11 +66,11 @@ export class ChannelService {
     await this.fetchChannels();
   }
 
-  async banMember(channelId: string, data: { user_id: string }): Promise<void> {
+  async banMember(channelId: string, data: { user_id: string; motive: string; duration_days: number }): Promise<void> {
     await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/ban`, data));
   }
 
-  async unbanMember(channelId: string, data: { user_id: string }): Promise<void> {
+  async unbanMember(channelId: string, data: { user_id: string; motive: string }): Promise<void> {
     await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/unban`, data));
   }
 
@@ -91,11 +91,33 @@ export class ChannelService {
           const sender: User = this.authService.mapUserFromApi(
             await firstValueFrom(this.apiService.get<User>(`user/public/${msg.user_id}`))
           );
+
+          let parentMessage: ChannelMessage | undefined;
+          if (msg.parent_message_id) {
+            try {
+              const parentMsgData = await firstValueFrom(
+                this.apiService.get<any>(`channel/${channelId}/messages/${msg.parent_message_id}`)
+              );
+              const parentSender: User = this.authService.mapUserFromApi(
+                await firstValueFrom(this.apiService.get<User>(`user/public/${parentMsgData.user_id}`))
+              );
+              parentMessage = {
+                ...parentMsgData,
+                sender_id: parentMsgData.user_id,
+                reply_to: parentMsgData.parent_message_id,
+                sender: parentSender
+              };
+            } catch (e) {
+              // Parent message not found or error fetching it
+            }
+          }
+
           return {
             ...msg,
             sender_id: msg.user_id,
             reply_to: msg.parent_message_id,
-            sender
+            sender,
+            parent_message: parentMessage
           };
         } catch (_) {
           return {
@@ -133,6 +155,20 @@ export class ChannelService {
         user_id: userId,
         content
       })
+    );
+  }
+
+  async addMember(channelId: string, memberId: string): Promise<void> {
+    await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/add_member/${memberId}`, {}));
+  }
+
+  async removeMember(channelId: string, memberId: string): Promise<void> {
+    await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/remove_member/${memberId}`, {}));
+  }
+
+  async setMemberRole(channelId: string, memberId: string, role: 'moderator' | 'admin' | 'user'): Promise<void> {
+    await firstValueFrom(
+      this.apiService.post<void>(`channel/${channelId}/set_role`, { user_id: memberId, new_role: role })
     );
   }
 }
