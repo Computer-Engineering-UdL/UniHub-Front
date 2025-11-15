@@ -695,6 +695,8 @@
       "ADMINS": "Administradors",
       "MODERATORS": "Moderadors",
       "REGULAR_MEMBERS": "Membres",
+      "BANNED_MEMBERS": "Membres banejats",
+      "BANNED": "Banejat",
       "LOADING": "Carregant...",
       "NO_MEMBERS": "No hi ha membres",
       "NO_MESSAGES": "No hi ha missatges",
@@ -734,19 +736,32 @@
       "SET_USER": "Fer usuari",
       "KICK": "Expulsar",
       "BAN": "Banejar",
+      "UNBAN": "Desbanejar",
       "KICK_CONFIRM_TITLE": "Expulsar membre",
       "KICK_CONFIRM_MESSAGE": "Estàs segur que vols expulsar a {{user}}?",
       "BAN_CONFIRM_TITLE": "Banejar membre",
-      "BAN_CONFIRM_MESSAGE": "Estàs segur que vols banejar a {{user}}? No podrà tornar a unir-se.",
+      "BAN_CONFIRM_MESSAGE": "Estàs segur que vols banejar a {{user}}?",
+      "BAN_MOTIVE_LABEL": "Motiu del ban",
+      "BAN_MOTIVE_PLACEHOLDER": "Escriu el motiu del ban (mínim 3 caràcters)",
+      "BAN_DURATION_LABEL": "Durada del ban",
+      "BAN_DURATION_PLACEHOLDER": "Dies de durada (1-365)",
+      "DAY": "dia",
+      "DAYS": "dies",
+      "UNBAN_CONFIRM_TITLE": "Desbanejar membre",
+      "UNBAN_CONFIRM_MESSAGE": "Estàs segur que vols desbanejar a {{user}}?",
       "SUCCESS": {
         "SET_ROLE": "Rol actualitzat correctament.",
         "KICK": "Membre expulsat correctament.",
-        "BAN": "Membre banejat correctament."
+        "BAN": "Membre banejat correctament.",
+        "UNBAN": "Membre desbanejat correctament."
       },
       "ERROR": {
         "SET_ROLE": "No s'ha pogut actualitzar el rol.",
         "KICK": "No s'ha pogut expulsar al membre.",
-        "BAN": "No s'ha pogut banejar al membre."
+        "BAN": "No s'ha pogut banejar al membre.",
+        "UNBAN": "No s'ha pogut desbanejar al membre.",
+        "BAN_MOTIVE_REQUIRED": "El motiu del ban és obligatori (mínim 3 caràcters).",
+        "BAN_DURATION_REQUIRED": "La durada del ban és obligatòria (mínim 1 dia)."
       }
     },
     "ADD_MEMBER": {

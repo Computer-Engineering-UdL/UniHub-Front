@@ -696,6 +696,8 @@
       "ADMINS": "Administrators",
       "MODERATORS": "Moderators",
       "REGULAR_MEMBERS": "Members",
+      "BANNED_MEMBERS": "Banned Members",
+      "BANNED": "Banned",
       "LOADING": "Loading...",
       "NO_MEMBERS": "No members",
       "NO_MESSAGES": "No messages",
@@ -727,27 +729,40 @@
         "DELETE_MESSAGE": "Message deleted successfully",
         "EDIT_MESSAGE": "Message edited successfully",
         "REPLY_MESSAGE": "Reply sent successfully"
-      }
-    },
+    "MEMBER_ACTIONS": {
+      "SET_ADMIN": "Set as Admin",
     "MEMBER_ACTIONS": {
       "SET_ADMIN": "Set as Admin",
       "SET_MODERATOR": "Set as Moderator",
       "SET_USER": "Set as User",
+      "UNBAN": "Unban",
       "KICK": "Kick",
       "BAN": "Ban",
       "KICK_CONFIRM_TITLE": "Kick Member",
-      "KICK_CONFIRM_MESSAGE": "Are you sure you want to kick {{user}}?",
-      "BAN_CONFIRM_TITLE": "Ban Member",
+      "BAN_CONFIRM_MESSAGE": "Are you sure you want to ban {{user}}?",
+      "BAN_MOTIVE_LABEL": "Ban reason",
+      "BAN_MOTIVE_PLACEHOLDER": "Enter the ban reason (minimum 3 characters)",
+      "BAN_DURATION_LABEL": "Ban duration",
       "BAN_CONFIRM_MESSAGE": "Are you sure you want to ban {{user}}? They won't be able to join again.",
+      "DAY": "day",
+      "DAYS": "days",
+      "UNBAN_CONFIRM_TITLE": "Unban Member",
+      "UNBAN_CONFIRM_MESSAGE": "Are you sure you want to unban {{user}}?",
+      "BAN_MOTIVE_PLACEHOLDER": "Ban reason (minimum 3 characters)",
+      "BAN_DURATION_PLACEHOLDER": "Duration in days (1-365)",
       "SUCCESS": {
-        "SET_ROLE": "Role updated successfully.",
+        "BAN": "Member banned successfully.",
+        "UNBAN": "Member unbanned successfully."
         "KICK": "Member kicked successfully.",
         "BAN": "Member banned successfully."
       },
       "ERROR": {
         "SET_ROLE": "Could not update role.",
+        "UNBAN": "Could not unban member.",
         "KICK": "Could not kick member.",
-        "BAN": "Could not ban member."
+        "BAN": "Could not ban member.",
+        "BAN_MOTIVE_REQUIRED": "Ban reason is required (minimum 3 characters).",
+        "BAN_DURATION_REQUIRED": "Ban duration is required (minimum 1 day)."
       }
     },
     "ADD_MEMBER": {

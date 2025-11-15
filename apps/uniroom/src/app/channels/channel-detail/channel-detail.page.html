@@ -395,6 +395,34 @@
             </div>
           </div>
         </div>
+
+        <div *ngIf="bannedMembers.length > 0 && isCurrentUserChannelAdmin()" class="member-role-group banned-section">
+          <div class="role-group-header">
+            <ion-icon name="ban" color="danger"></ion-icon>
+            <span>{{ 'CHANNELS.DETAIL.BANNED_MEMBERS' | translate }}</span>
+            <ion-badge color="danger">{{ bannedMembers.length }}</ion-badge>
+          </div>
+          <div class="member-item banned-member" *ngFor="let member of bannedMembers">
+            <ion-avatar>
+              <img
+                [src]="member.user?.imgUrl || defaultUserUrl"
+                [alt]="member.user?.fullName || member.user_id" />
+            </ion-avatar>
+            <div class="member-info">
+              <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
+              <span class="member-role banned-label">{{ 'CHANNELS.DETAIL.BANNED' | translate }}</span>
+            </div>
+            <div class="member-actions">
+              <ion-button
+                fill="clear"
+                size="small"
+                color="medium"
+                (click)="unbanMember(member)">
+                <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        </div>
       </div>
     </ion-content>
   </ng-template>

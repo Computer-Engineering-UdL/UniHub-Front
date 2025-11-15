@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'CHANNELS.MEMBER_ACTIONS.BAN_CONFIRM_TITLE' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="ban-modal-content">
+    <div class="member-info">
+      <ion-avatar>
+        <img [src]="member.user?.imgUrl || 'assets/icon/default_avatar.svg'" alt="User avatar" />
+      </ion-avatar>
+      <div class="member-details">
+        <h3>{{ member.user?.fullName || member.user?.username }}</h3>
+        <p>{{ 'CHANNELS.MEMBER_ACTIONS.BAN_CONFIRM_MESSAGE' | translate: { user: member.user?.fullName || member.user?.username } }}</p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <ion-label position="stacked">
+        {{ 'CHANNELS.MEMBER_ACTIONS.BAN_MOTIVE_LABEL' | translate }}
+        <span class="required">*</span>
+      </ion-label>
+      <ion-textarea
+        [(ngModel)]="motive"
+        [placeholder]="'CHANNELS.MEMBER_ACTIONS.BAN_MOTIVE_PLACEHOLDER' | translate"
+        rows="3"
+        [counter]="true"
+        maxlength="500">
+      </ion-textarea>
+      <ion-text color="danger" *ngIf="motive.length > 0 && motive.trim().length < 3">
+        <small>{{ 'CHANNELS.MEMBER_ACTIONS.ERROR.BAN_MOTIVE_REQUIRED' | translate }}</small>
+      </ion-text>
+    </div>
+
+    <div class="form-group">
+      <ion-label position="stacked">
+        {{ 'CHANNELS.MEMBER_ACTIONS.BAN_DURATION_LABEL' | translate }}
+      </ion-label>
+      <div class="duration-display">
+        <ion-text color="primary">
+          <h2>{{ durationDays }} {{ durationDays === 1 ? ('CHANNELS.MEMBER_ACTIONS.DAY' | translate) : ('CHANNELS.MEMBER_ACTIONS.DAYS' | translate) }}</h2>
+        </ion-text>
+      </div>
+      <ion-range
+        [(ngModel)]="durationDays"
+        [min]="1"
+        [max]="365"
+        [step]="1"
+        [pin]="true"
+        [ticks]="false"
+        [snaps]="true">
+        <ion-label slot="start">1</ion-label>
+        <ion-label slot="end">365</ion-label>
+      </ion-range>
+      <div class="duration-presets">
+        <ion-chip (click)="durationDays = 1" [outline]="durationDays !== 1">
+          <ion-label>1 {{ 'CHANNELS.MEMBER_ACTIONS.DAY' | translate }}</ion-label>
+        </ion-chip>
+        <ion-chip (click)="durationDays = 7" [outline]="durationDays !== 7">
+          <ion-label>7 {{ 'CHANNELS.MEMBER_ACTIONS.DAYS' | translate }}</ion-label>
+        </ion-chip>
+        <ion-chip (click)="durationDays = 30" [outline]="durationDays !== 30">
+          <ion-label>30 {{ 'CHANNELS.MEMBER_ACTIONS.DAYS' | translate }}</ion-label>
+        </ion-chip>
+        <ion-chip (click)="durationDays = 365" [outline]="durationDays !== 365">
+          <ion-label>365 {{ 'CHANNELS.MEMBER_ACTIONS.DAYS' | translate }}</ion-label>
+        </ion-chip>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()">
+        {{ 'COMMON.CANCEL' | translate }}
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="danger" (click)="confirm()" [disabled]="!isValid" fill="solid">
+        <ion-icon slot="start" name="ban-outline"></ion-icon>
+        {{ 'CHANNELS.MEMBER_ACTIONS.BAN' | translate }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+

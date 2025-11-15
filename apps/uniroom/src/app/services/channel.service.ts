@@ -66,7 +66,7 @@ export class ChannelService {
     await this.fetchChannels();
   }
 
-  async banMember(channelId: string, data: { user_id: string }): Promise<void> {
+  async banMember(channelId: string, data: { user_id: string; motive: string; duration_days: number }): Promise<void> {
     await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/ban`, data));
   }
 

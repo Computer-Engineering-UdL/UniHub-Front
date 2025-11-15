@@ -13,6 +13,7 @@ import NotificationService from '../../services/notification.service';
 import { ApiService } from '../../services/api.service';
 import { AddMemberModalComponent } from './add-member-modal/add-member-modal.component';
 import { MemberActionsComponent, MemberAction } from './member-actions/member-actions.component';
+import { BanMemberModalComponent } from './ban-member-modal/ban-member-modal.component';
 
 interface MessageGroup {
   date: string;
@@ -50,6 +51,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   members: ChannelMember[] = [];
   adminMembers: ChannelMember[] = [];
   moderatorMembers: ChannelMember[] = [];
+  bannedMembers: ChannelMember[] = [];
   regularMembers: ChannelMember[] = [];
   currentUser: User | null = null;
   isLoading: boolean = true;
@@ -146,7 +148,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     try {
       const membersData: ChannelMember[] = await this.channelService.getChannelMembers(this.channelId);
 
-      this.members = await Promise.all(
+      const allMembers: ChannelMember[] = await Promise.all(
         membersData.map(async (member: ChannelMember): Promise<ChannelMember> => {
           try {
             const user: User = this.authService.mapUserFromApi(
@@ -158,6 +160,10 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
           }
         })
       );
+
+      this.members = allMembers.filter((member: ChannelMember): boolean => !member.is_banned);
+      this.bannedMembers = allMembers.filter((member: ChannelMember): boolean => !!member.is_banned);
+
 
       this.adminMembers = this.members.filter((member: ChannelMember): boolean => member.role === 'admin');
       this.moderatorMembers = this.members.filter((member: ChannelMember): boolean => member.role === 'moderator');
@@ -485,22 +491,52 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   async banMember(member: ChannelMember) {
+    await this.openBanModal(member);
+  }
+
+  async openBanModal(member: ChannelMember) {
+    const modal = await this.modalController.create({
+      component: BanMemberModalComponent,
+      componentProps: {
+        member
+      }
+    });
+
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+
+    if (data?.confirmed) {
+      try {
+        await this.channelService.banMember(this.channelId, {
+          user_id: member.user_id,
+          motive: data.motive,
+          duration_days: data.duration_days
+        });
+        this.notificationService.success('CHANNELS.MEMBER_ACTIONS.SUCCESS.BAN');
+        await this.loadMembers();
+      } catch (_) {
+        this.notificationService.error('CHANNELS.MEMBER_ACTIONS.ERROR.BAN');
+      }
+    }
+  }
+
+  async unbanMember(member: ChannelMember) {
     const alert = await this.alertController.create({
-      header: this.translate.instant('CHANNELS.MEMBER_ACTIONS.BAN_CONFIRM_TITLE'),
-      message: this.translate.instant('CHANNELS.MEMBER_ACTIONS.BAN_CONFIRM_MESSAGE', {
+      header: this.translate.instant('CHANNELS.MEMBER_ACTIONS.UNBAN_CONFIRM_TITLE'),
+      message: this.translate.instant('CHANNELS.MEMBER_ACTIONS.UNBAN_CONFIRM_MESSAGE', {
         user: member.user?.fullName || member.user?.username
       }),
       buttons: [
         { text: this.translate.instant('COMMON.CANCEL'), role: 'cancel' },
         {
-          text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.BAN'),
+          text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.UNBAN'),
           handler: async () => {
             try {
-              await this.channelService.banMember(this.channelId, { user_id: member.user_id });
-              this.notificationService.success('CHANNELS.MEMBER_ACTIONS.SUCCESS.BAN');
+              await this.channelService.unbanMember(this.channelId, { user_id: member.user_id });
+              this.notificationService.success('CHANNELS.MEMBER_ACTIONS.SUCCESS.UNBAN');
               await this.loadMembers();
-            } catch (error) {
-              this.notificationService.error('CHANNELS.MEMBER_ACTIONS.ERROR.BAN');
+            } catch (_) {
+              this.notificationService.error('CHANNELS.MEMBER_ACTIONS.ERROR.UNBAN');
             }
           }
         }

@@ -847,6 +847,21 @@ ion-header {
   .member-role-group {
     margin-bottom: 1.5rem;
 
+    &.banned-section {
+      border-top: 2px solid var(--ion-color-danger-tint);
+      padding-top: 1rem;
+      margin-top: 2rem;
+
+      .role-group-header {
+        background: rgba(var(--ion-color-danger-rgb), 0.1);
+        border-color: var(--ion-color-danger-tint);
+
+        ion-icon {
+          color: var(--ion-color-danger);
+        }
+      }
+    }
+
     .role-group-header {
       display: flex;
       align-items: center;
@@ -891,6 +906,16 @@ ion-header {
         opacity: 0.8;
       }
 
+      &.banned-member {
+        opacity: 0.7;
+        border-color: var(--ion-color-danger-tint);
+
+        &:hover {
+          opacity: 1;
+          background: rgba(var(--ion-color-danger-rgb), 0.05);
+        }
+      }
+
       ion-avatar {
         width: 44px;
         height: 44px;
@@ -924,6 +949,11 @@ ion-header {
           font-size: 0.875rem;
           color: var(--ion-text-color-secondary);
           font-weight: 500;
+
+          &.banned-label {
+            color: var(--ion-color-danger);
+            font-weight: 600;
+          }
         }
       }
     }
