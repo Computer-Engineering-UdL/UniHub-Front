@@ -167,6 +167,8 @@ export class ChannelService {
   }
 
   async setMemberRole(channelId: string, memberId: string, role: 'moderator' | 'admin' | 'user'): Promise<void> {
-    await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/set_role`, { user_id: memberId, role }));
+    await firstValueFrom(
+      this.apiService.post<void>(`channel/${channelId}/set_role`, { user_id: memberId, new_role: role })
+    );
   }
 }

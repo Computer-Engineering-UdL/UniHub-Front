@@ -326,12 +326,34 @@ ion-header {
         }
       }
 
-      .member-actions {
-        ion-button {
-          --padding-start: 4px;
-          --padding-end: 4px;
+      .action-sheet-group {
+  .action-sheet-button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 12px 16px;
+    gap: 16px;
+
+    .action-sheet-icon {
+      font-size: 20px;
+    }
+
+    &.action-sheet-selected {
+      font-weight: 600;
+      color: var(--ion-color-primary);
+    }
+
+    &.sc-ion-action-sheet-md {
+      &.action-sheet-button-destructive {
+        color: var(--ion-color-danger);
+
+        .action-sheet-icon {
+          color: var(--ion-color-danger);
         }
       }
+    }
+  }
+}
     }
   }
 
