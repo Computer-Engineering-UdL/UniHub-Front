@@ -164,7 +164,6 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
       this.members = allMembers.filter((member: ChannelMember): boolean => !member.is_banned);
       this.bannedMembers = allMembers.filter((member: ChannelMember): boolean => !!member.is_banned);
 
-
       this.adminMembers = this.members.filter((member: ChannelMember): boolean => member.role === 'admin');
       this.moderatorMembers = this.members.filter((member: ChannelMember): boolean => member.role === 'moderator');
       this.regularMembers = this.members.filter((member: ChannelMember): boolean => member.role === 'user');
@@ -533,7 +532,10 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
           text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.UNBAN'),
           handler: async () => {
             try {
-              await this.channelService.unbanMember(this.channelId, { user_id: member.user_id });
+              await this.channelService.unbanMember(this.channelId, {
+                user_id: member.user_id,
+                motive: 'Unbanned by administrator'
+              });
               this.notificationService.success('CHANNELS.MEMBER_ACTIONS.SUCCESS.UNBAN');
               await this.loadMembers();
             } catch (_) {

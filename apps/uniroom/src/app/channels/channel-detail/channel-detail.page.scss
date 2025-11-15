@@ -354,39 +354,39 @@ ion-header {
       }
 
       .action-sheet-group {
-  .action-sheet-button {
-    color: var(--ion-text-color);
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 12px 16px;
-    gap: 16px;
+        .action-sheet-button {
+          color: var(--ion-text-color);
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          padding: 12px 16px;
+          gap: 16px;
 
-    .action-sheet-icon {
-      font-size: 20px;
-      color: var(--ion-color-medium-shade);
-    }
+          .action-sheet-icon {
+            font-size: 20px;
+            color: var(--ion-color-medium-shade);
+          }
 
-    &.action-sheet-selected {
-      font-weight: 600;
-      color: var(--ion-color-primary);
-      .action-sheet-icon {
-        color: var(--ion-color-primary);
-      }
-    }
+          &.action-sheet-selected {
+            font-weight: 600;
+            color: var(--ion-color-primary);
+            .action-sheet-icon {
+              color: var(--ion-color-primary);
+            }
+          }
 
-    &.sc-ion-action-sheet-md,
-    &.sc-ion-action-sheet-ios {
-      &.action-sheet-button-destructive {
-        color: var(--ion-color-danger);
+          &.sc-ion-action-sheet-md,
+          &.sc-ion-action-sheet-ios {
+            &.action-sheet-button-destructive {
+              color: var(--ion-color-danger);
 
-        .action-sheet-icon {
-          color: var(--ion-color-danger);
+              .action-sheet-icon {
+                color: var(--ion-color-danger);
+              }
+            }
+          }
         }
       }
-    }
-  }
-}
     }
   }
 

@@ -40,4 +40,3 @@ export class BanMemberModalComponent {
     return this.motive.trim().length >= 3;
   }
 }
-

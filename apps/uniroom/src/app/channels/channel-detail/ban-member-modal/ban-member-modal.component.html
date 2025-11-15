@@ -17,7 +17,12 @@
       </ion-avatar>
       <div class="member-details">
         <h3>{{ member.user?.fullName || member.user?.username }}</h3>
-        <p>{{ 'CHANNELS.MEMBER_ACTIONS.BAN_CONFIRM_MESSAGE' | translate: { user: member.user?.fullName || member.user?.username } }}</p>
+        <p>
+          {{
+            'CHANNELS.MEMBER_ACTIONS.BAN_CONFIRM_MESSAGE'
+              | translate: { user: member.user?.fullName || member.user?.username }
+          }}
+        </p>
       </div>
     </div>
 
@@ -44,7 +49,14 @@
       </ion-label>
       <div class="duration-display">
         <ion-text color="primary">
-          <h2>{{ durationDays }} {{ durationDays === 1 ? ('CHANNELS.MEMBER_ACTIONS.DAY' | translate) : ('CHANNELS.MEMBER_ACTIONS.DAYS' | translate) }}</h2>
+          <h2>
+            {{ durationDays }}
+            {{
+              durationDays === 1
+                ? ('CHANNELS.MEMBER_ACTIONS.DAY' | translate)
+                : ('CHANNELS.MEMBER_ACTIONS.DAYS' | translate)
+            }}
+          </h2>
         </ion-text>
       </div>
       <ion-range
@@ -91,4 +103,3 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>
-

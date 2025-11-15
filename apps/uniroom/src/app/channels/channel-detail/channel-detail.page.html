@@ -277,7 +277,9 @@
           </div>
         </div>
 
-        <div *ngIf="bannedMembers.length > 0 && isCurrentUserChannelAdmin()" class="member-role-group banned-section">
+        <div
+          *ngIf="bannedMembers.length > 0 && isCurrentUserChannelAdmin()"
+          class="member-role-group banned-section">
           <div class="role-group-header">
             <ion-icon name="ban" color="danger"></ion-icon>
             <span>{{ 'CHANNELS.DETAIL.BANNED_MEMBERS' | translate }}</span>
@@ -291,14 +293,12 @@
             </ion-avatar>
             <div class="member-info">
               <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
-              <span class="member-role banned-label">{{ 'CHANNELS.DETAIL.BANNED' | translate }}</span>
+              <span class="member-role banned-label"
+                >{{ 'CHANNELS.DETAIL.BANNED' | translate }}</span
+              >
             </div>
             <div class="member-actions">
-              <ion-button
-                fill="clear"
-                size="small"
-                color="medium"
-                (click)="unbanMember(member)">
+              <ion-button fill="clear" size="small" color="medium" (click)="unbanMember(member)">
                 <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
               </ion-button>
             </div>
@@ -424,7 +424,9 @@
           </div>
         </div>
 
-        <div *ngIf="bannedMembers.length > 0 && isCurrentUserChannelAdmin()" class="member-role-group banned-section">
+        <div
+          *ngIf="bannedMembers.length > 0 && isCurrentUserChannelAdmin()"
+          class="member-role-group banned-section">
           <div class="role-group-header">
             <ion-icon name="ban" color="danger"></ion-icon>
             <span>{{ 'CHANNELS.DETAIL.BANNED_MEMBERS' | translate }}</span>
@@ -438,14 +440,12 @@
             </ion-avatar>
             <div class="member-info">
               <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
-              <span class="member-role banned-label">{{ 'CHANNELS.DETAIL.BANNED' | translate }}</span>
+              <span class="member-role banned-label"
+                >{{ 'CHANNELS.DETAIL.BANNED' | translate }}</span
+              >
             </div>
             <div class="member-actions">
-              <ion-button
-                fill="clear"
-                size="small"
-                color="medium"
-                (click)="unbanMember(member)">
+              <ion-button fill="clear" size="small" color="medium" (click)="unbanMember(member)">
                 <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
               </ion-button>
             </div>

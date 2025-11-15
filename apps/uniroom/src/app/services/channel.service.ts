@@ -70,7 +70,7 @@ export class ChannelService {
     await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/ban`, data));
   }
 
-  async unbanMember(channelId: string, data: { user_id: string }): Promise<void> {
+  async unbanMember(channelId: string, data: { user_id: string; motive: string }): Promise<void> {
     await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/unban`, data));
   }
 

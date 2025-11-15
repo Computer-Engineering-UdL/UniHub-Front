@@ -30,4 +30,3 @@ export class MemberActionsComponent {
     void this.popoverCtrl.dismiss();
   }
 }
-
