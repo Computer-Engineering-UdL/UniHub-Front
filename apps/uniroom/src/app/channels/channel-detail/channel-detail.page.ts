@@ -11,8 +11,8 @@ import { AuthService } from '../../services/auth.service';
 import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
 import { ApiService } from '../../services/api.service';
-import { MemberActionsComponent } from "./member-actions/member-actions.component";
-import { BanMemberModalComponent } from "./ban-member-modal/ban-member-modal.component";
+import { MemberActionsComponent } from './member-actions/member-actions.component';
+import { BanMemberModalComponent } from './ban-member-modal/ban-member-modal.component';
 
 interface MemberAction {
   icon: string;
