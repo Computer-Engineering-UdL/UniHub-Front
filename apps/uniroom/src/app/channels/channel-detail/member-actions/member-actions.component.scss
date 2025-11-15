@@ -1,0 +1,50 @@
+.member-actions-list {
+  padding: 0;
+  margin: 0;
+  min-width: 200px;
+
+  ion-item {
+    --background: var(--ion-background-color);
+    --color: var(--ion-text-color);
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --min-height: 48px;
+    cursor: pointer;
+
+    &:hover {
+      --background: var(--ion-color-light);
+    }
+
+    ion-icon {
+      color: var(--ion-color-medium-shade);
+      font-size: 20px;
+      margin-right: 12px;
+    }
+
+    ion-label {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    &.selected {
+      --color: var(--ion-color-primary);
+
+      ion-icon {
+        color: var(--ion-color-primary);
+      }
+
+      ion-label {
+        font-weight: 600;
+      }
+    }
+
+    &.destructive {
+      --color: var(--ion-color-danger);
+
+      ion-icon {
+        color: var(--ion-color-danger);
+      }
+    }
+  }
+}
+
