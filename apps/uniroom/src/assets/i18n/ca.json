@@ -1,6 +1,6 @@
 {
   "APP": {
-    "TITLE": "UniRoom"
+    "TITLE": "UniHub"
   },
   "LOGIN": {
     "TITLE": "Benvingut de nou!",
@@ -23,7 +23,7 @@
   },
   "SIGNUP": {
     "TITLE": "Crear Compte",
-    "SUBTITLE": "Uneix-te a la comunitat UniRoom",
+    "SUBTITLE": "Uneix-te a la comunitat UniHub",
     "FIRST_NAME": "Nom",
     "LAST_NAME": "Cognoms",
     "EMAIL": "Correu electrònic",

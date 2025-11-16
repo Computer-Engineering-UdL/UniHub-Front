@@ -1,6 +1,6 @@
 {
   "APP": {
-    "TITLE": "UniRoom"
+    "TITLE": "UniHub"
   },
   "LOGIN": {
     "TITLE": "Welcome back!",
@@ -23,7 +23,7 @@
   },
   "SIGNUP": {
     "TITLE": "Create Account",
-    "SUBTITLE": "Join UniRoom community",
+    "SUBTITLE": "Join UniHub community",
     "FIRST_NAME": "First Name",
     "LAST_NAME": "Last Name",
     "EMAIL": "Email",
