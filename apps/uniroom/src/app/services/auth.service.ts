@@ -77,6 +77,7 @@ export class AuthService {
       joinedDate,
       yearOfStudy: apiUser.year_of_study || apiUser.yearOfStudy,
       isVerified: apiUser.is_verified ?? apiUser.isVerified,
+      isActive: apiUser.is_active ?? apiUser.isActive,
       interests: apiUser.interests?.map((i: any) => ({ id: i.id, name: i.name })) || apiUser.interests
     } as User;
   }

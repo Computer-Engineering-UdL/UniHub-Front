@@ -168,8 +168,12 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
         })
       );
 
-      this.members = allMembers.filter((member: ChannelMember): boolean => !member.is_banned);
-      this.bannedMembers = allMembers.filter((member: ChannelMember): boolean => !!member.is_banned);
+      const activeMembers: ChannelMember[] = allMembers.filter(
+        (member: ChannelMember): boolean => member.user?.isActive !== false
+      );
+
+      this.members = activeMembers.filter((member: ChannelMember): boolean => !member.is_banned);
+      this.bannedMembers = activeMembers.filter((member: ChannelMember): boolean => !!member.is_banned);
 
       this.adminMembers = this.members.filter((member: ChannelMember): boolean => member.role === 'admin');
       this.moderatorMembers = this.members.filter((member: ChannelMember): boolean => member.role === 'moderator');

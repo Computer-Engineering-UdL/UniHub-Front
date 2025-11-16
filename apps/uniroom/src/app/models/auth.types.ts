@@ -28,6 +28,7 @@ export interface User {
   joinedDate?: string;
   yearOfStudy?: number;
   isVerified?: boolean;
+  isActive?: boolean;
   interests?: Interest[];
 }
 

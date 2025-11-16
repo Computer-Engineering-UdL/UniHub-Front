@@ -84,7 +84,12 @@ export class AddMemberModalComponent implements OnInit {
     const existingMemberIds: Set<string> = new Set(this.existingMembers.map((member: User): string => member.id));
     const bannedIds: Set<string> = new Set(this.bannedMemberIds);
     return users.filter((user: User): boolean => {
-      return user.id !== this.currentUser?.id && !existingMemberIds.has(user.id) && !bannedIds.has(user.id);
+      return (
+        user.isActive !== false &&
+        user.id !== this.currentUser?.id &&
+        !existingMemberIds.has(user.id) &&
+        !bannedIds.has(user.id)
+      );
     });
   }
 
