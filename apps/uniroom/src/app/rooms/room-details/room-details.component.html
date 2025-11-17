@@ -90,12 +90,18 @@
               [alt]="room.title"
               class="hero-image" />
             @if (room.photos.length > 1) {
-              <button type="button" class="nav prev" (click)="$event.stopPropagation(); showPreviousImage()">
+              <button
+                type="button"
+                class="nav prev"
+                (click)="$event.stopPropagation(); showPreviousImage()">
                 <ion-icon name="chevron-back"></ion-icon>
               </button>
             }
             @if (room.photos.length > 1) {
-              <button type="button" class="nav next" (click)="$event.stopPropagation(); showNextImage()">
+              <button
+                type="button"
+                class="nav next"
+                (click)="$event.stopPropagation(); showNextImage()">
                 <ion-icon name="chevron-forward"></ion-icon>
               </button>
             }
