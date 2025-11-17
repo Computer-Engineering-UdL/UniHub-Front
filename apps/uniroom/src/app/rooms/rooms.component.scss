@@ -457,22 +457,39 @@
       transition: all 0.2s ease;
 
       &.better {
-        background: rgba(16, 220, 96, 0.2);
-        color: #006d32;
+        background-color: #d4f4dd;
+        color: #0d5c2c;
         font-weight: 700;
         border: 2px solid #10dc60;
+
+        body.dark & {
+          background-color: rgba(16, 220, 96, 0.2);
+          color: #10dc60;
+        }
       }
 
       &.worse {
-        background: rgba(245, 61, 61, 0.2);
+        background-color: #ffd6d6;
         color: #8b0000;
         font-weight: 600;
+        border: 2px solid #eb445a;
+
+        body.dark & {
+          background-color: rgba(235, 68, 90, 0.2);
+          color: #ff6b7a;
+        }
       }
 
       &.equal {
-        background: rgba(255, 206, 0, 0.2);
+        background-color: #fff4cc;
         color: #8b6914;
         font-weight: 600;
+        border: 2px solid #ffc409;
+
+        body.dark & {
+          background-color: rgba(255, 196, 9, 0.2);
+          color: #ffc409;
+        }
       }
     }
   }
