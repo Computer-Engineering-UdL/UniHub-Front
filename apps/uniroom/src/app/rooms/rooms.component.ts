@@ -10,6 +10,7 @@ import { LocalizationService } from '../services/localization.service';
 import NotificationService from '../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { resolveFileUrl } from '../utils/file-url.util';
 
 interface Filters {
   search: string;
@@ -311,9 +312,13 @@ export class RoomsComponent implements OnInit {
     ];
 
     this.offers.forEach((offer: OfferListItem & { image?: string | null }, index: number): void => {
-      if (!offer.image && offer.base_image) {
-        offer.image = offer.base_image;
+      const resolvedImage: string | null =
+        resolveFileUrl(offer.image) ?? resolveFileUrl(offer.base_image) ?? null;
+
+      if (resolvedImage) {
+        offer.image = resolvedImage;
       }
+
       if (!offer.image) {
         offer.image = placeholderImages[index % placeholderImages.length];
       }
