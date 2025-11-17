@@ -330,8 +330,11 @@ export class RoomsComponent implements OnInit {
       return null;
     }
 
-    const sortedPhotos: OfferPhoto[] = photos.slice().sort((a: OfferPhoto, b: OfferPhoto) => (a.order ?? 0) - (b.order ?? 0));
-    const primaryPhoto: OfferPhoto | undefined = sortedPhotos.find((photo: OfferPhoto) => photo.is_primary === true) ?? sortedPhotos[0];
+    const sortedPhotos: OfferPhoto[] = photos
+      .slice()
+      .sort((a: OfferPhoto, b: OfferPhoto) => (a.order ?? 0) - (b.order ?? 0));
+    const primaryPhoto: OfferPhoto | undefined =
+      sortedPhotos.find((photo: OfferPhoto) => photo.is_primary === true) ?? sortedPhotos[0];
 
     if (!primaryPhoto) {
       return null;

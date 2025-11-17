@@ -465,17 +465,8 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   }
 
   private buildOfferPayload(uploadedFiles: FileMetadata[]): Omit<CreateOfferData, 'user_id'> {
-    const {
-      amenities,
-      house_rules,
-      floor,
-      contract_type,
-      street,
-      street_number,
-      apartment,
-      postal_code,
-      ...formData
-    } = this.offerForm.getRawValue() as OfferFormValue;
+    const { amenities, house_rules, floor, contract_type, street, street_number, apartment, postal_code, ...formData } =
+      this.offerForm.getRawValue() as OfferFormValue;
 
     const address: string = this.composeFullAddress({
       street,
