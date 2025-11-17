@@ -17,6 +17,7 @@ import { User } from '../../models/auth.types';
 import NotificationService from '../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ADDITIONAL_AMENITIES, AMENITY_KEY_TO_CODE } from '../../models/amenities.constants';
+import { resolveFileUrl } from '../../utils/file-url.util';
 
 interface SelectedPhotoPreview {
   file: File;
@@ -251,6 +252,8 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     this.photoUploadError = null;
 
     let uploadedFiles: FileMetadata[] = [];
+    let createdOffer: Offer | null = null;
+
     try {
       const user: User | null = await firstValueFrom(this.authService.currentUser$);
       if (!user) {
@@ -260,14 +263,17 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       }
 
       uploadedFiles = await this.uploadSelectedPhotos();
-      const photoIds: string[] | null = uploadedFiles.length ? uploadedFiles.map((file) => file.id) : null;
 
       const offerData: CreateOfferData = {
-        ...this.buildOfferPayload(photoIds),
+        ...this.buildOfferPayload(),
         user_id: user.id
       };
 
-      const createdOffer: Offer = await firstValueFrom(this.apiService.post<Offer>('offers/', offerData));
+      createdOffer = await firstValueFrom(this.apiService.post<Offer>('offers/', offerData));
+
+      if (uploadedFiles.length) {
+        await this.associatePhotosWithOffer(createdOffer.id, uploadedFiles);
+      }
 
       await this.modalController.dismiss(createdOffer, 'created');
     } catch (error) {
@@ -278,6 +284,9 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       }
       if (uploadedFiles.length) {
         await this.cleanupUploadedFiles(uploadedFiles.map((file) => file.id));
+      }
+      if (createdOffer?.id) {
+        await this.cleanupCreatedOffer(createdOffer.id);
       }
       this.notificationService.error('ROOM.FORM.CREATE_ERROR');
     } finally {
@@ -465,7 +474,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     this.photoPreviews = newOrder.map((photo, idx) => ({ ...photo, isPrimary: idx === 0 }));
   }
 
-  private buildOfferPayload(photoIds: string[] | null): Omit<CreateOfferData, 'user_id'> {
+  private buildOfferPayload(): Omit<CreateOfferData, 'user_id'> {
     const {
       amenities,
       house_rules,
@@ -508,7 +517,6 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       longitude: this.toNullableNumber(longitude),
       amenities: this.mapAmenitiesToPayload(amenities),
       rules: this.normalizeRules(house_rules),
-      photo_ids: photoIds && photoIds.length ? photoIds : null,
       furnished: formData.furnished,
       utilities_included: formData.utilities_included,
       internet_included: formData.internet_included
@@ -637,7 +645,12 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
         formData.append('is_public', 'true');
 
         const response: FileMetadata = await firstValueFrom(this.apiService.post<FileMetadata>('files/', formData));
-        uploadedFiles.push(response);
+        const normalized: FileMetadata = {
+          ...response,
+          public_url: response.public_url ? resolveFileUrl(response.public_url) : null
+        };
+
+        uploadedFiles.push(normalized);
       }
 
       return uploadedFiles;
@@ -662,6 +675,26 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     });
 
     await Promise.all(cleanupTasks);
+  }
+
+  private async associatePhotosWithOffer(offerId: string, files: FileMetadata[]): Promise<void> {
+    const associations = files.map((file: FileMetadata, index: number) => ({
+      file_id: file.id,
+      entity_type: 'housing_offer',
+      entity_id: offerId,
+      order: index,
+      category: 'photo'
+    }));
+
+    await firstValueFrom(this.apiService.post('file-associations/bulk', associations));
+  }
+
+  private async cleanupCreatedOffer(offerId: string): Promise<void> {
+    try {
+      await firstValueFrom(this.apiService.delete(`offers/${offerId}`));
+    } catch (cleanupError) {
+      console.warn('Failed to rollback created offer', cleanupError);
+    }
   }
 
   private normalizeString(value: string | null | undefined): string | null {
