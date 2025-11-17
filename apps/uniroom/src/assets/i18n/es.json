@@ -363,6 +363,8 @@
       "PLACEHOLDER": "Selecciona dos apartamentos de la lista para compararlos.",
       "FEATURE": "Característica",
       "EMPTY_COLUMN": "Selecciona un apartamento",
+      "IMAGE": "Imagen",
+      "NO_IMAGE": "Sin imagen",
       "CITY": "Ciudad",
       "PRICE": "Precio",
       "AREA": "Superficie",

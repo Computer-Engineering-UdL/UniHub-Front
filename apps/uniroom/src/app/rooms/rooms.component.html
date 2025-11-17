@@ -246,6 +246,32 @@
                 </div>
               </div>
 
+              <div class="comparison-row image-row">
+                <div class="label">{{ 'ROOM.COMPARISON.IMAGE' | translate }}</div>
+                <div class="image-container">
+                  <img
+                    *ngIf="comparisonOffers.first?.image"
+                    [src]="comparisonOffers.first?.image ?? ''"
+                    [alt]="comparisonOffers.first?.title ?? ''"
+                    class="comparison-image" />
+                  <div *ngIf="!comparisonOffers.first?.image" class="no-image">
+                    <ion-icon name="image-outline"></ion-icon>
+                    <span>{{ 'ROOM.COMPARISON.NO_IMAGE' | translate }}</span>
+                  </div>
+                </div>
+                <div class="image-container">
+                  <img
+                    *ngIf="comparisonOffers.second?.image"
+                    [src]="comparisonOffers.second?.image ?? ''"
+                    [alt]="comparisonOffers.second?.title ?? ''"
+                    class="comparison-image" />
+                  <div *ngIf="!comparisonOffers.second?.image" class="no-image">
+                    <ion-icon name="image-outline"></ion-icon>
+                    <span>{{ 'ROOM.COMPARISON.NO_IMAGE' | translate }}</span>
+                  </div>
+                </div>
+              </div>
+
               <div class="comparison-row">
                 <div class="label">{{ 'ROOM.COMPARISON.CITY' | translate }}</div>
                 <div class="value">{{ formatComparisonValue(comparisonOffers.first?.city) }}</div>

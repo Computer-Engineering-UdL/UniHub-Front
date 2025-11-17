@@ -363,6 +363,8 @@
       "PLACEHOLDER": "Selecciona dos apartaments de la llista per comparar-los.",
       "FEATURE": "Característica",
       "EMPTY_COLUMN": "Selecciona un apartament",
+      "IMAGE": "Imatge",
+      "NO_IMAGE": "Sense imatge",
       "CITY": "Ciutat",
       "PRICE": "Preu",
       "AREA": "Superfície",

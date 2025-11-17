@@ -39,6 +39,7 @@ interface ComparisonOffer {
   contractType: string | null;
   genderPreference: string | null;
   status: string;
+  image: string | null;
 }
 
 type OfferDetailsResponse = Offer & {
@@ -308,8 +309,26 @@ export class RoomsComponent implements OnInit {
       availability: offer.start_date ? this.localizationService.formatDate(offer.start_date) : null,
       contractType: this.formatContractType(offer.contract_type ?? null),
       genderPreference: this.formatGenderPreference(offer.gender_preference ?? null),
-      status: offer.status
+      status: offer.status,
+      image: this.resolveOfferImageForComparison(offer)
     };
+  }
+
+  private resolveOfferImageForComparison(offer: OfferDetailsResponse): string | null {
+    if (offer.base_image) {
+      return resolveFileUrl(offer.base_image);
+    }
+    if (offer.photos && offer.photos.length > 0) {
+      const sortedPhotos: OfferPhoto[] = offer.photos
+        .slice()
+        .sort((a: OfferPhoto, b: OfferPhoto) => (a.order ?? 0) - (b.order ?? 0));
+      const primaryPhoto: OfferPhoto | undefined =
+        sortedPhotos.find((photo: OfferPhoto) => photo.is_primary === true) ?? sortedPhotos[0];
+      if (primaryPhoto) {
+        return resolveFileUrl(primaryPhoto.url) ?? resolveFileUrl(primaryPhoto.file_metadata?.public_url) ?? null;
+      }
+    }
+    return null;
   }
 
   private formatContractType(contractType: string | null): string | null {

@@ -363,6 +363,8 @@
       "PLACEHOLDER": "Pick two apartments from the list above to compare their highlights.",
       "FEATURE": "Feature",
       "EMPTY_COLUMN": "Select an apartment",
+      "IMAGE": "Image",
+      "NO_IMAGE": "No image",
       "CITY": "City",
       "PRICE": "Price",
       "AREA": "Area",
