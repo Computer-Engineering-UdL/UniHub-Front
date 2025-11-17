@@ -123,7 +123,7 @@
             placeholder="{{ 'ROOM.FORM.SELECT_CITY' | translate }}"
             [attr.aria-label]="'ROOM.FORM.CITY' | translate">
             @for (city of availableCities; track city.value) {
-              <ion-select-option [value]="city.value" [disabled]="city.disabled">
+              <ion-select-option [value]="city.value" [disabled]="city.disabled ?? false">
                 {{ getCityLabel(city) }}
               </ion-select-option>
             }
@@ -173,31 +173,6 @@
           {{ 'ROOM.FORM.FULL_ADDRESS_PREVIEW' | translate }}:
           {{ offerForm.get('address')?.value || ('ROOM.FORM.ADDRESS_PREVIEW_EMPTY' | translate) }}
         </ion-note>
-
-        <ion-item class="field-with-helper">
-          <ion-label position="stacked">{{
-            'ROOM.FORM.DISTANCE_FROM_CAMPUS' | translate
-          }}</ion-label>
-          <ion-input
-            formControlName="distance_from_campus"
-            type="text"
-            placeholder="15 min walk"></ion-input>
-          <ion-note slot="helper">{{ 'ROOM.FORM.DISTANCE_HELPER' | translate }}</ion-note>
-        </ion-item>
-
-        <div class="two-columns coordinates-grid">
-          <ion-item class="field-with-helper">
-            <ion-label position="stacked">{{ 'ROOM.FORM.LATITUDE' | translate }}</ion-label>
-            <ion-input formControlName="latitude" type="number" inputmode="decimal"></ion-input>
-            <ion-note slot="helper">{{ 'ROOM.FORM.COORDINATES_HELPER' | translate }}</ion-note>
-          </ion-item>
-
-          <ion-item class="field-with-helper">
-            <ion-label position="stacked">{{ 'ROOM.FORM.LONGITUDE' | translate }}</ion-label>
-            <ion-input formControlName="longitude" type="number" inputmode="decimal"></ion-input>
-            <ion-note slot="helper">{{ 'ROOM.FORM.COORDINATES_HELPER' | translate }}</ion-note>
-          </ion-item>
-        </div>
       </div>
 
       <div class="form-section">
@@ -261,43 +236,14 @@
           </ion-select>
         </ion-item>
 
-        <div class="two-columns">
-          <ion-item class="field-with-helper">
-            <ion-label position="stacked"
-              >{{ 'ROOM.FORM.UTILITIES_COST' | translate }} (€)</ion-label
-            >
-            <ion-input
-              formControlName="utilities_cost"
-              type="number"
-              [min]="0"
-              inputmode="decimal"></ion-input>
-            <ion-note slot="helper">{{ 'ROOM.FORM.UTILITIES_COST_HELPER' | translate }}</ion-note>
-          </ion-item>
-
-          <ion-item class="field-with-helper">
-            <ion-label position="stacked">{{ 'ROOM.FORM.FLOOR' | translate }}</ion-label>
-            <ion-input
-              formControlName="floor"
-              type="number"
-              [min]="0"
-              inputmode="decimal"></ion-input>
-            <ion-note slot="helper">{{ 'ROOM.FORM.FLOOR_HELPER' | translate }}</ion-note>
-          </ion-item>
-        </div>
-
         <ion-item class="field-with-helper">
-          <ion-label position="stacked">{{
-            'ROOM.FORM.UTILITIES_DESCRIPTION' | translate
-          }}</ion-label>
-          <ion-textarea
-            formControlName="utilities_description"
-            [rows]="3"
-            placeholder="{{
-              'ROOM.FORM.UTILITIES_DESCRIPTION_PLACEHOLDER' | translate
-            }}"></ion-textarea>
-          <ion-note slot="helper">{{
-            'ROOM.FORM.UTILITIES_DESCRIPTION_HELPER' | translate
-          }}</ion-note>
+          <ion-label position="stacked">{{ 'ROOM.FORM.FLOOR' | translate }}</ion-label>
+          <ion-input
+            formControlName="floor"
+            type="number"
+            [min]="0"
+            inputmode="decimal"></ion-input>
+          <ion-note slot="helper">{{ 'ROOM.FORM.FLOOR_HELPER' | translate }}</ion-note>
         </ion-item>
       </div>
 
@@ -394,6 +340,9 @@
       <div class="form-section form-section--house-rules">
         <h3>{{ 'ROOM.FORM.HOUSE_RULES' | translate }}</h3>
         <p class="section-helper">{{ 'ROOM.FORM.HOUSE_RULES_HELPER' | translate }}</p>
+        <ion-note color="medium" style="display: block; margin-bottom: 12px;">
+          {{ 'ROOM.FORM.HOUSE_RULES_CHECK_MEANS_ALLOWED' | translate }}
+        </ion-note>
         <div class="rules-grid" formGroupName="house_rules">
           @for (rule of houseRuleControls; track rule.control) {
             <div class="rule-item" (click)="toggleAmenity('house_rules.' + rule.control)">

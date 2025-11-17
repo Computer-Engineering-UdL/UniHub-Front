@@ -403,6 +403,7 @@
       "BALCONY": "Balcón",
       "HOUSE_RULES": "Normas de la casa",
       "HOUSE_RULES_HELPER": "Indica qué está permitido en la vivienda",
+      "HOUSE_RULES_CHECK_MEANS_ALLOWED": "Marca la casilla si la opción está permitida",
       "RULE_SMOKING": "Se permite fumar",
       "RULE_PETS": "Se permiten mascotas",
       "RULE_COUPLES": "Se permiten parejas",

@@ -403,6 +403,7 @@
       "BALCONY": "Balcony",
       "HOUSE_RULES": "House rules",
       "HOUSE_RULES_HELPER": "Tell students what's allowed in the property",
+      "HOUSE_RULES_CHECK_MEANS_ALLOWED": "Check the box if the option is allowed",
       "RULE_SMOKING": "Smoking allowed",
       "RULE_PETS": "Pets allowed",
       "RULE_COUPLES": "Couples allowed",

@@ -55,12 +55,7 @@ type OfferFormValue = {
   gender_preference: GenderPreference;
   status: OfferStatus;
   floor: number | null;
-  distance_from_campus: string | null;
-  utilities_cost: number | null;
-  utilities_description: string | null;
   contract_type: string | null;
-  latitude: number | null;
-  longitude: number | null;
   amenities: Record<string, boolean>;
   house_rules: OfferHouseRules;
 };
@@ -168,12 +163,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       gender_preference: ['any' as GenderPreference, Validators.required],
       status: ['active' as OfferStatus, Validators.required],
       floor: [null, [Validators.min(0)]],
-      distance_from_campus: ['', [Validators.maxLength(100)]],
-      utilities_cost: [null, [Validators.min(0)]],
-      utilities_description: ['', [Validators.maxLength(200)]],
       contract_type: ['', [Validators.maxLength(100)]],
-      latitude: [null, [Validators.min(-90), Validators.max(90)]],
-      longitude: [null, [Validators.min(-180), Validators.max(180)]],
       amenities: this.formBuilder.group(amenityControls),
       house_rules: this.formBuilder.group({
         smoking: [false],
@@ -265,7 +255,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       uploadedFiles = await this.uploadSelectedPhotos();
 
       const offerData: CreateOfferData = {
-        ...this.buildOfferPayload(),
+        ...this.buildOfferPayload(uploadedFiles),
         user_id: user.id
       };
 
@@ -474,17 +464,12 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     this.photoPreviews = newOrder.map((photo, idx) => ({ ...photo, isPrimary: idx === 0 }));
   }
 
-  private buildOfferPayload(): Omit<CreateOfferData, 'user_id'> {
+  private buildOfferPayload(uploadedFiles: FileMetadata[]): Omit<CreateOfferData, 'user_id'> {
     const {
       amenities,
       house_rules,
       floor,
-      distance_from_campus,
-      utilities_cost,
-      utilities_description,
       contract_type,
-      latitude,
-      longitude,
       street,
       street_number,
       apartment,
@@ -500,6 +485,8 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       city: formData.city
     });
 
+    const photoIds: string[] | null = uploadedFiles.length ? uploadedFiles.map((file) => file.id) : null;
+
     return {
       ...formData,
       address,
@@ -509,14 +496,12 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       num_rooms: this.toNumber(formData.num_rooms),
       num_bathrooms: this.toNumber(formData.num_bathrooms),
       floor: this.toNullableNumber(floor),
-      distance_from_campus: this.normalizeString(distance_from_campus),
-      utilities_cost: this.toNullableNumber(utilities_cost),
-      utilities_description: this.normalizeString(utilities_description),
+      floor_number: this.toNullableNumber(floor),
       contract_type: this.normalizeString(contract_type),
-      latitude: this.toNullableNumber(latitude),
-      longitude: this.toNullableNumber(longitude),
       amenities: this.mapAmenitiesToPayload(amenities),
       rules: this.normalizeRules(house_rules),
+      house_rules: this.normalizeRules(house_rules),
+      photo_ids: photoIds,
       furnished: formData.furnished,
       utilities_included: formData.utilities_included,
       internet_included: formData.internet_included
@@ -683,6 +668,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       entity_type: 'housing_offer',
       entity_id: offerId,
       order: index,
+      is_primary: index === 0,
       category: 'photo'
     }));
 

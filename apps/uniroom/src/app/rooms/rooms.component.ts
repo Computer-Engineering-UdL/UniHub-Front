@@ -3,7 +3,7 @@ import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
 import { ModalController, AlertController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
-import { OfferListItem } from '../models/offer.types';
+import { OfferListItem, OfferPhoto } from '../models/offer.types';
 import { User } from '../models/auth.types';
 import { CreateOfferModalComponent } from './create-offer-modal/create-offer-modal.component';
 import { LocalizationService } from '../services/localization.service';
@@ -97,6 +97,7 @@ export class RoomsComponent implements OnInit {
 
       const rawArea: number = offer.area ?? 0;
       offer.areaFormatted = this.localizationService.formatNumber(rawArea, 2);
+      offer.image = this.resolveOfferImage(offer);
     });
 
     this.fillMissingOfferImages();
@@ -312,16 +313,31 @@ export class RoomsComponent implements OnInit {
     ];
 
     this.offers.forEach((offer: OfferListItem & { image?: string | null }, index: number): void => {
-      const resolvedImage: string | null = resolveFileUrl(offer.image) ?? resolveFileUrl(offer.base_image) ?? null;
-
-      if (resolvedImage) {
-        offer.image = resolvedImage;
-      }
-
       if (!offer.image) {
         offer.image = placeholderImages[index % placeholderImages.length];
       }
     });
+  }
+
+  private resolveOfferImage(offer: OfferListItem & { photos?: OfferPhoto[] | null }): string | null {
+    const directImage: string | null = resolveFileUrl(offer.image) ?? resolveFileUrl(offer.base_image) ?? null;
+    if (directImage) {
+      return directImage;
+    }
+
+    const photos: OfferPhoto[] = offer.photos ?? [];
+    if (!photos.length) {
+      return null;
+    }
+
+    const sortedPhotos: OfferPhoto[] = photos.slice().sort((a: OfferPhoto, b: OfferPhoto) => (a.order ?? 0) - (b.order ?? 0));
+    const primaryPhoto: OfferPhoto | undefined = sortedPhotos.find((photo: OfferPhoto) => photo.is_primary === true) ?? sortedPhotos[0];
+
+    if (!primaryPhoto) {
+      return null;
+    }
+
+    return resolveFileUrl(primaryPhoto.url) ?? resolveFileUrl(primaryPhoto.file_metadata?.public_url) ?? null;
   }
 
   async openCreateOfferModal(): Promise<void> {

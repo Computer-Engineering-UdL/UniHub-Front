@@ -251,7 +251,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       areaFormatted,
       numRooms: offer.num_rooms ?? null,
       numBathrooms: offer.num_bathrooms ?? null,
-      floor: offer.floor ?? (offer as Offer & { floor_number?: number }).floor_number ?? null,
+      floor: this.toNullableNumber(offer.floor ?? offer.floor_number),
       depositFormatted,
       utilitiesIncluded: offer.utilities_included ?? null,
       photos,
@@ -427,8 +427,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       { labelKey: 'ROOM.DETAILS.HOUSE_RULES.COUPLES', allowed: false }
     ];
 
-    const normalizedRules: OfferHouseRules | null | undefined =
-      offer.rules ?? (offer as Offer & { house_rules?: OfferHouseRules | null }).house_rules;
+    const normalizedRules: OfferHouseRules | null | undefined = offer.rules ?? offer.house_rules;
 
     if (!normalizedRules) {
       return defaultRules;
@@ -436,12 +435,39 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
     return defaultRules.map((rule: HouseRuleItem) => {
       const key: string = rule.labelKey.split('.').pop()?.toLowerCase() ?? '';
-      const allowed: boolean = normalizedRules?.[key] ?? rule.allowed;
+      const rawValue: unknown = normalizedRules?.[key];
+      const allowed: boolean = rawValue === undefined ? rule.allowed : this.toBoolean(rawValue);
       return {
         ...rule,
         allowed
       };
     });
+  }
+
+  private toNullableNumber(value: unknown): number | null {
+    if (value === null || value === undefined || value === '') {
+      return null;
+    }
+    const parsed: number = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  private toBoolean(value: unknown): boolean {
+    if (typeof value === 'string') {
+      const normalized: string = value.trim().toLowerCase();
+      if (normalized === 'true' || normalized === '1' || normalized === 'yes') {
+        return true;
+      }
+      if (normalized === 'false' || normalized === '0' || normalized === 'no') {
+        return false;
+      }
+    }
+
+    if (typeof value === 'number') {
+      return value !== 0;
+    }
+
+    return value === true;
   }
 
   private buildFinancialDetails(

@@ -413,6 +413,7 @@
       "BALCONY": "Balcó",
       "HOUSE_RULES": "Normes de la casa",
       "HOUSE_RULES_HELPER": "Indica què està permès a l'habitatge",
+      "HOUSE_RULES_CHECK_MEANS_ALLOWED": "Marca la casella si l'opció està permesa",
       "RULE_SMOKING": "Es permet fumar",
       "RULE_PETS": "Es permeten mascotes",
       "RULE_COUPLES": "Es permeten parelles",
