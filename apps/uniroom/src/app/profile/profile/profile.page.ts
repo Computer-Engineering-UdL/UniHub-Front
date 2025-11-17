@@ -11,6 +11,8 @@ import { firstValueFrom, Subscription } from 'rxjs';
 import { LocalizationService } from '../../services/localization.service';
 import { Channel, ChannelMember } from '../../models/channel.types';
 import { OfferListItem } from '../../models/offer.types';
+import { environment } from '../../../environments/environment';
+import { API_VERSION_PATH } from '../../../environments/environment.model';
 
 interface ProfileStats {
   posts: number;
@@ -264,10 +266,39 @@ export class ProfilePage implements OnInit, OnDestroy {
       const rawArea: number = offer.area ?? 0;
       offer.areaFormatted = this.localization.formatNumber(rawArea, 2);
 
-      if (!offer.image) {
+      const resolvedImage: string | null = this.resolveOfferImage(offer);
+      if (resolvedImage) {
+        offer.image = resolvedImage;
+      } else {
         offer.image = 'https://via.placeholder.com/400x300/e0e0e0/666666?text=No+Image';
       }
     });
+  }
+
+  private resolveOfferImage(offer: OfferListItem): string | null {
+    if (offer.base_image) {
+      const baseImageUrl: string | null = this.resolveBaseImageUrl(offer.base_image);
+      if (baseImageUrl) {
+        return baseImageUrl;
+      }
+    }
+
+    if (offer.image) {
+      const trimmed: string = offer.image.trim();
+      if (/^https?:\/\//i.test(trimmed)) {
+        return trimmed;
+      }
+    }
+
+    return null;
+  }
+
+  private resolveBaseImageUrl(baseImage: string): string | null {
+    if (!baseImage) {
+      return null;
+    }
+    const apiBaseUrl: string = environment.apiUrl.replace(API_VERSION_PATH, '');
+    return `${apiBaseUrl}${baseImage}`;
   }
 
   async removeInterest(interest: Interest): Promise<void> {
