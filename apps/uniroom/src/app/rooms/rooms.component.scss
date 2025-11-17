@@ -255,21 +255,22 @@
 
   .comparison-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
 
     h3 {
-      margin: 0;
-      font-size: 18px;
+      margin: 0 0 4px 0;
+      font-size: 1.4rem;
       font-weight: 700;
       color: var(--ion-text-color);
     }
 
     p {
-      margin: 4px 0 0;
-      color: var(--ion-color-medium);
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--ion-text-color-secondary);
     }
   }
 
@@ -277,32 +278,42 @@
     display: flex;
     gap: 8px;
     align-items: center;
+    flex-shrink: 0;
 
     ion-button {
-      --padding-start: 8px;
-      --padding-end: 8px;
+      --padding-start: 12px;
+      --padding-end: 12px;
       text-transform: none;
+      font-weight: 600;
     }
   }
 
   .comparison-selectors {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 12px;
-    margin-bottom: 12px;
+    gap: 16px;
+    margin-bottom: 20px;
 
     .selector {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
 
       label {
-        font-weight: 600;
+        font-weight: 700;
         color: var(--ion-text-color);
+        font-size: 0.95rem;
       }
 
       ion-select {
         --border-radius: 12px;
+        --padding-start: 16px;
+        --padding-end: 16px;
+        border: 2px solid var(--ion-border-color);
+
+        &::part(icon) {
+          color: var(--ion-color-primary);
+        }
       }
     }
   }
@@ -312,22 +323,38 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 12px 4px;
-    color: var(--ion-color-medium);
+    gap: 12px;
+    padding: 32px 16px;
+    color: var(--ion-text-color-secondary);
     text-align: center;
+    background: var(--ion-color-light-tint);
+    border-radius: 12px;
+    margin: 16px 0;
 
     ion-icon {
-      font-size: 24px;
+      font-size: 28px;
+      color: var(--ion-color-primary);
+    }
+
+    span {
+      font-size: 0.95rem;
+      font-weight: 500;
     }
   }
 
   .comparison-placeholder {
     flex-direction: column;
-    padding: 16px 4px;
+    padding: 40px 16px;
 
     ion-icon {
-      font-size: 32px;
+      font-size: 48px;
+      opacity: 0.6;
+    }
+
+    p {
+      margin: 8px 0 0 0;
+      font-size: 0.95rem;
+      font-weight: 500;
     }
   }
 
@@ -342,7 +369,7 @@
     display: grid;
     grid-template-columns: 1.2fr 1fr 1fr;
     gap: 12px;
-    padding: 12px 14px;
+    padding: 14px 16px;
     border-bottom: 1px solid var(--ion-border-color);
     align-items: center;
 
@@ -351,23 +378,61 @@
     }
 
     &.header {
-      background: var(--ion-color-light-shade);
+      background: var(--ion-color-medium);
       font-weight: 700;
-      color: var(--ion-text-color);
+      color: var(--ion-color-medium-contrast);
+
+      .column-title {
+        color: var(--ion-color-medium-contrast);
+      }
+
+      .label {
+        color: var(--ion-color-medium-contrast);
+      }
+    }
+
+    &:nth-child(even):not(.header) {
+      background: var(--ion-color-light-tint);
     }
 
     .label {
       font-weight: 600;
       color: var(--ion-text-color);
+      font-size: 0.95rem;
     }
 
     .column-title {
       font-weight: 700;
       color: var(--ion-text-color);
+      font-size: 0.95rem;
     }
 
-    div:not(.label):not(.column-title) {
-      color: var(--ion-color-medium);
+    .value {
+      color: var(--ion-text-color);
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+
+      &.better {
+        background: rgba(16, 220, 96, 0.2);
+        color: #006d32;
+        font-weight: 700;
+        border: 2px solid #10dc60;
+      }
+
+      &.worse {
+        background: rgba(245, 61, 61, 0.2);
+        color: #8b0000;
+        font-weight: 600;
+      }
+
+      &.equal {
+        background: rgba(255, 206, 0, 0.2);
+        color: #8b6914;
+        font-weight: 600;
+      }
     }
   }
 
@@ -375,6 +440,7 @@
     .comparison-row {
       grid-template-columns: 1fr;
       align-items: flex-start;
+      gap: 8px;
 
       &.header {
         grid-template-columns: 1fr;
@@ -383,6 +449,15 @@
 
       .label {
         margin-bottom: 4px;
+        font-size: 0.9rem;
+      }
+
+      .column-title {
+        font-size: 0.9rem;
+      }
+
+      .value {
+        font-size: 0.9rem;
       }
     }
   }

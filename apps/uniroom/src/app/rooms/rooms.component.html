@@ -171,7 +171,7 @@
                 <h3>{{ 'ROOM.COMPARISON.TITLE' | translate }}</h3>
                 <p>{{ 'ROOM.COMPARISON.SUBTITLE' | translate }}</p>
               </div>
-              <div class="comparison-actions">
+              <div class="comparison-actions" *ngIf="hasComparisonSelection">
                 <ion-button fill="clear" size="small" (click)="resetComparisonSelection()">
                   <ion-icon slot="start" name="refresh-outline"></ion-icon>
                   {{ 'ROOM.COMPARISON.RESET' | translate }}
@@ -187,7 +187,9 @@
                   [placeholder]="'ROOM.COMPARISON.SELECT_PLACEHOLDER' | translate"
                   [value]="compareSelection.first"
                   (ionChange)="onComparisonSelect('first', $event.detail.value)">
-                  <ion-select-option [value]="null">{{ 'ROOM.COMPARISON.NONE' | translate }}</ion-select-option>
+                  <ion-select-option [value]="null">{{
+                    'ROOM.COMPARISON.NONE' | translate
+                  }}</ion-select-option>
                   <ion-select-option
                     *ngFor="let offer of availableComparisonOffers"
                     [value]="offer.id"
@@ -204,7 +206,9 @@
                   [placeholder]="'ROOM.COMPARISON.SELECT_PLACEHOLDER' | translate"
                   [value]="compareSelection.second"
                   (ionChange)="onComparisonSelect('second', $event.detail.value)">
-                  <ion-select-option [value]="null">{{ 'ROOM.COMPARISON.NONE' | translate }}</ion-select-option>
+                  <ion-select-option [value]="null">{{
+                    'ROOM.COMPARISON.NONE' | translate
+                  }}</ion-select-option>
                   <ion-select-option
                     *ngFor="let offer of availableComparisonOffers"
                     [value]="offer.id"
@@ -220,7 +224,9 @@
               <span>{{ 'ROOM.COMPARISON.LOADING' | translate }}</span>
             </div>
 
-            <div class="comparison-placeholder" *ngIf="!comparisonLoading && !compareSelection.first && !compareSelection.second">
+            <div
+              class="comparison-placeholder"
+              *ngIf="!comparisonLoading && !compareSelection.first && !compareSelection.second">
               <ion-icon name="swap-horizontal-outline"></ion-icon>
               <p>{{ 'ROOM.COMPARISON.PLACEHOLDER' | translate }}</p>
             </div>
@@ -229,99 +235,239 @@
               <div class="comparison-row header">
                 <div class="label">{{ 'ROOM.COMPARISON.FEATURE' | translate }}</div>
                 <div class="column-title">
-                  {{ comparisonOffers.first?.title || ('ROOM.COMPARISON.EMPTY_COLUMN' | translate) }}
+                  {{
+                    comparisonOffers.first?.title || ('ROOM.COMPARISON.EMPTY_COLUMN' | translate)
+                  }}
                 </div>
                 <div class="column-title">
-                  {{ comparisonOffers.second?.title || ('ROOM.COMPARISON.EMPTY_COLUMN' | translate) }}
+                  {{
+                    comparisonOffers.second?.title || ('ROOM.COMPARISON.EMPTY_COLUMN' | translate)
+                  }}
                 </div>
               </div>
 
               <div class="comparison-row">
                 <div class="label">{{ 'ROOM.COMPARISON.CITY' | translate }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.first?.city) }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.second?.city) }}</div>
+                <div class="value">{{ formatComparisonValue(comparisonOffers.first?.city) }}</div>
+                <div class="value">{{ formatComparisonValue(comparisonOffers.second?.city) }}</div>
               </div>
 
               <div class="comparison-row">
                 <div class="label">{{ 'ROOM.COMPARISON.PRICE' | translate }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.first?.price) }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.second?.price) }}</div>
+                <div
+                  [class]="
+                    'value ' +
+                    compareNumericValue(
+                      'first',
+                      comparisonOffers.first?.price ?? null,
+                      comparisonOffers.second?.price ?? null,
+                      true
+                    )
+                  ">
+                  {{ formatComparisonValue(comparisonOffers.first?.price) }}
+                </div>
+                <div
+                  [class]="
+                    'value ' +
+                    compareNumericValue(
+                      'second',
+                      comparisonOffers.first?.price ?? null,
+                      comparisonOffers.second?.price ?? null,
+                      true
+                    )
+                  ">
+                  {{ formatComparisonValue(comparisonOffers.second?.price) }}
+                </div>
               </div>
 
               <div class="comparison-row">
                 <div class="label">{{ 'ROOM.COMPARISON.AREA' | translate }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.first?.area, 'm²') }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.second?.area, 'm²') }}</div>
+                <div
+                  [class]="
+                    'value ' +
+                    compareNumericValue(
+                      'first',
+                      comparisonOffers.first?.area ?? null,
+                      comparisonOffers.second?.area ?? null,
+                      false
+                    )
+                  ">
+                  {{ formatComparisonValue(comparisonOffers.first?.area, 'm²') }}
+                </div>
+                <div
+                  [class]="
+                    'value ' +
+                    compareNumericValue(
+                      'second',
+                      comparisonOffers.first?.area ?? null,
+                      comparisonOffers.second?.area ?? null,
+                      false
+                    )
+                  ">
+                  {{ formatComparisonValue(comparisonOffers.second?.area, 'm²') }}
+                </div>
               </div>
 
               <div class="comparison-row">
                 <div class="label">{{ 'ROOM.COMPARISON.ROOMS' | translate }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.first?.rooms) }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.second?.rooms) }}</div>
+                <div
+                  [class]="
+                    'value ' +
+                    compareNumericValue(
+                      'first',
+                      comparisonOffers.first?.rooms?.toString() ?? null,
+                      comparisonOffers.second?.rooms?.toString() ?? null,
+                      false
+                    )
+                  ">
+                  {{ formatComparisonValue(comparisonOffers.first?.rooms) }}
+                </div>
+                <div
+                  [class]="
+                    'value ' +
+                    compareNumericValue(
+                      'second',
+                      comparisonOffers.first?.rooms?.toString() ?? null,
+                      comparisonOffers.second?.rooms?.toString() ?? null,
+                      false
+                    )
+                  ">
+                  {{ formatComparisonValue(comparisonOffers.second?.rooms) }}
+                </div>
               </div>
 
               <div class="comparison-row">
                 <div class="label">{{ 'ROOM.COMPARISON.BATHROOMS' | translate }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.first?.bathrooms) }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.second?.bathrooms) }}</div>
+                <div
+                  [class]="
+                    'value ' +
+                    compareNumericValue(
+                      'first',
+                      comparisonOffers.first?.bathrooms?.toString() ?? null,
+                      comparisonOffers.second?.bathrooms?.toString() ?? null,
+                      false
+                    )
+                  ">
+                  {{ formatComparisonValue(comparisonOffers.first?.bathrooms) }}
+                </div>
+                <div
+                  [class]="
+                    'value ' +
+                    compareNumericValue(
+                      'second',
+                      comparisonOffers.first?.bathrooms?.toString() ?? null,
+                      comparisonOffers.second?.bathrooms?.toString() ?? null,
+                      false
+                    )
+                  ">
+                  {{ formatComparisonValue(comparisonOffers.second?.bathrooms) }}
+                </div>
               </div>
 
               <div class="comparison-row">
                 <div class="label">{{ 'ROOM.COMPARISON.FURNISHED' | translate }}</div>
-                <div>{{ formatComparisonBoolean(comparisonOffers.first?.furnished ?? null) }}</div>
-                <div>{{ formatComparisonBoolean(comparisonOffers.second?.furnished ?? null) }}</div>
+                <div class="value">
+                  {{ formatComparisonBoolean(comparisonOffers.first?.furnished ?? null) }}
+                </div>
+                <div class="value">
+                  {{ formatComparisonBoolean(comparisonOffers.second?.furnished ?? null) }}
+                </div>
               </div>
 
               <div class="comparison-row">
                 <div class="label">{{ 'ROOM.COMPARISON.UTILITIES_INCLUDED' | translate }}</div>
-                <div>{{ formatComparisonBoolean(comparisonOffers.first?.utilitiesIncluded ?? null) }}</div>
-                <div>{{ formatComparisonBoolean(comparisonOffers.second?.utilitiesIncluded ?? null) }}</div>
+                <div class="value">
+                  {{ formatComparisonBoolean(comparisonOffers.first?.utilitiesIncluded ?? null) }}
+                </div>
+                <div class="value">
+                  {{ formatComparisonBoolean(comparisonOffers.second?.utilitiesIncluded ?? null) }}
+                </div>
               </div>
 
               <div class="comparison-row">
                 <div class="label">{{ 'ROOM.COMPARISON.INTERNET_INCLUDED' | translate }}</div>
-                <div>{{ formatComparisonBoolean(comparisonOffers.first?.internetIncluded ?? null) }}</div>
-                <div>{{ formatComparisonBoolean(comparisonOffers.second?.internetIncluded ?? null) }}</div>
+                <div class="value">
+                  {{ formatComparisonBoolean(comparisonOffers.first?.internetIncluded ?? null) }}
+                </div>
+                <div class="value">
+                  {{ formatComparisonBoolean(comparisonOffers.second?.internetIncluded ?? null) }}
+                </div>
               </div>
 
               <div class="comparison-row">
                 <div class="label">{{ 'ROOM.COMPARISON.DEPOSIT' | translate }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.first?.deposit) }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.second?.deposit) }}</div>
+                <div
+                  [class]="
+                    'value ' +
+                    compareNumericValue(
+                      'first',
+                      comparisonOffers.first?.deposit ?? null,
+                      comparisonOffers.second?.deposit ?? null,
+                      true
+                    )
+                  ">
+                  {{ formatComparisonValue(comparisonOffers.first?.deposit) }}
+                </div>
+                <div
+                  [class]="
+                    'value ' +
+                    compareNumericValue(
+                      'second',
+                      comparisonOffers.first?.deposit ?? null,
+                      comparisonOffers.second?.deposit ?? null,
+                      true
+                    )
+                  ">
+                  {{ formatComparisonValue(comparisonOffers.second?.deposit) }}
+                </div>
               </div>
 
               <div class="comparison-row">
                 <div class="label">{{ 'ROOM.COMPARISON.AVAILABILITY' | translate }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.first?.availability) }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.second?.availability) }}</div>
+                <div class="value">
+                  {{ formatComparisonValue(comparisonOffers.first?.availability) }}
+                </div>
+                <div class="value">
+                  {{ formatComparisonValue(comparisonOffers.second?.availability) }}
+                </div>
               </div>
 
               <div class="comparison-row">
                 <div class="label">{{ 'ROOM.COMPARISON.CONTRACT_TYPE' | translate }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.first?.contractType) }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.second?.contractType) }}</div>
+                <div class="value">
+                  {{ formatComparisonValue(comparisonOffers.first?.contractType) }}
+                </div>
+                <div class="value">
+                  {{ formatComparisonValue(comparisonOffers.second?.contractType) }}
+                </div>
               </div>
 
               <div class="comparison-row">
                 <div class="label">{{ 'ROOM.COMPARISON.GENDER' | translate }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.first?.genderPreference) }}</div>
-                <div>{{ formatComparisonValue(comparisonOffers.second?.genderPreference) }}</div>
+                <div class="value">
+                  {{ formatComparisonValue(comparisonOffers.first?.genderPreference) }}
+                </div>
+                <div class="value">
+                  {{ formatComparisonValue(comparisonOffers.second?.genderPreference) }}
+                </div>
               </div>
 
               <div class="comparison-row">
                 <div class="label">{{ 'ROOM.COMPARISON.STATUS' | translate }}</div>
-                <div>
+                <div class="value">
                   {{
                     comparisonOffers.first?.status
-                      ? ('ROOM.STATUS.' + (comparisonOffers.first?.status?.toUpperCase() || '') | translate)
-                      : ( 'ROOM.COMPARISON.NOT_PROVIDED' | translate)
+                      ? ('ROOM.STATUS.' + (comparisonOffers.first?.status?.toUpperCase() || '')
+                        | translate)
+                      : ('ROOM.COMPARISON.NOT_PROVIDED' | translate)
                   }}
                 </div>
-                <div>
+                <div class="value">
                   {{
                     comparisonOffers.second?.status
-                      ? ('ROOM.STATUS.' + (comparisonOffers.second?.status?.toUpperCase() || '') | translate)
-                      : ( 'ROOM.COMPARISON.NOT_PROVIDED' | translate)
+                      ? ('ROOM.STATUS.' + (comparisonOffers.second?.status?.toUpperCase() || '')
+                        | translate)
+                      : ('ROOM.COMPARISON.NOT_PROVIDED' | translate)
                   }}
                 </div>
               </div>

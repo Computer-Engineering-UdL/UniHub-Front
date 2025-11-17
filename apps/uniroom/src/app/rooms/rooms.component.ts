@@ -114,6 +114,10 @@ export class RoomsComponent implements OnInit {
     return this.filteredOffers.filter((offer: OfferListItem): boolean => offer.status === 'active');
   }
 
+  get hasComparisonSelection(): boolean {
+    return !!(this.compareSelection.first || this.compareSelection.second);
+  }
+
   private async loadOffers(): Promise<void> {
     try {
       this.offers = await firstValueFrom(this.apiService.get<OfferListItem[]>('offers/'));
@@ -362,6 +366,41 @@ export class RoomsComponent implements OnInit {
 
     const formattedValue: string = String(value);
     return suffix ? `${formattedValue} ${suffix}` : formattedValue;
+  }
+
+  public compareNumericValue(
+    position: 'first' | 'second',
+    valueFirst: string | null,
+    valueSecond: string | null,
+    lowerIsBetter: boolean = false
+  ): 'better' | 'worse' | 'equal' | 'none' {
+    if (!valueFirst || !valueSecond) {
+      return 'none';
+    }
+
+    const numFirst: number = this.extractNumericValue(valueFirst);
+    const numSecond: number = this.extractNumericValue(valueSecond);
+
+    if (isNaN(numFirst) || isNaN(numSecond)) {
+      return 'none';
+    }
+
+    if (numFirst === numSecond) {
+      return 'equal';
+    }
+
+    const firstIsBetter: boolean = lowerIsBetter ? numFirst < numSecond : numFirst > numSecond;
+
+    if (position === 'first') {
+      return firstIsBetter ? 'better' : 'worse';
+    } else {
+      return firstIsBetter ? 'worse' : 'better';
+    }
+  }
+
+  private extractNumericValue(value: string): number {
+    const cleaned: string = value.replace(/[^\d.,]/g, '').replace(/,/g, '.');
+    return parseFloat(cleaned);
   }
 
   public clearFilters(): void {
