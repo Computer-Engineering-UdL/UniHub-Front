@@ -479,7 +479,14 @@ export class RoomsComponent implements OnInit {
   }
 
   private resolveOfferImage(offer: OfferListItem & { photos?: OfferPhoto[] | null }): string | null {
-    const directImage: string | null = resolveFileUrl(offer.image) ?? resolveFileUrl(offer.base_image) ?? null;
+    if (offer.base_image) {
+      const baseImageUrl: string | null = this.resolveBaseImageUrl(offer.base_image);
+      if (baseImageUrl) {
+        return baseImageUrl;
+      }
+    }
+
+    const directImage: string | null = resolveFileUrl(offer.image) ?? null;
     if (directImage) {
       return directImage;
     }
@@ -500,6 +507,13 @@ export class RoomsComponent implements OnInit {
     }
 
     return resolveFileUrl(primaryPhoto.url) ?? resolveFileUrl(primaryPhoto.file_metadata?.public_url) ?? null;
+  }
+
+  private resolveBaseImageUrl(baseImage: string): string | null {
+    if (!baseImage) {
+      return null;
+    }
+    return resolveFileUrl(baseImage);
   }
 
   async openCreateOfferModal(): Promise<void> {
