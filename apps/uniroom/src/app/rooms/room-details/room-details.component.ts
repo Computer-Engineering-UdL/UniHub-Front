@@ -210,8 +210,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     const financialDetails: FinancialDetailItem[] = this.buildFinancialDetails(offer, currency, depositFormatted);
     const landlord: LandlordInfo = this.buildLandlordInfo(offer, landlordUser);
     const mapUrl: SafeResourceUrl | undefined = this.buildMapUrl(offer);
-    const distanceFromCampus: string | undefined =
-      offer.distance_from_campus ?? offer.distanceFromCampus ?? undefined;
+    const distanceFromCampus: string | undefined = offer.distance_from_campus ?? offer.distanceFromCampus ?? undefined;
 
     const availableFrom: string | undefined = offer.start_date
       ? this.localization.formatDate(offer.start_date, {

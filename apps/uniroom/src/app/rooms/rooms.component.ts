@@ -312,8 +312,7 @@ export class RoomsComponent implements OnInit {
     ];
 
     this.offers.forEach((offer: OfferListItem & { image?: string | null }, index: number): void => {
-      const resolvedImage: string | null =
-        resolveFileUrl(offer.image) ?? resolveFileUrl(offer.base_image) ?? null;
+      const resolvedImage: string | null = resolveFileUrl(offer.image) ?? resolveFileUrl(offer.base_image) ?? null;
 
       if (resolvedImage) {
         offer.image = resolvedImage;
