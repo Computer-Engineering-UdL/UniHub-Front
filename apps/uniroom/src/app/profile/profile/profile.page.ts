@@ -378,4 +378,8 @@ export class ProfilePage implements OnInit, OnDestroy {
       await this.loadUserInterests(this.user.id);
     }
   }
+
+  async viewOfferDetails(offerId: string): Promise<void> {
+    await this.router.navigate(['/rooms', 'details', offerId]);
+  }
 }

@@ -180,7 +180,7 @@
         </div>
 
         <div *ngIf="!loadingOffers && userOffers.length > 0" class="listings-grid">
-          <div *ngFor="let offer of userOffers" class="listing-card">
+          <div *ngFor="let offer of userOffers" class="listing-card" (click)="viewOfferDetails(offer.id)">
             <div
               class="listing-image"
               [style.background-image]="offer.image ? 'url(' + offer.image + ')' : 'url(https://via.placeholder.com/400x300/e0e0e0/666666?text=No+Image)'">
