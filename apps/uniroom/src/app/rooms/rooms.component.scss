@@ -237,6 +237,157 @@
   }
 }
 
+.compare-toggle {
+  --border-radius: 12px;
+  --padding-start: 14px;
+  --padding-end: 14px;
+  font-weight: 600;
+  text-transform: none;
+}
+
+.comparison-section {
+  margin-bottom: 24px;
+
+  ion-card {
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+  }
+
+  .comparison-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+
+    h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ion-text-color);
+    }
+
+    p {
+      margin: 4px 0 0;
+      color: var(--ion-color-medium);
+    }
+  }
+
+  .comparison-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    ion-button {
+      --padding-start: 8px;
+      --padding-end: 8px;
+      text-transform: none;
+    }
+  }
+
+  .comparison-selectors {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+
+    .selector {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      label {
+        font-weight: 600;
+        color: var(--ion-text-color);
+      }
+
+      ion-select {
+        --border-radius: 12px;
+      }
+    }
+  }
+
+  .comparison-loading,
+  .comparison-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 4px;
+    color: var(--ion-color-medium);
+    text-align: center;
+
+    ion-icon {
+      font-size: 24px;
+    }
+  }
+
+  .comparison-placeholder {
+    flex-direction: column;
+    padding: 16px 4px;
+
+    ion-icon {
+      font-size: 32px;
+    }
+  }
+
+  .comparison-table {
+    margin-top: 8px;
+    border: 1px solid var(--ion-border-color);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .comparison-row {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 12px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--ion-border-color);
+    align-items: center;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &.header {
+      background: var(--ion-color-light-shade);
+      font-weight: 700;
+      color: var(--ion-text-color);
+    }
+
+    .label {
+      font-weight: 600;
+      color: var(--ion-text-color);
+    }
+
+    .column-title {
+      font-weight: 700;
+      color: var(--ion-text-color);
+    }
+
+    div:not(.label):not(.column-title) {
+      color: var(--ion-color-medium);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .comparison-row {
+      grid-template-columns: 1fr;
+      align-items: flex-start;
+
+      &.header {
+        grid-template-columns: 1fr;
+        row-gap: 6px;
+      }
+
+      .label {
+        margin-bottom: 4px;
+      }
+    }
+  }
+}
+
 .rooms-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
