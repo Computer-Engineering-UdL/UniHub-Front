@@ -6,6 +6,17 @@ ion-content {
   --background: var(--ion-background-color, #f8f9fb);
 }
 
+ion-card-header {
+  ion-card-title {
+    color: var(--ion-text-color, #1f1f1f);
+    font-weight: 700;
+  }
+
+  ion-card-subtitle {
+    color: var(--ion-color-medium-shade, #4a4a4a);
+  }
+}
+
 .state-wrapper {
   display: flex;
   flex-direction: column;
