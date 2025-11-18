@@ -2,6 +2,8 @@ name: Deploy Web to Pages
 on:
   push:
     branches: [ main ]
+    tags:
+      - 'v*'
 
 permissions:
   contents: read
@@ -21,32 +23,57 @@ jobs:
       - run: corepack enable
       - run: corepack prepare pnpm@10.17.1 --activate
 
+      - name: Determine base href
+        id: base-href
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            TAG_NAME=${GITHUB_REF#refs/tags/}
+            echo "path=/UniHub-Front/${TAG_NAME}/" >> $GITHUB_OUTPUT
+          else
+            echo "path=/UniHub-Front/" >> $GITHUB_OUTPUT
+          fi
+
       - name: Install deps
         working-directory: apps/uniroom
         run: pnpm install --frozen-lockfile
 
       - name: Build (Angular/Ionic)
         working-directory: apps/uniroom
-        run: pnpm ng build --configuration production --base-href "/UniHub-Front/"
+        run: pnpm ng build --configuration production --base-href "${{ steps.base-href.outputs.path }}"
 
-      - name: Add SPA fallback and .nojekyll
-        working-directory: apps/uniroom/www
+      - name: Prepare deployment structure
         run: |
-          cp index.html 404.html
-          touch .nojekyll
+          mkdir -p deploy-root
+
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            TAG_NAME=${GITHUB_REF#refs/tags/}
+            mkdir -p deploy-root/${TAG_NAME}
+            cp -r apps/uniroom/www/* deploy-root/${TAG_NAME}/
+            cp apps/uniroom/www/index.html deploy-root/${TAG_NAME}/404.html
+          else
+            cp -r apps/uniroom/www/* deploy-root/
+            cp apps/uniroom/www/index.html deploy-root/404.html
+          fi
+
+          touch deploy-root/.nojekyll
 
       - name: Sanity check artifact
-        working-directory: apps/uniroom/www
         run: |
           echo "Files in artifact:"
-          ls -lah | sed -n '1,80p'
-          echo "--- first 15 lines of index.html ---"
-          head -n 15 index.html
+          ls -lah deploy-root | sed -n '1,80p'
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            TAG_NAME=${GITHUB_REF#refs/tags/}
+            echo "--- first 15 lines of index.html (tag: ${TAG_NAME}) ---"
+            head -n 15 deploy-root/${TAG_NAME}/index.html
+          else
+            echo "--- first 15 lines of index.html (main) ---"
+            head -n 15 deploy-root/index.html
+          fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/uniroom/www
+          path: deploy-root
 
   deploy:
     needs: build
