@@ -2,7 +2,7 @@ import { Component, ElementRef, inject, OnDestroy, OnInit, QueryList, ViewChildr
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { firstValueFrom, interval, Subscription } from 'rxjs';
+import { async, firstValueFrom, interval, Subscription } from 'rxjs';
 import { Channel, ChannelMember, ChannelRole } from '../../models/channel.types';
 import { ChannelMessage } from '../../models/message.types';
 import { DEFAULT_USER_URL, Role, User } from '../../models/auth.types';
@@ -310,7 +310,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     return this.hasRequiredRole(this.currentUser.role, this.channel.required_role_write);
   }
 
-  private getCurrentMember(): ChannelMember | undefined {
+  getCurrentMember(): ChannelMember | undefined {
     return this.members.find((m): boolean => m.user_id === this.currentUser?.id);
   }
 
@@ -404,9 +404,47 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     return member?.role === 'admin' || member?.role === 'moderator';
   }
 
+  async confirmLeave(): Promise<void> {
+    if (!this.currentUser || !this.channel) {
+      return;
+    }
+    const alert: HTMLIonAlertElement = await this.alertController.create({
+      cssClass: 'custom-delete-alert',
+      header: this.translate.instant('CHANNELS.LEAVE_CONFIRM_TITLE'),
+      message: this.translate.instant('CHANNELS.LEAVE_CONFIRM_MESSAGE', { name: this.channel.name }),
+      buttons: [
+        { text: this.translate.instant('COMMON.CANCEL'), role: 'cancel' },
+        {
+          text: this.translate.instant('LEAVE'),
+          cssClass: 'danger-btn',
+          role: 'destructive',
+          handler: async (): Promise<void> => {
+            await this.leaveChannel();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
   isAdmin(): boolean {
     const member = this.getCurrentMember();
     return member?.user?.role === 'Admin';
+  }
+
+  private async leaveChannel(): Promise<void> {
+    if (!this.currentUser || !this.channel) {
+      return;
+    }
+    try {
+      await this.channelService.leaveChannel(this.channelId, this.currentUser.id);
+      this.notificationService.success('CHANNELS.SUCCESS.LEAVE_CHANNEL');
+      await this.loadMembers();
+      this.channel.is_member = false;
+      void this.router.navigate(['/channels']);
+    } catch (_) {
+      this.notificationService.error('CHANNELS.ERROR.LEAVE_CHANNEL');
+    }
   }
 
   async openAddMemberModal() {

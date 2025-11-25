@@ -643,7 +643,7 @@
       "VERIFY_SUCCESS": "Usuaris verificats correctament",
       "VERIFY_ERROR": "Error en verificar els usuaris",
       "UNVERIFY_SUCCESS": "Usuaris desverificats correctament",
-      "UNVERIFY_ERROR": "Error en desverificar els usuaris",
+      "UNVERIFY_ERROR": "Error en desbanejar els usuaris",
       "CHANGE_ROLE": "Canviar Rol",
       "CHANGE_ROLE_TITLE": "Canviar rol dels usuaris",
       "CHANGE_ROLE_MESSAGE": "Selecciona el nou rol per als {{count}} usuaris seleccionats:",
@@ -722,6 +722,8 @@
     },
     "DELETE_CONFIRM_TITLE": "Eliminar Canal",
     "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar el canal {{name}}? Aquesta acció no es pot desfer.",
+    "LEAVE_CONFIRM_TITLE": "Sortir del canal",
+    "LEAVE_CONFIRM_MESSAGE": "Estàs segur que vols sortir del canal {{name}}?",
     "DETAIL": {
       "MEMBERS_TAB": "Membres",
       "MEMBERS": "Membres",
