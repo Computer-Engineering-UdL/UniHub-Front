@@ -1,6 +1,6 @@
 {
   "APP": {
-    "TITLE": "UniRoom"
+    "TITLE": "UniHub"
   },
   "LOGIN": {
     "TITLE": "¡Bienvenido de nuevo!",
@@ -23,7 +23,7 @@
   },
   "SIGNUP": {
     "TITLE": "Crear Cuenta",
-    "SUBTITLE": "Únete a la comunidad UniRoom",
+    "SUBTITLE": "Únete a la comunidad UniHub",
     "FIRST_NAME": "Nombre",
     "LAST_NAME": "Apellidos",
     "EMAIL": "Correo electrónico",
@@ -350,6 +350,39 @@
       "AREA_SMALL": "Superficie: menor a mayor",
       "AREA_LARGE": "Superficie: mayor a menor"
     },
+    "COMPARISON": {
+      "CTA": "Comparar apartamentos",
+      "TITLE": "Comparador de apartamentos",
+      "SUBTITLE": "Elige dos anuncios activos para ver sus diferencias clave.",
+      "RESET": "Reiniciar selección",
+      "SELECT_A": "Apartamento A",
+      "SELECT_B": "Apartamento B",
+      "SELECT_PLACEHOLDER": "Elige un apartamento",
+      "NONE": "Ninguno",
+      "LOADING": "Cargando comparativa...",
+      "PLACEHOLDER": "Selecciona dos apartamentos de la lista para compararlos.",
+      "FEATURE": "Característica",
+      "EMPTY_COLUMN": "Selecciona un apartamento",
+      "IMAGE": "Imagen",
+      "NO_IMAGE": "Sin imagen",
+      "CITY": "Ciudad",
+      "PRICE": "Precio",
+      "AREA": "Superficie",
+      "ROOMS": "Habitaciones",
+      "BATHROOMS": "Baños",
+      "FURNISHED": "Amueblado",
+      "UTILITIES_INCLUDED": "Gastos incluidos",
+      "INTERNET_INCLUDED": "Internet incluido",
+      "DEPOSIT": "Depósito",
+      "AVAILABILITY": "Disponible desde",
+      "CONTRACT_TYPE": "Tipo de contrato",
+      "GENDER": "Preferencia de género",
+      "STATUS": "Estado",
+      "YES": "Sí",
+      "NO": "No",
+      "NOT_PROVIDED": "No indicado",
+      "LOAD_ERROR": "No hemos podido cargar este apartamento. Inténtalo de nuevo."
+    },
     "STATUS": {
       "ACTIVE": "Activa",
       "INACTIVE": "Inactiva",
@@ -403,6 +436,7 @@
       "BALCONY": "Balcón",
       "HOUSE_RULES": "Normas de la casa",
       "HOUSE_RULES_HELPER": "Indica qué está permitido en la vivienda",
+      "HOUSE_RULES_CHECK_MEANS_ALLOWED": "Marca la casilla si la opción está permitida",
       "RULE_SMOKING": "Se permite fumar",
       "RULE_PETS": "Se permiten mascotas",
       "RULE_COUPLES": "Se permiten parejas",
@@ -689,6 +723,8 @@
     },
     "DELETE_CONFIRM_TITLE": "Eliminar Canal",
     "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar el canal {{name}}? Esta acción no se puede deshacer.",
+    "LEAVE_CONFIRM_TITLE": "Salir del canal",
+    "LEAVE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres salir del canal {{name}}?",
     "DETAIL": {
       "MEMBERS_TAB": "Miembros",
       "MEMBERS": "Miembros",
@@ -696,6 +732,8 @@
       "ADMINS": "Administradores",
       "MODERATORS": "Moderadores",
       "REGULAR_MEMBERS": "Miembros",
+      "BANNED_MEMBERS": "Miembros baneados",
+      "BANNED": "Baneado",
       "LOADING": "Cargando...",
       "NO_MEMBERS": "No hay miembros",
       "NO_MESSAGES": "No hay mensajes",
@@ -727,6 +765,53 @@
         "DELETE_MESSAGE": "Mensaje eliminado correctamente",
         "EDIT_MESSAGE": "Mensaje editado correctamente",
         "REPLY_MESSAGE": "Respuesta enviada correctamente"
+      }
+    },
+    "MEMBER_ACTIONS": {
+      "SET_ADMIN": "Hacer administrador",
+      "SET_MODERATOR": "Hacer moderador",
+      "SET_USER": "Hacer usuario",
+      "KICK": "Expulsar",
+      "BAN": "Banear",
+      "UNBAN": "Desbanear",
+      "KICK_CONFIRM_TITLE": "Expulsar miembro",
+      "KICK_CONFIRM_MESSAGE": "¿Estás seguro de que quieres expulsar a {{user}}?",
+      "BAN_CONFIRM_TITLE": "Banear miembro",
+      "BAN_CONFIRM_MESSAGE": "¿Estás seguro de que quieres banear a {{user}}?",
+      "BAN_MOTIVE_LABEL": "Motivo del ban",
+      "BAN_MOTIVE_PLACEHOLDER": "Escribe el motivo del ban (mínimo 3 caracteres)",
+      "BAN_DURATION_LABEL": "Duración del ban",
+      "BAN_DURATION_PLACEHOLDER": "Días de duración (1-365)",
+      "DAY": "día",
+      "DAYS": "días",
+      "UNBAN_CONFIRM_TITLE": "Desbanear miembro",
+      "UNBAN_CONFIRM_MESSAGE": "¿Estás seguro de que quieres desbanear a {{user}}?",
+      "SUCCESS": {
+        "SET_ROLE": "Rol actualizado correctamente.",
+        "KICK": "Miembro expulsado correctamente.",
+        "BAN": "Miembro baneado correctamente.",
+        "UNBAN": "Miembro desbaneado correctamente."
+      },
+      "ERROR": {
+        "SET_ROLE": "No se pudo actualizar el rol.",
+        "KICK": "No se pudo expulsar al miembro.",
+        "BAN": "No se pudo banear al miembro.",
+        "UNBAN": "No se pudo desbanear al miembro.",
+        "BAN_MOTIVE_REQUIRED": "El motivo del ban es obligatorio (mínimo 3 caracteres).",
+        "BAN_DURATION_REQUIRED": "La duración del ban es obligatoria (mínimo 1 día)."
+      }
+    },
+    "ADD_MEMBER": {
+      "TITLE": "Añadir Miembro",
+      "SEARCH_PLACEHOLDER": "Buscar usuarios por nombre o email...",
+      "NO_RESULTS": "No se encontraron usuarios.",
+      "ADD_BUTTON": "Añadir",
+      "SUCCESS": {
+        "ADD": "Miembro añadido correctamente."
+      },
+      "ERROR": {
+        "SEARCH": "No se pudieron buscar usuarios.",
+        "ADD": "No se pudo añadir el miembro."
       }
     }
   },

@@ -18,12 +18,26 @@
     --border-color: var(--ion-border-color);
     --padding-start: 16px;
     --padding-end: 16px;
+    --min-height: 56px;
     height: 56px;
+    display: flex;
+    align-items: center;
   }
 
   ion-title {
     font-weight: 600;
     font-size: 18px;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
+    text-align: left;
+    position: static;
+    left: 0;
+    transform: none;
+
+    &::part(native) {
+      padding-inline-start: 0;
+      padding-inline-end: 0;
+    }
   }
 
   ion-buttons[slot='end'] {
@@ -31,12 +45,15 @@
     align-items: center;
     gap: 4px;
     z-index: 120;
+    height: 100%;
   }
 
   ion-button {
     --color: var(--ion-text-color);
     --padding-start: 8px;
     --padding-end: 8px;
+    margin: 0;
+    height: 100%;
     z-index: 120;
 
     ion-icon {
@@ -136,5 +153,19 @@
   .top-bar {
     left: 0;
     width: 100vw;
+  }
+}
+
+::ng-deep .top-bar {
+  ion-toolbar {
+    .toolbar-content {
+      justify-content: space-between;
+    }
+  }
+
+  ion-title {
+    position: static !important;
+    transform: none !important;
+    left: auto !important;
   }
 }

@@ -4,7 +4,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { ApiService } from '../../services/api.service';
 import { LocalizationService } from '../../services/localization.service';
-import { Offer, OfferAmenity, OfferPhoto } from '../../models/offer.types';
+import { Offer, OfferAmenity, OfferHouseRules, OfferPhoto } from '../../models/offer.types';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/auth.types';
@@ -13,6 +13,7 @@ import {
   AMENITY_DEFINITIONS_BY_CODE,
   AMENITY_DEFINITIONS_BY_KEY
 } from '../../models/amenities.constants';
+import { resolveFileUrl } from '../../utils/file-url.util';
 
 interface AmenityItem {
   icon: string;
@@ -119,6 +120,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   error: boolean = false;
   offer: RoomDetailsViewModel | null = null;
   selectedImageIndex: number = 0;
+  isViewerOpen: boolean = false;
 
   private paramSub?: Subscription;
 
@@ -164,6 +166,18 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     this.selectedImageIndex = index;
   }
 
+  openImageViewer(index: number): void {
+    if (!this.offer) {
+      return;
+    }
+    this.selectedImageIndex = index;
+    this.isViewerOpen = true;
+  }
+
+  closeImageViewer(): void {
+    this.isViewerOpen = false;
+  }
+
   showPreviousImage(): void {
     if (!this.offer) {
       return;
@@ -196,6 +210,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     const financialDetails: FinancialDetailItem[] = this.buildFinancialDetails(offer, currency, depositFormatted);
     const landlord: LandlordInfo = this.buildLandlordInfo(offer, landlordUser);
     const mapUrl: SafeResourceUrl | undefined = this.buildMapUrl(offer);
+    const distanceFromCampus: string | undefined = offer.distance_from_campus ?? offer.distanceFromCampus ?? undefined;
 
     const availableFrom: string | undefined = offer.start_date
       ? this.localization.formatDate(offer.start_date, {
@@ -229,13 +244,14 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       currency,
       address: offer.address,
       city: offer.city,
+      distanceFromCampus,
       availableFrom,
       postedDate,
       description: offer.description,
       areaFormatted,
       numRooms: offer.num_rooms ?? null,
       numBathrooms: offer.num_bathrooms ?? null,
-      floor: offer.floor ?? null,
+      floor: this.toNullableNumber(offer.floor ?? offer.floor_number),
       depositFormatted,
       utilitiesIncluded: offer.utilities_included ?? null,
       photos,
@@ -264,7 +280,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       .slice()
       .sort((a: OfferPhoto, b: OfferPhoto) => (a.order ?? 0) - (b.order ?? 0))
       .map((photo: OfferPhoto, index: number) => {
-        const resolvedUrl: string | null = photo.url ?? photo.file_metadata?.public_url ?? null;
+        const resolvedUrl: string | null =
+          resolveFileUrl(photo.url) ?? resolveFileUrl(photo.file_metadata?.public_url) ?? null;
         if (!resolvedUrl) {
           return null;
         }
@@ -410,18 +427,47 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       { labelKey: 'ROOM.DETAILS.HOUSE_RULES.COUPLES', allowed: false }
     ];
 
-    if (!offer.rules) {
+    const normalizedRules: OfferHouseRules | null | undefined = offer.rules ?? offer.house_rules;
+
+    if (!normalizedRules) {
       return defaultRules;
     }
 
     return defaultRules.map((rule: HouseRuleItem) => {
       const key: string = rule.labelKey.split('.').pop()?.toLowerCase() ?? '';
-      const allowed: boolean = offer.rules?.[key] ?? rule.allowed;
+      const rawValue: unknown = normalizedRules?.[key];
+      const allowed: boolean = rawValue === undefined ? rule.allowed : this.toBoolean(rawValue);
       return {
         ...rule,
         allowed
       };
     });
+  }
+
+  private toNullableNumber(value: unknown): number | null {
+    if (value === null || value === undefined || value === '') {
+      return null;
+    }
+    const parsed: number = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  private toBoolean(value: unknown): boolean {
+    if (typeof value === 'string') {
+      const normalized: string = value.trim().toLowerCase();
+      if (normalized === 'true' || normalized === '1' || normalized === 'yes') {
+        return true;
+      }
+      if (normalized === 'false' || normalized === '0' || normalized === 'no') {
+        return false;
+      }
+    }
+
+    if (typeof value === 'number') {
+      return value !== 0;
+    }
+
+    return value === true;
   }
 
   private buildFinancialDetails(

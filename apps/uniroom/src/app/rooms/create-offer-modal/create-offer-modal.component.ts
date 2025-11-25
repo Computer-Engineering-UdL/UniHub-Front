@@ -17,6 +17,7 @@ import { User } from '../../models/auth.types';
 import NotificationService from '../../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ADDITIONAL_AMENITIES, AMENITY_KEY_TO_CODE } from '../../models/amenities.constants';
+import { resolveFileUrl } from '../../utils/file-url.util';
 
 interface SelectedPhotoPreview {
   file: File;
@@ -54,12 +55,7 @@ type OfferFormValue = {
   gender_preference: GenderPreference;
   status: OfferStatus;
   floor: number | null;
-  distance_from_campus: string | null;
-  utilities_cost: number | null;
-  utilities_description: string | null;
   contract_type: string | null;
-  latitude: number | null;
-  longitude: number | null;
   amenities: Record<string, boolean>;
   house_rules: OfferHouseRules;
 };
@@ -167,12 +163,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       gender_preference: ['any' as GenderPreference, Validators.required],
       status: ['active' as OfferStatus, Validators.required],
       floor: [null, [Validators.min(0)]],
-      distance_from_campus: ['', [Validators.maxLength(100)]],
-      utilities_cost: [null, [Validators.min(0)]],
-      utilities_description: ['', [Validators.maxLength(200)]],
       contract_type: ['', [Validators.maxLength(100)]],
-      latitude: [null, [Validators.min(-90), Validators.max(90)]],
-      longitude: [null, [Validators.min(-180), Validators.max(180)]],
       amenities: this.formBuilder.group(amenityControls),
       house_rules: this.formBuilder.group({
         smoking: [false],
@@ -251,6 +242,8 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     this.photoUploadError = null;
 
     let uploadedFiles: FileMetadata[] = [];
+    let createdOffer: Offer | null = null;
+
     try {
       const user: User | null = await firstValueFrom(this.authService.currentUser$);
       if (!user) {
@@ -260,14 +253,17 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       }
 
       uploadedFiles = await this.uploadSelectedPhotos();
-      const photoIds: string[] | null = uploadedFiles.length ? uploadedFiles.map((file) => file.id) : null;
 
       const offerData: CreateOfferData = {
-        ...this.buildOfferPayload(photoIds),
+        ...this.buildOfferPayload(uploadedFiles),
         user_id: user.id
       };
 
-      const createdOffer: Offer = await firstValueFrom(this.apiService.post<Offer>('offers/', offerData));
+      createdOffer = await firstValueFrom(this.apiService.post<Offer>('offers/', offerData));
+
+      if (uploadedFiles.length) {
+        await this.associatePhotosWithOffer(createdOffer.id, uploadedFiles);
+      }
 
       await this.modalController.dismiss(createdOffer, 'created');
     } catch (error) {
@@ -278,6 +274,9 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       }
       if (uploadedFiles.length) {
         await this.cleanupUploadedFiles(uploadedFiles.map((file) => file.id));
+      }
+      if (createdOffer?.id) {
+        await this.cleanupCreatedOffer(createdOffer.id);
       }
       this.notificationService.error('ROOM.FORM.CREATE_ERROR');
     } finally {
@@ -465,23 +464,9 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     this.photoPreviews = newOrder.map((photo, idx) => ({ ...photo, isPrimary: idx === 0 }));
   }
 
-  private buildOfferPayload(photoIds: string[] | null): Omit<CreateOfferData, 'user_id'> {
-    const {
-      amenities,
-      house_rules,
-      floor,
-      distance_from_campus,
-      utilities_cost,
-      utilities_description,
-      contract_type,
-      latitude,
-      longitude,
-      street,
-      street_number,
-      apartment,
-      postal_code,
-      ...formData
-    } = this.offerForm.getRawValue() as OfferFormValue;
+  private buildOfferPayload(uploadedFiles: FileMetadata[]): Omit<CreateOfferData, 'user_id'> {
+    const { amenities, house_rules, floor, contract_type, street, street_number, apartment, postal_code, ...formData } =
+      this.offerForm.getRawValue() as OfferFormValue;
 
     const address: string = this.composeFullAddress({
       street,
@@ -490,6 +475,8 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       postal_code,
       city: formData.city
     });
+
+    const photoIds: string[] | null = uploadedFiles.length ? uploadedFiles.map((file) => file.id) : null;
 
     return {
       ...formData,
@@ -500,15 +487,12 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       num_rooms: this.toNumber(formData.num_rooms),
       num_bathrooms: this.toNumber(formData.num_bathrooms),
       floor: this.toNullableNumber(floor),
-      distance_from_campus: this.normalizeString(distance_from_campus),
-      utilities_cost: this.toNullableNumber(utilities_cost),
-      utilities_description: this.normalizeString(utilities_description),
+      floor_number: this.toNullableNumber(floor),
       contract_type: this.normalizeString(contract_type),
-      latitude: this.toNullableNumber(latitude),
-      longitude: this.toNullableNumber(longitude),
       amenities: this.mapAmenitiesToPayload(amenities),
       rules: this.normalizeRules(house_rules),
-      photo_ids: photoIds && photoIds.length ? photoIds : null,
+      house_rules: this.normalizeRules(house_rules),
+      photo_ids: photoIds,
       furnished: formData.furnished,
       utilities_included: formData.utilities_included,
       internet_included: formData.internet_included
@@ -637,7 +621,12 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
         formData.append('is_public', 'true');
 
         const response: FileMetadata = await firstValueFrom(this.apiService.post<FileMetadata>('files/', formData));
-        uploadedFiles.push(response);
+        const normalized: FileMetadata = {
+          ...response,
+          public_url: response.public_url ? resolveFileUrl(response.public_url) : null
+        };
+
+        uploadedFiles.push(normalized);
       }
 
       return uploadedFiles;
@@ -662,6 +651,27 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     });
 
     await Promise.all(cleanupTasks);
+  }
+
+  private async associatePhotosWithOffer(offerId: string, files: FileMetadata[]): Promise<void> {
+    const associations = files.map((file: FileMetadata, index: number) => ({
+      file_id: file.id,
+      entity_type: 'housing_offer',
+      entity_id: offerId,
+      order: index,
+      is_primary: index === 0,
+      category: 'photo'
+    }));
+
+    await firstValueFrom(this.apiService.post('file-associations/bulk', associations));
+  }
+
+  private async cleanupCreatedOffer(offerId: string): Promise<void> {
+    try {
+      await firstValueFrom(this.apiService.delete(`offers/${offerId}`));
+    } catch (cleanupError) {
+      console.warn('Failed to rollback created offer', cleanupError);
+    }
   }
 
   private normalizeString(value: string | null | undefined): string | null {

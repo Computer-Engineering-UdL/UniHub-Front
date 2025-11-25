@@ -47,12 +47,14 @@ export interface Offer {
   photo_count?: number;
   base_image?: string | null;
   floor?: number | null;
+  floor_number?: number | null;
   distance_from_campus?: string | null;
   utilities_cost?: number | null;
   utilities_description?: string | null;
   contract_type?: string | null;
   amenities?: OfferAmenity[] | null;
   rules?: OfferHouseRules | null;
+  house_rules?: OfferHouseRules | null;
   latitude?: number | null;
   longitude?: number | null;
   category?: string | null;
@@ -84,6 +86,7 @@ export interface OfferListItem {
   currency?: string;
   description?: string;
   photo_count?: number;
+  photos?: OfferPhoto[] | null;
   amenities?: OfferAmenity[] | null;
 }
 
@@ -108,12 +111,14 @@ export interface CreateOfferData {
   status: OfferStatus;
   user_id: string;
   floor?: number | null;
+  floor_number?: number | null;
   distance_from_campus?: string | null;
   utilities_cost?: number | null;
   utilities_description?: string | null;
   contract_type?: string | null;
   amenities?: OfferAmenity[] | null;
   rules?: OfferHouseRules | null;
+  house_rules?: OfferHouseRules | null;
   latitude?: number | null;
   longitude?: number | null;
   photo_ids?: string[] | null;

@@ -232,25 +232,31 @@ ion-content {
 
 ion-modal ion-content {
   --offset-top: 0;
+  --padding-bottom: 0;
 
   &::part(scroll) {
     padding-top: 0;
+    padding-bottom: 0 !important;
   }
 }
 
 ion-popover ion-content {
   --offset-top: 0;
+  --padding-bottom: 0;
 
   &::part(scroll) {
     padding-top: 0;
+    padding-bottom: 0 !important;
   }
 }
 
 ion-select-popover ion-content {
   --offset-top: 0;
+  --padding-bottom: 0;
 
   &::part(scroll) {
     padding-top: 0;
+    padding-bottom: 0 !important;
   }
 }
 
@@ -281,7 +287,7 @@ ion-header {
     --offset-bottom: 60px;
 
     &::part(scroll) {
-      padding-bottom: 60px;
+      padding-bottom: 60px !important;
     }
   }
 

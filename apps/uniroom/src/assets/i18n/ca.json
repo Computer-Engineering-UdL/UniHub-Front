@@ -1,6 +1,6 @@
 {
   "APP": {
-    "TITLE": "UniRoom"
+    "TITLE": "UniHub"
   },
   "LOGIN": {
     "TITLE": "Benvingut de nou!",
@@ -23,7 +23,7 @@
   },
   "SIGNUP": {
     "TITLE": "Crear Compte",
-    "SUBTITLE": "Uneix-te a la comunitat UniRoom",
+    "SUBTITLE": "Uneix-te a la comunitat UniHub",
     "FIRST_NAME": "Nom",
     "LAST_NAME": "Cognoms",
     "EMAIL": "Correu electrònic",
@@ -350,6 +350,39 @@
       "AREA_SMALL": "Superfície: menor a major",
       "AREA_LARGE": "Superfície: major a menor"
     },
+    "COMPARISON": {
+      "CTA": "Compara apartaments",
+      "TITLE": "Comparativa d'apartaments",
+      "SUBTITLE": "Tria dos anuncis actius per veure'n les diferències principals.",
+      "RESET": "Reinicia la selecció",
+      "SELECT_A": "Apartament A",
+      "SELECT_B": "Apartament B",
+      "SELECT_PLACEHOLDER": "Tria un apartament",
+      "NONE": "Cap",
+      "LOADING": "Carregant comparativa...",
+      "PLACEHOLDER": "Selecciona dos apartaments de la llista per comparar-los.",
+      "FEATURE": "Característica",
+      "EMPTY_COLUMN": "Selecciona un apartament",
+      "IMAGE": "Imatge",
+      "NO_IMAGE": "Sense imatge",
+      "CITY": "Ciutat",
+      "PRICE": "Preu",
+      "AREA": "Superfície",
+      "ROOMS": "Habitacions",
+      "BATHROOMS": "Banys",
+      "FURNISHED": "Moblat",
+      "UTILITIES_INCLUDED": "Subministraments inclosos",
+      "INTERNET_INCLUDED": "Internet inclòs",
+      "DEPOSIT": "Fiança",
+      "AVAILABILITY": "Disponible des de",
+      "CONTRACT_TYPE": "Tipus de contracte",
+      "GENDER": "Preferència de gènere",
+      "STATUS": "Estat",
+      "YES": "Sí",
+      "NO": "No",
+      "NOT_PROVIDED": "No especificat",
+      "LOAD_ERROR": "No hem pogut carregar aquest apartament. Torna-ho a provar."
+    },
     "STATUS": {
       "ACTIVE": "Activa",
       "INACTIVE": "Inactiva",
@@ -413,6 +446,7 @@
       "BALCONY": "Balcó",
       "HOUSE_RULES": "Normes de la casa",
       "HOUSE_RULES_HELPER": "Indica què està permès a l'habitatge",
+      "HOUSE_RULES_CHECK_MEANS_ALLOWED": "Marca la casella si l'opció està permesa",
       "RULE_SMOKING": "Es permet fumar",
       "RULE_PETS": "Es permeten mascotes",
       "RULE_COUPLES": "Es permeten parelles",
@@ -609,7 +643,7 @@
       "VERIFY_SUCCESS": "Usuaris verificats correctament",
       "VERIFY_ERROR": "Error en verificar els usuaris",
       "UNVERIFY_SUCCESS": "Usuaris desverificats correctament",
-      "UNVERIFY_ERROR": "Error en desverificar els usuaris",
+      "UNVERIFY_ERROR": "Error en desbanejar els usuaris",
       "CHANGE_ROLE": "Canviar Rol",
       "CHANGE_ROLE_TITLE": "Canviar rol dels usuaris",
       "CHANGE_ROLE_MESSAGE": "Selecciona el nou rol per als {{count}} usuaris seleccionats:",
@@ -688,6 +722,8 @@
     },
     "DELETE_CONFIRM_TITLE": "Eliminar Canal",
     "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar el canal {{name}}? Aquesta acció no es pot desfer.",
+    "LEAVE_CONFIRM_TITLE": "Sortir del canal",
+    "LEAVE_CONFIRM_MESSAGE": "Estàs segur que vols sortir del canal {{name}}?",
     "DETAIL": {
       "MEMBERS_TAB": "Membres",
       "MEMBERS": "Membres",
@@ -695,6 +731,8 @@
       "ADMINS": "Administradors",
       "MODERATORS": "Moderadors",
       "REGULAR_MEMBERS": "Membres",
+      "BANNED_MEMBERS": "Membres banejats",
+      "BANNED": "Banejat",
       "LOADING": "Carregant...",
       "NO_MEMBERS": "No hi ha membres",
       "NO_MESSAGES": "No hi ha missatges",
@@ -726,6 +764,53 @@
         "DELETE_MESSAGE": "Missatge eliminat correctament",
         "EDIT_MESSAGE": "Missatge editat correctament",
         "REPLY_MESSAGE": "Resposta enviada correctament"
+      }
+    },
+    "MEMBER_ACTIONS": {
+      "SET_ADMIN": "Fer administrador",
+      "SET_MODERATOR": "Fer moderador",
+      "SET_USER": "Fer usuari",
+      "KICK": "Expulsar",
+      "BAN": "Banejar",
+      "UNBAN": "Desbanejar",
+      "KICK_CONFIRM_TITLE": "Expulsar membre",
+      "KICK_CONFIRM_MESSAGE": "Estàs segur que vols expulsar a {{user}}?",
+      "BAN_CONFIRM_TITLE": "Banejar membre",
+      "BAN_CONFIRM_MESSAGE": "Estàs segur que vols banejar a {{user}}?",
+      "BAN_MOTIVE_LABEL": "Motiu del ban",
+      "BAN_MOTIVE_PLACEHOLDER": "Escriu el motiu del ban (mínim 3 caràcters)",
+      "BAN_DURATION_LABEL": "Durada del ban",
+      "BAN_DURATION_PLACEHOLDER": "Dies de durada (1-365)",
+      "DAY": "dia",
+      "DAYS": "dies",
+      "UNBAN_CONFIRM_TITLE": "Desbanejar membre",
+      "UNBAN_CONFIRM_MESSAGE": "Estàs segur que vols desbanejar a {{user}}?",
+      "SUCCESS": {
+        "SET_ROLE": "Rol actualitzat correctament.",
+        "KICK": "Membre expulsat correctament.",
+        "BAN": "Membre banejat correctament.",
+        "UNBAN": "Membre desbanejat correctament."
+      },
+      "ERROR": {
+        "SET_ROLE": "No s'ha pogut actualitzar el rol.",
+        "KICK": "No s'ha pogut expulsar al membre.",
+        "BAN": "No s'ha pogut banejar al membre.",
+        "UNBAN": "No s'ha pogut desbanejar al membre.",
+        "BAN_MOTIVE_REQUIRED": "El motiu del ban és obligatori (mínim 3 caràcters).",
+        "BAN_DURATION_REQUIRED": "La durada del ban és obligatòria (mínim 1 dia)."
+      }
+    },
+    "ADD_MEMBER": {
+      "TITLE": "Afegir Membre",
+      "SEARCH_PLACEHOLDER": "Buscar usuaris per nom o email...",
+      "NO_RESULTS": "No s'han trobat usuaris.",
+      "ADD_BUTTON": "Afegir",
+      "SUCCESS": {
+        "ADD": "Membre afegit correctament."
+      },
+      "ERROR": {
+        "SEARCH": "No s'han pogut buscar usuaris.",
+        "ADD": "No s'ha pogut afegir el membre."
       }
     }
   },

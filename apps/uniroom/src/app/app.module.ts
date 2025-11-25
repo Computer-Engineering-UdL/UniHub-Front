@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { LocalizationService } from './services/localization.service';
 import { SharedModule } from './shared/shared-module';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { AddMemberModalComponent } from './channels/channel-detail/add-member-modal/add-member-modal.component';
 
 export function initLocales(loc: LocalizationService): () => Promise<void> {
   return (): Promise<void> => loc.init();

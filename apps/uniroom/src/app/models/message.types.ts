@@ -23,7 +23,7 @@ export interface ChannelMessage {
   sender?: User;
   sender_id?: string;
   reply_to?: string;
-  reply_message?: ChannelMessage;
+  parent_message?: ChannelMessage;
 }
 
 export interface Conversation {

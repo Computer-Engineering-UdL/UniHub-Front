@@ -6,6 +6,17 @@ ion-content {
   --background: var(--ion-background-color, #f8f9fb);
 }
 
+ion-card-header {
+  ion-card-title {
+    color: var(--ion-text-color, #1f1f1f);
+    font-weight: 700;
+  }
+
+  ion-card-subtitle {
+    color: var(--ion-color-medium-shade, #4a4a4a);
+  }
+}
+
 .state-wrapper {
   display: flex;
   flex-direction: column;
@@ -530,6 +541,104 @@ ion-content {
       text-transform: none;
       font-weight: 600;
     }
+  }
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+
+  .lightbox__content {
+    position: relative;
+    max-width: 1200px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox__image {
+    width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  }
+
+  .lightbox__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.65);
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    ion-icon {
+      font-size: 22px;
+    }
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+  }
+
+  .lightbox__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.65);
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &.prev {
+      left: 12px;
+    }
+
+    &.next {
+      right: 12px;
+    }
+
+    ion-icon {
+      font-size: 22px;
+    }
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+  }
+
+  .lightbox__counter {
+    position: absolute;
+    bottom: 12px;
+    right: 16px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-weight: 600;
   }
 }
 

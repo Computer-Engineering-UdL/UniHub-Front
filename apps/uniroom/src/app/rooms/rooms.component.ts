@@ -3,13 +3,14 @@ import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
 import { ModalController, AlertController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
-import { OfferListItem } from '../models/offer.types';
+import { Offer, OfferListItem, OfferPhoto } from '../models/offer.types';
 import { User } from '../models/auth.types';
 import { CreateOfferModalComponent } from './create-offer-modal/create-offer-modal.component';
 import { LocalizationService } from '../services/localization.service';
 import NotificationService from '../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { resolveFileUrl } from '../utils/file-url.util';
 
 interface Filters {
   search: string;
@@ -21,6 +22,35 @@ interface Filters {
   status: string;
   sortBy: string;
 }
+
+interface ComparisonOffer {
+  id: string;
+  title: string;
+  city: string;
+  price: string;
+  area: string;
+  rooms: number | null;
+  bathrooms: number | null;
+  furnished: boolean | null;
+  utilitiesIncluded: boolean | null;
+  internetIncluded: boolean | null;
+  deposit: string | null;
+  availability: string | null;
+  contractType: string | null;
+  genderPreference: string | null;
+  status: string;
+  image: string | null;
+}
+
+type OfferDetailsResponse = Offer & {
+  currency?: string | null;
+  floor?: number | null;
+  floor_number?: number | null;
+  utilities_cost?: number | null;
+  utilities_description?: string | null;
+  contract_type?: string | null;
+  distance_from_campus?: string | null;
+};
 
 @Component({
   selector: 'app-rooms',
@@ -51,6 +81,13 @@ export class RoomsComponent implements OnInit {
 
   public decimalSeparator: string = '.';
   public thousandSeparator: string = ',';
+  public showComparisonSection: boolean = false;
+  public comparisonLoading: boolean = false;
+  public compareSelection: { first: string | null; second: string | null } = { first: null, second: null };
+  public comparisonOffers: { first: ComparisonOffer | null; second: ComparisonOffer | null } = {
+    first: null,
+    second: null
+  };
 
   private apiService: ApiService = inject(ApiService);
   private authService: AuthService = inject(AuthService);
@@ -72,6 +109,14 @@ export class RoomsComponent implements OnInit {
     this.thousandSeparator = seps.thousand;
 
     await this.loadOffers();
+  }
+
+  get availableComparisonOffers(): OfferListItem[] {
+    return this.filteredOffers.filter((offer: OfferListItem): boolean => offer.status === 'active');
+  }
+
+  get hasComparisonSelection(): boolean {
+    return !!(this.compareSelection.first || this.compareSelection.second);
   }
 
   private async loadOffers(): Promise<void> {
@@ -96,6 +141,7 @@ export class RoomsComponent implements OnInit {
 
       const rawArea: number = offer.area ?? 0;
       offer.areaFormatted = this.localizationService.formatNumber(rawArea, 2);
+      offer.image = this.resolveOfferImage(offer);
     });
 
     this.fillMissingOfferImages();
@@ -170,6 +216,31 @@ export class RoomsComponent implements OnInit {
     this.updateHasActiveFilters();
   }
 
+  public toggleComparisonSection(): void {
+    this.showComparisonSection = !this.showComparisonSection;
+
+    if (!this.showComparisonSection) {
+      this.resetComparisonSelection();
+    }
+  }
+
+  public resetComparisonSelection(): void {
+    this.compareSelection = { first: null, second: null };
+    this.comparisonOffers = { first: null, second: null };
+    this.comparisonLoading = false;
+  }
+
+  public async onComparisonSelect(position: 'first' | 'second', offerId: string | null): Promise<void> {
+    this.compareSelection[position] = offerId;
+    this.comparisonOffers[position] = null;
+
+    if (!offerId) {
+      return;
+    }
+
+    await this.loadComparisonOffer(position, offerId);
+  }
+
   private sortOffers(offers: OfferListItem[]): OfferListItem[] {
     const sorted: OfferListItem[] = [...offers];
 
@@ -201,6 +272,154 @@ export class RoomsComponent implements OnInit {
     }
 
     return sorted;
+  }
+
+  private async loadComparisonOffer(position: 'first' | 'second', offerId: string): Promise<void> {
+    this.comparisonLoading = true;
+
+    try {
+      const offer: OfferDetailsResponse = await firstValueFrom(
+        this.apiService.get<OfferDetailsResponse>(`offers/${offerId}`)
+      );
+      this.comparisonOffers[position] = this.mapComparisonOffer(offer);
+    } catch (error) {
+      console.error('Error loading comparison offer:', error);
+      this.comparisonOffers[position] = null;
+      this.notificationService.error('ROOM.COMPARISON.LOAD_ERROR');
+    } finally {
+      this.comparisonLoading = false;
+    }
+  }
+
+  private mapComparisonOffer(offer: OfferDetailsResponse): ComparisonOffer {
+    const currency: string = offer.currency ?? 'EUR';
+
+    return {
+      id: offer.id,
+      title: offer.title,
+      city: offer.city,
+      price: this.localizationService.formatPrice(offer.price ?? 0, currency),
+      area: this.localizationService.formatNumber(offer.area ?? 0, 0),
+      rooms: offer.num_rooms ?? null,
+      bathrooms: offer.num_bathrooms ?? null,
+      furnished: offer.furnished ?? null,
+      utilitiesIncluded: offer.utilities_included ?? null,
+      internetIncluded: offer.internet_included ?? null,
+      deposit: offer.deposit != null ? this.localizationService.formatPrice(offer.deposit, currency) : null,
+      availability: offer.start_date ? this.localizationService.formatDate(offer.start_date) : null,
+      contractType: this.formatContractType(offer.contract_type ?? null),
+      genderPreference: this.formatGenderPreference(offer.gender_preference ?? null),
+      status: offer.status,
+      image: this.resolveOfferImageForComparison(offer)
+    };
+  }
+
+  private resolveOfferImageForComparison(offer: OfferDetailsResponse): string | null {
+    if (offer.base_image) {
+      return resolveFileUrl(offer.base_image);
+    }
+    if (offer.photos && offer.photos.length > 0) {
+      const sortedPhotos: OfferPhoto[] = offer.photos
+        .slice()
+        .sort((a: OfferPhoto, b: OfferPhoto) => (a.order ?? 0) - (b.order ?? 0));
+      const primaryPhoto: OfferPhoto | undefined =
+        sortedPhotos.find((photo: OfferPhoto) => photo.is_primary === true) ?? sortedPhotos[0];
+      if (primaryPhoto) {
+        return resolveFileUrl(primaryPhoto.url) ?? resolveFileUrl(primaryPhoto.file_metadata?.public_url) ?? null;
+      }
+    }
+    return null;
+  }
+
+  private formatContractType(contractType: string | null): string | null {
+    if (!contractType) {
+      return null;
+    }
+
+    const contractTypeMap: Record<string, string> = {
+      'long-term (min. 6 months)': 'ROOM.FORM.CONTRACT_TYPE_LONG',
+      'short-term (1-6 months)': 'ROOM.FORM.CONTRACT_TYPE_SHORT',
+      'academic stay': 'ROOM.FORM.CONTRACT_TYPE_ACADEMIC',
+      other: 'ROOM.FORM.CONTRACT_TYPE_OTHER'
+    };
+
+    const normalized: string = contractType.trim().toLowerCase();
+    const translationKey: string | undefined = contractTypeMap[normalized];
+
+    if (translationKey) {
+      const translated: string = this.translate.instant(translationKey);
+      if (translated !== translationKey) {
+        return translated;
+      }
+    }
+
+    return contractType;
+  }
+
+  private formatGenderPreference(genderPreference: string | null): string | null {
+    if (!genderPreference) {
+      return null;
+    }
+
+    const translationKey: string = `ROOM.FORM.GENDER.${genderPreference.toUpperCase()}`;
+    const translated: string = this.translate.instant(translationKey);
+    return translated !== translationKey ? translated : genderPreference;
+  }
+
+  public formatComparisonBoolean(value: boolean | null): string {
+    if (value === true) {
+      return this.translate.instant('ROOM.COMPARISON.YES');
+    }
+
+    if (value === false) {
+      return this.translate.instant('ROOM.COMPARISON.NO');
+    }
+
+    return this.translate.instant('ROOM.COMPARISON.NOT_PROVIDED');
+  }
+
+  public formatComparisonValue(value: string | number | null | undefined, suffix: string = ''): string {
+    if (value === null || value === undefined || value === '') {
+      return this.translate.instant('ROOM.COMPARISON.NOT_PROVIDED');
+    }
+
+    const formattedValue: string = String(value);
+    return suffix ? `${formattedValue} ${suffix}` : formattedValue;
+  }
+
+  public compareNumericValue(
+    position: 'first' | 'second',
+    valueFirst: string | null,
+    valueSecond: string | null,
+    lowerIsBetter: boolean = false
+  ): 'better' | 'worse' | 'equal' | 'none' {
+    if (!valueFirst || !valueSecond) {
+      return 'none';
+    }
+
+    const numFirst: number = this.extractNumericValue(valueFirst);
+    const numSecond: number = this.extractNumericValue(valueSecond);
+
+    if (isNaN(numFirst) || isNaN(numSecond)) {
+      return 'none';
+    }
+
+    if (numFirst === numSecond) {
+      return 'equal';
+    }
+
+    const firstIsBetter: boolean = lowerIsBetter ? numFirst < numSecond : numFirst > numSecond;
+
+    if (position === 'first') {
+      return firstIsBetter ? 'better' : 'worse';
+    } else {
+      return firstIsBetter ? 'worse' : 'better';
+    }
+  }
+
+  private extractNumericValue(value: string): number {
+    const cleaned: string = value.replace(/[^\d.,]/g, '').replace(/,/g, '.');
+    return parseFloat(cleaned);
   }
 
   public clearFilters(): void {
@@ -311,13 +530,48 @@ export class RoomsComponent implements OnInit {
     ];
 
     this.offers.forEach((offer: OfferListItem & { image?: string | null }, index: number): void => {
-      if (!offer.image && offer.base_image) {
-        offer.image = offer.base_image;
-      }
       if (!offer.image) {
         offer.image = placeholderImages[index % placeholderImages.length];
       }
     });
+  }
+
+  private resolveOfferImage(offer: OfferListItem & { photos?: OfferPhoto[] | null }): string | null {
+    if (offer.base_image) {
+      const baseImageUrl: string | null = this.resolveBaseImageUrl(offer.base_image);
+      if (baseImageUrl) {
+        return baseImageUrl;
+      }
+    }
+
+    const directImage: string | null = resolveFileUrl(offer.image) ?? null;
+    if (directImage) {
+      return directImage;
+    }
+
+    const photos: OfferPhoto[] = offer.photos ?? [];
+    if (!photos.length) {
+      return null;
+    }
+
+    const sortedPhotos: OfferPhoto[] = photos
+      .slice()
+      .sort((a: OfferPhoto, b: OfferPhoto) => (a.order ?? 0) - (b.order ?? 0));
+    const primaryPhoto: OfferPhoto | undefined =
+      sortedPhotos.find((photo: OfferPhoto) => photo.is_primary === true) ?? sortedPhotos[0];
+
+    if (!primaryPhoto) {
+      return null;
+    }
+
+    return resolveFileUrl(primaryPhoto.url) ?? resolveFileUrl(primaryPhoto.file_metadata?.public_url) ?? null;
+  }
+
+  private resolveBaseImageUrl(baseImage: string): string | null {
+    if (!baseImage) {
+      return null;
+    }
+    return resolveFileUrl(baseImage);
   }
 
   async openCreateOfferModal(): Promise<void> {

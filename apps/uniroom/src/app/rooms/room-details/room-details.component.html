@@ -78,18 +78,30 @@
 
       @if (room.photos.length > 0) {
         <section class="gallery">
-          <div class="main-image">
+          <div
+            class="main-image"
+            role="button"
+            tabindex="0"
+            (click)="openImageViewer(selectedImageIndex)"
+            (keydown.enter)="openImageViewer(selectedImageIndex)"
+            (keydown.space)="openImageViewer(selectedImageIndex)">
             <img
               [src]="room.photos[selectedImageIndex].url"
               [alt]="room.title"
               class="hero-image" />
             @if (room.photos.length > 1) {
-              <button type="button" class="nav prev" (click)="showPreviousImage()">
+              <button
+                type="button"
+                class="nav prev"
+                (click)="$event.stopPropagation(); showPreviousImage()">
                 <ion-icon name="chevron-back"></ion-icon>
               </button>
             }
             @if (room.photos.length > 1) {
-              <button type="button" class="nav next" (click)="showNextImage()">
+              <button
+                type="button"
+                class="nav next"
+                (click)="$event.stopPropagation(); showNextImage()">
                 <ion-icon name="chevron-forward"></ion-icon>
               </button>
             }
@@ -114,6 +126,33 @@
             </div>
           }
         </section>
+      }
+
+      @if (isViewerOpen && room.photos.length > 0) {
+        <div class="lightbox" (click)="closeImageViewer()">
+          <div class="lightbox__content" (click)="$event.stopPropagation()">
+            <button type="button" class="lightbox__close" (click)="closeImageViewer()">
+              <ion-icon name="close"></ion-icon>
+            </button>
+
+            <img
+              class="lightbox__image"
+              [src]="room.photos[selectedImageIndex].url"
+              [alt]="room.title" />
+
+            @if (room.photos.length > 1) {
+              <button type="button" class="lightbox__nav prev" (click)="showPreviousImage()">
+                <ion-icon name="chevron-back"></ion-icon>
+              </button>
+              <button type="button" class="lightbox__nav next" (click)="showNextImage()">
+                <ion-icon name="chevron-forward"></ion-icon>
+              </button>
+              <div class="lightbox__counter">
+                {{ selectedImageIndex + 1 }} / {{ room.photos.length }}
+              </div>
+            }
+          </div>
+        </div>
       }
 
       <div class="content-grid">

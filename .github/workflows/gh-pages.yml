@@ -8,11 +8,17 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -21,32 +27,58 @@ jobs:
       - run: corepack enable
       - run: corepack prepare pnpm@10.17.1 --activate
 
+      - name: Get latest tag
+        id: get-tag
+        run: |
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          echo "tag=${LATEST_TAG}" >> $GITHUB_OUTPUT
+
       - name: Install deps
         working-directory: apps/uniroom
         run: pnpm install --frozen-lockfile
 
-      - name: Build (Angular/Ionic)
+      - name: Build main version
         working-directory: apps/uniroom
         run: pnpm ng build --configuration production --base-href "/UniHub-Front/"
 
-      - name: Add SPA fallback and .nojekyll
-        working-directory: apps/uniroom/www
+      - name: Prepare main deployment
         run: |
-          cp index.html 404.html
-          touch .nojekyll
+          mkdir -p deploy-root
+          cp -r apps/uniroom/www/* deploy-root/
+          cp apps/uniroom/www/index.html deploy-root/404.html
+          touch deploy-root/.nojekyll
+
+      - name: Build and add tagged version
+        if: steps.get-tag.outputs.tag != ''
+        run: |
+          TAG_NAME="${{ steps.get-tag.outputs.tag }}"
+          echo "Building version for tag: ${TAG_NAME}"
+
+          cd apps/uniroom
+          pnpm ng build --configuration production --base-href "/UniHub-Front/${TAG_NAME}/"
+          cd ../..
+
+          mkdir -p deploy-root/${TAG_NAME}
+          cp -r apps/uniroom/www/* deploy-root/${TAG_NAME}/
+          cp apps/uniroom/www/index.html deploy-root/${TAG_NAME}/404.html
 
       - name: Sanity check artifact
-        working-directory: apps/uniroom/www
         run: |
-          echo "Files in artifact:"
-          ls -lah | sed -n '1,80p'
-          echo "--- first 15 lines of index.html ---"
-          head -n 15 index.html
+          echo "Files in deploy-root:"
+          ls -lah deploy-root | sed -n '1,80p'
+          echo "--- first 15 lines of index.html (main) ---"
+          head -n 15 deploy-root/index.html
+
+          if [ -n "${{ steps.get-tag.outputs.tag }}" ]; then
+            TAG_NAME="${{ steps.get-tag.outputs.tag }}"
+            echo "--- first 15 lines of index.html (${TAG_NAME}) ---"
+            head -n 15 deploy-root/${TAG_NAME}/index.html || echo "Tag version not found"
+          fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/uniroom/www
+          path: deploy-root
 
   deploy:
     needs: build
