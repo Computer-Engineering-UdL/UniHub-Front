@@ -17,6 +17,15 @@
       <ion-icon slot="icon-only" name="people-outline"></ion-icon>
       <ion-badge color="primary">{{ members.length }}</ion-badge>
     </ion-button>
+    <ion-button
+      *ngIf="channel && (channel.is_member || getCurrentMember())"
+      fill="outline"
+      color="medium"
+      class="leave-channel-btn"
+      (click)="confirmLeave()">
+      <ion-icon slot="start" name="log-out-outline"></ion-icon>
+      {{ 'LEAVE' | translate }}
+    </ion-button>
   </div>
 </ion-header>
 

@@ -215,24 +215,39 @@ export class ChannelsPage implements OnInit, OnDestroy {
       return;
     }
 
-    try {
-      // Mark this channel as not a member locally to avoid reloading all channels
-      if (this.selectedTab !== 'myChannels') {
-        // Do this only if we are not in myChannels tab to avoid flickering
-        channel.is_member = false;
-      }
-      await this.channelService.leaveChannel(channel.id, this.currentUser.id);
-      await this.reloadChannelMembers(channel);
-      this.updateChannelCounts();
-      this.notificationService.success('CHANNELS.SUCCESS.LEAVE_CHANNEL');
-      if (this.selectedTab === 'myChannels') {
-        channel.is_member = false;
-      }
-      this.filterChannels();
-    } catch (_) {
-      channel.is_member = true;
-      this.notificationService.error('CHANNELS.ERROR.LEAVE_CHANNEL');
-    }
+    const alert: HTMLIonAlertElement = await this.alertController.create({
+      cssClass: 'custom-delete-alert',
+      header: this.translate.instant('CHANNELS.LEAVE_CONFIRM_TITLE'),
+      message: this.translate.instant('CHANNELS.LEAVE_CONFIRM_MESSAGE', { name: channel.name }),
+      buttons: [
+        { text: this.translate.instant('COMMON.CANCEL'), role: 'cancel' },
+        {
+          text: this.translate.instant('LEAVE'),
+          cssClass: 'danger-btn',
+          role: 'destructive',
+          handler: async () => {
+            try {
+              if (this.selectedTab !== 'myChannels') {
+                channel.is_member = false;
+              }
+              await this.channelService.leaveChannel(channel.id, this.currentUser!.id);
+              await this.reloadChannelMembers(channel);
+              this.updateChannelCounts();
+              this.notificationService.success('CHANNELS.SUCCESS.LEAVE_CHANNEL');
+              if (this.selectedTab === 'myChannels') {
+                channel.is_member = false;
+              }
+              this.filterChannels();
+            } catch (_) {
+              channel.is_member = true;
+              this.notificationService.error('CHANNELS.ERROR.LEAVE_CHANNEL');
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   async deleteChannel(channel: Channel): Promise<void> {

@@ -723,6 +723,8 @@
     },
     "DELETE_CONFIRM_TITLE": "Delete Channel",
     "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete the channel {{name}}? This action cannot be undone.",
+    "LEAVE_CONFIRM_TITLE": "Leave channel",
+    "LEAVE_CONFIRM_MESSAGE": "Are you sure you want to leave the channel {{name}}?",
     "DETAIL": {
       "MEMBERS_TAB": "Members",
       "MEMBERS": "Members",

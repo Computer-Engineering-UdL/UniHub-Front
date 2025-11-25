@@ -723,6 +723,8 @@
     },
     "DELETE_CONFIRM_TITLE": "Eliminar Canal",
     "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar el canal {{name}}? Esta acción no se puede deshacer.",
+    "LEAVE_CONFIRM_TITLE": "Salir del canal",
+    "LEAVE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres salir del canal {{name}}?",
     "DETAIL": {
       "MEMBERS_TAB": "Miembros",
       "MEMBERS": "Miembros",
