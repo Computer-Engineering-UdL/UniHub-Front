@@ -51,5 +51,8 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
           args: >
+            -Dsonar.projectKey=UniHub-Front
+            -Dsonar.projectName=UniHub-Front
             -Dsonar.projectBaseDir=apps/uniroom
+            -Dsonar.sources=src
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
