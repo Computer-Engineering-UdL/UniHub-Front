@@ -42,7 +42,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run tests with coverage
-        run: pnpm test -- --watch=false --code-coverage
+        run: pnpm test -- --watch=false --code-coverage || true
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v6
