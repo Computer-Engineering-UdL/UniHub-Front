@@ -40,43 +40,43 @@ describe('AuthGuard', () => {
     guard = TestBed.inject(AuthGuard);
   });
 
-  it('permite acceso a ruta pública sin autenticación', () => {
+  it('permite acceso a ruta pública sin autenticación', async () => {
     const route = createRoute({ public: true });
-    const result = guard.canActivate(route, {} as RouterStateSnapshot);
+    const result = await guard.canActivate(route, {} as RouterStateSnapshot);
     expect(result).toBeTrue();
   });
 
-  it('redirige a /home si ruta guestOnly y usuario autenticado', () => {
+  it('redirige a /home si ruta guestOnly y usuario autenticado', async () => {
     authServiceMock.isAuthenticated.and.returnValue(true);
     const route = createRoute({ public: true, guestOnly: true });
-    const result = guard.canActivate(route, {} as RouterStateSnapshot) as UrlTree | boolean;
+    const result = await guard.canActivate(route, {} as RouterStateSnapshot) as UrlTree | boolean;
     expect(routerMock.parseUrl).toHaveBeenCalledWith('/home');
     expect((result as any).url).toBe('/home');
   });
 
-  it('permite acceso a ruta guestOnly si NO autenticado', () => {
+  it('permite acceso a ruta guestOnly si NO autenticado', async () => {
     authServiceMock.isAuthenticated.and.returnValue(false);
     const route = createRoute({ public: true, guestOnly: true });
-    const result = guard.canActivate(route, {} as RouterStateSnapshot);
+    const result = await guard.canActivate(route, {} as RouterStateSnapshot);
     expect(result).toBeTrue();
   });
 
-  it('permite acceso a ruta protegida si autenticado', () => {
+  it('permite acceso a ruta protegida si autenticado', async () => {
     authServiceMock.isAuthenticated.and.returnValue(true);
     const route = createRoute({});
-    const result = guard.canActivate(route, {} as RouterStateSnapshot);
+    const result = await guard.canActivate(route, {} as RouterStateSnapshot);
     expect(result).toBeTrue();
   });
 
-  it('redirige a /login si ruta protegida y NO autenticado', () => {
+  it('redirige a /login si ruta protegida y NO autenticado', async () => {
     authServiceMock.isAuthenticated.and.returnValue(false);
     const route = createRoute({});
-    const result = guard.canActivate(route, {} as RouterStateSnapshot) as UrlTree | boolean;
+    const result = await guard.canActivate(route, {} as RouterStateSnapshot) as UrlTree | boolean;
     expect(routerMock.parseUrl).toHaveBeenCalledWith('/login');
     expect((result as any).url).toBe('/login');
   });
 
-  it("permite acceso quan l'usuari té un dels rols requerits", () => {
+  it("permite acceso quan l'usuari té un dels rols requerits", async () => {
     authServiceMock.isAuthenticated.and.returnValue(true);
     authServiceMock._user = {
       id: '1',
@@ -84,12 +84,12 @@ describe('AuthGuard', () => {
       role: 'Admin' as Role
     };
     const route = createRoute({ roles: ['Seller', 'Admin'] });
-    const result = guard.canActivate(route, {} as RouterStateSnapshot);
+    const result = await guard.canActivate(route, {} as RouterStateSnapshot);
     expect(result).toBeTrue();
     expect(routerMock.parseUrl).not.toHaveBeenCalled();
   });
 
-  it("redirigeix quan l'usuari no té el rol requerit", () => {
+  it("redirigeix quan l'usuari no té el rol requerit", async () => {
     authServiceMock.isAuthenticated.and.returnValue(true);
     authServiceMock._user = {
       id: '1',
@@ -97,7 +97,7 @@ describe('AuthGuard', () => {
       role: 'Basic' as Role
     };
     const route = createRoute({ roles: ['Admin'] });
-    const result = guard.canActivate(route, {} as RouterStateSnapshot) as UrlTree | boolean;
+    const result = await guard.canActivate(route, {} as RouterStateSnapshot) as UrlTree | boolean;
     expect(routerMock.parseUrl).toHaveBeenCalledWith('/unauthorized');
     expect((result as any).url).toBe('/unauthorized');
   });
