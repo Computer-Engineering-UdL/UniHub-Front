@@ -8,8 +8,12 @@ import { AppComponent } from './app.component';
 class MockTranslateService {
   addLangs() {}
   setFallbackLang() {}
-  use() { return { toPromise: async () => {} } as any; }
-  getBrowserLang() { return 'en'; }
+  use() {
+    return { toPromise: async () => {} } as any;
+  }
+  getBrowserLang() {
+    return 'en';
+  }
 }
 
 describe('AppComponent', () => {
@@ -18,9 +22,7 @@ describe('AppComponent', () => {
       declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [HttpClientTestingModule],
-      providers: [
-        { provide: TranslateService, useClass: MockTranslateService }
-      ]
+      providers: [{ provide: TranslateService, useClass: MockTranslateService }]
     }).compileComponents();
   });
 
