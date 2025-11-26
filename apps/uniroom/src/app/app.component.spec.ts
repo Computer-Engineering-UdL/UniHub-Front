@@ -10,8 +10,12 @@ import { AppComponent } from './app.component';
 class MockTranslateService {
   addLangs() {}
   setFallbackLang() {}
-  use() { return { toPromise: async () => {} } as any; }
-  getBrowserLang() { return 'en'; }
+  use() {
+    return { toPromise: async () => {} } as any;
+  }
+  getBrowserLang() {
+    return 'en';
+  }
 }
 
 class MockLocalizationService {
