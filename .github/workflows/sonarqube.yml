@@ -36,7 +36,7 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-          cache-dependency-path: apps/uniroom/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -52,4 +52,4 @@ jobs:
         with:
           args: >
             -Dsonar.projectBaseDir=apps/uniroom
-            -Dsonar.javascript.lcov.reportPaths=apps/uniroom/coverage/lcov.info
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
