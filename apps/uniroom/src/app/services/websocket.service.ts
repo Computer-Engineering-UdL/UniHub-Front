@@ -15,16 +15,16 @@ export interface WebSocketMessage {
   providedIn: 'root'
 })
 export class WebSocketService {
-  private authService: AuthService = inject(AuthService);
+  private readonly authService: AuthService = inject(AuthService);
 
   private socket: WebSocket | null = null;
-  private reconnectInterval: number = 5000;
+  private readonly reconnectInterval: number = 5000;
   private reconnectAttempts: number = 0;
-  private maxReconnectAttempts: number = 5;
+  private readonly maxReconnectAttempts: number = 5;
   private reconnectTimer: any = null;
 
-  private messageSubject: Subject<WebSocketMessage> = new Subject<WebSocketMessage>();
-  private connectionStatusSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private readonly messageSubject: Subject<WebSocketMessage> = new Subject<WebSocketMessage>();
+  private readonly connectionStatusSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   public readonly message$: Observable<WebSocketMessage> = this.messageSubject.asObservable();
   public readonly connectionStatus$: Observable<boolean> = this.connectionStatusSubject.asObservable();
@@ -35,8 +35,15 @@ export class WebSocketService {
       return;
     }
 
+    const encodedToken: string = encodeURIComponent(token);
     const wsUrl: string = environment.wsUrl || environment.apiUrl.replace('http', 'ws').replace('/api/v1', '');
-    const wsEndpoint: string = `${wsUrl}/ws/conversation/?token=${token}`;
+    const pageIsSecure: boolean =
+      typeof globalThis.window !== 'undefined' && globalThis.location?.protocol === 'https:';
+    let normalizedWsUrl: string = wsUrl;
+    if (pageIsSecure && normalizedWsUrl.startsWith('ws://')) {
+      normalizedWsUrl = normalizedWsUrl.replace('ws://', 'wss://');
+    }
+    const wsEndpoint: string = `${normalizedWsUrl}/ws?token=${encodedToken}`;
 
     try {
       this.socket = new WebSocket(wsEndpoint);
@@ -51,10 +58,8 @@ export class WebSocketService {
       };
 
       this.socket.onmessage = (event: MessageEvent): void => {
-        try {
-          const message: WebSocketMessage = JSON.parse(event.data);
-          this.messageSubject.next(message);
-        } catch (_) {}
+        const message: WebSocketMessage = JSON.parse(event.data);
+        this.messageSubject.next(message);
       };
 
       this.socket.onerror = (_: Event): void => {
@@ -106,9 +111,7 @@ export class WebSocketService {
       return;
     }
 
-    try {
-      this.socket.send(JSON.stringify(message));
-    } catch (_) {}
+    this.socket.send(JSON.stringify(message));
   }
 
   sendTypingIndicator(conversationId: string, isTyping: boolean): void {
