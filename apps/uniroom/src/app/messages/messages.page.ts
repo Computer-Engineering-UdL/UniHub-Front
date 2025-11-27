@@ -1,7 +1,7 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 import { MessageService } from '../services/message.service';
@@ -10,6 +10,7 @@ import { LocalizationService } from '../services/localization.service';
 import { ConversationWithOtherUser } from '../models/message.types';
 import { DEFAULT_USER_URL, User } from '../models/auth.types';
 import { ConversationComponent } from './conversation/conversation.component';
+import { StartConversationModalComponent } from './start-conversation-modal/start-conversation-modal.component';
 
 @Component({
   selector: 'app-messages',
@@ -19,10 +20,11 @@ import { ConversationComponent } from './conversation/conversation.component';
   imports: [CommonModule, FormsModule, IonicModule, TranslateModule, ConversationComponent]
 })
 export class MessagesPage implements OnInit, OnDestroy {
-  private messageService: MessageService = inject(MessageService);
-  private authService: AuthService = inject(AuthService);
-  private localizationService: LocalizationService = inject(LocalizationService);
-  private destroy$: Subject<void> = new Subject<void>();
+  private readonly messageService: MessageService = inject(MessageService);
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly localizationService: LocalizationService = inject(LocalizationService);
+  private readonly modalController: ModalController = inject(ModalController);
+  private readonly destroy$: Subject<void> = new Subject<void>();
 
   conversations: ConversationWithOtherUser[] = [];
   filteredConversations: ConversationWithOtherUser[] = [];
@@ -49,11 +51,27 @@ export class MessagesPage implements OnInit, OnDestroy {
     window.removeEventListener('resize', (): void => this.checkIfMobile());
   }
 
+  async openStartConversationModal(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: StartConversationModalComponent,
+      componentProps: {}
+    });
+
+    modal.onDidDismiss().then((result) => {
+      const createdConversationId = result?.data?.createdConversationId;
+      if (createdConversationId) {
+        this.selectedConversationId = createdConversationId;
+      }
+    });
+
+    await modal.present();
+  }
+
   private subscribeToConversations(): void {
     this.messageService.conversations$
       .pipe(takeUntil(this.destroy$))
       .subscribe((conversations: ConversationWithOtherUser[]): void => {
-        this.conversations = conversations.sort(
+        this.conversations = [...conversations].sort(
           (a: ConversationWithOtherUser, b: ConversationWithOtherUser): number => {
             const dateA: Date = new Date(a.last_message?.created_at || a.updated_at);
             const dateB: Date = new Date(b.last_message?.created_at || b.updated_at);

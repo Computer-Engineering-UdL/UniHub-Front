@@ -3,7 +3,6 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>{{ 'MESSAGES.TITLE' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,13 +10,26 @@
   <div class="messages-layout">
     <div class="conversations-sidebar" [class.mobile-hidden]="selectedConversationId && isMobile">
       <div class="sidebar-header">
-        <ion-searchbar
-          [(ngModel)]="searchQuery"
-          (ionInput)="onSearchChange($event)"
-          [placeholder]="'MESSAGES.CONVERSATIONS' | translate"
-          animated="true"
-          class="compact-searchbar">
-        </ion-searchbar>
+        <div class="search-row">
+          <ion-searchbar
+            [(ngModel)]="searchQuery"
+            (ionInput)="onSearchChange($event)"
+            [placeholder]="'MESSAGES.CONVERSATIONS' | translate"
+            [animated]="true"
+            class="compact-searchbar">
+          </ion-searchbar>
+
+          <ion-button
+            *ngIf="currentUser?.role === 'Admin'"
+            (click)="openStartConversationModal()"
+            (keydown.enter)="openStartConversationModal()"
+            class="start-conversation-button"
+            fill="clear"
+            size="small"
+            aria-label="Start conversation">
+            <ion-icon slot="icon-only" name="person-add"></ion-icon>
+          </ion-button>
+        </div>
       </div>
 
       <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
@@ -34,8 +46,10 @@
         <ion-list *ngIf="filteredConversations.length > 0" class="conversations-list">
           <ion-item
             *ngFor="let conversation of filteredConversations"
-            button
+            [button]="true"
             (click)="openConversation(conversation)"
+            (keydown.enter)="openConversation(conversation)"
+            tabindex="0"
             [detail]="false"
             [class.selected]="selectedConversationId === conversation.id"
             class="conversation-item">
