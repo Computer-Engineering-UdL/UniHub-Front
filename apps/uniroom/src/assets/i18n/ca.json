@@ -843,6 +843,14 @@
     "SUCCESS": {
       "MESSAGE_SENT": "Missatge enviat",
       "CONVERSATION_DELETED": "Conversa eliminada"
+    },
+    "START_CONVERSATION": {
+      "TITLE": "Comença la conversa",
+      "SEARCH_PLACEHOLDER": "Buscar usuaris",
+      "START": "Començar",
+      "NO_RESULTS": "No s'han trobat usuaris",
+      "ERROR_SEARCH": "Error al buscar usuaris",
+      "ERROR_CREATE": "Error al crear la conversa"
     }
   },
   "TIME": {

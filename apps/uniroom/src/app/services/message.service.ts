@@ -196,7 +196,7 @@ export class MessageService implements OnDestroy {
   }
 
   createConversation(otherUserId: string, housingOfferId?: string): Observable<Conversation> {
-    const body: any = { user2_id: otherUserId };
+    const body: any = { other_user_id: otherUserId };
     if (housingOfferId) {
       body.housing_offer_id = housingOfferId;
     }

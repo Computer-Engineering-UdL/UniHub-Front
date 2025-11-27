@@ -145,8 +145,9 @@ export class MessagesPage implements OnInit, OnDestroy {
     }
   }
 
-  getUserAvatar(user: User): string {
-    return user.avatar_url || user.imgUrl || this.defaultUserUrl;
+  getUserAvatar(user?: User | null): string {
+    if (!user) return this.defaultUserUrl;
+    return user.imgUrl || this.defaultUserUrl;
   }
 
   formatTime(timestamp: string): string {

@@ -56,14 +56,14 @@
             <ion-avatar slot="start" class="user-avatar">
               <img
                 [src]="getUserAvatar(conversation.other_user)"
-                [alt]="conversation.other_user.username" />
+                [alt]="conversation.other_user?.username || ''" />
             </ion-avatar>
 
             <ion-label>
               <div class="conversation-header">
                 <h2 class="user-name">
-                  {{ conversation.other_user.firstName || conversation.other_user.name }} {{
-                  conversation.other_user.lastName }}
+                  {{ (conversation.other_user?.firstName || conversation.other_user?.name) || '' }} {{
+                  conversation.other_user?.lastName || '' }}
                 </h2>
                 <span class="message-time">
                   {{ formatTime(conversation.last_message?.created_at || conversation.updated_at) }}
@@ -72,7 +72,7 @@
 
               <div class="conversation-info">
                 <p class="user-role">
-                  {{ 'ROLE.' + conversation.other_user.role.toUpperCase() | translate }}
+                  {{ ('ROLE.' + (conversation.other_user?.role || 'basic')).toUpperCase() | translate }}
                 </p>
               </div>
 

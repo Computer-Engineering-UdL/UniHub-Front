@@ -815,6 +815,14 @@
     }
   },
   "MESSAGES": {
+    "START_CONVERSATION": {
+      "TITLE": "Start conversation",
+      "SEARCH_PLACEHOLDER": "Search users",
+      "START": "Start",
+      "NO_RESULTS": "No users found",
+      "ERROR_SEARCH": "Error searching users",
+      "ERROR_CREATE": "Error creating conversation"
+    },
     "TITLE": "Messages",
     "CONVERSATIONS": "Conversations",
     "NO_CONVERSATIONS": "No conversations",

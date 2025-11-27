@@ -816,8 +816,16 @@
     }
   },
   "MESSAGES": {
-    "TITLE": "Mensajes",
-    "CONVERSATIONS": "Conversaciones",
+    "START_CONVERSATION": {
+      "TITLE": "Iniciar conversación",
+      "SEARCH_PLACEHOLDER": "Buscar usuarios",
+      "START": "Iniciar",
+      "NO_RESULTS": "No se han encontrado usuarios",
+      "ERROR_SEARCH": "Error al buscar usuarios",
+      "ERROR_CREATE": "Error al crear la conversación"
+    },
+    "TITLE": "Messages",
+    "CONVERSATIONS": "Conversations",
     "NO_CONVERSATIONS": "No hay conversaciones",
     "NO_CONVERSATIONS_DESCRIPTION": "Comienza una conversación para ver tus mensajes",
     "NO_MESSAGES": "No hay mensajes",
