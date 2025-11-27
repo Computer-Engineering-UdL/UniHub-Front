@@ -29,7 +29,9 @@
         <h3>{{ user.firstName || user.name }} {{ user.lastName }}</h3>
         <p>{{ user.email }}</p>
       </ion-label>
-      <ion-button size="small" (click)="startConversation(user)">{{ 'MESSAGES.START_CONVERSATION.START' | translate }}</ion-button>
+      <ion-button size="small" (click)="startConversation(user)">{{
+        'MESSAGES.START_CONVERSATION.START' | translate
+      }}</ion-button>
     </ion-item>
   </ion-list>
 
@@ -40,4 +42,3 @@
 
   <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
 </ion-content>
-
