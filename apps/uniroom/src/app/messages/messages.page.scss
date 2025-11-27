@@ -48,26 +48,27 @@ ion-header {
   background: var(--ion-background-color);
   flex-shrink: 0;
 
-  .compact-searchbar {
-    padding: 0 !important;
-    height: auto !important;
-    margin: 0;
+  .search-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 
-    &::part(native) {
-      border: 1px solid rgba(0, 0, 0, 0.08) !important;
-      border-radius: 20px !important;
-      background: var(--ion-card-background) !important;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
-      padding-left: 40px !important;
-      padding-right: 12px !important;
-      height: 36px !important;
-      min-height: 36px !important;
+    .compact-searchbar {
+      flex: 1 1 auto;
+      max-width: calc(100% - 48px);
+      z-index: 2;
     }
 
-    &::part(icon) {
-      color: var(--ion-color-medium) !important;
-      left: 12px !important;
+    .start-conversation-button {
+      --padding-start: 8px;
+      --padding-end: 8px;
+      height: 36px;
+      width: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      color: var(--ion-color-primary);
     }
   }
 }

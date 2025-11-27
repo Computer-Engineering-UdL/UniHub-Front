@@ -816,8 +816,16 @@
     }
   },
   "MESSAGES": {
-    "TITLE": "Mensajes",
-    "CONVERSATIONS": "Conversaciones",
+    "START_CONVERSATION": {
+      "TITLE": "Iniciar conversación",
+      "SEARCH_PLACEHOLDER": "Buscar usuarios",
+      "START": "Iniciar",
+      "NO_RESULTS": "No se han encontrado usuarios",
+      "ERROR_SEARCH": "Error al buscar usuarios",
+      "ERROR_CREATE": "Error al crear la conversación"
+    },
+    "TITLE": "Messages",
+    "CONVERSATIONS": "Conversations",
     "NO_CONVERSATIONS": "No hay conversaciones",
     "NO_CONVERSATIONS_DESCRIPTION": "Comienza una conversación para ver tus mensajes",
     "NO_MESSAGES": "No hay mensajes",
@@ -829,11 +837,17 @@
     "DELETE_CONVERSATION": "Eliminar conversación",
     "DELETE_CONVERSATION_CONFIRM": "¿Estás seguro de que quieres eliminar esta conversación?",
     "LOADING": "Cargando mensajes...",
+    "CONNECTING": "Conectando...",
+    "CONNECTED": "Conectado",
+    "DISCONNECTED": "Desconectado",
+    "RECONNECTING": "Reconectando...",
     "ERROR": {
       "LOAD_CONVERSATIONS": "Error al cargar las conversaciones",
       "LOAD_MESSAGES": "Error al cargar los mensajes",
       "SEND_MESSAGE": "Error al enviar el mensaje",
-      "DELETE_CONVERSATION": "Error al eliminar la conversación"
+      "DELETE_CONVERSATION": "Error al eliminar la conversación",
+      "CONNECTION_FAILED": "Error de conexión",
+      "WEBSOCKET_ERROR": "Error de conexión en tiempo real"
     },
     "SUCCESS": {
       "MESSAGE_SENT": "Mensaje enviado",
