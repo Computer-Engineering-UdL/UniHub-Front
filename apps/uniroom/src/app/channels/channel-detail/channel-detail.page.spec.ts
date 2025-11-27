@@ -17,7 +17,10 @@ describe('ChannelDetailPage (unit methods)', () => {
   const authServiceStub = { currentUser$: of({ id: 'u1', role: 'Basic' }) };
   const apiServiceStub = { get: jasmine.createSpy('get').and.returnValue(of({} as any)) };
   const notificationServiceStub = { success: jasmine.createSpy('success'), error: jasmine.createSpy('error') };
-  const localizationServiceStub = { formatDateTime: (d: Date, o: any) => '12:00', formatDate: (d: Date, o: any) => 'Monday' };
+  const localizationServiceStub = {
+    formatDateTime: (d: Date, o: any) => '12:00',
+    formatDate: (d: Date, o: any) => 'Monday'
+  };
   const translateServiceStub = { instant: (k: string) => k };
   const routerStub = { navigate: jasmine.createSpy('navigate') };
   const routeStub = { snapshot: { paramMap: new Map([['id', 'c1']]) } } as any;
@@ -50,7 +53,7 @@ describe('ChannelDetailPage (unit methods)', () => {
     (component as any).groupMessagesByDate();
     expect(component.messageGroups.length).toBe(2);
     // ensure the most recent group's messages are sorted by time
-    expect(component.messageGroups[0].messages.map(m => m.id)).toEqual(['m1','m2']);
+    expect(component.messageGroups[0].messages.map((m) => m.id)).toEqual(['m1', 'm2']);
   });
 
   it('formatDateSeparator returns proper keys for today/yesterday', () => {

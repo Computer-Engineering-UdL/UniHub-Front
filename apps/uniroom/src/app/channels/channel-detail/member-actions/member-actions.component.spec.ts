@@ -26,4 +26,3 @@ describe('MemberActionsComponent', () => {
     expect(popoverControllerStub.dismiss).toHaveBeenCalled();
   });
 });
-

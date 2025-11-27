@@ -7,7 +7,9 @@ describe('EmojiPickerPopoverComponent', () => {
   let component: EmojiPickerPopoverComponent;
   let fixture: ComponentFixture<EmojiPickerPopoverComponent>;
 
-  const emojiServiceStub = { getAvailableEmojis: jasmine.createSpy('getAvailableEmojis').and.returnValue(['💬', '🔥']) };
+  const emojiServiceStub = {
+    getAvailableEmojis: jasmine.createSpy('getAvailableEmojis').and.returnValue(['💬', '🔥'])
+  };
   const popoverControllerStub = { dismiss: jasmine.createSpy('dismiss') };
 
   beforeEach(async () => {
@@ -38,4 +40,3 @@ describe('EmojiPickerPopoverComponent', () => {
     expect(popoverControllerStub.dismiss).toHaveBeenCalledWith('');
   });
 });
-

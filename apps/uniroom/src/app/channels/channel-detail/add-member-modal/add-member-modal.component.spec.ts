@@ -69,4 +69,3 @@ describe('AddMemberModalComponent', () => {
     expect(modalControllerStub.dismiss).toHaveBeenCalledWith(true);
   });
 });
-

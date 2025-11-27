@@ -13,8 +13,24 @@ describe('ChannelsPage', () => {
   let fixture: ComponentFixture<ChannelsPage>;
 
   const mockChannels = [
-    { id: '1', name: 'General', description: 'desc1', category: 'General', member_count: 5, is_member: true, emoji: '💬' },
-    { id: '2', name: 'Eng', description: 'desc2', category: 'Engineering', member_count: 2, is_member: false, emoji: '🔧' }
+    {
+      id: '1',
+      name: 'General',
+      description: 'desc1',
+      category: 'General',
+      member_count: 5,
+      is_member: true,
+      emoji: '💬'
+    },
+    {
+      id: '2',
+      name: 'Eng',
+      description: 'desc2',
+      category: 'Engineering',
+      member_count: 2,
+      is_member: false,
+      emoji: '🔧'
+    }
   ];
 
   const channelServiceStub = {
@@ -31,8 +47,16 @@ describe('ChannelsPage', () => {
     currentUser: { id: 'u1', role: 'Basic' }
   };
 
-  const modalControllerStub = { create: jasmine.createSpy('create').and.returnValue(Promise.resolve({ present: () => Promise.resolve(), onWillDismiss: () => Promise.resolve({ data: {} }) })) };
-  const alertControllerStub = { create: jasmine.createSpy('create').and.returnValue(Promise.resolve({ present: () => Promise.resolve() })) };
+  const modalControllerStub = {
+    create: jasmine
+      .createSpy('create')
+      .and.returnValue(
+        Promise.resolve({ present: () => Promise.resolve(), onWillDismiss: () => Promise.resolve({ data: {} }) })
+      )
+  };
+  const alertControllerStub = {
+    create: jasmine.createSpy('create').and.returnValue(Promise.resolve({ present: () => Promise.resolve() }))
+  };
   const notificationServiceStub = { success: jasmine.createSpy('success'), error: jasmine.createSpy('error') };
   const translateServiceStub = { instant: (k: string) => k };
   const routerStub = { navigate: jasmine.createSpy('navigate').and.returnValue(Promise.resolve()) as any };

@@ -17,7 +17,13 @@ describe('CreateChannelModalComponent', () => {
   };
 
   const modalControllerStub = { dismiss: jasmine.createSpy('dismiss') };
-  const popoverControllerStub = { create: jasmine.createSpy('create').and.returnValue(Promise.resolve({ present: () => Promise.resolve(), onWillDismiss: () => Promise.resolve({ data: '🔥' }) })) };
+  const popoverControllerStub = {
+    create: jasmine
+      .createSpy('create')
+      .and.returnValue(
+        Promise.resolve({ present: () => Promise.resolve(), onWillDismiss: () => Promise.resolve({ data: '🔥' }) })
+      )
+  };
   const notificationServiceStub = { success: jasmine.createSpy('success'), error: jasmine.createSpy('error') };
   const translateServiceStub = { instant: (k: string) => k };
 
