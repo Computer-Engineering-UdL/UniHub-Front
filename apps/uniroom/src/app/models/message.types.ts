@@ -43,6 +43,15 @@ export interface CreateMessageDto {
   content: string;
 }
 
+export interface HousingOfferInfo {
+  id: string;
+  title: string;
+  price?: number;
+  currency?: string;
+  city?: string;
+}
+
 export interface ConversationWithOtherUser extends Conversation {
   other_user?: User | null;
+  housing_offer?: HousingOfferInfo | null;
 }

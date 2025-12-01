@@ -624,7 +624,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
     try {
       const conversation: Conversation = await firstValueFrom(
-        this.messageService.getOrCreateConversation(this.offer.landlord.userId)
+        this.messageService.getOrCreateConversation(this.offer.landlord.userId, this.offer.id)
       );
       await this.router.navigate(['/messages'], { queryParams: { id: conversation.id } });
     } catch {

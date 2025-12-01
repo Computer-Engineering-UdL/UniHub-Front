@@ -76,6 +76,10 @@
                   {{ ('ROLE.' + (conversation.other_user?.role || 'basic')).toUpperCase() |
                   translate }}
                 </p>
+                <ion-badge *ngIf="conversation.housing_offer" color="primary" class="offer-badge">
+                  <ion-icon name="home-outline"></ion-icon>
+                  {{ conversation.housing_offer.title }}
+                </ion-badge>
               </div>
 
               <div class="conversation-subject" *ngIf="conversation.last_message">

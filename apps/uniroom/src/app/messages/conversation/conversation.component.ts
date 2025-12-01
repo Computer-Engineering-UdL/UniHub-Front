@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { AlertController, IonContent, IonicModule, Platform, PopoverController } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil, firstValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
 import { MessageService } from '../../services/message.service';
 import { AuthService } from '../../services/auth.service';
 import { LocalizationService } from '../../services/localization.service';
@@ -44,6 +45,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   private alertController: AlertController = inject(AlertController);
   private translate: TranslateService = inject(TranslateService);
   private notificationService: NotificationService = inject(NotificationService);
+  private router: Router = inject(Router);
   private destroy$: Subject<void> = new Subject<void>();
 
   messages: Message[] = [];
@@ -200,24 +202,44 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   async showConversationOptions(event: Event): Promise<void> {
     event.stopPropagation();
 
+    const buttons: any[] = [];
+
+    // If there's a housing offer, add option to view it
+    if (this.conversation?.housing_offer_id) {
+      buttons.push({
+        text: this.translate.instant('MESSAGES.VIEW_OFFER'),
+        handler: () => {
+          void this.viewHousingOffer();
+        }
+      });
+    }
+
+    buttons.push(
+      {
+        text: this.translate.instant('COMMON.CANCEL'),
+        role: 'cancel'
+      },
+      {
+        text: this.translate.instant('MESSAGES.DELETE_CONVERSATION'),
+        role: 'destructive',
+        handler: () => {
+          void this.confirmDeleteConversation();
+        }
+      }
+    );
+
     const alert = await this.alertController.create({
       header: this.translate.instant('MESSAGES.CONVERSATION_OPTIONS'),
-      buttons: [
-        {
-          text: this.translate.instant('COMMON.CANCEL'),
-          role: 'cancel'
-        },
-        {
-          text: this.translate.instant('MESSAGES.DELETE_CONVERSATION'),
-          role: 'destructive',
-          handler: () => {
-            void this.confirmDeleteConversation();
-          }
-        }
-      ]
+      buttons
     });
 
     await alert.present();
+  }
+
+  async viewHousingOffer(): Promise<void> {
+    if (this.conversation?.housing_offer_id) {
+      await this.router.navigate(['/rooms/details', this.conversation.housing_offer_id]);
+    }
   }
 
   async confirmDeleteConversation(): Promise<void> {

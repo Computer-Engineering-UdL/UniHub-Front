@@ -132,25 +132,41 @@ export class MessageService implements OnDestroy {
           (conv: Conversation): Observable<ConversationWithOtherUser> => {
             const otherUserId = conv.user1_id === currentUserId ? conv.user2_id : conv.user1_id;
 
-            return this.apiService.get<User>(`user/public/${otherUserId}`).pipe(
-              map((userData: User): ConversationWithOtherUser => {
-                const otherUser = this.authService.mapUserFromApi(userData);
-                return {
+            // Fetch user and optionally housing offer
+            const userObservable = this.apiService.get<User>(`user/public/${otherUserId}`).pipe(
+              map((userData: User): User => this.authService.mapUserFromApi(userData)),
+              catchError((): Observable<User | null> => of(null))
+            );
+
+            const offerObservable = conv.housing_offer_id
+              ? this.apiService.get<any>(`offers/${conv.housing_offer_id}`).pipe(
+                  map((offer: any) => ({
+                    id: offer.id,
+                    title: offer.title,
+                    price: offer.price,
+                    currency: offer.currency,
+                    city: offer.city
+                  })),
+                  catchError((): Observable<null> => of(null))
+                )
+              : of(null);
+
+            return forkJoin({
+              user: userObservable,
+              offer: offerObservable
+            }).pipe(
+              map(
+                (result: { user: User | null; offer: any }): ConversationWithOtherUser => ({
                   ...conv,
-                  other_user: otherUser
-                };
-              }),
-              catchError((): Observable<ConversationWithOtherUser> => {
-                return of({
-                  ...conv,
-                  other_user: null
-                });
-              })
+                  other_user: result.user,
+                  housing_offer: result.offer
+                })
+              )
             );
           }
         );
 
-        // Wait for all user fetches to complete
+        // Wait for all fetches to complete
         return forkJoin(conversationObservables).pipe(
           tap((conversationsWithUsers: ConversationWithOtherUser[]): void => {
             this.conversationsSubject.next(conversationsWithUsers);
@@ -195,31 +211,40 @@ export class MessageService implements OnDestroy {
     }
     return this.apiService.post<Conversation>('conversation/', body).pipe(
       switchMap((conversation: Conversation): Observable<Conversation> => {
-        // Fetch the other user's information
-        return this.apiService.get<User>(`user/public/${otherUserId}`).pipe(
-          map((userData: User): Conversation => {
-            const otherUser = this.authService.mapUserFromApi(userData);
+        // Fetch user and optionally housing offer
+        const userObservable = this.apiService.get<User>(`user/public/${otherUserId}`).pipe(
+          map((userData: User): User => this.authService.mapUserFromApi(userData)),
+          catchError((): Observable<User | null> => of(null))
+        );
+
+        const offerObservable = housingOfferId
+          ? this.apiService.get<any>(`offers/${housingOfferId}`).pipe(
+              map((offer: any) => ({
+                id: offer.id,
+                title: offer.title,
+                price: offer.price,
+                currency: offer.currency,
+                city: offer.city
+              })),
+              catchError((): Observable<null> => of(null))
+            )
+          : of(null);
+
+        return forkJoin({
+          user: userObservable,
+          offer: offerObservable
+        }).pipe(
+          map((result: { user: User | null; offer: any }): Conversation => {
             const convWithOtherUser: ConversationWithOtherUser = {
               ...conversation,
-              other_user: otherUser
+              other_user: result.user,
+              housing_offer: result.offer
             };
 
             const current: ConversationWithOtherUser[] = this.conversationsSubject.value;
             this.conversationsSubject.next([convWithOtherUser, ...current]);
 
             return conversation;
-          }),
-          catchError((): Observable<Conversation> => {
-            // If user fetch fails, add conversation without user info
-            const convWithOtherUser: ConversationWithOtherUser = {
-              ...conversation,
-              other_user: null
-            };
-
-            const current: ConversationWithOtherUser[] = this.conversationsSubject.value;
-            this.conversationsSubject.next([convWithOtherUser, ...current]);
-
-            return of(conversation);
           })
         );
       })

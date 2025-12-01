@@ -835,6 +835,7 @@
     "TYPE_MESSAGE": "Escriu un missatge...",
     "SEND": "Enviar",
     "CONVERSATION_OPTIONS": "Opcions de conversa",
+    "VIEW_OFFER": "Veure oferta",
     "DELETE_CONVERSATION": "Eliminar conversa",
     "DELETE_CONVERSATION_CONFIRM_TITLE": "Eliminar conversa",
     "DELETE_CONVERSATION_CONFIRM_MESSAGE": "Estàs segur que vols eliminar aquesta conversa? Aquesta acció no es pot desfer.",
