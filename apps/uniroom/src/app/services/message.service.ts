@@ -3,7 +3,6 @@ import { Observable, BehaviorSubject, tap, map, Subject, takeUntil } from 'rxjs'
 import { ApiService } from './api.service';
 import { Conversation, Message, ConversationWithOtherUser } from '../models/message.types';
 import { AuthService } from './auth.service';
-import { User } from '../models/auth.types';
 import { WebSocketService, WebSocketMessage } from './websocket.service';
 
 @Injectable({
@@ -80,15 +79,9 @@ export class MessageService implements OnDestroy {
     );
 
     if (index !== -1) {
-      const currentUserId: string | undefined = this.authService.currentUser?.id;
-      if (!currentUserId) return;
-
-      const otherUser: User | undefined =
-        conversation.participant1_id === currentUserId ? conversation.participant2 : conversation.participant1;
-
       const updatedConv: ConversationWithOtherUser = {
         ...conversation,
-        other_user: otherUser ?? null
+        other_user: null
       };
 
       const updated: ConversationWithOtherUser[] = [...currentConversations];
@@ -135,12 +128,9 @@ export class MessageService implements OnDestroy {
 
         const conversationsWithOtherUser: ConversationWithOtherUser[] = conversations.map(
           (conv: Conversation): ConversationWithOtherUser => {
-            const otherUser: User | undefined =
-              conv.participant1_id === currentUserId ? conv.participant2 : conv.participant1;
-
             return {
               ...conv,
-              other_user: otherUser ?? null
+              other_user: null
             };
           }
         );
@@ -154,12 +144,9 @@ export class MessageService implements OnDestroy {
         }
 
         return conversations.map((conv: Conversation): ConversationWithOtherUser => {
-          const otherUser: User | undefined =
-            conv.participant1_id === currentUserId ? conv.participant2 : conv.participant1;
-
           return {
             ...conv,
-            other_user: otherUser ?? null
+            other_user: null
           };
         });
       })
@@ -201,21 +188,41 @@ export class MessageService implements OnDestroy {
     }
     return this.apiService.post<Conversation>('conversation/', body).pipe(
       tap((conversation: Conversation): void => {
-        const currentUserId: string | undefined = this.authService.currentUser?.id;
-        if (!currentUserId) return;
-
-        const otherUser: User | undefined =
-          conversation.participant1_id === currentUserId ? conversation.participant2 : conversation.participant1;
-
         const convWithOtherUser: ConversationWithOtherUser = {
           ...conversation,
-          other_user: otherUser ?? null
+          other_user: null
         };
 
         const current: ConversationWithOtherUser[] = this.conversationsSubject.value;
         this.conversationsSubject.next([convWithOtherUser, ...current]);
       })
     );
+  }
+
+  getOrCreateConversation(otherUserId: string, housingOfferId?: string): Observable<Conversation> {
+    const currentUserId: string | undefined = this.authService.currentUser?.id;
+    if (!currentUserId) {
+      return this.createConversation(otherUserId, housingOfferId);
+    }
+
+    const existingConversations: ConversationWithOtherUser[] = this.conversationsSubject.value;
+    const existingConversation: ConversationWithOtherUser | undefined = existingConversations.find(
+      (conv: ConversationWithOtherUser): boolean => {
+        return (
+          (conv.user1_id === currentUserId && conv.user2_id === otherUserId) ||
+          (conv.user1_id === otherUserId && conv.user2_id === currentUserId)
+        );
+      }
+    );
+
+    if (existingConversation) {
+      return new Observable<Conversation>((observer) => {
+        observer.next(existingConversation);
+        observer.complete();
+      });
+    }
+
+    return this.createConversation(otherUserId, housingOfferId);
   }
 
   deleteConversation(conversationId: string): Observable<void> {

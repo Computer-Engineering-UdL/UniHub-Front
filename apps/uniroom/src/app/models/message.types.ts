@@ -28,13 +28,13 @@ export interface ChannelMessage {
 
 export interface Conversation {
   id: string;
-  participant1_id: string;
-  participant2_id: string;
+  user1_id: string;
+  user2_id: string;
+  housing_offer_id?: string | null;
   created_at: string;
-  updated_at: string;
-  last_message?: Message;
-  participant1?: User;
-  participant2?: User;
+  updated_at?: string;
+  last_message_at?: string | null;
+  last_message?: Message | null;
   unread_count?: number;
 }
 

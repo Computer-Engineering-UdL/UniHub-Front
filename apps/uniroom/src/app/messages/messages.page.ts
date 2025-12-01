@@ -80,8 +80,8 @@ export class MessagesPage implements OnInit, OnDestroy {
       .subscribe((conversations: ConversationWithOtherUser[]): void => {
         this.conversations = [...conversations].sort(
           (a: ConversationWithOtherUser, b: ConversationWithOtherUser): number => {
-            const dateA: Date = new Date(a.last_message?.created_at || a.updated_at);
-            const dateB: Date = new Date(b.last_message?.created_at || b.updated_at);
+            const dateA: Date = new Date(a.last_message?.created_at || a.updated_at || a.created_at);
+            const dateB: Date = new Date(b.last_message?.created_at || b.updated_at || b.created_at);
             return dateB.getTime() - dateA.getTime();
           }
         );
@@ -159,7 +159,10 @@ export class MessagesPage implements OnInit, OnDestroy {
     return user.imgUrl || this.defaultUserUrl;
   }
 
-  formatTime(timestamp: string): string {
+  formatTime(timestamp: string | undefined): string {
+    if (!timestamp) {
+      return '';
+    }
     return this.localizationService.formatRelativeTime(timestamp);
   }
 

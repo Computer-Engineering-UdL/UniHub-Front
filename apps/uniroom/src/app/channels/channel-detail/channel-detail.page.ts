@@ -668,7 +668,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     this.startingConversationFor = member.user_id;
 
     try {
-      const conversation: Conversation = await firstValueFrom(this.messageService.createConversation(member.user_id));
+      const conversation: Conversation = await firstValueFrom(this.messageService.getOrCreateConversation(member.user_id));
       await this.router.navigate(['/messages'], { queryParams: { id: conversation.id } });
     } catch {
       this.notificationService.error('MESSAGES.CREATE_ERROR');
