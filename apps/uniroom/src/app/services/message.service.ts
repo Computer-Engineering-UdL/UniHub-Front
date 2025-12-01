@@ -5,6 +5,7 @@ import { Conversation, Message, ConversationWithOtherUser } from '../models/mess
 import { AuthService } from './auth.service';
 import { User } from '../models/auth.types';
 import { WebSocketService, WebSocketMessage } from './websocket.service';
+import { resolveFileUrl } from '../utils/file-url.util';
 
 @Injectable({
   providedIn: 'root'
@@ -145,7 +146,11 @@ export class MessageService implements OnDestroy {
                     title: offer.title,
                     price: offer.price,
                     currency: offer.currency,
-                    city: offer.city
+                    city: offer.city,
+                    photos: (offer.photos || []).map((photo: any) => ({
+                      url: resolveFileUrl(photo.url) ?? resolveFileUrl(photo.file_metadata?.public_url) ?? photo.url,
+                      is_primary: photo.is_primary || false
+                    }))
                   })),
                   catchError((): Observable<null> => of(null))
                 )
@@ -224,7 +229,11 @@ export class MessageService implements OnDestroy {
                 title: offer.title,
                 price: offer.price,
                 currency: offer.currency,
-                city: offer.city
+                city: offer.city,
+                photos: (offer.photos || []).map((photo: any) => ({
+                  url: resolveFileUrl(photo.url) ?? resolveFileUrl(photo.file_metadata?.public_url) ?? photo.url,
+                  is_primary: photo.is_primary || false
+                }))
               })),
               catchError((): Observable<null> => of(null))
             )
@@ -295,6 +304,10 @@ export class MessageService implements OnDestroy {
 
   getCurrentMessages(): Message[] {
     return this.messagesSubject.value;
+  }
+
+  getConversationsValue(): ConversationWithOtherUser[] {
+    return this.conversationsSubject.value;
   }
 
   clearMessages(): void {

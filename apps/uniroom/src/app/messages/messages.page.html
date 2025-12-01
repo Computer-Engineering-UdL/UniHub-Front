@@ -76,7 +76,7 @@
                   {{ ('ROLE.' + (conversation.other_user?.role || 'basic')).toUpperCase() |
                   translate }}
                 </p>
-                <ion-badge *ngIf="conversation.housing_offer" color="primary" class="offer-badge">
+                <ion-badge *ngIf="conversation.housing_offer" class="offer-badge">
                   <ion-icon name="home-outline"></ion-icon>
                   {{ conversation.housing_offer.title }}
                 </ion-badge>
@@ -93,6 +93,13 @@
                 </p>
               </div>
             </ion-label>
+
+            <div *ngIf="getOfferCoverImage(conversation)" slot="end" class="offer-image-container">
+              <img
+                [src]="getOfferCoverImage(conversation)"
+                [alt]="conversation.housing_offer?.title || 'Offer'"
+                class="offer-cover-image" />
+            </div>
 
             <ion-badge
               *ngIf="conversation.unread_count && conversation.unread_count > 0"

@@ -76,7 +76,17 @@ export class StartConversationModalComponent implements OnInit {
   }
 
   private filterUsers(users: User[]): User[] {
-    return users.filter((user: User) => user.isActive !== false && user.id !== this.currentUser?.id);
+    const existingConversations = this.messageService.getConversationsValue();
+    const existingUserIds = new Set(
+      existingConversations.map((conv) => {
+        const otherUserId = conv.user1_id === this.currentUser?.id ? conv.user2_id : conv.user1_id;
+        return otherUserId;
+      })
+    );
+
+    return users.filter(
+      (user: User) => user.isActive !== false && user.id !== this.currentUser?.id && !existingUserIds.has(user.id)
+    );
   }
 
   onSearchChange(event: any): void {

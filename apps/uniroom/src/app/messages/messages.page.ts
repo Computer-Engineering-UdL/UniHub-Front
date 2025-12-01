@@ -159,6 +159,19 @@ export class MessagesPage implements OnInit, OnDestroy {
     return user.imgUrl || this.defaultUserUrl;
   }
 
+  getOfferCoverImage(conversation: ConversationWithOtherUser): string | null {
+    if (!conversation.housing_offer?.photos || conversation.housing_offer.photos.length === 0) {
+      return null;
+    }
+
+    const coverPhoto = conversation.housing_offer.photos.find((photo) => photo.is_primary);
+    if (coverPhoto) {
+      return coverPhoto.url;
+    }
+
+    return conversation.housing_offer.photos[0]?.url || null;
+  }
+
   formatTime(timestamp: string | undefined): string {
     if (!timestamp) {
       return '';

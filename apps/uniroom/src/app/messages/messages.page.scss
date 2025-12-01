@@ -211,6 +211,15 @@ ion-header {
         color: white !important;
       }
 
+      .offer-badge {
+        background: white !important;
+        color: var(--ion-color-primary) !important;
+
+        ion-icon {
+          color: var(--ion-color-primary) !important;
+        }
+      }
+
       .unread-badge {
         background: white;
         color: var(--ion-color-primary);
@@ -274,6 +283,8 @@ ion-header {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          background: var(--ion-color-tertiary);
+          color: var(--ion-color-light);
 
           ion-icon {
             font-size: 12px;
@@ -295,6 +306,33 @@ ion-header {
             color: var(--ion-text-color);
           }
         }
+      }
+    }
+
+    .conversation-end-content {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .offer-image-container {
+      width: 50px;
+      height: 50px;
+      flex-shrink: 0;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--ion-color-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--ion-color-light-shade);
+
+      .offer-cover-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
       }
     }
 
