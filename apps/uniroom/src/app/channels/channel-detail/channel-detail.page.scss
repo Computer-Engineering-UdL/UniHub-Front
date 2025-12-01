@@ -281,7 +281,7 @@ ion-header {
       margin-top: 1.5rem;
 
       .role-group-header {
-        background: rgba(var(--ion-color-danger-rgb), 0.1);
+        background: var(--ion-color-danger-tint);
 
         ion-icon {
           color: var(--ion-color-danger);
@@ -295,7 +295,7 @@ ion-header {
       gap: 0.5rem;
       padding: 0.5rem 0.75rem;
       margin-bottom: 0.5rem;
-      background: rgba(var(--ion-color-primary-rgb), 0.05);
+      background: var(--ion-color-light);
       border-radius: 8px;
       position: sticky;
       top: 0;
@@ -893,7 +893,7 @@ ion-header {
       margin-top: 2rem;
 
       .role-group-header {
-        background: rgba(var(--ion-color-danger-rgb), 0.1);
+        background: var(--ion-color-danger-tint);
         border-color: var(--ion-color-danger-tint);
 
         ion-icon {
@@ -1009,41 +1009,22 @@ ion-header {
   --min-width: 240px;
   --max-width: 280px;
   --backdrop-opacity: 0.3;
-  --offset-y: 4px;
-  --offset-x: -8px;
 
   .popover-content {
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     overflow: hidden;
-    max-height: 60vh;
+    max-height: 50vh;
     overflow-y: auto;
   }
 
   &::part(content) {
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    overflow: visible;
-    max-height: 60vh;
+    max-height: 50vh;
   }
 
   ion-backdrop {
     opacity: var(--backdrop-opacity);
-  }
-
-  &.popover-bottom {
-    transform-origin: top right;
-  }
-
-  &.popover-top {
-    transform-origin: bottom right;
-  }
-
-  &.popover-side-bottom {
-    transform-origin: top right;
-  }
-
-  &.popover-side-top {
-    transform-origin: bottom right;
   }
 }

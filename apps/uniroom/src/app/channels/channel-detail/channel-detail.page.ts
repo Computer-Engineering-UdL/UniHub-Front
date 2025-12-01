@@ -552,9 +552,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
       translucent: true,
       cssClass: 'member-actions-popover',
       showBackdrop: true,
-      dismissOnSelect: true,
-      reference: 'event',
-      size: 'auto'
+      dismissOnSelect: true
     });
 
     await popover.present();
