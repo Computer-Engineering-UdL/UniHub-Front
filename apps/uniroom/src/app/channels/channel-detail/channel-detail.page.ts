@@ -466,17 +466,11 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     }
   }
 
-  async presentMemberActionSheet(event: Event, member: ChannelMember) {
-    event.stopPropagation();
-
+  private getMemberActions(member: ChannelMember): MemberAction[] {
     const currentMember = this.getCurrentMember();
     const isChannelAdmin = currentMember?.role === 'admin';
     const isChannelModerator = currentMember?.role === 'moderator';
     const canManageMembers = isChannelAdmin || isChannelModerator;
-
-    // Note: allow opening the popover for any member. Actions like kick/ban are only
-    // added for users that can manage members (admin/moderator). This lets any user
-    // start a private conversation from the popover.
 
     const allActions: MemberAction[] = [];
 
@@ -486,7 +480,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
           icon: 'shield-checkmark',
           text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.SET_ADMIN'),
           handler: () => {
-            this.setMemberRole(member, 'admin');
+            void this.setMemberRole(member, 'admin');
           },
           isSelected: member.role === 'admin'
         },
@@ -494,7 +488,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
           icon: 'star',
           text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.SET_MODERATOR'),
           handler: () => {
-            this.setMemberRole(member, 'moderator');
+            void this.setMemberRole(member, 'moderator');
           },
           isSelected: member.role === 'moderator'
         },
@@ -502,21 +496,20 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
           icon: 'people',
           text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.SET_USER'),
           handler: () => {
-            this.setMemberRole(member, 'user');
+            void this.setMemberRole(member, 'user');
           },
           isSelected: member.role === 'user' || member.role === 'member'
         }
       );
     }
 
-    // Only add kick/ban if current user can manage members
     if (canManageMembers) {
       allActions.push(
         {
           icon: 'exit-outline',
           text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.KICK'),
           handler: () => {
-            this.kickMember(member);
+            void this.kickMember(member);
           },
           isDestructive: true
         },
@@ -540,6 +533,31 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
         void this.startPrivateConversation(member);
       }
     });
+
+    return actions;
+  }
+
+  getSingleActionForMember(member: ChannelMember): MemberAction | null {
+    const actions = this.getMemberActions(member);
+    return actions.length === 1 ? actions[0] : null;
+  }
+
+  hasSingleAction(member: ChannelMember): boolean {
+    return this.getSingleActionForMember(member) !== null;
+  }
+
+  executeSingleAction(event: Event, member: ChannelMember): void {
+    event.stopPropagation();
+    const action = this.getSingleActionForMember(member);
+    if (action) {
+      action.handler();
+    }
+  }
+
+  async presentMemberActionSheet(event: Event, member: ChannelMember) {
+    event.stopPropagation();
+
+    const actions = this.getMemberActions(member);
 
     const { MemberActionsComponent } = await import('./member-actions/member-actions.component');
     const popover = await this.popoverCtrl.create({

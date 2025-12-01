@@ -217,10 +217,18 @@
             </div>
             <div class="member-actions" *ngIf="member.user_id !== currentUser?.id">
               <ion-button
+                *ngIf="!hasSingleAction(member)"
                 fill="clear"
                 size="small"
                 (click)="presentMemberActionSheet($event, member)">
                 <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+              </ion-button>
+              <ion-button
+                *ngIf="hasSingleAction(member)"
+                fill="clear"
+                size="small"
+                (click)="executeSingleAction($event, member)">
+                <ion-icon slot="icon-only" [name]="getSingleActionForMember(member)?.icon"></ion-icon>
               </ion-button>
             </div>
           </div>
@@ -244,10 +252,18 @@
             </div>
             <div class="member-actions" *ngIf="member.user_id !== currentUser?.id">
               <ion-button
+                *ngIf="!hasSingleAction(member)"
                 fill="clear"
                 size="small"
                 (click)="presentMemberActionSheet($event, member)">
                 <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+              </ion-button>
+              <ion-button
+                *ngIf="hasSingleAction(member)"
+                fill="clear"
+                size="small"
+                (click)="executeSingleAction($event, member)">
+                <ion-icon slot="icon-only" [name]="getSingleActionForMember(member)?.icon"></ion-icon>
               </ion-button>
             </div>
           </div>
@@ -271,10 +287,18 @@
             </div>
             <div class="member-actions" *ngIf="member.user_id !== currentUser?.id">
               <ion-button
+                *ngIf="!hasSingleAction(member)"
                 fill="clear"
                 size="small"
                 (click)="presentMemberActionSheet($event, member)">
                 <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+              </ion-button>
+              <ion-button
+                *ngIf="hasSingleAction(member)"
+                fill="clear"
+                size="small"
+                (click)="executeSingleAction($event, member)">
+                <ion-icon slot="icon-only" [name]="getSingleActionForMember(member)?.icon"></ion-icon>
               </ion-button>
             </div>
           </div>
@@ -358,10 +382,18 @@
             </div>
             <div class="member-actions" *ngIf="member.user_id !== currentUser?.id">
               <ion-button
+                *ngIf="!hasSingleAction(member)"
                 fill="clear"
                 size="small"
                 (click)="presentMemberActionSheet($event, member)">
                 <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+              </ion-button>
+              <ion-button
+                *ngIf="hasSingleAction(member)"
+                fill="clear"
+                size="small"
+                (click)="executeSingleAction($event, member)">
+                <ion-icon slot="icon-only" [name]="getSingleActionForMember(member)?.icon"></ion-icon>
               </ion-button>
             </div>
           </div>
@@ -385,10 +417,18 @@
             </div>
             <div class="member-actions" *ngIf="member.user_id !== currentUser?.id">
               <ion-button
+                *ngIf="!hasSingleAction(member)"
                 fill="clear"
                 size="small"
                 (click)="presentMemberActionSheet($event, member)">
                 <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+              </ion-button>
+              <ion-button
+                *ngIf="hasSingleAction(member)"
+                fill="clear"
+                size="small"
+                (click)="executeSingleAction($event, member)">
+                <ion-icon slot="icon-only" [name]="getSingleActionForMember(member)?.icon"></ion-icon>
               </ion-button>
             </div>
           </div>
@@ -412,10 +452,18 @@
             </div>
             <div class="member-actions" *ngIf="member.user_id !== currentUser?.id">
               <ion-button
+                *ngIf="!hasSingleAction(member)"
                 fill="clear"
                 size="small"
                 (click)="presentMemberActionSheet($event, member)">
                 <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+              </ion-button>
+              <ion-button
+                *ngIf="hasSingleAction(member)"
+                fill="clear"
+                size="small"
+                (click)="executeSingleAction($event, member)">
+                <ion-icon slot="icon-only" [name]="getSingleActionForMember(member)?.icon"></ion-icon>
               </ion-button>
             </div>
           </div>
