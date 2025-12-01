@@ -12,14 +12,15 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonicModule, Platform } from '@ionic/angular';
-import { TranslateModule } from '@ngx-translate/core';
-import { Subject, takeUntil } from 'rxjs';
+import { AlertController, IonContent, IonicModule, Platform, PopoverController } from '@ionic/angular';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Subject, takeUntil, firstValueFrom } from 'rxjs';
 import { MessageService } from '../../services/message.service';
 import { AuthService } from '../../services/auth.service';
 import { LocalizationService } from '../../services/localization.service';
 import { Conversation, Message } from '../../models/message.types';
 import { DEFAULT_USER_URL, User } from '../../models/auth.types';
+import NotificationService from '../../services/notification.service';
 
 @Component({
   selector: 'app-conversation',
@@ -39,6 +40,10 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   private authService: AuthService = inject(AuthService);
   private localizationService: LocalizationService = inject(LocalizationService);
   private platform: Platform = inject(Platform);
+  private popoverController: PopoverController = inject(PopoverController);
+  private alertController: AlertController = inject(AlertController);
+  private translate: TranslateService = inject(TranslateService);
+  private notificationService: NotificationService = inject(NotificationService);
   private destroy$: Subject<void> = new Subject<void>();
 
   messages: Message[] = [];
@@ -190,5 +195,67 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   formatTime(timestamp: string): string {
     const date: Date = new Date(timestamp);
     return this.localizationService.formatDateTime(date, { hour: '2-digit', minute: '2-digit' });
+  }
+
+  async showConversationOptions(event: Event): Promise<void> {
+    event.stopPropagation();
+
+    const alert = await this.alertController.create({
+      header: this.translate.instant('MESSAGES.CONVERSATION_OPTIONS'),
+      buttons: [
+        {
+          text: this.translate.instant('COMMON.CANCEL'),
+          role: 'cancel'
+        },
+        {
+          text: this.translate.instant('MESSAGES.DELETE_CONVERSATION'),
+          role: 'destructive',
+          handler: () => {
+            void this.confirmDeleteConversation();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async confirmDeleteConversation(): Promise<void> {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('MESSAGES.DELETE_CONVERSATION_CONFIRM_TITLE'),
+      message: this.translate.instant('MESSAGES.DELETE_CONVERSATION_CONFIRM_MESSAGE'),
+      cssClass: 'custom-delete-alert',
+      buttons: [
+        {
+          text: this.translate.instant('COMMON.CANCEL'),
+          role: 'cancel'
+        },
+        {
+          text: this.translate.instant('COMMON.DELETE'),
+          role: 'destructive',
+          cssClass: 'danger-btn',
+          handler: () => {
+            void this.deleteConversation();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async deleteConversation(): Promise<void> {
+    if (!this.conversationId) {
+      return;
+    }
+
+    try {
+      await firstValueFrom(this.messageService.deleteConversation(this.conversationId));
+      this.notificationService.success('MESSAGES.DELETE_CONVERSATION_SUCCESS');
+      this.onBackClick();
+    } catch (error) {
+      console.error('Error deleting conversation:', error);
+      this.notificationService.error('MESSAGES.DELETE_CONVERSATION_ERROR');
+    }
   }
 }

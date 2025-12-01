@@ -231,7 +231,9 @@ ion-footer {
   .message-input-toolbar {
     display: flex;
     align-items: flex-end;
+    padding: 8px 12px;
     border-top: 1px solid var(--ion-color-light);
+    background: var(--ion-background-color);
   }
 
   .message-input-item {
@@ -243,19 +245,28 @@ ion-footer {
     margin: 0;
 
     ion-textarea {
-      --padding-start: 12px;
-      --padding-end: 12px;
-      --padding-top: 8px;
-      --padding-bottom: 8px;
+      --padding-start: 14px;
+      --padding-end: 14px;
+      --padding-top: 10px;
+      --padding-bottom: 10px;
       font-size: 15px;
+      line-height: 1.4;
       background: var(--ion-color-light);
       border-radius: 20px;
       max-height: 120px;
+      min-height: 40px;
+
+      textarea {
+        align-self: flex-start !important;
+        padding-top: 10px !important;
+      }
     }
   }
 
   ion-button {
-    margin: 0 4px;
+    margin: 0 4px 2px 4px;
+    --padding-start: 8px;
+    --padding-end: 8px;
 
     ion-icon {
       font-size: 24px;
