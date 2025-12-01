@@ -26,16 +26,7 @@ interface SelectedPhotoPreview {
 }
 
 interface WizardStep {
-  id:
-    | 'basic'
-    | 'location'
-    | 'pricing'
-    | 'property'
-    | 'amenities'
-    | 'houseRules'
-    | 'photos'
-    | 'dates'
-    | 'review';
+  id: 'basic' | 'location' | 'pricing' | 'property' | 'amenities' | 'houseRules' | 'photos' | 'dates' | 'review';
   titleKey: string;
   descriptionKey: string;
   controlPaths?: string[];
@@ -413,15 +404,18 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   }
 
   private getControlByPath(path: string): AbstractControl | null {
-    return path.split('.').reduce<AbstractControl | null>((control: AbstractControl | null, segment: string) => {
-      if (!control) {
+    return path.split('.').reduce<AbstractControl | null>(
+      (control: AbstractControl | null, segment: string) => {
+        if (!control) {
+          return null;
+        }
+        if (control instanceof FormGroup) {
+          return control.get(segment);
+        }
         return null;
-      }
-      if (control instanceof FormGroup) {
-        return control.get(segment);
-      }
-      return null;
-    }, this.offerForm as AbstractControl | null);
+      },
+      this.offerForm as AbstractControl | null
+    );
   }
 
   get selectInterfaceOptions(): Record<string, unknown> {
@@ -556,7 +550,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   getSelectedCategoryLabel(): string {
     const catId = this.offerForm?.get('category_id')?.value;
     if (!catId) return '';
-    const category = this.categories.find(c => c.id === catId);
+    const category = this.categories.find((c) => c.id === catId);
     return this.getCategoryLabel(category);
   }
 
