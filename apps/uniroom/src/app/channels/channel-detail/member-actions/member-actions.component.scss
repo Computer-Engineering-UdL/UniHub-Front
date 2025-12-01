@@ -1,14 +1,14 @@
 .member-actions-list {
   padding: 0;
   margin: 0;
-  min-width: 220px;
+  width: 100%;
 
   ion-item {
     --background: var(--ion-background-color);
     --color: var(--ion-text-color);
-    --padding-start: 16px;
-    --padding-end: 16px;
-    --min-height: 52px;
+    --padding-start: 14px;
+    --padding-end: 14px;
+    --min-height: 48px;
     cursor: pointer;
     transition: all 0.2s ease;
 

@@ -215,9 +215,7 @@
               <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
               <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
             </div>
-            <div
-              class="member-actions"
-              *ngIf="canManageMembers() && member.user_id !== currentUser?.id">
+            <div class="member-actions" *ngIf="member.user_id !== currentUser?.id">
               <ion-button
                 fill="clear"
                 size="small"
@@ -244,9 +242,7 @@
               <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
               <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
             </div>
-            <div
-              class="member-actions"
-              *ngIf="canManageMembers() && member.user_id !== currentUser?.id">
+            <div class="member-actions" *ngIf="member.user_id !== currentUser?.id">
               <ion-button
                 fill="clear"
                 size="small"
@@ -273,9 +269,7 @@
               <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
               <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
             </div>
-            <div
-              class="member-actions"
-              *ngIf="canManageMembers() && member.user_id !== currentUser?.id">
+            <div class="member-actions" *ngIf="member.user_id !== currentUser?.id">
               <ion-button
                 fill="clear"
                 size="small"
@@ -362,9 +356,7 @@
               <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
               <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
             </div>
-            <div
-              class="member-actions"
-              *ngIf="canManageMembers() && member.user_id !== currentUser?.id">
+            <div class="member-actions" *ngIf="member.user_id !== currentUser?.id">
               <ion-button
                 fill="clear"
                 size="small"
@@ -391,9 +383,7 @@
               <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
               <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
             </div>
-            <div
-              class="member-actions"
-              *ngIf="canManageMembers() && member.user_id !== currentUser?.id">
+            <div class="member-actions" *ngIf="member.user_id !== currentUser?.id">
               <ion-button
                 fill="clear"
                 size="small"
@@ -420,9 +410,7 @@
               <span class="member-name">{{ member.user?.fullName || member.user?.username }}</span>
               <span class="member-role">{{ getRoleTranslationKey(member.role) | translate }}</span>
             </div>
-            <div
-              class="member-actions"
-              *ngIf="canManageMembers() && member.user_id !== currentUser?.id">
+            <div class="member-actions" *ngIf="member.user_id !== currentUser?.id">
               <ion-button
                 fill="clear"
                 size="small"

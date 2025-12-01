@@ -2,17 +2,17 @@ import { Component, ElementRef, inject, OnDestroy, OnInit, QueryList, ViewChildr
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { async, firstValueFrom, interval, Subscription } from 'rxjs';
+import { firstValueFrom, interval, Subscription } from 'rxjs';
 import { Channel, ChannelMember, ChannelRole } from '../../models/channel.types';
-import { ChannelMessage } from '../../models/message.types';
+import { ChannelMessage, Conversation } from '../../models/message.types';
 import { DEFAULT_USER_URL, Role, User } from '../../models/auth.types';
 import { ChannelService } from '../../services/channel.service';
 import { AuthService } from '../../services/auth.service';
 import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
 import { ApiService } from '../../services/api.service';
-import { MemberActionsComponent } from './member-actions/member-actions.component';
 import { BanMemberModalComponent } from './ban-member-modal/ban-member-modal.component';
+import { MessageService } from '../../services/message.service';
 
 interface MemberAction {
   icon: string;
@@ -35,21 +35,22 @@ interface MessageGroup {
 })
 export class ChannelDetailPage implements OnInit, OnDestroy {
   @ViewChildren('messageItem') messageItems?: QueryList<ElementRef>;
-
-  private route: ActivatedRoute = inject(ActivatedRoute);
-  private router: Router = inject(Router);
-  private channelService: ChannelService = inject(ChannelService);
-  private authService: AuthService = inject(AuthService);
-  private apiService: ApiService = inject(ApiService);
-  private alertController: AlertController = inject(AlertController);
-  private notificationService: NotificationService = inject(NotificationService);
-  private localizationService: LocalizationService = inject(LocalizationService);
-  private translate: TranslateService = inject(TranslateService);
-  private modalController: ModalController = inject(ModalController);
-  private popoverCtrl: PopoverController = inject(PopoverController);
-
+  private readonly route: ActivatedRoute = inject(ActivatedRoute);
+  private readonly router: Router = inject(Router);
+  private readonly channelService: ChannelService = inject(ChannelService);
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly apiService: ApiService = inject(ApiService);
+  private readonly alertController: AlertController = inject(AlertController);
+  private readonly notificationService: NotificationService = inject(NotificationService);
+  private readonly localizationService: LocalizationService = inject(LocalizationService);
+  private readonly translate: TranslateService = inject(TranslateService);
+  private readonly modalController: ModalController = inject(ModalController);
+  private readonly popoverCtrl: PopoverController = inject(PopoverController);
+  private readonly messageService: MessageService = inject(MessageService);
   private userSubscription?: Subscription;
+
   private messagesRefreshSubscription?: Subscription;
+  startingConversationFor: string | null = null;
 
   channelId: string = '';
   channel: Channel | null = null;
@@ -162,7 +163,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
               await firstValueFrom(this.apiService.get<User>(`user/public/${member.user_id}`))
             );
             return { ...member, user };
-          } catch (_) {
+          } catch {
             return member;
           }
         })
@@ -442,7 +443,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
       await this.loadMembers();
       this.channel.is_member = false;
       void this.router.navigate(['/channels']);
-    } catch (_) {
+    } catch {
       this.notificationService.error('CHANNELS.ERROR.LEAVE_CHANNEL');
     }
   }
@@ -473,9 +474,9 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     const isChannelModerator = currentMember?.role === 'moderator';
     const canManageMembers = isChannelAdmin || isChannelModerator;
 
-    if (!canManageMembers) {
-      return;
-    }
+    // Note: allow opening the popover for any member. Actions like kick/ban are only
+    // added for users that can manage members (admin/moderator). This lets any user
+    // start a private conversation from the popover.
 
     const allActions: MemberAction[] = [];
 
@@ -508,26 +509,37 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
       );
     }
 
-    allActions.push(
-      {
-        icon: 'exit-outline',
-        text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.KICK'),
-        handler: () => {
-          this.kickMember(member);
+    // Only add kick/ban if current user can manage members
+    if (canManageMembers) {
+      allActions.push(
+        {
+          icon: 'exit-outline',
+          text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.KICK'),
+          handler: () => {
+            this.kickMember(member);
+          },
+          isDestructive: true
         },
-        isDestructive: true
-      },
-      {
-        icon: 'ban-outline',
-        text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.BAN'),
-        handler: () => {
-          this.banMember(member);
-        },
-        isDestructive: true
-      }
-    );
+        {
+          icon: 'ban-outline',
+          text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.BAN'),
+          handler: () => {
+            this.banMember(member);
+          },
+          isDestructive: true
+        }
+      );
+    }
 
     const actions: MemberAction[] = allActions.filter((action: MemberAction): boolean => !action.isSelected);
+
+    actions.unshift({
+      icon: 'chatbubble-ellipses-outline',
+      text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.START_PRIVATE_CONVERSATION'),
+      handler: () => {
+        void this.startPrivateConversation(member);
+      }
+    });
 
     const { MemberActionsComponent } = await import('./member-actions/member-actions.component');
     const popover = await this.popoverCtrl.create({
@@ -537,7 +549,12 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
         actions
       },
       event,
-      translucent: true
+      translucent: true,
+      cssClass: 'member-actions-popover',
+      showBackdrop: true,
+      dismissOnSelect: true,
+      reference: 'event',
+      size: 'auto'
     });
 
     await popover.present();
@@ -548,7 +565,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
       await this.channelService.setMemberRole(this.channelId, member.user_id, role);
       this.notificationService.success('CHANNELS.MEMBER_ACTIONS.SUCCESS.SET_ROLE');
       await this.loadMembers();
-    } catch (error) {
+    } catch {
       this.notificationService.error('CHANNELS.MEMBER_ACTIONS.ERROR.SET_ROLE');
     }
   }
@@ -568,7 +585,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
               await this.channelService.removeMember(this.channelId, member.user_id);
               this.notificationService.success('CHANNELS.MEMBER_ACTIONS.SUCCESS.KICK');
               await this.loadMembers();
-            } catch (error) {
+            } catch {
               this.notificationService.error('CHANNELS.MEMBER_ACTIONS.ERROR.KICK');
             }
           }
@@ -602,7 +619,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
         });
         this.notificationService.success('CHANNELS.MEMBER_ACTIONS.SUCCESS.BAN');
         await this.loadMembers();
-      } catch (_) {
+      } catch {
         this.notificationService.error('CHANNELS.MEMBER_ACTIONS.ERROR.BAN');
       }
     }
@@ -626,7 +643,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
               });
               this.notificationService.success('CHANNELS.MEMBER_ACTIONS.SUCCESS.UNBAN');
               await this.loadMembers();
-            } catch (_) {
+            } catch {
               this.notificationService.error('CHANNELS.MEMBER_ACTIONS.ERROR.UNBAN');
             }
           }
@@ -634,5 +651,31 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
       ]
     });
     await alert.present();
+  }
+
+  canStartConversation(member: ChannelMember): boolean {
+    return !!this.currentUser && member.user_id !== this.currentUser.id;
+  }
+
+  async startPrivateConversation(member: ChannelMember): Promise<void> {
+    if (!this.canStartConversation(member)) {
+      return;
+    }
+
+    if (!this.currentUser) {
+      this.notificationService.error('ERROR.NOT_AUTHENTICATED');
+      return;
+    }
+
+    this.startingConversationFor = member.user_id;
+
+    try {
+      const conversation: Conversation = await firstValueFrom(this.messageService.createConversation(member.user_id));
+      await this.router.navigate(['/messages'], { queryParams: { id: conversation.id } });
+    } catch {
+      this.notificationService.error('MESSAGES.CREATE_ERROR');
+    } finally {
+      this.startingConversationFor = null;
+    }
   }
 }

@@ -11,6 +11,7 @@ import { ConversationWithOtherUser } from '../models/message.types';
 import { DEFAULT_USER_URL, User } from '../models/auth.types';
 import { ConversationComponent } from './conversation/conversation.component';
 import { StartConversationModalComponent } from './start-conversation-modal/start-conversation-modal.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-messages',
@@ -24,6 +25,7 @@ export class MessagesPage implements OnInit, OnDestroy {
   private readonly authService: AuthService = inject(AuthService);
   private readonly localizationService: LocalizationService = inject(LocalizationService);
   private readonly modalController: ModalController = inject(ModalController);
+  private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly destroy$: Subject<void> = new Subject<void>();
 
   conversations: ConversationWithOtherUser[] = [];
@@ -41,6 +43,11 @@ export class MessagesPage implements OnInit, OnDestroy {
     this.checkIfMobile();
     this.loadConversations();
     this.subscribeToConversations();
+
+    const queryId = this.route.snapshot.queryParamMap.get('id');
+    if (queryId) {
+      this.selectedConversationId = queryId;
+    }
 
     window.addEventListener('resize', (): void => this.checkIfMobile());
   }

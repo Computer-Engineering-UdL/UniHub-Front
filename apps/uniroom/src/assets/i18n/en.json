@@ -794,6 +794,7 @@
       "DAYS": "days",
       "UNBAN_CONFIRM_TITLE": "Unban Member",
       "UNBAN_CONFIRM_MESSAGE": "Are you sure you want to unban {{user}}?",
+      "START_PRIVATE_CONVERSATION": "Send a message",
       "SUCCESS": {
         "SET_ROLE": "Role updated successfully.",
         "KICK": "Member kicked successfully.",

@@ -789,6 +789,7 @@
       "DAYS": "dies",
       "UNBAN_CONFIRM_TITLE": "Desbanejar membre",
       "UNBAN_CONFIRM_MESSAGE": "Estàs segur que vols desbanejar a {{user}}?",
+      "START_PRIVATE_CONVERSATION": "Enviar un missatge",
       "SUCCESS": {
         "SET_ROLE": "Rol actualitzat correctament.",
         "KICK": "Membre expulsat correctament.",
