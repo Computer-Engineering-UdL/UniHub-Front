@@ -120,9 +120,10 @@ export class MessagesPage implements OnInit, OnDestroy {
     }
 
     this.filteredConversations = this.conversations.filter((conv: ConversationWithOtherUser): boolean => {
-      const otherUser: User = conv.other_user;
-      const fullName: string = `${otherUser.firstName || ''} ${otherUser.lastName || ''}`.toLowerCase();
-      const username: string = (otherUser.username || '').toLowerCase();
+      const otherUser: User | undefined | null = conv.other_user;
+
+      const fullName: string = `${otherUser?.firstName || otherUser?.name || ''} ${otherUser?.lastName || ''}`.toLowerCase();
+      const username: string = (otherUser?.username || '').toLowerCase();
       const lastMessage: string = (conv.last_message?.content || '').toLowerCase();
 
       return fullName.includes(query) || username.includes(query) || lastMessage.includes(query);

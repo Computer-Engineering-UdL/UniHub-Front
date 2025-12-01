@@ -10,23 +10,23 @@ import { WebSocketService, WebSocketMessage } from './websocket.service';
   providedIn: 'root'
 })
 export class MessageService implements OnDestroy {
-  private apiService: ApiService = inject(ApiService);
-  private authService: AuthService = inject(AuthService);
-  private wsService: WebSocketService = inject(WebSocketService);
-  private destroy$: Subject<void> = new Subject<void>();
+  private readonly apiService: ApiService = inject(ApiService);
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly wsService: WebSocketService = inject(WebSocketService);
+  private readonly destroy$: Subject<void> = new Subject<void>();
 
-  private conversationsSubject: BehaviorSubject<ConversationWithOtherUser[]> = new BehaviorSubject<
+  private readonly conversationsSubject: BehaviorSubject<ConversationWithOtherUser[]> = new BehaviorSubject<
     ConversationWithOtherUser[]
   >([]);
   public readonly conversations$: Observable<ConversationWithOtherUser[]> = this.conversationsSubject.asObservable();
 
-  private currentConversationSubject: BehaviorSubject<Conversation | null> = new BehaviorSubject<Conversation | null>(
+  private readonly currentConversationSubject: BehaviorSubject<Conversation | null> = new BehaviorSubject<Conversation | null>(
     null
   );
   public readonly currentConversation$: Observable<Conversation | null> =
     this.currentConversationSubject.asObservable();
 
-  private messagesSubject: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
+  private readonly messagesSubject: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
   public readonly messages$: Observable<Message[]> = this.messagesSubject.asObservable();
 
   constructor() {
@@ -89,7 +89,7 @@ export class MessageService implements OnDestroy {
 
       const updatedConv: ConversationWithOtherUser = {
         ...conversation,
-        other_user: otherUser!
+        other_user: otherUser ?? null
       };
 
       const updated: ConversationWithOtherUser[] = [...currentConversations];
@@ -141,7 +141,7 @@ export class MessageService implements OnDestroy {
 
             return {
               ...conv,
-              other_user: otherUser!
+              other_user: otherUser ?? null
             };
           }
         );
@@ -160,7 +160,7 @@ export class MessageService implements OnDestroy {
 
           return {
             ...conv,
-            other_user: otherUser!
+            other_user: otherUser ?? null
           };
         });
       })
@@ -210,7 +210,7 @@ export class MessageService implements OnDestroy {
 
         const convWithOtherUser: ConversationWithOtherUser = {
           ...conversation,
-          other_user: otherUser!
+          other_user: otherUser ?? null
         };
 
         const current: ConversationWithOtherUser[] = this.conversationsSubject.value;

@@ -44,5 +44,5 @@ export interface CreateMessageDto {
 }
 
 export interface ConversationWithOtherUser extends Conversation {
-  other_user: User;
+  other_user?: User | null;
 }
