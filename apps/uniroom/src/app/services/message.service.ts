@@ -1,8 +1,9 @@
 import { Injectable, inject, OnDestroy } from '@angular/core';
-import { Observable, BehaviorSubject, tap, map, Subject, takeUntil } from 'rxjs';
+import { Observable, BehaviorSubject, tap, map, Subject, takeUntil, switchMap, forkJoin, of, catchError } from 'rxjs';
 import { ApiService } from './api.service';
 import { Conversation, Message, ConversationWithOtherUser } from '../models/message.types';
 import { AuthService } from './auth.service';
+import { User } from '../models/auth.types';
 import { WebSocketService, WebSocketMessage } from './websocket.service';
 
 @Injectable({
@@ -120,35 +121,41 @@ export class MessageService implements OnDestroy {
 
   getConversations(): Observable<ConversationWithOtherUser[]> {
     return this.apiService.get<Conversation[]>('conversation/').pipe(
-      tap((conversations: Conversation[]): void => {
+      switchMap((conversations: Conversation[]): Observable<ConversationWithOtherUser[]> => {
         const currentUserId: string | undefined = this.authService.currentUser?.id;
-        if (!currentUserId) {
-          return;
+        if (!currentUserId || conversations.length === 0) {
+          this.conversationsSubject.next([]);
+          return of([]);
         }
 
-        const conversationsWithOtherUser: ConversationWithOtherUser[] = conversations.map(
-          (conv: Conversation): ConversationWithOtherUser => {
-            return {
-              ...conv,
-              other_user: null
-            };
+        const conversationObservables = conversations.map(
+          (conv: Conversation): Observable<ConversationWithOtherUser> => {
+            const otherUserId = conv.user1_id === currentUserId ? conv.user2_id : conv.user1_id;
+
+            return this.apiService.get<User>(`user/public/${otherUserId}`).pipe(
+              map((userData: User): ConversationWithOtherUser => {
+                const otherUser = this.authService.mapUserFromApi(userData);
+                return {
+                  ...conv,
+                  other_user: otherUser
+                };
+              }),
+              catchError((): Observable<ConversationWithOtherUser> => {
+                return of({
+                  ...conv,
+                  other_user: null
+                });
+              })
+            );
           }
         );
 
-        this.conversationsSubject.next(conversationsWithOtherUser);
-      }),
-      map((conversations: Conversation[]): ConversationWithOtherUser[] => {
-        const currentUserId: string | undefined = this.authService.currentUser?.id;
-        if (!currentUserId) {
-          return [];
-        }
-
-        return conversations.map((conv: Conversation): ConversationWithOtherUser => {
-          return {
-            ...conv,
-            other_user: null
-          };
-        });
+        // Wait for all user fetches to complete
+        return forkJoin(conversationObservables).pipe(
+          tap((conversationsWithUsers: ConversationWithOtherUser[]): void => {
+            this.conversationsSubject.next(conversationsWithUsers);
+          })
+        );
       })
     );
   }
@@ -187,14 +194,34 @@ export class MessageService implements OnDestroy {
       body.housing_offer_id = housingOfferId;
     }
     return this.apiService.post<Conversation>('conversation/', body).pipe(
-      tap((conversation: Conversation): void => {
-        const convWithOtherUser: ConversationWithOtherUser = {
-          ...conversation,
-          other_user: null
-        };
+      switchMap((conversation: Conversation): Observable<Conversation> => {
+        // Fetch the other user's information
+        return this.apiService.get<User>(`user/public/${otherUserId}`).pipe(
+          map((userData: User): Conversation => {
+            const otherUser = this.authService.mapUserFromApi(userData);
+            const convWithOtherUser: ConversationWithOtherUser = {
+              ...conversation,
+              other_user: otherUser
+            };
 
-        const current: ConversationWithOtherUser[] = this.conversationsSubject.value;
-        this.conversationsSubject.next([convWithOtherUser, ...current]);
+            const current: ConversationWithOtherUser[] = this.conversationsSubject.value;
+            this.conversationsSubject.next([convWithOtherUser, ...current]);
+
+            return conversation;
+          }),
+          catchError((): Observable<Conversation> => {
+            // If user fetch fails, add conversation without user info
+            const convWithOtherUser: ConversationWithOtherUser = {
+              ...conversation,
+              other_user: null
+            };
+
+            const current: ConversationWithOtherUser[] = this.conversationsSubject.value;
+            this.conversationsSubject.next([convWithOtherUser, ...current]);
+
+            return of(conversation);
+          })
+        );
       })
     );
   }
