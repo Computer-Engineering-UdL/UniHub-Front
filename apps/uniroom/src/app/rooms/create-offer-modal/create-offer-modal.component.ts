@@ -338,6 +338,14 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     return ((this.currentStepIndex + 1) / this.wizardSteps.length) * 100;
   }
 
+  get isCurrentStepValid(): boolean {
+    const controls: AbstractControl[] = this.getStepControls(this.currentStep);
+    if (!controls.length) {
+      return true;
+    }
+    return controls.every((control: AbstractControl) => control.valid);
+  }
+
   goToStep(index: number): void {
     if (index < 0 || index >= this.wizardSteps.length) {
       return;

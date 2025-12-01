@@ -577,7 +577,13 @@ export class RoomsComponent implements OnInit {
   async openCreateOfferModal(): Promise<void> {
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: CreateOfferModalComponent,
-      cssClass: 'create-offer-modal'
+      cssClass: 'create-offer-modal',
+      canDismiss: async (_data, role): Promise<boolean> => {
+        if (role === 'created') {
+          return true;
+        }
+        return await this.confirmDiscardOffer();
+      }
     });
 
     await modal.present();
@@ -587,6 +593,27 @@ export class RoomsComponent implements OnInit {
     if (role === 'created' && data) {
       await this.loadOffers();
     }
+  }
+
+  private async confirmDiscardOffer(): Promise<boolean> {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('ROOM.FORM.DISCARD_TITLE'),
+      message: this.translate.instant('ROOM.FORM.DISCARD_MESSAGE'),
+      buttons: [
+        {
+          text: this.translate.instant('ROOM.FORM.CONTINUE_EDITING'),
+          role: 'cancel'
+        },
+        {
+          text: this.translate.instant('ROOM.FORM.DISCARD_CONFIRM'),
+          role: 'destructive'
+        }
+      ]
+    });
+
+    await alert.present();
+    const { role } = await alert.onDidDismiss();
+    return role === 'destructive';
   }
 
   async viewOfferDetails(offerId: string): Promise<void> {

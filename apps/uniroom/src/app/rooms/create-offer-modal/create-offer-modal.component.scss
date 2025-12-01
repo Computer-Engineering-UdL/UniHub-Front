@@ -1,168 +1,188 @@
 .wizard-shell {
-  max-width: 960px;
+  max-width: 1080px;
   margin: 0 auto;
-  padding: 16px 16px 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.wizard-progress {
-  background: var(--ion-card-background);
-  border: 1px solid var(--card-border-color);
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: var(--elevation-2, 0 6px 24px rgba(0, 0, 0, 0.1));
+  padding: 12px 12px 24px;
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.wizard-progress__meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+.wizard-header {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  padding: 8px 4px 6px;
+  background: var(--ion-background-color);
+  border-bottom: 1px solid var(--card-border-color);
 }
 
-.wizard-progress__titles {
+.wizard-header__titles {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
-.wizard-progress__eyebrow {
+.wizard-header__eyebrow {
   margin: 0;
   color: var(--ion-color-medium);
   font-weight: 600;
-  text-transform: uppercase;
   letter-spacing: 0.5px;
   font-size: 12px;
+  text-transform: uppercase;
 }
 
-.wizard-progress__description {
+.wizard-header__title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.wizard-header__counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--ion-color-primary-tint);
+  color: var(--ion-color-primary-contrast);
+  font-weight: 700;
+  min-width: 84px;
+}
+
+.wizard-header__description {
   margin: 0;
   color: var(--ion-color-medium);
   font-size: 14px;
 }
 
-.wizard-progress__counter {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 4px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: var(--ion-color-primary-tint);
-  color: var(--ion-color-primary-contrast);
-  font-weight: 700;
-  min-width: 72px;
-  justify-content: center;
+.wizard-stepper {
+  position: sticky;
+  top: 72px;
+  z-index: 5;
+  background: var(--ion-background-color);
+  padding: 6px 0 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-bottom: 1px solid var(--card-border-color);
 }
 
-.wizard-progress__counter small {
-  color: var(--ion-color-primary-contrast);
-  opacity: 0.9;
-}
-
-.wizard-progress__bar {
+.wizard-stepper__track {
   width: 100%;
-  height: 10px;
+  height: 6px;
   border-radius: 999px;
   background: var(--ion-color-step-150, rgba(0, 0, 0, 0.08));
   overflow: hidden;
 }
 
-.wizard-progress__bar-fill {
+.wizard-stepper__fill {
   height: 100%;
   width: 0;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--ion-color-primary), var(--ion-color-primary-shade));
-  transition: width 0.3s ease;
+  background: linear-gradient(90deg, var(--ion-color-primary), var(--ion-color-success));
+  transition: width 0.25s ease;
 }
 
-.wizard-progress__steps {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+.wizard-stepper__steps {
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
-.wizard-progress__step {
-  display: flex;
+.wizard-stepper__step {
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
+  gap: 10px;
+  padding: 8px 10px;
   border-radius: 12px;
   background: var(--ion-color-step-100, rgba(0, 0, 0, 0.04));
   border: 1px solid var(--card-border-color);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   text-align: left;
+  flex: 1 1 200px;
+  min-width: 0;
 }
 
-.wizard-progress__step:disabled {
+.wizard-stepper__step:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.wizard-progress__step.active {
+.wizard-stepper__step.active {
   border-color: var(--ion-color-primary);
   background: var(--ion-color-primary-tint);
 }
 
-.wizard-progress__step.completed {
+.wizard-stepper__step.completed {
   border-color: var(--ion-color-success);
 }
 
-.wizard-progress__index {
+.wizard-stepper__index {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 10px;
   background: var(--ion-color-primary);
   color: var(--ion-color-primary-contrast);
   font-weight: 700;
+  flex-shrink: 0;
 }
 
-.wizard-progress__copy {
+.wizard-stepper__copy {
   display: flex;
   flex-direction: column;
   gap: 2px;
   flex: 1;
+  min-width: 0;
 }
 
-.wizard-progress__label {
+.wizard-stepper__label {
   font-weight: 700;
   color: var(--ion-text-color);
+  white-space: normal;
+  line-height: 1.2;
+}
+
+.wizard-stepper__copy small {
+  color: var(--ion-color-medium);
+  font-size: 12px;
+  white-space: normal;
 }
 
 .wizard-panel {
   background: var(--ion-card-background);
   border: 1px solid var(--card-border-color);
-  border-radius: 16px;
+  border-radius: 14px;
   padding: 16px;
-  box-shadow: var(--elevation-2, 0 6px 24px rgba(0, 0, 0, 0.1));
+  box-shadow: var(--elevation-2, 0 4px 16px rgba(0, 0, 0, 0.08));
+  overflow: visible;
 }
 
 .form-section {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 
   h3 {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
     color: var(--ion-text-color);
-    margin: 0 0 12px 0;
+    margin: 0;
   }
 
   ion-item {
     --background: var(--ion-card-background);
     --border-color: var(--card-border-color);
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     border-radius: 10px;
     --inner-padding-start: 12px;
     --inner-padding-end: 12px;
     --padding-start: 12px;
+    --min-height: 56px;
 
     &.item-has-error {
       --border-color: var(--ion-color-danger);
@@ -172,6 +192,23 @@
       }
     }
   }
+
+  ion-label {
+    font-weight: 600;
+  }
+}
+
+.form-section__header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.form-section__description {
+  margin: 0;
+  color: var(--ion-color-medium);
+  font-size: 13px;
 }
 
 .form-section__subtitle {
@@ -199,8 +236,20 @@ ion-item.field-with-helper {
 
 .two-columns {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px 12px;
+  align-items: flex-start;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px 12px;
+  align-items: flex-start;
+}
+
+.form-grid.three-columns {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .location-grid {
@@ -213,14 +262,14 @@ ion-item.field-with-helper {
 
 .address-preview {
   display: block;
-  margin: 4px 0 16px;
-  font-size: 13px;
+  margin: 6px 0 12px;
+  font-size: 12px;
   line-height: 1.4;
 }
 
 .range-grid {
-  gap: 20px;
-  margin-bottom: 20px;
+  gap: 14px;
+  margin-bottom: 12px;
 }
 
 .range-field {
@@ -333,7 +382,7 @@ ion-item.field-with-helper {
 
 .form-section--house-rules {
   .section-helper {
-    margin: -8px 0 16px 0;
+    margin: -8px 0 12px 0;
     color: var(--ion-color-medium);
     font-size: 14px;
   }
@@ -485,23 +534,31 @@ ion-item.field-with-helper {
 }
 
 .wizard-actions {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 12px;
-  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 8px;
+  border-top: 1px solid var(--card-border-color);
 
   ion-button {
     --border-radius: 12px;
     font-weight: 700;
     text-transform: none;
-    height: 48px;
+    height: 44px;
   }
 }
 
-.wizard-cancel {
-  --border-radius: 12px;
-  font-weight: 600;
-  text-transform: none;
+.wizard-actions__cancel {
+  margin-inline-end: auto;
+}
+
+.wizard-actions__nav {
+  display: inline-flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .form-section--dates {
@@ -509,6 +566,9 @@ ion-item.field-with-helper {
     border: 1px solid var(--ion-border-color);
     border-radius: 10px;
     --inner-padding-end: 16px;
+    overflow: visible;
+    position: relative;
+    z-index: 1;
   }
 }
 
@@ -600,20 +660,26 @@ ion-spinner {
 }
 
 @media (max-width: 768px) {
-  .wizard-progress__steps {
-    grid-template-columns: 1fr;
-  }
-
-  .wizard-progress__meta {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
   .wizard-shell {
     padding: 12px;
   }
 
-  .two-columns {
+  .wizard-header {
+    position: sticky;
+    top: 0;
+  }
+
+  .wizard-stepper {
+    top: 64px;
+  }
+
+  .wizard-stepper__steps {
+    flex-direction: column;
+  }
+
+  .two-columns,
+  .form-grid,
+  .form-grid.three-columns {
     grid-template-columns: 1fr;
   }
 
