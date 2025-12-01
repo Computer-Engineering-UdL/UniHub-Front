@@ -20,9 +20,8 @@ export class MessageService implements OnDestroy {
   >([]);
   public readonly conversations$: Observable<ConversationWithOtherUser[]> = this.conversationsSubject.asObservable();
 
-  private readonly currentConversationSubject: BehaviorSubject<Conversation | null> = new BehaviorSubject<Conversation | null>(
-    null
-  );
+  private readonly currentConversationSubject: BehaviorSubject<Conversation | null> =
+    new BehaviorSubject<Conversation | null>(null);
   public readonly currentConversation$: Observable<Conversation | null> =
     this.currentConversationSubject.asObservable();
 
