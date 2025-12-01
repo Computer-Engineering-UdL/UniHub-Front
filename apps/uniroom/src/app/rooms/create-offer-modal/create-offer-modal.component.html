@@ -11,403 +11,567 @@
 
 <ion-content>
   <form [formGroup]="offerForm" (ngSubmit)="onSubmit()">
-    <div class="form-container">
-      <div class="form-section">
-        <h3>{{ 'ROOM.FORM.BASIC_INFO' | translate }}</h3>
+    <div class="wizard-shell">
+      <div class="wizard-progress">
+        <div class="wizard-progress__meta">
+          <div class="wizard-progress__titles">
+            <p class="wizard-progress__eyebrow">{{ 'ROOM.CREATE_OFFER' | translate }}</p>
+            <h2>{{ currentStep.titleKey | translate }}</h2>
+            <p class="wizard-progress__description">{{ currentStep.descriptionKey | translate }}</p>
+          </div>
+          <div class="wizard-progress__counter">
+            <span>{{ currentStepIndex + 1 }}</span>
+            <small>/ {{ wizardSteps.length }}</small>
+          </div>
+        </div>
 
-        <ion-item [class.item-has-error]="isFieldInvalid('title')">
-          <ion-label position="stacked">{{ 'ROOM.FORM.TITLE' | translate }} *</ion-label>
-          <ion-input
-            formControlName="title"
-            type="text"
-            placeholder="Ex: Cozy room near campus"></ion-input>
-        </ion-item>
+        <div class="wizard-progress__bar">
+          <div class="wizard-progress__bar-fill" [style.width.%]="progressValue"></div>
+        </div>
 
-        <ion-item [class.item-has-error]="isFieldInvalid('description')">
-          <ion-label position="stacked">{{ 'ROOM.FORM.DESCRIPTION' | translate }} *</ion-label>
-          <ion-textarea
-            formControlName="description"
-            [rows]="4"
-            placeholder="Describe your offer..."></ion-textarea>
-        </ion-item>
-
-        @if (!categoryLoading) {
-          <ion-item [class.item-has-error]="isFieldInvalid('category_id')">
-            <ion-label position="stacked">{{ 'ROOM.FORM.CATEGORY' | translate }} *</ion-label>
-            <ion-select
-              class="category-select"
-              formControlName="category_id"
-              [interface]="selectInterface"
-              [interfaceOptions]="selectInterfaceOptions"
-              placeholder="{{ 'ROOM.FORM.SELECT_CATEGORY' | translate }}">
-              @for (cat of categories; track cat.id) {
-                <ion-select-option [value]="cat.id">{{ getCategoryLabel(cat) }}</ion-select-option>
+        <div class="wizard-progress__steps">
+          @for (step of wizardSteps; track step.id; let idx = $index) {
+            <button
+              type="button"
+              class="wizard-progress__step"
+              [class.active]="idx === currentStepIndex"
+              [class.completed]="isStepComplete(idx)"
+              [disabled]="idx > furthestStepIndex"
+              (click)="goToStep(idx)">
+              <span class="wizard-progress__index">{{ idx + 1 }}</span>
+              <div class="wizard-progress__copy">
+                <span class="wizard-progress__label">{{ step.titleKey | translate }}</span>
+                <small>{{ step.descriptionKey | translate }}</small>
+              </div>
+              @if (isStepComplete(idx)) {
+                <ion-icon name="checkmark-circle" color="success"></ion-icon>
               }
-            </ion-select>
-          </ion-item>
-        } @else {
-          <ion-item>
-            <ion-label position="stacked">{{ 'ROOM.FORM.CATEGORY' | translate }} *</ion-label>
-            <div class="category-loading">
-              <ion-spinner name="crescent"></ion-spinner>
-              <span style="margin-left: 8px">{{ 'COMMON.LOADING' | translate }}</span>
-            </div>
-          </ion-item>
-        }
+            </button>
+          }
+        </div>
       </div>
 
-      <div class="form-section form-section--photos">
-        <h3>{{ 'ROOM.FORM.PHOTOS' | translate }}</h3>
-        <div class="photo-upload">
-          <label class="photo-upload__trigger" [class.disabled]="!canAddMorePhotos">
-            <ion-icon name="cloud-upload-outline"></ion-icon>
-            <span>{{ 'ROOM.FORM.UPLOAD_BUTTON' | translate }}</span>
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              (change)="onPhotosSelected($event)"
-              [disabled]="!canAddMorePhotos" />
-          </label>
-          <ion-note class="photo-upload__note" color="medium">
-            {{ 'ROOM.FORM.UPLOAD_PHOTOS_HELPER' | translate: { max: maxPhotoCount } }}
-          </ion-note>
-        </div>
-        @if (photoUploadError) {
-          <ion-text color="danger" class="photo-upload__error">{{ photoUploadError }}</ion-text>
-        }
-        @if (photoPreviews.length === 0) {
-          <p class="photo-upload__empty">{{ 'ROOM.FORM.NO_PHOTOS' | translate }}</p>
-        } @else {
-          <div class="photo-preview-grid">
-            @for (photo of photoPreviews; track $index) {
-              <div class="photo-card">
-                <img [src]="photo.preview" [alt]="'Preview ' + ($index + 1)" />
-                <div class="photo-card__actions">
-                  @if ($index === 0) {
-                    <ion-badge color="primary" class="photo-card__badge">
-                      {{ 'ROOM.FORM.PRIMARY_BADGE' | translate }}
-                    </ion-badge>
-                  } @else {
-                    <ion-button
-                      type="button"
-                      size="small"
-                      fill="clear"
-                      (click)="setPrimaryPhoto($index)">
-                      {{ 'ROOM.FORM.MAKE_PRIMARY' | translate }}
-                    </ion-button>
+      <div class="wizard-panel" [attr.data-step]="currentStep.id">
+        @switch (currentStep.id) {
+          @case ('basic') {
+            <div class="form-section">
+              <h3>{{ 'ROOM.FORM.BASIC_INFO' | translate }}</h3>
+              <ion-item [class.item-has-error]="isFieldInvalid('title')">
+                <ion-label position="stacked">{{ 'ROOM.FORM.TITLE' | translate }} *</ion-label>
+                <ion-input formControlName="title" type="text" placeholder="Ex: Cozy room near campus"></ion-input>
+              </ion-item>
+
+              <ion-item [class.item-has-error]="isFieldInvalid('description')">
+                <ion-label position="stacked">{{ 'ROOM.FORM.DESCRIPTION' | translate }} *</ion-label>
+                <ion-textarea formControlName="description" [rows]="4" placeholder="Describe your offer..."></ion-textarea>
+              </ion-item>
+
+              @if (!categoryLoading) {
+                <ion-item [class.item-has-error]="isFieldInvalid('category_id')">
+                  <ion-label position="stacked">{{ 'ROOM.FORM.CATEGORY' | translate }} *</ion-label>
+                  <ion-select
+                    class="category-select"
+                    formControlName="category_id"
+                    [interface]="selectInterface"
+                    [interfaceOptions]="selectInterfaceOptions"
+                    placeholder="{{ 'ROOM.FORM.SELECT_CATEGORY' | translate }}">
+                    @for (cat of categories; track cat.id) {
+                      <ion-select-option [value]="cat.id">{{ getCategoryLabel(cat) }}</ion-select-option>
+                    }
+                  </ion-select>
+                </ion-item>
+              } @else {
+                <ion-item>
+                  <ion-label position="stacked">{{ 'ROOM.FORM.CATEGORY' | translate }} *</ion-label>
+                  <div class="category-loading">
+                    <ion-spinner name="crescent"></ion-spinner>
+                    <span style="margin-left: 8px">{{ 'COMMON.LOADING' | translate }}</span>
+                  </div>
+                </ion-item>
+              }
+            </div>
+          }
+
+          @case ('location') {
+            <div class="form-section">
+              <h3>{{ 'ROOM.FORM.LOCATION' | translate }}</h3>
+
+              <ion-item [class.item-has-error]="isFieldInvalid('city')">
+                <ion-label position="stacked">{{ 'ROOM.FORM.CITY' | translate }} *</ion-label>
+                <ion-select
+                  formControlName="city"
+                  interface="popover"
+                  placeholder="{{ 'ROOM.FORM.SELECT_CITY' | translate }}"
+                  [attr.aria-label]="'ROOM.FORM.CITY' | translate">
+                  @for (city of availableCities; track city.value) {
+                    <ion-select-option [value]="city.value" [disabled]="city.disabled ?? false">
+                      {{ getCityLabel(city) }}
+                    </ion-select-option>
                   }
-                  <ion-button
-                    type="button"
-                    size="small"
-                    color="danger"
-                    fill="clear"
-                    (click)="removePhoto($index)">
-                    {{ 'ROOM.FORM.REMOVE_PHOTO' | translate }}
-                  </ion-button>
+                </ion-select>
+              </ion-item>
+
+              <div class="two-columns location-grid">
+                <ion-item [class.item-has-error]="isFieldInvalid('street')">
+                  <ion-label position="stacked">{{ 'ROOM.FORM.STREET' | translate }} *</ion-label>
+                  <ion-input
+                    formControlName="street"
+                    type="text"
+                    placeholder="{{ 'ROOM.FORM.STREET_PLACEHOLDER' | translate }}"></ion-input>
+                </ion-item>
+
+                <ion-item [class.item-has-error]="isFieldInvalid('street_number')">
+                  <ion-label position="stacked">{{ 'ROOM.FORM.STREET_NUMBER' | translate }} *</ion-label>
+                  <ion-input
+                    formControlName="street_number"
+                    type="text"
+                    inputmode="text"
+                    placeholder="{{ 'ROOM.FORM.STREET_NUMBER_PLACEHOLDER' | translate }}"></ion-input>
+                </ion-item>
+              </div>
+
+              <div class="two-columns location-grid">
+                <ion-item class="field-with-helper">
+                  <ion-label position="stacked">{{ 'ROOM.FORM.APARTMENT' | translate }}</ion-label>
+                  <ion-input
+                    formControlName="apartment"
+                    type="text"
+                    placeholder="{{ 'ROOM.FORM.APARTMENT_PLACEHOLDER' | translate }}"></ion-input>
+                  <ion-note slot="helper">{{ 'ROOM.FORM.APARTMENT_HELPER' | translate }}</ion-note>
+                </ion-item>
+
+                <ion-item [class.item-has-error]="isFieldInvalid('postal_code')">
+                  <ion-label position="stacked">{{ 'ROOM.FORM.POSTAL_CODE' | translate }} *</ion-label>
+                  <ion-input
+                    formControlName="postal_code"
+                    type="text"
+                    inputmode="text"
+                    placeholder="{{ 'ROOM.FORM.POSTAL_CODE_PLACEHOLDER' | translate }}"></ion-input>
+                </ion-item>
+              </div>
+
+              <ion-note class="address-preview" color="medium">
+                {{ 'ROOM.FORM.FULL_ADDRESS_PREVIEW' | translate }}:
+                {{ offerForm.get('address')?.value || ('ROOM.FORM.ADDRESS_PREVIEW_EMPTY' | translate) }}
+              </ion-note>
+            </div>
+          }
+
+          @case ('pricing') {
+            <div class="form-section">
+              <h3>{{ 'ROOM.FORM.PRICING_DETAILS' | translate }}</h3>
+
+              <div class="two-columns">
+                <ion-item [class.item-has-error]="isFieldInvalid('price')" class="field-with-helper">
+                  <ion-icon aria-hidden="true" slot="start" name="cash-outline"></ion-icon>
+                  <ion-label position="stacked">{{ 'ROOM.FORM.PRICE' | translate }} * (€/{{ 'ROOM.FORM.MONTH' | translate }})</ion-label>
+                  <ion-input
+                    formControlName="price"
+                    type="number"
+                    [min]="0"
+                    inputmode="decimal"
+                    aria-describedby="price-helper"></ion-input>
+                  <ion-note id="price-helper" slot="helper">{{ formattedMonthlyPrice }} / {{ 'ROOM.FORM.MONTH' | translate }}</ion-note>
+                </ion-item>
+
+                <ion-item [class.item-has-error]="isFieldInvalid('deposit')" class="field-with-helper">
+                  <ion-icon aria-hidden="true" slot="start" name="shield-checkmark-outline"></ion-icon>
+                  <ion-label position="stacked">{{ 'ROOM.FORM.DEPOSIT' | translate }} (€)</ion-label>
+                  <ion-input
+                    formControlName="deposit"
+                    type="number"
+                    [min]="0"
+                    inputmode="decimal"
+                    aria-describedby="deposit-helper"></ion-input>
+                  <ion-note id="deposit-helper" slot="helper">{{ formattedDeposit }}</ion-note>
+                </ion-item>
+              </div>
+
+              <ion-item [class.item-has-error]="isFieldInvalid('area')" class="field-with-helper">
+                <ion-icon aria-hidden="true" slot="start" name="resize-outline"></ion-icon>
+                <ion-label position="stacked">{{ 'ROOM.FORM.AREA' | translate }} * (m²)</ion-label>
+                <ion-input
+                  formControlName="area"
+                  type="number"
+                  [min]="0"
+                  inputmode="decimal"
+                  aria-describedby="area-helper"></ion-input>
+                <ion-note id="area-helper" slot="helper">{{ formattedArea }}</ion-note>
+              </ion-item>
+
+              <div class="two-columns">
+                <ion-item class="field-with-helper">
+                  <ion-label position="stacked">{{ 'ROOM.FORM.CONTRACT_TYPE' | translate }}</ion-label>
+                  <ion-select
+                    formControlName="contract_type"
+                    interface="popover"
+                    placeholder="{{ 'ROOM.FORM.CONTRACT_TYPE_PLACEHOLDER' | translate }}">
+                    @for (option of contractTypeOptions; track option.value) {
+                      <ion-select-option [value]="option.value">{{ option.labelKey | translate }}</ion-select-option>
+                    }
+                  </ion-select>
+                </ion-item>
+
+                <ion-item class="field-with-helper">
+                  <ion-label position="stacked">{{ 'ROOM.FORM.FLOOR' | translate }}</ion-label>
+                  <ion-input formControlName="floor" type="number" [min]="0" inputmode="decimal"></ion-input>
+                  <ion-note slot="helper">{{ 'ROOM.FORM.FLOOR_HELPER' | translate }}</ion-note>
+                </ion-item>
+              </div>
+            </div>
+          }
+
+          @case ('property') {
+            <div class="form-section">
+              <h3>{{ 'ROOM.FORM.PROPERTY_DETAILS' | translate }}</h3>
+
+              <div class="two-columns range-grid">
+                <div class="range-field" [class.field-has-error]="isFieldInvalid('num_rooms')">
+                  <div class="range-header">
+                    <label class="range-label" for="rooms-range">{{ 'ROOM.FORM.NUM_ROOMS' | translate }} *</label>
+                    <span class="range-value" aria-live="polite">{{ getRangeValue('num_rooms') }}</span>
+                  </div>
+                  <ion-range
+                    class="range-control"
+                    formControlName="num_rooms"
+                    [attr.id]="'rooms-range'"
+                    [attr.aria-label]="'ROOM.FORM.NUM_ROOMS' | translate"
+                    [min]="1"
+                    [max]="10"
+                    [step]="1"
+                    [snaps]="true"
+                    [ticks]="true"
+                    [pin]="true"></ion-range>
+                </div>
+
+                <div class="range-field" [class.field-has-error]="isFieldInvalid('num_bathrooms')">
+                  <div class="range-header">
+                    <label class="range-label" for="bathrooms-range">{{ 'ROOM.FORM.NUM_BATHROOMS' | translate }} *</label>
+                    <span class="range-value" aria-live="polite">{{ offerForm.get('num_bathrooms')?.value }}</span>
+                  </div>
+                  <ion-range
+                    class="range-control"
+                    formControlName="num_bathrooms"
+                    [attr.id]="'bathrooms-range'"
+                    [attr.aria-label]="'ROOM.FORM.NUM_BATHROOMS' | translate"
+                    [min]="1"
+                    [max]="6"
+                    [step]="1"
+                    [snaps]="true"
+                    [ticks]="true"
+                    [pin]="true"></ion-range>
                 </div>
               </div>
-            }
-          </div>
+
+              <ion-item>
+                <ion-label position="stacked">{{ 'ROOM.FORM.GENDER_PREFERENCE' | translate }}</ion-label>
+                <ion-select formControlName="gender_preference" interface="popover">
+                  @for (gender of genderPreferences; track gender) {
+                    <ion-select-option [value]="gender">
+                      {{ 'ROOM.FORM.GENDER.' + (gender ? gender.toUpperCase() : '') | translate }}
+                    </ion-select-option>
+                  }
+                </ion-select>
+              </ion-item>
+            </div>
+          }
+
+          @case ('amenities') {
+            <div class="form-section form-section--amenities">
+              <h3>{{ 'ROOM.FORM.AMENITIES' | translate }}</h3>
+
+              <div class="amenities-grid">
+                <div class="amenity-item" (click)="toggleAmenity('furnished')">
+                  <ion-checkbox formControlName="furnished"></ion-checkbox>
+                  <span>{{ 'ROOM.FORM.FURNISHED' | translate }}</span>
+                </div>
+
+                <div class="amenity-item" (click)="toggleAmenity('utilities_included')">
+                  <ion-checkbox formControlName="utilities_included"></ion-checkbox>
+                  <span>{{ 'ROOM.FORM.UTILITIES_INCLUDED' | translate }}</span>
+                </div>
+
+                <div class="amenity-item" (click)="toggleAmenity('internet_included')">
+                  <ion-checkbox formControlName="internet_included"></ion-checkbox>
+                  <span>{{ 'ROOM.FORM.INTERNET_INCLUDED' | translate }}</span>
+                </div>
+              </div>
+
+              <h4 class="form-section__subtitle">{{ 'ROOM.FORM.ADDITIONAL_AMENITIES' | translate }}</h4>
+              <div class="amenities-grid amenities-grid--secondary" formGroupName="amenities">
+                @for (amenity of additionalAmenities; track amenity.control) {
+                  <div class="amenity-item" (click)="toggleAmenity('amenities.' + amenity.control)">
+                    <ion-checkbox [formControlName]="amenity.control"></ion-checkbox>
+                    <span>{{ amenity.labelKey | translate }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
+          @case ('houseRules') {
+            <div class="form-section form-section--house-rules">
+              <h3>{{ 'ROOM.FORM.HOUSE_RULES' | translate }}</h3>
+              <p class="section-helper">{{ 'ROOM.FORM.HOUSE_RULES_HELPER' | translate }}</p>
+              <ion-note color="medium" style="display: block; margin-bottom: 12px">
+                {{ 'ROOM.FORM.HOUSE_RULES_CHECK_MEANS_ALLOWED' | translate }}
+              </ion-note>
+              <div class="rules-grid" formGroupName="house_rules">
+                @for (rule of houseRuleControls; track rule.control) {
+                  <div class="rule-item" (click)="toggleAmenity('house_rules.' + rule.control)">
+                    <ion-checkbox [formControlName]="rule.control"></ion-checkbox>
+                    <span>{{ rule.labelKey | translate }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
+          @case ('photos') {
+            <div class="form-section form-section--photos">
+              <h3>{{ 'ROOM.FORM.PHOTOS' | translate }}</h3>
+              <div class="photo-upload">
+                <label class="photo-upload__trigger" [class.disabled]="!canAddMorePhotos">
+                  <ion-icon name="cloud-upload-outline"></ion-icon>
+                  <span>{{ 'ROOM.FORM.UPLOAD_BUTTON' | translate }}</span>
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    (change)="onPhotosSelected($event)"
+                    [disabled]="!canAddMorePhotos" />
+                </label>
+                <ion-note class="photo-upload__note" color="medium">
+                  {{ 'ROOM.FORM.UPLOAD_PHOTOS_HELPER' | translate: { max: maxPhotoCount } }}
+                </ion-note>
+              </div>
+              @if (photoUploadError) {
+                <ion-text color="danger" class="photo-upload__error">{{ photoUploadError }}</ion-text>
+              }
+              @if (photoPreviews.length === 0) {
+                <p class="photo-upload__empty">{{ 'ROOM.FORM.NO_PHOTOS' | translate }}</p>
+              } @else {
+                <div class="photo-preview-grid">
+                  @for (photo of photoPreviews; track $index) {
+                    <div class="photo-card">
+                      <img [src]="photo.preview" [alt]="'Preview ' + ($index + 1)" />
+                      <div class="photo-card__actions">
+                        @if ($index === 0) {
+                          <ion-badge color="primary" class="photo-card__badge">
+                            {{ 'ROOM.FORM.PRIMARY_BADGE' | translate }}
+                          </ion-badge>
+                        } @else {
+                          <ion-button type="button" size="small" fill="clear" (click)="setPrimaryPhoto($index)">
+                            {{ 'ROOM.FORM.MAKE_PRIMARY' | translate }}
+                          </ion-button>
+                        }
+                        <ion-button type="button" size="small" color="danger" fill="clear" (click)="removePhoto($index)">
+                          {{ 'ROOM.FORM.REMOVE_PHOTO' | translate }}
+                        </ion-button>
+                      </div>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+
+          @case ('dates') {
+            <div class="form-section form-section--dates">
+              <h3>{{ 'ROOM.FORM.DATES' | translate }}</h3>
+
+              <ion-item [class.item-has-error]="isFieldInvalid('start_date')" class="field-with-helper">
+                <ion-icon aria-hidden="true" slot="start" name="calendar-outline"></ion-icon>
+                <ion-label position="stacked">{{ 'ROOM.FORM.START_DATE' | translate }} *</ion-label>
+                <ion-input formControlName="start_date" type="date" [min]="todayISO" aria-describedby="start-date-helper"></ion-input>
+                <ion-note id="start-date-helper" slot="helper">{{ getFormattedDate('start_date') }}</ion-note>
+              </ion-item>
+
+              <ion-item [class.item-has-error]="isFieldInvalid('end_date')" class="field-with-helper">
+                <ion-icon aria-hidden="true" slot="start" name="calendar-number-outline"></ion-icon>
+                <ion-label position="stacked">{{ 'ROOM.FORM.END_DATE' | translate }} *</ion-label>
+                <ion-input formControlName="end_date" type="date" [min]="endDateMin" aria-describedby="end-date-helper"></ion-input>
+                <ion-note id="end-date-helper" slot="helper">{{ getFormattedDate('end_date') }}</ion-note>
+              </ion-item>
+
+              <ion-item [class.item-has-error]="isFieldInvalid('offer_valid_until')" class="field-with-helper">
+                <ion-icon aria-hidden="true" slot="start" name="time-outline"></ion-icon>
+                <ion-label position="stacked">{{ 'ROOM.FORM.VALID_UNTIL' | translate }} *</ion-label>
+                <ion-input
+                  formControlName="offer_valid_until"
+                  type="date"
+                  [min]="offerValidMin"
+                  aria-describedby="valid-until-helper"></ion-input>
+                <ion-note id="valid-until-helper" slot="helper">{{ getFormattedDate('offer_valid_until') }}</ion-note>
+              </ion-item>
+            </div>
+          }
+
+          @case ('review') {
+            <div class="form-section form-section--review">
+              <h3>{{ 'ROOM.FORM.REVIEW_SUMMARY' | translate }}</h3>
+              <p class="section-helper">{{ 'ROOM.FORM.REVIEW_SUBTITLE' | translate }}</p>
+
+              <div class="review-grid">
+                <div class="review-card">
+                  <div class="review-card__header">
+                    <ion-icon name="document-text-outline"></ion-icon>
+                    <div>
+                      <p class="review-card__eyebrow">{{ 'ROOM.FORM.BASIC_INFO' | translate }}</p>
+                      <h4>{{ offerForm.get('title')?.value || ('ROOM.FORM.TITLE' | translate) }}</h4>
+                    </div>
+                  </div>
+                  <p class="review-card__description">{{ offerForm.get('description')?.value }}</p>
+                  <ion-chip color="primary" *ngIf="offerForm.get('category_id')?.value">
+                    {{ getSelectedCategoryLabel() }}
+                  </ion-chip>
+                </div>
+
+                <div class="review-card">
+                  <div class="review-card__header">
+                    <ion-icon name="location-outline"></ion-icon>
+                    <div>
+                      <p class="review-card__eyebrow">{{ 'ROOM.FORM.LOCATION' | translate }}</p>
+                      <h4>{{ offerForm.get('city')?.value || ('ROOM.FORM.CITY' | translate) }}</h4>
+                    </div>
+                  </div>
+                  <p class="review-card__description">{{ offerForm.get('address')?.value }}</p>
+                  <p class="review-card__meta">
+                    {{ 'ROOM.FORM.POSTAL_CODE' | translate }}: {{ offerForm.get('postal_code')?.value || '—' }}
+                  </p>
+                </div>
+
+                <div class="review-card">
+                  <div class="review-card__header">
+                    <ion-icon name="cash-outline"></ion-icon>
+                    <div>
+                      <p class="review-card__eyebrow">{{ 'ROOM.FORM.PRICING_DETAILS' | translate }}</p>
+                      <h4>{{ formattedMonthlyPrice }}</h4>
+                    </div>
+                  </div>
+                  <p class="review-card__meta">
+                    {{ 'ROOM.FORM.DEPOSIT' | translate }}: {{ formattedDeposit }}
+                  </p>
+                  <p class="review-card__meta">
+                    {{ 'ROOM.FORM.AREA' | translate }}: {{ formattedArea }}
+                  </p>
+                  <p class="review-card__meta" *ngIf="offerForm.get('contract_type')?.value">
+                    {{ 'ROOM.FORM.CONTRACT_TYPE' | translate }}: {{ offerForm.get('contract_type')?.value }}
+                  </p>
+                </div>
+
+                <div class="review-card">
+                  <div class="review-card__header">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <div>
+                      <p class="review-card__eyebrow">{{ 'ROOM.FORM.PROPERTY_DETAILS' | translate }}</p>
+                      <h4>{{ offerForm.get('num_rooms')?.value }} {{ 'ROOM.FORM.NUM_ROOMS' | translate }}</h4>
+                    </div>
+                  </div>
+                  <p class="review-card__meta">
+                    {{ 'ROOM.FORM.NUM_BATHROOMS' | translate }}: {{ offerForm.get('num_bathrooms')?.value }}
+                  </p>
+                  <p class="review-card__meta">
+                    {{ 'ROOM.FORM.GENDER_PREFERENCE' | translate }}:
+                    {{ 'ROOM.FORM.GENDER.' + (offerForm.get('gender_preference')?.value?.toUpperCase?.() || '') | translate }}
+                  </p>
+                  <div class="review-chip-row">
+                    @if (offerForm.get('furnished')?.value) {
+                      <ion-chip color="success">{{ 'ROOM.FORM.FURNISHED' | translate }}</ion-chip>
+                    }
+                    @if (offerForm.get('utilities_included')?.value) {
+                      <ion-chip color="success">{{ 'ROOM.FORM.UTILITIES_INCLUDED' | translate }}</ion-chip>
+                    }
+                    @if (offerForm.get('internet_included')?.value) {
+                      <ion-chip color="success">{{ 'ROOM.FORM.INTERNET_INCLUDED' | translate }}</ion-chip>
+                    }
+                  </div>
+                </div>
+
+                <div class="review-card">
+                  <div class="review-card__header">
+                    <ion-icon name="sparkles-outline"></ion-icon>
+                    <div>
+                      <p class="review-card__eyebrow">{{ 'ROOM.FORM.AMENITIES' | translate }}</p>
+                      <h4>{{ 'ROOM.FORM.ADDITIONAL_AMENITIES' | translate }}</h4>
+                    </div>
+                  </div>
+                  <div class="review-chip-row">
+                    @for (amenity of additionalAmenities; track amenity.control) {
+                      @if (offerForm.get('amenities.' + amenity.control)?.value) {
+                        <ion-chip>{{ amenity.labelKey | translate }}</ion-chip>
+                      }
+                    }
+                  </div>
+                  <div class="review-chip-row">
+                    @for (rule of houseRuleControls; track rule.control) {
+                      @if (offerForm.get('house_rules.' + rule.control)?.value) {
+                        <ion-chip color="primary">{{ rule.labelKey | translate }}</ion-chip>
+                      }
+                    }
+                  </div>
+                </div>
+
+                <div class="review-card">
+                  <div class="review-card__header">
+                    <ion-icon name="images-outline"></ion-icon>
+                    <div>
+                      <p class="review-card__eyebrow">{{ 'ROOM.FORM.PHOTOS' | translate }}</p>
+                      <h4>{{ photoPreviews.length || 0 }} / {{ maxPhotoCount }}</h4>
+                    </div>
+                  </div>
+                  @if (photoPreviews.length) {
+                    <div class="review-photo-row">
+                      @for (photo of photoPreviews; track $index) {
+                        <img [src]="photo.preview" [alt]="'Preview ' + ($index + 1)" />
+                      }
+                    </div>
+                  } @else {
+                    <p class="review-card__description">{{ 'ROOM.FORM.NO_PHOTOS' | translate }}</p>
+                  }
+                </div>
+
+                <div class="review-card">
+                  <div class="review-card__header">
+                    <ion-icon name="calendar-outline"></ion-icon>
+                    <div>
+                      <p class="review-card__eyebrow">{{ 'ROOM.FORM.DATES' | translate }}</p>
+                      <h4>{{ getFormattedDate('start_date') }} → {{ getFormattedDate('end_date') }}</h4>
+                    </div>
+                  </div>
+                  <p class="review-card__meta">
+                    {{ 'ROOM.FORM.VALID_UNTIL' | translate }}: {{ getFormattedDate('offer_valid_until') }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          }
         }
       </div>
 
-      <div class="form-section">
-        <h3>{{ 'ROOM.FORM.LOCATION' | translate }}</h3>
-
-        <ion-item [class.item-has-error]="isFieldInvalid('city')">
-          <ion-label position="stacked">{{ 'ROOM.FORM.CITY' | translate }} *</ion-label>
-          <ion-select
-            formControlName="city"
-            interface="popover"
-            placeholder="{{ 'ROOM.FORM.SELECT_CITY' | translate }}"
-            [attr.aria-label]="'ROOM.FORM.CITY' | translate">
-            @for (city of availableCities; track city.value) {
-              <ion-select-option [value]="city.value" [disabled]="city.disabled ?? false">
-                {{ getCityLabel(city) }}
-              </ion-select-option>
-            }
-          </ion-select>
-        </ion-item>
-
-        <div class="two-columns location-grid">
-          <ion-item [class.item-has-error]="isFieldInvalid('street')">
-            <ion-label position="stacked">{{ 'ROOM.FORM.STREET' | translate }} *</ion-label>
-            <ion-input
-              formControlName="street"
-              type="text"
-              placeholder="{{ 'ROOM.FORM.STREET_PLACEHOLDER' | translate }}"></ion-input>
-          </ion-item>
-
-          <ion-item [class.item-has-error]="isFieldInvalid('street_number')">
-            <ion-label position="stacked">{{ 'ROOM.FORM.STREET_NUMBER' | translate }} *</ion-label>
-            <ion-input
-              formControlName="street_number"
-              type="text"
-              inputmode="text"
-              placeholder="{{ 'ROOM.FORM.STREET_NUMBER_PLACEHOLDER' | translate }}"></ion-input>
-          </ion-item>
-        </div>
-
-        <div class="two-columns location-grid">
-          <ion-item class="field-with-helper">
-            <ion-label position="stacked">{{ 'ROOM.FORM.APARTMENT' | translate }}</ion-label>
-            <ion-input
-              formControlName="apartment"
-              type="text"
-              placeholder="{{ 'ROOM.FORM.APARTMENT_PLACEHOLDER' | translate }}"></ion-input>
-            <ion-note slot="helper">{{ 'ROOM.FORM.APARTMENT_HELPER' | translate }}</ion-note>
-          </ion-item>
-
-          <ion-item [class.item-has-error]="isFieldInvalid('postal_code')">
-            <ion-label position="stacked">{{ 'ROOM.FORM.POSTAL_CODE' | translate }} *</ion-label>
-            <ion-input
-              formControlName="postal_code"
-              type="text"
-              inputmode="text"
-              placeholder="{{ 'ROOM.FORM.POSTAL_CODE_PLACEHOLDER' | translate }}"></ion-input>
-          </ion-item>
-        </div>
-
-        <ion-note class="address-preview" color="medium">
-          {{ 'ROOM.FORM.FULL_ADDRESS_PREVIEW' | translate }}:
-          {{ offerForm.get('address')?.value || ('ROOM.FORM.ADDRESS_PREVIEW_EMPTY' | translate) }}
-        </ion-note>
-      </div>
-
-      <div class="form-section">
-        <h3>{{ 'ROOM.FORM.PRICING_DETAILS' | translate }}</h3>
-
-        <div class="two-columns">
-          <ion-item [class.item-has-error]="isFieldInvalid('price')" class="field-with-helper">
-            <ion-icon aria-hidden="true" slot="start" name="cash-outline"></ion-icon>
-            <ion-label position="stacked"
-              >{{ 'ROOM.FORM.PRICE' | translate }} * (€/{{
-                'ROOM.FORM.MONTH' | translate
-              }})</ion-label
-            >
-            <ion-input
-              formControlName="price"
-              type="number"
-              [min]="0"
-              inputmode="decimal"
-              aria-describedby="price-helper"></ion-input>
-            <ion-note id="price-helper" slot="helper"
-              >{{ formattedMonthlyPrice }} / {{ 'ROOM.FORM.MONTH' | translate }}</ion-note
-            >
-          </ion-item>
-
-          <ion-item [class.item-has-error]="isFieldInvalid('deposit')" class="field-with-helper">
-            <ion-icon aria-hidden="true" slot="start" name="shield-checkmark-outline"></ion-icon>
-            <ion-label position="stacked">{{ 'ROOM.FORM.DEPOSIT' | translate }} (€)</ion-label>
-            <ion-input
-              formControlName="deposit"
-              type="number"
-              [min]="0"
-              inputmode="decimal"
-              aria-describedby="deposit-helper"></ion-input>
-            <ion-note id="deposit-helper" slot="helper">{{ formattedDeposit }}</ion-note>
-          </ion-item>
-        </div>
-
-        <ion-item [class.item-has-error]="isFieldInvalid('area')" class="field-with-helper">
-          <ion-icon aria-hidden="true" slot="start" name="resize-outline"></ion-icon>
-          <ion-label position="stacked">{{ 'ROOM.FORM.AREA' | translate }} * (m²)</ion-label>
-          <ion-input
-            formControlName="area"
-            type="number"
-            [min]="0"
-            inputmode="decimal"
-            aria-describedby="area-helper"></ion-input>
-          <ion-note id="area-helper" slot="helper">{{ formattedArea }}</ion-note>
-        </ion-item>
-
-        <ion-item class="field-with-helper">
-          <ion-label position="stacked">{{ 'ROOM.FORM.CONTRACT_TYPE' | translate }}</ion-label>
-          <ion-select
-            formControlName="contract_type"
-            interface="popover"
-            placeholder="{{ 'ROOM.FORM.CONTRACT_TYPE_PLACEHOLDER' | translate }}">
-            @for (option of contractTypeOptions; track option.value) {
-              <ion-select-option [value]="option.value">{{
-                option.labelKey | translate
-              }}</ion-select-option>
-            }
-          </ion-select>
-        </ion-item>
-
-        <ion-item class="field-with-helper">
-          <ion-label position="stacked">{{ 'ROOM.FORM.FLOOR' | translate }}</ion-label>
-          <ion-input
-            formControlName="floor"
-            type="number"
-            [min]="0"
-            inputmode="decimal"></ion-input>
-          <ion-note slot="helper">{{ 'ROOM.FORM.FLOOR_HELPER' | translate }}</ion-note>
-        </ion-item>
-      </div>
-
-      <div class="form-section">
-        <h3>{{ 'ROOM.FORM.PROPERTY_DETAILS' | translate }}</h3>
-
-        <div class="two-columns range-grid">
-          <div class="range-field" [class.field-has-error]="isFieldInvalid('num_rooms')">
-            <div class="range-header">
-              <label class="range-label" for="rooms-range"
-                >{{ 'ROOM.FORM.NUM_ROOMS' | translate }} *</label
-              >
-              <span class="range-value" aria-live="polite">{{ getRangeValue('num_rooms') }}</span>
-            </div>
-            <ion-range
-              class="range-control"
-              formControlName="num_rooms"
-              [attr.id]="'rooms-range'"
-              [attr.aria-label]="'ROOM.FORM.NUM_ROOMS' | translate"
-              [min]="1"
-              [max]="10"
-              [step]="1"
-              [snaps]="true"
-              [ticks]="true"
-              [pin]="true"></ion-range>
-          </div>
-
-          <div class="range-field" [class.field-has-error]="isFieldInvalid('num_bathrooms')">
-            <div class="range-header">
-              <label class="range-label" for="bathrooms-range"
-                >{{ 'ROOM.FORM.NUM_BATHROOMS' | translate }} *</label
-              >
-              <span class="range-value" aria-live="polite">{{
-                offerForm.get('num_bathrooms')?.value
-              }}</span>
-            </div>
-            <ion-range
-              class="range-control"
-              formControlName="num_bathrooms"
-              [attr.id]="'bathrooms-range'"
-              [attr.aria-label]="'ROOM.FORM.NUM_BATHROOMS' | translate"
-              [min]="1"
-              [max]="6"
-              [step]="1"
-              [snaps]="true"
-              [ticks]="true"
-              [pin]="true"></ion-range>
-          </div>
-        </div>
-
-        <ion-item>
-          <ion-label position="stacked">{{ 'ROOM.FORM.GENDER_PREFERENCE' | translate }}</ion-label>
-          <ion-select formControlName="gender_preference" interface="popover">
-            @for (gender of genderPreferences; track gender) {
-              <ion-select-option [value]="gender">
-                {{ 'ROOM.FORM.GENDER.' + (gender ? gender.toUpperCase() : '') | translate }}
-              </ion-select-option>
-            }
-          </ion-select>
-        </ion-item>
-      </div>
-
-      <div class="form-section form-section--amenities">
-        <h3>{{ 'ROOM.FORM.AMENITIES' | translate }}</h3>
-
-        <div class="amenities-grid">
-          <div class="amenity-item" (click)="toggleAmenity('furnished')">
-            <ion-checkbox formControlName="furnished"></ion-checkbox>
-            <span>{{ 'ROOM.FORM.FURNISHED' | translate }}</span>
-          </div>
-
-          <div class="amenity-item" (click)="toggleAmenity('utilities_included')">
-            <ion-checkbox formControlName="utilities_included"></ion-checkbox>
-            <span>{{ 'ROOM.FORM.UTILITIES_INCLUDED' | translate }}</span>
-          </div>
-
-          <div class="amenity-item" (click)="toggleAmenity('internet_included')">
-            <ion-checkbox formControlName="internet_included"></ion-checkbox>
-            <span>{{ 'ROOM.FORM.INTERNET_INCLUDED' | translate }}</span>
-          </div>
-        </div>
-
-        <h4 class="form-section__subtitle">{{ 'ROOM.FORM.ADDITIONAL_AMENITIES' | translate }}</h4>
-        <div class="amenities-grid amenities-grid--secondary" formGroupName="amenities">
-          @for (amenity of additionalAmenities; track amenity.control) {
-            <div class="amenity-item" (click)="toggleAmenity('amenities.' + amenity.control)">
-              <ion-checkbox [formControlName]="amenity.control"></ion-checkbox>
-              <span>{{ amenity.labelKey | translate }}</span>
-            </div>
-          }
-        </div>
-      </div>
-
-      <div class="form-section form-section--house-rules">
-        <h3>{{ 'ROOM.FORM.HOUSE_RULES' | translate }}</h3>
-        <p class="section-helper">{{ 'ROOM.FORM.HOUSE_RULES_HELPER' | translate }}</p>
-        <ion-note color="medium" style="display: block; margin-bottom: 12px">
-          {{ 'ROOM.FORM.HOUSE_RULES_CHECK_MEANS_ALLOWED' | translate }}
-        </ion-note>
-        <div class="rules-grid" formGroupName="house_rules">
-          @for (rule of houseRuleControls; track rule.control) {
-            <div class="rule-item" (click)="toggleAmenity('house_rules.' + rule.control)">
-              <ion-checkbox [formControlName]="rule.control"></ion-checkbox>
-              <span>{{ rule.labelKey | translate }}</span>
-            </div>
-          }
-        </div>
-      </div>
-
-      <div class="form-section">
-        <h3>{{ 'ROOM.FORM.DATES' | translate }}</h3>
-
-        <ion-item [class.item-has-error]="isFieldInvalid('start_date')" class="field-with-helper">
-          <ion-icon aria-hidden="true" slot="start" name="calendar-outline"></ion-icon>
-          <ion-label position="stacked">{{ 'ROOM.FORM.START_DATE' | translate }} *</ion-label>
-          <ion-input
-            formControlName="start_date"
-            type="date"
-            [min]="todayISO"
-            aria-describedby="start-date-helper"></ion-input>
-          <ion-note id="start-date-helper" slot="helper">{{
-            getFormattedDate('start_date')
-          }}</ion-note>
-        </ion-item>
-
-        <ion-item [class.item-has-error]="isFieldInvalid('end_date')" class="field-with-helper">
-          <ion-icon aria-hidden="true" slot="start" name="calendar-number-outline"></ion-icon>
-          <ion-label position="stacked">{{ 'ROOM.FORM.END_DATE' | translate }} *</ion-label>
-          <ion-input
-            formControlName="end_date"
-            type="date"
-            [min]="endDateMin"
-            aria-describedby="end-date-helper"></ion-input>
-          <ion-note id="end-date-helper" slot="helper">{{ getFormattedDate('end_date') }}</ion-note>
-        </ion-item>
-
-        <ion-item
-          [class.item-has-error]="isFieldInvalid('offer_valid_until')"
-          class="field-with-helper">
-          <ion-icon aria-hidden="true" slot="start" name="time-outline"></ion-icon>
-          <ion-label position="stacked">{{ 'ROOM.FORM.VALID_UNTIL' | translate }} *</ion-label>
-          <ion-input
-            formControlName="offer_valid_until"
-            type="date"
-            [min]="offerValidMin"
-            aria-describedby="valid-until-helper"></ion-input>
-          <ion-note id="valid-until-helper" slot="helper">{{
-            getFormattedDate('offer_valid_until')
-          }}</ion-note>
-        </ion-item>
-      </div>
-
-      <div class="form-actions">
-        <ion-button expand="block" color="light" (click)="dismiss()" [disabled]="isSubmitting">
-          {{ 'COMMON.CANCEL' | translate }}
+      <div class="wizard-actions">
+        <ion-button expand="block" color="light" type="button" (click)="previousStep()" [disabled]="currentStepIndex === 0 || isSubmitting">
+          {{ 'COMMON.PREVIOUS' | translate }}
         </ion-button>
-        <ion-button expand="block" type="submit" [disabled]="isSubmitting">
-          @if (isSubmitting) {
-            <ion-spinner name="crescent"></ion-spinner>
-          } @else {
-            <span>{{ 'ROOM.FORM.CREATE' | translate }}</span>
-          }
-        </ion-button>
+
+        @if (!isLastStep) {
+          <ion-button expand="block" type="button" color="primary" (click)="nextStep()" [disabled]="isSubmitting">
+            {{ 'COMMON.NEXT' | translate }}
+          </ion-button>
+        } @else {
+          <ion-button expand="block" type="submit" [disabled]="isSubmitting">
+            @if (isSubmitting) {
+              <ion-spinner name="crescent"></ion-spinner>
+            } @else {
+              <span>{{ 'ROOM.FORM.CREATE' | translate }}</span>
+            }
+          </ion-button>
+        }
       </div>
+
+      <ion-button expand="block" class="wizard-cancel" color="light" type="button" (click)="dismiss()" [disabled]="isSubmitting">
+        {{ 'COMMON.CANCEL' | translate }}
+      </ion-button>
     </div>
   </form>
 </ion-content>

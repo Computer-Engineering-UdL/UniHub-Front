@@ -24,6 +24,22 @@ interface SelectedPhotoPreview {
   preview: string;
   isPrimary: boolean;
 }
+
+interface WizardStep {
+  id:
+    | 'basic'
+    | 'location'
+    | 'pricing'
+    | 'property'
+    | 'amenities'
+    | 'houseRules'
+    | 'photos'
+    | 'dates'
+    | 'review';
+  titleKey: string;
+  descriptionKey: string;
+  controlPaths?: string[];
+}
 class PhotoUploadException extends Error {
   constructor(message: string = 'PHOTO_UPLOAD_FAILED') {
     super(message);
@@ -79,6 +95,10 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   photoUploadError: string | null = null;
   photoPreviews: SelectedPhotoPreview[] = [];
 
+  wizardSteps: WizardStep[] = [];
+  currentStepIndex: number = 0;
+  furthestStepIndex: number = 0;
+
   readonly allowedPhotoMimeTypes: Set<string> = new Set(['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
   readonly maxPhotoSizeBytes: number = 10 * 1024 * 1024;
   readonly maxPhotoSizeMB: number = 10;
@@ -125,6 +145,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   private translateService: TranslateService = inject(TranslateService);
 
   ngOnInit(): void {
+    this.configureWizardSteps();
     this.initializeForm();
     void this.loadCategories();
   }
@@ -195,6 +216,75 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     this.setupAddressSynchronization();
   }
 
+  private configureWizardSteps(): void {
+    const amenityControlPaths: string[] = [
+      'furnished',
+      'utilities_included',
+      'internet_included',
+      ...this.additionalAmenities.map((amenity) => `amenities.${amenity.control}`)
+    ];
+
+    const houseRulesPaths: string[] = this.houseRuleControls.map((rule) => `house_rules.${rule.control}`);
+
+    this.wizardSteps = [
+      {
+        id: 'basic',
+        titleKey: 'ROOM.FORM.BASIC_INFO',
+        descriptionKey: 'ROOM.FORM.BASIC_INFO',
+        controlPaths: ['title', 'description', 'category_id']
+      },
+      {
+        id: 'location',
+        titleKey: 'ROOM.FORM.LOCATION',
+        descriptionKey: 'ROOM.FORM.LOCATION',
+        controlPaths: ['city', 'street', 'street_number', 'apartment', 'postal_code']
+      },
+      {
+        id: 'pricing',
+        titleKey: 'ROOM.FORM.PRICING_DETAILS',
+        descriptionKey: 'ROOM.FORM.PRICING_DETAILS',
+        controlPaths: ['price', 'deposit', 'area', 'contract_type', 'floor']
+      },
+      {
+        id: 'property',
+        titleKey: 'ROOM.FORM.PROPERTY_DETAILS',
+        descriptionKey: 'ROOM.FORM.PROPERTY_DETAILS',
+        controlPaths: ['num_rooms', 'num_bathrooms', 'gender_preference']
+      },
+      {
+        id: 'amenities',
+        titleKey: 'ROOM.FORM.AMENITIES',
+        descriptionKey: 'ROOM.FORM.AMENITIES',
+        controlPaths: amenityControlPaths
+      },
+      {
+        id: 'houseRules',
+        titleKey: 'ROOM.FORM.HOUSE_RULES',
+        descriptionKey: 'ROOM.FORM.HOUSE_RULES',
+        controlPaths: houseRulesPaths
+      },
+      {
+        id: 'photos',
+        titleKey: 'ROOM.FORM.PHOTOS',
+        descriptionKey: 'ROOM.FORM.PHOTOS'
+      },
+      {
+        id: 'dates',
+        titleKey: 'ROOM.FORM.DATES',
+        descriptionKey: 'ROOM.FORM.DATES',
+        controlPaths: ['start_date', 'end_date', 'offer_valid_until']
+      },
+      {
+        id: 'review',
+        titleKey: 'ROOM.FORM.REVIEW',
+        descriptionKey: 'ROOM.FORM.REVIEW_SUBTITLE'
+      }
+    ];
+
+    this.currentStepIndex = 0;
+    this.furthestStepIndex = 0;
+  }
+
   private async loadCategories(): Promise<void> {
     this.categoryLoading = true;
     try {
@@ -225,6 +315,107 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     }
   }
 
+  get currentStep(): WizardStep {
+    if (!this.wizardSteps.length) {
+      return {
+        id: 'basic',
+        titleKey: 'ROOM.FORM.BASIC_INFO',
+        descriptionKey: 'ROOM.FORM.BASIC_INFO',
+        controlPaths: []
+      };
+    }
+    return this.wizardSteps[this.currentStepIndex] ?? this.wizardSteps[0];
+  }
+
+  get isLastStep(): boolean {
+    return this.currentStepIndex >= this.wizardSteps.length - 1;
+  }
+
+  get progressValue(): number {
+    if (!this.wizardSteps.length) {
+      return 0;
+    }
+    return ((this.currentStepIndex + 1) / this.wizardSteps.length) * 100;
+  }
+
+  goToStep(index: number): void {
+    if (index < 0 || index >= this.wizardSteps.length) {
+      return;
+    }
+    if (index > this.furthestStepIndex) {
+      return;
+    }
+    this.currentStepIndex = index;
+  }
+
+  nextStep(): void {
+    if (this.isLastStep || !this.validateCurrentStep()) {
+      return;
+    }
+    this.currentStepIndex = Math.min(this.currentStepIndex + 1, this.wizardSteps.length - 1);
+    this.furthestStepIndex = Math.max(this.furthestStepIndex, this.currentStepIndex);
+  }
+
+  previousStep(): void {
+    if (this.currentStepIndex === 0) {
+      return;
+    }
+    this.currentStepIndex = Math.max(this.currentStepIndex - 1, 0);
+  }
+
+  isStepComplete(index: number): boolean {
+    const step: WizardStep | undefined = this.wizardSteps[index];
+    if (!step) {
+      return false;
+    }
+
+    const controls: AbstractControl[] = this.getStepControls(step);
+    if (!controls.length) {
+      return index < this.currentStepIndex;
+    }
+
+    return controls.every((control: AbstractControl) => control.valid);
+  }
+
+  private validateCurrentStep(): boolean {
+    const controls: AbstractControl[] = this.getStepControls(this.currentStep);
+    if (!controls.length) {
+      return true;
+    }
+
+    let isValid: boolean = true;
+    controls.forEach((control: AbstractControl) => {
+      control.markAsTouched();
+      control.updateValueAndValidity();
+      if (control.invalid) {
+        isValid = false;
+      }
+    });
+
+    return isValid;
+  }
+
+  private getStepControls(step: WizardStep): AbstractControl[] {
+    if (!step.controlPaths?.length) {
+      return [];
+    }
+    return step.controlPaths
+      .map((path) => this.getControlByPath(path))
+      .filter((control): control is AbstractControl => control !== null);
+  }
+
+  private getControlByPath(path: string): AbstractControl | null {
+    return path.split('.').reduce<AbstractControl | null>((control: AbstractControl | null, segment: string) => {
+      if (!control) {
+        return null;
+      }
+      if (control instanceof FormGroup) {
+        return control.get(segment);
+      }
+      return null;
+    }, this.offerForm as AbstractControl | null);
+  }
+
   get selectInterfaceOptions(): Record<string, unknown> {
     if (this.selectInterface === 'popover') {
       return { cssClass: 'category-popover' };
@@ -233,6 +424,11 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   }
 
   async onSubmit(): Promise<void> {
+    if (!this.isLastStep) {
+      this.nextStep();
+      return;
+    }
+
     if (this.offerForm.invalid || this.isSubmitting) {
       this.markFormGroupTouched(this.offerForm);
       return;
@@ -338,7 +534,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     return name.toUpperCase().replace(/ /g, '_');
   }
 
-  getCategoryLabel(category: { id: string; name: string }): string {
+  getCategoryLabel(category: { id: string; name: string } | undefined): string {
     if (!category) {
       return '';
     }
@@ -347,6 +543,13 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     // If the key is not found, instant() returns the key itself.
     // In that case, we should return the original category name.
     return translated !== key ? translated : category.name;
+  }
+
+  getSelectedCategoryLabel(): string {
+    const catId = this.offerForm?.get('category_id')?.value;
+    if (!catId) return '';
+    const category = this.categories.find(c => c.id === catId);
+    return this.getCategoryLabel(category);
   }
 
   getCityLabel(city: { value: string; label: string }): string {
