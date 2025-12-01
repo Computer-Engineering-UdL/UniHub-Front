@@ -582,6 +582,10 @@
           "MESSAGE": "Send Message",
           "SCHEDULE": "Schedule Viewing",
           "CALL": "Call Landlord"
+        },
+        "ERROR": {
+          "NO_USER_ID": "Unable to start conversation: landlord information not available",
+          "CANNOT_MESSAGE_YOURSELF": "You cannot send a message to yourself"
         }
       },
       "AVAILABILITY_TITLE": "Availability",

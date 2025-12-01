@@ -14,6 +14,9 @@ import {
   AMENITY_DEFINITIONS_BY_KEY
 } from '../../models/amenities.constants';
 import { resolveFileUrl } from '../../utils/file-url.util';
+import { MessageService } from '../../services/message.service';
+import NotificationService from '../../services/notification.service';
+import { Conversation } from '../../models/message.types';
 
 interface AmenityItem {
   icon: string;
@@ -33,6 +36,7 @@ interface FinancialDetailItem {
 }
 
 interface LandlordInfo {
+  userId?: string;
   name: string;
   initials: string;
   avatar?: string;
@@ -115,6 +119,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   private readonly router: Router = inject(Router);
   private readonly translate: TranslateService = inject(TranslateService);
   private readonly authService: AuthService = inject(AuthService);
+  private readonly messageService: MessageService = inject(MessageService);
+  private readonly notificationService: NotificationService = inject(NotificationService);
 
   loading: boolean = false;
   error: boolean = false;
@@ -552,6 +558,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
           : undefined;
 
     return {
+      userId: offer.user_id,
       name,
       initials,
       avatar: landlordUser?.avatar_url || landlordUser?.imgUrl || landlordData.avatar || undefined,
@@ -596,6 +603,33 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       return '?';
     }
     return parts.map((p) => p[0]?.toUpperCase() ?? '').join('');
+  }
+
+  async startPrivateConversation(): Promise<void> {
+    if (!this.offer?.landlord.userId) {
+      this.notificationService.error('ROOM.DETAILS.LANDLORD.ERROR.NO_USER_ID');
+      return;
+    }
+
+    const currentUser: User | null = this.authService.currentUser;
+    if (!currentUser) {
+      this.notificationService.error('ERROR.NOT_AUTHENTICATED');
+      return;
+    }
+
+    if (this.offer.landlord.userId === currentUser.id) {
+      this.notificationService.error('ROOM.DETAILS.LANDLORD.ERROR.CANNOT_MESSAGE_YOURSELF');
+      return;
+    }
+
+    try {
+      const conversation: Conversation = await firstValueFrom(
+        this.messageService.createConversation(this.offer.landlord.userId)
+      );
+      await this.router.navigate(['/messages'], { queryParams: { id: conversation.id } });
+    } catch {
+      this.notificationService.error('MESSAGES.CREATE_ERROR');
+    }
   }
 
   private buildMapUrl(offer: OfferDetailsResponse): SafeResourceUrl | undefined {

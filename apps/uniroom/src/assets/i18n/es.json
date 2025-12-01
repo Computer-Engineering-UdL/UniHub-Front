@@ -577,6 +577,10 @@
           "MESSAGE": "Enviar mensaje",
           "SCHEDULE": "Concertar visita",
           "CALL": "Llamar al propietario"
+        },
+        "ERROR": {
+          "NO_USER_ID": "No se puede iniciar la conversación: información del propietario no disponible",
+          "CANNOT_MESSAGE_YOURSELF": "No puedes enviarte un mensaje a ti mismo"
         }
       },
       "AVAILABILITY_TITLE": "Disponibilidad",

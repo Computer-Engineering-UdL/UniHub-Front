@@ -576,6 +576,10 @@
           "MESSAGE": "Envia un missatge",
           "SCHEDULE": "Programa una visita",
           "CALL": "Truca al propietari"
+        },
+        "ERROR": {
+          "NO_USER_ID": "No es pot iniciar la conversa: informació del propietari no disponible",
+          "CANNOT_MESSAGE_YOURSELF": "No pots enviar-te un missatge a tu mateix"
         }
       },
       "AVAILABILITY_TITLE": "Disponibilitat",
