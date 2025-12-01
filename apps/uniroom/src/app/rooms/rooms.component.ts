@@ -599,6 +599,7 @@ export class RoomsComponent implements OnInit {
     const alert = await this.alertController.create({
       header: this.translate.instant('ROOM.FORM.DISCARD_TITLE'),
       message: this.translate.instant('ROOM.FORM.DISCARD_MESSAGE'),
+      cssClass: 'custom-delete-alert',
       buttons: [
         {
           text: this.translate.instant('ROOM.FORM.CONTINUE_EDITING'),
@@ -606,7 +607,8 @@ export class RoomsComponent implements OnInit {
         },
         {
           text: this.translate.instant('ROOM.FORM.DISCARD_CONFIRM'),
-          role: 'destructive'
+          role: 'destructive',
+          cssClass: 'danger-btn'
         }
       ]
     });
