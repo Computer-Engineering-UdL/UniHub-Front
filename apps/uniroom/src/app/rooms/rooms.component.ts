@@ -11,6 +11,7 @@ import NotificationService from '../services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { resolveFileUrl } from '../utils/file-url.util';
+import { LikesService } from '../services/likes.service';
 
 interface Filters {
   search: string;
@@ -21,6 +22,7 @@ interface Filters {
   areaRange: { lower: number; upper: number };
   status: string;
   sortBy: string;
+  showOnlyLiked: boolean;
 }
 
 interface ComparisonOffer {
@@ -72,33 +74,38 @@ export class RoomsComponent implements OnInit {
     search: '',
     minPrice: null,
     maxPrice: null,
-    priceRange: { lower: 0, upper: 2000 },
+    priceRange: {lower: 0, upper: 2000},
     city: '',
-    areaRange: { lower: 0, upper: 200 },
+    areaRange: {lower: 0, upper: 200},
     status: '',
-    sortBy: 'date_desc'
+    sortBy: 'date_desc',
+    showOnlyLiked: false
   };
 
   public decimalSeparator: string = '.';
   public thousandSeparator: string = ',';
   public showComparisonSection: boolean = false;
   public comparisonLoading: boolean = false;
-  public compareSelection: { first: string | null; second: string | null } = { first: null, second: null };
+  public compareSelection: { first: string | null; second: string | null } = {first: null, second: null};
   public comparisonOffers: { first: ComparisonOffer | null; second: ComparisonOffer | null } = {
     first: null,
     second: null
   };
 
-  private apiService: ApiService = inject(ApiService);
-  private authService: AuthService = inject(AuthService);
-  private modalController: ModalController = inject(ModalController);
-  private localizationService: LocalizationService = inject(LocalizationService);
-  private alertController: AlertController = inject(AlertController);
-  private notificationService: NotificationService = inject(NotificationService);
-  private translate: TranslateService = inject(TranslateService);
-  private router: Router = inject(Router);
+  private readonly apiService: ApiService = inject(ApiService);
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly modalController: ModalController = inject(ModalController);
+  private readonly localizationService: LocalizationService = inject(LocalizationService);
+  private readonly alertController: AlertController = inject(AlertController);
+  private readonly notificationService: NotificationService = inject(NotificationService);
+  private readonly translate: TranslateService = inject(TranslateService);
+  private readonly router: Router = inject(Router);
+  private readonly likesService: LikesService = inject(LikesService);
 
-  async ngOnInit(): Promise<void> {
+  public likedIds: Set<string> = new Set<string>();
+  private readonly likeLoadingMap: Map<string, boolean> = new Map();
+
+  ngOnInit(): void {
     this.authService.currentUser$.subscribe((user: User | null): void => {
       this.user = user;
       this.canCreateOffer = user?.role === 'Seller' || user?.role === 'Admin';
@@ -108,6 +115,10 @@ export class RoomsComponent implements OnInit {
     this.decimalSeparator = seps.decimal;
     this.thousandSeparator = seps.thousand;
 
+    void this.init();
+  }
+
+  private async init(): Promise<void> {
     await this.loadOffers();
   }
 
@@ -127,8 +138,51 @@ export class RoomsComponent implements OnInit {
       this.calculateMaxPrice();
       this.calculateMaxArea();
       this.applyFilters();
-    } catch (error) {
-      console.error('Error loading offers:', error);
+
+      const liked: string[] = await firstValueFrom(this.likesService.getMyLikes());
+      this.likedIds = new Set(liked || []);
+      this.offers.forEach((offer: OfferListItem): void => {
+        offer.isLiked = this.likedIds.has(offer.id);
+      });
+      this.applyFilters();
+    } catch {
+      this.notificationService.error('ROOM.COMPARISON.LOAD_ERROR');
+    }
+  }
+
+  public isLikeLoading(offerId: string): boolean {
+    return !!this.likeLoadingMap.get(offerId);
+  }
+
+  public async toggleLike(offer: OfferListItem): Promise<void> {
+    if (!offer?.id) {
+      return;
+    }
+    if (!this.authService.currentUser) {
+      this.notificationService.error('ERROR.NOT_AUTHENTICATED');
+      return;
+    }
+
+    const offerId: string = offer.id;
+    if (this.isLikeLoading(offerId)) return;
+    this.likeLoadingMap.set(offerId, true);
+
+    try {
+      if (this.likedIds.has(offerId) || offer.isLiked) {
+        await firstValueFrom(this.likesService.unlike(offerId));
+        this.likedIds.delete(offerId);
+        offer.isLiked = false;
+        this.notificationService.success('ROOM.UNLIKE_SUCCESS');
+      } else {
+        await firstValueFrom(this.likesService.like(offerId));
+        this.likedIds.add(offerId);
+        offer.isLiked = true;
+        this.notificationService.success('ROOM.LIKE_SUCCESS');
+      }
+    } catch {
+      this.notificationService.error('ROOM.LIKE_FAILED');
+    } finally {
+      this.likeLoadingMap.delete(offerId);
     }
   }
 
@@ -210,6 +264,12 @@ export class RoomsComponent implements OnInit {
       filtered = filtered.filter((offer: OfferListItem): boolean => offer.status === this.filters.status);
     }
 
+    if (this.filters.showOnlyLiked) {
+      filtered = filtered.filter(
+        (offer: OfferListItem): boolean => this.likedIds.has(offer.id)
+      );
+    }
+
     filtered = this.sortOffers(filtered);
 
     this.filteredOffers = filtered;
@@ -225,8 +285,8 @@ export class RoomsComponent implements OnInit {
   }
 
   public resetComparisonSelection(): void {
-    this.compareSelection = { first: null, second: null };
-    this.comparisonOffers = { first: null, second: null };
+    this.compareSelection = {first: null, second: null};
+    this.comparisonOffers = {first: null, second: null};
     this.comparisonLoading = false;
   }
 
@@ -427,11 +487,12 @@ export class RoomsComponent implements OnInit {
       search: '',
       minPrice: null,
       maxPrice: null,
-      priceRange: { lower: 0, upper: this.maxAvailablePrice },
+      priceRange: {lower: 0, upper: this.maxAvailablePrice},
       city: '',
-      areaRange: { lower: 0, upper: this.maxAvailableArea },
+      areaRange: {lower: 0, upper: this.maxAvailableArea},
       status: '',
-      sortBy: 'date_desc'
+      sortBy: 'date_desc',
+      showOnlyLiked: false
     };
     this.applyFilters();
   }
@@ -445,7 +506,8 @@ export class RoomsComponent implements OnInit {
       this.filters.areaRange.lower !== 0 ||
       this.filters.areaRange.upper !== this.maxAvailableArea ||
       this.filters.status ||
-      this.filters.sortBy !== 'date_desc'
+      this.filters.sortBy !== 'date_desc' ||
+      this.filters.showOnlyLiked
     );
   }
 
@@ -491,7 +553,7 @@ export class RoomsComponent implements OnInit {
       header: this.translate.instant('ROOM.DELETE_CONFIRM_TITLE'),
       message: this.translate.instant('ROOM.DELETE_CONFIRM_MESSAGE'),
       buttons: [
-        { text: this.translate.instant('COMMON.CANCEL'), role: 'cancel' },
+        {text: this.translate.instant('COMMON.CANCEL'), role: 'cancel'},
         {
           text: this.translate.instant('COMMON.DELETE') || 'Delete',
           cssClass: 'danger-btn',
@@ -588,7 +650,7 @@ export class RoomsComponent implements OnInit {
 
     await modal.present();
 
-    const { data, role } = await modal.onWillDismiss();
+    const {data, role} = await modal.onWillDismiss();
 
     if (role === 'created' && data) {
       await this.loadOffers();
@@ -614,7 +676,7 @@ export class RoomsComponent implements OnInit {
     });
 
     await alert.present();
-    const { role } = await alert.onDidDismiss();
+    const {role} = await alert.onDidDismiss();
     return role === 'destructive';
   }
 

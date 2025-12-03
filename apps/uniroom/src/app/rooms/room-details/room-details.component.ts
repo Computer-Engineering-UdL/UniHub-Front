@@ -17,6 +17,7 @@ import { resolveFileUrl } from '../../utils/file-url.util';
 import { MessageService } from '../../services/message.service';
 import NotificationService from '../../services/notification.service';
 import { Conversation } from '../../models/message.types';
+import { LikesService } from '../../services/likes.service';
 
 interface AmenityItem {
   icon: string;
@@ -121,12 +122,16 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   private readonly authService: AuthService = inject(AuthService);
   private readonly messageService: MessageService = inject(MessageService);
   private readonly notificationService: NotificationService = inject(NotificationService);
+  private readonly likesService: LikesService = inject(LikesService);
 
   loading: boolean = false;
   error: boolean = false;
   offer: RoomDetailsViewModel | null = null;
   selectedImageIndex: number = 0;
   isViewerOpen: boolean = false;
+
+  public isLiked: boolean = false;
+  public likeLoading: boolean = false;
 
   private paramSub?: Subscription;
 
@@ -157,11 +162,51 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       );
       const landlordUser: User | null = this.getCachedLandlordUser(response.user_id);
       this.offer = this.mapToViewModel(response, landlordUser);
+
+      // load like status for this offer
+      try {
+        const status = await firstValueFrom(this.likesService.getLikeStatus(offerId));
+        this.isLiked = status.liked;
+      } catch {
+        this.isLiked = false;
+      }
     } catch (error: unknown) {
       console.error('Error loading offer details', error);
       this.error = true;
     } finally {
       this.loading = false;
+    }
+  }
+
+  public async toggleLike(): Promise<void> {
+    if (!this.offer) {
+      return;
+    }
+
+    if (!this.authService.currentUser) {
+      this.notificationService.error('ERROR.NOT_AUTHENTICATED');
+      return;
+    }
+
+    if (this.likeLoading) {
+      return;
+    }
+    this.likeLoading = true;
+    try {
+      if (this.isLiked) {
+        await firstValueFrom(this.likesService.unlike(this.offer.id));
+        this.isLiked = false;
+        this.notificationService.success('ROOM.UNLIKE_SUCCESS');
+      } else {
+        await firstValueFrom(this.likesService.like(this.offer.id));
+        this.isLiked = true;
+        this.notificationService.success('ROOM.LIKE_SUCCESS');
+      }
+    } catch (err) {
+      console.error('Error toggling like:', err);
+      this.notificationService.error('ROOM.LIKE_FAILED');
+    } finally {
+      this.likeLoading = false;
     }
   }
 
