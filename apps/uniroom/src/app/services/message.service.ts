@@ -218,8 +218,8 @@ export class MessageService implements OnDestroy {
         const currentMessages = this.messagesSubject.value;
         const messageMap = new Map<string, Message>();
 
-        currentMessages.forEach(m => messageMap.set(m.id, m));
-        messages.forEach(m => messageMap.set(m.id, m));
+        currentMessages.forEach((m) => messageMap.set(m.id, m));
+        messages.forEach((m) => messageMap.set(m.id, m));
 
         const mergedMessages = Array.from(messageMap.values());
         mergedMessages.sort((a: Message, b: Message): number => {
