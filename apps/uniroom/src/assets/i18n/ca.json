@@ -954,5 +954,93 @@
     "TODAY": "Avui",
     "YESTERDAY": "Ahir",
     "DAYS_AGO": "fa {{count}} dies"
+  },
+  "UNIJOBS": {
+    "LIST": {
+      "TITLE": "Troba la teva pròxima oportunitat",
+      "SUBTITLE": "Descobreix rols seleccionats de les millors empreses",
+      "SEARCH_PLACEHOLDER": "Cerca feines, empreses, paraules clau...",
+      "TABS": {
+        "ALL": "Totes",
+        "SAVED": "Desades",
+        "APPLIED": "Aplicades"
+      },
+      "MY_APPLICATIONS": "Les meves sol·licituds",
+      "SALARY_COMPETITIVE": "Sou competitiu",
+      "ALREADY_APPLIED": "Aplicada",
+      "EMPTY": "No hi ha feines que coincideixin amb els filtres",
+      "ERROR": "No s'han pogut carregar les feines",
+      "REMOTE": "En remot"
+    },
+    "FILTERS": {
+      "TITLE": "Filtres",
+      "JOB_TYPE": "Tipus de feina",
+      "CATEGORY": "Categoria",
+      "LOCATION": "Ubicació",
+      "TYPE_FULL_TIME": "Jornada completa",
+      "TYPE_PART_TIME": "Mitja jornada",
+      "TYPE_INTERNSHIP": "Pràctiques",
+      "TYPE_FREELANCE": "Freelance"
+    },
+    "JOB_TYPE": {
+      "full_time": "Jornada completa",
+      "part_time": "Mitja jornada",
+      "internship": "Pràctiques",
+      "freelance": "Freelance"
+    },
+    "SALARY_PERIOD": {
+      "MONTH": "mes",
+      "YEAR": "any",
+      "HOUR": "hora"
+    },
+    "DETAIL": {
+      "TITLE": "Detall de la feina",
+      "APPLY": "Aplica ara",
+      "DESCRIPTION": "Descripció del lloc",
+      "REQUIREMENTS": "Requisits",
+      "NICE_TO_HAVE": "Valorable",
+      "ABOUT_COMPANY": "Sobre l'empresa",
+      "ERROR": "No s'ha pogut carregar la feina"
+    },
+    "APPLY": {
+      "MODAL_TITLE": "Aplicar a {{ job }}",
+      "FULL_NAME": "Nom complet",
+      "EMAIL": "Correu electrònic",
+      "PHONE": "Telèfon",
+      "RESUME": "Currículum",
+      "UPLOAD_HINT": "Fes clic per pujar o arrossega i deixa",
+      "NO_FILE": "Cap fitxer seleccionat",
+      "MAX_SIZE": "PDF, DOC o DOCX fins a 5MB",
+      "COVER_LETTER": "Carta de presentació",
+      "SUBMIT": "Enviar sol·licitud",
+      "SUBMIT_SUCCESS": "Sol·licitud enviada correctament",
+      "FILE_TYPE_ERROR": "Tipus de fitxer no suportat",
+      "FILE_SIZE_ERROR": "El fitxer és massa gran",
+      "ERROR": "No s'ha pogut enviar la sol·licitud"
+    },
+    "APPLICATIONS": {
+      "TITLE": "Les meves sol·licituds",
+      "SUBTITLE": "Segueix l'estat de les teves sol·licituds",
+      "TABS": {
+        "ALL": "Totes",
+        "PENDING": "Pendent",
+        "INTERVIEW": "Entrevista",
+        "ACCEPTED": "Acceptada",
+        "REJECTED": "Rebutjada"
+      },
+      "APPLIED_ON": "Aplicada el",
+      "COVER_LETTER": "Carta de presentació",
+      "RESUME": "Currículum",
+      "VIEW_POSTING": "Veure oferta",
+      "EMPTY": "Encara no tens sol·licituds",
+      "ERROR": "No s'han pogut carregar les sol·licituds",
+      "STATS": {
+        "TOTAL": "Total"
+      }
+    },
+    "ADMIN": {
+      "ONLY": "Només administradors",
+      "ERROR": "L'acció d'administrador ha fallat"
+    }
   }
 }

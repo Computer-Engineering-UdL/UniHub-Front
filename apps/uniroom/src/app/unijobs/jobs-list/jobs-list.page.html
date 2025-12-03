@@ -1,0 +1,178 @@
+<ion-content class="jobs-content">
+  <div class="page-padding">
+    <div class="page-header">
+      <div>
+        <h1>{{ 'UNIJOBS.LIST.TITLE' | translate }}</h1>
+        <p class="subtitle">{{ 'UNIJOBS.LIST.SUBTITLE' | translate }}</p>
+      </div>
+      <ion-button class="applications-btn" fill="outline" [routerLink]="['/jobs/applications']">
+        <ion-icon name="clipboard-outline" slot="start"></ion-icon>
+        {{ 'UNIJOBS.LIST.MY_APPLICATIONS' | translate }}
+      </ion-button>
+    </div>
+
+    <div class="search-row">
+      <ion-searchbar
+        [placeholder]="'UNIJOBS.LIST.SEARCH_PLACEHOLDER' | translate"
+        [debounce]="300"
+        (ionChange)="onSearchChange($event.detail.value || '')"
+      ></ion-searchbar>
+      <ion-button class="filters-toggle" fill="outline" (click)="openFilters()">
+        <ion-icon name="options-outline" slot="start"></ion-icon>
+        {{ 'UNIJOBS.FILTERS.TITLE' | translate }}
+      </ion-button>
+    </div>
+
+    <div class="content-grid">
+      <div class="filters-panel" [class.mobile-visible]="showMobileFilters">
+        <div class="filters-header">
+          <h3>{{ 'UNIJOBS.FILTERS.TITLE' | translate }}</h3>
+          <ion-button fill="clear" size="small" (click)="closeFilters()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </div>
+
+        <div class="filter-section">
+          <p class="filter-label">{{ 'UNIJOBS.FILTERS.JOB_TYPE' | translate }}</p>
+          <div class="checkbox-list">
+            <ion-item lines="none" *ngFor="let type of jobTypeFilters">
+              <ion-checkbox slot="start" [checked]="query.jobTypes?.includes(type.value)" (ionChange)="toggleJobType(type.value)"></ion-checkbox>
+              <ion-label>{{ type.labelKey | translate }}</ion-label>
+            </ion-item>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <p class="filter-label">{{ 'UNIJOBS.FILTERS.CATEGORY' | translate }}</p>
+          <div class="checkbox-list scrollable">
+            <ion-item lines="none" *ngFor="let cat of categories">
+              <ion-checkbox slot="start" [checked]="query.categories?.includes(cat)" (ionChange)="toggleCategory(cat)"></ion-checkbox>
+              <ion-label>{{ cat }}</ion-label>
+            </ion-item>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <p class="filter-label">{{ 'UNIJOBS.FILTERS.LOCATION' | translate }}</p>
+          <div class="checkbox-list scrollable">
+            <ion-item lines="none" *ngFor="let loc of locations">
+              <ion-checkbox slot="start" [checked]="query.locations?.includes(loc)" (ionChange)="toggleLocation(loc)"></ion-checkbox>
+              <ion-label>{{ loc }}</ion-label>
+            </ion-item>
+          </div>
+        </div>
+      </div>
+
+      <div class="jobs-panel">
+        <div class="tabs-row">
+          <div
+            class="tab-chip"
+            *ngFor="let tab of tabs"
+            [class.active]="activeTab === tab.key"
+            (click)="changeTab(tab.key)"
+          >
+            <span>{{ tab.labelKey | translate }}</span>
+            <ion-badge *ngIf="tab.key === 'saved'">{{ savedCount }}</ion-badge>
+            <ion-badge *ngIf="tab.key === 'applied'">{{ appliedCount }}</ion-badge>
+          </div>
+        </div>
+
+        <ng-container *ngIf="loading && jobs.length === 0; else jobsList">
+          <div class="jobs-list">
+            <div class="job-card skeleton" *ngFor="let skeleton of [1, 2, 3]">
+              <div class="card-header">
+                <div class="logo-wrapper">
+                  <ion-skeleton-text animated style="width: 56px; height: 56px;"></ion-skeleton-text>
+                </div>
+                <div class="job-meta">
+                  <ion-skeleton-text animated style="width: 70%; height: 18px;"></ion-skeleton-text>
+                  <ion-skeleton-text animated style="width: 40%; height: 14px;"></ion-skeleton-text>
+                  <div class="tags">
+                    <ion-skeleton-text animated style="width: 60px; height: 18px;"></ion-skeleton-text>
+                    <ion-skeleton-text animated style="width: 50px; height: 18px;"></ion-skeleton-text>
+                  </div>
+                </div>
+                <div class="card-actions">
+                  <ion-skeleton-text animated style="width: 32px; height: 32px;"></ion-skeleton-text>
+                  <ion-skeleton-text animated style="width: 120px; height: 36px;"></ion-skeleton-text>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="info-row">
+                  <ion-skeleton-text animated style="width: 120px; height: 14px;"></ion-skeleton-text>
+                  <ion-skeleton-text animated style="width: 100px; height: 14px;"></ion-skeleton-text>
+                  <ion-skeleton-text animated style="width: 90px; height: 14px;"></ion-skeleton-text>
+                </div>
+                <ion-skeleton-text animated style="width: 100%; height: 32px;"></ion-skeleton-text>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #jobsList>
+          <div class="jobs-list">
+            <div class="job-card" *ngFor="let job of jobs" (click)="openJob(job)">
+              <div class="card-header">
+                <div class="logo-wrapper">
+                  <img *ngIf="job.companyLogoUrl; else fallback" [src]="job.companyLogoUrl" [alt]="job.companyName" />
+                  <ng-template #fallback>
+                    <div class="logo-placeholder">{{ job.companyName | slice:0:1 }}</div>
+                  </ng-template>
+                </div>
+                <div class="job-meta">
+                  <h3>{{ job.title }}</h3>
+                  <p class="company">{{ job.companyName }}</p>
+                  <div class="tags">
+                    <span class="pill">{{ ('UNIJOBS.JOB_TYPE.' + job.jobType) | translate }}</span>
+                    <span class="pill" *ngFor="let tag of job.categories">{{ tag }}</span>
+                  </div>
+                </div>
+                <div class="card-actions">
+                  <ion-button fill="clear" size="small" class="icon-btn" (click)="toggleSave(job, $event)">
+                    <ion-icon [name]="job.isSaved ? 'bookmark' : 'bookmark-outline'"></ion-icon>
+                  </ion-button>
+                  <ion-button fill="solid" size="small" (click)="openApplyModal(job, $event)" [disabled]="job.isApplied">
+                    {{ job.isApplied ? ('UNIJOBS.LIST.ALREADY_APPLIED' | translate) : ('UNIJOBS.DETAIL.APPLY' | translate) }}
+                  </ion-button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="info-row">
+                  <div class="info">
+                    <ion-icon name="location-outline"></ion-icon>
+                    <span>{{ job.locationLabel }}</span>
+                  </div>
+                  <div class="info" *ngIf="job.salaryText">
+                    <ion-icon name="cash-outline"></ion-icon>
+                    <span>{{ job.salaryText }}</span>
+                  </div>
+                  <div class="info">
+                    <ion-icon name="time-outline"></ion-icon>
+                    <span>{{ job.postedLabel }}</span>
+                  </div>
+                </div>
+                <p class="description">
+                  {{ job.description | slice:0:160 }}<span *ngIf="job.description.length > 160">...</span>
+                </p>
+                <div class="tag-row" *ngIf="job.tags?.length">
+                  <span class="pill pill-ghost" *ngFor="let tag of job.tags">{{ tag }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="empty-state" *ngIf="!loading && jobs.length === 0">
+              <ion-icon name="briefcase-outline"></ion-icon>
+              <p>{{ 'UNIJOBS.LIST.EMPTY' | translate }}</p>
+            </div>
+          </div>
+        </ng-template>
+
+        <ion-infinite-scroll threshold="200px" (ionInfinite)="loadMore($event)" [disabled]="!hasMore || loadingMore">
+          <ion-infinite-scroll-content loadingSpinner="crescent"></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<div class="filters-overlay" [class.visible]="showMobileFilters" (click)="closeFilters()"></div>

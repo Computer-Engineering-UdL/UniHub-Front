@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'UNIJOBS.APPLY.MODAL_TITLE' | translate:{ job: jobTitle } }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="apply-content">
+  <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+    <ion-item lines="none">
+      <ion-label position="stacked">{{ 'UNIJOBS.APPLY.FULL_NAME' | translate }}</ion-label>
+      <ion-input formControlName="fullName" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label position="stacked">{{ 'UNIJOBS.APPLY.EMAIL' | translate }}</ion-label>
+      <ion-input formControlName="email" type="email" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label position="stacked">{{ 'UNIJOBS.APPLY.PHONE' | translate }}</ion-label>
+      <ion-input formControlName="phone" type="tel" required></ion-input>
+    </ion-item>
+
+    <div class="upload-section">
+      <p class="label">{{ 'UNIJOBS.APPLY.RESUME' | translate }}</p>
+      <label class="upload-box">
+        <input type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx" />
+        <ion-icon name="cloud-upload-outline"></ion-icon>
+        <p>{{ 'UNIJOBS.APPLY.UPLOAD_HINT' | translate }}</p>
+        <p class="helper">{{ resumeFile?.name || ('UNIJOBS.APPLY.NO_FILE' | translate) }}</p>
+        <p class="helper">{{ 'UNIJOBS.APPLY.MAX_SIZE' | translate }}</p>
+      </label>
+      <p class="error" *ngIf="fileError">{{ fileError }}</p>
+    </div>
+
+    <ion-item lines="none" class="textarea-item">
+      <ion-label position="stacked">{{ 'UNIJOBS.APPLY.COVER_LETTER' | translate }}</ion-label>
+      <ion-textarea formControlName="coverLetter" rows="5" maxlength="1000" autoGrow="true"></ion-textarea>
+      <div class="counter">{{ coverLetterCount }} / 1000</div>
+    </ion-item>
+
+    <div class="actions">
+      <ion-button fill="clear" type="button" (click)="dismiss()">{{ 'COMMON.CANCEL' | translate }}</ion-button>
+      <ion-button type="submit" [disabled]="submitting" expand="block">
+        {{ 'UNIJOBS.APPLY.SUBMIT' | translate }}
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

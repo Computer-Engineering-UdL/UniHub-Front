@@ -959,5 +959,93 @@
     "TODAY": "Today",
     "YESTERDAY": "Yesterday",
     "DAYS_AGO": "{{count}} days ago"
+  },
+  "UNIJOBS": {
+    "LIST": {
+      "TITLE": "Find your next opportunity",
+      "SUBTITLE": "Discover curated roles from top companies",
+      "SEARCH_PLACEHOLDER": "Search jobs, companies, keywords...",
+      "TABS": {
+        "ALL": "All Jobs",
+        "SAVED": "Saved",
+        "APPLIED": "Applied"
+      },
+      "MY_APPLICATIONS": "My Applications",
+      "SALARY_COMPETITIVE": "Competitive salary",
+      "ALREADY_APPLIED": "Applied",
+      "EMPTY": "No jobs match your filters yet",
+      "ERROR": "Failed to load jobs",
+      "REMOTE": "Remote"
+    },
+    "FILTERS": {
+      "TITLE": "Filters",
+      "JOB_TYPE": "Job Type",
+      "CATEGORY": "Category",
+      "LOCATION": "Location",
+      "TYPE_FULL_TIME": "Full-time",
+      "TYPE_PART_TIME": "Part-time",
+      "TYPE_INTERNSHIP": "Internship",
+      "TYPE_FREELANCE": "Freelance"
+    },
+    "JOB_TYPE": {
+      "full_time": "Full-time",
+      "part_time": "Part-time",
+      "internship": "Internship",
+      "freelance": "Freelance"
+    },
+    "SALARY_PERIOD": {
+      "MONTH": "month",
+      "YEAR": "year",
+      "HOUR": "hour"
+    },
+    "DETAIL": {
+      "TITLE": "Job detail",
+      "APPLY": "Apply Now",
+      "DESCRIPTION": "Job Description",
+      "REQUIREMENTS": "Requirements",
+      "NICE_TO_HAVE": "Nice to Have",
+      "ABOUT_COMPANY": "About Company",
+      "ERROR": "Unable to load the job"
+    },
+    "APPLY": {
+      "MODAL_TITLE": "Apply for {{ job }}",
+      "FULL_NAME": "Full Name",
+      "EMAIL": "Email",
+      "PHONE": "Phone Number",
+      "RESUME": "Resume/CV",
+      "UPLOAD_HINT": "Click to upload or drag and drop",
+      "NO_FILE": "No file selected",
+      "MAX_SIZE": "PDF, DOC or DOCX up to 5MB",
+      "COVER_LETTER": "Cover Letter",
+      "SUBMIT": "Submit Application",
+      "SUBMIT_SUCCESS": "Application submitted successfully",
+      "FILE_TYPE_ERROR": "Unsupported file type",
+      "FILE_SIZE_ERROR": "File is too large",
+      "ERROR": "Could not submit the application"
+    },
+    "APPLICATIONS": {
+      "TITLE": "My Applications",
+      "SUBTITLE": "Track the status of your job applications",
+      "TABS": {
+        "ALL": "All",
+        "PENDING": "Pending",
+        "INTERVIEW": "Interview",
+        "ACCEPTED": "Accepted",
+        "REJECTED": "Rejected"
+      },
+      "APPLIED_ON": "Applied on",
+      "COVER_LETTER": "Cover Letter",
+      "RESUME": "Resume",
+      "VIEW_POSTING": "View Job Posting",
+      "EMPTY": "You have no applications yet",
+      "ERROR": "Failed to load applications",
+      "STATS": {
+        "TOTAL": "Total"
+      }
+    },
+    "ADMIN": {
+      "ONLY": "Admins only",
+      "ERROR": "Admin action failed"
+    }
   }
 }

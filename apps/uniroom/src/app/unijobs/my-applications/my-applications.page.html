@@ -1,0 +1,86 @@
+<ion-content class="applications-content">
+  <div class="page-padding">
+    <ion-button fill="clear" class="back-btn" [routerLink]="['/jobs']">
+      <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
+      {{ 'COMMON.BACK' | translate }}
+    </ion-button>
+
+    <div class="header">
+      <h1>{{ 'UNIJOBS.APPLICATIONS.TITLE' | translate }}</h1>
+      <p class="subtitle">{{ 'UNIJOBS.APPLICATIONS.SUBTITLE' | translate }}</p>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card" *ngFor="let summary of summaries">
+        <p class="count">{{ summary.count }}</p>
+        <p class="label">{{ summary.label }}</p>
+      </div>
+    </div>
+
+    <div class="tabs-row">
+      <div
+        class="tab-pill"
+        [class.active]="activeStatus === 'all'"
+        (click)="setStatusFilter('all')"
+      >
+        {{ 'UNIJOBS.APPLICATIONS.TABS.ALL' | translate }}
+      </div>
+      <div
+        class="tab-pill"
+        *ngFor="let tab of statusTabs"
+        [class.active]="activeStatus === tab"
+        (click)="setStatusFilter(tab)"
+      >
+        {{ ('UNIJOBS.APPLICATIONS.TABS.' + (tab | uppercase)) | translate }}
+      </div>
+    </div>
+
+    <div class="applications-list">
+      <div class="application-card" *ngFor="let app of filtered">
+        <div class="card-header">
+          <div class="title-block">
+            <h3>{{ app.jobTitle }}</h3>
+            <p class="company">{{ app.companyName }}</p>
+          </div>
+          <span [class]="getStatusClass(app.status)">{{ ('UNIJOBS.APPLICATIONS.TABS.' + (app.status | uppercase)) | translate }}</span>
+        </div>
+
+        <div class="meta-row">
+          <div class="meta">
+            <ion-icon name="location-outline"></ion-icon>
+            <span>{{ app.locationCity }}</span>
+          </div>
+          <div class="meta">
+            <ion-icon name="briefcase-outline"></ion-icon>
+            <span>{{ ('UNIJOBS.JOB_TYPE.' + app.jobType) | translate }}</span>
+          </div>
+          <div class="meta">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>{{ 'UNIJOBS.APPLICATIONS.APPLIED_ON' | translate }} {{ formatAppliedDate(app.appliedAt) }}</span>
+          </div>
+        </div>
+
+        <div class="extra" *ngIf="app.coverLetterPreview">
+          <p class="label">{{ 'UNIJOBS.APPLICATIONS.COVER_LETTER' | translate }}</p>
+          <p class="body">{{ app.coverLetterPreview }}</p>
+        </div>
+
+        <div class="extra" *ngIf="app.resumeFileName">
+          <p class="label">{{ 'UNIJOBS.APPLICATIONS.RESUME' | translate }}</p>
+          <p class="body">{{ app.resumeFileName }}</p>
+        </div>
+
+        <div class="actions">
+          <ion-button fill="outline" size="small" (click)="viewJob(app)">
+            {{ 'UNIJOBS.APPLICATIONS.VIEW_POSTING' | translate }}
+          </ion-button>
+        </div>
+      </div>
+
+      <div class="empty-state" *ngIf="!loading && filtered.length === 0">
+        <ion-icon name="file-tray-outline"></ion-icon>
+        <p>{{ 'UNIJOBS.APPLICATIONS.EMPTY' | translate }}</p>
+      </div>
+    </div>
+  </div>
+</ion-content>

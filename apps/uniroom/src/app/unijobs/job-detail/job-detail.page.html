@@ -1,0 +1,125 @@
+<ion-content class="job-detail-content">
+  <div class="page-padding" *ngIf="job; else loadingState">
+    <ion-button fill="clear" class="back-btn" [routerLink]="['/jobs']">
+      <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
+      {{ 'COMMON.BACK' | translate }}
+    </ion-button>
+
+    <div class="hero-card">
+      <div class="hero-header">
+        <div class="logo-wrapper">
+          <img *ngIf="job.companyLogoUrl; else fallback" [src]="job.companyLogoUrl" [alt]="job.companyName" />
+          <ng-template #fallback>
+            <div class="logo-placeholder">{{ job.companyName | slice:0:1 }}</div>
+          </ng-template>
+        </div>
+        <div class="hero-info">
+          <h1>{{ job.title }}</h1>
+          <p class="company">{{ job.companyName }}</p>
+          <div class="tags">
+            <span class="pill">{{ ('UNIJOBS.JOB_TYPE.' + job.jobType) | translate }}</span>
+            <span class="pill" *ngFor="let cat of job.categories">{{ cat }}</span>
+          </div>
+          <div class="meta-row">
+            <div class="meta">
+              <ion-icon name="location-outline"></ion-icon>
+              <span>{{ formatLocation() }}</span>
+            </div>
+            <div class="meta" *ngIf="formatSalary()">
+              <ion-icon name="cash-outline"></ion-icon>
+              <span>{{ formatSalary() }}</span>
+            </div>
+            <div class="meta">
+              <ion-icon name="time-outline"></ion-icon>
+              <span>{{ postedLabel }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <ion-button fill="clear" size="small" class="icon-btn" (click)="toggleSave()">
+            <ion-icon [name]="job.isSaved ? 'bookmark' : 'bookmark-outline'"></ion-icon>
+          </ion-button>
+          <ion-button expand="block" (click)="apply()" [disabled]="job.isApplied">
+            {{ job.isApplied ? ('UNIJOBS.LIST.ALREADY_APPLIED' | translate) : ('UNIJOBS.DETAIL.APPLY' | translate) }}
+          </ion-button>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>{{ 'UNIJOBS.DETAIL.DESCRIPTION' | translate }}</h2>
+      <p class="body-text">{{ job.description }}</p>
+
+      <h3>{{ 'UNIJOBS.DETAIL.REQUIREMENTS' | translate }}</h3>
+      <ul class="list">
+        <li *ngFor="let req of job.requirements">
+          <ion-icon [name]="getRequirementIcon()"></ion-icon>
+          <span>{{ req }}</span>
+        </li>
+      </ul>
+
+      <h3 *ngIf="job.niceToHave?.length">{{ 'UNIJOBS.DETAIL.NICE_TO_HAVE' | translate }}</h3>
+      <ul class="list subtle" *ngIf="job.niceToHave?.length">
+        <li *ngFor="let nice of job.niceToHave">
+          <ion-icon name="ellipse-outline"></ion-icon>
+          <span>{{ nice }}</span>
+        </li>
+      </ul>
+
+      <div class="company-section">
+        <h3>{{ 'UNIJOBS.DETAIL.ABOUT_COMPANY' | translate }}</h3>
+        <p class="body-text">{{ job.companyIndustry }}</p>
+        <div class="company-meta">
+          <div class="meta">
+            <ion-icon name="people-outline"></ion-icon>
+            <span>{{ job.companySize }}</span>
+          </div>
+          <div class="meta" *ngIf="job.companyIndustry">
+            <ion-icon name="briefcase-outline"></ion-icon>
+            <span>{{ job.companyIndustry }}</span>
+          </div>
+          <div class="meta" *ngIf="job.companyWebsite">
+            <ion-icon name="link-outline"></ion-icon>
+            <a [href]="job.companyWebsite" target="_blank" rel="noopener">{{ job.companyWebsite }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loadingState>
+    <div class="page-padding">
+      <ion-skeleton-text animated class="skeleton-line heading"></ion-skeleton-text>
+      <div class="hero-card">
+        <div class="hero-header">
+          <div class="logo-wrapper">
+            <ion-skeleton-text animated style="width: 64px; height: 64px;"></ion-skeleton-text>
+          </div>
+          <div class="hero-info">
+            <ion-skeleton-text animated style="width: 220px; height: 22px;"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 140px; height: 16px;"></ion-skeleton-text>
+            <div class="tags">
+              <ion-skeleton-text animated style="width: 80px; height: 18px;"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 60px; height: 18px;"></ion-skeleton-text>
+            </div>
+            <div class="meta-row">
+              <ion-skeleton-text animated style="width: 120px; height: 14px;"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 90px; height: 14px;"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 100px; height: 14px;"></ion-skeleton-text>
+            </div>
+          </div>
+          <div class="hero-actions">
+            <ion-skeleton-text animated style="width: 32px; height: 32px;"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 140px; height: 40px;"></ion-skeleton-text>
+          </div>
+        </div>
+      </div>
+      <div class="content-card">
+        <ion-skeleton-text animated style="width: 40%; height: 20px; margin-bottom: 12px;"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 100%; height: 60px;"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 35%; height: 20px; margin: 16px 0 8px;"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 100%; height: 60px;"></ion-skeleton-text>
+      </div>
+    </div>
+  </ng-template>
+</ion-content>

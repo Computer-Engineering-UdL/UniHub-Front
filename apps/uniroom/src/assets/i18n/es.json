@@ -955,5 +955,93 @@
     "TODAY": "Hoy",
     "YESTERDAY": "Ayer",
     "DAYS_AGO": "hace {{count}} días"
+  },
+  "UNIJOBS": {
+    "LIST": {
+      "TITLE": "Encuentra tu próxima oportunidad",
+      "SUBTITLE": "Descubre puestos seleccionados de las mejores empresas",
+      "SEARCH_PLACEHOLDER": "Busca empleos, empresas, palabras clave...",
+      "TABS": {
+        "ALL": "Todos",
+        "SAVED": "Guardados",
+        "APPLIED": "Aplicados"
+      },
+      "MY_APPLICATIONS": "Mis solicitudes",
+      "SALARY_COMPETITIVE": "Salario competitivo",
+      "ALREADY_APPLIED": "Aplicado",
+      "EMPTY": "No hay empleos que coincidan con tus filtros",
+      "ERROR": "No se pudieron cargar los empleos",
+      "REMOTE": "Remoto"
+    },
+    "FILTERS": {
+      "TITLE": "Filtros",
+      "JOB_TYPE": "Tipo de empleo",
+      "CATEGORY": "Categoría",
+      "LOCATION": "Ubicación",
+      "TYPE_FULL_TIME": "Tiempo completo",
+      "TYPE_PART_TIME": "Medio tiempo",
+      "TYPE_INTERNSHIP": "Prácticas",
+      "TYPE_FREELANCE": "Freelance"
+    },
+    "JOB_TYPE": {
+      "full_time": "Tiempo completo",
+      "part_time": "Medio tiempo",
+      "internship": "Prácticas",
+      "freelance": "Freelance"
+    },
+    "SALARY_PERIOD": {
+      "MONTH": "mes",
+      "YEAR": "año",
+      "HOUR": "hora"
+    },
+    "DETAIL": {
+      "TITLE": "Detalle del empleo",
+      "APPLY": "Postular ahora",
+      "DESCRIPTION": "Descripción del trabajo",
+      "REQUIREMENTS": "Requisitos",
+      "NICE_TO_HAVE": "Deseable",
+      "ABOUT_COMPANY": "Sobre la empresa",
+      "ERROR": "No se pudo cargar el empleo"
+    },
+    "APPLY": {
+      "MODAL_TITLE": "Postular a {{ job }}",
+      "FULL_NAME": "Nombre completo",
+      "EMAIL": "Correo electrónico",
+      "PHONE": "Teléfono",
+      "RESUME": "Currículum",
+      "UPLOAD_HINT": "Haz clic para subir o arrastra y suelta",
+      "NO_FILE": "Ningún archivo seleccionado",
+      "MAX_SIZE": "PDF, DOC o DOCX hasta 5MB",
+      "COVER_LETTER": "Carta de presentación",
+      "SUBMIT": "Enviar solicitud",
+      "SUBMIT_SUCCESS": "Solicitud enviada correctamente",
+      "FILE_TYPE_ERROR": "Tipo de archivo no soportado",
+      "FILE_SIZE_ERROR": "El archivo es demasiado grande",
+      "ERROR": "No se pudo enviar la solicitud"
+    },
+    "APPLICATIONS": {
+      "TITLE": "Mis solicitudes",
+      "SUBTITLE": "Sigue el estado de tus solicitudes",
+      "TABS": {
+        "ALL": "Todas",
+        "PENDING": "Pendiente",
+        "INTERVIEW": "Entrevista",
+        "ACCEPTED": "Aceptada",
+        "REJECTED": "Rechazada"
+      },
+      "APPLIED_ON": "Aplicado el",
+      "COVER_LETTER": "Carta de presentación",
+      "RESUME": "Currículum",
+      "VIEW_POSTING": "Ver oferta",
+      "EMPTY": "Aún no tienes solicitudes",
+      "ERROR": "No se pudieron cargar las solicitudes",
+      "STATS": {
+        "TOTAL": "Total"
+      }
+    },
+    "ADMIN": {
+      "ONLY": "Solo administradores",
+      "ERROR": "Acción de administrador fallida"
+    }
   }
 }
