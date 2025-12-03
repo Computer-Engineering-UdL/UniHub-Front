@@ -348,7 +348,17 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
   }
 
   nextStep(): void {
-    if (this.isLastStep || !this.validateCurrentStep()) {
+    if (this.isLastStep) {
+      return;
+    }
+
+    if (this.currentStep.id === 'photos' && this.photoPreviews.length === 0) {
+      this.photoUploadError = this.translateService.instant('ROOM.FORM.PHOTO_REQUIRED');
+      this.notificationService.error('ROOM.FORM.PHOTO_REQUIRED');
+      return;
+    }
+
+    if (!this.validateCurrentStep()) {
       return;
     }
     this.currentStepIndex = Math.min(this.currentStepIndex + 1, this.wizardSteps.length - 1);
@@ -433,6 +443,12 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
 
     if (this.offerForm.invalid || this.isSubmitting) {
       this.markFormGroupTouched(this.offerForm);
+      return;
+    }
+
+    if (this.photoPreviews.length === 0) {
+      this.photoUploadError = this.translateService.instant('ROOM.FORM.PHOTO_REQUIRED');
+      this.notificationService.error('ROOM.FORM.PHOTO_REQUIRED');
       return;
     }
 

@@ -470,6 +470,7 @@
       "PHOTO_TYPE_NOT_ALLOWED": "Only JPEG, PNG, GIF or WebP images are supported.",
       "PHOTO_SIZE_EXCEEDED": "Each photo must be smaller than {{maxSize}} MB.",
       "PHOTOS_LIMIT": "You can upload up to {{max}} photos.",
+      "PHOTO_REQUIRED": "Add at least one photo to publish your offer.",
       "NO_PHOTOS": "No photos selected yet",
       "PRIMARY_BADGE": "Cover",
       "MAKE_PRIMARY": "Set as cover",

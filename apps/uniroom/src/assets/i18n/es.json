@@ -465,6 +465,7 @@
       "PHOTO_TYPE_NOT_ALLOWED": "Solo se admiten imágenes JPEG, PNG, GIF o WebP.",
       "PHOTO_SIZE_EXCEEDED": "Cada foto debe tener menos de {{maxSize}} MB.",
       "PHOTOS_LIMIT": "Puedes subir hasta {{max}} fotos.",
+      "PHOTO_REQUIRED": "Añade al menos una foto para publicar tu oferta.",
       "NO_PHOTOS": "Aún no hay fotos seleccionadas",
       "PRIMARY_BADGE": "Portada",
       "MAKE_PRIMARY": "Establecer como portada",

@@ -464,6 +464,7 @@
       "PHOTO_TYPE_NOT_ALLOWED": "Només s'admeten imatges JPEG, PNG, GIF o WebP.",
       "PHOTO_SIZE_EXCEEDED": "Cada foto ha de ser més petita de {{maxSize}} MB.",
       "PHOTOS_LIMIT": "Pots pujar fins a {{max}} fotos.",
+      "PHOTO_REQUIRED": "Afegeix almenys una foto per publicar la teva oferta.",
       "NO_PHOTOS": "Encara no hi ha fotos seleccionades",
       "PRIMARY_BADGE": "Portada",
       "MAKE_PRIMARY": "Estableix com a portada",
