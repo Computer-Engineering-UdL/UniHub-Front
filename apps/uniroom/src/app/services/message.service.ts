@@ -29,7 +29,6 @@ export class MessageService implements OnDestroy {
   private readonly messagesSubject: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
   public readonly messages$: Observable<Message[]> = this.messagesSubject.asObservable();
 
-
   constructor() {
     this.initializeWebSocket();
   }
@@ -211,8 +210,8 @@ export class MessageService implements OnDestroy {
     return this.apiService.get<Message[]>(`conversation/${conversationId}/messages?skip=${skip}&limit=${limit}`).pipe(
       tap((messages: Message[]): void => {
         const currentMessages = this.messagesSubject.value;
-        const otherConversationMessages = currentMessages.filter(m => m.conversation_id !== conversationId);
-        const currentConversationMessages = currentMessages.filter(m => m.conversation_id === conversationId);
+        const otherConversationMessages = currentMessages.filter((m) => m.conversation_id !== conversationId);
+        const currentConversationMessages = currentMessages.filter((m) => m.conversation_id === conversationId);
 
         const messageMap = new Map<string, Message>();
         currentConversationMessages.forEach((m) => messageMap.set(m.id, m));
@@ -345,7 +344,6 @@ export class MessageService implements OnDestroy {
   getConversationsValue(): ConversationWithOtherUser[] {
     return this.conversationsSubject.value;
   }
-
 
   clearMessages(): void {
     this.messagesSubject.next([]);

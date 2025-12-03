@@ -77,7 +77,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
 
   private subscribeToMessages(): void {
     this.messageService.messages$.pipe(takeUntil(this.conversationDestroy$)).subscribe((messages: Message[]): void => {
-      const filteredMessages = messages.filter(m => m.conversation_id === this.conversationId);
+      const filteredMessages = messages.filter((m) => m.conversation_id === this.conversationId);
       const previousCount = this.messages.length;
       this.messages = filteredMessages;
 
