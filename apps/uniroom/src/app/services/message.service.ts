@@ -48,8 +48,11 @@ export class MessageService implements OnDestroy {
   }
 
   private handleWebSocketMessage(wsMessage: WebSocketMessage): void {
+    console.log('[WebSocket] Received message:', wsMessage.type, wsMessage);
+
     switch (wsMessage.type) {
       case 'message':
+        console.log('[WebSocket] Handling new message:', wsMessage.data);
         this.handleNewMessage(wsMessage.data);
         break;
       case 'conversation_update':
@@ -59,12 +62,16 @@ export class MessageService implements OnDestroy {
         this.handleMessageRead(wsMessage.data);
         break;
       default:
+        console.log('[WebSocket] Unknown message type:', wsMessage.type);
         break;
     }
   }
 
   private handleNewMessage(message: Message): void {
+    console.log('[handleNewMessage] Processing message:', message);
+
     if (!message?.id || !message.conversation_id || !message.sender_id) {
+      console.log('[handleNewMessage] Invalid message, missing required fields');
       return;
     }
 
@@ -73,14 +80,19 @@ export class MessageService implements OnDestroy {
     }
 
     const currentMessages: Message[] = this.messagesSubject.value;
+    console.log('[handleNewMessage] Current messages count:', currentMessages.length);
+
     const messageIndex: number = currentMessages.findIndex((m: Message): boolean => m.id === message.id);
+    console.log('[handleNewMessage] Message exists?', messageIndex !== -1, 'at index:', messageIndex);
 
     let updatedMessages: Message[];
     if (messageIndex === -1) {
       updatedMessages = [...currentMessages, message];
+      console.log('[handleNewMessage] Added new message, total now:', updatedMessages.length);
     } else {
       updatedMessages = [...currentMessages];
       updatedMessages[messageIndex] = message;
+      console.log('[handleNewMessage] Updated existing message');
     }
 
     updatedMessages.sort((a: Message, b: Message): number => {
@@ -88,6 +100,7 @@ export class MessageService implements OnDestroy {
     });
 
     this.messagesSubject.next(updatedMessages);
+    console.log('[handleNewMessage] Emitted updated messages to subscribers');
     this.updateConversationLastMessage(message);
   }
 
