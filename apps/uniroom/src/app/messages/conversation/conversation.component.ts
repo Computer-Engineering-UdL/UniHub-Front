@@ -63,6 +63,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
     this.currentUser = this.authService.currentUser;
 
     if (this.conversationId) {
+      this.messageService.setActiveConversation(this.conversationId);
       this.subscribeToMessages();
       this.loadConversation();
       this.loadMessages();
@@ -95,6 +96,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
         this.messages = [];
         this.loading = true;
         this.messageService.clearMessages();
+        this.messageService.setActiveConversation(newConversationId);
         this.subscribeToMessages();
         this.loadConversation();
         this.loadMessages();

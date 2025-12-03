@@ -340,6 +340,10 @@ export class MessageService implements OnDestroy {
     return this.conversationsSubject.value;
   }
 
+  setActiveConversation(conversationId: string | null): void {
+    this.activeConversationId = conversationId;
+  }
+
   clearMessages(): void {
     this.messagesSubject.next([]);
     this.activeConversationId = null;
