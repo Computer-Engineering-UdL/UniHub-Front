@@ -280,9 +280,7 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     this.categoryLoading = true;
     try {
       // The API path follows the same pattern used elsewhere in the app
-      const result = await firstValueFrom(
-        this.apiService.get<{ id: string; name: string }[]>('categories/')
-      );
+      const result = await firstValueFrom(this.apiService.get<{ id: string; name: string }[]>('categories/'));
       this.categories = Array.isArray(result) ? result : [];
     } catch (error) {
       console.error('Failed to load categories:', error);
