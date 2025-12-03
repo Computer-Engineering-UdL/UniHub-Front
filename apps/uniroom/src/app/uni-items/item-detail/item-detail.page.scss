@@ -1,0 +1,123 @@
+.item-detail-container {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+  padding: 20px;
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+}
+
+.gallery {
+  background: var(--ion-card-background);
+  border-radius: 16px;
+  border: 1px solid var(--ion-border-color);
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  ion-slides,
+  ion-slide {
+    height: 100%;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &.no-image {
+    display: grid;
+    place-items: center;
+    padding: 48px 0;
+    color: var(--ion-color-medium);
+    font-size: 48px;
+  }
+}
+
+.item-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .title-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+    h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    .meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 8px 0;
+    }
+
+    .location {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--ion-color-medium);
+      font-weight: 600;
+    }
+
+    .price {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--ion-color-primary);
+      white-space: nowrap;
+    }
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    ion-button {
+      --border-radius: 12px;
+    }
+
+    .owner-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+  }
+
+  ion-card {
+    border-radius: 16px;
+
+    .seller-card {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .seller-name {
+        margin: 0;
+        font-weight: 700;
+      }
+
+      .subtle {
+        margin: 0;
+        color: var(--ion-color-medium);
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.loading-state {
+  display: grid;
+  place-items: center;
+  padding: 80px 0;
+}

@@ -1,0 +1,98 @@
+<ion-content [fullscreen]="true">
+  <div class="item-edit-container">
+    <h1>
+      {{ isEditMode ? ('UNI_ITEMS.FORM.TITLE_EDIT' | translate) : ('UNI_ITEMS.FORM.TITLE_NEW' |
+      translate) }}
+    </h1>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="item-form">
+      <ion-item lines="none">
+        <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.TITLE' | translate }}</ion-label>
+        <ion-input formControlName="title" required></ion-input>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.DESCRIPTION' | translate }}</ion-label>
+        <ion-textarea formControlName="description" rows="4"></ion-textarea>
+      </ion-item>
+
+      <div class="two-column">
+        <ion-item lines="none">
+          <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.CATEGORY' | translate }}</ion-label>
+          <ion-select interface="popover" formControlName="category">
+            <ion-select-option *ngFor="let category of categories" [value]="category"
+              >{{ category }}</ion-select-option
+            >
+          </ion-select>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.CONDITION' | translate }}</ion-label>
+          <ion-select interface="popover" formControlName="condition">
+            <ion-select-option *ngFor="let condition of conditions" [value]="condition.value">
+              {{ condition.labelKey | translate }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <div class="two-column">
+        <ion-item lines="none">
+          <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.PRICE' | translate }}</ion-label>
+          <ion-input type="number" formControlName="price" min="0"></ion-input>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.CURRENCY' | translate }}</ion-label>
+          <ion-input formControlName="currency"></ion-input>
+        </ion-item>
+      </div>
+
+      <ion-item lines="none">
+        <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.LOCATION' | translate }}</ion-label>
+        <ion-input formControlName="location"></ion-input>
+      </ion-item>
+
+      <div class="images-group">
+        <div class="images-header">
+          <h3>{{ 'UNI_ITEMS.FORM.IMAGES' | translate }}</h3>
+          <ion-button fill="clear" size="small" (click)="addImageField()">
+            <ion-icon slot="start" name="add-outline"></ion-icon>
+            {{ 'UNI_ITEMS.FORM.ADD_IMAGE' | translate }}
+          </ion-button>
+        </div>
+        <div class="image-fields" formArrayName="images">
+          <div class="image-row" *ngFor="let control of images.controls; index as i">
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.IMAGE_URL' | translate }}</ion-label>
+              <ion-input [formControlName]="i"></ion-input>
+            </ion-item>
+            <ion-button
+              fill="clear"
+              color="danger"
+              size="small"
+              (click)="removeImageField(i)"
+              [disabled]="images.length === 1">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </div>
+
+      <ion-item lines="none">
+        <ion-label>{{ 'UNI_ITEMS.FORM.ACTIVE' | translate }}</ion-label>
+        <ion-toggle formControlName="isActive"></ion-toggle>
+      </ion-item>
+
+      <div class="form-actions">
+        <ion-button type="submit" color="primary" [disabled]="loading">
+          {{ isEditMode ? ('UNI_ITEMS.FORM.SAVE_CHANGES' | translate) : ('UNI_ITEMS.FORM.CREATE' |
+          translate) }}
+        </ion-button>
+        <ion-button fill="clear" color="medium" [disabled]="loading" (click)="cancel()">
+          {{ 'UNI_ITEMS.FORM.CANCEL' | translate }}
+        </ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

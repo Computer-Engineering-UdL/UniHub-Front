@@ -308,7 +308,8 @@
     "ROOMS": "Rooms",
     "PROFILE": "Profile",
     "CHANNELS": "Channels",
-    "MESSAGES": "Messages"
+    "MESSAGES": "Messages",
+    "UNIITEMS": "Items"
   },
   "ROOM": {
     "TITLE": "Rooms",
@@ -871,6 +872,84 @@
     "SUCCESS": {
       "MESSAGE_SENT": "Message sent",
       "CONVERSATION_DELETED": "Conversation deleted"
+    }
+  },
+  "UNI_ITEMS": {
+    "TITLE": "UniItems",
+    "LIST": {
+      "COUNT": "items",
+      "NEW_LISTING": "New listing",
+      "EMPTY": "No items found. Try adjusting your filters.",
+      "ERROR": "There was a problem loading items"
+    },
+    "FILTERS": {
+      "TITLE": "Filters",
+      "SEARCH": "Search",
+      "SEARCH_PLACEHOLDER": "Search items",
+      "CATEGORY": "Category",
+      "CONDITION": "Condition",
+      "ANY_CONDITION": "Any condition",
+      "PRICE_RANGE": "Price range",
+      "MIN_PRICE": "Min price",
+      "MAX_PRICE": "Max price",
+      "LOCATION": "Location",
+      "LOCATION_PLACEHOLDER": "City or campus",
+      "SORT": "Sort",
+      "CLEAR": "Clear filters"
+    },
+    "SORT": {
+      "NEWEST": "Newest",
+      "PRICE_LOW": "Price: low to high",
+      "PRICE_HIGH": "Price: high to low"
+    },
+    "CONDITION_LABELS": {
+      "new": "New",
+      "like_new": "Like new",
+      "good": "Good",
+      "used": "Used",
+      "for_parts": "For parts"
+    },
+    "DETAIL": {
+      "TITLE": "Item details",
+      "DESCRIPTION": "Description",
+      "SELLER": "Seller",
+      "UNKNOWN_SELLER": "Unknown seller",
+      "POSTED_ON": "Posted on",
+      "UPDATED": "Updated",
+      "CONTACT_SELLER": "Contact seller",
+      "CONTACT_SUCCESS": "Conversation created",
+      "CONTACT_ERROR": "Could not start the conversation",
+      "EDIT": "Edit listing",
+      "DELETE": "Delete",
+      "DELETE_TITLE": "Delete listing",
+      "DELETE_MESSAGE": "Are you sure you want to delete this item?",
+      "DELETE_CANCEL": "Cancel",
+      "DELETE_CONFIRM": "Delete",
+      "DELETE_SUCCESS": "Item deleted",
+      "DELETE_ERROR": "Unable to delete item",
+      "ERROR": "Unable to load this item"
+    },
+    "FORM": {
+      "TITLE_NEW": "Create item",
+      "TITLE_EDIT": "Edit item",
+      "TITLE": "Title",
+      "DESCRIPTION": "Description",
+      "CATEGORY": "Category",
+      "CONDITION": "Condition",
+      "PRICE": "Price",
+      "CURRENCY": "Currency",
+      "LOCATION": "Location",
+      "IMAGES": "Images",
+      "ADD_IMAGE": "Add image",
+      "IMAGE_URL": "Image URL",
+      "ACTIVE": "Active listing",
+      "CREATE": "Create",
+      "SAVE_CHANGES": "Save changes",
+      "CANCEL": "Cancel",
+      "SUCCESS_CREATE": "Item created",
+      "SUCCESS_EDIT": "Item updated",
+      "ERROR_SAVE": "Unable to save item",
+      "ERROR_LOAD": "Unable to load item data"
     }
   },
   "TIME": {

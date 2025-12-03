@@ -222,10 +222,13 @@ export class MessageService implements OnDestroy {
     return this.apiService.post<void>(`conversation/${conversationId}/mark-read`, {});
   }
 
-  createConversation(otherUserId: string, housingOfferId?: string): Observable<Conversation> {
+  createConversation(otherUserId: string, housingOfferId?: string, itemId?: string): Observable<Conversation> {
     const body: any = { other_user_id: otherUserId };
     if (housingOfferId) {
       body.housing_offer_id = housingOfferId;
+    }
+    if (itemId) {
+      body.marketplace_item_id = itemId;
     }
     return this.apiService.post<Conversation>('conversation/', body).pipe(
       switchMap((conversation: Conversation): Observable<Conversation> => {

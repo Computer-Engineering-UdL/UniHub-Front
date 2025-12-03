@@ -1,0 +1,186 @@
+<ion-content [fullscreen]="true">
+  <div class="items-container">
+    <div class="filters-overlay" [class.visible]="showMobileFilters" (click)="closeFilters()"></div>
+
+    <aside class="filters-sidebar" [class.mobile-visible]="showMobileFilters">
+      <div class="filters-header">
+        <h3>{{ 'UNI_ITEMS.FILTERS.TITLE' | translate }}</h3>
+        <div class="filter-header-actions">
+          <ion-button
+            class="close-filters-mobile"
+            fill="clear"
+            size="small"
+            (click)="closeFilters()">
+            <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" size="small" (click)="clearFilters()">
+            <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <label class="filter-label">{{ 'UNI_ITEMS.FILTERS.SEARCH' | translate }}</label>
+        <ion-searchbar
+          [(ngModel)]="filters.search"
+          (ionInput)="applyFilters()"
+          [placeholder]="'UNI_ITEMS.FILTERS.SEARCH_PLACEHOLDER' | translate"
+          [debounce]="250"></ion-searchbar>
+      </div>
+
+      <div class="filter-section">
+        <label class="filter-label">{{ 'UNI_ITEMS.FILTERS.CATEGORY' | translate }}</label>
+        <div class="chips">
+          <ion-chip
+            *ngFor="let category of categories"
+            (click)="toggleCategory(category)"
+            [color]="filters.categories?.includes(category) ? 'primary' : 'medium'"
+            [outline]="!filters.categories?.includes(category)"
+            class="interactive">
+            {{ category }}
+          </ion-chip>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <label class="filter-label">{{ 'UNI_ITEMS.FILTERS.CONDITION' | translate }}</label>
+        <div class="chips">
+          <ion-chip
+            [color]="!filters.condition ? 'primary' : 'medium'"
+            [outline]="!!filters.condition"
+            class="interactive"
+            (click)="selectCondition('')">
+            {{ 'UNI_ITEMS.FILTERS.ANY_CONDITION' | translate }}
+          </ion-chip>
+          <ion-chip
+            *ngFor="let condition of conditions"
+            (click)="selectCondition(condition.value)"
+            [color]="filters.condition === condition.value ? 'primary' : 'medium'"
+            [outline]="filters.condition !== condition.value"
+            class="interactive">
+            {{ condition.labelKey | translate }}
+          </ion-chip>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <label class="filter-label">{{ 'UNI_ITEMS.FILTERS.PRICE_RANGE' | translate }}</label>
+        <div class="price-inputs">
+          <ion-input
+            type="number"
+            [(ngModel)]="filters.minPrice"
+            (ionChange)="applyFilters()"
+            [placeholder]="'UNI_ITEMS.FILTERS.MIN_PRICE' | translate"
+            fill="outline"></ion-input>
+          <span class="range-separator">—</span>
+          <ion-input
+            type="number"
+            [(ngModel)]="filters.maxPrice"
+            (ionChange)="applyFilters()"
+            [placeholder]="'UNI_ITEMS.FILTERS.MAX_PRICE' | translate"
+            fill="outline"></ion-input>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <label class="filter-label">{{ 'UNI_ITEMS.FILTERS.LOCATION' | translate }}</label>
+        <ion-input
+          [(ngModel)]="filters.location"
+          (ionChange)="applyFilters()"
+          [placeholder]="'UNI_ITEMS.FILTERS.LOCATION_PLACEHOLDER' | translate"
+          fill="outline"></ion-input>
+      </div>
+
+      <div class="filter-section">
+        <label class="filter-label">{{ 'UNI_ITEMS.FILTERS.SORT' | translate }}</label>
+        <ion-select interface="popover" [(ngModel)]="filters.sort" (ionChange)="applyFilters()">
+          <ion-select-option value="newest"
+            >{{ 'UNI_ITEMS.SORT.NEWEST' | translate }}</ion-select-option
+          >
+          <ion-select-option value="price_asc"
+            >{{ 'UNI_ITEMS.SORT.PRICE_LOW' | translate }}</ion-select-option
+          >
+          <ion-select-option value="price_desc"
+            >{{ 'UNI_ITEMS.SORT.PRICE_HIGH' | translate }}</ion-select-option
+          >
+        </ion-select>
+      </div>
+    </aside>
+
+    <div class="items-section">
+      <div class="section-header">
+        <div class="header-info">
+          <h2>{{ 'UNI_ITEMS.TITLE' | translate }}</h2>
+          <ion-chip color="primary" class="count-chip"
+            >{{ total }} {{ 'UNI_ITEMS.LIST.COUNT' | translate }}</ion-chip
+          >
+        </div>
+        <div class="header-actions">
+          <ion-button class="toggle-filters-mobile" fill="outline" (click)="openFilters()">
+            <ion-icon slot="start" name="options-outline"></ion-icon>
+            {{ 'UNI_ITEMS.FILTERS.TITLE' | translate }}
+          </ion-button>
+          <ion-button *ngIf="canCreate" (click)="goToCreate()" class="create-action-btn">
+            <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+            {{ 'UNI_ITEMS.LIST.NEW_LISTING' | translate }}
+          </ion-button>
+        </div>
+      </div>
+
+      <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+
+      <div *ngIf="loading" class="items-grid skeleton">
+        <ion-card *ngFor="let placeholder of [1,2,3,4]" class="item-card">
+          <div class="image-wrapper skeleton-box"></div>
+          <ion-card-header>
+            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 40%"></ion-skeleton-text>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <div *ngIf="!loading && items.length === 0" class="empty-state">
+        <ion-icon name="cube-outline"></ion-icon>
+        <p>{{ 'UNI_ITEMS.LIST.EMPTY' | translate }}</p>
+      </div>
+
+      <div class="items-grid" *ngIf="items.length > 0">
+        <ion-card class="item-card" *ngFor="let item of items" (click)="openItem(item)">
+          <div class="image-wrapper">
+            <img *ngIf="item.primaryImage" [src]="item.primaryImage" [alt]="item.title" />
+            <div class="image-fallback" *ngIf="!item.primaryImage">
+              <ion-icon name="cube-outline"></ion-icon>
+            </div>
+          </div>
+          <ion-card-header>
+            <div class="title-row">
+              <ion-card-title>{{ item.title }}</ion-card-title>
+              <span class="price">{{ item.priceFormatted }}</span>
+            </div>
+            <div class="badges">
+              <ion-chip color="primary" outline>{{ item.category }}</ion-chip>
+              <ion-chip color="medium" outline>
+                {{ ('UNI_ITEMS.CONDITION_LABELS.' + item.condition) | translate }}
+              </ion-chip>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="meta">
+              <ion-icon name="location-outline"></ion-icon>
+              <span>{{ item.location }}</span>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <ion-infinite-scroll *ngIf="hasMore" (ionInfinite)="loadMore($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </div>
+  </div>
+</ion-content>
