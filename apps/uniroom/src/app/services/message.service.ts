@@ -207,7 +207,7 @@ export class MessageService implements OnDestroy {
     );
   }
 
-  getMessages(conversationId: string, skip: number = 0, limit: number = 100): Observable<Message[]> {
+  getMessages(conversationId: string, skip: number = 0, limit: number = 1000000): Observable<Message[]> {
     return this.apiService.get<Message[]>(`conversation/${conversationId}/messages?skip=${skip}&limit=${limit}`).pipe(
       tap((messages: Message[]): void => {
         const currentMessages = this.messagesSubject.value;
