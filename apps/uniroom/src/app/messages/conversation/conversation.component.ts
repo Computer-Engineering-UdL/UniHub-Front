@@ -129,14 +129,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe({
         next: (conversation: Conversation): void => {
           this.conversation = conversation;
-
-          const currentUserId = this.currentUser?.id;
-          if (currentUserId) {
-            const otherUserId = conversation.user1_id === currentUserId ? conversation.user2_id : conversation.user1_id;
-            this.otherUser = { id: otherUserId } as User;
-          } else {
-            this.otherUser = null;
-          }
+          this.otherUser = null;
         },
         error: (_): void => {
           this.loading = false;
