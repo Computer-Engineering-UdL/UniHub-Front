@@ -4,12 +4,20 @@ import { Theme, ThemeService } from '../../services/theme.service';
 import { LangCode, LocalizationService } from '../../services/localization.service';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { TopBarNotificationService, TopBarNotification } from '../../services/topbar-notification.service';
+import { trigger, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-top-bar',
   templateUrl: './top-bar.component.html',
   styleUrls: ['./top-bar.component.scss'],
-  standalone: false
+  standalone: false,
+  animations: [
+    trigger('slideIn', [
+      transition(':enter', [style({ opacity: 0 }), animate('200ms ease-in', style({ opacity: 1 }))]),
+      transition(':leave', [animate('200ms ease-out', style({ opacity: 0 }))])
+    ])
+  ]
 })
 export class TopBarComponent implements OnInit, OnDestroy {
   showTopBar: boolean = true;
@@ -17,14 +25,19 @@ export class TopBarComponent implements OnInit, OnDestroy {
   currentTheme: Theme = 'system';
   currentLanguage: LangCode = 'en';
   currentLangIcon: string = '';
-  notificationCount: number = 0; // TODO: Replace with real notification count from service
+  notificationCount: number = 0;
+  notifications: TopBarNotification[] = [];
+  showNotificationPanel: boolean = false;
 
-  private router: Router = inject(Router);
-  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
-  private themeService: ThemeService = inject(ThemeService);
-  private localizationService: LocalizationService = inject(LocalizationService);
+  private readonly router: Router = inject(Router);
+  private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private readonly themeService: ThemeService = inject(ThemeService);
+  private readonly localizationService: LocalizationService = inject(LocalizationService);
+  private readonly topBarNotificationService: TopBarNotificationService = inject(TopBarNotificationService);
   private routerSub?: Subscription;
   private languageSub?: Subscription;
+  private notificationSub?: Subscription;
+  private unreadCountSub?: Subscription;
 
   ngOnInit(): void {
     this.currentTheme = this.themeService.getTheme();
@@ -52,12 +65,24 @@ export class TopBarComponent implements OnInit, OnDestroy {
         this.pageTitle = data['titleKey'] || '';
       });
 
+    this.notificationSub = this.topBarNotificationService.notifications$.subscribe(
+      (notifications: TopBarNotification[]): void => {
+        this.notifications = notifications;
+      }
+    );
+
+    this.unreadCountSub = this.topBarNotificationService.unreadCount$.subscribe((count: number): void => {
+      this.notificationCount = count;
+    });
+
     this.updateCurrentLangIcon();
   }
 
   ngOnDestroy(): void {
     this.routerSub?.unsubscribe();
     this.languageSub?.unsubscribe();
+    this.notificationSub?.unsubscribe();
+    this.unreadCountSub?.unsubscribe();
   }
 
   async toggleTheme(): Promise<void> {
@@ -92,8 +117,32 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
   }
 
-  openNotifications(): void {
-    // TODO: Implement notifications
-    console.log('Open notifications');
+  toggleNotificationPanel(): void {
+    this.showNotificationPanel = !this.showNotificationPanel;
+  }
+
+  closeNotificationPanel(): void {
+    this.showNotificationPanel = false;
+  }
+
+  async onNotificationClick(notification: TopBarNotification): Promise<void> {
+    await this.topBarNotificationService.navigateToNotification(notification);
+    this.closeNotificationPanel();
+  }
+
+  markAllAsRead(): void {
+    this.topBarNotificationService.markAllAsRead();
+  }
+
+  clearReadNotifications(): void {
+    this.topBarNotificationService.clearReadNotifications();
+  }
+
+  getNotificationIcon(icon: string): string {
+    return icon;
+  }
+
+  getTimeAgo(timestamp: Date): string {
+    return this.localizationService.formatRelativeTime(timestamp);
   }
 }
