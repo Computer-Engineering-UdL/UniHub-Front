@@ -110,6 +110,15 @@
         </ion-segment>
       </div>
 
+      <div class="filter-section" *ngIf="user">
+        <label class="filter-label">{{ 'ROOM.FILTERS.FAVORITES' | translate }}</label>
+        <ion-item lines="none">
+          <ion-toggle [(ngModel)]="filters.showOnlyLiked" (ionChange)="applyFilters()" slot="start">
+          </ion-toggle>
+          <ion-label>{{ 'ROOM.FILTERS.SHOW_ONLY_LIKED' | translate }}</ion-label>
+        </ion-item>
+      </div>
+
       <div class="filter-section">
         <label class="filter-label">{{ 'ROOM.FILTERS.SORT_BY' | translate }}</label>
         <ion-select [(ngModel)]="filters.sortBy" (ionChange)="applyFilters()" interface="popover">
@@ -552,13 +561,29 @@
               </div>
             </div>
 
-            <ion-button
-              expand="block"
-              [disabled]="offer.status !== 'active'"
-              (click)="viewOfferDetails(offer.id); $event.stopPropagation()">
-              <ion-icon slot="start" name="eye-outline"></ion-icon>
-              {{ 'ROOM.VIEW_DETAILS' | translate }}
-            </ion-button>
+            <div class="card-actions">
+              <ion-button
+                expand="block"
+                [disabled]="offer.status !== 'active'"
+                (click)="viewOfferDetails(offer.id); $event.stopPropagation()">
+                <ion-icon slot="start" name="eye-outline"></ion-icon>
+                {{ 'ROOM.VIEW_DETAILS' | translate }}
+              </ion-button>
+
+              <!-- LIKES -->
+              <ion-button
+                class="like-button"
+                fill="clear"
+                size="small"
+                (click)="toggleLike(offer); $event.stopPropagation()"
+                [title]="offer.isLiked ? ('ROOM.UNLIKE' | translate) : ('ROOM.LIKE' | translate)">
+                <ion-icon
+                  [name]="offer.isLiked ? 'heart' : 'heart-outline'"
+                  slot="icon-only"
+                  [color]="offer.isLiked ? 'danger' : 'medium'">
+                </ion-icon>
+              </ion-button>
+            </div>
           </ion-card-content>
         </ion-card>
       </div>

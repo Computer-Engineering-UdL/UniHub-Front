@@ -88,6 +88,7 @@ export interface OfferListItem {
   photo_count?: number;
   photos?: OfferPhoto[] | null;
   amenities?: OfferAmenity[] | null;
+  isLiked?: boolean;
 }
 
 export interface CreateOfferData {

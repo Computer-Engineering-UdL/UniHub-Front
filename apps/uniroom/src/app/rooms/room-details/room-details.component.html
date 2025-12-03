@@ -74,6 +74,18 @@
           <span class="price">{{ room.priceFormatted }}</span>
           <span class="period">{{ 'ROOM.PER_MONTH' | translate }}</span>
         </div>
+
+        <!-- LIKES -->
+        <div class="details-like">
+          <ion-button
+            fill="clear"
+            (click)="toggleLike()"
+            [title]="isLiked ? ('ROOM.UNLIKE' | translate) : ('ROOM.LIKE' | translate)">
+            <ion-icon
+              [name]="isLiked ? 'heart' : 'heart-outline'"
+              [color]="isLiked ? 'danger' : 'medium'"></ion-icon>
+          </ion-button>
+        </div>
       </div>
 
       @if (room.photos.length > 0) {
