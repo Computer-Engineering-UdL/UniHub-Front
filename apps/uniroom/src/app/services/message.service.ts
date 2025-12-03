@@ -65,12 +65,21 @@ export class MessageService implements OnDestroy {
 
   private handleNewMessage(message: Message): void {
     const currentMessages: Message[] = this.messagesSubject.value;
-    const messageExists: boolean = currentMessages.some((m: Message): boolean => m.id === message.id);
+    const messageIndex: number = currentMessages.findIndex((m: Message): boolean => m.id === message.id);
 
-    if (!messageExists) {
-      this.messagesSubject.next([...currentMessages, message]);
+    let updatedMessages: Message[];
+    if (messageIndex === -1) {
+      updatedMessages = [...currentMessages, message];
+    } else {
+      updatedMessages = [...currentMessages];
+      updatedMessages[messageIndex] = message;
     }
 
+    updatedMessages.sort((a: Message, b: Message): number => {
+      return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+    });
+
+    this.messagesSubject.next(updatedMessages);
     this.updateConversationLastMessage(message);
   }
 
@@ -192,7 +201,11 @@ export class MessageService implements OnDestroy {
   getMessages(conversationId: string, skip: number = 0, limit: number = 100): Observable<Message[]> {
     return this.apiService.get<Message[]>(`conversation/${conversationId}/messages?skip=${skip}&limit=${limit}`).pipe(
       tap((messages: Message[]): void => {
-        this.messagesSubject.next(messages);
+        const sortedMessages = [...messages];
+        sortedMessages.sort((a: Message, b: Message): number => {
+          return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+        });
+        this.messagesSubject.next(sortedMessages);
       })
     );
   }

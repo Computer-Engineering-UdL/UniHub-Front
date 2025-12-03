@@ -36,7 +36,7 @@
 
     <div class="messages-list" *ngIf="messages.length > 0">
       <div
-        *ngFor="let message of messages"
+        *ngFor="let message of messages; trackBy: trackByMessageId"
         class="message-wrapper"
         [class.my-message]="isMyMessage(message)"
         [class.other-message]="!isMyMessage(message)">
