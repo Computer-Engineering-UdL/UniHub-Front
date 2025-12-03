@@ -74,8 +74,9 @@ export class MessageService implements OnDestroy {
       message.created_at = new Date().toISOString();
     }
 
+    const currentMessages: Message[] = this.messagesSubject.value;
+
     if (this.activeConversationId === message.conversation_id) {
-      const currentMessages: Message[] = this.messagesSubject.value;
       const messageIndex: number = currentMessages.findIndex((m: Message): boolean => m.id === message.id);
 
       let updatedMessages: Message[];
@@ -214,12 +215,18 @@ export class MessageService implements OnDestroy {
   getMessages(conversationId: string, skip: number = 0, limit: number = 100): Observable<Message[]> {
     return this.apiService.get<Message[]>(`conversation/${conversationId}/messages?skip=${skip}&limit=${limit}`).pipe(
       tap((messages: Message[]): void => {
-        this.activeConversationId = conversationId;
-        const sortedMessages = [...messages];
-        sortedMessages.sort((a: Message, b: Message): number => {
+        const currentMessages = this.messagesSubject.value;
+        const messageMap = new Map<string, Message>();
+
+        currentMessages.forEach(m => messageMap.set(m.id, m));
+        messages.forEach(m => messageMap.set(m.id, m));
+
+        const mergedMessages = Array.from(messageMap.values());
+        mergedMessages.sort((a: Message, b: Message): number => {
           return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
         });
-        this.messagesSubject.next(sortedMessages);
+
+        this.messagesSubject.next(mergedMessages);
       })
     );
   }
@@ -342,10 +349,12 @@ export class MessageService implements OnDestroy {
 
   setActiveConversation(conversationId: string | null): void {
     this.activeConversationId = conversationId;
+    if (conversationId) {
+      this.messagesSubject.next([]);
+    }
   }
 
   clearMessages(): void {
     this.messagesSubject.next([]);
-    this.activeConversationId = null;
   }
 }

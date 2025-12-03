@@ -78,7 +78,13 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
 
   private subscribeToMessages(): void {
     this.messageService.messages$.pipe(takeUntil(this.conversationDestroy$)).subscribe((messages: Message[]): void => {
-      this.messages = messages.filter((m) => m.conversation_id === this.conversationId);
+      const previousCount = this.messages.length;
+      this.messages = [...messages];
+
+      if (previousCount > 0 && messages.length > previousCount) {
+        this.markConversationAsRead();
+      }
+
       setTimeout((): void => {
         void this.scrollToBottom();
       }, 100);
@@ -95,7 +101,6 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
         this.conversationId = newConversationId;
         this.messages = [];
         this.loading = true;
-        this.messageService.clearMessages();
         this.messageService.setActiveConversation(newConversationId);
         this.subscribeToMessages();
         this.loadConversation();
