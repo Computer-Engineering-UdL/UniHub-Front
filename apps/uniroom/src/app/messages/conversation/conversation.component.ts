@@ -47,6 +47,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   private notificationService: NotificationService = inject(NotificationService);
   private router: Router = inject(Router);
   private destroy$: Subject<void> = new Subject<void>();
+  private conversationDestroy$: Subject<void> = new Subject<void>();
 
   messages: Message[] = [];
   conversation: Conversation | null = null;
@@ -62,9 +63,9 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
     this.currentUser = this.authService.currentUser;
 
     if (this.conversationId) {
+      this.subscribeToMessages();
       this.loadConversation();
       this.loadMessages();
-      this.subscribeToMessages();
     }
 
     if (this.isMobile) {
@@ -75,10 +76,8 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private subscribeToMessages(): void {
-    this.messageService.messages$.pipe(takeUntil(this.destroy$)).subscribe((messages: Message[]): void => {
-      this.messages = messages.sort((a: Message, b: Message): number => {
-        return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
-      });
+    this.messageService.messages$.pipe(takeUntil(this.conversationDestroy$)).subscribe((messages: Message[]): void => {
+      this.messages = [...messages];
       setTimeout((): void => {
         void this.scrollToBottom();
       }, 100);
@@ -89,10 +88,14 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
     if (changes['conversationId']) {
       const newConversationId: string = changes['conversationId'].currentValue;
       if (newConversationId && newConversationId !== changes['conversationId'].previousValue) {
+        this.conversationDestroy$.next();
+        this.conversationDestroy$ = new Subject<void>();
+
         this.conversationId = newConversationId;
         this.messages = [];
         this.loading = true;
         this.messageService.clearMessages();
+        this.subscribeToMessages();
         this.loadConversation();
         this.loadMessages();
       }
@@ -100,6 +103,8 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy(): void {
+    this.conversationDestroy$.next();
+    this.conversationDestroy$.complete();
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -109,13 +114,29 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   loadConversation(): void {
+    const conversations = this.messageService.getConversationsValue();
+    const foundConversation = conversations.find((c) => c.id === this.conversationId);
+
+    if (foundConversation) {
+      this.conversation = foundConversation;
+      this.otherUser = foundConversation.other_user || null;
+      return;
+    }
+
     this.messageService
       .getConversation(this.conversationId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (conversation: Conversation): void => {
           this.conversation = conversation;
-          this.otherUser = null;
+
+          const currentUserId = this.currentUser?.id;
+          if (currentUserId) {
+            const otherUserId = conversation.user1_id === currentUserId ? conversation.user2_id : conversation.user1_id;
+            this.otherUser = { id: otherUserId } as User;
+          } else {
+            this.otherUser = null;
+          }
         },
         error: (_): void => {
           this.loading = false;
@@ -179,6 +200,10 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
 
   isMyMessage(message: Message): boolean {
     return message.sender_id === this.currentUser?.id;
+  }
+
+  trackByMessageId(_index: number, message: Message): string {
+    return message.id;
   }
 
   getUserAvatar(user: User | undefined): string {
