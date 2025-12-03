@@ -19,7 +19,9 @@
           <h1>{{ item.title }}</h1>
           <div class="meta">
             <ion-chip color="primary" outline>{{ item.category }}</ion-chip>
-            <ion-chip color="medium" outline>{{ ('UNI_ITEMS.CONDITION_LABELS.' + item.condition) | translate }}</ion-chip>
+            <ion-chip color="medium" outline
+              >{{ ('UNI_ITEMS.CONDITION_LABELS.' + item.condition) | translate }}</ion-chip
+            >
           </div>
           <div class="location">
             <ion-icon name="location-outline"></ion-icon>
@@ -61,7 +63,9 @@
         </ion-card-header>
         <ion-card-content class="seller-card">
           <div>
-            <p class="seller-name">{{ item.ownerName || ('UNI_ITEMS.DETAIL.UNKNOWN_SELLER' | translate) }}</p>
+            <p class="seller-name">
+              {{ item.ownerName || ('UNI_ITEMS.DETAIL.UNKNOWN_SELLER' | translate) }}
+            </p>
             <p class="subtle" *ngIf="item.createdAt">
               {{ 'UNI_ITEMS.DETAIL.POSTED_ON' | translate }} {{ item.createdAt | date }}
             </p>

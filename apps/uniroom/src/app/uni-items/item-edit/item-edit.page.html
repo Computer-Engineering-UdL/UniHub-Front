@@ -1,7 +1,8 @@
 <ion-content [fullscreen]="true">
   <div class="item-edit-container">
     <h1>
-      {{ isEditMode ? ('UNI_ITEMS.FORM.TITLE_EDIT' | translate) : ('UNI_ITEMS.FORM.TITLE_NEW' | translate) }}
+      {{ isEditMode ? ('UNI_ITEMS.FORM.TITLE_EDIT' | translate) : ('UNI_ITEMS.FORM.TITLE_NEW' |
+      translate) }}
     </h1>
 
     <form [formGroup]="form" (ngSubmit)="submit()" class="item-form">
@@ -19,7 +20,9 @@
         <ion-item lines="none">
           <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.CATEGORY' | translate }}</ion-label>
           <ion-select interface="popover" formControlName="category">
-            <ion-select-option *ngFor="let category of categories" [value]="category">{{ category }}</ion-select-option>
+            <ion-select-option *ngFor="let category of categories" [value]="category"
+              >{{ category }}</ion-select-option
+            >
           </ion-select>
         </ion-item>
 
@@ -83,7 +86,8 @@
 
       <div class="form-actions">
         <ion-button type="submit" color="primary" [disabled]="loading">
-          {{ isEditMode ? ('UNI_ITEMS.FORM.SAVE_CHANGES' | translate) : ('UNI_ITEMS.FORM.CREATE' | translate) }}
+          {{ isEditMode ? ('UNI_ITEMS.FORM.SAVE_CHANGES' | translate) : ('UNI_ITEMS.FORM.CREATE' |
+          translate) }}
         </ion-button>
         <ion-button fill="clear" color="medium" [disabled]="loading" (click)="cancel()">
           {{ 'UNI_ITEMS.FORM.CANCEL' | translate }}

@@ -82,11 +82,13 @@ export class ItemsListPage implements OnInit {
 
     try {
       const response = await firstValueFrom(this.uniItemsService.getItems(query));
-      const mapped: UniItemViewModel[] = response.items.map((item: UniItem): UniItemViewModel => ({
-        ...item,
-        priceFormatted: this.localization.formatPrice(item.price, item.currency),
-        primaryImage: item.images?.[0] ?? null
-      }));
+      const mapped: UniItemViewModel[] = response.items.map(
+        (item: UniItem): UniItemViewModel => ({
+          ...item,
+          priceFormatted: this.localization.formatPrice(item.price, item.currency),
+          primaryImage: item.images?.[0] ?? null
+        })
+      );
 
       this.items = reset ? mapped : [...this.items, ...mapped];
       this.total = response.total;

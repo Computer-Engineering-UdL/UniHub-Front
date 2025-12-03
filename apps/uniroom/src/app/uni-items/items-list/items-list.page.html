@@ -6,7 +6,11 @@
       <div class="filters-header">
         <h3>{{ 'UNI_ITEMS.FILTERS.TITLE' | translate }}</h3>
         <div class="filter-header-actions">
-          <ion-button class="close-filters-mobile" fill="clear" size="small" (click)="closeFilters()">
+          <ion-button
+            class="close-filters-mobile"
+            fill="clear"
+            size="small"
+            (click)="closeFilters()">
             <ion-icon slot="icon-only" name="close-outline"></ion-icon>
           </ion-button>
           <ion-button fill="clear" size="small" (click)="clearFilters()">
@@ -90,9 +94,15 @@
       <div class="filter-section">
         <label class="filter-label">{{ 'UNI_ITEMS.FILTERS.SORT' | translate }}</label>
         <ion-select interface="popover" [(ngModel)]="filters.sort" (ionChange)="applyFilters()">
-          <ion-select-option value="newest">{{ 'UNI_ITEMS.SORT.NEWEST' | translate }}</ion-select-option>
-          <ion-select-option value="price_asc">{{ 'UNI_ITEMS.SORT.PRICE_LOW' | translate }}</ion-select-option>
-          <ion-select-option value="price_desc">{{ 'UNI_ITEMS.SORT.PRICE_HIGH' | translate }}</ion-select-option>
+          <ion-select-option value="newest"
+            >{{ 'UNI_ITEMS.SORT.NEWEST' | translate }}</ion-select-option
+          >
+          <ion-select-option value="price_asc"
+            >{{ 'UNI_ITEMS.SORT.PRICE_LOW' | translate }}</ion-select-option
+          >
+          <ion-select-option value="price_desc"
+            >{{ 'UNI_ITEMS.SORT.PRICE_HIGH' | translate }}</ion-select-option
+          >
         </ion-select>
       </div>
     </aside>
@@ -101,7 +111,9 @@
       <div class="section-header">
         <div class="header-info">
           <h2>{{ 'UNI_ITEMS.TITLE' | translate }}</h2>
-          <ion-chip color="primary" class="count-chip">{{ total }} {{ 'UNI_ITEMS.LIST.COUNT' | translate }}</ion-chip>
+          <ion-chip color="primary" class="count-chip"
+            >{{ total }} {{ 'UNI_ITEMS.LIST.COUNT' | translate }}</ion-chip
+          >
         </div>
         <div class="header-actions">
           <ion-button class="toggle-filters-mobile" fill="outline" (click)="openFilters()">
