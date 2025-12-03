@@ -74,9 +74,9 @@ export class RoomsComponent implements OnInit {
     search: '',
     minPrice: null,
     maxPrice: null,
-    priceRange: {lower: 0, upper: 2000},
+    priceRange: { lower: 0, upper: 2000 },
     city: '',
-    areaRange: {lower: 0, upper: 200},
+    areaRange: { lower: 0, upper: 200 },
     status: '',
     sortBy: 'date_desc',
     showOnlyLiked: false
@@ -86,7 +86,7 @@ export class RoomsComponent implements OnInit {
   public thousandSeparator: string = ',';
   public showComparisonSection: boolean = false;
   public comparisonLoading: boolean = false;
-  public compareSelection: { first: string | null; second: string | null } = {first: null, second: null};
+  public compareSelection: { first: string | null; second: string | null } = { first: null, second: null };
   public comparisonOffers: { first: ComparisonOffer | null; second: ComparisonOffer | null } = {
     first: null,
     second: null
@@ -265,9 +265,7 @@ export class RoomsComponent implements OnInit {
     }
 
     if (this.filters.showOnlyLiked) {
-      filtered = filtered.filter(
-        (offer: OfferListItem): boolean => this.likedIds.has(offer.id)
-      );
+      filtered = filtered.filter((offer: OfferListItem): boolean => this.likedIds.has(offer.id));
     }
 
     filtered = this.sortOffers(filtered);
@@ -285,8 +283,8 @@ export class RoomsComponent implements OnInit {
   }
 
   public resetComparisonSelection(): void {
-    this.compareSelection = {first: null, second: null};
-    this.comparisonOffers = {first: null, second: null};
+    this.compareSelection = { first: null, second: null };
+    this.comparisonOffers = { first: null, second: null };
     this.comparisonLoading = false;
   }
 
@@ -487,9 +485,9 @@ export class RoomsComponent implements OnInit {
       search: '',
       minPrice: null,
       maxPrice: null,
-      priceRange: {lower: 0, upper: this.maxAvailablePrice},
+      priceRange: { lower: 0, upper: this.maxAvailablePrice },
       city: '',
-      areaRange: {lower: 0, upper: this.maxAvailableArea},
+      areaRange: { lower: 0, upper: this.maxAvailableArea },
       status: '',
       sortBy: 'date_desc',
       showOnlyLiked: false
@@ -553,7 +551,7 @@ export class RoomsComponent implements OnInit {
       header: this.translate.instant('ROOM.DELETE_CONFIRM_TITLE'),
       message: this.translate.instant('ROOM.DELETE_CONFIRM_MESSAGE'),
       buttons: [
-        {text: this.translate.instant('COMMON.CANCEL'), role: 'cancel'},
+        { text: this.translate.instant('COMMON.CANCEL'), role: 'cancel' },
         {
           text: this.translate.instant('COMMON.DELETE') || 'Delete',
           cssClass: 'danger-btn',
@@ -650,7 +648,7 @@ export class RoomsComponent implements OnInit {
 
     await modal.present();
 
-    const {data, role} = await modal.onWillDismiss();
+    const { data, role } = await modal.onWillDismiss();
 
     if (role === 'created' && data) {
       await this.loadOffers();
@@ -676,7 +674,7 @@ export class RoomsComponent implements OnInit {
     });
 
     await alert.present();
-    const {role} = await alert.onDidDismiss();
+    const { role } = await alert.onDidDismiss();
     return role === 'destructive';
   }
 
