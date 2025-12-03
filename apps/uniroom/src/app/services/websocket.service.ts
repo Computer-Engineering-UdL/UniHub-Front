@@ -32,7 +32,6 @@ export class WebSocketService {
   async connect(): Promise<void> {
     const token: string | null = await this.authService.getToken();
     if (!token) {
-      console.warn('[WebSocket] No token available, cannot connect');
       return;
     }
 
@@ -46,13 +45,10 @@ export class WebSocketService {
     }
     const wsEndpoint: string = `${normalizedWsUrl}/ws?token=${encodedToken}`;
 
-    console.log('[WebSocket] Attempting to connect to:', wsEndpoint);
-
     try {
       this.socket = new WebSocket(wsEndpoint);
 
       this.socket.onopen = (): void => {
-        console.log('[WebSocket] Connected successfully to:', wsEndpoint);
         this.connectionStatusSubject.next(true);
         this.reconnectAttempts = 0;
         if (this.reconnectTimer) {
@@ -62,19 +58,15 @@ export class WebSocketService {
       };
 
       this.socket.onmessage = (event: MessageEvent): void => {
-        console.log('[WebSocket] Raw message received:', event.data);
         const message: WebSocketMessage = JSON.parse(event.data);
-        console.log('[WebSocket] Parsed message:', message);
         this.messageSubject.next(message);
       };
 
-      this.socket.onerror = (error: Event): void => {
-        console.error('[WebSocket] Error:', error);
+      this.socket.onerror = (_error: Event): void => {
         this.connectionStatusSubject.next(false);
       };
 
-      this.socket.onclose = (event: CloseEvent): void => {
-        console.log('[WebSocket] Connection closed:', event.code, event.reason);
+      this.socket.onclose = (_event: CloseEvent): void => {
         this.connectionStatusSubject.next(false);
         this.attemptReconnect();
       };
