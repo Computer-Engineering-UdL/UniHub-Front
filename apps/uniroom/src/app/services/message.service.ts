@@ -74,9 +74,8 @@ export class MessageService implements OnDestroy {
       message.created_at = new Date().toISOString();
     }
 
-    const currentMessages: Message[] = this.messagesSubject.value;
-
     if (this.activeConversationId === message.conversation_id) {
+      const currentMessages: Message[] = this.messagesSubject.value;
       const messageIndex: number = currentMessages.findIndex((m: Message): boolean => m.id === message.id);
 
       let updatedMessages: Message[];
@@ -349,9 +348,6 @@ export class MessageService implements OnDestroy {
 
   setActiveConversation(conversationId: string | null): void {
     this.activeConversationId = conversationId;
-    if (conversationId) {
-      this.messagesSubject.next([]);
-    }
   }
 
   clearMessages(): void {

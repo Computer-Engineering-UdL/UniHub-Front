@@ -101,6 +101,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
         this.conversationId = newConversationId;
         this.messages = [];
         this.loading = true;
+        this.messageService.clearMessages();
         this.messageService.setActiveConversation(newConversationId);
         this.subscribeToMessages();
         this.loadConversation();
