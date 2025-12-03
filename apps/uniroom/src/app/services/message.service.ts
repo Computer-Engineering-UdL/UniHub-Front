@@ -29,6 +29,8 @@ export class MessageService implements OnDestroy {
   private readonly messagesSubject: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
   public readonly messages$: Observable<Message[]> = this.messagesSubject.asObservable();
 
+  private activeConversationId: string | null = null;
+
   constructor() {
     this.initializeWebSocket();
   }
@@ -64,22 +66,33 @@ export class MessageService implements OnDestroy {
   }
 
   private handleNewMessage(message: Message): void {
-    const currentMessages: Message[] = this.messagesSubject.value;
-    const messageIndex: number = currentMessages.findIndex((m: Message): boolean => m.id === message.id);
-
-    let updatedMessages: Message[];
-    if (messageIndex === -1) {
-      updatedMessages = [...currentMessages, message];
-    } else {
-      updatedMessages = [...currentMessages];
-      updatedMessages[messageIndex] = message;
+    if (!message?.id || !message.conversation_id || !message.sender_id) {
+      return;
     }
 
-    updatedMessages.sort((a: Message, b: Message): number => {
-      return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
-    });
+    if (!message.created_at) {
+      message.created_at = new Date().toISOString();
+    }
 
-    this.messagesSubject.next(updatedMessages);
+    if (this.activeConversationId === message.conversation_id) {
+      const currentMessages: Message[] = this.messagesSubject.value;
+      const messageIndex: number = currentMessages.findIndex((m: Message): boolean => m.id === message.id);
+
+      let updatedMessages: Message[];
+      if (messageIndex === -1) {
+        updatedMessages = [...currentMessages, message];
+      } else {
+        updatedMessages = [...currentMessages];
+        updatedMessages[messageIndex] = message;
+      }
+
+      updatedMessages.sort((a: Message, b: Message): number => {
+        return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+      });
+
+      this.messagesSubject.next(updatedMessages);
+    }
+
     this.updateConversationLastMessage(message);
   }
 
@@ -201,6 +214,7 @@ export class MessageService implements OnDestroy {
   getMessages(conversationId: string, skip: number = 0, limit: number = 100): Observable<Message[]> {
     return this.apiService.get<Message[]>(`conversation/${conversationId}/messages?skip=${skip}&limit=${limit}`).pipe(
       tap((messages: Message[]): void => {
+        this.activeConversationId = conversationId;
         const sortedMessages = [...messages];
         sortedMessages.sort((a: Message, b: Message): number => {
           return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
@@ -328,5 +342,6 @@ export class MessageService implements OnDestroy {
 
   clearMessages(): void {
     this.messagesSubject.next([]);
+    this.activeConversationId = null;
   }
 }
