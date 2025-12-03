@@ -24,7 +24,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     { translationKey: 'SIDEBAR.HOME', route: '/home', icon: 'home-outline' },
     { translationKey: 'SIDEBAR.CHANNELS', route: '/channels', icon: 'chatbubbles-outline' },
     { translationKey: 'SIDEBAR.UNIROOM', route: '/rooms', icon: 'business-outline' },
-    { translationKey: 'SIDEBAR.UNIITEMS', route: '/uniitems', icon: 'cube-outline' },
+    { translationKey: 'SIDEBAR.UNIITEMS', route: '/items', icon: 'cube-outline' },
     { translationKey: 'SIDEBAR.UNISERVICES', route: '/uniservices', icon: 'construct-outline' },
     { translationKey: 'SIDEBAR.UNICAR', route: '/unicar', icon: 'car-outline' },
     { translationKey: 'SIDEBAR.UNIBORSA', route: '/uniborsa', icon: 'briefcase-outline' },
@@ -77,7 +77,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   burgerMenuItems: NavItem[] = [
     { translationKey: 'SIDEBAR.CHANNELS', route: '/channels', icon: 'chatbubbles-outline' },
     { translationKey: 'SIDEBAR.UNIROOM', route: '/rooms', icon: 'business-outline' },
-    { translationKey: 'SIDEBAR.UNIITEMS', route: '/uniitems', icon: 'cube-outline' },
+    { translationKey: 'SIDEBAR.UNIITEMS', route: '/items', icon: 'cube-outline' },
     { translationKey: 'SIDEBAR.UNISERVICES', route: '/uniservices', icon: 'construct-outline' },
     { translationKey: 'SIDEBAR.UNICAR', route: '/unicar', icon: 'car-outline' },
     { translationKey: 'SIDEBAR.UNIBORSA', route: '/uniborsa', icon: 'briefcase-outline' }
@@ -114,7 +114,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.burgerMenuItems = [
         { translationKey: 'SIDEBAR.CHANNELS', route: '/channels', icon: 'chatbubbles-outline' },
         { translationKey: 'SIDEBAR.UNIROOM', route: '/rooms', icon: 'business-outline' },
-        { translationKey: 'SIDEBAR.UNIITEMS', route: '/uniitems', icon: 'cube-outline' },
+        { translationKey: 'SIDEBAR.UNIITEMS', route: '/items', icon: 'cube-outline' },
         { translationKey: 'SIDEBAR.UNISERVICES', route: '/uniservices', icon: 'construct-outline' },
         { translationKey: 'SIDEBAR.UNICAR', route: '/unicar', icon: 'car-outline' },
         { translationKey: 'SIDEBAR.UNIBORSA', route: '/uniborsa', icon: 'briefcase-outline' }

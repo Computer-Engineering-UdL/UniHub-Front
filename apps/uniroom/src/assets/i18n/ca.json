@@ -306,7 +306,8 @@
     "ROOMS": "Habitacions",
     "PROFILE": "Perfil",
     "CHANNELS": "Canals",
-    "MESSAGES": "Missatges"
+    "MESSAGES": "Missatges",
+    "UNIITEMS": "Objectes"
   },
   "ROOM": {
     "TITLE": "Habitacions",
@@ -855,6 +856,84 @@
       "NO_RESULTS": "No s'han trobat usuaris",
       "ERROR_SEARCH": "Error al buscar usuaris",
       "ERROR_CREATE": "Error al crear la conversa"
+    }
+  },
+  "UNI_ITEMS": {
+    "TITLE": "UniItems",
+    "LIST": {
+      "COUNT": "articles",
+      "NEW_LISTING": "Nou anunci",
+      "EMPTY": "No s'han trobat articles. Ajusta els filtres.",
+      "ERROR": "Hi ha hagut un problema en carregar els articles"
+    },
+    "FILTERS": {
+      "TITLE": "Filtres",
+      "SEARCH": "Cercar",
+      "SEARCH_PLACEHOLDER": "Cercar articles",
+      "CATEGORY": "Categoria",
+      "CONDITION": "Estat",
+      "ANY_CONDITION": "Qualsevol estat",
+      "PRICE_RANGE": "Rang de preu",
+      "MIN_PRICE": "Preu mínim",
+      "MAX_PRICE": "Preu màxim",
+      "LOCATION": "Ubicació",
+      "LOCATION_PLACEHOLDER": "Ciutat o campus",
+      "SORT": "Ordenar",
+      "CLEAR": "Netejar filtres"
+    },
+    "SORT": {
+      "NEWEST": "Més nous",
+      "PRICE_LOW": "Preu: de menor a major",
+      "PRICE_HIGH": "Preu: de major a menor"
+    },
+    "CONDITION_LABELS": {
+      "new": "Nou",
+      "like_new": "Com nou",
+      "good": "Bon estat",
+      "used": "Usat",
+      "for_parts": "Per peces"
+    },
+    "DETAIL": {
+      "TITLE": "Detall de l'article",
+      "DESCRIPTION": "Descripció",
+      "SELLER": "Venedor",
+      "UNKNOWN_SELLER": "Venedor desconegut",
+      "POSTED_ON": "Publicat el",
+      "UPDATED": "Actualitzat",
+      "CONTACT_SELLER": "Contactar venedor",
+      "CONTACT_SUCCESS": "Conversa creada",
+      "CONTACT_ERROR": "No s'ha pogut iniciar la conversa",
+      "EDIT": "Editar anunci",
+      "DELETE": "Eliminar",
+      "DELETE_TITLE": "Eliminar anunci",
+      "DELETE_MESSAGE": "Segur que vols eliminar aquest article?",
+      "DELETE_CANCEL": "Cancel·lar",
+      "DELETE_CONFIRM": "Eliminar",
+      "DELETE_SUCCESS": "Article eliminat",
+      "DELETE_ERROR": "No s'ha pogut eliminar l'article",
+      "ERROR": "No s'ha pogut carregar aquest article"
+    },
+    "FORM": {
+      "TITLE_NEW": "Crear article",
+      "TITLE_EDIT": "Editar article",
+      "TITLE": "Títol",
+      "DESCRIPTION": "Descripció",
+      "CATEGORY": "Categoria",
+      "CONDITION": "Estat",
+      "PRICE": "Preu",
+      "CURRENCY": "Moneda",
+      "LOCATION": "Ubicació",
+      "IMAGES": "Imatges",
+      "ADD_IMAGE": "Afegir imatge",
+      "IMAGE_URL": "URL de la imatge",
+      "ACTIVE": "Anunci actiu",
+      "CREATE": "Crear",
+      "SAVE_CHANGES": "Desar canvis",
+      "CANCEL": "Cancel·lar",
+      "SUCCESS_CREATE": "Article creat",
+      "SUCCESS_EDIT": "Article actualitzat",
+      "ERROR_SAVE": "No s'ha pogut desar l'article",
+      "ERROR_LOAD": "No s'ha pogut carregar l'article"
     }
   },
   "TIME": {

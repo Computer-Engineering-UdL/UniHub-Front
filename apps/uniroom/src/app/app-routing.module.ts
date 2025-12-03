@@ -29,6 +29,11 @@ const routes: Routes = [
     data: { public: true, titleKey: 'TOPBAR.ROOMS' }
   },
   {
+    path: 'items',
+    loadChildren: () => import('./uni-items/uni-items.module').then((m) => m.UniItemsModule),
+    data: { public: true, titleKey: 'TOPBAR.UNIITEMS' }
+  },
+  {
     path: 'channels',
     loadChildren: () => import('./channels/channels.module').then((m) => m.ChannelsModule),
     data: { titleKey: 'TOPBAR.CHANNELS' }

@@ -306,7 +306,8 @@
     "ROOMS": "Habitaciones",
     "PROFILE": "Perfil",
     "CHANNELS": "Canales",
-    "MESSAGES": "Mensajes"
+    "MESSAGES": "Mensajes",
+    "UNIITEMS": "Objetos"
   },
   "ROOM": {
     "TITLE": "Habitaciones",
@@ -856,6 +857,84 @@
     "SUCCESS": {
       "MESSAGE_SENT": "Mensaje enviado",
       "CONVERSATION_DELETED": "Conversación eliminada"
+    }
+  },
+  "UNI_ITEMS": {
+    "TITLE": "UniItems",
+    "LIST": {
+      "COUNT": "artículos",
+      "NEW_LISTING": "Nueva publicación",
+      "EMPTY": "No se han encontrado artículos. Ajusta los filtros.",
+      "ERROR": "Hubo un problema al cargar los artículos"
+    },
+    "FILTERS": {
+      "TITLE": "Filtros",
+      "SEARCH": "Buscar",
+      "SEARCH_PLACEHOLDER": "Buscar artículos",
+      "CATEGORY": "Categoría",
+      "CONDITION": "Estado",
+      "ANY_CONDITION": "Cualquier estado",
+      "PRICE_RANGE": "Rango de precio",
+      "MIN_PRICE": "Precio mínimo",
+      "MAX_PRICE": "Precio máximo",
+      "LOCATION": "Ubicación",
+      "LOCATION_PLACEHOLDER": "Ciudad o campus",
+      "SORT": "Ordenar",
+      "CLEAR": "Borrar filtros"
+    },
+    "SORT": {
+      "NEWEST": "Más recientes",
+      "PRICE_LOW": "Precio: de menor a mayor",
+      "PRICE_HIGH": "Precio: de mayor a menor"
+    },
+    "CONDITION_LABELS": {
+      "new": "Nuevo",
+      "like_new": "Como nuevo",
+      "good": "Buen estado",
+      "used": "Usado",
+      "for_parts": "Para piezas"
+    },
+    "DETAIL": {
+      "TITLE": "Detalle del artículo",
+      "DESCRIPTION": "Descripción",
+      "SELLER": "Vendedor",
+      "UNKNOWN_SELLER": "Vendedor desconocido",
+      "POSTED_ON": "Publicado el",
+      "UPDATED": "Actualizado",
+      "CONTACT_SELLER": "Contactar vendedor",
+      "CONTACT_SUCCESS": "Conversación creada",
+      "CONTACT_ERROR": "No se pudo iniciar la conversación",
+      "EDIT": "Editar anuncio",
+      "DELETE": "Eliminar",
+      "DELETE_TITLE": "Eliminar anuncio",
+      "DELETE_MESSAGE": "¿Seguro que quieres eliminar este artículo?",
+      "DELETE_CANCEL": "Cancelar",
+      "DELETE_CONFIRM": "Eliminar",
+      "DELETE_SUCCESS": "Artículo eliminado",
+      "DELETE_ERROR": "No se pudo eliminar el artículo",
+      "ERROR": "No se pudo cargar este artículo"
+    },
+    "FORM": {
+      "TITLE_NEW": "Crear artículo",
+      "TITLE_EDIT": "Editar artículo",
+      "TITLE": "Título",
+      "DESCRIPTION": "Descripción",
+      "CATEGORY": "Categoría",
+      "CONDITION": "Estado",
+      "PRICE": "Precio",
+      "CURRENCY": "Moneda",
+      "LOCATION": "Ubicación",
+      "IMAGES": "Imágenes",
+      "ADD_IMAGE": "Añadir imagen",
+      "IMAGE_URL": "URL de la imagen",
+      "ACTIVE": "Anuncio activo",
+      "CREATE": "Crear",
+      "SAVE_CHANGES": "Guardar cambios",
+      "CANCEL": "Cancelar",
+      "SUCCESS_CREATE": "Artículo creado",
+      "SUCCESS_EDIT": "Artículo actualizado",
+      "ERROR_SAVE": "No se pudo guardar el artículo",
+      "ERROR_LOAD": "No se pudo cargar el artículo"
     }
   },
   "TIME": {

@@ -1,0 +1,82 @@
+<ion-content [fullscreen]="true">
+  <div class="item-detail-container" *ngIf="item; else loadingState">
+    <div class="gallery" *ngIf="item.images?.length; else noImages">
+      <swiper-container [pagination]="true">
+        <swiper-slide *ngFor="let image of item.images">
+          <img [src]="image" [alt]="item.title" />
+        </swiper-slide>
+      </swiper-container>
+    </div>
+    <ng-template #noImages>
+      <div class="gallery no-image">
+        <ion-icon name="cube-outline"></ion-icon>
+      </div>
+    </ng-template>
+
+    <div class="item-content">
+      <div class="title-row">
+        <div>
+          <h1>{{ item.title }}</h1>
+          <div class="meta">
+            <ion-chip color="primary" outline>{{ item.category }}</ion-chip>
+            <ion-chip color="medium" outline>{{ ('UNI_ITEMS.CONDITION_LABELS.' + item.condition) | translate }}</ion-chip>
+          </div>
+          <div class="location">
+            <ion-icon name="location-outline"></ion-icon>
+            <span>{{ item.location }}</span>
+          </div>
+        </div>
+        <div class="price">{{ item.priceFormatted }}</div>
+      </div>
+
+      <div class="actions">
+        <ion-button color="primary" (click)="contactSeller()" [disabled]="contacting">
+          <ion-icon slot="start" name="chatbubbles-outline"></ion-icon>
+          {{ 'UNI_ITEMS.DETAIL.CONTACT_SELLER' | translate }}
+        </ion-button>
+        <div class="owner-actions" *ngIf="isOwner">
+          <ion-button fill="outline" color="medium" (click)="editItem()">
+            <ion-icon slot="start" name="create-outline"></ion-icon>
+            {{ 'UNI_ITEMS.DETAIL.EDIT' | translate }}
+          </ion-button>
+          <ion-button fill="outline" color="danger" (click)="deleteItem()">
+            <ion-icon slot="start" name="trash-outline"></ion-icon>
+            {{ 'UNI_ITEMS.DETAIL.DELETE' | translate }}
+          </ion-button>
+        </div>
+      </div>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ 'UNI_ITEMS.DETAIL.DESCRIPTION' | translate }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>{{ item.description }}</p>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ 'UNI_ITEMS.DETAIL.SELLER' | translate }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content class="seller-card">
+          <div>
+            <p class="seller-name">{{ item.ownerName || ('UNI_ITEMS.DETAIL.UNKNOWN_SELLER' | translate) }}</p>
+            <p class="subtle" *ngIf="item.createdAt">
+              {{ 'UNI_ITEMS.DETAIL.POSTED_ON' | translate }} {{ item.createdAt | date }}
+            </p>
+            <p class="subtle" *ngIf="item.updatedLabel">
+              {{ 'UNI_ITEMS.DETAIL.UPDATED' | translate }} {{ item.updatedLabel }}
+            </p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <ng-template #loadingState>
+    <div class="loading-state">
+      <ion-spinner></ion-spinner>
+    </div>
+  </ng-template>
+</ion-content>
