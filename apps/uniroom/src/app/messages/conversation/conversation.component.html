@@ -13,7 +13,7 @@
         </ion-avatar>
         <div class="header-info">
           <h3>{{ otherUser.firstName || otherUser.name }} {{ otherUser.lastName }}</h3>
-          <p>{{ 'ROLE.' + otherUser.role.toUpperCase() | translate }}</p>
+          <p *ngIf="otherUser.role">{{ 'ROLE.' + otherUser.role.toUpperCase() | translate }}</p>
         </div>
       </div>
     </ion-title>
