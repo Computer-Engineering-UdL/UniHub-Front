@@ -63,7 +63,6 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
     this.currentUser = this.authService.currentUser;
 
     if (this.conversationId) {
-      this.messageService.setActiveConversation(this.conversationId);
       this.subscribeToMessages();
       this.loadConversation();
       this.loadMessages();
@@ -78,10 +77,11 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
 
   private subscribeToMessages(): void {
     this.messageService.messages$.pipe(takeUntil(this.conversationDestroy$)).subscribe((messages: Message[]): void => {
+      const filteredMessages = messages.filter(m => m.conversation_id === this.conversationId);
       const previousCount = this.messages.length;
-      this.messages = [...messages];
+      this.messages = filteredMessages;
 
-      if (previousCount > 0 && messages.length > previousCount) {
+      if (previousCount > 0 && filteredMessages.length > previousCount) {
         this.markConversationAsRead();
       }
 
@@ -102,7 +102,6 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
         this.messages = [];
         this.loading = true;
         this.messageService.clearMessages();
-        this.messageService.setActiveConversation(newConversationId);
         this.subscribeToMessages();
         this.loadConversation();
         this.loadMessages();

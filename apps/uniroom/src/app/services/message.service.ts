@@ -29,7 +29,6 @@ export class MessageService implements OnDestroy {
   private readonly messagesSubject: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
   public readonly messages$: Observable<Message[]> = this.messagesSubject.asObservable();
 
-  private activeConversationId: string | null = null;
 
   constructor() {
     this.initializeWebSocket();
@@ -74,25 +73,22 @@ export class MessageService implements OnDestroy {
       message.created_at = new Date().toISOString();
     }
 
-    if (this.activeConversationId === message.conversation_id) {
-      const currentMessages: Message[] = this.messagesSubject.value;
-      const messageIndex: number = currentMessages.findIndex((m: Message): boolean => m.id === message.id);
+    const currentMessages: Message[] = this.messagesSubject.value;
+    const messageIndex: number = currentMessages.findIndex((m: Message): boolean => m.id === message.id);
 
-      let updatedMessages: Message[];
-      if (messageIndex === -1) {
-        updatedMessages = [...currentMessages, message];
-      } else {
-        updatedMessages = [...currentMessages];
-        updatedMessages[messageIndex] = message;
-      }
-
-      updatedMessages.sort((a: Message, b: Message): number => {
-        return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
-      });
-
-      this.messagesSubject.next(updatedMessages);
+    let updatedMessages: Message[];
+    if (messageIndex === -1) {
+      updatedMessages = [...currentMessages, message];
+    } else {
+      updatedMessages = [...currentMessages];
+      updatedMessages[messageIndex] = message;
     }
 
+    updatedMessages.sort((a: Message, b: Message): number => {
+      return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+    });
+
+    this.messagesSubject.next(updatedMessages);
     this.updateConversationLastMessage(message);
   }
 
@@ -215,17 +211,21 @@ export class MessageService implements OnDestroy {
     return this.apiService.get<Message[]>(`conversation/${conversationId}/messages?skip=${skip}&limit=${limit}`).pipe(
       tap((messages: Message[]): void => {
         const currentMessages = this.messagesSubject.value;
-        const messageMap = new Map<string, Message>();
+        const otherConversationMessages = currentMessages.filter(m => m.conversation_id !== conversationId);
+        const currentConversationMessages = currentMessages.filter(m => m.conversation_id === conversationId);
 
-        currentMessages.forEach((m) => messageMap.set(m.id, m));
+        const messageMap = new Map<string, Message>();
+        currentConversationMessages.forEach((m) => messageMap.set(m.id, m));
         messages.forEach((m) => messageMap.set(m.id, m));
 
-        const mergedMessages = Array.from(messageMap.values());
-        mergedMessages.sort((a: Message, b: Message): number => {
+        const mergedCurrentConversation = Array.from(messageMap.values());
+        const allMessages = [...otherConversationMessages, ...mergedCurrentConversation];
+
+        allMessages.sort((a: Message, b: Message): number => {
           return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
         });
 
-        this.messagesSubject.next(mergedMessages);
+        this.messagesSubject.next(allMessages);
       })
     );
   }
@@ -346,9 +346,6 @@ export class MessageService implements OnDestroy {
     return this.conversationsSubject.value;
   }
 
-  setActiveConversation(conversationId: string | null): void {
-    this.activeConversationId = conversationId;
-  }
 
   clearMessages(): void {
     this.messagesSubject.next([]);
