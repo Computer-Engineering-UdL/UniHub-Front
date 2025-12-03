@@ -5,7 +5,7 @@
     </ion-title>
 
     <ion-buttons slot="end">
-      <ion-button (click)="openNotifications()" fill="clear" class="notification-button">
+      <ion-button (click)="toggleNotificationPanel()" fill="clear" class="notification-button">
         <ion-icon name="notifications-outline" slot="icon-only"></ion-icon>
         <ion-badge *ngIf="notificationCount > 0" class="notification-badge">{{
           notificationCount
@@ -75,3 +75,55 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
+<div class="notification-panel" *ngIf="showNotificationPanel" [@slideIn]>
+  <div class="notification-overlay" (click)="closeNotificationPanel()"></div>
+  <div class="notification-content">
+    <div class="notification-header">
+      <h3>{{ 'NOTIFICATIONS.TITLE' | translate }}</h3>
+      <div class="notification-actions">
+        <ion-button
+          fill="clear"
+          size="small"
+          (click)="markAllAsRead()"
+          *ngIf="notificationCount > 0"
+          [title]="'NOTIFICATIONS.MARK_ALL_READ' | translate">
+          <ion-icon name="checkmark-done-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+        <ion-button
+          fill="clear"
+          size="small"
+          (click)="clearReadNotifications()"
+          [title]="'NOTIFICATIONS.CLEAR_READ' | translate">
+          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" size="small" (click)="closeNotificationPanel()">
+          <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+
+    <div class="notification-list" *ngIf="notifications.length > 0">
+      <div
+        class="notification-item"
+        *ngFor="let notification of notifications"
+        [class.unread]="!notification.read"
+        (click)="onNotificationClick(notification)">
+        <div class="notification-icon" [class]="'icon-' + notification.category">
+          <ion-icon [name]="getNotificationIcon(notification.icon)"></ion-icon>
+        </div>
+        <div class="notification-body">
+          <h4>{{ notification.title | translate }}</h4>
+          <p>{{ notification.message }}</p>
+          <span class="notification-time">{{ getTimeAgo(notification.timestamp) }}</span>
+        </div>
+        <div class="notification-indicator" *ngIf="!notification.read"></div>
+      </div>
+    </div>
+
+    <div class="notification-empty" *ngIf="notifications.length === 0">
+      <ion-icon name="notifications-off-outline"></ion-icon>
+      <p>{{ 'NOTIFICATIONS.NO_NOTIFICATIONS' | translate }}</p>
+    </div>
+  </div>
+</div>

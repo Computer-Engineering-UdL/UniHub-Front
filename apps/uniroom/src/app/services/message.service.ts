@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { User } from '../models/auth.types';
 import { WebSocketService, WebSocketMessage } from './websocket.service';
 import { resolveFileUrl } from '../utils/file-url.util';
+import { TopBarNotificationService } from './topbar-notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class MessageService implements OnDestroy {
   private readonly apiService: ApiService = inject(ApiService);
   private readonly authService: AuthService = inject(AuthService);
   private readonly wsService: WebSocketService = inject(WebSocketService);
+  private readonly topBarNotificationService: TopBarNotificationService = inject(TopBarNotificationService);
   private readonly destroy$: Subject<void> = new Subject<void>();
 
   private readonly conversationsSubject: BehaviorSubject<ConversationWithOtherUser[]> = new BehaviorSubject<
@@ -89,6 +91,30 @@ export class MessageService implements OnDestroy {
 
     this.messagesSubject.next(updatedMessages);
     this.updateConversationLastMessage(message);
+
+    const currentUserId = this.authService.currentUser?.id;
+    if (currentUserId && message.sender_id !== currentUserId) {
+      this.createMessageNotification(message);
+    }
+  }
+
+  private createMessageNotification(message: Message): void {
+    const conversations = this.conversationsSubject.value;
+    const conversation = conversations.find((c) => c.id === message.conversation_id);
+
+    if (conversation?.other_user) {
+      const senderName = conversation.other_user.firstName || conversation.other_user.username || 'Unknown';
+      const messagePreview = message.content.length > 50 ? message.content.substring(0, 50) + '...' : message.content;
+
+      this.topBarNotificationService.addNotification({
+        title: `${senderName}`,
+        message: messagePreview,
+        icon: 'chatbubbles',
+        category: 'message',
+        route: '/messages',
+        routeParams: { conversationId: message.conversation_id }
+      });
+    }
   }
 
   private handleConversationUpdate(conversation: Conversation): void {

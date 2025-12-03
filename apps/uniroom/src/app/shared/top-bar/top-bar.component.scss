@@ -94,6 +94,207 @@
   }
 }
 
+.notification-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+
+  .notification-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
+
+  .notification-content {
+    position: absolute;
+    top: 56px;
+    right: 16px;
+    width: 400px;
+    max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 72px);
+    background: var(--ion-background-color);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: 768px) {
+      width: calc(100vw - 32px);
+      right: 16px;
+    }
+  }
+
+  .notification-header {
+    padding: 16px;
+    border-bottom: 1px solid var(--ion-border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--ion-color-light);
+
+    h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--ion-text-color);
+    }
+
+    .notification-actions {
+      display: flex;
+      gap: 4px;
+
+      ion-button {
+        --padding-start: 8px;
+        --padding-end: 8px;
+        margin: 0;
+
+        ion-icon {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+
+  .notification-list {
+    overflow-y: auto;
+    flex: 1;
+    max-height: calc(100vh - 200px);
+  }
+
+  .notification-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    border-bottom: 1px solid var(--ion-border-color);
+    cursor: pointer;
+    transition: background 0.2s ease;
+    position: relative;
+
+    &:hover {
+      background: var(--ion-color-light);
+    }
+
+    &.unread {
+      background: var(--ion-color-primary-tint);
+
+      &:hover {
+        background: var(--ion-color-primary);
+        opacity: 0.9;
+      }
+    }
+
+    .notification-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      ion-icon {
+        font-size: 24px;
+        color: white;
+      }
+
+      &.icon-message {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      &.icon-like {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+
+      &.icon-offer {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      }
+
+      &.icon-system {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      }
+
+      &.icon-other {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      }
+    }
+
+    .notification-body {
+      flex: 1;
+      min-width: 0;
+
+      h4 {
+        margin: 0 0 4px 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ion-text-color);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      p {
+        margin: 0 0 8px 0;
+        font-size: 13px;
+        color: var(--ion-color-medium);
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .notification-time {
+        font-size: 11px;
+        color: var(--ion-color-medium);
+        font-weight: 500;
+      }
+    }
+
+    .notification-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--ion-color-primary);
+      flex-shrink: 0;
+      position: absolute;
+      top: 20px;
+      right: 16px;
+    }
+  }
+
+  .notification-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: var(--ion-color-medium);
+    text-align: center;
+
+    ion-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+}
+
 .language-popover {
   --width: 140px;
   z-index: 10000;

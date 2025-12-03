@@ -2,6 +2,16 @@
   "APP": {
     "TITLE": "UniHub"
   },
+  "NOTIFICATIONS": {
+    "TITLE": "Notifications",
+    "NO_NOTIFICATIONS": "You have no new notifications",
+    "MARK_ALL_READ": "Mark all as read",
+    "CLEAR_READ": "Clear read",
+    "NEW_MESSAGE": "New message",
+    "NEW_LIKE": "New like",
+    "NEW_OFFER": "New offer",
+    "SYSTEM_UPDATE": "System update"
+  },
   "LOGIN": {
     "TITLE": "Welcome back!",
     "SUBTITLE": "Connect with students, find housing and share resources",
