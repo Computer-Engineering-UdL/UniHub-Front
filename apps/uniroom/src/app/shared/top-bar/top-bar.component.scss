@@ -185,11 +185,9 @@
     }
 
     &.unread {
-      background: var(--ion-color-primary-tint);
-
       &:hover {
-        background: var(--ion-color-primary);
-        opacity: 0.9;
+        background: var(--ion-color-tertiary);
+        opacity: 0.7;
       }
     }
 
