@@ -115,7 +115,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
 
   loadConversation(): void {
     const conversations = this.messageService.getConversationsValue();
-    const foundConversation = conversations.find(c => c.id === this.conversationId);
+    const foundConversation = conversations.find((c) => c.id === this.conversationId);
 
     if (foundConversation) {
       this.conversation = foundConversation;
