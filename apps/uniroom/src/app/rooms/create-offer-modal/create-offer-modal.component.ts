@@ -127,13 +127,13 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
-  private modalController: ModalController = inject(ModalController);
-  private formBuilder: FormBuilder = inject(FormBuilder);
-  private apiService: ApiService = inject(ApiService);
-  private authService: AuthService = inject(AuthService);
-  private notificationService: NotificationService = inject(NotificationService);
-  private localizationService: LocalizationService = inject(LocalizationService);
-  private translateService: TranslateService = inject(TranslateService);
+  private readonly modalController: ModalController = inject(ModalController);
+  private readonly formBuilder: FormBuilder = inject(FormBuilder);
+  private readonly apiService: ApiService = inject(ApiService);
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly notificationService: NotificationService = inject(NotificationService);
+  private readonly localizationService: LocalizationService = inject(LocalizationService);
+  private readonly translateService: TranslateService = inject(TranslateService);
 
   ngOnInit(): void {
     this.configureWizardSteps();
@@ -155,8 +155,8 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
       category_id: ['', Validators.required],
       title: ['', [Validators.required, Validators.maxLength(100)]],
       description: ['', [Validators.required, Validators.maxLength(500)]],
-      price: [0, [Validators.required, Validators.min(0)]],
-      area: [0, [Validators.required, Validators.min(0)]],
+      price: [null, [Validators.required, Validators.min(0)]],
+      area: [null, [Validators.required, Validators.min(0)]],
       offer_valid_until: ['', Validators.required],
       city: ['', [Validators.required, Validators.maxLength(50)]],
       address: ['', [Validators.required, Validators.maxLength(200)]],
