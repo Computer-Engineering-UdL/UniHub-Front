@@ -76,7 +76,7 @@
 
         <div *ngIf="!loadingOffers && userOffers.length === 0" class="empty-state">
           <ion-icon name="home-outline" class="empty-icon"></ion-icon>
-          <p>{{ 'PROFILE.NO_LISTINGS' | translate }}</p>
+          <p>{{ 'PROFILE.NO_LISTINGS_PUBLIC' | translate }}</p>
         </div>
 
         <div *ngIf="!loadingOffers && userOffers.length > 0" class="listings-grid">

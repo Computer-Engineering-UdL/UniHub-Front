@@ -87,6 +87,7 @@
     "IMAGE_URL": "Image URL",
     "NO_POSTS": "You don't have any posts yet",
     "NO_LISTINGS": "You don't have any listings yet",
+    "NO_LISTINGS_PUBLIC": "This user has no listings yet",
     "STATS": {
       "POSTS": "Posts",
       "LISTINGS": "Listings",

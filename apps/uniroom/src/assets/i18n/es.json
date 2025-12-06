@@ -87,6 +87,7 @@
     "IMAGE_URL": "URL de la imagen",
     "NO_POSTS": "Aún no tienes publicaciones",
     "NO_LISTINGS": "Aún no tienes anuncios",
+    "NO_LISTINGS_PUBLIC": "Este usuario aún no tiene anuncios públicos",
     "STATS": {
       "POSTS": "Publicaciones",
       "LISTINGS": "Anuncios",
