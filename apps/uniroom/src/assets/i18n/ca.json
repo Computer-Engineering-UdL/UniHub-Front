@@ -282,6 +282,15 @@
     "CONFIRM": "Confirmar",
     "SUSPEND": "Suspendre",
     "YOU": "Tu",
+    "DAYS": {
+      "SUN": "Dg",
+      "MON": "Dl",
+      "TUE": "Dt",
+      "WED": "Dc",
+      "THU": "Dj",
+      "FRI": "Dv",
+      "SAT": "Ds"
+    },
     "VALIDATION": {
       "FIELD_REQUIRED": "Aquest camp és obligatori ({{min}}-{{max}} caràcters)"
     }
@@ -623,7 +632,18 @@
       },
       "CHARTS": {
         "WEEKLY_ACTIVITY": "Activitat Setmanal",
-        "CONTENT_DISTRIBUTION": "Distribució de Contingut"
+        "CONTENT_DISTRIBUTION": "Distribució de Contingut",
+        "NEW_USERS": "Nous Usuaris",
+        "NEW_HOUSING": "Nous Habitatges"
+      },
+      "CONTENT_OVERVIEW": {
+        "TITLE": "Resum de Contingut"
+      },
+      "CONTENT": {
+        "HOUSING_POSTS": "Publicacions d'Habitatge",
+        "MARKETPLACE_ITEMS": "Articles de Marketplace",
+        "JOB_POSTINGS": "Ofertes de Feina",
+        "CARPOOL_OFFERS": "Ofertes de Cotxe Compartit"
       },
       "RECENT_ACTIVITY": {
         "TITLE": "Activitat Recent",

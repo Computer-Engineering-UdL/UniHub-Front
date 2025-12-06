@@ -282,6 +282,15 @@
     "CONFIRM": "Confirmar",
     "SUSPEND": "Suspender",
     "YOU": "Tú",
+    "DAYS": {
+      "SUN": "Dom",
+      "MON": "Lun",
+      "TUE": "Mar",
+      "WED": "Mié",
+      "THU": "Jue",
+      "FRI": "Vie",
+      "SAT": "Sáb"
+    },
     "VALIDATION": {
       "FIELD_REQUIRED": "Este campo es obligatorio ({{min}}-{{max}} caracteres)"
     }
@@ -624,7 +633,18 @@
       },
       "CHARTS": {
         "WEEKLY_ACTIVITY": "Actividad Semanal",
-        "CONTENT_DISTRIBUTION": "Distribución de Contenido"
+        "CONTENT_DISTRIBUTION": "Distribución de Contenido",
+        "NEW_USERS": "Nuevos Usuarios",
+        "NEW_HOUSING": "Nuevas Viviendas"
+      },
+      "CONTENT_OVERVIEW": {
+        "TITLE": "Resumen de Contenido"
+      },
+      "CONTENT": {
+        "HOUSING_POSTS": "Publicaciones de Vivienda",
+        "MARKETPLACE_ITEMS": "Artículos de Marketplace",
+        "JOB_POSTINGS": "Ofertas de Trabajo",
+        "CARPOOL_OFFERS": "Ofertas de Coche Compartido"
       },
       "RECENT_ACTIVITY": {
         "TITLE": "Actividad Reciente",

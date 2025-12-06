@@ -276,54 +276,96 @@
         }
       }
 
-      .distribution-container {
-        .distribution-bars {
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
+      .content-overview-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
 
-          .distribution-item {
-            .item-header {
+        .content-item {
+          .content-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+
+            .content-item-title {
               display: flex;
-              justify-content: space-between;
               align-items: center;
-              margin-bottom: 8px;
+              gap: 12px;
 
-              .item-label {
-                font-size: 14px;
-                color: var(--ion-text-color);
-                font-weight: 500;
+              .content-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+
+                ion-icon {
+                  font-size: 22px;
+                }
+
+                &[data-type='housing'] {
+                  background: rgba(var(--ion-color-primary-rgb), 0.1);
+                  color: var(--ion-color-primary);
+                }
+
+                &[data-type='marketplace'] {
+                  background: rgba(var(--ion-color-tertiary-rgb), 0.1);
+                  color: var(--ion-color-tertiary);
+                }
+
+                &[data-type='jobs'] {
+                  background: rgba(var(--ion-color-warning-rgb), 0.1);
+                  color: var(--ion-color-warning);
+                }
+
+                &[data-type='carpool'] {
+                  background: rgba(var(--ion-color-success-rgb), 0.1);
+                  color: var(--ion-color-success);
+                }
               }
 
-              .item-value {
+              .content-label {
                 font-size: 14px;
+                font-weight: 500;
                 color: var(--ion-text-color);
-                font-weight: 600;
               }
             }
 
-            .progress-bar {
-              height: 12px;
-              background: var(--ion-color-light);
-              border-radius: 6px;
-              overflow: hidden;
+            .content-value {
+              font-size: 18px;
+              font-weight: 700;
+              color: var(--ion-text-color);
+            }
+          }
 
-              .progress-fill {
-                height: 100%;
-                border-radius: 6px;
-                transition: width 0.3s;
+          .content-progress-bar {
+            height: 8px;
+            background: var(--ion-color-light);
+            border-radius: 4px;
+            overflow: hidden;
 
-                &[data-index='0'] {
-                  background: var(--ion-color-primary);
-                }
+            .content-progress-fill {
+              height: 100%;
+              border-radius: 4px;
+              transition: width 0.3s;
 
-                &[data-index='1'] {
-                  background: var(--ion-color-tertiary);
-                }
+              &[data-type='housing'] {
+                background: var(--ion-color-primary);
+              }
 
-                &[data-index='2'] {
-                  background: var(--ion-color-warning);
-                }
+              &[data-type='marketplace'] {
+                background: var(--ion-color-tertiary);
+              }
+
+              &[data-type='jobs'] {
+                background: var(--ion-color-warning);
+              }
+
+              &[data-type='carpool'] {
+                background: var(--ion-color-success);
               }
             }
           }

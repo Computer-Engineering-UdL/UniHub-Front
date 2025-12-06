@@ -284,6 +284,15 @@
     "CONFIRM": "Confirm",
     "SUSPEND": "Suspend",
     "YOU": "You",
+    "DAYS": {
+      "SUN": "Sun",
+      "MON": "Mon",
+      "TUE": "Tue",
+      "WED": "Wed",
+      "THU": "Thu",
+      "FRI": "Fri",
+      "SAT": "Sat"
+    },
     "VALIDATION": {
       "FIELD_REQUIRED": "This field is required ({{min}}-{{max}} characters)"
     }
@@ -629,7 +638,18 @@
       },
       "CHARTS": {
         "WEEKLY_ACTIVITY": "Weekly Activity",
-        "CONTENT_DISTRIBUTION": "Content Distribution"
+        "CONTENT_DISTRIBUTION": "Content Distribution",
+        "NEW_USERS": "New Users",
+        "NEW_HOUSING": "New Housing"
+      },
+      "CONTENT_OVERVIEW": {
+        "TITLE": "Content Overview"
+      },
+      "CONTENT": {
+        "HOUSING_POSTS": "Housing Posts",
+        "MARKETPLACE_ITEMS": "Marketplace Items",
+        "JOB_POSTINGS": "Job Postings",
+        "CARPOOL_OFFERS": "Carpool Offers"
       },
       "RECENT_ACTIVITY": {
         "TITLE": "Recent Activity",

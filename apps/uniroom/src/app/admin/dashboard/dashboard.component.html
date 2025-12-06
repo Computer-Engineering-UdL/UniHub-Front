@@ -132,7 +132,7 @@
                 <span
                   class="legend-dot"
                   [attr.data-index]="weeklyData.datasets.indexOf(dataset)"></span>
-                <span>{{ dataset.label }}</span>
+                <span>{{ translateDatasetLabel(dataset.label) | translate }}</span>
               </div>
             </div>
             <div class="chart-bars">
@@ -143,40 +143,39 @@
                     *ngFor="let dataset of weeklyData.datasets; let j = index"
                     [attr.data-index]="j"
                     [style.height.%]="(dataset.data[i] / weeklyChartMax) * 100"
-                    [title]="dataset.label + ': ' + dataset.data[i]"></div>
+                    [title]="translateDatasetLabel(dataset.label) + ': ' + dataset.data[i]"></div>
                 </div>
-                <span class="bar-label">{{ label }}</span>
+                <span class="bar-label">{{ translateDayLabel(label) | translate }}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="chart-card distribution-chart">
+      <div class="chart-card content-overview-chart">
         <div class="chart-header">
-          <h2>{{ 'ADMIN.DASHBOARD.CHARTS.CONTENT_DISTRIBUTION' | translate }}</h2>
+          <h2>{{ 'ADMIN.DASHBOARD.CONTENT_OVERVIEW.TITLE' | translate }}</h2>
         </div>
         <div class="chart-content">
           <div class="chart-placeholder" *ngIf="isLoadingDistribution">
             <ion-spinner></ion-spinner>
           </div>
-          <div class="distribution-container" *ngIf="!isLoadingDistribution && distributionData">
-            <div class="distribution-bars">
-              <div
-                class="distribution-item"
-                *ngFor="let label of distributionData.labels; let i = index">
-                <div class="item-header">
-                  <span class="item-label">{{ label }}</span>
-                  <span class="item-value">{{ distributionData.datasets[0].data[i] }}</span>
+          <div class="content-overview-list" *ngIf="!isLoadingDistribution && distributionData">
+            <div class="content-item" *ngFor="let label of distributionData.labels; let i = index">
+              <div class="content-item-header">
+                <div class="content-item-title">
+                  <div class="content-icon" [attr.data-type]="getContentType(i)">
+                    <ion-icon [name]="getContentIcon(i)"></ion-icon>
+                  </div>
+                  <span class="content-label">{{ getContentLabel(label) | translate }}</span>
                 </div>
-                <div class="progress-bar">
-                  <div
-                    class="progress-fill"
-                    [attr.data-index]="i"
-                    [style.width.%]="
-                      (distributionData.datasets[0].data[i] / getDistributionMax()) * 100
-                    "></div>
-                </div>
+                <span class="content-value">{{ distributionData.datasets[0].data[i] }}</span>
+              </div>
+              <div class="content-progress-bar">
+                <div
+                  class="content-progress-fill"
+                  [attr.data-type]="getContentType(i)"
+                  [style.width.%]="(distributionData.datasets[0].data[i] / getDistributionMax()) * 100"></div>
               </div>
             </div>
           </div>
