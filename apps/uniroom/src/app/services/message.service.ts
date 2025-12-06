@@ -19,6 +19,8 @@ export class MessageService implements OnDestroy {
   private readonly ngZone: NgZone = inject(NgZone);
   private readonly destroy$: Subject<void> = new Subject<void>();
 
+  private activeConversationId: string | null = null;
+
   private readonly conversationsSubject: BehaviorSubject<ConversationWithOtherUser[]> = new BehaviorSubject<
     ConversationWithOtherUser[]
   >([]);
@@ -183,19 +185,31 @@ export class MessageService implements OnDestroy {
 
   private updateConversationLastMessage(message: Message): void {
     const currentConversations: ConversationWithOtherUser[] = this.conversationsSubject.value;
+    const currentUserId = this.authService.currentUser?.id;
+
     const updated: ConversationWithOtherUser[] = currentConversations.map(
       (conv: ConversationWithOtherUser): ConversationWithOtherUser => {
         if (conv.id === message.conversation_id) {
+          const isMessageFromOther = currentUserId && message.sender_id !== currentUserId;
+          const isConversationActive = this.activeConversationId === message.conversation_id;
+          const currentUnreadCount = conv.unread_count || 0;
+          const shouldIncrementUnread = isMessageFromOther && !isConversationActive;
+
           return {
             ...conv,
             last_message: message,
-            updated_at: message.created_at
+            updated_at: message.created_at,
+            unread_count: shouldIncrementUnread ? currentUnreadCount + 1 : currentUnreadCount
           };
         }
         return conv;
       }
     );
     this.conversationsSubject.next(updated);
+  }
+
+  setActiveConversation(conversationId: string | null): void {
+    this.activeConversationId = conversationId;
   }
 
   getConversations(): Observable<ConversationWithOtherUser[]> {

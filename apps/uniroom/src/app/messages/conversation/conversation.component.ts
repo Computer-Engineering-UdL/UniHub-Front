@@ -23,6 +23,7 @@ import { Conversation, Message } from '../../models/message.types';
 import { DEFAULT_USER_URL, User } from '../../models/auth.types';
 import NotificationService from '../../services/notification.service';
 import { TopBarNotificationService } from '../../services/topbar-notification.service';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-conversation',
@@ -49,6 +50,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   private readonly destroy$: Subject<void> = new Subject<void>();
   private readonly topBarNotificationService: TopBarNotificationService = inject(TopBarNotificationService);
   private conversationDestroy$: Subject<void> = new Subject<void>();
+  private readonly markAsReadSubject$: Subject<void> = new Subject<void>();
 
   messages: Message[] = [];
   conversation: Conversation | null = null;
@@ -63,7 +65,12 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit(): void {
     this.currentUser = this.authService.currentUser;
 
+    this.markAsReadSubject$.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe(() => {
+      this.performMarkAsRead();
+    });
+
     if (this.conversationId) {
+      this.messageService.setActiveConversation(this.conversationId);
       this.subscribeToMessages();
       this.loadConversation();
       this.loadMessages();
@@ -150,12 +157,14 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
       .getMessages(this.conversationId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (messages: Message[]): void => {
+        next: (): void => {
           this.loading = false;
           setTimeout((): void => {
             void this.scrollToBottom();
           }, 100);
-          this.markConversationAsRead();
+          setTimeout(() => {
+            this.markAsReadSubject$.next();
+          }, 300);
         },
         error: (_): void => {
           this.loading = false;
@@ -190,6 +199,10 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   markConversationAsRead(): void {
+    this.markAsReadSubject$.next();
+  }
+
+  private performMarkAsRead(): void {
     this.messageService
       .markAsRead(this.conversationId)
       .pipe(takeUntil(this.destroy$))
