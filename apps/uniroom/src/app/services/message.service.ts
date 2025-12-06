@@ -1,4 +1,4 @@
-import { Injectable, inject, OnDestroy } from '@angular/core';
+import { Injectable, inject, OnDestroy, NgZone } from '@angular/core';
 import { Observable, BehaviorSubject, tap, map, Subject, takeUntil, switchMap, forkJoin, of, catchError } from 'rxjs';
 import { ApiService } from './api.service';
 import { Conversation, Message, ConversationWithOtherUser } from '../models/message.types';
@@ -16,6 +16,7 @@ export class MessageService implements OnDestroy {
   private readonly authService: AuthService = inject(AuthService);
   private readonly wsService: WebSocketService = inject(WebSocketService);
   private readonly topBarNotificationService: TopBarNotificationService = inject(TopBarNotificationService);
+  private readonly ngZone: NgZone = inject(NgZone);
   private readonly destroy$: Subject<void> = new Subject<void>();
 
   private readonly conversationsSubject: BehaviorSubject<ConversationWithOtherUser[]> = new BehaviorSubject<
@@ -45,7 +46,9 @@ export class MessageService implements OnDestroy {
     this.wsService.connect();
 
     this.wsService.message$.pipe(takeUntil(this.destroy$)).subscribe((wsMessage: WebSocketMessage): void => {
-      this.handleWebSocketMessage(wsMessage);
+      this.ngZone.run(() => {
+        this.handleWebSocketMessage(wsMessage);
+      });
     });
   }
 
@@ -66,16 +69,41 @@ export class MessageService implements OnDestroy {
   }
 
   private handleNewMessage(message: Message): void {
-    if (!message?.id || !message.conversation_id || !message.sender_id) {
+    if (!message.conversation_id || !message.sender_id) {
       return;
+    }
+
+    if (!message.id) {
+      message.id = `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     }
 
     if (!message.created_at) {
       message.created_at = new Date().toISOString();
     }
 
+    message.is_read ??= false;
+
+    if (!message.updated_at) {
+      message.updated_at = message.created_at;
+    }
+
+    if (!message.content) {
+      message.content = '';
+    }
+
     const currentMessages: Message[] = this.messagesSubject.value;
-    const messageIndex: number = currentMessages.findIndex((m: Message): boolean => m.id === message.id);
+
+    let messageIndex: number = currentMessages.findIndex((m: Message): boolean => m.id === message.id);
+
+    if (messageIndex === -1 && message.id.startsWith('temp-')) {
+      messageIndex = currentMessages.findIndex(
+        (m: Message): boolean =>
+          m.conversation_id === message.conversation_id &&
+          m.sender_id === message.sender_id &&
+          m.content === message.content &&
+          Math.abs(new Date(m.created_at).getTime() - new Date(message.created_at).getTime()) < 5000
+      );
+    }
 
     let updatedMessages: Message[];
     if (messageIndex === -1) {

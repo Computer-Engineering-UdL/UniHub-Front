@@ -38,17 +38,16 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   @Input() isMobile: boolean = false;
   @Output() backClicked: EventEmitter<void> = new EventEmitter<void>();
 
-  private messageService: MessageService = inject(MessageService);
-  private authService: AuthService = inject(AuthService);
-  private localizationService: LocalizationService = inject(LocalizationService);
-  private platform: Platform = inject(Platform);
-  private popoverController: PopoverController = inject(PopoverController);
-  private alertController: AlertController = inject(AlertController);
-  private translate: TranslateService = inject(TranslateService);
-  private notificationService: NotificationService = inject(NotificationService);
-  private router: Router = inject(Router);
-  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
-  private destroy$: Subject<void> = new Subject<void>();
+  private readonly messageService: MessageService = inject(MessageService);
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly localizationService: LocalizationService = inject(LocalizationService);
+  private readonly platform: Platform = inject(Platform);
+  private readonly alertController: AlertController = inject(AlertController);
+  private readonly translate: TranslateService = inject(TranslateService);
+  private readonly notificationService: NotificationService = inject(NotificationService);
+  private readonly router: Router = inject(Router);
+  private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private readonly destroy$: Subject<void> = new Subject<void>();
   private conversationDestroy$: Subject<void> = new Subject<void>();
 
   messages: Message[] = [];
@@ -81,7 +80,8 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
     this.messageService.messages$.pipe(takeUntil(this.conversationDestroy$)).subscribe((messages: Message[]): void => {
       const filteredMessages = messages.filter((m) => m.conversation_id === this.conversationId);
       const previousCount = this.messages.length;
-      this.messages = filteredMessages;
+
+      this.messages = [...filteredMessages];
 
       this.cdr.detectChanges();
 
