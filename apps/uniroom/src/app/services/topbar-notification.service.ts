@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { StorageService } from './storage.service';
 
 export type NotificationIcon =
   | 'mail'
@@ -28,7 +29,9 @@ export interface TopBarNotification {
 })
 export class TopBarNotificationService {
   private readonly MAX_NOTIFICATIONS: number = 50;
+  private readonly STORAGE_KEY: string = 'topbar_notifications';
   private readonly router: Router = inject(Router);
+  private readonly storageService: StorageService = inject(StorageService);
 
   private readonly notificationsSubject: BehaviorSubject<TopBarNotification[]> = new BehaviorSubject<
     TopBarNotification[]
@@ -37,6 +40,26 @@ export class TopBarNotificationService {
 
   private readonly unreadCountSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   public readonly unreadCount$: Observable<number> = this.unreadCountSubject.asObservable();
+
+  constructor() {
+    this.loadNotifications();
+  }
+
+  private async loadNotifications(): Promise<void> {
+    const stored = await this.storageService.getObject<TopBarNotification[]>(this.STORAGE_KEY);
+    if (stored && Array.isArray(stored)) {
+      const notifications = stored.map(n => ({
+        ...n,
+        timestamp: new Date(n.timestamp)
+      }));
+      this.notificationsSubject.next(notifications);
+      this.updateUnreadCount();
+    }
+  }
+
+  private async saveNotifications(): Promise<void> {
+    await this.storageService.setObject(this.STORAGE_KEY, this.notificationsSubject.value);
+  }
 
   addNotification(notification: Omit<TopBarNotification, 'id' | 'timestamp' | 'read'>): void {
     const newNotification: TopBarNotification = {
@@ -55,6 +78,7 @@ export class TopBarNotificationService {
 
     this.notificationsSubject.next(updatedNotifications);
     this.updateUnreadCount();
+    void this.saveNotifications();
   }
 
   markAsRead(notificationId: string): void {
@@ -68,6 +92,7 @@ export class TopBarNotificationService {
 
     this.notificationsSubject.next(updatedNotifications);
     this.updateUnreadCount();
+    void this.saveNotifications();
   }
 
   markAllAsRead(): void {
@@ -79,6 +104,7 @@ export class TopBarNotificationService {
 
     this.notificationsSubject.next(updatedNotifications);
     this.updateUnreadCount();
+    void this.saveNotifications();
   }
 
   removeNotification(notificationId: string): void {
@@ -89,6 +115,7 @@ export class TopBarNotificationService {
 
     this.notificationsSubject.next(updatedNotifications);
     this.updateUnreadCount();
+    void this.saveNotifications();
   }
 
   clearReadNotifications(): void {
@@ -96,6 +123,7 @@ export class TopBarNotificationService {
     const updatedNotifications: TopBarNotification[] = currentNotifications.filter((n: TopBarNotification) => !n.read);
 
     this.notificationsSubject.next(updatedNotifications);
+    void this.saveNotifications();
   }
 
   clearNotificationsByConversation(conversationId: string): void {
@@ -106,6 +134,7 @@ export class TopBarNotificationService {
 
     this.notificationsSubject.next(updatedNotifications);
     this.updateUnreadCount();
+    void this.saveNotifications();
   }
 
   async navigateToNotification(notification: TopBarNotification): Promise<void> {
