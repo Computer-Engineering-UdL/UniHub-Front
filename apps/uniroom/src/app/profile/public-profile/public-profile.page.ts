@@ -27,11 +27,6 @@ interface PublicUserProfile {
   is_verified: boolean;
 }
 
-interface ProfileStats {
-  listings: number;
-  channels: number;
-}
-
 @Component({
   selector: 'app-public-profile',
   templateUrl: './public-profile.page.html',
@@ -48,11 +43,6 @@ export class PublicProfilePage implements OnInit, OnDestroy {
   user: PublicUserProfile | null = null;
   selectedTab: 'overview' | 'listings' = 'overview';
   avatarSrc: string = DEFAULT_USER_URL;
-
-  stats: ProfileStats = {
-    listings: 0,
-    channels: 0
-  };
 
   userInterests: Interest[] = [];
   userOffers: OfferListItem[] = [];
@@ -88,7 +78,6 @@ export class PublicProfilePage implements OnInit, OnDestroy {
         this.updateAvatarSrc();
         await this.loadUserInterests(this.user.id);
         await this.loadUserOffers(this.user.id);
-        this.calculateStats();
       } else {
         this.notificationService.error('PROFILE.ERROR.USER_NOT_FOUND');
         await this.router.navigate(['/home']);
@@ -108,13 +97,6 @@ export class PublicProfilePage implements OnInit, OnDestroy {
       queryParams: { tab },
       queryParamsHandling: 'merge'
     });
-  }
-
-  private calculateStats(): void {
-    this.stats = {
-      listings: this.userOffers.length,
-      channels: 0
-    };
   }
 
   getUserDisplayName(): string {
@@ -148,7 +130,7 @@ export class PublicProfilePage implements OnInit, OnDestroy {
   private async loadUserInterests(userId: string): Promise<void> {
     try {
       this.loadingInterests = true;
-      const response: Interest[] = await firstValueFrom(this.apiService.get<Interest[]>(`user/interests/${userId}`));
+      const response: Interest[] = await firstValueFrom(this.apiService.get<Interest[]>(`interest/user/${userId}`));
       this.userInterests = response || [];
     } catch {
       this.userInterests = [];
@@ -218,4 +200,3 @@ export class PublicProfilePage implements OnInit, OnDestroy {
     await this.router.navigate(['/rooms', 'details', offer.id]);
   }
 }
-
