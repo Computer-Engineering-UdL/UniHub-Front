@@ -34,7 +34,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
       translationKey: 'SIDEBAR.ADMIN_DASHBOARD',
       route: '/admin/dashboard',
       icon: 'speedometer-outline',
-      roles: ['Admin']
+      roles: ['Admin'],
+      requiresAuth: true
     },
     {
       translationKey: 'SIDEBAR.ADMIN_USERS',

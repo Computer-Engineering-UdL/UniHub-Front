@@ -1,16 +1,15 @@
+export interface StatCard {
+  label: string;
+  value: number;
+  change_percentage: number;
+  trend: 'up' | 'down' | 'neutral';
+}
+
 export interface DashboardStats {
-  totalUsers: number;
-  totalUsersChange: number;
-  totalUsersChangeCount: number;
-  activeContent: number;
-  activeContentChange: number;
-  activeContentChangeCount: number;
-  pendingReports: number;
-  pendingReportsChange: number;
-  pendingReportsChangeCount: number;
-  engagementRate: number;
-  engagementRateChange: number;
-  engagementRateChangeValue: number;
+  total_users: StatCard;
+  active_content: StatCard;
+  pending_reports: StatCard;
+  engagement_rate: StatCard;
 }
 
 export interface DashboardActivity {
@@ -18,48 +17,22 @@ export interface DashboardActivity {
   type: string;
   title: string;
   description: string;
-  date: string;
-  user?: {
-    name: string;
-    avatar?: string;
-    initials: string;
-  };
+  timestamp: string;
+  user_avatar?: string;
 }
 
 export interface WeeklyChartData {
-  days: Array<{
+  labels: string[];
+  datasets: Array<{
     label: string;
-    newUsers: number;
-    posts: number;
-    reports: number;
+    data: number[];
   }>;
-  maxValue: number;
 }
 
 export interface DistributionChartData {
-  housing: {
-    count: number;
-    max: number;
-    percentage: number;
-  };
-  marketplace: {
-    count: number;
-    max: number;
-    percentage: number;
-  };
-  jobs: {
-    count: number;
-    max: number;
-    percentage: number;
-  };
-  carpool: {
-    count: number;
-    max: number;
-    percentage: number;
-  };
-  services: {
-    count: number;
-    max: number;
-    percentage: number;
-  };
+  labels: string[];
+  datasets: Array<{
+    label: string;
+    data: number[];
+  }>;
 }

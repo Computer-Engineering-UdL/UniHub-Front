@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { DashboardService } from '../../services/dashboard.service';
 import NotificationService from '../../services/notification.service';
 import { LocalizationService } from '../../services/localization.service';
@@ -9,8 +8,6 @@ import {
   WeeklyChartData,
   DistributionChartData
 } from '../../models/dashboard.model';
-
-type TimeFilter = 'today' | 'week' | 'month' | 'year';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -22,7 +19,6 @@ export class AdminDashboardComponent implements OnInit {
   private readonly dashboardService: DashboardService = inject(DashboardService);
   private readonly notificationService: NotificationService = inject(NotificationService);
   private readonly localizationService: LocalizationService = inject(LocalizationService);
-  private readonly router: Router = inject(Router);
 
   stats: DashboardStats | null = null;
   recentActivity: DashboardActivity[] = [];
@@ -34,7 +30,7 @@ export class AdminDashboardComponent implements OnInit {
   isLoadingWeekly: boolean = true;
   isLoadingDistribution: boolean = true;
 
-  selectedFilter: TimeFilter = 'week';
+  weeklyChartMax: number = 0;
 
   ngOnInit(): void {
     this.loadDashboardData();
@@ -65,7 +61,7 @@ export class AdminDashboardComponent implements OnInit {
     this.isLoadingActivity = true;
     this.dashboardService.getActivity().subscribe({
       next: (data: DashboardActivity[]) => {
-        this.recentActivity = data;
+        this.recentActivity = data.slice(0, 10);
         this.isLoadingActivity = false;
       },
       error: () => {
@@ -80,6 +76,7 @@ export class AdminDashboardComponent implements OnInit {
     this.dashboardService.getWeeklyChart().subscribe({
       next: (data: WeeklyChartData) => {
         this.weeklyData = data;
+        this.weeklyChartMax = this.calculateChartMax(data);
         this.isLoadingWeekly = false;
       },
       error: () => {
@@ -103,6 +100,16 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
+  calculateChartMax(data: WeeklyChartData): number {
+    let max: number = 0;
+    data.datasets.forEach((dataset: { label: string; data: number[] }) => {
+      dataset.data.forEach((value: number) => {
+        if (value > max) max = value;
+      });
+    });
+    return max || 1;
+  }
+
   formatNumber(num: number | undefined): string {
     if (num === undefined) return '0';
     return this.localizationService.formatNumber(num);
@@ -113,43 +120,41 @@ export class AdminDashboardComponent implements OnInit {
     return `${value > 0 ? '+' : ''}${value.toFixed(1)}%`;
   }
 
-  getContentCount(category: 'housing' | 'marketplace' | 'jobs' | 'carpool'): number {
-    return this.distributionData?.[category]?.count ?? 0;
+  formatDate(timestamp: string): string {
+    const date: Date = new Date(timestamp);
+    return this.localizationService.formatRelativeTime(date);
   }
 
-  getContentMax(category: 'housing' | 'marketplace' | 'jobs' | 'carpool'): number {
-    return this.distributionData?.[category]?.max ?? 0;
+  getTrendIcon(trend: string): string {
+    const icons: Record<string, string> = {
+      up: 'trending-up',
+      down: 'trending-down',
+      neutral: 'remove'
+    };
+    return icons[trend] || 'remove';
+  }
+
+  getTrendColor(trend: string): string {
+    const colors: Record<string, string> = {
+      up: 'success',
+      down: 'danger',
+      neutral: 'medium'
+    };
+    return colors[trend] || 'medium';
   }
 
   getActivityIcon(type: string): string {
     const icons: Record<string, string> = {
-      user_registration: 'person-add',
-      content_reported: 'warning',
-      new_listing: 'home',
-      user_verified: 'checkmark-circle',
-      system_maintenance: 'construct',
-      multiple_reports: 'alert-circle'
+      new_user: 'person-add',
+      new_housing: 'home',
+      new_report: 'warning',
+      user_verified: 'checkmark-circle'
     };
     return icons[type] || 'information-circle';
   }
 
-  getActivityColor(type: string): string {
-    const colors: Record<string, string> = {
-      user_registration: 'primary',
-      content_reported: 'warning',
-      new_listing: 'success',
-      user_verified: 'success',
-      system_maintenance: 'medium',
-      multiple_reports: 'danger'
-    };
-    return colors[type] || 'medium';
-  }
-
-  navigateTo(route: string): void {
-    this.router.navigate([route]);
-  }
-
-  viewAllActivity(): void {
-    this.router.navigate(['/admin/activity']);
+  getDistributionMax(): number {
+    if (!this.distributionData?.datasets[0]?.data) return 1;
+    return Math.max(...this.distributionData.datasets[0].data, 1);
   }
 }
