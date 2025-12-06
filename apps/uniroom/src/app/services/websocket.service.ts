@@ -70,7 +70,7 @@ export class WebSocketService {
         this.connectionStatusSubject.next(false);
         this.attemptReconnect();
       };
-    } catch (_) {
+    } catch {
       this.connectionStatusSubject.next(false);
       this.attemptReconnect();
     }

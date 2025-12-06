@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   inject,
@@ -46,6 +47,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   private translate: TranslateService = inject(TranslateService);
   private notificationService: NotificationService = inject(NotificationService);
   private router: Router = inject(Router);
+  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private destroy$: Subject<void> = new Subject<void>();
   private conversationDestroy$: Subject<void> = new Subject<void>();
 
@@ -80,6 +82,8 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
       const filteredMessages = messages.filter((m) => m.conversation_id === this.conversationId);
       const previousCount = this.messages.length;
       this.messages = filteredMessages;
+
+      this.cdr.detectChanges();
 
       if (previousCount > 0 && filteredMessages.length > previousCount) {
         this.markConversationAsRead();
