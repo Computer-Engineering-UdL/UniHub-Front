@@ -90,7 +90,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
 
       this.messages = [...filteredMessages];
       if (previousCount > 0 && filteredMessages.length > previousCount) {
-        this.markConversationAsRead();
+        this.markAsReadSubject$.next();
       }
 
       setTimeout((): void => {
@@ -109,6 +109,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
         this.conversationId = newConversationId;
         this.messages = [];
         this.loading = true;
+        this.messageService.setActiveConversation(newConversationId);
         this.messageService.clearMessages();
         this.subscribeToMessages();
         this.loadConversation();
@@ -118,6 +119,8 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy(): void {
+    this.messageService.setActiveConversation(null);
+    this.markAsReadSubject$.complete();
     this.conversationDestroy$.next();
     this.conversationDestroy$.complete();
     this.destroy$.next();
