@@ -38,6 +38,7 @@ interface FinancialDetailItem {
 
 interface LandlordInfo {
   userId?: string;
+  username?: string;
   name: string;
   initials: string;
   avatar?: string;
@@ -604,6 +605,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
     return {
       userId: offer.user_id,
+      username: landlordUser?.username,
       name,
       initials,
       avatar: landlordUser?.avatar_url || landlordUser?.imgUrl || landlordData.avatar || undefined,
@@ -674,6 +676,12 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       await this.router.navigate(['/messages'], { queryParams: { id: conversation.id } });
     } catch {
       this.notificationService.error('MESSAGES.CREATE_ERROR');
+    }
+  }
+
+  async viewLandlordProfile(): Promise<void> {
+    if (this.offer?.landlord.userId) {
+      await this.router.navigate(['/profile', this.offer.landlord.userId]);
     }
   }
 

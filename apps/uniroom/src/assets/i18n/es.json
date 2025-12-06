@@ -93,11 +93,6 @@
       "HELPFUL": "Útil",
       "CHANNELS": "Canales"
     },
-    "TABS": {
-      "OVERVIEW": "Resumen",
-      "MY_POSTS": "Mis publicaciones",
-      "MY_LISTINGS": "Mis anuncios"
-    },
     "INTERESTS": {
       "TITLE": "Intereses",
       "DESCRIPTION": "Gestiona tus intereses",
@@ -271,7 +266,20 @@
     },
     "VERIFIED": "Verificado",
     "JOINED": "Registrado",
-    "YEAR": "{{year}}º Año"
+    "YEAR": "{{year}}º Año",
+    "PUBLIC": {
+      "TITLE": "Perfil de Usuario"
+    },
+    "ERROR": {
+      "USER_NOT_FOUND": "Usuario no encontrado",
+      "LOAD_PROFILE": "Error al cargar el perfil"
+    },
+    "TABS": {
+      "LISTINGS": "Anuncios",
+      "OVERVIEW": "Resumen",
+      "MY_POSTS": "Mis publicaciones",
+      "MY_LISTINGS": "Mis anuncios"
+    }
   },
   "COMMON": {
     "LOADING": "Cargando...",
@@ -602,6 +610,7 @@
         "LAST_SEEN": "Última conexión {{time}}",
         "RESPONSE_TIME_PLACEHOLDER": "Suele responder en menos de 24 horas",
         "ACTIONS": {
+          "VIEW_PROFILE": "Ver perfil",
           "MESSAGE": "Enviar mensaje",
           "SCHEDULE": "Concertar visita",
           "CALL": "Llamar al propietario"
@@ -875,7 +884,8 @@
         "UNBAN": "No se pudo desbanear al miembro.",
         "BAN_MOTIVE_REQUIRED": "El motivo del ban es obligatorio (mínimo 3 caracteres).",
         "BAN_DURATION_REQUIRED": "La duración del ban es obligatoria (mínimo 1 día)."
-      }
+      },
+      "VIEW_PROFILE": "Ver perfil"
     },
     "ADD_MEMBER": {
       "TITLE": "Añadir Miembro",
@@ -911,6 +921,7 @@
     "TYPE_MESSAGE": "Escribe un mensaje...",
     "SEND": "Enviar",
     "CONVERSATION_OPTIONS": "Opciones de conversación",
+    "VIEW_PROFILE": "Ver perfil",
     "VIEW_OFFER": "Ver oferta",
     "DELETE_CONVERSATION": "Eliminar conversación",
     "DELETE_CONVERSATION_CONFIRM_TITLE": "Eliminar conversación",

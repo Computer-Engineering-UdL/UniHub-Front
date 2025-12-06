@@ -93,11 +93,6 @@
       "HELPFUL": "Helpful",
       "CHANNELS": "Channels"
     },
-    "TABS": {
-      "OVERVIEW": "Overview",
-      "MY_POSTS": "My Posts",
-      "MY_LISTINGS": "My Listings"
-    },
     "INTERESTS": {
       "TITLE": "Interests",
       "DESCRIPTION": "Manage your interests",
@@ -271,7 +266,20 @@
     },
     "VERIFIED": "Verified",
     "JOINED": "Joined",
-    "YEAR": "{{year}}rd Year"
+    "YEAR": "{{year}}rd Year",
+    "PUBLIC": {
+      "TITLE": "User Profile"
+    },
+    "ERROR": {
+      "USER_NOT_FOUND": "User not found",
+      "LOAD_PROFILE": "Error loading profile"
+    },
+    "TABS": {
+      "LISTINGS": "Listings",
+      "OVERVIEW": "Overview",
+      "MY_POSTS": "My Posts",
+      "MY_LISTINGS": "My Listings"
+    }
   },
   "COMMON": {
     "LOADING": "Loading...",
@@ -607,6 +615,7 @@
         "LAST_SEEN": "Last seen {{time}}",
         "RESPONSE_TIME_PLACEHOLDER": "Usually responds within 24 hours",
         "ACTIONS": {
+          "VIEW_PROFILE": "View Profile",
           "MESSAGE": "Send Message",
           "SCHEDULE": "Schedule Viewing",
           "CALL": "Call Landlord"
@@ -879,7 +888,8 @@
         "UNBAN": "Could not unban member.",
         "BAN_MOTIVE_REQUIRED": "Ban reason is required (minimum 3 characters).",
         "BAN_DURATION_REQUIRED": "Ban duration is required (minimum 1 day)."
-      }
+      },
+      "VIEW_PROFILE": "View Profile"
     },
     "ADD_MEMBER": {
       "TITLE": "Add Member",
@@ -915,6 +925,7 @@
     "TYPE_MESSAGE": "Type a message...",
     "SEND": "Send",
     "CONVERSATION_OPTIONS": "Conversation options",
+    "VIEW_PROFILE": "View Profile",
     "VIEW_OFFER": "View offer",
     "DELETE_CONVERSATION": "Delete conversation",
     "DELETE_CONVERSATION_CONFIRM_TITLE": "Delete conversation",

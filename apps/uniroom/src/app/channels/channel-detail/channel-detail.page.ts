@@ -526,13 +526,22 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
 
     const actions: MemberAction[] = allActions.filter((action: MemberAction): boolean => !action.isSelected);
 
-    actions.unshift({
-      icon: 'chatbubble-ellipses-outline',
-      text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.START_PRIVATE_CONVERSATION'),
-      handler: () => {
-        void this.startPrivateConversation(member);
+    actions.unshift(
+      {
+        icon: 'person-circle-outline',
+        text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.VIEW_PROFILE'),
+        handler: () => {
+          void this.viewMemberProfile(member);
+        }
+      },
+      {
+        icon: 'chatbubble-ellipses-outline',
+        text: this.translate.instant('CHANNELS.MEMBER_ACTIONS.START_PRIVATE_CONVERSATION'),
+        handler: () => {
+          void this.startPrivateConversation(member);
+        }
       }
-    });
+    );
 
     return actions;
   }
@@ -694,6 +703,12 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
       this.notificationService.error('MESSAGES.CREATE_ERROR');
     } finally {
       this.startingConversationFor = null;
+    }
+  }
+
+  async viewMemberProfile(member: ChannelMember): Promise<void> {
+    if (member.user_id) {
+      await this.router.navigate(['/profile', member.user_id]);
     }
   }
 }

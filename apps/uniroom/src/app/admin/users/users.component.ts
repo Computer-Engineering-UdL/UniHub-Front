@@ -641,8 +641,8 @@ export class AdminUsersComponent implements OnInit {
       buttons: [
         {
           text: this.translateService.instant('ADMIN.USERS.VIEW_DETAILS'),
-          handler: (): void => {
-            void this.router.navigate(['/profile', user.username]);
+          handler: async (): Promise<void> => {
+            await this.router.navigate(['/profile', user.id]);
           }
         },
         {
