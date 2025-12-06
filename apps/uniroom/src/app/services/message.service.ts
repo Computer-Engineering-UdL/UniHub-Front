@@ -302,7 +302,7 @@ export class MessageService implements OnDestroy {
     return this.apiService.post<void>(`conversation/${conversationId}/mark-read`, {}).pipe(
       tap(() => {
         const currentConversations = this.conversationsSubject.value;
-        const updatedConversations = currentConversations.map(conv => {
+        const updatedConversations = currentConversations.map((conv) => {
           if (conv.id === conversationId) {
             return { ...conv, unread_count: 0 };
           }

@@ -48,7 +48,7 @@ export class TopBarNotificationService {
   private async loadNotifications(): Promise<void> {
     const stored = await this.storageService.getObject<TopBarNotification[]>(this.STORAGE_KEY);
     if (stored && Array.isArray(stored)) {
-      const notifications = stored.map(n => ({
+      const notifications = stored.map((n) => ({
         ...n,
         timestamp: new Date(n.timestamp)
       }));

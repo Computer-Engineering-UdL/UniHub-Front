@@ -1,4 +1,15 @@
-import { Component, EventEmitter, inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AlertController, IonContent, IonicModule, Platform } from '@ionic/angular';
@@ -11,7 +22,7 @@ import { LocalizationService } from '../../services/localization.service';
 import { Conversation, Message } from '../../models/message.types';
 import { DEFAULT_USER_URL, User } from '../../models/auth.types';
 import NotificationService from '../../services/notification.service';
-import { TopBarNotificationService } from "../../services/topbar-notification.service";
+import { TopBarNotificationService } from '../../services/topbar-notification.service';
 
 @Component({
   selector: 'app-conversation',
@@ -179,11 +190,14 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   markConversationAsRead(): void {
-    this.messageService.markAsRead(this.conversationId).pipe(takeUntil(this.destroy$)).subscribe(() => {
-      if (this.conversation) {
-        this.conversation.unread_count = 0;
-      }
-    });
+    this.messageService
+      .markAsRead(this.conversationId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        if (this.conversation) {
+          this.conversation.unread_count = 0;
+        }
+      });
     this.topBarNotificationService.clearNotificationsByConversation(this.conversationId);
   }
 
