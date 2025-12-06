@@ -1,0 +1,536 @@
+<ion-content [fullscreen]="true">
+  <div class="dashboard-container">
+    <div class="dashboard-header">
+      <div class="header-content">
+        <h1>{{ 'ADMIN.DASHBOARD.TITLE' | translate }}</h1>
+        <p class="subtitle">{{ 'ADMIN.DASHBOARD.SUBTITLE' | translate }}</p>
+      </div>
+      <div class="header-filters">
+        <ion-segment [(ngModel)]="selectedFilter" mode="md">
+          <ion-segment-button value="today">
+            <ion-label>{{ 'ADMIN.DASHBOARD.FILTERS.TODAY' | translate }}</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="week">
+            <ion-label>{{ 'ADMIN.DASHBOARD.FILTERS.WEEK' | translate }}</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="month">
+            <ion-label>{{ 'ADMIN.DASHBOARD.FILTERS.MONTH' | translate }}</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="year">
+            <ion-label>{{ 'ADMIN.DASHBOARD.FILTERS.YEAR' | translate }}</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+    </div>
+
+    <div class="system-health">
+      <h2>{{ 'ADMIN.DASHBOARD.SYSTEM_HEALTH.TITLE' | translate }}</h2>
+      <div class="health-cards">
+        <div class="health-card">
+          <div class="health-icon success">
+            <ion-icon name="checkmark-circle"></ion-icon>
+          </div>
+          <div class="health-info">
+            <span class="health-label">{{
+              'ADMIN.DASHBOARD.SYSTEM_HEALTH.SERVER_STATUS' | translate
+            }}</span>
+            <span class="health-value operational">{{
+              'ADMIN.DASHBOARD.SYSTEM_HEALTH.OPERATIONAL' | translate
+            }}</span>
+            <span class="health-detail">99.9% uptime</span>
+          </div>
+        </div>
+
+        <div class="health-card">
+          <div class="health-icon success">
+            <ion-icon name="checkmark-circle"></ion-icon>
+          </div>
+          <div class="health-info">
+            <span class="health-label">{{
+              'ADMIN.DASHBOARD.SYSTEM_HEALTH.DATABASE' | translate
+            }}</span>
+            <span class="health-value healthy">{{
+              'ADMIN.DASHBOARD.SYSTEM_HEALTH.HEALTHY' | translate
+            }}</span>
+            <span class="health-detail">45ms avg response</span>
+          </div>
+        </div>
+
+        <div class="health-card">
+          <div class="health-icon success">
+            <ion-icon name="checkmark-circle"></ion-icon>
+          </div>
+          <div class="health-info">
+            <span class="health-label">{{
+              'ADMIN.DASHBOARD.SYSTEM_HEALTH.API_PERFORMANCE' | translate
+            }}</span>
+            <span class="health-value optimal">{{
+              'ADMIN.DASHBOARD.SYSTEM_HEALTH.OPTIMAL' | translate
+            }}</span>
+            <span class="health-detail">123ms avg latency</span>
+          </div>
+        </div>
+
+        <div class="health-card">
+          <div class="health-icon">
+            <ion-icon name="analytics"></ion-icon>
+          </div>
+          <div class="health-info">
+            <span class="health-label">{{
+              'ADMIN.DASHBOARD.SYSTEM_HEALTH.STORAGE' | translate
+            }}</span>
+            <span class="health-value"
+              >67% {{ 'ADMIN.DASHBOARD.SYSTEM_HEALTH.USED' | translate }}</span
+            >
+            <span class="health-detail">23.5 GB / 35 GB</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <h2>{{ 'ADMIN.DASHBOARD.QUICK_ACTIONS.TITLE' | translate }}</h2>
+      <div class="actions-grid">
+        <button class="action-card" (click)="navigateTo('/admin/users')">
+          <ion-icon name="people"></ion-icon>
+          <span>{{ 'ADMIN.DASHBOARD.QUICK_ACTIONS.MANAGE_USERS' | translate }}</span>
+        </button>
+        <button class="action-card" (click)="navigateTo('/admin/content')">
+          <ion-icon name="eye"></ion-icon>
+          <span>{{ 'ADMIN.DASHBOARD.QUICK_ACTIONS.REVIEW_CONTENT' | translate }}</span>
+        </button>
+        <button class="action-card" (click)="navigateTo('/admin/reports')">
+          <ion-icon name="warning"></ion-icon>
+          <span>{{ 'ADMIN.DASHBOARD.QUICK_ACTIONS.HANDLE_REPORTS' | translate }}</span>
+        </button>
+        <button class="action-card" (click)="navigateTo('/admin/analytics')">
+          <ion-icon name="stats-chart"></ion-icon>
+          <span>{{ 'ADMIN.DASHBOARD.QUICK_ACTIONS.VIEW_ANALYTICS' | translate }}</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-header">
+          <div class="stat-icon primary">
+            <ion-icon name="people"></ion-icon>
+          </div>
+          <button class="stat-menu">
+            <ion-icon name="ellipsis-vertical"></ion-icon>
+          </button>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">{{ 'ADMIN.DASHBOARD.STATS.TOTAL_USERS' | translate }}</span>
+          <h3 class="stat-value">{{ isLoadingStats ? '...' : formatNumber(stats?.totalUsers) }}</h3>
+          <div
+            class="stat-change positive"
+            *ngIf="stats?.totalUsersChange !== undefined && stats !== null">
+            <ion-icon name="arrow-up"></ion-icon>
+            <span>{{ formatPercentage(stats.totalUsersChange) }}</span>
+            <span class="change-label"
+              >+{{ stats.totalUsersChangeCount }}
+              {{ 'ADMIN.DASHBOARD.STATS.THIS_MONTH' | translate }}</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <div class="stat-icon success">
+            <ion-icon name="document-text"></ion-icon>
+          </div>
+          <button class="stat-menu">
+            <ion-icon name="ellipsis-vertical"></ion-icon>
+          </button>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">{{ 'ADMIN.DASHBOARD.STATS.ACTIVE_CONTENT' | translate }}</span>
+          <h3 class="stat-value">
+            {{ isLoadingStats ? '...' : formatNumber(stats?.activeContent) }}
+          </h3>
+          <div
+            class="stat-change positive"
+            *ngIf="stats?.activeContentChange !== undefined && stats !== null">
+            <ion-icon name="arrow-up"></ion-icon>
+            <span>{{ formatPercentage(stats.activeContentChange) }}</span>
+            <span class="change-label"
+              >+{{ stats.activeContentChangeCount }}
+              {{ 'ADMIN.DASHBOARD.STATS.THIS_WEEK' | translate }}</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <div class="stat-icon warning">
+            <ion-icon name="warning"></ion-icon>
+          </div>
+          <button class="stat-menu">
+            <ion-icon name="ellipsis-vertical"></ion-icon>
+          </button>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">{{ 'ADMIN.DASHBOARD.STATS.PENDING_REPORTS' | translate }}</span>
+          <h3 class="stat-value">
+            {{ isLoadingStats ? '...' : formatNumber(stats?.pendingReports) }}
+          </h3>
+          <div
+            class="stat-change"
+            [class.negative]="(stats?.pendingReportsChange ?? 0) < 0"
+            [class.positive]="(stats?.pendingReportsChange ?? 0) > 0"
+            *ngIf="stats?.pendingReportsChange !== undefined && stats !== null">
+            <ion-icon
+              [name]="
+                (stats?.pendingReportsChange ?? 0) < 0 ? 'arrow-down' : 'arrow-up'
+              "></ion-icon>
+            <span>{{ formatPercentage(stats.pendingReportsChange) }}</span>
+            <span class="change-label"
+              >{{ (stats?.pendingReportsChange ?? 0) < 0 ? '' : '+'
+              }}{{ stats.pendingReportsChangeCount }}
+              {{ 'ADMIN.DASHBOARD.STATS.FROM_YESTERDAY' | translate }}</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <div class="stat-icon purple">
+            <ion-icon name="trending-up"></ion-icon>
+          </div>
+          <button class="stat-menu">
+            <ion-icon name="ellipsis-vertical"></ion-icon>
+          </button>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">{{ 'ADMIN.DASHBOARD.STATS.ENGAGEMENT_RATE' | translate }}</span>
+          <h3 class="stat-value">
+            {{ isLoadingStats ? '...' : (stats?.engagementRate ?? 0).toFixed(1) }}%
+          </h3>
+          <div
+            class="stat-change positive"
+            *ngIf="stats?.engagementRateChange !== undefined && stats !== null">
+            <ion-icon name="arrow-up"></ion-icon>
+            <span>{{ formatPercentage(stats.engagementRateChange) }}</span>
+            <span class="change-label"
+              >+{{ stats.engagementRateChangeValue?.toFixed(1) }}%
+              {{ 'ADMIN.DASHBOARD.STATS.THIS_WEEK' | translate }}</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="charts-section">
+      <div class="chart-card user-growth">
+        <div class="chart-header">
+          <h2>{{ 'ADMIN.DASHBOARD.CHARTS.USER_GROWTH' | translate }}</h2>
+        </div>
+        <div class="chart-content">
+          <div class="chart-placeholder" *ngIf="isLoadingWeekly">
+            <ion-spinner></ion-spinner>
+          </div>
+          <div class="growth-chart" *ngIf="!isLoadingWeekly && weeklyData">
+            <div class="chart-legend">
+              <div class="legend-item">
+                <span class="legend-color new-users"></span>
+                <span>{{ 'ADMIN.DASHBOARD.CHARTS.NEW_USERS' | translate }}</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color posts"></span>
+                <span>{{ 'ADMIN.DASHBOARD.CHARTS.POSTS' | translate }}</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color reports"></span>
+                <span>{{ 'ADMIN.DASHBOARD.CHARTS.REPORTS' | translate }}</span>
+              </div>
+            </div>
+            <div class="chart-bars">
+              <div class="bar-group" *ngFor="let day of weeklyData.days">
+                <div class="bars">
+                  <div
+                    class="bar posts"
+                    [style.height.%]="(day.posts / weeklyData.maxValue) * 100"></div>
+                  <div
+                    class="bar new-users"
+                    [style.height.%]="(day.newUsers / weeklyData.maxValue) * 100"></div>
+                  <div
+                    class="bar reports"
+                    [style.height.%]="(day.reports / weeklyData.maxValue) * 100"></div>
+                </div>
+                <span class="bar-label">{{ day.label }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card distribution">
+        <div class="chart-header">
+          <h2>{{ 'ADMIN.DASHBOARD.CHARTS.CONTENT_DISTRIBUTION' | translate }}</h2>
+        </div>
+        <div class="chart-content">
+          <div class="chart-placeholder" *ngIf="isLoadingDistribution">
+            <ion-spinner></ion-spinner>
+          </div>
+          <div class="distribution-chart" *ngIf="!isLoadingDistribution && distributionData">
+            <div class="pie-chart">
+              <svg viewBox="0 0 200 200" class="pie">
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="80"
+                  fill="transparent"
+                  stroke="var(--ion-color-primary)"
+                  [attr.stroke-dasharray]="distributionData.housing.percentage * 5.03 + ' 503'"
+                  stroke-width="40"
+                  transform="rotate(-90 100 100)"></circle>
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="80"
+                  fill="transparent"
+                  stroke="var(--chart-color-marketplace)"
+                  [attr.stroke-dasharray]="distributionData.marketplace.percentage * 5.03 + ' 503'"
+                  [attr.stroke-dashoffset]="-(distributionData.housing.percentage * 5.03)"
+                  stroke-width="40"
+                  transform="rotate(-90 100 100)"></circle>
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="80"
+                  fill="transparent"
+                  stroke="var(--chart-color-jobs)"
+                  [attr.stroke-dasharray]="distributionData.jobs.percentage * 5.03 + ' 503'"
+                  [attr.stroke-dashoffset]="
+                    -(
+                      distributionData.housing.percentage + distributionData.marketplace.percentage
+                    ) * 5.03
+                  "
+                  stroke-width="40"
+                  transform="rotate(-90 100 100)"></circle>
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="80"
+                  fill="transparent"
+                  stroke="var(--chart-color-carpool)"
+                  [attr.stroke-dasharray]="distributionData.carpool.percentage * 5.03 + ' 503'"
+                  [attr.stroke-dashoffset]="
+                    -(
+                      distributionData.housing.percentage +
+                      distributionData.marketplace.percentage +
+                      distributionData.jobs.percentage
+                    ) * 5.03
+                  "
+                  stroke-width="40"
+                  transform="rotate(-90 100 100)"></circle>
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="80"
+                  fill="transparent"
+                  stroke="var(--chart-color-services)"
+                  [attr.stroke-dasharray]="distributionData.services.percentage * 5.03 + ' 503'"
+                  [attr.stroke-dashoffset]="
+                    -(
+                      distributionData.housing.percentage +
+                      distributionData.marketplace.percentage +
+                      distributionData.jobs.percentage +
+                      distributionData.carpool.percentage
+                    ) * 5.03
+                  "
+                  stroke-width="40"
+                  transform="rotate(-90 100 100)"></circle>
+              </svg>
+            </div>
+            <div class="distribution-legend">
+              <div class="distribution-item">
+                <span class="distribution-color housing"></span>
+                <span class="distribution-label"
+                  >{{ 'ADMIN.DASHBOARD.CONTENT.HOUSING' | translate }}
+                  {{ distributionData.housing.percentage }}%</span
+                >
+              </div>
+              <div class="distribution-item">
+                <span class="distribution-color marketplace"></span>
+                <span class="distribution-label"
+                  >{{ 'ADMIN.DASHBOARD.CONTENT.MARKETPLACE' | translate }}
+                  {{ distributionData.marketplace.percentage }}%</span
+                >
+              </div>
+              <div class="distribution-item">
+                <span class="distribution-color jobs"></span>
+                <span class="distribution-label"
+                  >{{ 'ADMIN.DASHBOARD.CONTENT.JOBS' | translate }}
+                  {{ distributionData.jobs.percentage }}%</span
+                >
+              </div>
+              <div class="distribution-item">
+                <span class="distribution-color carpool"></span>
+                <span class="distribution-label"
+                  >{{ 'ADMIN.DASHBOARD.CONTENT.CARPOOL' | translate }}
+                  {{ distributionData.carpool.percentage }}%</span
+                >
+              </div>
+              <div class="distribution-item">
+                <span class="distribution-color services"></span>
+                <span class="distribution-label"
+                  >{{ 'ADMIN.DASHBOARD.CONTENT.SERVICES' | translate }}
+                  {{ distributionData.services.percentage }}%</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-overview-section">
+      <div class="content-overview">
+        <h2>{{ 'ADMIN.DASHBOARD.CONTENT_OVERVIEW.TITLE' | translate }}</h2>
+        <div class="content-items">
+          <div class="content-item">
+            <div class="content-icon housing">
+              <ion-icon name="home"></ion-icon>
+            </div>
+            <div class="content-info">
+              <span class="content-label">{{
+                'ADMIN.DASHBOARD.CONTENT.HOUSING_POSTS' | translate
+              }}</span>
+              <div class="content-progress">
+                <div class="progress-bar">
+                  <div
+                    class="progress-fill housing"
+                    [style.width.%]="
+                      distributionData
+                        ? (distributionData.housing.count / distributionData.housing.max) * 100
+                        : 0
+                    "></div>
+                </div>
+                <span class="content-count"
+                  >{{ getContentCount('housing') }}/{{ getContentMax('housing') }}</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="content-item">
+            <div class="content-icon marketplace">
+              <ion-icon name="bag-handle"></ion-icon>
+            </div>
+            <div class="content-info">
+              <span class="content-label">{{
+                'ADMIN.DASHBOARD.CONTENT.MARKETPLACE_ITEMS' | translate
+              }}</span>
+              <div class="content-progress">
+                <div class="progress-bar">
+                  <div
+                    class="progress-fill marketplace"
+                    [style.width.%]="
+                      distributionData
+                        ? (distributionData.marketplace.count / distributionData.marketplace.max) *
+                          100
+                        : 0
+                    "></div>
+                </div>
+                <span class="content-count"
+                  >{{ getContentCount('marketplace') }}/{{ getContentMax('marketplace') }}</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="content-item">
+            <div class="content-icon jobs">
+              <ion-icon name="briefcase"></ion-icon>
+            </div>
+            <div class="content-info">
+              <span class="content-label">{{
+                'ADMIN.DASHBOARD.CONTENT.JOB_POSTINGS' | translate
+              }}</span>
+              <div class="content-progress">
+                <div class="progress-bar">
+                  <div
+                    class="progress-fill jobs"
+                    [style.width.%]="
+                      distributionData
+                        ? (distributionData.jobs.count / distributionData.jobs.max) * 100
+                        : 0
+                    "></div>
+                </div>
+                <span class="content-count"
+                  >{{ getContentCount('jobs') }}/{{ getContentMax('jobs') }}</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="content-item">
+            <div class="content-icon carpool">
+              <ion-icon name="car"></ion-icon>
+            </div>
+            <div class="content-info">
+              <span class="content-label">{{
+                'ADMIN.DASHBOARD.CONTENT.CARPOOL_OFFERS' | translate
+              }}</span>
+              <div class="content-progress">
+                <div class="progress-bar">
+                  <div
+                    class="progress-fill carpool"
+                    [style.width.%]="
+                      distributionData
+                        ? (distributionData.carpool.count / distributionData.carpool.max) * 100
+                        : 0
+                    "></div>
+                </div>
+                <span class="content-count"
+                  >{{ getContentCount('carpool') }}/{{ getContentMax('carpool') }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="recent-activity">
+        <div class="activity-header">
+          <h2>{{ 'ADMIN.DASHBOARD.RECENT_ACTIVITY.TITLE' | translate }}</h2>
+          <button class="view-all-btn" (click)="viewAllActivity()">
+            {{ 'ADMIN.DASHBOARD.RECENT_ACTIVITY.VIEW_ALL' | translate }}
+          </button>
+        </div>
+        <div class="activity-list">
+          <div class="activity-placeholder" *ngIf="isLoadingActivity">
+            <ion-spinner></ion-spinner>
+          </div>
+          <div class="activity-item" *ngFor="let activity of recentActivity">
+            <div class="activity-icon" [attr.data-color]="getActivityColor(activity.type)">
+              <ion-icon [name]="getActivityIcon(activity.type)"></ion-icon>
+            </div>
+            <div class="activity-content">
+              <span class="activity-title">{{
+                'ADMIN.DASHBOARD.ACTIVITY.' + activity.type.toUpperCase() | translate
+              }}</span>
+              <span class="activity-description">{{ activity.description }}</span>
+              <div class="activity-user" *ngIf="activity.user">
+                <img
+                  [src]="activity.user.avatar"
+                  [alt]="activity.user.name"
+                  *ngIf="activity.user.avatar" />
+                <span class="user-initials" *ngIf="!activity.user.avatar">{{
+                  activity.user.initials
+                }}</span>
+                <span class="user-name">{{ activity.user.name }}</span>
+              </div>
+            </div>
+            <span class="activity-date">{{ activity.date }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

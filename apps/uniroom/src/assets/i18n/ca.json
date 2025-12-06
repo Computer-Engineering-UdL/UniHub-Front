@@ -612,6 +612,81 @@
     }
   },
   "ADMIN": {
+    "DASHBOARD": {
+      "TITLE": "Dashboard",
+      "SUBTITLE": "Vista general de l'activitat i el rendiment del sistema",
+      "FILTERS": {
+        "TODAY": "Avui",
+        "WEEK": "Setmana",
+        "MONTH": "Mes",
+        "YEAR": "Any"
+      },
+      "SYSTEM_HEALTH": {
+        "TITLE": "Estat del Sistema",
+        "SERVER_STATUS": "Estat del Servidor",
+        "DATABASE": "Base de Dades",
+        "API_PERFORMANCE": "Rendiment de l'API",
+        "STORAGE": "Emmagatzematge",
+        "OPERATIONAL": "Operacional",
+        "HEALTHY": "Saludable",
+        "OPTIMAL": "Òptim",
+        "USED": "Usat"
+      },
+      "QUICK_ACTIONS": {
+        "TITLE": "Accions Ràpides",
+        "MANAGE_USERS": "Gestionar Usuaris",
+        "REVIEW_CONTENT": "Revisar Contingut",
+        "HANDLE_REPORTS": "Gestionar Informes",
+        "VIEW_ANALYTICS": "Veure Anàlisi"
+      },
+      "STATS": {
+        "TOTAL_USERS": "Total d'Usuaris",
+        "ACTIVE_CONTENT": "Contingut Actiu",
+        "PENDING_REPORTS": "Informes Pendents",
+        "ENGAGEMENT_RATE": "Taxa d'Engagement",
+        "THIS_MONTH": "aquest mes",
+        "THIS_WEEK": "aquesta setmana",
+        "FROM_YESTERDAY": "des d'ahir"
+      },
+      "CHARTS": {
+        "USER_GROWTH": "Creixement d'Usuaris",
+        "CONTENT_DISTRIBUTION": "Distribució de Contingut",
+        "NEW_USERS": "Nous Usuaris",
+        "POSTS": "Publicacions",
+        "REPORTS": "Informes"
+      },
+      "CONTENT": {
+        "HOUSING": "Habitatge",
+        "MARKETPLACE": "Marketplace",
+        "JOBS": "Feines",
+        "CARPOOL": "Cotxe Compartit",
+        "SERVICES": "Serveis",
+        "HOUSING_POSTS": "Publicacions d'Habitatge",
+        "MARKETPLACE_ITEMS": "Articles de Marketplace",
+        "JOB_POSTINGS": "Ofertes de Feina",
+        "CARPOOL_OFFERS": "Ofertes de Cotxe Compartit"
+      },
+      "CONTENT_OVERVIEW": {
+        "TITLE": "Resum de Contingut"
+      },
+      "RECENT_ACTIVITY": {
+        "TITLE": "Activitat Recent",
+        "VIEW_ALL": "Veure Tot"
+      },
+      "ACTIVITY": {
+        "USER_REGISTRATION": "Nou registre d'usuari",
+        "CONTENT_REPORTED": "Contingut reportat",
+        "NEW_LISTING": "Nou anunci d'habitatge",
+        "USER_VERIFIED": "Usuari verificat",
+        "SYSTEM_MAINTENANCE": "Manteniment del sistema",
+        "MULTIPLE_REPORTS": "Múltiples informes rebuts"
+      },
+      "ERROR": {
+        "LOAD_STATS": "Error al carregar les estadístiques",
+        "LOAD_ACTIVITY": "Error al carregar l'activitat",
+        "LOAD_CHART": "Error al carregar el gràfic"
+      }
+    },
     "USERS": {
       "TITLE": "Gestió d'Usuaris",
       "STATS": {

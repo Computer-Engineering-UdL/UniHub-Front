@@ -613,6 +613,81 @@
     }
   },
   "ADMIN": {
+    "DASHBOARD": {
+      "TITLE": "Dashboard",
+      "SUBTITLE": "Vista general de la actividad y el rendimiento del sistema",
+      "FILTERS": {
+        "TODAY": "Hoy",
+        "WEEK": "Semana",
+        "MONTH": "Mes",
+        "YEAR": "Año"
+      },
+      "SYSTEM_HEALTH": {
+        "TITLE": "Estado del Sistema",
+        "SERVER_STATUS": "Estado del Servidor",
+        "DATABASE": "Base de Datos",
+        "API_PERFORMANCE": "Rendimiento de la API",
+        "STORAGE": "Almacenamiento",
+        "OPERATIONAL": "Operacional",
+        "HEALTHY": "Saludable",
+        "OPTIMAL": "Óptimo",
+        "USED": "Usado"
+      },
+      "QUICK_ACTIONS": {
+        "TITLE": "Acciones Rápidas",
+        "MANAGE_USERS": "Gestionar Usuarios",
+        "REVIEW_CONTENT": "Revisar Contenido",
+        "HANDLE_REPORTS": "Gestionar Informes",
+        "VIEW_ANALYTICS": "Ver Análisis"
+      },
+      "STATS": {
+        "TOTAL_USERS": "Total de Usuarios",
+        "ACTIVE_CONTENT": "Contenido Activo",
+        "PENDING_REPORTS": "Informes Pendientes",
+        "ENGAGEMENT_RATE": "Tasa de Engagement",
+        "THIS_MONTH": "este mes",
+        "THIS_WEEK": "esta semana",
+        "FROM_YESTERDAY": "desde ayer"
+      },
+      "CHARTS": {
+        "USER_GROWTH": "Crecimiento de Usuarios",
+        "CONTENT_DISTRIBUTION": "Distribución de Contenido",
+        "NEW_USERS": "Nuevos Usuarios",
+        "POSTS": "Publicaciones",
+        "REPORTS": "Informes"
+      },
+      "CONTENT": {
+        "HOUSING": "Vivienda",
+        "MARKETPLACE": "Marketplace",
+        "JOBS": "Trabajos",
+        "CARPOOL": "Coche Compartido",
+        "SERVICES": "Servicios",
+        "HOUSING_POSTS": "Publicaciones de Vivienda",
+        "MARKETPLACE_ITEMS": "Artículos de Marketplace",
+        "JOB_POSTINGS": "Ofertas de Trabajo",
+        "CARPOOL_OFFERS": "Ofertas de Coche Compartido"
+      },
+      "CONTENT_OVERVIEW": {
+        "TITLE": "Resumen de Contenido"
+      },
+      "RECENT_ACTIVITY": {
+        "TITLE": "Actividad Reciente",
+        "VIEW_ALL": "Ver Todo"
+      },
+      "ACTIVITY": {
+        "USER_REGISTRATION": "Nuevo registro de usuario",
+        "CONTENT_REPORTED": "Contenido reportado",
+        "NEW_LISTING": "Nuevo anuncio de vivienda",
+        "USER_VERIFIED": "Usuario verificado",
+        "SYSTEM_MAINTENANCE": "Mantenimiento del sistema",
+        "MULTIPLE_REPORTS": "Múltiples informes recibidos"
+      },
+      "ERROR": {
+        "LOAD_STATS": "Error al cargar las estadísticas",
+        "LOAD_ACTIVITY": "Error al cargar la actividad",
+        "LOAD_CHART": "Error al cargar el gráfico"
+      }
+    },
     "USERS": {
       "TITLE": "Gestión de Usuarios",
       "STATS": {

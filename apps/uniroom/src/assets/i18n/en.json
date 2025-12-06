@@ -618,6 +618,81 @@
     }
   },
   "ADMIN": {
+    "DASHBOARD": {
+      "TITLE": "Dashboard",
+      "SUBTITLE": "Overview of system activity and performance",
+      "FILTERS": {
+        "TODAY": "Today",
+        "WEEK": "Week",
+        "MONTH": "Month",
+        "YEAR": "Year"
+      },
+      "SYSTEM_HEALTH": {
+        "TITLE": "System Health",
+        "SERVER_STATUS": "Server Status",
+        "DATABASE": "Database",
+        "API_PERFORMANCE": "API Performance",
+        "STORAGE": "Storage",
+        "OPERATIONAL": "Operational",
+        "HEALTHY": "Healthy",
+        "OPTIMAL": "Optimal",
+        "USED": "Used"
+      },
+      "QUICK_ACTIONS": {
+        "TITLE": "Quick Actions",
+        "MANAGE_USERS": "Manage Users",
+        "REVIEW_CONTENT": "Review Content",
+        "HANDLE_REPORTS": "Handle Reports",
+        "VIEW_ANALYTICS": "View Analytics"
+      },
+      "STATS": {
+        "TOTAL_USERS": "Total Users",
+        "ACTIVE_CONTENT": "Active Content",
+        "PENDING_REPORTS": "Pending Reports",
+        "ENGAGEMENT_RATE": "Engagement Rate",
+        "THIS_MONTH": "this month",
+        "THIS_WEEK": "this week",
+        "FROM_YESTERDAY": "from yesterday"
+      },
+      "CHARTS": {
+        "USER_GROWTH": "User Growth",
+        "CONTENT_DISTRIBUTION": "Content Distribution",
+        "NEW_USERS": "New Users",
+        "POSTS": "Posts",
+        "REPORTS": "Reports"
+      },
+      "CONTENT": {
+        "HOUSING": "Housing",
+        "MARKETPLACE": "Marketplace",
+        "JOBS": "Jobs",
+        "CARPOOL": "Carpool",
+        "SERVICES": "Services",
+        "HOUSING_POSTS": "Housing Posts",
+        "MARKETPLACE_ITEMS": "Marketplace Items",
+        "JOB_POSTINGS": "Job Postings",
+        "CARPOOL_OFFERS": "Carpool Offers"
+      },
+      "CONTENT_OVERVIEW": {
+        "TITLE": "Content Overview"
+      },
+      "RECENT_ACTIVITY": {
+        "TITLE": "Recent Activity",
+        "VIEW_ALL": "View All"
+      },
+      "ACTIVITY": {
+        "USER_REGISTRATION": "New user registration",
+        "CONTENT_REPORTED": "Content reported",
+        "NEW_LISTING": "New housing listing",
+        "USER_VERIFIED": "User verified",
+        "SYSTEM_MAINTENANCE": "System maintenance",
+        "MULTIPLE_REPORTS": "Multiple reports received"
+      },
+      "ERROR": {
+        "LOAD_STATS": "Error loading statistics",
+        "LOAD_ACTIVITY": "Error loading activity",
+        "LOAD_CHART": "Error loading chart"
+      }
+    },
     "USERS": {
       "TITLE": "User Management",
       "STATS": {
