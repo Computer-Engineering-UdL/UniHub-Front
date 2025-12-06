@@ -79,12 +79,12 @@ export class PublicProfilePage implements OnInit, OnDestroy {
   async loadUserProfile(username: string): Promise<void> {
     this.loadingProfile = true;
     try {
-      const users: PublicUserProfile[] = await firstValueFrom(
-        this.apiService.get<PublicUserProfile[]>('user/', { username })
+      const response: PublicUserProfile = await firstValueFrom(
+        this.apiService.get<PublicUserProfile>(`user/public/${username}`)
       );
 
-      if (users && users.length > 0) {
-        this.user = users[0];
+      if (response) {
+        this.user = response;
         this.updateAvatarSrc();
         await this.loadUserInterests(this.user.id);
         await this.loadUserOffers(this.user.id);

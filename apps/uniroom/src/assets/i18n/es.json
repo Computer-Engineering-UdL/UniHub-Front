@@ -884,7 +884,8 @@
         "UNBAN": "No se pudo desbanear al miembro.",
         "BAN_MOTIVE_REQUIRED": "El motivo del ban es obligatorio (mínimo 3 caracteres).",
         "BAN_DURATION_REQUIRED": "La duración del ban es obligatoria (mínimo 1 día)."
-      }
+      },
+      "VIEW_PROFILE": "Ver perfil"
     },
     "ADD_MEMBER": {
       "TITLE": "Añadir Miembro",

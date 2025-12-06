@@ -888,7 +888,8 @@
         "UNBAN": "Could not unban member.",
         "BAN_MOTIVE_REQUIRED": "Ban reason is required (minimum 3 characters).",
         "BAN_DURATION_REQUIRED": "Ban duration is required (minimum 1 day)."
-      }
+      },
+      "VIEW_PROFILE": "View Profile"
     },
     "ADD_MEMBER": {
       "TITLE": "Add Member",

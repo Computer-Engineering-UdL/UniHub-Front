@@ -883,7 +883,8 @@
         "UNBAN": "No s'ha pogut desbanejar al membre.",
         "BAN_MOTIVE_REQUIRED": "El motiu del ban és obligatori (mínim 3 caràcters).",
         "BAN_DURATION_REQUIRED": "La durada del ban és obligatòria (mínim 1 dia)."
-      }
+      },
+      "VIEW_PROFILE": "Veure perfil"
     },
     "ADD_MEMBER": {
       "TITLE": "Afegir Membre",
