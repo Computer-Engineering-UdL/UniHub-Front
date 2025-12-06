@@ -271,7 +271,17 @@
     },
     "VERIFIED": "Verificado",
     "JOINED": "Registrado",
-    "YEAR": "{{year}}º Año"
+    "YEAR": "{{year}}º Año",
+    "PUBLIC": {
+      "TITLE": "Perfil de Usuario"
+    },
+    "ERROR": {
+      "USER_NOT_FOUND": "Usuario no encontrado",
+      "LOAD_PROFILE": "Error al cargar el perfil"
+    },
+    "TABS": {
+      "LISTINGS": "Anuncios"
+    }
   },
   "COMMON": {
     "LOADING": "Cargando...",
@@ -602,6 +612,7 @@
         "LAST_SEEN": "Última conexión {{time}}",
         "RESPONSE_TIME_PLACEHOLDER": "Suele responder en menos de 24 horas",
         "ACTIONS": {
+          "VIEW_PROFILE": "Ver perfil",
           "MESSAGE": "Enviar mensaje",
           "SCHEDULE": "Concertar visita",
           "CALL": "Llamar al propietario"

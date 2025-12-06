@@ -380,6 +380,14 @@
               }
 
               <div class="contact-actions">
+                <ion-button
+                  expand="block"
+                  color="primary"
+                  (click)="viewLandlordProfile()"
+                  *ngIf="room.landlord.username">
+                  <ion-icon slot="start" name="person-circle-outline"></ion-icon>
+                  {{ 'ROOM.DETAILS.LANDLORD.ACTIONS.VIEW_PROFILE' | translate }}
+                </ion-button>
                 <ion-button expand="block" color="primary" (click)="startPrivateConversation()">
                   <ion-icon slot="start" name="chatbubble-ellipses-outline"></ion-icon>
                   {{ 'ROOM.DETAILS.LANDLORD.ACTIONS.MESSAGE' | translate }}

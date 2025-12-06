@@ -271,7 +271,17 @@
     },
     "VERIFIED": "Verificat",
     "JOINED": "Registrat",
-    "YEAR": "{{year}}º Any"
+    "YEAR": "{{year}}º Any",
+    "PUBLIC": {
+      "TITLE": "Perfil d'Usuari"
+    },
+    "ERROR": {
+      "USER_NOT_FOUND": "Usuari no trobat",
+      "LOAD_PROFILE": "Error en carregar el perfil"
+    },
+    "TABS": {
+      "LISTINGS": "Anuncis"
+    }
   },
   "COMMON": {
     "LOADING": "Carregant...",
@@ -601,6 +611,7 @@
         "LAST_SEEN": "Última connexió {{time}}",
         "RESPONSE_TIME_PLACEHOLDER": "Sovint respon en menys de 24 hores",
         "ACTIONS": {
+          "VIEW_PROFILE": "Veure perfil",
           "MESSAGE": "Envia un missatge",
           "SCHEDULE": "Programa una visita",
           "CALL": "Truca al propietari"

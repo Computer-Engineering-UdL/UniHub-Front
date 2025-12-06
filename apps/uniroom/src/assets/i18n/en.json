@@ -271,7 +271,17 @@
     },
     "VERIFIED": "Verified",
     "JOINED": "Joined",
-    "YEAR": "{{year}}rd Year"
+    "YEAR": "{{year}}rd Year",
+    "PUBLIC": {
+      "TITLE": "User Profile"
+    },
+    "ERROR": {
+      "USER_NOT_FOUND": "User not found",
+      "LOAD_PROFILE": "Error loading profile"
+    },
+    "TABS": {
+      "LISTINGS": "Listings"
+    }
   },
   "COMMON": {
     "LOADING": "Loading...",
@@ -607,6 +617,7 @@
         "LAST_SEEN": "Last seen {{time}}",
         "RESPONSE_TIME_PLACEHOLDER": "Usually responds within 24 hours",
         "ACTIONS": {
+          "VIEW_PROFILE": "View Profile",
           "MESSAGE": "Send Message",
           "SCHEDULE": "Schedule Viewing",
           "CALL": "Call Landlord"

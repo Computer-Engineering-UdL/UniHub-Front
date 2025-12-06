@@ -1,0 +1,128 @@
+<ion-content [fullscreen]="true" class="page-container">
+  <ion-spinner *ngIf="loadingProfile" class="loading-spinner-center"></ion-spinner>
+
+  <div class="profile-wrapper" *ngIf="!loadingProfile && user">
+    <div class="profile-header">
+      <div class="profile-avatar">
+        <img [src]="avatarSrc" (error)="onAvatarError()" [alt]="getUserDisplayName()" />
+      </div>
+
+      <div class="profile-info">
+        <div class="profile-top-section">
+          <div class="profile-name-section">
+            <h1>{{ getUserDisplayName() }}</h1>
+            <ion-badge *ngIf="user.is_verified" color="success" class="verified-badge">
+              <ion-icon name="checkmark-circle"></ion-icon>
+              {{ 'PROFILE.VERIFIED' | translate }}
+            </ion-badge>
+          </div>
+        </div>
+
+        <div class="profile-meta">
+          <span class="meta-item">
+            <ion-icon name="person-outline"></ion-icon>
+            <span>{{ user.username }}</span>
+          </span>
+          <span class="meta-item" *ngIf="user.faculty">
+            <ion-icon name="school-outline"></ion-icon>
+            <span>{{ user.faculty.university.name }} • {{ user.faculty.name }}</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-stats">
+      <div class="stat-item">
+        <div class="stat-value">{{ stats.listings }}</div>
+        <div class="stat-label">{{ 'PROFILE.STATS.LISTINGS' | translate }}</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">{{ stats.channels }}</div>
+        <div class="stat-label">{{ 'PROFILE.STATS.CHANNELS' | translate }}</div>
+      </div>
+    </div>
+
+    <div class="profile-tabs">
+      <button
+        class="tab-button"
+        [class.active]="selectedTab === 'overview'"
+        (click)="selectTab('overview')">
+        {{ 'PROFILE.TABS.OVERVIEW' | translate }}
+      </button>
+      <button
+        class="tab-button"
+        [class.active]="selectedTab === 'listings'"
+        (click)="selectTab('listings')">
+        {{ 'PROFILE.TABS.LISTINGS' | translate }}
+      </button>
+    </div>
+
+    <div class="profile-content">
+      <div *ngIf="selectedTab === 'overview'" class="tab-content">
+        <div class="content-grid">
+          <div class="content-card">
+            <h2 class="card-title">{{ 'PROFILE.INTERESTS.TITLE' | translate }}</h2>
+
+            <div class="user-interests-container">
+              <ion-spinner *ngIf="loadingInterests"></ion-spinner>
+
+              <ion-chip
+                *ngFor="let interest of userInterests"
+                color="primary"
+                class="user-interest-chip">
+                <ion-label>{{ interest.name | interestTranslate:'interest' }}</ion-label>
+              </ion-chip>
+
+              <div *ngIf="!loadingInterests && userInterests.length === 0" class="empty-interests">
+                <ion-icon name="heart-outline"></ion-icon>
+                <p>{{ 'PROFILE.INTERESTS.NO_INTERESTS' | translate }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="selectedTab === 'listings'" class="tab-content">
+        <ion-spinner *ngIf="loadingOffers" class="loading-spinner"></ion-spinner>
+
+        <div *ngIf="!loadingOffers && userOffers.length === 0" class="empty-state">
+          <ion-icon name="home-outline" class="empty-icon"></ion-icon>
+          <p>{{ 'PROFILE.NO_LISTINGS' | translate }}</p>
+        </div>
+
+        <div *ngIf="!loadingOffers && userOffers.length > 0" class="listings-grid">
+          <div
+            *ngFor="let offer of userOffers"
+            class="listing-card"
+            (click)="navigateToOffer(offer)">
+            <div
+              class="listing-image"
+              [style.background-image]="offer.image ? 'url(' + offer.image + ')' : 'url(https://via.placeholder.com/400x300/e0e0e0/666666?text=No+Image)'">
+              <ion-badge
+                [color]="offer.status === 'active' ? 'success' : 'medium'"
+                class="status-badge">
+                {{ ('ROOM.STATUS.' + offer.status.toUpperCase()) | translate }}
+              </ion-badge>
+            </div>
+            <div class="listing-content">
+              <h3 class="listing-title">{{ offer.title }}</h3>
+              <p class="listing-location">
+                <ion-icon name="location-outline"></ion-icon>
+                {{ offer.city }}
+              </p>
+              <div class="listing-details">
+                <span class="listing-price">{{ offer.priceFormatted }}</span>
+                <span class="listing-area">{{ offer.areaFormatted }} m²</span>
+              </div>
+              <p class="listing-date" *ngIf="offer.posted_date">
+                <ion-icon name="calendar-outline"></ion-icon>
+                {{ offer.posted_date | date:'dd/MM/yyyy' }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
