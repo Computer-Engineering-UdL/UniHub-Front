@@ -219,6 +219,12 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
   }
 
+  async viewUserProfile(): Promise<void> {
+    if (this.otherUser?.username) {
+      await this.router.navigate(['/profile', this.otherUser.username]);
+    }
+  }
+
   formatTime(timestamp: string): string {
     const date: Date = new Date(timestamp);
     return this.localizationService.formatDateTime(date, { hour: '2-digit', minute: '2-digit' });
@@ -228,6 +234,15 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
     event.stopPropagation();
 
     const buttons: any[] = [];
+
+    if (this.otherUser?.username) {
+      buttons.push({
+        text: this.translate.instant('MESSAGES.VIEW_PROFILE'),
+        handler: () => {
+          void this.viewUserProfile();
+        }
+      });
+    }
 
     // If there's a housing offer, add option to view it
     if (this.conversation?.housing_offer_id) {
