@@ -36,30 +36,48 @@
           </div>
         </div>
 
-        <p class="profile-email">{{ user.email }}</p>
-
-        <div class="profile-meta">
-          <span class="meta-item">
-            <ion-icon name="person-outline"></ion-icon>
-            <span>{{ user.username }}</span>
-          </span>
-          <span class="meta-item" *ngIf="user.university">
-            <ion-icon name="school-outline"></ion-icon>
-            <span
-              >{{ user.university }} • {{ 'PROFILE.YEAR' | translate: {year: user.yearOfStudy}
-              }}</span
-            >
-          </span>
-          <span class="meta-item">
-            <ion-icon name="calendar-outline"></ion-icon>
-            <span>{{ 'PROFILE.JOINED' | translate }} {{ user.joinedDate }}</span>
-          </span>
+        <div class="profile-contact-section">
+          <div class="info-header">
+            <ion-icon name="mail-outline"></ion-icon>
+            <span>Contacto</span>
+          </div>
+          <p class="profile-email">{{ user.email }}</p>
         </div>
 
-        <div class="profile-role">
-          <ion-badge [color]="getRoleBadgeColor(user.role)">
-            {{ getRoleTranslationKey(user.role) | translate }}
-          </ion-badge>
+        <div class="profile-info-section">
+          <div class="info-header">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>Información personal</span>
+          </div>
+          <div class="profile-meta">
+            <span class="meta-item">
+              <ion-icon name="person-outline"></ion-icon>
+              <span>{{ user.username }}</span>
+            </span>
+            <span class="meta-item" *ngIf="user.university">
+              <ion-icon name="school-outline"></ion-icon>
+              <span
+                >{{ user.university }} • {{ 'PROFILE.YEAR' | translate: {year: user.yearOfStudy}
+                }}</span
+              >
+            </span>
+            <span class="meta-item">
+              <ion-icon name="calendar-outline"></ion-icon>
+              <span>{{ 'PROFILE.JOINED' | translate }} {{ user.joinedDate }}</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="profile-role-section">
+          <div class="info-header">
+            <ion-icon name="shield-checkmark-outline"></ion-icon>
+            <span>Rol</span>
+          </div>
+          <div class="profile-role">
+            <ion-badge [color]="getRoleBadgeColor(user.role)">
+              {{ getRoleTranslationKey(user.role) | translate }}
+            </ion-badge>
+          </div>
         </div>
       </div>
     </div>

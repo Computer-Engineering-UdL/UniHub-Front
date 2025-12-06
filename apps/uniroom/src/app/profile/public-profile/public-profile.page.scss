@@ -93,42 +93,178 @@
   border: 1px solid rgba(var(--ion-color-success-rgb), 0.2);
 }
 
+.info-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--ion-color-primary);
+  opacity: 0.9;
+
+  ion-icon {
+    font-size: 1.2rem;
+    color: var(--ion-color-primary);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  span {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--ion-color-primary);
+  }
+
+  @media (min-width: 768px) {
+    ion-icon {
+      font-size: 1.3rem;
+    }
+
+    span {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.profile-info-section,
+.profile-contact-section,
+.profile-role-section {
+  margin-top: 20px;
+  animation: fadeInUp 0.6s ease both;
+
+  &:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+
+  &:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+
+  &:nth-child(4) {
+    animation-delay: 0.3s;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
 .profile-tabs {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
   z-index: 10;
+  overflow: hidden;
+  background: var(--ion-card-background);
 
   .tab-button {
     padding: 16px 20px;
     font-size: 0.9rem;
     letter-spacing: 0.3px;
     position: relative;
+    overflow: hidden;
 
     @media (min-width: 768px) {
       padding: 18px 24px;
       font-size: 1rem;
     }
 
+    // Barra inferior animada
     &::before {
       content: '';
       position: absolute;
       bottom: 0;
-      left: 0;
-      right: 0;
+      left: 50%;
+      right: 50%;
       height: 3px;
       background: var(--ion-color-primary);
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 10px var(--ion-color-primary);
     }
 
-    &.active::before {
-      transform: scaleX(1);
+    // Efecto de brillo en hover
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(var(--ion-color-primary-rgb), 0.1),
+        transparent
+      );
+      transition: left 0.5s ease;
+    }
+
+    &:hover::after {
+      left: 100%;
     }
 
     &.active {
       border-bottom-color: transparent;
+      background: linear-gradient(
+        180deg,
+        rgba(var(--ion-color-primary-rgb), 0.05) 0%,
+        transparent 100%
+      );
+
+      &::before {
+        left: 0;
+        right: 0;
+        animation: slideExpand 0.4s ease;
+      }
     }
+
+    // Efecto ripple al hacer click
+    &:active {
+      animation: ripple 0.6s ease-out;
+    }
+  }
+}
+
+@keyframes slideExpand {
+  0% {
+    left: 50%;
+    right: 50%;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    left: 0;
+    right: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--ion-color-primary-rgb), 0.4);
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(var(--ion-color-primary-rgb), 0);
   }
 }
 

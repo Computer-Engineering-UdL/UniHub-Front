@@ -18,15 +18,21 @@
           </div>
         </div>
 
-        <div class="profile-meta">
-          <span class="meta-item">
-            <ion-icon name="person-outline"></ion-icon>
-            <span>{{ user.username }}</span>
-          </span>
-          <span class="meta-item" *ngIf="user.faculty">
-            <ion-icon name="school-outline"></ion-icon>
-            <span>{{ user.faculty.university.name }} • {{ user.faculty.name }}</span>
-          </span>
+        <div class="profile-info-section">
+          <div class="info-header">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>Información del usuario</span>
+          </div>
+          <div class="profile-meta">
+            <span class="meta-item">
+              <ion-icon name="person-outline"></ion-icon>
+              <span>{{ user.username }}</span>
+            </span>
+            <span class="meta-item" *ngIf="user.faculty">
+              <ion-icon name="school-outline"></ion-icon>
+              <span>{{ user.faculty.university.name }} • {{ user.faculty.name }}</span>
+            </span>
+          </div>
         </div>
       </div>
     </div>
