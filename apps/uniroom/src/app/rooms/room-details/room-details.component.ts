@@ -680,8 +680,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   }
 
   async viewLandlordProfile(): Promise<void> {
-    if (this.offer?.landlord.username) {
-      await this.router.navigate(['/profile', this.offer.landlord.username]);
+    if (this.offer?.landlord.userId) {
+      await this.router.navigate(['/profile', this.offer.landlord.userId]);
     }
   }
 

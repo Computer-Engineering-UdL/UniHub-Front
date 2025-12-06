@@ -65,9 +65,9 @@ export class PublicProfilePage implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe((params): void => {
-      const username: string | null = params['username'];
-      if (username) {
-        void this.loadUserProfile(username);
+      const userId: string | null = params['userId'];
+      if (userId) {
+        void this.loadUserProfile(userId);
       }
     });
   }
@@ -76,11 +76,11 @@ export class PublicProfilePage implements OnInit, OnDestroy {
     this.routeSub?.unsubscribe();
   }
 
-  async loadUserProfile(username: string): Promise<void> {
+  async loadUserProfile(userId: string): Promise<void> {
     this.loadingProfile = true;
     try {
       const response: PublicUserProfile = await firstValueFrom(
-        this.apiService.get<PublicUserProfile>(`user/public/${username}`)
+        this.apiService.get<PublicUserProfile>(`user/public/${userId}`)
       );
 
       if (response) {

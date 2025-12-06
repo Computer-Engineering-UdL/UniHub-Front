@@ -9,7 +9,7 @@ const routes: Routes = [
     component: ProfilePage
   },
   {
-    path: ':username',
+    path: ':userId',
     component: PublicProfilePage,
     data: { public: true, titleKey: 'PROFILE.PUBLIC.TITLE' }
   }

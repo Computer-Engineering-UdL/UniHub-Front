@@ -220,8 +220,8 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   async viewUserProfile(): Promise<void> {
-    if (this.otherUser?.username) {
-      await this.router.navigate(['/profile', this.otherUser.username]);
+    if (this.otherUser?.id) {
+      await this.router.navigate(['/profile', this.otherUser.id]);
     }
   }
 

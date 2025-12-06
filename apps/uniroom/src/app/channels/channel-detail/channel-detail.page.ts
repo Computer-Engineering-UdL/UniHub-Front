@@ -707,8 +707,8 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   async viewMemberProfile(member: ChannelMember): Promise<void> {
-    if (member.user?.username) {
-      await this.router.navigate(['/profile', member.user.username]);
+    if (member.user_id) {
+      await this.router.navigate(['/profile', member.user_id]);
     }
   }
 }
