@@ -337,10 +337,7 @@ ion-header {
     }
 
     .unread-badge {
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
+      position: relative;
       min-width: 20px;
       height: 20px;
       border-radius: 10px;
@@ -349,6 +346,8 @@ ion-header {
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-left: 8px;
+      flex-shrink: 0;
     }
   }
 }

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { ThemeService } from './services/theme.service';
 import { LocalizationService } from './services/localization.service';
 import { AuthService } from './services/auth.service';
+import { MessageService } from './services/message.service';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +10,9 @@ import { AuthService } from './services/auth.service';
   standalone: false
 })
 export class AppComponent {
-  private localizationService: LocalizationService = inject(LocalizationService);
-  private themeService: ThemeService = inject(ThemeService);
-  private authService: AuthService = inject(AuthService);
+  private readonly localizationService: LocalizationService = inject(LocalizationService);
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly messageService: MessageService = inject(MessageService);
 
   constructor() {
     this.initialize();

@@ -98,6 +98,16 @@ export class TopBarNotificationService {
     this.notificationsSubject.next(updatedNotifications);
   }
 
+  clearNotificationsByConversation(conversationId: string): void {
+    const currentNotifications: TopBarNotification[] = this.notificationsSubject.value;
+    const updatedNotifications: TopBarNotification[] = currentNotifications.filter(
+      (n: TopBarNotification) => n.routeParams?.['conversationId'] !== conversationId
+    );
+
+    this.notificationsSubject.next(updatedNotifications);
+    this.updateUnreadCount();
+  }
+
   async navigateToNotification(notification: TopBarNotification): Promise<void> {
     this.markAsRead(notification.id);
 

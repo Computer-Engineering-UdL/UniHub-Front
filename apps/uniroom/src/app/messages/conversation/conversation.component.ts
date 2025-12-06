@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AlertController, IonContent, IonicModule, Platform } from '@ionic/angular';
@@ -11,6 +11,7 @@ import { LocalizationService } from '../../services/localization.service';
 import { Conversation, Message } from '../../models/message.types';
 import { DEFAULT_USER_URL, User } from '../../models/auth.types';
 import NotificationService from '../../services/notification.service';
+import { TopBarNotificationService } from "../../services/topbar-notification.service";
 
 @Component({
   selector: 'app-conversation',
@@ -35,6 +36,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   private readonly notificationService: NotificationService = inject(NotificationService);
   private readonly router: Router = inject(Router);
   private readonly destroy$: Subject<void> = new Subject<void>();
+  private readonly topBarNotificationService: TopBarNotificationService = inject(TopBarNotificationService);
   private conversationDestroy$: Subject<void> = new Subject<void>();
 
   messages: Message[] = [];
@@ -69,7 +71,6 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
       const previousCount = this.messages.length;
 
       this.messages = [...filteredMessages];
-
       if (previousCount > 0 && filteredMessages.length > previousCount) {
         this.markConversationAsRead();
       }
@@ -178,7 +179,12 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   markConversationAsRead(): void {
-    this.messageService.markAsRead(this.conversationId).pipe(takeUntil(this.destroy$)).subscribe();
+    this.messageService.markAsRead(this.conversationId).pipe(takeUntil(this.destroy$)).subscribe(() => {
+      if (this.conversation) {
+        this.conversation.unread_count = 0;
+      }
+    });
+    this.topBarNotificationService.clearNotificationsByConversation(this.conversationId);
   }
 
   scrollToBottom(): void {

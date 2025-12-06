@@ -299,7 +299,18 @@ export class MessageService implements OnDestroy {
   }
 
   markAsRead(conversationId: string): Observable<void> {
-    return this.apiService.post<void>(`conversation/${conversationId}/mark-read`, {});
+    return this.apiService.post<void>(`conversation/${conversationId}/mark-read`, {}).pipe(
+      tap(() => {
+        const currentConversations = this.conversationsSubject.value;
+        const updatedConversations = currentConversations.map(conv => {
+          if (conv.id === conversationId) {
+            return { ...conv, unread_count: 0 };
+          }
+          return conv;
+        });
+        this.conversationsSubject.next(updatedConversations);
+      })
+    );
   }
 
   createConversation(otherUserId: string, housingOfferId?: string, itemId?: string): Observable<Conversation> {
