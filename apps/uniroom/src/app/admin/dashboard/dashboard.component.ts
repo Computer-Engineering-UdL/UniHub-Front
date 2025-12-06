@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { DashboardService } from '../../services/dashboard.service';
 import NotificationService from '../../services/notification.service';
 import { LocalizationService } from '../../services/localization.service';
@@ -19,6 +20,7 @@ export class AdminDashboardComponent implements OnInit {
   private readonly dashboardService: DashboardService = inject(DashboardService);
   private readonly notificationService: NotificationService = inject(NotificationService);
   private readonly localizationService: LocalizationService = inject(LocalizationService);
+  private readonly translateService: TranslateService = inject(TranslateService);
 
   stats: DashboardStats | null = null;
   recentActivity: DashboardActivity[] = [];
@@ -170,10 +172,10 @@ export class AdminDashboardComponent implements OnInit {
 
   getContentLabel(label: string): string {
     const labelMap: Record<string, string> = {
-      'Housing': 'ADMIN.DASHBOARD.CONTENT.HOUSING_POSTS',
-      'Marketplace': 'ADMIN.DASHBOARD.CONTENT.MARKETPLACE_ITEMS',
-      'Jobs': 'ADMIN.DASHBOARD.CONTENT.JOB_POSTINGS',
-      'Carpool': 'ADMIN.DASHBOARD.CONTENT.CARPOOL_OFFERS'
+      Housing: 'ADMIN.DASHBOARD.CONTENT.HOUSING_POSTS',
+      Marketplace: 'ADMIN.DASHBOARD.CONTENT.MARKETPLACE_ITEMS',
+      Jobs: 'ADMIN.DASHBOARD.CONTENT.JOB_POSTINGS',
+      Carpool: 'ADMIN.DASHBOARD.CONTENT.CARPOOL_OFFERS'
     };
     return labelMap[label] || label;
   }
@@ -188,14 +190,28 @@ export class AdminDashboardComponent implements OnInit {
 
   translateDayLabel(label: string): string {
     const dayMap: Record<string, string> = {
-      'Sun': 'COMMON.DAYS.SUN',
-      'Mon': 'COMMON.DAYS.MON',
-      'Tue': 'COMMON.DAYS.TUE',
-      'Wed': 'COMMON.DAYS.WED',
-      'Thu': 'COMMON.DAYS.THU',
-      'Fri': 'COMMON.DAYS.FRI',
-      'Sat': 'COMMON.DAYS.SAT'
+      Sun: 'COMMON.DAYS.SUN',
+      Mon: 'COMMON.DAYS.MON',
+      Tue: 'COMMON.DAYS.TUE',
+      Wed: 'COMMON.DAYS.WED',
+      Thu: 'COMMON.DAYS.THU',
+      Fri: 'COMMON.DAYS.FRI',
+      Sat: 'COMMON.DAYS.SAT'
     };
     return dayMap[label] || label;
+  }
+
+  getActivityDescription(activity: DashboardActivity): string {
+    let description: string = activity.description;
+
+    description = description.replace(' UniRoom', '').replace('UniRoom ', '');
+
+    const joinedMatch: RegExpMatchArray | null = description.match(/(.+) joined$/);
+    if (joinedMatch) {
+      const username: string = joinedMatch[1];
+      return this.translateService.instant('ADMIN.DASHBOARD.ACTIVITY.USER_JOINED', { username });
+    }
+
+    return description;
   }
 }

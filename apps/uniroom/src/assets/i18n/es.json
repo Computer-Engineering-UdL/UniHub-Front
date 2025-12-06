@@ -627,8 +627,10 @@
       "SUBTITLE": "Vista general de la actividad y el rendimiento del sistema",
       "STATS": {
         "TOTAL_USERS": "Total de Usuarios",
+        "ACTIVE_HOUSING": "Viviendas Activas",
         "ACTIVE_CONTENT": "Contenido Activo",
         "PENDING_REPORTS": "Informes Pendientes",
+        "VERIFIED_USERS": "Usuarios Verificados %",
         "ENGAGEMENT_RATE": "Tasa de Usuarios Verificados"
       },
       "CHARTS": {
@@ -649,6 +651,9 @@
       "RECENT_ACTIVITY": {
         "TITLE": "Actividad Reciente",
         "EMPTY": "No hay actividad reciente"
+      },
+      "ACTIVITY": {
+        "USER_JOINED": "{{username}} se ha unido a la plataforma"
       },
       "ERROR": {
         "LOAD_STATS": "Error al cargar las estadísticas",

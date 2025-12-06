@@ -626,8 +626,10 @@
       "SUBTITLE": "Vista general de l'activitat i el rendiment del sistema",
       "STATS": {
         "TOTAL_USERS": "Total d'Usuaris",
+        "ACTIVE_HOUSING": "Habitatges Actius",
         "ACTIVE_CONTENT": "Contingut Actiu",
         "PENDING_REPORTS": "Informes Pendents",
+        "VERIFIED_USERS": "Usuaris Verificats %",
         "ENGAGEMENT_RATE": "Taxa d'Usuaris Verificats"
       },
       "CHARTS": {
@@ -648,6 +650,9 @@
       "RECENT_ACTIVITY": {
         "TITLE": "Activitat Recent",
         "EMPTY": "No hi ha activitat recent"
+      },
+      "ACTIVITY": {
+        "USER_JOINED": "{{username}} s'ha unit a la plataforma"
       },
       "ERROR": {
         "LOAD_STATS": "Error al carregar les estadístiques",

@@ -20,9 +20,7 @@
             class="trend-icon"></ion-icon>
         </div>
         <div class="stat-content">
-          <span class="stat-label">{{
-            stats?.total_users?.label || ('ADMIN.DASHBOARD.STATS.TOTAL_USERS' | translate)
-          }}</span>
+          <span class="stat-label">{{ 'ADMIN.DASHBOARD.STATS.TOTAL_USERS' | translate }}</span>
           <h3 class="stat-value">
             {{ isLoadingStats ? '...' : formatNumber(stats?.total_users?.value) }}
           </h3>
@@ -47,9 +45,7 @@
             class="trend-icon"></ion-icon>
         </div>
         <div class="stat-content">
-          <span class="stat-label">{{
-            stats?.active_content?.label || ('ADMIN.DASHBOARD.STATS.ACTIVE_CONTENT' | translate)
-          }}</span>
+          <span class="stat-label">{{ 'ADMIN.DASHBOARD.STATS.ACTIVE_HOUSING' | translate }}</span>
           <h3 class="stat-value">
             {{ isLoadingStats ? '...' : formatNumber(stats?.active_content?.value) }}
           </h3>
@@ -74,9 +70,7 @@
             class="trend-icon"></ion-icon>
         </div>
         <div class="stat-content">
-          <span class="stat-label">{{
-            stats?.pending_reports?.label || ('ADMIN.DASHBOARD.STATS.PENDING_REPORTS' | translate)
-          }}</span>
+          <span class="stat-label">{{ 'ADMIN.DASHBOARD.STATS.PENDING_REPORTS' | translate }}</span>
           <h3 class="stat-value">
             {{ isLoadingStats ? '...' : formatNumber(stats?.pending_reports?.value) }}
           </h3>
@@ -101,9 +95,7 @@
             class="trend-icon"></ion-icon>
         </div>
         <div class="stat-content">
-          <span class="stat-label">{{
-            stats?.engagement_rate?.label || ('ADMIN.DASHBOARD.STATS.ENGAGEMENT_RATE' | translate)
-          }}</span>
+          <span class="stat-label">{{ 'ADMIN.DASHBOARD.STATS.VERIFIED_USERS' | translate }}</span>
           <h3 class="stat-value">
             {{ isLoadingStats ? '...' : (stats?.engagement_rate?.value ?? 0).toFixed(1) }}%
           </h3>
@@ -175,7 +167,9 @@
                 <div
                   class="content-progress-fill"
                   [attr.data-type]="getContentType(i)"
-                  [style.width.%]="(distributionData.datasets[0].data[i] / getDistributionMax()) * 100"></div>
+                  [style.width.%]="
+                    (distributionData.datasets[0].data[i] / getDistributionMax()) * 100
+                  "></div>
               </div>
             </div>
           </div>
@@ -207,7 +201,7 @@
           </div>
           <div class="activity-content">
             <div class="activity-title">{{ activity.title }}</div>
-            <div class="activity-description">{{ activity.description }}</div>
+            <div class="activity-description">{{ getActivityDescription(activity) }}</div>
           </div>
           <div class="activity-time">{{ formatDate(activity.timestamp) }}</div>
         </div>

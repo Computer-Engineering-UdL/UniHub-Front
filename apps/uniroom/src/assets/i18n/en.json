@@ -632,8 +632,10 @@
       "SUBTITLE": "Overview of system activity and performance",
       "STATS": {
         "TOTAL_USERS": "Total Users",
+        "ACTIVE_HOUSING": "Active Housing",
         "ACTIVE_CONTENT": "Active Content",
         "PENDING_REPORTS": "Pending Reports",
+        "VERIFIED_USERS": "Verified Users %",
         "ENGAGEMENT_RATE": "Verified Users Rate"
       },
       "CHARTS": {
@@ -654,6 +656,9 @@
       "RECENT_ACTIVITY": {
         "TITLE": "Recent Activity",
         "EMPTY": "No recent activity"
+      },
+      "ACTIVITY": {
+        "USER_JOINED": "{{username}} joined the platform"
       },
       "ERROR": {
         "LOAD_STATS": "Error loading statistics",
