@@ -71,6 +71,10 @@
   "PROFILE": {
     "TITLE": "Perfil",
     "USER_INFO": "Información del Usuario",
+    "USER_INFORMATION": "Información del usuario",
+    "PERSONAL_INFO": "Información personal",
+    "CONTACT": "Contacto",
+    "ROLE_LABEL": "Rol",
     "NAME": "Nombre",
     "USERNAME": "Nombre de usuario",
     "EDIT_PROFILE": "Editar Perfil",
