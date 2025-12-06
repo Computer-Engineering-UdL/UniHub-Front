@@ -170,10 +170,10 @@ export class AdminDashboardComponent implements OnInit {
 
   getContentLabel(label: string): string {
     const labelMap: Record<string, string> = {
-      'Housing': 'ADMIN.DASHBOARD.CONTENT.HOUSING_POSTS',
-      'Marketplace': 'ADMIN.DASHBOARD.CONTENT.MARKETPLACE_ITEMS',
-      'Jobs': 'ADMIN.DASHBOARD.CONTENT.JOB_POSTINGS',
-      'Carpool': 'ADMIN.DASHBOARD.CONTENT.CARPOOL_OFFERS'
+      Housing: 'ADMIN.DASHBOARD.CONTENT.HOUSING_POSTS',
+      Marketplace: 'ADMIN.DASHBOARD.CONTENT.MARKETPLACE_ITEMS',
+      Jobs: 'ADMIN.DASHBOARD.CONTENT.JOB_POSTINGS',
+      Carpool: 'ADMIN.DASHBOARD.CONTENT.CARPOOL_OFFERS'
     };
     return labelMap[label] || label;
   }
@@ -188,13 +188,13 @@ export class AdminDashboardComponent implements OnInit {
 
   translateDayLabel(label: string): string {
     const dayMap: Record<string, string> = {
-      'Sun': 'COMMON.DAYS.SUN',
-      'Mon': 'COMMON.DAYS.MON',
-      'Tue': 'COMMON.DAYS.TUE',
-      'Wed': 'COMMON.DAYS.WED',
-      'Thu': 'COMMON.DAYS.THU',
-      'Fri': 'COMMON.DAYS.FRI',
-      'Sat': 'COMMON.DAYS.SAT'
+      Sun: 'COMMON.DAYS.SUN',
+      Mon: 'COMMON.DAYS.MON',
+      Tue: 'COMMON.DAYS.TUE',
+      Wed: 'COMMON.DAYS.WED',
+      Thu: 'COMMON.DAYS.THU',
+      Fri: 'COMMON.DAYS.FRI',
+      Sat: 'COMMON.DAYS.SAT'
     };
     return dayMap[label] || label;
   }

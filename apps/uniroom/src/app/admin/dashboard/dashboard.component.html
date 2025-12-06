@@ -175,7 +175,9 @@
                 <div
                   class="content-progress-fill"
                   [attr.data-type]="getContentType(i)"
-                  [style.width.%]="(distributionData.datasets[0].data[i] / getDistributionMax()) * 100"></div>
+                  [style.width.%]="
+                    (distributionData.datasets[0].data[i] / getDistributionMax()) * 100
+                  "></div>
               </div>
             </div>
           </div>
