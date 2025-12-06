@@ -93,7 +93,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   constructor(
     public router: Router,
-    private authService: AuthService
+    private readonly authService: AuthService
   ) {
     this.authService.currentUser$.subscribe((user: User | null): void => {
       this.filteredNavItems = this.navItems.filter((item: NavItem): boolean => {

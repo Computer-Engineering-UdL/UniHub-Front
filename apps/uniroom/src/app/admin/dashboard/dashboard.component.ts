@@ -188,19 +188,6 @@ export class AdminDashboardComponent implements OnInit {
     return labelMap[label] || label;
   }
 
-  translateDayLabel(label: string): string {
-    const dayMap: Record<string, string> = {
-      Sun: 'COMMON.DAYS.SUN',
-      Mon: 'COMMON.DAYS.MON',
-      Tue: 'COMMON.DAYS.TUE',
-      Wed: 'COMMON.DAYS.WED',
-      Thu: 'COMMON.DAYS.THU',
-      Fri: 'COMMON.DAYS.FRI',
-      Sat: 'COMMON.DAYS.SAT'
-    };
-    return dayMap[label] || label;
-  }
-
   getActivityDescription(activity: DashboardActivity): string {
     let description: string = activity.description;
 
