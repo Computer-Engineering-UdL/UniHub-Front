@@ -137,7 +137,9 @@
                     [style.height.%]="(dataset.data[i] / weeklyChartMax) * 100"
                     [title]="translateDatasetLabel(dataset.label) + ': ' + dataset.data[i]"></div>
                 </div>
-                <span class="bar-label">{{ 'COMMON.DAYS.'+ label.toUpperCase() | translate }}</span>
+                <span class="bar-label">{{
+                  'COMMON.DAYS.' + label.toUpperCase() | translate
+                }}</span>
               </div>
             </div>
           </div>

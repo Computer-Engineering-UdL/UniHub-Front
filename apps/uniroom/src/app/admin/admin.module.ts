@@ -10,11 +10,13 @@ import { AdminDashboardComponent } from './dashboard/dashboard.component';
 const routes: Routes = [
   {
     path: 'dashboard',
-    component: AdminDashboardComponent
+    component: AdminDashboardComponent,
+    data: { titleKey: 'SIDEBAR.ADMIN_DASHBOARD' }
   },
   {
     path: 'users',
-    component: AdminUsersComponent
+    component: AdminUsersComponent,
+    data: { titleKey: 'ADMIN.USERS.TITLE' }
   },
   {
     path: '',
