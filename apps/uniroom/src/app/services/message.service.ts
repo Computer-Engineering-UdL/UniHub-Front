@@ -74,7 +74,7 @@ export class MessageService implements OnDestroy {
     }
 
     if (!message.id) {
-      message.id = `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      message.id = `temp-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
     }
 
     if (!message.created_at) {
@@ -110,11 +110,18 @@ export class MessageService implements OnDestroy {
       updatedMessages = [...currentMessages, message];
     } else {
       updatedMessages = [...currentMessages];
-      updatedMessages[messageIndex] = message;
+      updatedMessages[messageIndex] = { ...updatedMessages[messageIndex], ...message };
     }
 
     updatedMessages.sort((a: Message, b: Message): number => {
-      return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+      const timeA = new Date(a.created_at).getTime();
+      const timeB = new Date(b.created_at).getTime();
+
+      if (timeA !== timeB) {
+        return timeA - timeB;
+      }
+
+      return a.id.localeCompare(b.id);
     });
 
     this.messagesSubject.next(updatedMessages);

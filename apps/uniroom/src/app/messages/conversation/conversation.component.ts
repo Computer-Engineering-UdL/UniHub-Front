@@ -1,21 +1,9 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AlertController, IonContent, IonicModule, Platform, PopoverController } from '@ionic/angular';
+import { AlertController, IonContent, IonicModule, Platform } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Subject, takeUntil, firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { MessageService } from '../../services/message.service';
 import { AuthService } from '../../services/auth.service';
@@ -46,7 +34,6 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   private readonly translate: TranslateService = inject(TranslateService);
   private readonly notificationService: NotificationService = inject(NotificationService);
   private readonly router: Router = inject(Router);
-  private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private readonly destroy$: Subject<void> = new Subject<void>();
   private conversationDestroy$: Subject<void> = new Subject<void>();
 
@@ -82,8 +69,6 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
       const previousCount = this.messages.length;
 
       this.messages = [...filteredMessages];
-
-      this.cdr.detectChanges();
 
       if (previousCount > 0 && filteredMessages.length > previousCount) {
         this.markConversationAsRead();
