@@ -93,11 +93,6 @@
       "HELPFUL": "Útil",
       "CHANNELS": "Canales"
     },
-    "TABS": {
-      "OVERVIEW": "Resumen",
-      "MY_POSTS": "Mis publicaciones",
-      "MY_LISTINGS": "Mis anuncios"
-    },
     "INTERESTS": {
       "TITLE": "Intereses",
       "DESCRIPTION": "Gestiona tus intereses",
@@ -280,7 +275,10 @@
       "LOAD_PROFILE": "Error al cargar el perfil"
     },
     "TABS": {
-      "LISTINGS": "Anuncios"
+      "LISTINGS": "Anuncios",
+      "OVERVIEW": "Resumen",
+      "MY_POSTS": "Mis publicaciones",
+      "MY_LISTINGS": "Mis anuncios"
     }
   },
   "COMMON": {

@@ -93,11 +93,6 @@
       "HELPFUL": "Helpful",
       "CHANNELS": "Channels"
     },
-    "TABS": {
-      "OVERVIEW": "Overview",
-      "MY_POSTS": "My Posts",
-      "MY_LISTINGS": "My Listings"
-    },
     "INTERESTS": {
       "TITLE": "Interests",
       "DESCRIPTION": "Manage your interests",
@@ -280,7 +275,10 @@
       "LOAD_PROFILE": "Error loading profile"
     },
     "TABS": {
-      "LISTINGS": "Listings"
+      "LISTINGS": "Listings",
+      "OVERVIEW": "Overview",
+      "MY_POSTS": "My Posts",
+      "MY_LISTINGS": "My Listings"
     }
   },
   "COMMON": {
