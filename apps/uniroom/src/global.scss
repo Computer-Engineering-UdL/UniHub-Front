@@ -351,6 +351,17 @@ ion-modal.report-modal ion-content::part(scroll) {
   padding-bottom: 0 !important;
 }
 
+ion-modal.report-modal ion-textarea {
+  --highlight-color-focused: transparent !important;
+  --highlight-color-valid: transparent !important;
+  --highlight-color: transparent !important;
+  --highlight-height: 0 !important;
+
+  .textarea-highlight {
+    display: none !important;
+  }
+}
+
 /**
  * Select Options Colors
  * -----------------------------------------------------
@@ -633,10 +644,9 @@ ion-input {
  * -----------------------------------------------------
  */
 ion-textarea {
-  --highlight-color-focused: transparent !important;
-  --highlight-color-valid: transparent !important;
-  --highlight-color: transparent !important;
-  --highlight-height: 0 !important;
+  --highlight-color-focused: var(--ion-color-primary) !important;
+  --highlight-color-valid: var(--ion-color-primary) !important;
+  --highlight-color: var(--ion-color-primary) !important;
   --border-radius: 10px !important;
 
   .textarea-wrapper {
@@ -645,10 +655,6 @@ ion-textarea {
 
   .native-textarea {
     border-radius: 10px !important;
-  }
-
-  .textarea-highlight {
-    display: none !important;
   }
 
   &::part(container) {
