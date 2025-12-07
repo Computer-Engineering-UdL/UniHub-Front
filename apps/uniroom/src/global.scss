@@ -628,6 +628,34 @@ ion-input {
   }
 }
 
+/**
+ * Ion Textarea Styles
+ * -----------------------------------------------------
+ */
+ion-textarea {
+  --highlight-color-focused: transparent !important;
+  --highlight-color-valid: transparent !important;
+  --highlight-color: transparent !important;
+  --highlight-height: 0 !important;
+  --border-radius: 10px !important;
+
+  .textarea-wrapper {
+    border-radius: 10px !important;
+  }
+
+  .native-textarea {
+    border-radius: 10px !important;
+  }
+
+  .textarea-highlight {
+    display: none !important;
+  }
+
+  &::part(container) {
+    border-radius: 10px !important;
+  }
+}
+
 ion-select::part(container) {
   border-color: var(--ion-color-medium);
 }
