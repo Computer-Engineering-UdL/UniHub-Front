@@ -298,7 +298,8 @@
     },
     "ERROR": {
       "USER_NOT_FOUND": "Usuario no encontrado",
-      "LOAD_PROFILE": "Error al cargar el perfil"
+      "LOAD_PROFILE": "Error al cargar el perfil",
+      "CANNOT_REPORT_YOURSELF": "No puedes reportarte a ti mismo"
     },
     "TABS": {
       "LISTINGS": "Anuncios",

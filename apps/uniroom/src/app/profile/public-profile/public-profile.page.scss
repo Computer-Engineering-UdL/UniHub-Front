@@ -319,6 +319,31 @@
   }
 }
 
+.profile-top-section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+
+  .profile-name-section {
+    flex: 1;
+  }
+
+  .report-user-button {
+    --padding-start: 8px;
+    --padding-end: 8px;
+    margin: 0;
+
+    ion-icon {
+      font-size: 1.5rem;
+    }
+
+    &:hover {
+      --background-hover: rgba(var(--ion-color-danger-rgb), 0.1);
+    }
+  }
+}
+
 body.theme-dark {
   .profile-header {
     background: linear-gradient(

@@ -16,6 +16,9 @@
               {{ 'PROFILE.VERIFIED' | translate }}
             </ion-badge>
           </div>
+          <ion-button fill="clear" color="danger" (click)="reportUser()" class="report-user-button">
+            <ion-icon slot="icon-only" name="flag-outline"></ion-icon>
+          </ion-button>
         </div>
 
         <div class="profile-info-section">

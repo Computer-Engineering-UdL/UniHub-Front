@@ -298,7 +298,8 @@
     },
     "ERROR": {
       "USER_NOT_FOUND": "Usuari no trobat",
-      "LOAD_PROFILE": "Error en carregar el perfil"
+      "LOAD_PROFILE": "Error en carregar el perfil",
+      "CANNOT_REPORT_YOURSELF": "No pots reportar-te a tu mateix"
     },
     "TABS": {
       "LISTINGS": "Anuncis",

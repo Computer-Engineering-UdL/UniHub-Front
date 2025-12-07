@@ -1,5 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { ApiService } from '../../services/api.service';
 import NotificationService from '../../services/notification.service';
 import { DEFAULT_USER_URL, Interest } from '../../models/auth.types';
@@ -8,6 +9,11 @@ import { OfferListItem } from '../../models/offer.types';
 import { environment } from '../../../environments/environment';
 import { API_VERSION_PATH } from '../../../environments/environment.model';
 import { firstValueFrom, Subscription } from 'rxjs';
+import { ReportModalComponent } from '../../shared/reports/report-modal.component';
+import { ReportCategory, ReportReason } from '../../models/report.types';
+import { ReportService } from '../../services/report.service';
+import { AuthService } from '../../services/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 interface PublicUserProfile {
   id: string;
@@ -39,6 +45,10 @@ export class PublicProfilePage implements OnInit, OnDestroy {
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly router: Router = inject(Router);
   private readonly localization: LocalizationService = inject(LocalizationService);
+  private readonly modalController: ModalController = inject(ModalController);
+  private readonly reportService: ReportService = inject(ReportService);
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly translate: TranslateService = inject(TranslateService);
 
   user: PublicUserProfile | null = null;
   selectedTab: 'overview' | 'listings' = 'overview';
@@ -198,5 +208,64 @@ export class PublicProfilePage implements OnInit, OnDestroy {
 
   async navigateToOffer(offer: OfferListItem): Promise<void> {
     await this.router.navigate(['/rooms', 'details', offer.id]);
+  }
+
+  async reportUser(): Promise<void> {
+    if (!this.user) {
+      return;
+    }
+
+    if (!this.authService.currentUser) {
+      this.notificationService.error('ERROR.NOT_AUTHENTICATED');
+      return;
+    }
+
+    if (this.user.id === this.authService.currentUser.id) {
+      this.notificationService.error('PROFILE.ERROR.CANNOT_REPORT_YOURSELF');
+      return;
+    }
+
+    const modal = await this.modalController.create({
+      component: ReportModalComponent,
+      cssClass: 'report-modal',
+      componentProps: {
+        context: {
+          contentType: ReportCategory.USER,
+          contentId: this.user.id,
+          contentTitle: this.getUserDisplayName(),
+          reportedUserId: this.user.id,
+          allowedReasons: [
+            ReportReason.HARASSMENT,
+            ReportReason.HATE_SPEECH,
+            ReportReason.INAPPROPRIATE_CONTENT,
+            ReportReason.SPAM,
+            ReportReason.SCAM_FRAUD,
+            ReportReason.OTHER
+          ]
+        }
+      }
+    });
+
+    await modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'submit' && data) {
+      try {
+        await firstValueFrom(
+          this.reportService.createReport({
+            contentType: ReportCategory.USER,
+            contentId: this.user.id,
+            contentTitle: this.getUserDisplayName(),
+            reportedUserId: this.user.id,
+            reason: data.reason,
+            description: data.description
+          })
+        );
+        this.notificationService.success(this.translate.instant('REPORT.SUCCESS'));
+      } catch {
+        this.notificationService.error(this.translate.instant('REPORT.ERROR'));
+      }
+    }
   }
 }

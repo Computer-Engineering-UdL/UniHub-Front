@@ -298,7 +298,8 @@
     },
     "ERROR": {
       "USER_NOT_FOUND": "User not found",
-      "LOAD_PROFILE": "Error loading profile"
+      "LOAD_PROFILE": "Error loading profile",
+      "CANNOT_REPORT_YOURSELF": "You cannot report yourself"
     },
     "TABS": {
       "LISTINGS": "Listings",
