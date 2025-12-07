@@ -2,6 +2,27 @@
   "APP": {
     "TITLE": "UniHub"
   },
+  "REPORT": {
+    "TITLE": "Reportar Contingut",
+    "MESSAGE": "Selecciona el motiu del reportatge:",
+    "REASONS": {
+      "SCAM_FRAUD": "Estafa o frau",
+      "FAKE_LISTING": "Anunci fals",
+      "INAPPROPRIATE_CONTENT": "Contingut inapropiat",
+      "HARASSMENT": "Assetjament",
+      "SPAM": "Spam",
+      "HATE_SPEECH": "Discurs d'odi",
+      "VIOLENCE": "Violència",
+      "OTHER": "Altre"
+    },
+    "DESCRIPTION_TITLE": "Descripció del Reportatge",
+    "DESCRIPTION_MESSAGE": "Si us plau, proporciona més detalls sobre el teu reportatge (opcional):",
+    "DESCRIPTION_PLACEHOLDER": "Descriu el problema...",
+    "OPTIONAL_HINT": "Aquest camp és opcional, però ajuda a entendre millor el problema.",
+    "SUBMIT": "Enviar Reportatge",
+    "SUCCESS": "Reportatge enviat correctament",
+    "ERROR": "Error en enviar el reportatge"
+  },
   "NOTIFICATIONS": {
     "TITLE": "Notificacions",
     "NO_NOTIFICATIONS": "No tens notificacions noves",

@@ -18,9 +18,10 @@ import { MessageService } from '../../services/message.service';
 import NotificationService from '../../services/notification.service';
 import { Conversation } from '../../models/message.types';
 import { LikesService } from '../../services/likes.service';
-import { AlertController, ModalController } from '@ionic/angular';
-import { ReportCategory, ReportReason } from '../../models/report.types';
-import { ReportListingModalComponent } from '../report-listing-modal/report-listing-modal.component';
+import { ModalController } from '@ionic/angular';
+import { ReportCategory } from '../../models/report.types';
+import { ReportModalComponent } from '../../shared/reports/report-modal.component';
+import { ReportService } from '../../services/report.service';
 
 interface AmenityItem {
   icon: string;
@@ -127,8 +128,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   private readonly messageService: MessageService = inject(MessageService);
   private readonly notificationService: NotificationService = inject(NotificationService);
   private readonly likesService: LikesService = inject(LikesService);
-  private readonly alertController: AlertController = inject(AlertController);
   private readonly modalController: ModalController = inject(ModalController);
+  private readonly reportService: ReportService = inject(ReportService);
 
   loading: boolean = false;
   error: boolean = false;
@@ -701,10 +702,18 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     }
 
     const modal = await this.modalController.create({
-      component: ReportListingModalComponent,
-      cssClass: 'report-listing-modal',
+      component: ReportModalComponent,
+      cssClass: 'report-modal',
       breakpoints: [0, 1],
-      initialBreakpoint: 1
+      initialBreakpoint: 1,
+      componentProps: {
+        context: {
+          contentType: ReportCategory.HOUSING,
+          contentId: this.offer.id,
+          contentTitle: this.offer.title,
+          reportedUserId: this.offer.landlord.userId
+        }
+      }
     });
 
     await modal.present();
@@ -712,30 +721,21 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'submit' && data) {
-      await this.submitReport(data.reason, data.description);
-    }
-  }
-
-  private async submitReport(reason: ReportReason, description?: string): Promise<void> {
-    if (!this.offer) {
-      return;
-    }
-
-    try {
-      await firstValueFrom(
-        this.apiService.post('reports', {
-          contentType: ReportCategory.HOUSING,
-          contentId: this.offer.id,
-          contentTitle: this.offer.title,
-          reportedUserId: this.offer.landlord.userId,
-          reason,
-          description: description || undefined
-        })
-      );
-      this.notificationService.success(this.translate.instant('ROOM.REPORT.SUCCESS'));
-    } catch (error) {
-      console.error('Error reporting listing:', error);
-      this.notificationService.error(this.translate.instant('ROOM.REPORT.ERROR'));
+      try {
+        await firstValueFrom(
+          this.reportService.createReport({
+            contentType: ReportCategory.HOUSING,
+            contentId: this.offer.id,
+            contentTitle: this.offer.title,
+            reportedUserId: this.offer.landlord.userId,
+            reason: data.reason,
+            description: data.description
+          })
+        );
+        this.notificationService.success(this.translate.instant('REPORT.SUCCESS'));
+      } catch {
+        this.notificationService.error(this.translate.instant('REPORT.ERROR'));
+      }
     }
   }
 

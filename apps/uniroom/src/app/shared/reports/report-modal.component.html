@@ -8,7 +8,7 @@
     <ion-title>
       <div class="modal-title">
         <ion-icon name="flag" color="danger"></ion-icon>
-        {{ 'ROOM.REPORT.TITLE' | translate }}
+        {{ 'REPORT.TITLE' | translate }}
       </div>
     </ion-title>
   </ion-toolbar>
@@ -18,7 +18,7 @@
   <!-- Step 1: Select Reason -->
   <div class="step-container" *ngIf="step === 'reason'">
     <div class="step-header">
-      <p class="step-description">{{ 'ROOM.REPORT.MESSAGE' | translate }}</p>
+      <p class="step-description">{{ 'REPORT.MESSAGE' | translate }}</p>
     </div>
 
     <div class="reasons-grid">
@@ -47,16 +47,16 @@
         <ion-icon name="arrow-back"></ion-icon>
         {{ 'COMMON.BACK' | translate }}
       </button>
-      <p class="step-description">{{ 'ROOM.REPORT.DESCRIPTION_MESSAGE' | translate }}</p>
+      <p class="step-description">{{ 'REPORT.DESCRIPTION_MESSAGE' | translate }}</p>
     </div>
 
     <div class="description-section">
       <ion-textarea
         [(ngModel)]="description"
-        [placeholder]="'ROOM.REPORT.DESCRIPTION_PLACEHOLDER' | translate"
+        [placeholder]="'REPORT.DESCRIPTION_PLACEHOLDER' | translate"
         rows="6"
         class="description-textarea"></ion-textarea>
-      <p class="helper-text">{{ 'ROOM.REPORT.OPTIONAL_HINT' | translate }}</p>
+      <p class="helper-text">{{ 'REPORT.OPTIONAL_HINT' | translate }}</p>
     </div>
   </div>
 </ion-content>
@@ -80,7 +80,7 @@
       </ion-button>
       <ion-button expand="block" class="submit-button" (click)="submit()">
         <ion-icon slot="start" name="send"></ion-icon>
-        {{ 'ROOM.REPORT.SUBMIT' | translate }}
+        {{ 'REPORT.SUBMIT' | translate }}
       </ion-button>
     </div>
   </div>

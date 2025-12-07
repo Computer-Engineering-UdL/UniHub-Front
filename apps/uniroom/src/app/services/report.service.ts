@@ -1,7 +1,15 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
-import { Report, ReportActionRequest, ReportFilters, ReportPriority, ReportStats } from '../models/report.types';
+import {
+  Report,
+  ReportActionRequest,
+  ReportCategory,
+  ReportFilters,
+  ReportPriority,
+  ReportReason,
+  ReportStats
+} from '../models/report.types';
 
 export interface ReportsResponse {
   reports: Report[];
@@ -11,6 +19,15 @@ export interface ReportsResponse {
 export interface BulkActionRequest {
   reportIds: string[];
   action: ReportActionRequest;
+}
+
+export interface CreateReportRequest {
+  contentType: ReportCategory;
+  contentId: string;
+  contentTitle?: string;
+  reportedUserId?: string;
+  reason: ReportReason;
+  description?: string;
 }
 
 @Injectable({
@@ -70,5 +87,9 @@ export class ReportService {
       action
     };
     return this.apiService.patch<void>('admin/reports/bulk', request);
+  }
+
+  createReport(request: CreateReportRequest): Observable<Report> {
+    return this.apiService.post<Report>('reports', request);
   }
 }
