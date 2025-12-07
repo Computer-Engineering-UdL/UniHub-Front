@@ -18,6 +18,8 @@ import { MessageService } from '../../services/message.service';
 import NotificationService from '../../services/notification.service';
 import { Conversation } from '../../models/message.types';
 import { LikesService } from '../../services/likes.service';
+import { AlertController } from '@ionic/angular';
+import { ReportCategory, ReportReason } from '../../models/report.types';
 
 interface AmenityItem {
   icon: string;
@@ -124,6 +126,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   private readonly messageService: MessageService = inject(MessageService);
   private readonly notificationService: NotificationService = inject(NotificationService);
   private readonly likesService: LikesService = inject(LikesService);
+  private readonly alertController: AlertController = inject(AlertController);
 
   loading: boolean = false;
   error: boolean = false;
@@ -683,6 +686,121 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     if (this.offer?.landlord.userId) {
       await this.router.navigate(['/profile', this.offer.landlord.userId]);
     }
+  }
+
+  async reportListing(): Promise<void> {
+    if (!this.offer) {
+      return;
+    }
+
+    if (!this.authService.currentUser) {
+      this.notificationService.error('ERROR.NOT_AUTHENTICATED');
+      return;
+    }
+
+    const alert = await this.alertController.create({
+      header: this.translate.instant('ROOM.REPORT.TITLE'),
+      message: this.translate.instant('ROOM.REPORT.MESSAGE'),
+      inputs: [
+        {
+          name: 'reason',
+          type: 'radio',
+          label: this.translate.instant('ROOM.REPORT.REASONS.SCAM_FRAUD'),
+          value: ReportReason.SCAM_FRAUD,
+          checked: true
+        },
+        {
+          name: 'reason',
+          type: 'radio',
+          label: this.translate.instant('ROOM.REPORT.REASONS.FAKE_LISTING'),
+          value: ReportReason.FAKE_LISTING
+        },
+        {
+          name: 'reason',
+          type: 'radio',
+          label: this.translate.instant('ROOM.REPORT.REASONS.INAPPROPRIATE_CONTENT'),
+          value: ReportReason.INAPPROPRIATE_CONTENT
+        },
+        {
+          name: 'reason',
+          type: 'radio',
+          label: this.translate.instant('ROOM.REPORT.REASONS.SPAM'),
+          value: ReportReason.SPAM
+        },
+        {
+          name: 'reason',
+          type: 'radio',
+          label: this.translate.instant('ROOM.REPORT.REASONS.OTHER'),
+          value: ReportReason.OTHER
+        }
+      ],
+      buttons: [
+        {
+          text: this.translate.instant('COMMON.CANCEL'),
+          role: 'cancel'
+        },
+        {
+          text: this.translate.instant('ROOM.REPORT.SUBMIT'),
+          handler: async (data) => {
+            if (!data) {
+              return false;
+            }
+            await this.submitReport(data);
+            return true;
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private async submitReport(reason: ReportReason): Promise<void> {
+    if (!this.offer) {
+      return;
+    }
+
+    const descriptionAlert = await this.alertController.create({
+      header: this.translate.instant('ROOM.REPORT.DESCRIPTION_TITLE'),
+      message: this.translate.instant('ROOM.REPORT.DESCRIPTION_MESSAGE'),
+      inputs: [
+        {
+          name: 'description',
+          type: 'textarea',
+          placeholder: this.translate.instant('ROOM.REPORT.DESCRIPTION_PLACEHOLDER')
+        }
+      ],
+      buttons: [
+        {
+          text: this.translate.instant('COMMON.CANCEL'),
+          role: 'cancel'
+        },
+        {
+          text: this.translate.instant('ROOM.REPORT.SUBMIT'),
+          handler: async (data) => {
+            try {
+              await firstValueFrom(
+                this.apiService.post('reports', {
+                  contentType: ReportCategory.HOUSING,
+                  contentId: this.offer!.id,
+                  contentTitle: this.offer!.title,
+                  reportedUserId: this.offer!.landlord.userId,
+                  reason,
+                  description: data.description || undefined
+                })
+              );
+              this.notificationService.success(this.translate.instant('ROOM.REPORT.SUCCESS'));
+            } catch (error) {
+              console.error('Error reporting listing:', error);
+              this.notificationService.error(this.translate.instant('ROOM.REPORT.ERROR'));
+            }
+            return true;
+          }
+        }
+      ]
+    });
+
+    await descriptionAlert.present();
   }
 
   private buildMapUrl(offer: OfferDetailsResponse): SafeResourceUrl | undefined {

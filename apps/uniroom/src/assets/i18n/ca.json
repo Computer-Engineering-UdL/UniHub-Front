@@ -632,6 +632,23 @@
         "LISTED_ON": "Publicat el"
       },
       "REPORT_LISTING": "Reporta l'anunci"
+    },
+    "REPORT": {
+      "TITLE": "Reportar Anunci",
+      "MESSAGE": "Selecciona el motiu del reportatge:",
+      "REASONS": {
+        "SCAM_FRAUD": "Estafa o frau",
+        "FAKE_LISTING": "Anunci fals",
+        "INAPPROPRIATE_CONTENT": "Contingut inapropiat",
+        "SPAM": "Spam",
+        "OTHER": "Altre"
+      },
+      "DESCRIPTION_TITLE": "Descripció del Reportatge",
+      "DESCRIPTION_MESSAGE": "Si us plau, proporciona més detalls sobre el teu reportatge (opcional):",
+      "DESCRIPTION_PLACEHOLDER": "Descriu el problema...",
+      "SUBMIT": "Enviar Reportatge",
+      "SUCCESS": "Reportatge enviat correctament",
+      "ERROR": "Error en enviar el reportatge"
     }
   },
   "ADMIN": {

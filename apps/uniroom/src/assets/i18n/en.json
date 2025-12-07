@@ -638,6 +638,23 @@
         "LISTED_ON": "Listed on"
       },
       "REPORT_LISTING": "Report Listing"
+    },
+    "REPORT": {
+      "TITLE": "Report Listing",
+      "MESSAGE": "Select the reason for your report:",
+      "REASONS": {
+        "SCAM_FRAUD": "Scam or fraud",
+        "FAKE_LISTING": "Fake listing",
+        "INAPPROPRIATE_CONTENT": "Inappropriate content",
+        "SPAM": "Spam",
+        "OTHER": "Other"
+      },
+      "DESCRIPTION_TITLE": "Report Description",
+      "DESCRIPTION_MESSAGE": "Please provide more details about your report (optional):",
+      "DESCRIPTION_PLACEHOLDER": "Describe the issue...",
+      "SUBMIT": "Submit Report",
+      "SUCCESS": "Report submitted successfully",
+      "ERROR": "Error submitting report"
     }
   },
   "ADMIN": {

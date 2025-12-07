@@ -33,10 +33,7 @@
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
 }
 
@@ -69,6 +66,11 @@
     font-weight: 700;
     color: var(--ion-text-color);
     margin-bottom: 0.5rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.75rem;
+      margin-bottom: 0.25rem;
+    }
   }
 
   .stat-label {
@@ -77,6 +79,16 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-weight: 600;
+
+    @media (max-width: 768px) {
+      font-size: 0.75rem;
+      letter-spacing: 0.3px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    border-radius: 12px;
   }
 }
 
@@ -87,6 +99,11 @@
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    border-radius: 12px;
+  }
 }
 
 .filter-row {
@@ -97,10 +114,12 @@
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
   }
 
   @media (max-width: 640px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
   }
 }
 
