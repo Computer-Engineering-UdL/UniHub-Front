@@ -1,12 +1,12 @@
 @import '../../../styles/shared-components';
 
 .admin-reports-container {
-  padding: calc(56px + 1.5rem) 1.5rem 1.5rem;
+  padding: 1.5rem 1.5rem 1.5rem;
   max-width: 1600px;
   margin: 0 auto;
 
   @media (max-width: 768px) {
-    padding: calc(56px + 1rem) 1rem 1rem;
+    padding: 1rem 1rem 1rem;
   }
 }
 
