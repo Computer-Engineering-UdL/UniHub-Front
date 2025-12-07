@@ -316,9 +316,9 @@
   },
   "SIDEBAR": {
     "ADMIN": "ADMINISTRACIÓ",
-    "ADMIN_CONTENT": "Gestió de Contingut",
     "ADMIN_DASHBOARD": "Panel d'Administració",
-    "ADMIN_REPORTS": "Informes",
+    "ADMIN_REPORTS": "Reportes",
+    "ADMIN_SETTINGS": "Configuració",
     "ADMIN_USERS": "Gestió d'Usuaris",
     "CHANNELS": "Canals",
     "HOME": "Inici",
@@ -738,6 +738,116 @@
       "CHANGE_ROLE_MESSAGE": "Selecciona el nou rol per als {{count}} usuaris seleccionats:",
       "CHANGE_ROLE_SUCCESS": "Rol dels usuaris canviat correctament",
       "CHANGE_ROLE_ERROR": "Error en canviar el rol dels usuaris"
+    },
+    "REPORTS": {
+      "TITLE": "Informes i Denúncies",
+      "SEARCH_PLACEHOLDER": "Cercar informes...",
+      "NO_REPORTS": "No s'han trobat informes",
+      "SELECTED_COUNT": "{{count}} seleccionats",
+      "STATS": {
+        "TOTAL": "Total d'Informes",
+        "PENDING": "Pendents de Revisió",
+        "REVIEWING": "En Revisió",
+        "CRITICAL": "Prioritat Crítica"
+      },
+      "FILTERS": {
+        "ALL_STATUSES": "Tots els Estats",
+        "ALL_PRIORITIES": "Totes les Prioritats",
+        "ALL_CATEGORIES": "Totes les Categories"
+      },
+      "TABLE": {
+        "ID": "ID",
+        "CONTENT": "Contingut",
+        "REASON": "Motiu",
+        "REPORTED_BY": "Denunciat Per",
+        "REPORTED_USER": "Usuari Denunciat",
+        "PRIORITY": "Prioritat",
+        "STATUS": "Estat",
+        "DATE": "Data",
+        "ACTIONS": "Accions"
+      },
+      "STATUS": {
+        "PENDING": "Pendent",
+        "REVIEWING": "En Revisió",
+        "RESOLVED": "Resolt",
+        "DISMISSED": "Descartat"
+      },
+      "PRIORITY": {
+        "LOW": "Baixa",
+        "MEDIUM": "Mitjana",
+        "HIGH": "Alta",
+        "CRITICAL": "Crítica"
+      },
+      "CATEGORY": {
+        "HOUSING": "Habitatge",
+        "MARKETPLACE": "Marketplace",
+        "CHANNELS": "Canals",
+        "MESSAGES": "Missatges",
+        "SERVICES": "Serveis",
+        "USER": "Usuari"
+      },
+      "REASON": {
+        "SCAM_FRAUD": "Estafa / Frau",
+        "HARASSMENT": "Assetjament",
+        "SPAM": "Spam",
+        "INAPPROPRIATE_CONTENT": "Contingut Inapropiat",
+        "FAKE_LISTING": "Anunci Fals",
+        "HATE_SPEECH": "Discurs d'Odi",
+        "VIOLENCE": "Violència",
+        "OTHER": "Altres"
+      },
+      "ACTIONS": {
+        "REVIEW": "Revisar",
+        "RESOLVE": "Resoldre",
+        "DISMISS": "Descartar",
+        "DELETE": "Eliminar",
+        "MARK_REVIEWING": "Marcar en Revisió",
+        "MARK_RESOLVED": "Marcar com Resolt",
+        "MARK_DISMISSED": "Marcar com Descartat"
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Descripció",
+        "RESOLUTION": "Resolució",
+        "REVIEWED_BY": "Revisat Per",
+        "CONTENT_ID": "ID del Contingut"
+      },
+      "ACTION_MODAL": {
+        "TITLE": "Resoldre Informe",
+        "MESSAGE": "Si us plau proporciona una resolució per a aquest informe:",
+        "RESOLUTION_PLACEHOLDER": "Descriu la resolució...",
+        "CANCEL": "Cancel·lar",
+        "CONFIRM": "Confirmar"
+      },
+      "DELETE_MODAL": {
+        "TITLE": "Eliminar Informe",
+        "MESSAGE": "Estàs segur que vols eliminar aquest informe? Aquesta acció no es pot desfer.",
+        "CANCEL": "Cancel·lar",
+        "CONFIRM": "Eliminar"
+      },
+      "BULK_ACTION_MODAL": {
+        "TITLE": "Acció Massiva",
+        "MESSAGE": "Estàs segur que vols aplicar aquesta acció als {{count}} informes seleccionats?",
+        "CANCEL": "Cancel·lar",
+        "CONFIRM": "Confirmar"
+      },
+      "PAGINATION": {
+        "PAGE_SIZE": "Elements per pàgina",
+        "SHOWING": "Mostrant {{start}} a {{end}} de {{total}}"
+      },
+      "SUCCESS": {
+        "STATUS_UPDATED": "Estat de l'informe actualitzat correctament",
+        "PRIORITY_UPDATED": "Prioritat de l'informe actualitzada correctament",
+        "DELETED": "Informe eliminat correctament",
+        "BULK_UPDATED": "Informes actualitzats correctament"
+      },
+      "ERROR": {
+        "LOAD_STATS": "Error al carregar les estadístiques",
+        "LOAD_REPORTS": "Error al carregar els informes",
+        "UPDATE_STATUS": "Error al actualitzar l'estat de l'informe",
+        "UPDATE_PRIORITY": "Error al actualitzar la prioritat de l'informe",
+        "DELETE": "Error al eliminar l'informe",
+        "BULK_UPDATE": "Error al actualitzar els informes"
+      }
     }
   },
   "ERROR": {

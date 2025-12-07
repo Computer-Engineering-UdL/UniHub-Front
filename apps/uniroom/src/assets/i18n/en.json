@@ -318,9 +318,9 @@
   },
   "SIDEBAR": {
     "ADMIN": "ADMIN",
-    "ADMIN_CONTENT": "Content",
     "ADMIN_DASHBOARD": "Admin Dashboard",
     "ADMIN_REPORTS": "Reports",
+    "ADMIN_SETTINGS": "Settings",
     "ADMIN_USERS": "Users",
     "CHANNELS": "Channels",
     "HOME": "Home",
@@ -744,6 +744,116 @@
       "CHANGE_ROLE_MESSAGE": "Select the new role for the {{count}} selected users:",
       "CHANGE_ROLE_SUCCESS": "User role changed successfully",
       "CHANGE_ROLE_ERROR": "Error changing user role"
+    },
+    "REPORTS": {
+      "TITLE": "Reports & Complaints",
+      "SEARCH_PLACEHOLDER": "Search reports...",
+      "NO_REPORTS": "No reports found",
+      "SELECTED_COUNT": "{{count}} selected",
+      "STATS": {
+        "TOTAL": "Total Reports",
+        "PENDING": "Pending Review",
+        "REVIEWING": "In Review",
+        "CRITICAL": "Critical Priority"
+      },
+      "FILTERS": {
+        "ALL_STATUSES": "All Statuses",
+        "ALL_PRIORITIES": "All Priorities",
+        "ALL_CATEGORIES": "All Categories"
+      },
+      "TABLE": {
+        "ID": "ID",
+        "CONTENT": "Content",
+        "REASON": "Reason",
+        "REPORTED_BY": "Reported By",
+        "REPORTED_USER": "Reported User",
+        "PRIORITY": "Priority",
+        "STATUS": "Status",
+        "DATE": "Date",
+        "ACTIONS": "Actions"
+      },
+      "STATUS": {
+        "PENDING": "Pending",
+        "REVIEWING": "Reviewing",
+        "RESOLVED": "Resolved",
+        "DISMISSED": "Dismissed"
+      },
+      "PRIORITY": {
+        "LOW": "Low",
+        "MEDIUM": "Medium",
+        "HIGH": "High",
+        "CRITICAL": "Critical"
+      },
+      "CATEGORY": {
+        "HOUSING": "Housing",
+        "MARKETPLACE": "Marketplace",
+        "CHANNELS": "Channels",
+        "MESSAGES": "Messages",
+        "SERVICES": "Services",
+        "USER": "User"
+      },
+      "REASON": {
+        "SCAM_FRAUD": "Scam / Fraud",
+        "HARASSMENT": "Harassment",
+        "SPAM": "Spam",
+        "INAPPROPRIATE_CONTENT": "Inappropriate Content",
+        "FAKE_LISTING": "Fake Listing",
+        "HATE_SPEECH": "Hate Speech",
+        "VIOLENCE": "Violence",
+        "OTHER": "Other"
+      },
+      "ACTIONS": {
+        "REVIEW": "Review",
+        "RESOLVE": "Resolve",
+        "DISMISS": "Dismiss",
+        "DELETE": "Delete",
+        "MARK_REVIEWING": "Mark as Reviewing",
+        "MARK_RESOLVED": "Mark as Resolved",
+        "MARK_DISMISSED": "Mark as Dismissed"
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Description",
+        "RESOLUTION": "Resolution",
+        "REVIEWED_BY": "Reviewed By",
+        "CONTENT_ID": "Content ID"
+      },
+      "ACTION_MODAL": {
+        "TITLE": "Resolve Report",
+        "MESSAGE": "Please provide a resolution for this report:",
+        "RESOLUTION_PLACEHOLDER": "Describe the resolution...",
+        "CANCEL": "Cancel",
+        "CONFIRM": "Confirm"
+      },
+      "DELETE_MODAL": {
+        "TITLE": "Delete Report",
+        "MESSAGE": "Are you sure you want to delete this report? This action cannot be undone.",
+        "CANCEL": "Cancel",
+        "CONFIRM": "Delete"
+      },
+      "BULK_ACTION_MODAL": {
+        "TITLE": "Bulk Action",
+        "MESSAGE": "Are you sure you want to apply this action to {{count}} selected reports?",
+        "CANCEL": "Cancel",
+        "CONFIRM": "Confirm"
+      },
+      "PAGINATION": {
+        "PAGE_SIZE": "Items per page",
+        "SHOWING": "Showing {{start}} to {{end}} of {{total}}"
+      },
+      "SUCCESS": {
+        "STATUS_UPDATED": "Report status updated successfully",
+        "PRIORITY_UPDATED": "Report priority updated successfully",
+        "DELETED": "Report deleted successfully",
+        "BULK_UPDATED": "Reports updated successfully"
+      },
+      "ERROR": {
+        "LOAD_STATS": "Error loading statistics",
+        "LOAD_REPORTS": "Error loading reports",
+        "UPDATE_STATUS": "Error updating report status",
+        "UPDATE_PRIORITY": "Error updating report priority",
+        "DELETE": "Error deleting report",
+        "BULK_UPDATE": "Error updating reports"
+      }
     }
   },
   "ERROR": {

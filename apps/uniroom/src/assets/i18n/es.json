@@ -316,9 +316,9 @@
   },
   "SIDEBAR": {
     "ADMIN": "ADMINISTRACIÓN",
-    "ADMIN_CONTENT": "Gestión de Contenido",
     "ADMIN_DASHBOARD": "Panel de Administración",
-    "ADMIN_REPORTS": "Informes",
+    "ADMIN_REPORTS": "Reportes",
+    "ADMIN_SETTINGS": "Configuración",
     "ADMIN_USERS": "Gestión de Usuarios",
     "CHANNELS": "Canales",
     "HOME": "Inicio",
@@ -739,6 +739,116 @@
       "CHANGE_ROLE_MESSAGE": "Selecciona el nuevo rol para los {{count}} usuarios seleccionados:",
       "CHANGE_ROLE_SUCCESS": "Rol de los usuarios cambiado correctamente",
       "CHANGE_ROLE_ERROR": "Error al cambiar el rol de los usuarios"
+    },
+    "REPORTS": {
+      "TITLE": "Informes y Denuncias",
+      "SEARCH_PLACEHOLDER": "Buscar informes...",
+      "NO_REPORTS": "No se han encontrado informes",
+      "SELECTED_COUNT": "{{count}} seleccionados",
+      "STATS": {
+        "TOTAL": "Total de Informes",
+        "PENDING": "Pendientes de Revisión",
+        "REVIEWING": "En Revisión",
+        "CRITICAL": "Prioridad Crítica"
+      },
+      "FILTERS": {
+        "ALL_STATUSES": "Todos los Estados",
+        "ALL_PRIORITIES": "Todas las Prioridades",
+        "ALL_CATEGORIES": "Todas las Categorías"
+      },
+      "TABLE": {
+        "ID": "ID",
+        "CONTENT": "Contenido",
+        "REASON": "Motivo",
+        "REPORTED_BY": "Denunciado Por",
+        "REPORTED_USER": "Usuario Denunciado",
+        "PRIORITY": "Prioridad",
+        "STATUS": "Estado",
+        "DATE": "Fecha",
+        "ACTIONS": "Acciones"
+      },
+      "STATUS": {
+        "PENDING": "Pendiente",
+        "REVIEWING": "En Revisión",
+        "RESOLVED": "Resuelto",
+        "DISMISSED": "Descartado"
+      },
+      "PRIORITY": {
+        "LOW": "Baja",
+        "MEDIUM": "Media",
+        "HIGH": "Alta",
+        "CRITICAL": "Crítica"
+      },
+      "CATEGORY": {
+        "HOUSING": "Alojamiento",
+        "MARKETPLACE": "Marketplace",
+        "CHANNELS": "Canales",
+        "MESSAGES": "Mensajes",
+        "SERVICES": "Servicios",
+        "USER": "Usuario"
+      },
+      "REASON": {
+        "SCAM_FRAUD": "Estafa / Fraude",
+        "HARASSMENT": "Acoso",
+        "SPAM": "Spam",
+        "INAPPROPRIATE_CONTENT": "Contenido Inapropiado",
+        "FAKE_LISTING": "Anuncio Falso",
+        "HATE_SPEECH": "Discurso de Odio",
+        "VIOLENCE": "Violencia",
+        "OTHER": "Otros"
+      },
+      "ACTIONS": {
+        "REVIEW": "Revisar",
+        "RESOLVE": "Resolver",
+        "DISMISS": "Descartar",
+        "DELETE": "Eliminar",
+        "MARK_REVIEWING": "Marcar en Revisión",
+        "MARK_RESOLVED": "Marcar como Resuelto",
+        "MARK_DISMISSED": "Marcar como Descartado"
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Descripción",
+        "RESOLUTION": "Resolución",
+        "REVIEWED_BY": "Revisado Por",
+        "CONTENT_ID": "ID del Contenido"
+      },
+      "ACTION_MODAL": {
+        "TITLE": "Resolver Informe",
+        "MESSAGE": "Por favor proporciona una resolución para este informe:",
+        "RESOLUTION_PLACEHOLDER": "Describe la resolución...",
+        "CANCEL": "Cancelar",
+        "CONFIRM": "Confirmar"
+      },
+      "DELETE_MODAL": {
+        "TITLE": "Eliminar Informe",
+        "MESSAGE": "¿Estás seguro que quieres eliminar este informe? Esta acción no se puede deshacer.",
+        "CANCEL": "Cancelar",
+        "CONFIRM": "Eliminar"
+      },
+      "BULK_ACTION_MODAL": {
+        "TITLE": "Acción Masiva",
+        "MESSAGE": "¿Estás seguro que quieres aplicar esta acción a los {{count}} informes seleccionados?",
+        "CANCEL": "Cancelar",
+        "CONFIRM": "Confirmar"
+      },
+      "PAGINATION": {
+        "PAGE_SIZE": "Elementos por página",
+        "SHOWING": "Mostrando {{start}} a {{end}} de {{total}}"
+      },
+      "SUCCESS": {
+        "STATUS_UPDATED": "Estado del informe actualizado correctamente",
+        "PRIORITY_UPDATED": "Prioridad del informe actualizada correctamente",
+        "DELETED": "Informe eliminado correctamente",
+        "BULK_UPDATED": "Informes actualizados correctamente"
+      },
+      "ERROR": {
+        "LOAD_STATS": "Error al cargar las estadísticas",
+        "LOAD_REPORTS": "Error al cargar los informes",
+        "UPDATE_STATUS": "Error al actualizar el estado del informe",
+        "UPDATE_PRIORITY": "Error al actualizar la prioridad del informe",
+        "DELETE": "Error al eliminar el informe",
+        "BULK_UPDATE": "Error al actualizar los informes"
+      }
     }
   },
   "ERROR": {

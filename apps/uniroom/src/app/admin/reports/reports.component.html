@@ -1,0 +1,326 @@
+<ion-content class="page-container">
+  <div class="admin-reports-container">
+    <div class="reports-header">
+      <h1 class="reports-title">{{ 'ADMIN.REPORTS.TITLE' | translate }}</h1>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value">{{ stats.total }}</div>
+        <div class="stat-label">{{ 'ADMIN.REPORTS.STATS.TOTAL' | translate }}</div>
+      </div>
+      <div class="stat-card pending">
+        <div class="stat-value">{{ stats.pending }}</div>
+        <div class="stat-label">{{ 'ADMIN.REPORTS.STATS.PENDING' | translate }}</div>
+      </div>
+      <div class="stat-card reviewing">
+        <div class="stat-value">{{ stats.reviewing }}</div>
+        <div class="stat-label">{{ 'ADMIN.REPORTS.STATS.REVIEWING' | translate }}</div>
+      </div>
+      <div class="stat-card critical">
+        <div class="stat-value">{{ stats.critical }}</div>
+        <div class="stat-label">{{ 'ADMIN.REPORTS.STATS.CRITICAL' | translate }}</div>
+      </div>
+    </div>
+
+    <div class="filters-section">
+      <div class="filter-row">
+        <ion-searchbar
+          [placeholder]="'ADMIN.REPORTS.SEARCH_PLACEHOLDER' | translate"
+          [debounce]="500"
+          (ionInput)="onSearchChange($event)"
+          class="reports-searchbar"></ion-searchbar>
+
+        <select class="filter-select" [(ngModel)]="filters.status" (change)="onFilterChange()">
+          <option value="all">{{ 'ADMIN.REPORTS.FILTERS.ALL_STATUSES' | translate }}</option>
+          <option [value]="ReportStatus.PENDING">
+            {{ 'ADMIN.REPORTS.STATUS.PENDING' | translate }}
+          </option>
+          <option [value]="ReportStatus.REVIEWING">
+            {{ 'ADMIN.REPORTS.STATUS.REVIEWING' | translate }}
+          </option>
+          <option [value]="ReportStatus.RESOLVED">
+            {{ 'ADMIN.REPORTS.STATUS.RESOLVED' | translate }}
+          </option>
+          <option [value]="ReportStatus.DISMISSED">
+            {{ 'ADMIN.REPORTS.STATUS.DISMISSED' | translate }}
+          </option>
+        </select>
+
+        <select class="filter-select" [(ngModel)]="filters.priority" (change)="onFilterChange()">
+          <option value="all">{{ 'ADMIN.REPORTS.FILTERS.ALL_PRIORITIES' | translate }}</option>
+          <option [value]="ReportPriority.CRITICAL">
+            {{ 'ADMIN.REPORTS.PRIORITY.CRITICAL' | translate }}
+          </option>
+          <option [value]="ReportPriority.HIGH">
+            {{ 'ADMIN.REPORTS.PRIORITY.HIGH' | translate }}
+          </option>
+          <option [value]="ReportPriority.MEDIUM">
+            {{ 'ADMIN.REPORTS.PRIORITY.MEDIUM' | translate }}
+          </option>
+          <option [value]="ReportPriority.LOW">
+            {{ 'ADMIN.REPORTS.PRIORITY.LOW' | translate }}
+          </option>
+        </select>
+
+        <select class="filter-select" [(ngModel)]="filters.category" (change)="onFilterChange()">
+          <option value="all">{{ 'ADMIN.REPORTS.FILTERS.ALL_CATEGORIES' | translate }}</option>
+          <option [value]="ReportCategory.HOUSING">
+            {{ 'ADMIN.REPORTS.CATEGORY.HOUSING' | translate }}
+          </option>
+          <option [value]="ReportCategory.MARKETPLACE">
+            {{ 'ADMIN.REPORTS.CATEGORY.MARKETPLACE' | translate }}
+          </option>
+          <option [value]="ReportCategory.CHANNELS">
+            {{ 'ADMIN.REPORTS.CATEGORY.CHANNELS' | translate }}
+          </option>
+          <option [value]="ReportCategory.MESSAGES">
+            {{ 'ADMIN.REPORTS.CATEGORY.MESSAGES' | translate }}
+          </option>
+          <option [value]="ReportCategory.SERVICES">
+            {{ 'ADMIN.REPORTS.CATEGORY.SERVICES' | translate }}
+          </option>
+          <option [value]="ReportCategory.USER">
+            {{ 'ADMIN.REPORTS.CATEGORY.USER' | translate }}
+          </option>
+        </select>
+      </div>
+
+      <div class="bulk-actions" *ngIf="selectedReports.size > 0">
+        <span class="selected-count">{{
+          'ADMIN.REPORTS.SELECTED_COUNT' | translate: { count: selectedReports.size }
+        }}</span>
+        <ion-button size="small" fill="outline" (click)="bulkUpdateStatus(ReportStatus.REVIEWING)">
+          <ion-icon slot="start" name="eye"></ion-icon>
+          {{ 'ADMIN.REPORTS.ACTIONS.MARK_REVIEWING' | translate }}
+        </ion-button>
+        <ion-button size="small" fill="outline" (click)="bulkUpdateStatus(ReportStatus.RESOLVED)">
+          <ion-icon slot="start" name="checkmark"></ion-icon>
+          {{ 'ADMIN.REPORTS.ACTIONS.MARK_RESOLVED' | translate }}
+        </ion-button>
+        <ion-button size="small" fill="outline" (click)="bulkUpdateStatus(ReportStatus.DISMISSED)">
+          <ion-icon slot="start" name="close"></ion-icon>
+          {{ 'ADMIN.REPORTS.ACTIONS.MARK_DISMISSED' | translate }}
+        </ion-button>
+      </div>
+    </div>
+
+    <div class="reports-table-container">
+      <table class="reports-table">
+        <thead>
+          <tr>
+            <th class="checkbox-col">
+              <ion-checkbox [checked]="allSelected" (ionChange)="toggleAllReports()"></ion-checkbox>
+            </th>
+            <th>{{ 'ADMIN.REPORTS.TABLE.ID' | translate }}</th>
+            <th>{{ 'ADMIN.REPORTS.TABLE.CONTENT' | translate }}</th>
+            <th>{{ 'ADMIN.REPORTS.TABLE.REASON' | translate }}</th>
+            <th>{{ 'ADMIN.REPORTS.TABLE.REPORTED_BY' | translate }}</th>
+            <th>{{ 'ADMIN.REPORTS.TABLE.REPORTED_USER' | translate }}</th>
+            <th>{{ 'ADMIN.REPORTS.TABLE.PRIORITY' | translate }}</th>
+            <th>{{ 'ADMIN.REPORTS.TABLE.STATUS' | translate }}</th>
+            <th>{{ 'ADMIN.REPORTS.TABLE.DATE' | translate }}</th>
+            <th>{{ 'ADMIN.REPORTS.TABLE.ACTIONS' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="loading">
+            <td colspan="10" class="loading-row">
+              <ion-spinner></ion-spinner>
+            </td>
+          </tr>
+          <tr *ngIf="!loading && reports.length === 0">
+            <td colspan="10" class="empty-row">{{ 'ADMIN.REPORTS.NO_REPORTS' | translate }}</td>
+          </tr>
+          <ng-container *ngFor="let report of reports">
+            <tr
+              [class.selected]="selectedReports.has(report.id)"
+              [class.expanded]="expandedReportId === report.id">
+              <td class="checkbox-col">
+                <ion-checkbox
+                  [checked]="selectedReports.has(report.id)"
+                  (ionChange)="toggleReportSelection(report.id)"></ion-checkbox>
+              </td>
+              <td class="report-id">{{ report.id }}</td>
+              <td>
+                <div class="content-info">
+                  <ion-icon [name]="getCategoryIcon(report.contentType)"></ion-icon>
+                  <div>
+                    <div class="content-title">{{ report.contentTitle || '-' }}</div>
+                    <div class="content-category">
+                      {{ 'ADMIN.REPORTS.CATEGORY.' + report.contentType.toUpperCase() | translate }}
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <ion-badge class="reason-badge">{{
+                  'ADMIN.REPORTS.REASON.' + report.reason.toUpperCase() | translate
+                }}</ion-badge>
+              </td>
+              <td>
+                <div class="user-info">
+                  <ion-avatar>
+                    <img
+                      [src]="report.reportedBy.avatarUrl || 'assets/default-avatar.png'"
+                      [alt]="report.reportedBy.fullName" />
+                  </ion-avatar>
+                  <div class="user-details">
+                    <div class="user-name">{{ report.reportedBy.fullName }}</div>
+                    <div class="user-username">{{ '@' + report.reportedBy.username }}</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="user-info">
+                  <ion-avatar>
+                    <img
+                      [src]="report.reportedUser.avatarUrl || 'assets/default-avatar.png'"
+                      [alt]="report.reportedUser.fullName" />
+                  </ion-avatar>
+                  <div class="user-details">
+                    <div class="user-name">{{ report.reportedUser.fullName }}</div>
+                    <div class="user-username">{{ '@' + report.reportedUser.username }}</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <select
+                  class="priority-select"
+                  [(ngModel)]="report.priority"
+                  (change)="updateReportPriority(report.id, report.priority)">
+                  <option [value]="ReportPriority.LOW">
+                    {{ 'ADMIN.REPORTS.PRIORITY.LOW' | translate }}
+                  </option>
+                  <option [value]="ReportPriority.MEDIUM">
+                    {{ 'ADMIN.REPORTS.PRIORITY.MEDIUM' | translate }}
+                  </option>
+                  <option [value]="ReportPriority.HIGH">
+                    {{ 'ADMIN.REPORTS.PRIORITY.HIGH' | translate }}
+                  </option>
+                  <option [value]="ReportPriority.CRITICAL">
+                    {{ 'ADMIN.REPORTS.PRIORITY.CRITICAL' | translate }}
+                  </option>
+                </select>
+              </td>
+              <td>
+                <ion-badge [color]="getStatusColor(report.status)">{{
+                  'ADMIN.REPORTS.STATUS.' + report.status.toUpperCase() | translate
+                }}</ion-badge>
+              </td>
+              <td class="date-col">{{ formatDate(report.createdAt) }}</td>
+              <td class="actions-col">
+                <ion-button fill="clear" size="small" (click)="toggleReportDetails(report.id)">
+                  <ion-icon
+                    slot="icon-only"
+                    [name]="
+                      expandedReportId === report.id ? 'chevron-up' : 'chevron-down'
+                    "></ion-icon>
+                </ion-button>
+                <ion-button fill="clear" size="small" [id]="'actions-' + report.id">
+                  <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+                </ion-button>
+                <ion-popover [trigger]="'actions-' + report.id" triggerAction="click">
+                  <ng-template>
+                    <ion-content class="ion-padding">
+                      <ion-list lines="none">
+                        <ion-item
+                          [button]="true"
+                          (click)="handleReportAction(report, ReportStatus.REVIEWING)">
+                          <ion-icon slot="start" name="eye" color="primary"></ion-icon>
+                          <ion-label>{{ 'ADMIN.REPORTS.ACTIONS.REVIEW' | translate }}</ion-label>
+                        </ion-item>
+                        <ion-item
+                          [button]="true"
+                          (click)="handleReportAction(report, ReportStatus.RESOLVED)">
+                          <ion-icon slot="start" name="checkmark-circle" color="success"></ion-icon>
+                          <ion-label>{{ 'ADMIN.REPORTS.ACTIONS.RESOLVE' | translate }}</ion-label>
+                        </ion-item>
+                        <ion-item
+                          [button]="true"
+                          (click)="handleReportAction(report, ReportStatus.DISMISSED)">
+                          <ion-icon slot="start" name="close-circle" color="medium"></ion-icon>
+                          <ion-label>{{ 'ADMIN.REPORTS.ACTIONS.DISMISS' | translate }}</ion-label>
+                        </ion-item>
+                        <ion-item [button]="true" (click)="deleteReport(report.id)">
+                          <ion-icon slot="start" name="trash" color="danger"></ion-icon>
+                          <ion-label color="danger">{{
+                            'ADMIN.REPORTS.ACTIONS.DELETE' | translate
+                          }}</ion-label>
+                        </ion-item>
+                      </ion-list>
+                    </ion-content>
+                  </ng-template>
+                </ion-popover>
+              </td>
+            </tr>
+            <tr *ngIf="expandedReportId === report.id" class="details-row">
+              <td colspan="10">
+                <div class="report-details">
+                  <div class="detail-section" *ngIf="report.description">
+                    <h4>{{ 'ADMIN.REPORTS.DETAILS.DESCRIPTION' | translate }}</h4>
+                    <p>{{ report.description }}</p>
+                  </div>
+                  <div class="detail-section" *ngIf="report.resolution">
+                    <h4>{{ 'ADMIN.REPORTS.DETAILS.RESOLUTION' | translate }}</h4>
+                    <p>{{ report.resolution }}</p>
+                  </div>
+                  <div class="detail-section" *ngIf="report.reviewedBy">
+                    <h4>{{ 'ADMIN.REPORTS.DETAILS.REVIEWED_BY' | translate }}</h4>
+                    <p>
+                      {{ report.reviewedBy.fullName }} ({{ '@' + report.reviewedBy.username }}) -
+                      {{ formatDate(report.reviewedAt!) }}
+                    </p>
+                  </div>
+                  <div class="detail-section">
+                    <h4>{{ 'ADMIN.REPORTS.DETAILS.CONTENT_ID' | translate }}</h4>
+                    <p>{{ report.contentId }}</p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination-container" *ngIf="!loading && reports.length > 0">
+      <div class="page-size-selector">
+        <label for="page-size-select"
+          >{{ 'ADMIN.REPORTS.PAGINATION.PAGE_SIZE' | translate }}:</label
+        >
+        <select id="page-size-select" [value]="pageSize" (change)="onPageSizeChange($event)">
+          <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+        </select>
+      </div>
+
+      <div class="pagination-info">
+        {{
+          'ADMIN.REPORTS.PAGINATION.SHOWING'
+            | translate
+              : {
+                  start: currentPage * pageSize + 1,
+                  end: getMinValue((currentPage + 1) * pageSize, totalReports),
+                  total: totalReports
+                }
+        }}
+      </div>
+
+      <div class="pagination-controls">
+        <ion-button
+          fill="clear"
+          [disabled]="currentPage === 0"
+          (click)="onPageChange(currentPage - 1)">
+          <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
+        </ion-button>
+        <span class="page-numbers">{{ currentPage + 1 }} / {{ totalPages }}</span>
+        <ion-button
+          fill="clear"
+          [disabled]="currentPage >= totalPages - 1"
+          (click)="onPageChange(currentPage + 1)">
+          <ion-icon slot="icon-only" name="chevron-forward"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>
