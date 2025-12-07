@@ -90,7 +90,7 @@ export class ReportModalComponent implements OnInit {
       console.error('ReportModalComponent: context is required');
       this.reasons = this.allReasons;
     } else if (this.context.allowedReasons && this.context.allowedReasons.length > 0) {
-      this.reasons = this.allReasons.filter(r => this.context.allowedReasons!.includes(r.value));
+      this.reasons = this.allReasons.filter((r) => this.context.allowedReasons!.includes(r.value));
     } else {
       this.reasons = this.allReasons;
     }
