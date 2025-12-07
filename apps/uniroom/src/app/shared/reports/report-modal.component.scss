@@ -20,12 +20,18 @@ ion-header {
 
 .report-modal-content {
   --background: var(--ion-background-color);
+
+  &::part(scroll) {
+    overflow-y: auto;
+    max-height: calc(80vh - 120px);
+  }
 }
 
 .step-container {
   padding: 1.5rem;
   max-width: 600px;
   margin: 0 auto;
+  min-height: auto;
 }
 
 .step-header {
@@ -66,9 +72,14 @@ ion-header {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 1rem;
+  width: 100%;
+
+  @media (min-width: 481px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
   @media (max-width: 480px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -110,15 +121,19 @@ ion-header {
     }
 
     &[data-color='danger'] {
-      background: rgba(var(--ion-color-danger-rgb), 0.1);
+      background: rgba(var(--ion-color-danger-rgb), 0.12);
     }
 
     &[data-color='warning'] {
-      background: rgba(var(--ion-color-warning-rgb), 0.1);
+      background: rgba(var(--ion-color-warning-rgb), 0.12);
+    }
+
+    &[data-color='tertiary'] {
+      background: rgba(var(--ion-color-tertiary-rgb), 0.12);
     }
 
     &[data-color='medium'] {
-      background: rgba(var(--ion-color-medium-rgb), 0.1);
+      background: rgba(var(--ion-color-medium-rgb), 0.12);
     }
   }
 
@@ -126,15 +141,19 @@ ion-header {
     transform: scale(1.1);
 
     &[data-color='danger'] {
-      background: rgba(var(--ion-color-danger-rgb), 0.15);
+      background: rgba(var(--ion-color-danger-rgb), 0.2);
     }
 
     &[data-color='warning'] {
-      background: rgba(var(--ion-color-warning-rgb), 0.15);
+      background: rgba(var(--ion-color-warning-rgb), 0.2);
+    }
+
+    &[data-color='tertiary'] {
+      background: rgba(var(--ion-color-tertiary-rgb), 0.2);
     }
 
     &[data-color='medium'] {
-      background: rgba(var(--ion-color-medium-rgb), 0.15);
+      background: rgba(var(--ion-color-medium-rgb), 0.2);
     }
   }
 
@@ -272,6 +291,10 @@ ion-footer {
         background: #fef3c7;
       }
 
+      &[data-color='tertiary'] {
+        background: #ddd6fe;
+      }
+
       &[data-color='medium'] {
         background: #f3f4f6;
       }
@@ -284,6 +307,10 @@ ion-footer {
 
       &[data-color='warning'] {
         background: #fde68a;
+      }
+
+      &[data-color='tertiary'] {
+        background: #c4b5fd;
       }
 
       &[data-color='medium'] {

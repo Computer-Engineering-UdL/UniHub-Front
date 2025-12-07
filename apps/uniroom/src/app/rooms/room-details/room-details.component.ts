@@ -19,7 +19,7 @@ import NotificationService from '../../services/notification.service';
 import { Conversation } from '../../models/message.types';
 import { LikesService } from '../../services/likes.service';
 import { ModalController } from '@ionic/angular';
-import { ReportCategory } from '../../models/report.types';
+import { ReportCategory, ReportReason } from '../../models/report.types';
 import { ReportModalComponent } from '../../shared/reports/report-modal.component';
 import { ReportService } from '../../services/report.service';
 
@@ -711,7 +711,13 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
           contentType: ReportCategory.HOUSING,
           contentId: this.offer.id,
           contentTitle: this.offer.title,
-          reportedUserId: this.offer.landlord.userId
+          reportedUserId: this.offer.landlord.userId,
+          allowedReasons: [
+            ReportReason.SCAM_FRAUD,
+            ReportReason.FAKE_LISTING,
+            ReportReason.INAPPROPRIATE_CONTENT,
+            ReportReason.OTHER
+          ]
         }
       }
     });

@@ -14,6 +14,7 @@ export interface ReportContext {
   contentId: string;
   contentTitle?: string;
   reportedUserId?: string;
+  allowedReasons?: ReportReason[];
 }
 
 @Component({
@@ -31,60 +32,71 @@ export class ReportModalComponent implements OnInit {
   description: string = '';
   step: 'reason' | 'description' = 'reason';
 
-  readonly reasons: ReportReasonOption[] = [
+  readonly allReasons: ReportReasonOption[] = [
     {
       value: ReportReason.SCAM_FRAUD,
       labelKey: 'REPORT.REASONS.SCAM_FRAUD',
-      icon: 'warning',
+      icon: 'cash-outline',
       color: 'danger'
     },
     {
       value: ReportReason.FAKE_LISTING,
       labelKey: 'REPORT.REASONS.FAKE_LISTING',
-      icon: 'ban',
-      color: 'danger'
+      icon: 'close-circle-outline',
+      color: 'warning'
     },
     {
       value: ReportReason.INAPPROPRIATE_CONTENT,
       labelKey: 'REPORT.REASONS.INAPPROPRIATE_CONTENT',
-      icon: 'eye-off',
-      color: 'warning'
+      icon: 'eye-off-outline',
+      color: 'tertiary'
     },
     {
       value: ReportReason.HARASSMENT,
       labelKey: 'REPORT.REASONS.HARASSMENT',
-      icon: 'hand-right',
+      icon: 'hand-left-outline',
       color: 'danger'
     },
     {
       value: ReportReason.SPAM,
       labelKey: 'REPORT.REASONS.SPAM',
-      icon: 'mail',
+      icon: 'mail-unread-outline',
       color: 'warning'
     },
     {
       value: ReportReason.HATE_SPEECH,
       labelKey: 'REPORT.REASONS.HATE_SPEECH',
-      icon: 'megaphone',
+      icon: 'megaphone-outline',
       color: 'danger'
     },
     {
       value: ReportReason.VIOLENCE,
       labelKey: 'REPORT.REASONS.VIOLENCE',
-      icon: 'warning',
+      icon: 'alert-circle-outline',
       color: 'danger'
     },
     {
       value: ReportReason.OTHER,
       labelKey: 'REPORT.REASONS.OTHER',
-      icon: 'ellipsis-horizontal',
+      icon: 'help-circle-outline',
       color: 'medium'
     }
   ];
 
+  reasons: ReportReasonOption[] = [];
+
   ngOnInit(): void {
     if (!this.context) {
       console.error('ReportModalComponent: context is required');
+      this.reasons = this.allReasons;
+    } else if (this.context.allowedReasons && this.context.allowedReasons.length > 0) {
+      this.reasons = this.allReasons.filter(r => this.context.allowedReasons!.includes(r.value));
+    } else {
+      this.reasons = this.allReasons;
+    }
+
+    if (this.reasons.length > 0) {
+      this.selectedReason = this.reasons[0].value;
     }
   }
 
