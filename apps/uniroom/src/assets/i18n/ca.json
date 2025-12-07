@@ -294,6 +294,12 @@
     "CANCEL": "Cancel·lar",
     "CONFIRM": "Confirmar",
     "SUSPEND": "Suspendre",
+    "NEXT": "Següent",
+    "BACK": "Enrere",
+    "SUBMIT": "Enviar",
+    "SAVE": "Desar",
+    "EDIT": "Editar",
+    "CLOSE": "Tancar",
     "YOU": "Tu",
     "DAYS": {
       "SUN": "Dg",
@@ -646,6 +652,7 @@
       "DESCRIPTION_TITLE": "Descripció del Reportatge",
       "DESCRIPTION_MESSAGE": "Si us plau, proporciona més detalls sobre el teu reportatge (opcional):",
       "DESCRIPTION_PLACEHOLDER": "Descriu el problema...",
+      "OPTIONAL_HINT": "Aquest camp és opcional, però ajuda a entendre millor el problema.",
       "SUBMIT": "Enviar Reportatge",
       "SUCCESS": "Reportatge enviat correctament",
       "ERROR": "Error en enviar el reportatge"

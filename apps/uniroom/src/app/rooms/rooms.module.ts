@@ -7,6 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RoomsComponent } from './rooms.component';
 import { CreateOfferModalComponent } from './create-offer-modal/create-offer-modal.component';
 import { RoomDetailsComponent } from './room-details/room-details.component';
+import { ReportListingModalComponent } from './report-listing-modal/report-listing-modal.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     NgOptimizedImage
   ],
-  declarations: [RoomsComponent, CreateOfferModalComponent, RoomDetailsComponent]
+  declarations: [RoomsComponent, CreateOfferModalComponent, RoomDetailsComponent, ReportListingModalComponent]
 })
 export class RoomsModule {}

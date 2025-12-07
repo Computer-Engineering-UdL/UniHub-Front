@@ -294,6 +294,12 @@
     "CANCEL": "Cancelar",
     "CONFIRM": "Confirmar",
     "SUSPEND": "Suspender",
+    "NEXT": "Siguiente",
+    "BACK": "Atrás",
+    "SUBMIT": "Enviar",
+    "SAVE": "Guardar",
+    "EDIT": "Editar",
+    "CLOSE": "Cerrar",
     "YOU": "Tú",
     "DAYS": {
       "SUN": "Dom",
@@ -647,6 +653,7 @@
       "DESCRIPTION_TITLE": "Descripción del Reporte",
       "DESCRIPTION_MESSAGE": "Por favor, proporciona más detalles sobre tu reporte (opcional):",
       "DESCRIPTION_PLACEHOLDER": "Describe el problema...",
+      "OPTIONAL_HINT": "Este campo es opcional, pero ayuda a entender mejor el problema.",
       "SUBMIT": "Enviar Reporte",
       "SUCCESS": "Reporte enviado correctamente",
       "ERROR": "Error al enviar el reporte"

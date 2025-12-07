@@ -296,6 +296,11 @@
     "PREVIOUS": "Previous",
     "CONFIRM": "Confirm",
     "SUSPEND": "Suspend",
+    "BACK": "Back",
+    "SUBMIT": "Submit",
+    "SAVE": "Save",
+    "EDIT": "Edit",
+    "CLOSE": "Close",
     "YOU": "You",
     "DAYS": {
       "SUN": "Sun",
@@ -652,6 +657,7 @@
       "DESCRIPTION_TITLE": "Report Description",
       "DESCRIPTION_MESSAGE": "Please provide more details about your report (optional):",
       "DESCRIPTION_PLACEHOLDER": "Describe the issue...",
+      "OPTIONAL_HINT": "This field is optional, but it helps us better understand the issue.",
       "SUBMIT": "Submit Report",
       "SUCCESS": "Report submitted successfully",
       "ERROR": "Error submitting report"
