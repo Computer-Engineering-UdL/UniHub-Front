@@ -20,11 +20,7 @@ ion-header {
 
 .report-modal-content {
   --background: var(--ion-background-color);
-
-  &::part(scroll) {
-    overflow-y: auto;
-    max-height: calc(80vh - 120px);
-  }
+  height: auto;
 }
 
 .step-container {
@@ -205,6 +201,7 @@ ion-header {
 ion-footer {
   background: var(--ion-background-color);
   border-top: 1px solid var(--ion-color-light);
+  height: auto;
 }
 
 .footer-content {

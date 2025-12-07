@@ -704,8 +704,6 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     const modal = await this.modalController.create({
       component: ReportModalComponent,
       cssClass: 'report-modal',
-      breakpoints: [0, 1],
-      initialBreakpoint: 1,
       componentProps: {
         context: {
           contentType: ReportCategory.HOUSING,

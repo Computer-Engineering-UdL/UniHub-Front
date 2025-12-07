@@ -314,6 +314,44 @@ ion-modal.profile-edit-modal::part(content) {
 }
 
 /**
+ * Report Modal
+ * -----------------------------------------------------
+ */
+ion-modal.report-modal {
+  --height: auto;
+  --min-height: 400px;
+  --max-height: 85vh;
+  --border-radius: 16px;
+  --backdrop-opacity: 0.4;
+
+  @media (max-width: 768px) {
+    --width: 95%;
+    --max-width: 95%;
+    --border-radius: 20px 20px 0 0;
+    align-items: flex-end;
+  }
+
+  @media (min-width: 769px) {
+    --width: 600px;
+    --max-width: calc(100% - 48px);
+  }
+}
+
+ion-modal.report-modal::part(content) {
+  overflow: visible;
+}
+
+ion-modal.report-modal ion-content {
+  --background: var(--ion-background-color);
+  min-height: 415px;
+}
+
+ion-modal.report-modal ion-content::part(scroll) {
+  overflow-y: auto;
+  padding-bottom: 0 !important;
+}
+
+/**
  * Select Options Colors
  * -----------------------------------------------------
  * Custom styles for select options to match badge colors
