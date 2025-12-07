@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SharedModule } from '../shared/shared-module';
 import { RoomsComponent } from './rooms.component';
 import { CreateOfferModalComponent } from './create-offer-modal/create-offer-modal.component';
 import { RoomDetailsComponent } from './room-details/room-details.component';
@@ -27,6 +28,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     IonicModule,
     TranslateModule,
+    SharedModule,
     RouterModule.forChild(routes),
     NgOptimizedImage
   ],

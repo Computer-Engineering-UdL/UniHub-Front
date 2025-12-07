@@ -18,6 +18,10 @@ import { MessageService } from '../../services/message.service';
 import NotificationService from '../../services/notification.service';
 import { Conversation } from '../../models/message.types';
 import { LikesService } from '../../services/likes.service';
+import { ModalController } from '@ionic/angular';
+import { ReportCategory, ReportReason } from '../../models/report.types';
+import { ReportModalComponent } from '../../shared/reports/report-modal.component';
+import { ReportService } from '../../services/report.service';
 
 interface AmenityItem {
   icon: string;
@@ -124,6 +128,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   private readonly messageService: MessageService = inject(MessageService);
   private readonly notificationService: NotificationService = inject(NotificationService);
   private readonly likesService: LikesService = inject(LikesService);
+  private readonly modalController: ModalController = inject(ModalController);
+  private readonly reportService: ReportService = inject(ReportService);
 
   loading: boolean = false;
   error: boolean = false;
@@ -313,7 +319,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       landlord,
       mapUrl,
       utilitiesCost:
-        offer.utilities_cost != null ? this.localization.formatPrice(offer.utilities_cost, currency) : undefined,
+        offer.utilities_cost == null ? undefined : this.localization.formatPrice(offer.utilities_cost, currency),
       contractType: offer.contract_type ?? undefined,
       leaseEnd,
       offerValidUntil
@@ -367,7 +373,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       }
 
       const initialAvailability: boolean | null =
-        baseAvailability ?? (definition.defaultAvailable !== undefined ? definition.defaultAvailable : null);
+        baseAvailability ?? (definition.defaultAvailable === undefined ? null : definition.defaultAvailable);
 
       amenityMap.set(definition.key, {
         icon: definition.icon,
@@ -682,6 +688,58 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   async viewLandlordProfile(): Promise<void> {
     if (this.offer?.landlord.userId) {
       await this.router.navigate(['/profile', this.offer.landlord.userId]);
+    }
+  }
+
+  async reportListing(): Promise<void> {
+    if (!this.offer) {
+      return;
+    }
+
+    if (!this.authService.currentUser) {
+      this.notificationService.error('ERROR.NOT_AUTHENTICATED');
+      return;
+    }
+
+    const modal = await this.modalController.create({
+      component: ReportModalComponent,
+      cssClass: 'report-modal',
+      componentProps: {
+        context: {
+          contentType: ReportCategory.HOUSING,
+          contentId: this.offer.id,
+          contentTitle: this.offer.title,
+          reportedUserId: this.offer.landlord.userId,
+          allowedReasons: [
+            ReportReason.SCAM_FRAUD,
+            ReportReason.FAKE_LISTING,
+            ReportReason.INAPPROPRIATE_CONTENT,
+            ReportReason.OTHER
+          ]
+        }
+      }
+    });
+
+    await modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'submit' && data) {
+      try {
+        await firstValueFrom(
+          this.reportService.createReport({
+            contentType: ReportCategory.HOUSING,
+            contentId: this.offer.id,
+            contentTitle: this.offer.title,
+            reportedUserId: this.offer.landlord.userId,
+            reason: data.reason,
+            description: data.description
+          })
+        );
+        this.notificationService.success(this.translate.instant('REPORT.SUCCESS'));
+      } catch {
+        this.notificationService.error(this.translate.instant('REPORT.ERROR'));
+      }
     }
   }
 

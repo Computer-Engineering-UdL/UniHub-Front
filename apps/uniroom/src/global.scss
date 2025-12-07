@@ -314,6 +314,55 @@ ion-modal.profile-edit-modal::part(content) {
 }
 
 /**
+ * Report Modal
+ * -----------------------------------------------------
+ */
+ion-modal.report-modal {
+  --height: auto;
+  --min-height: 400px;
+  --max-height: 85vh;
+  --border-radius: 16px;
+  --backdrop-opacity: 0.4;
+
+  @media (max-width: 768px) {
+    --width: 95%;
+    --max-width: 95%;
+    --border-radius: 20px 20px 0 0;
+    align-items: flex-end;
+  }
+
+  @media (min-width: 769px) {
+    --width: 600px;
+    --max-width: calc(100% - 48px);
+  }
+}
+
+ion-modal.report-modal::part(content) {
+  overflow: visible;
+}
+
+ion-modal.report-modal ion-content {
+  --background: var(--ion-background-color);
+  min-height: 415px;
+}
+
+ion-modal.report-modal ion-content::part(scroll) {
+  overflow-y: auto;
+  padding-bottom: 0 !important;
+}
+
+ion-modal.report-modal ion-textarea {
+  --highlight-color-focused: transparent !important;
+  --highlight-color-valid: transparent !important;
+  --highlight-color: transparent !important;
+  --highlight-height: 0 !important;
+
+  .textarea-highlight {
+    display: none !important;
+  }
+}
+
+/**
  * Select Options Colors
  * -----------------------------------------------------
  * Custom styles for select options to match badge colors
@@ -587,6 +636,29 @@ ion-input {
     padding: 0 !important;
     margin: 0 !important;
     line-height: normal !important;
+  }
+}
+
+/**
+ * Ion Textarea Styles
+ * -----------------------------------------------------
+ */
+ion-textarea {
+  --highlight-color-focused: var(--ion-color-primary) !important;
+  --highlight-color-valid: var(--ion-color-primary) !important;
+  --highlight-color: var(--ion-color-primary) !important;
+  --border-radius: 10px !important;
+
+  .textarea-wrapper {
+    border-radius: 10px !important;
+  }
+
+  .native-textarea {
+    border-radius: 10px !important;
+  }
+
+  &::part(container) {
+    border-radius: 10px !important;
   }
 }
 

@@ -1,0 +1,347 @@
+ion-header {
+  ion-toolbar {
+    --background: var(--ion-background-color);
+    --border-width: 0;
+    padding-top: 0.5rem;
+  }
+}
+
+.modal-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+
+  ion-icon {
+    font-size: 1.5rem;
+  }
+}
+
+.report-modal-content {
+  --background: var(--ion-background-color);
+  height: auto;
+}
+
+.step-container {
+  padding: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+  min-height: auto;
+}
+
+.step-header {
+  margin-bottom: 1.5rem;
+
+  .back-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    color: var(--ion-color-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.7;
+    }
+
+    ion-icon {
+      font-size: 1.2rem;
+    }
+  }
+
+  .step-description {
+    font-size: 1rem;
+    color: var(--ion-color-medium);
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
+.reasons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  width: 100%;
+
+  @media (min-width: 481px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.reason-card {
+  position: relative;
+  background: var(--ion-card-background);
+  border: 2px solid transparent;
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  &.selected {
+    border-color: var(--ion-color-primary);
+    background: rgba(var(--ion-color-primary-rgb), 0.05);
+    box-shadow: 0 4px 16px rgba(var(--ion-color-primary-rgb), 0.2);
+  }
+
+  .reason-icon-wrapper {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--ion-color-light);
+    transition: all 0.2s ease;
+
+    ion-icon {
+      font-size: 1.75rem;
+    }
+
+    &[data-color='danger'] {
+      background: rgba(var(--ion-color-danger-rgb), 0.12);
+    }
+
+    &[data-color='warning'] {
+      background: rgba(var(--ion-color-warning-rgb), 0.12);
+    }
+
+    &[data-color='tertiary'] {
+      background: rgba(var(--ion-color-tertiary-rgb), 0.12);
+    }
+
+    &[data-color='medium'] {
+      background: rgba(var(--ion-color-medium-rgb), 0.12);
+    }
+  }
+
+  &.selected .reason-icon-wrapper {
+    transform: scale(1.1);
+
+    &[data-color='danger'] {
+      background: rgba(var(--ion-color-danger-rgb), 0.2);
+    }
+
+    &[data-color='warning'] {
+      background: rgba(var(--ion-color-warning-rgb), 0.2);
+    }
+
+    &[data-color='tertiary'] {
+      background: rgba(var(--ion-color-tertiary-rgb), 0.2);
+    }
+
+    &[data-color='medium'] {
+      background: rgba(var(--ion-color-medium-rgb), 0.2);
+    }
+  }
+
+  .reason-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--ion-text-color);
+    line-height: 1.3;
+  }
+
+  .reason-check {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+
+    ion-icon {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+.description-section {
+  .description-textarea {
+    --background: var(--ion-card-background);
+    --color: var(--ion-text-color);
+    --padding-start: 1rem;
+    --padding-end: 1rem;
+    --padding-top: 1rem;
+    --padding-bottom: 1rem;
+    border: 2px solid var(--ion-color-light);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    transition: border-color 0.2s;
+
+    &:focus-within {
+      border-color: var(--ion-color-primary);
+    }
+  }
+
+  .helper-text {
+    font-size: 0.85rem;
+    color: var(--ion-color-medium);
+    margin: 0;
+    font-style: italic;
+  }
+}
+
+ion-footer {
+  background: var(--ion-background-color);
+  border-top: 1px solid var(--ion-color-light);
+  height: auto;
+}
+
+.footer-content {
+  padding: 1rem 1.5rem;
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  ion-button {
+    margin: 0;
+    --border-radius: 12px;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.3px;
+
+    ion-icon {
+      font-size: 1.1rem;
+    }
+  }
+
+  .submit-button {
+    --background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    --background-hover: linear-gradient(135deg, #059669 0%, #047857 100%);
+    --background-activated: linear-gradient(135deg, #047857 0%, #065f46 100%);
+    --color: white;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition:
+        width 0.3s,
+        height 0.3s;
+    }
+
+    &:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+
+    ion-button {
+      width: 100%;
+    }
+  }
+}
+
+// Light mode specific fixes
+:host-context(body:not(.dark)) {
+  .reason-card {
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+    &.selected {
+      background: rgba(var(--ion-color-primary-rgb), 0.08);
+    }
+
+    .reason-icon-wrapper {
+      background: #f3f4f6;
+
+      &[data-color='danger'] {
+        background: #fee2e2;
+      }
+
+      &[data-color='warning'] {
+        background: #fef3c7;
+      }
+
+      &[data-color='tertiary'] {
+        background: #ddd6fe;
+      }
+
+      &[data-color='medium'] {
+        background: #f3f4f6;
+      }
+    }
+
+    &.selected .reason-icon-wrapper {
+      &[data-color='danger'] {
+        background: #fecaca;
+      }
+
+      &[data-color='warning'] {
+        background: #fde68a;
+      }
+
+      &[data-color='tertiary'] {
+        background: #c4b5fd;
+      }
+
+      &[data-color='medium'] {
+        background: #e5e7eb;
+      }
+    }
+  }
+
+  .description-textarea {
+    --background: #ffffff;
+    border-color: #e5e7eb;
+
+    &:focus-within {
+      border-color: var(--ion-color-primary);
+    }
+  }
+
+  ion-footer {
+    background: #fafafa;
+    border-top-color: #e5e7eb;
+  }
+
+  ion-header ion-toolbar {
+    --background: #fafafa;
+  }
+}
+
+// Dark mode specific
+:host-context(body.dark) {
+  .reason-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .description-textarea {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}

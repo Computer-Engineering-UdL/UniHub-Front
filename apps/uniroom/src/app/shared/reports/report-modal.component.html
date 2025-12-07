@@ -1,0 +1,87 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="modal-title">
+        <ion-icon name="flag" color="danger"></ion-icon>
+        {{ 'REPORT.TITLE' | translate }}
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="report-modal-content">
+  <!-- Step 1: Select Reason -->
+  <div class="step-container" *ngIf="step === 'reason'">
+    <div class="step-header">
+      <p class="step-description">{{ 'REPORT.MESSAGE' | translate }}</p>
+    </div>
+
+    <div class="reasons-grid">
+      <div
+        *ngFor="let reason of reasons"
+        class="reason-card"
+        [class.selected]="selectedReason === reason.value"
+        (click)="selectReason(reason.value)">
+        <div class="reason-icon-wrapper" [attr.data-color]="reason.color">
+          <ion-icon
+            [name]="reason.icon"
+            [color]="selectedReason === reason.value ? reason.color : 'medium'"></ion-icon>
+        </div>
+        <div class="reason-label">{{ reason.labelKey | translate }}</div>
+        <div class="reason-check" *ngIf="selectedReason === reason.value">
+          <ion-icon name="checkmark-circle" color="primary"></ion-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: Add Description -->
+  <div class="step-container" *ngIf="step === 'description'">
+    <div class="step-header">
+      <button class="back-button" (click)="previousStep()">
+        <ion-icon name="arrow-back"></ion-icon>
+        {{ 'COMMON.BACK' | translate }}
+      </button>
+      <p class="step-description">{{ 'REPORT.DESCRIPTION_MESSAGE' | translate }}</p>
+    </div>
+
+    <div class="description-section">
+      <ion-textarea
+        [(ngModel)]="description"
+        [placeholder]="'REPORT.DESCRIPTION_PLACEHOLDER' | translate"
+        rows="6"
+        class="description-textarea"></ion-textarea>
+      <p class="helper-text">{{ 'REPORT.OPTIONAL_HINT' | translate }}</p>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-content">
+    <div class="action-buttons" *ngIf="step === 'reason'">
+      <ion-button expand="block" fill="outline" color="medium" (click)="cancel()">
+        {{ 'COMMON.CANCEL' | translate }}
+      </ion-button>
+      <ion-button expand="block" color="primary" (click)="nextStep()">
+        {{ 'COMMON.NEXT' | translate }}
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </div>
+
+    <div class="action-buttons" *ngIf="step === 'description'">
+      <ion-button expand="block" fill="outline" color="medium" (click)="previousStep()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+        {{ 'COMMON.BACK' | translate }}
+      </ion-button>
+      <ion-button expand="block" class="submit-button" (click)="submit()">
+        <ion-icon slot="start" name="send"></ion-icon>
+        {{ 'REPORT.SUBMIT' | translate }}
+      </ion-button>
+    </div>
+  </div>
+</ion-footer>

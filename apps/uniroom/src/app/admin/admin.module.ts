@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminUsersComponent } from './users/users.component';
 import { AdminDashboardComponent } from './dashboard/dashboard.component';
+import { AdminReportsComponent } from './reports/reports.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,11 @@ const routes: Routes = [
     data: { titleKey: 'ADMIN.USERS.TITLE' }
   },
   {
+    path: 'reports',
+    component: AdminReportsComponent,
+    data: { titleKey: 'ADMIN.REPORTS.TITLE' }
+  },
+  {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full'
@@ -27,6 +33,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, TranslateModule, RouterModule.forChild(routes), NgOptimizedImage],
-  declarations: [AdminUsersComponent, AdminDashboardComponent]
+  declarations: [AdminUsersComponent, AdminDashboardComponent, AdminReportsComponent]
 })
 export class AdminModule {}
