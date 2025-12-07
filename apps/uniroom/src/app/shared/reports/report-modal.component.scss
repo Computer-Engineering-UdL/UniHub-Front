@@ -19,8 +19,8 @@ ion-header {
 }
 
 .report-modal-content {
-  --background: var(--ion-background-color);
-  height: auto;
+  --background: var(--ion-background-color) !important;
+  background: var(--ion-background-color) !important;
 }
 
 .step-container {
@@ -57,6 +57,7 @@ ion-header {
   }
 
   .step-description {
+    color: var(--ion-text-color) !important;
     font-size: 1rem;
     color: var(--ion-color-medium);
     margin: 0;
@@ -81,8 +82,9 @@ ion-header {
 
 .reason-card {
   position: relative;
-  background: var(--ion-card-background);
   border: 2px solid transparent;
+  background: var(--ion-card-background) !important;
+  border: 2px solid var(--ion-color-light) !important;
   border-radius: 16px;
   padding: 1.5rem;
   text-align: center;
@@ -92,13 +94,14 @@ ion-header {
 
   &:hover {
     transform: translateY(-2px);
+    background: var(--ion-color-light-shade, #222) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   }
 
   &.selected {
-    border-color: var(--ion-color-primary);
-    background: rgba(var(--ion-color-primary-rgb), 0.05);
-    box-shadow: 0 4px 16px rgba(var(--ion-color-primary-rgb), 0.2);
+    border-color: var(--ion-color-primary) !important;
+    background: rgba(var(--ion-color-primary-rgb), 0.12) !important;
+    box-shadow: 0 4px 16px rgba(var(--ion-color-primary-rgb), 0.18);
   }
 
   .reason-icon-wrapper {
@@ -117,19 +120,19 @@ ion-header {
     }
 
     &[data-color='danger'] {
-      background: rgba(var(--ion-color-danger-rgb), 0.12);
+      background: rgba(var(--ion-color-danger-rgb), 0.18) !important;
     }
 
     &[data-color='warning'] {
-      background: rgba(var(--ion-color-warning-rgb), 0.12);
+      background: rgba(var(--ion-color-warning-rgb), 0.18) !important;
     }
 
     &[data-color='tertiary'] {
-      background: rgba(var(--ion-color-tertiary-rgb), 0.12);
+      background: rgba(var(--ion-color-tertiary-rgb), 0.18) !important;
     }
 
     &[data-color='medium'] {
-      background: rgba(var(--ion-color-medium-rgb), 0.12);
+      background: rgba(var(--ion-color-medium-rgb), 0.18) !important;
     }
   }
 
@@ -137,23 +140,25 @@ ion-header {
     transform: scale(1.1);
 
     &[data-color='danger'] {
-      background: rgba(var(--ion-color-danger-rgb), 0.2);
+      background: rgba(var(--ion-color-danger-rgb), 0.28) !important;
     }
 
     &[data-color='warning'] {
-      background: rgba(var(--ion-color-warning-rgb), 0.2);
+      background: rgba(var(--ion-color-warning-rgb), 0.28) !important;
     }
 
     &[data-color='tertiary'] {
-      background: rgba(var(--ion-color-tertiary-rgb), 0.2);
+      background: rgba(var(--ion-color-tertiary-rgb), 0.28) !important;
     }
 
     &[data-color='medium'] {
-      background: rgba(var(--ion-color-medium-rgb), 0.2);
+      background: rgba(var(--ion-color-medium-rgb), 0.28) !important;
     }
   }
 
   .reason-label {
+    color: var(--ion-text-color) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
     font-size: 0.9rem;
     font-weight: 500;
     color: var(--ion-text-color);
@@ -173,34 +178,35 @@ ion-header {
 
 .description-section {
   .description-textarea {
-    --background: var(--ion-card-background);
-    --color: var(--ion-text-color);
+    --background: var(--ion-card-background) !important;
+    --color: var(--ion-text-color) !important;
     --padding-start: 1rem;
     --padding-end: 1rem;
     --padding-top: 1rem;
     --padding-bottom: 1rem;
-    border: 2px solid var(--ion-color-light);
+    border: 2px solid var(--ion-color-light) !important;
     border-radius: 12px;
     font-size: 0.95rem;
     margin-bottom: 0.5rem;
     transition: border-color 0.2s;
 
     &:focus-within {
-      border-color: var(--ion-color-primary);
+      border-color: var(--ion-color-primary) !important;
+      background: var(--ion-color-light-shade, #222) !important;
     }
   }
 
   .helper-text {
+    color: var(--ion-color-medium) !important;
     font-size: 0.85rem;
-    color: var(--ion-color-medium);
     margin: 0;
     font-style: italic;
   }
 }
 
 ion-footer {
-  background: var(--ion-background-color);
-  border-top: 1px solid var(--ion-color-light);
+  background: var(--ion-background-color) !important;
+  border-top-color: var(--ion-color-light) !important;
   height: auto;
 }
 
@@ -264,84 +270,5 @@ ion-footer {
     ion-button {
       width: 100%;
     }
-  }
-}
-
-// Light mode specific fixes
-:host-context(body:not(.dark)) {
-  .reason-card {
-    background: #ffffff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-
-    &.selected {
-      background: rgba(var(--ion-color-primary-rgb), 0.08);
-    }
-
-    .reason-icon-wrapper {
-      background: #f3f4f6;
-
-      &[data-color='danger'] {
-        background: #fee2e2;
-      }
-
-      &[data-color='warning'] {
-        background: #fef3c7;
-      }
-
-      &[data-color='tertiary'] {
-        background: #ddd6fe;
-      }
-
-      &[data-color='medium'] {
-        background: #f3f4f6;
-      }
-    }
-
-    &.selected .reason-icon-wrapper {
-      &[data-color='danger'] {
-        background: #fecaca;
-      }
-
-      &[data-color='warning'] {
-        background: #fde68a;
-      }
-
-      &[data-color='tertiary'] {
-        background: #c4b5fd;
-      }
-
-      &[data-color='medium'] {
-        background: #e5e7eb;
-      }
-    }
-  }
-
-  .description-textarea {
-    --background: #ffffff;
-    border-color: #e5e7eb;
-
-    &:focus-within {
-      border-color: var(--ion-color-primary);
-    }
-  }
-
-  ion-footer {
-    background: #fafafa;
-    border-top-color: #e5e7eb;
-  }
-
-  ion-header ion-toolbar {
-    --background: #fafafa;
-  }
-}
-
-// Dark mode specific
-:host-context(body.dark) {
-  .reason-card {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  }
-
-  .description-textarea {
-    border-color: rgba(255, 255, 255, 0.1);
   }
 }
