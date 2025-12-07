@@ -1,6 +1,6 @@
 .notification-container {
   position: fixed;
-  top: 16px;
+  top: calc(56px + 16px);
   right: 16px;
   z-index: 10000;
   display: flex;
@@ -15,7 +15,7 @@
 // Mobile responsive
 @media (max-width: 768px) {
   .notification-container {
-    top: 12px;
+    top: calc(56px + 12px);
     right: 12px;
     left: 12px;
     align-items: flex-end;
@@ -25,7 +25,7 @@
 // Extra small devices
 @media (max-width: 480px) {
   .notification-container {
-    top: 8px;
+    top: calc(56px + 8px);
     right: 8px;
     left: 8px;
   }
