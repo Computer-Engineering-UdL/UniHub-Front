@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { ModalController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
 import NotificationService from '../../services/notification.service';
 import { UniItem } from '../../models/uni-item.types';
@@ -10,6 +11,8 @@ import { ApiService } from '../../services/api.service';
 import { LocalizationService } from '../../services/localization.service';
 import { FileMetadata } from '../../models/offer.types';
 import { resolveFileUrl } from '../../utils/file-url.util';
+import { LocationPickerComponent } from '../../shared/location-picker/location-picker.component';
+import { LocationResult } from '../../services/google-places.service';
 
 interface SelectedPhotoPreview {
   file: File;
@@ -39,6 +42,7 @@ export class ItemEditPage implements OnInit {
   private readonly authService: AuthService = inject(AuthService);
   private readonly apiService: ApiService = inject(ApiService);
   private readonly localizationService: LocalizationService = inject(LocalizationService);
+  private readonly modalController: ModalController = inject(ModalController);
 
   form!: FormGroup;
   loading: boolean = false;
@@ -85,6 +89,23 @@ export class ItemEditPage implements OnInit {
 
     if (this.isEditMode && this.itemId) {
       void this.loadItem(this.itemId);
+    }
+  }
+
+  async openLocationPicker(): Promise<void> {
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: LocationPickerComponent,
+      cssClass: 'location-picker-modal'
+    });
+
+    await modal.present();
+
+    const { data, role } = await modal.onWillDismiss<LocationResult>();
+
+    if (role === 'confirm' && data) {
+      this.form.patchValue({
+        location: data.address
+      });
     }
   }
 

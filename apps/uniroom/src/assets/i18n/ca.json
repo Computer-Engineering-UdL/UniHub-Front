@@ -1171,6 +1171,8 @@
       "PRICE": "Preu",
       "CURRENCY": "Moneda",
       "LOCATION": "Ubicació",
+      "SELECT_LOCATION": "Selecciona ubicació al mapa",
+      "LOCATION_HELPER": "Fes clic per triar la ubicació al mapa",
       "IMAGES": "Imatges",
       "ADD_IMAGE": "Afegir imatge",
       "NO_PHOTOS": "No hi ha fotos. Fes clic per afegir-ne.",
@@ -1184,6 +1186,12 @@
       "ERROR_SAVE": "No s'ha pogut desar l'article",
       "ERROR_LOAD": "No s'ha pogut carregar l'article"
     }
+  },
+  "LOCATION_PICKER": {
+    "TITLE": "Selecciona ubicació",
+    "SELECT": "Fes clic al mapa per seleccionar",
+    "INSTRUCTION": "Fes clic al mapa o arrossega el marcador",
+    "CONFIRM": "Confirmar ubicació"
   },
   "TIME": {
     "JUST_NOW": "ara mateix",

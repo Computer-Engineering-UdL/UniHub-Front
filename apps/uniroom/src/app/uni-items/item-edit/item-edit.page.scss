@@ -36,6 +36,50 @@
     gap: 12px;
   }
 
+  .location-field {
+    border: 1px solid var(--ion-border-color);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 16px;
+
+    ion-label {
+      font-weight: 600;
+      color: var(--ion-text-color);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .location-picker-btn {
+      --border-radius: 8px;
+      --border-width: 1px;
+      --border-color: var(--ion-border-color);
+      margin: 8px 0;
+      text-transform: none;
+      font-weight: normal;
+      height: auto;
+      min-height: 44px;
+
+      ion-icon {
+        font-size: 20px;
+      }
+
+      span {
+        flex: 1;
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    ion-note {
+      font-size: 12px;
+      color: var(--ion-color-medium);
+      display: block;
+      margin-top: 4px;
+    }
+  }
+
   .photos-section {
     border: 1px solid var(--ion-border-color);
     border-radius: 12px;

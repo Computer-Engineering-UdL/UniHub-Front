@@ -1175,6 +1175,8 @@
       "PRICE": "Price",
       "CURRENCY": "Currency",
       "LOCATION": "Location",
+      "SELECT_LOCATION": "Select location on map",
+      "LOCATION_HELPER": "Click to choose location on map",
       "IMAGES": "Images",
       "ADD_IMAGE": "Add image",
       "NO_PHOTOS": "No photos. Click to add some.",
@@ -1188,6 +1190,12 @@
       "ERROR_SAVE": "Unable to save item",
       "ERROR_LOAD": "Unable to load item data"
     }
+  },
+  "LOCATION_PICKER": {
+    "TITLE": "Select location",
+    "SELECT": "Click on the map to select",
+    "INSTRUCTION": "Click on the map or drag the marker",
+    "CONFIRM": "Confirm location"
   },
   "TIME": {
     "JUST_NOW": "just now",

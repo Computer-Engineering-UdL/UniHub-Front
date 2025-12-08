@@ -50,10 +50,15 @@
         </ion-item>
       </div>
 
-      <ion-item lines="none">
+      <div class="location-field">
         <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.LOCATION' | translate }} *</ion-label>
-        <ion-input formControlName="location"></ion-input>
-      </ion-item>
+        <ion-button expand="block" fill="outline" (click)="openLocationPicker()" class="location-picker-btn">
+          <ion-icon slot="start" name="location-outline"></ion-icon>
+          <span *ngIf="!form.get('location')?.value">{{ 'UNI_ITEMS.FORM.SELECT_LOCATION' | translate }}</span>
+          <span *ngIf="form.get('location')?.value">{{ form.get('location')?.value }}</span>
+        </ion-button>
+        <ion-note>{{ 'UNI_ITEMS.FORM.LOCATION_HELPER' | translate }}</ion-note>
+      </div>
 
       <div class="photos-section">
         <div class="photos-header">
