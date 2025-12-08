@@ -29,7 +29,7 @@ export class LocationPickerComponent implements OnInit {
 
   private initMap(): void {
     const defaultLat: number = 41.6176;
-    const defaultLng: number = 0.6200;
+    const defaultLng: number = 0.62;
 
     this.map = L.map('map').setView([defaultLat, defaultLng], 13);
 
@@ -78,4 +78,3 @@ export class LocationPickerComponent implements OnInit {
     await this.modalController.dismiss(null, 'cancel');
   }
 }
-

@@ -20,7 +20,9 @@
         <ion-item lines="none">
           <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.CATEGORY' | translate }} *</ion-label>
           <ion-select interface="popover" formControlName="category">
-            <ion-select-option *ngFor="let category of categories" [value]="category">{{ category }}</ion-select-option>
+            <ion-select-option *ngFor="let category of categories" [value]="category"
+              >{{ category }}</ion-select-option
+            >
           </ion-select>
         </ion-item>
 
@@ -52,9 +54,15 @@
 
       <div class="location-field">
         <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.LOCATION' | translate }} *</ion-label>
-        <ion-button expand="block" fill="outline" (click)="openLocationPicker()" class="location-picker-btn">
+        <ion-button
+          expand="block"
+          fill="outline"
+          (click)="openLocationPicker()"
+          class="location-picker-btn">
           <ion-icon slot="start" name="location-outline"></ion-icon>
-          <span *ngIf="!form.get('location')?.value">{{ 'UNI_ITEMS.FORM.SELECT_LOCATION' | translate }}</span>
+          <span *ngIf="!form.get('location')?.value"
+            >{{ 'UNI_ITEMS.FORM.SELECT_LOCATION' | translate }}</span
+          >
           <span *ngIf="form.get('location')?.value">{{ form.get('location')?.value }}</span>
         </ion-button>
         <ion-note>{{ 'UNI_ITEMS.FORM.LOCATION_HELPER' | translate }}</ion-note>
@@ -119,7 +127,8 @@
         <ion-button type="submit" color="primary" [disabled]="loading">
           <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
           <span *ngIf="!loading">
-            {{ isEditMode ? ('UNI_ITEMS.FORM.SAVE_CHANGES' | translate) : ('UNI_ITEMS.FORM.CREATE' | translate) }}
+            {{ isEditMode ? ('UNI_ITEMS.FORM.SAVE_CHANGES' | translate) : ('UNI_ITEMS.FORM.CREATE' |
+            translate) }}
           </span>
         </ion-button>
         <ion-button fill="clear" color="medium" [disabled]="loading" (click)="cancel()">

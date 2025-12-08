@@ -18,7 +18,9 @@
             <ion-icon name="location-outline"></ion-icon>
             <div class="location-text">
               <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
-              <span *ngIf="!loading">{{ locationText || ('LOCATION_PICKER.SELECT' | translate) }}</span>
+              <span *ngIf="!loading">{{
+                locationText || ('LOCATION_PICKER.SELECT' | translate)
+              }}</span>
             </div>
           </div>
           <ion-note>{{ 'LOCATION_PICKER.INSTRUCTION' | translate }}</ion-note>
@@ -35,4 +37,3 @@
     </div>
   </div>
 </ion-content>
-

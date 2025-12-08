@@ -216,9 +216,14 @@ export class ItemEditPage implements OnInit {
     }
     const newOrder: SelectedPhotoPreview[] = [
       { ...this.photoPreviews[index], isPrimary: true },
-      ...this.photoPreviews.filter((_: SelectedPhotoPreview, i: number) => i !== index).map((photo: SelectedPhotoPreview) => ({ ...photo, isPrimary: false }))
+      ...this.photoPreviews
+        .filter((_: SelectedPhotoPreview, i: number) => i !== index)
+        .map((photo: SelectedPhotoPreview) => ({ ...photo, isPrimary: false }))
     ];
-    this.photoPreviews = newOrder.map((photo: SelectedPhotoPreview, idx: number) => ({ ...photo, isPrimary: idx === 0 }));
+    this.photoPreviews = newOrder.map((photo: SelectedPhotoPreview, idx: number) => ({
+      ...photo,
+      isPrimary: idx === 0
+    }));
   }
 
   private async uploadSelectedPhotos(): Promise<string[]> {
@@ -258,8 +263,7 @@ export class ItemEditPage implements OnInit {
     const cleanupTasks: Promise<void>[] = fileIds.map(async (fileId: string) => {
       try {
         await firstValueFrom(this.apiService.delete(`files/${fileId}`));
-      } catch {
-      }
+      } catch {}
     });
 
     await Promise.all(cleanupTasks);
