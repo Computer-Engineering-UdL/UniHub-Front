@@ -7,18 +7,18 @@
 
     <form [formGroup]="form" (ngSubmit)="submit()" class="item-form">
       <ion-item lines="none">
-        <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.TITLE' | translate }}</ion-label>
-        <ion-input formControlName="title" required></ion-input>
+        <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.TITLE' | translate }} *</ion-label>
+        <ion-input formControlName="title" [required]="true"></ion-input>
       </ion-item>
 
       <ion-item lines="none">
         <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.DESCRIPTION' | translate }}</ion-label>
-        <ion-textarea formControlName="description" rows="4"></ion-textarea>
+        <ion-textarea formControlName="description" [rows]="4"></ion-textarea>
       </ion-item>
 
       <div class="two-column">
         <ion-item lines="none">
-          <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.CATEGORY' | translate }}</ion-label>
+          <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.CATEGORY' | translate }} *</ion-label>
           <ion-select interface="popover" formControlName="category">
             <ion-select-option *ngFor="let category of categories" [value]="category"
               >{{ category }}</ion-select-option
@@ -27,7 +27,7 @@
         </ion-item>
 
         <ion-item lines="none">
-          <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.CONDITION' | translate }}</ion-label>
+          <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.CONDITION' | translate }} *</ion-label>
           <ion-select interface="popover" formControlName="condition">
             <ion-select-option *ngFor="let condition of conditions" [value]="condition.value">
               {{ condition.labelKey | translate }}
@@ -38,56 +38,98 @@
 
       <div class="two-column">
         <ion-item lines="none">
-          <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.PRICE' | translate }}</ion-label>
+          <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.PRICE' | translate }} *</ion-label>
           <ion-input type="number" formControlName="price" min="0"></ion-input>
         </ion-item>
 
         <ion-item lines="none">
-          <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.CURRENCY' | translate }}</ion-label>
-          <ion-input formControlName="currency"></ion-input>
+          <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.CURRENCY' | translate }} *</ion-label>
+          <ion-select interface="popover" formControlName="currency">
+            <ion-select-option *ngFor="let currency of currencies" [value]="currency.value">
+              {{ currency.label }}
+            </ion-select-option>
+          </ion-select>
         </ion-item>
       </div>
 
-      <ion-item lines="none">
-        <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.LOCATION' | translate }}</ion-label>
-        <ion-input formControlName="location"></ion-input>
-      </ion-item>
+      <div class="location-field">
+        <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.LOCATION' | translate }} *</ion-label>
+        <ion-button
+          expand="block"
+          fill="outline"
+          (click)="openLocationPicker()"
+          class="location-picker-btn">
+          <ion-icon slot="start" name="location-outline"></ion-icon>
+          <span *ngIf="!form.get('location')?.value"
+            >{{ 'UNI_ITEMS.FORM.SELECT_LOCATION' | translate }}</span
+          >
+          <span *ngIf="form.get('location')?.value">{{ form.get('location')?.value }}</span>
+        </ion-button>
+        <ion-note>{{ 'UNI_ITEMS.FORM.LOCATION_HELPER' | translate }}</ion-note>
+      </div>
 
-      <div class="images-group">
-        <div class="images-header">
+      <div class="photos-section">
+        <div class="photos-header">
           <h3>{{ 'UNI_ITEMS.FORM.IMAGES' | translate }}</h3>
-          <ion-button fill="clear" size="small" (click)="addImageField()">
+          <ion-button
+            fill="clear"
+            size="small"
+            (click)="photoInput.click()"
+            [disabled]="!canAddMorePhotos">
             <ion-icon slot="start" name="add-outline"></ion-icon>
             {{ 'UNI_ITEMS.FORM.ADD_IMAGE' | translate }}
           </ion-button>
+          <input
+            #photoInput
+            type="file"
+            accept="image/jpeg,image/png,image/gif,image/webp"
+            multiple
+            style="display: none"
+            (change)="onPhotosSelected($event)" />
         </div>
-        <div class="image-fields" formArrayName="images">
-          <div class="image-row" *ngFor="let control of images.controls; index as i">
-            <ion-item lines="none">
-              <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.IMAGE_URL' | translate }}</ion-label>
-              <ion-input [formControlName]="i"></ion-input>
-            </ion-item>
-            <ion-button
-              fill="clear"
-              color="danger"
-              size="small"
-              (click)="removeImageField(i)"
-              [disabled]="images.length === 1">
-              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-            </ion-button>
+
+        <ion-note *ngIf="photoUploadError" color="danger" class="photo-error">
+          {{ photoUploadError }}
+        </ion-note>
+
+        <div class="photo-grid" *ngIf="photoPreviews.length > 0">
+          <div
+            *ngFor="let photo of photoPreviews; let i = index"
+            class="photo-preview-item"
+            [class.is-primary]="photo.isPrimary">
+            <img [src]="photo.preview" [alt]="(i + 1).toString()" />
+            <div class="photo-actions">
+              <ion-button
+                fill="clear"
+                size="small"
+                color="light"
+                *ngIf="!photo.isPrimary"
+                (click)="setPrimaryPhoto(i)">
+                <ion-icon name="star-outline"></ion-icon>
+              </ion-button>
+              <ion-button fill="clear" size="small" color="danger" (click)="removePhoto(i)">
+                <ion-icon name="trash-outline"></ion-icon>
+              </ion-button>
+            </div>
+            <ion-badge *ngIf="photo.isPrimary" color="primary" class="primary-badge">
+              {{ 'ROOM.FORM.PRIMARY_BADGE' | translate }}
+            </ion-badge>
           </div>
+        </div>
+
+        <div class="empty-photos" *ngIf="photoPreviews.length === 0">
+          <ion-icon name="images-outline"></ion-icon>
+          <p>{{ 'UNI_ITEMS.FORM.NO_PHOTOS' | translate }}</p>
         </div>
       </div>
 
-      <ion-item lines="none">
-        <ion-label>{{ 'UNI_ITEMS.FORM.ACTIVE' | translate }}</ion-label>
-        <ion-toggle formControlName="isActive"></ion-toggle>
-      </ion-item>
-
       <div class="form-actions">
         <ion-button type="submit" color="primary" [disabled]="loading">
-          {{ isEditMode ? ('UNI_ITEMS.FORM.SAVE_CHANGES' | translate) : ('UNI_ITEMS.FORM.CREATE' |
-          translate) }}
+          <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+          <span *ngIf="!loading">
+            {{ isEditMode ? ('UNI_ITEMS.FORM.SAVE_CHANGES' | translate) : ('UNI_ITEMS.FORM.CREATE' |
+            translate) }}
+          </span>
         </ion-button>
         <ion-button fill="clear" color="medium" [disabled]="loading" (click)="cancel()">
           {{ 'UNI_ITEMS.FORM.CANCEL' | translate }}

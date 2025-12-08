@@ -1,0 +1,73 @@
+.location-picker-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px;
+  gap: 16px;
+}
+
+.location-info {
+  flex-shrink: 0;
+
+  ion-card {
+    margin: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .location-display {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+
+    ion-icon {
+      font-size: 24px;
+      color: var(--ion-color-primary);
+      flex-shrink: 0;
+    }
+
+    .location-text {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ion-text-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      ion-spinner {
+        --color: var(--ion-color-primary);
+      }
+    }
+  }
+
+  ion-note {
+    display: block;
+    font-size: 12px;
+    color: var(--ion-color-medium);
+  }
+}
+
+.map-container {
+  flex: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  min-height: 300px;
+}
+
+.actions {
+  flex-shrink: 0;
+
+  ion-button {
+    --border-radius: 12px;
+    margin: 0;
+    font-weight: 600;
+  }
+}
+
+@media (max-width: 768px) {
+  .location-picker-container {
+    padding: 12px;
+  }
+}

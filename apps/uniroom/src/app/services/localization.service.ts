@@ -9,13 +9,13 @@ export type TDateInput = Date | string | number | null | undefined;
 
 @Injectable({ providedIn: 'root' })
 export class LocalizationService {
-  private translate: TranslateService = inject(TranslateService);
-  private storage: StorageService = inject(StorageService);
+  private readonly translate: TranslateService = inject(TranslateService);
+  private readonly storage: StorageService = inject(StorageService);
   private readonly supportedLanguages: ReadonlyArray<LangCode> = ['en', 'es', 'ca'];
   private readonly defaultLanguage: LangCode = 'en';
   private readonly LANG_KEY: string = 'lang';
 
-  private languageSubject: BehaviorSubject<LangCode> = new BehaviorSubject<LangCode>(this.defaultLanguage);
+  private readonly languageSubject: BehaviorSubject<LangCode> = new BehaviorSubject<LangCode>(this.defaultLanguage);
   public language$: Observable<LangCode> = this.languageSubject.asObservable();
 
   async init(): Promise<void> {
@@ -158,17 +158,20 @@ export class LocalizationService {
     }
   }
 
-  /**
-   * Format a price using the locale and provided currency (default EUR).
-   * Optional maxFractionDigits and removeTrailingZeros control fractional behavior.
-   */
+  getSupportedCurrencies(): Array<{ value: string; label: string }> {
+    return [
+      { value: 'EUR', label: '€ Euro (EUR)' },
+      { value: 'USD', label: '$ US Dollar (USD)' },
+      { value: 'GBP', label: '£ British Pound (GBP)' }
+    ];
+  }
+
   formatPrice(value: TNumber, currency: string = 'EUR', maxFractionDigits = 2, removeTrailingZeros = true): string {
     const num: number = this.toNumber(value);
     if (!isFinite(this.toNumber(value))) {
       return '—';
     }
 
-    // Special case for EUR: always on the right
     if (currency === 'EUR') {
       return `${this.formatNumber(num, maxFractionDigits, removeTrailingZeros)} €`;
     }

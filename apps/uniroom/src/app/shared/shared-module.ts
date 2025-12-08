@@ -8,6 +8,7 @@ import { TopBarComponent } from './top-bar/top-bar.component';
 import { NotificationToastComponent } from './notification-toast/notification-toast.component';
 import { NotificationContainerComponent } from './notification-container/notification-container.component';
 import { ReportModalComponent } from './reports/report-modal.component';
+import { LocationPickerComponent } from './location-picker/location-picker.component';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
@@ -16,7 +17,8 @@ import { TranslateModule } from '@ngx-translate/core';
     TopBarComponent,
     NotificationToastComponent,
     NotificationContainerComponent,
-    ReportModalComponent
+    ReportModalComponent,
+    LocationPickerComponent
   ],
   imports: [CommonModule, IonicModule, RouterModule, FormsModule, TranslateModule, NgOptimizedImage],
   exports: [
@@ -24,7 +26,8 @@ import { TranslateModule } from '@ngx-translate/core';
     TopBarComponent,
     NotificationToastComponent,
     NotificationContainerComponent,
-    ReportModalComponent
+    ReportModalComponent,
+    LocationPickerComponent
   ]
 })
 export class SharedModule {}

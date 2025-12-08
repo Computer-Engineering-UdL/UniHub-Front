@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'LOCATION_PICKER.TITLE' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="location-picker-container">
+    <div class="location-info">
+      <ion-card>
+        <ion-card-content>
+          <div class="location-display">
+            <ion-icon name="location-outline"></ion-icon>
+            <div class="location-text">
+              <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+              <span *ngIf="!loading">{{
+                locationText || ('LOCATION_PICKER.SELECT' | translate)
+              }}</span>
+            </div>
+          </div>
+          <ion-note>{{ 'LOCATION_PICKER.INSTRUCTION' | translate }}</ion-note>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div id="map" class="map-container"></div>
+
+    <div class="actions">
+      <ion-button expand="block" (click)="confirm()" [disabled]="!selectedLocation || loading">
+        {{ 'LOCATION_PICKER.CONFIRM' | translate }}
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

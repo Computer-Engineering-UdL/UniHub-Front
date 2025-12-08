@@ -1172,10 +1172,13 @@
       "PRICE": "Precio",
       "CURRENCY": "Moneda",
       "LOCATION": "Ubicación",
+      "SELECT_LOCATION": "Selecciona ubicación en el mapa",
+      "LOCATION_HELPER": "Haz clic para elegir la ubicación en el mapa",
       "IMAGES": "Imágenes",
       "ADD_IMAGE": "Añadir imagen",
-      "IMAGE_URL": "URL de la imagen",
-      "ACTIVE": "Anuncio activo",
+      "NO_PHOTOS": "No hay fotos. Haz clic para añadir.",
+      "PHOTO_REQUIRED": "Debes añadir al menos una foto",
+      "PHOTO_UPLOAD_FAILED": "Error al subir las fotos",
       "CREATE": "Crear",
       "SAVE_CHANGES": "Guardar cambios",
       "CANCEL": "Cancelar",
@@ -1184,6 +1187,12 @@
       "ERROR_SAVE": "No se pudo guardar el artículo",
       "ERROR_LOAD": "No se pudo cargar el artículo"
     }
+  },
+  "LOCATION_PICKER": {
+    "TITLE": "Selecciona ubicación",
+    "SELECT": "Haz clic en el mapa para seleccionar",
+    "INSTRUCTION": "Haz clic en el mapa o arrastra el marcador",
+    "CONFIRM": "Confirmar ubicación"
   },
   "TIME": {
     "JUST_NOW": "justo ahora",
