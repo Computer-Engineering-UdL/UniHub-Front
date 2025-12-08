@@ -16,9 +16,18 @@
               {{ 'PROFILE.VERIFIED' | translate }}
             </ion-badge>
           </div>
-          <ion-button fill="clear" color="danger" (click)="reportUser()" class="report-user-button">
-            <ion-icon slot="icon-only" name="flag-outline"></ion-icon>
-          </ion-button>
+          <div class="profile-actions">
+            <ion-button fill="clear" color="primary" (click)="startConversation()">
+              <ion-icon slot="start" name="chatbubbles-outline"></ion-icon>
+            </ion-button>
+            <ion-button
+              fill="clear"
+              color="danger"
+              (click)="reportUser()"
+              class="report-user-button">
+              <ion-icon slot="icon-only" name="flag-outline"></ion-icon>
+            </ion-button>
+          </div>
         </div>
 
         <div class="profile-info-section">

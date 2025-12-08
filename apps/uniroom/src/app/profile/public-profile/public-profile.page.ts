@@ -14,6 +14,7 @@ import { ReportCategory, ReportReason } from '../../models/report.types';
 import { ReportService } from '../../services/report.service';
 import { AuthService } from '../../services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
+import { MessageService } from '../../services/message.service';
 
 interface PublicUserProfile {
   id: string;
@@ -49,6 +50,7 @@ export class PublicProfilePage implements OnInit, OnDestroy {
   private readonly reportService: ReportService = inject(ReportService);
   private readonly authService: AuthService = inject(AuthService);
   private readonly translate: TranslateService = inject(TranslateService);
+  private readonly messageService: MessageService = inject(MessageService);
 
   user: PublicUserProfile | null = null;
   selectedTab: 'overview' | 'listings' = 'overview';
@@ -266,6 +268,30 @@ export class PublicProfilePage implements OnInit, OnDestroy {
       } catch {
         this.notificationService.error(this.translate.instant('REPORT.ERROR'));
       }
+    }
+  }
+
+  async startConversation(): Promise<void> {
+    if (!this.user) {
+      return;
+    }
+
+    const currentUser = this.authService.currentUser;
+    if (!currentUser) {
+      this.notificationService.error('ERROR.NOT_AUTHENTICATED');
+      return;
+    }
+
+    if (this.user.id === currentUser.id) {
+      this.notificationService.error('ROOM.DETAILS.LANDLORD.ERROR.CANNOT_MESSAGE_YOURSELF');
+      return;
+    }
+
+    try {
+      const conversation = await firstValueFrom(this.messageService.getOrCreateConversation(this.user.id));
+      await this.router.navigate(['/messages'], { queryParams: { id: conversation.id } });
+    } catch {
+      this.notificationService.error('MESSAGES.CREATE_ERROR');
     }
   }
 }

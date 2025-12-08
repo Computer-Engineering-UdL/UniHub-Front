@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { Subject, firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { UserService } from '../../services/user.service';
 import { MessageService } from '../../services/message.service';
@@ -19,16 +19,16 @@ import { User } from '../../models/auth.types';
   imports: [CommonModule, FormsModule, IonicModule, TranslateModule]
 })
 export class StartConversationModalComponent implements OnInit {
-  private modalController: ModalController = inject(ModalController);
-  private userService: UserService = inject(UserService);
-  private messageService: MessageService = inject(MessageService);
-  private authService: AuthService = inject(AuthService);
-  private notificationService: NotificationService = inject(NotificationService);
+  private readonly modalController: ModalController = inject(ModalController);
+  private readonly userService: UserService = inject(UserService);
+  private readonly messageService: MessageService = inject(MessageService);
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly notificationService: NotificationService = inject(NotificationService);
 
   searchTerm: string = '';
   users: User[] = [];
   isLoading: boolean = false;
-  private searchSubject: Subject<string> = new Subject<string>();
+  private readonly searchSubject: Subject<string> = new Subject<string>();
   private currentUser: User | null = null;
 
   ngOnInit(): void {
@@ -79,8 +79,7 @@ export class StartConversationModalComponent implements OnInit {
     const existingConversations = this.messageService.getConversationsValue();
     const existingUserIds = new Set(
       existingConversations.map((conv) => {
-        const otherUserId = conv.user1_id === this.currentUser?.id ? conv.user2_id : conv.user1_id;
-        return otherUserId;
+        return conv.user1_id === this.currentUser?.id ? conv.user2_id : conv.user1_id;
       })
     );
 
@@ -98,13 +97,12 @@ export class StartConversationModalComponent implements OnInit {
       this.isLoading = true;
       const conv = await firstValueFrom(this.messageService.createConversation(user.id));
       this.isLoading = false;
-      if (conv && conv.id) {
-        // Devolver id de la conversa creada perquè el parent la seleccioni
+      if (conv?.id) {
         await this.modalController.dismiss({ createdConversationId: conv.id });
         return;
       }
       this.notificationService.error('MESSAGES.START_CONVERSATION.ERROR_CREATE');
-    } catch (e) {
+    } catch {
       this.isLoading = false;
       this.notificationService.error('MESSAGES.START_CONVERSATION.ERROR_CREATE');
     }
