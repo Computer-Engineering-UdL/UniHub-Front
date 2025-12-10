@@ -79,7 +79,9 @@
   cursor: pointer;
   color: var(--ion-text-color);
   min-width: 0;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .wizard-header__side:hover {
