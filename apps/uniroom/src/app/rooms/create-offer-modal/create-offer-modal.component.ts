@@ -316,6 +316,20 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
     return this.wizardSteps[this.currentStepIndex] ?? this.wizardSteps[0];
   }
 
+  get previousWizardStep(): WizardStep | null {
+    if (!this.wizardSteps.length || this.currentStepIndex === 0) {
+      return null;
+    }
+    return this.wizardSteps[this.currentStepIndex - 1] ?? null;
+  }
+
+  get nextWizardStep(): WizardStep | null {
+    if (!this.wizardSteps.length || this.currentStepIndex >= this.wizardSteps.length - 1) {
+      return null;
+    }
+    return this.wizardSteps[this.currentStepIndex + 1] ?? null;
+  }
+
   get isLastStep(): boolean {
     return this.currentStepIndex >= this.wizardSteps.length - 1;
   }

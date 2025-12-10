@@ -23,31 +23,51 @@
           </div>
           <p class="wizard-header__description">{{ currentStep.descriptionKey | translate }}</p>
         </div>
+
+        <div class="wizard-header__compact">
+          @if (previousWizardStep) {
+            <button
+              type="button"
+              class="wizard-header__side wizard-header__side--left"
+              (click)="previousStep()">
+              <span class="wizard-header__step-label wizard-header__step-label--secondary">
+                {{ previousWizardStep.titleKey | translate }}
+              </span>
+              <span class="wizard-header__step-number wizard-header__step-number--secondary">
+                {{ currentStepIndex }} / {{ wizardSteps.length }}
+              </span>
+            </button>
+          }
+
+          <div class="wizard-header__center">
+            <div class="wizard-header__step-number wizard-header__step-number--current">
+              {{ currentStepIndex + 1 }} / {{ wizardSteps.length }}
+            </div>
+            <div class="wizard-header__step-label wizard-header__step-label--current">
+              {{ currentStep.titleKey | translate }}
+            </div>
+          </div>
+
+          @if (nextWizardStep) {
+            <button
+              type="button"
+              class="wizard-header__side wizard-header__side--right"
+              (click)="nextStep()">
+              <span
+                class="wizard-header__step-label wizard-header__step-label--secondary wizard-header__step-label--right">
+                {{ nextWizardStep.titleKey | translate }}
+              </span>
+              <span class="wizard-header__step-number wizard-header__step-number--secondary">
+                {{ currentStepIndex + 2 }} / {{ wizardSteps.length }}
+              </span>
+            </button>
+          }
+        </div>
       </div>
 
       <div class="wizard-stepper">
         <div class="wizard-stepper__track">
           <div class="wizard-stepper__fill" [style.width.%]="progressValue"></div>
-        </div>
-        <div class="wizard-stepper__steps">
-          @for (step of wizardSteps; track step.id; let idx = $index) {
-            <button
-              type="button"
-              class="wizard-stepper__step"
-              [class.active]="idx === currentStepIndex"
-              [class.completed]="isStepComplete(idx)"
-              [disabled]="idx > furthestStepIndex"
-              (click)="goToStep(idx)">
-              <span class="wizard-stepper__index">{{ idx + 1 }}</span>
-              <div class="wizard-stepper__copy">
-                <span class="wizard-stepper__label">{{ step.titleKey | translate }}</span>
-                <small>{{ step.descriptionKey | translate }}</small>
-              </div>
-              @if (isStepComplete(idx)) {
-                <ion-icon name="checkmark-circle" color="success"></ion-icon>
-              }
-            </button>
-          }
         </div>
       </div>
 
