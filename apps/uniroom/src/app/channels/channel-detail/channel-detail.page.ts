@@ -355,10 +355,6 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     return this.localizationService.formatDate(date, { weekday: 'long', day: 'numeric', month: 'long' });
   }
 
-  getUserAvatar(message: ChannelMessage): string {
-    return message.sender?.avatar_url || this.defaultUserUrl;
-  }
-
   getUserName(message: ChannelMessage): string {
     if (this.isMyMessage(message) && this.currentUser) {
       return this.currentUser.fullName || this.currentUser.name || this.currentUser.username || this.currentUser.id;

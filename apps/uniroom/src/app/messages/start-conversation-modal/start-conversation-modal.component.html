@@ -23,7 +23,7 @@
   <ion-list *ngIf="!isLoading && users.length > 0" class="user-list">
     <ion-item *ngFor="let user of users" lines="none">
       <ion-avatar slot="start">
-        <img [src]="user.imgUrl || 'assets/icon/default_avatar.svg'" alt="User avatar" />
+        <img [appCachedAvatar]="user?.imgUrl" alt="User avatar" />
       </ion-avatar>
       <ion-label>
         <h3>{{ user.firstName || user.name }} {{ user.lastName }}</h3>

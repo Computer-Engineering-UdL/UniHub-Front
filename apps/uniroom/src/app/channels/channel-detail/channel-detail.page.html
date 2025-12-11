@@ -52,9 +52,7 @@
             *ngFor="let message of group.messages; trackBy: trackByMessage"
             [class.my-message]="isMyMessage(message)">
             <ion-avatar class="message-avatar" *ngIf="!isMyMessage(message)">
-              <img
-                [src]="message.sender?.imgUrl || this.defaultUserUrl"
-                [alt]="getUserName(message)" />
+              <img [appCachedAvatar]="message.sender?.imgUrl" [alt]="getUserName(message)" />
             </ion-avatar>
 
             <div class="message-bubble">
@@ -111,9 +109,7 @@
             </div>
 
             <ion-avatar class="message-avatar" *ngIf="isMyMessage(message)">
-              <img
-                [src]="message.sender?.imgUrl || this.defaultUserUrl"
-                [alt]="getUserName(message)" />
+              <img [appCachedAvatar]="message.sender?.imgUrl" [alt]="getUserName(message)" />
             </ion-avatar>
           </div>
         </div>
@@ -208,7 +204,7 @@
           <div class="member-item" *ngFor="let member of adminMembers">
             <ion-avatar>
               <img
-                [src]="member.user?.imgUrl || defaultUserUrl"
+                [appCachedAvatar]="member.user?.imgUrl"
                 [alt]="member.user?.username || member.user_id" />
             </ion-avatar>
             <div class="member-info">
@@ -245,7 +241,7 @@
           <div class="member-item" *ngFor="let member of moderatorMembers">
             <ion-avatar>
               <img
-                [src]="member.user?.imgUrl || defaultUserUrl"
+                [appCachedAvatar]="member.user?.imgUrl"
                 [alt]="member.user?.username || member.user_id" />
             </ion-avatar>
             <div class="member-info">
@@ -282,7 +278,7 @@
           <div class="member-item" *ngFor="let member of regularMembers">
             <ion-avatar>
               <img
-                [src]="member.user?.imgUrl || defaultUserUrl"
+                [appCachedAvatar]="member.user?.imgUrl"
                 [alt]="member.user?.username || member.user_id" />
             </ion-avatar>
             <div class="member-info">
@@ -321,7 +317,7 @@
           <div class="member-item banned-member" *ngFor="let member of bannedMembers">
             <ion-avatar>
               <img
-                [src]="member.user?.imgUrl || defaultUserUrl"
+                [appCachedAvatar]="member.user?.imgUrl"
                 [alt]="member.user?.username || member.user_id" />
             </ion-avatar>
             <div class="member-info">
@@ -379,7 +375,7 @@
           <div class="member-item" *ngFor="let member of adminMembers">
             <ion-avatar>
               <img
-                [src]="member.user?.imgUrl || defaultUserUrl"
+                [appCachedAvatar]="member.user?.imgUrl"
                 [alt]="member.user?.fullName || member.user_id" />
             </ion-avatar>
             <div class="member-info">
@@ -416,7 +412,7 @@
           <div class="member-item" *ngFor="let member of moderatorMembers">
             <ion-avatar>
               <img
-                [src]="member.user?.imgUrl || defaultUserUrl"
+                [appCachedAvatar]="member.user?.imgUrl"
                 [alt]="member.user?.fullName || member.user_id" />
             </ion-avatar>
             <div class="member-info">
@@ -453,7 +449,7 @@
           <div class="member-item" *ngFor="let member of regularMembers">
             <ion-avatar>
               <img
-                [src]="member.user?.imgUrl || defaultUserUrl"
+                [appCachedAvatar]="member.user?.imgUrl"
                 [alt]="member.user?.fullName || member.user_id" />
             </ion-avatar>
             <div class="member-info">
@@ -492,7 +488,7 @@
           <div class="member-item banned-member" *ngFor="let member of bannedMembers">
             <ion-avatar>
               <img
-                [src]="member.user?.imgUrl || defaultUserUrl"
+                [appCachedAvatar]="member.user?.imgUrl"
                 [alt]="member.user?.fullName || member.user_id" />
             </ion-avatar>
             <div class="member-info">

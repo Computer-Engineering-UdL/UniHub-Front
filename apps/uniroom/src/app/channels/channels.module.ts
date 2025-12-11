@@ -10,6 +10,7 @@ import { CreateChannelModalComponent } from './create-channel-modal/create-chann
 import { AddMemberModalComponent } from './channel-detail/add-member-modal/add-member-modal.component';
 import { MemberActionsComponent } from './channel-detail/member-actions/member-actions.component';
 import { BanMemberModalComponent } from './channel-detail/ban-member-modal/ban-member-modal.component';
+import { SharedModule } from '../shared/shared-module';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { BanMemberModalComponent } from './channel-detail/ban-member-modal/ban-m
     AddMemberModalComponent,
     MemberActionsComponent,
     BanMemberModalComponent,
-    NgOptimizedImage
+    NgOptimizedImage,
+    SharedModule
   ],
   declarations: [ChannelsPage, ChannelDetailPage]
 })

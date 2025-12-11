@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ChannelMember } from '../../../models/channel.types';
+import { SharedModule } from '../../../shared/shared-module';
 
 @Component({
   selector: 'app-ban-member-modal',
   templateUrl: './ban-member-modal.component.html',
   styleUrls: ['./ban-member-modal.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, TranslateModule]
+  imports: [CommonModule, FormsModule, IonicModule, TranslateModule, SharedModule]
 })
 export class BanMemberModalComponent {
   @Input() member!: ChannelMember;

@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { ProfileEditModal } from './profile-edit.modal';
 import { AddInterestModalComponent } from './add-interest-modal/add-interest-modal.component';
 import { InterestTranslatePipe } from '../shared/pipes/interest-translate.pipe';
+import { SharedModule } from '../shared/shared-module';
 
 @NgModule({
   declarations: [ProfilePage, PublicProfilePage, AddInterestModalComponent, InterestTranslatePipe],
@@ -20,7 +21,8 @@ import { InterestTranslatePipe } from '../shared/pipes/interest-translate.pipe';
     ProfileRoutingModule,
     NgOptimizedImage,
     FormsModule,
-    ProfileEditModal
+    ProfileEditModal,
+    SharedModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

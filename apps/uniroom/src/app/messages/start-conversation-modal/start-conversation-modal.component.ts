@@ -10,13 +10,14 @@ import { MessageService } from '../../services/message.service';
 import { AuthService } from '../../services/auth.service';
 import NotificationService from '../../services/notification.service';
 import { User } from '../../models/auth.types';
+import { SharedModule } from '../../shared/shared-module';
 
 @Component({
   selector: 'app-start-conversation-modal',
   templateUrl: './start-conversation-modal.component.html',
   styleUrls: ['./start-conversation-modal.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, TranslateModule]
+  imports: [CommonModule, FormsModule, IonicModule, TranslateModule, SharedModule]
 })
 export class StartConversationModalComponent implements OnInit {
   private readonly modalController: ModalController = inject(ModalController);

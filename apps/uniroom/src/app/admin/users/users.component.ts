@@ -585,17 +585,6 @@ export class AdminUsersComponent implements OnInit {
     return this.translateService.instant('TIME_AGO.MONTHS', { count: months });
   }
 
-  getUserAvatar(user: User): string {
-    if (user.avatar_url) {
-      return user.avatar_url;
-    }
-    if (user.imgUrl) {
-      return user.imgUrl;
-    }
-    const name: string = encodeURIComponent(this.getFullName(user));
-    return `https://avatar.iran.liara.run/username?username=${name}`;
-  }
-
   getRoleBadgeClass(role: Role): string {
     switch (role.toLowerCase()) {
       case 'admin':

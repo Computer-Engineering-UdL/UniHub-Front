@@ -7,6 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminUsersComponent } from './users/users.component';
 import { AdminDashboardComponent } from './dashboard/dashboard.component';
 import { AdminReportsComponent } from './reports/reports.component';
+import { SharedModule } from '../shared/shared-module';
 
 const routes: Routes = [
   {
@@ -32,7 +33,15 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, TranslateModule, RouterModule.forChild(routes), NgOptimizedImage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    TranslateModule,
+    RouterModule.forChild(routes),
+    NgOptimizedImage,
+    SharedModule
+  ],
   declarations: [AdminUsersComponent, AdminDashboardComponent, AdminReportsComponent]
 })
 export class AdminModule {}
