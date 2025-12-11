@@ -25,6 +25,7 @@ export interface CreateReportRequest {
   contentType: ReportCategory;
   contentId: string;
   contentTitle?: string;
+  contentTitleParams?: Record<string, any>;
   reportedUserId?: string;
   reason: ReportReason;
   description?: string;

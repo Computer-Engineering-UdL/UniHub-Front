@@ -144,7 +144,7 @@
                 <div class="content-info">
                   <ion-icon [name]="getCategoryIcon(report.contentType)"></ion-icon>
                   <div>
-                    <div class="content-title">{{ report.contentTitle || '-' }}</div>
+                    <div class="content-title">{{ getContentTitle(report) }}</div>
                     <div class="content-category">
                       {{ 'ADMIN.REPORTS.CATEGORY.' + report.contentType.toUpperCase() | translate }}
                     </div>

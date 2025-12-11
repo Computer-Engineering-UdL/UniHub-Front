@@ -791,6 +791,14 @@
       "SEARCH_PLACEHOLDER": "Buscar informes...",
       "NO_REPORTS": "No se han encontrado informes",
       "SELECTED_COUNT": "{{count}} seleccionados",
+      "CONTENT_TITLE": {
+        "HOUSING": "Habitació: {{title}}",
+        "MARKETPLACE": "Artículo: {{title}}",
+        "CHANNELS": "Canal: {{name}}",
+        "MESSAGES": "Mensaje de {{senderName}}",
+        "SERVICES": "Servicio: {{title}}",
+        "USER": "Usuario: @{{username}}"
+      },
       "STATS": {
         "TOTAL": "Total de Informes",
         "PENDING": "Pendientes de Revisión",

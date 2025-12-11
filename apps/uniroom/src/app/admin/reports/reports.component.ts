@@ -67,6 +67,11 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
     this.loadReports();
   }
 
+  ionViewWillEnter(): void {
+    this.loadStats();
+    this.loadReports();
+  }
+
   ngOnDestroy(): void {
     this.searchSubject.complete();
   }
@@ -352,6 +357,13 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
 
   navigateToProfile(userId: string): void {
     void this.router.navigate(['/profile', userId]);
+  }
+
+  getContentTitle(report: Report): string {
+    if (report.contentTitleKey) {
+      return this.translateService.instant(report.contentTitleKey, report.contentTitleParams || {});
+    }
+    return report.contentTitle || '-';
   }
 
   formatDate(date: string): string {

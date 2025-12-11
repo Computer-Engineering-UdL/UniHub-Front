@@ -730,7 +730,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
           this.reportService.createReport({
             contentType: ReportCategory.HOUSING,
             contentId: this.offer.id,
-            contentTitle: this.offer.title,
+            contentTitle: 'ADMIN.REPORTS.CONTENT_TITLE.HOUSING',
+            contentTitleParams: { title: this.offer.title },
             reportedUserId: this.offer.landlord.userId,
             reason: data.reason,
             description: data.description

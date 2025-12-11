@@ -795,6 +795,14 @@
       "SEARCH_PLACEHOLDER": "Search reports...",
       "NO_REPORTS": "No reports found",
       "SELECTED_COUNT": "{{count}} selected",
+      "CONTENT_TITLE": {
+        "HOUSING": "Room: {{title}}",
+        "MARKETPLACE": "Item: {{title}}",
+        "CHANNELS": "Channel: {{name}}",
+        "MESSAGES": "Message from {{senderName}}",
+        "SERVICES": "Service: {{title}}",
+        "USER": "User: @{{username}}"
+      },
       "STATS": {
         "TOTAL": "Total Reports",
         "PENDING": "Pending Review",

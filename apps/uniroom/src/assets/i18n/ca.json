@@ -791,6 +791,14 @@
       "SEARCH_PLACEHOLDER": "Cercar informes...",
       "NO_REPORTS": "No s'han trobat informes",
       "SELECTED_COUNT": "{{count}} seleccionats",
+      "CONTENT_TITLE": {
+        "HOUSING": "Habitació: {{title}}",
+        "MARKETPLACE": "Artícle: {{title}}",
+        "CHANNELS": "Canal: {{name}}",
+        "MESSAGES": "Missatge de {{senderName}}",
+        "SERVICES": "Servei: {{title}}",
+        "USER": "Usuari: @{{username}}"
+      },
       "STATS": {
         "TOTAL": "Total d'Informes",
         "PENDING": "Pendents de Revisió",
