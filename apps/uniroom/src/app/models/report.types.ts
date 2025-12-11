@@ -49,8 +49,6 @@ export interface Report {
   contentType: ReportCategory;
   contentId: string;
   contentTitle?: string;
-  contentTitleKey?: string;
-  contentTitleParams?: Record<string, any>;
   reason: ReportReason;
   description?: string;
   status: ReportStatus;

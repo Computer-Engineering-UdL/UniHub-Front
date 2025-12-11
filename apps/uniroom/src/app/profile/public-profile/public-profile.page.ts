@@ -258,8 +258,6 @@ export class PublicProfilePage implements OnInit, OnDestroy {
           this.reportService.createReport({
             contentType: ReportCategory.USER,
             contentId: this.user.id,
-            contentTitle: 'ADMIN.REPORTS.CONTENT_TITLE.USER',
-            contentTitleParams: { username: this.user.username, fullName: this.getUserDisplayName() },
             reportedUserId: this.user.id,
             reason: data.reason,
             description: data.description

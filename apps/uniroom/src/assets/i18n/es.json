@@ -792,7 +792,7 @@
       "NO_REPORTS": "No se han encontrado informes",
       "SELECTED_COUNT": "{{count}} seleccionados",
       "CONTENT_TITLE": {
-        "HOUSING": "Habitació: {{title}}",
+        "HOUSING": "Habitación: {{title}}",
         "MARKETPLACE": "Artículo: {{title}}",
         "CHANNELS": "Canal: {{name}}",
         "MESSAGES": "Mensaje de {{senderName}}",

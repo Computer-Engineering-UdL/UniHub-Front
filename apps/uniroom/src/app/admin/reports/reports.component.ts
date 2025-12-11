@@ -360,10 +360,41 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
   }
 
   getContentTitle(report: Report): string {
-    if (report.contentTitleKey) {
-      return this.translateService.instant(report.contentTitleKey, report.contentTitleParams || {});
+    if (!report.contentTitle) {
+      return this.translateService.instant(`ADMIN.REPORTS.CATEGORY.${report.contentType.toUpperCase()}`);
     }
-    return report.contentTitle || '-';
+
+    const translationKey = `ADMIN.REPORTS.CONTENT_TITLE.${report.contentType.toUpperCase()}`;
+    const params = this.getContentTitleParams(report);
+
+    return this.translateService.instant(translationKey, params);
+  }
+
+  private getContentTitleParams(report: Report): Record<string, any> {
+    const baseParams: Record<string, any> = {};
+
+    switch (report.contentType) {
+      case ReportCategory.HOUSING:
+        baseParams['title'] = report.contentTitle || '';
+        break;
+      case ReportCategory.MARKETPLACE:
+        baseParams['title'] = report.contentTitle || '';
+        break;
+      case ReportCategory.CHANNELS:
+        baseParams['name'] = report.contentTitle || '';
+        break;
+      case ReportCategory.MESSAGES:
+        baseParams['senderName'] = report.contentTitle || '';
+        break;
+      case ReportCategory.SERVICES:
+        baseParams['title'] = report.contentTitle || '';
+        break;
+      case ReportCategory.USER:
+        baseParams['username'] = report.contentTitle || '';
+        break;
+    }
+
+    return baseParams;
   }
 
   formatDate(date: string): string {
