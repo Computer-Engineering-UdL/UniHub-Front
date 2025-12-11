@@ -15,7 +15,7 @@ import {
 } from '../../models/report.types';
 import { lastValueFrom, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { ReportService } from '../../services/report.service';
+import { ReportService, ReportsResponse } from '../../services/report.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -86,10 +86,41 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
 
   async loadStats(): Promise<void> {
     try {
-      this.stats = await lastValueFrom(this.reportService.getReportStats());
+      try {
+        this.stats = await lastValueFrom(this.reportService.getReportStats());
+      } catch {
+        this.stats = await this.getFallbackStats();
+      }
     } catch {
       this.notificationService.error(this.translateService.instant('ADMIN.REPORTS.ERROR.LOAD_STATS'));
     }
+  }
+
+  private async getFallbackStats(): Promise<ReportStats> {
+    let page: number = 0;
+    const size = 100;
+    let allReports: any[] = [];
+    let total: number = 0;
+    let hasMore: boolean = true;
+    while (hasMore) {
+      const response: ReportsResponse = await lastValueFrom(this.reportService.getReports(page, size));
+      if (response?.reports && response.reports.length > 0) {
+        allReports = allReports.concat(response.reports);
+        total += response.reports.length;
+        page++;
+        hasMore = response.reports.length === size;
+      } else {
+        hasMore = false;
+      }
+    }
+    return {
+      total: total,
+      pending: allReports.filter((r) => r.status === 'pending').length,
+      reviewing: allReports.filter((r) => r.status === 'reviewing').length,
+      resolved: allReports.filter((r) => r.status === 'resolved').length,
+      dismissed: allReports.filter((r) => r.status === 'dismissed').length,
+      critical: allReports.filter((r) => r.priority === 'critical').length
+    };
   }
 
   async loadReports(): Promise<void> {

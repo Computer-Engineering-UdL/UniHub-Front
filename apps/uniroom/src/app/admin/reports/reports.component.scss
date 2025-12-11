@@ -203,17 +203,34 @@
   background: var(--ion-card-background, #fff);
   border: 1px solid var(--ion-border-color, #e0e0e0);
   border-radius: 12px;
-  overflow: hidden;
+  width: 100%;
+  overflow-x: auto;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
 
-  @media (max-width: 768px) {
-    overflow-x: auto;
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 32px;
+    height: 100%;
+    pointer-events: none;
+    background: linear-gradient(to left, var(--ion-card-background, #fff) 80%, transparent 100%);
+    display: none;
+  }
+
+  @media (max-width: 900px) {
     border-radius: 10px;
-    -webkit-overflow-scrolling: touch;
+    &::after {
+      display: block;
+    }
   }
 }
 
 .reports-table {
   width: 100%;
+  min-width: 900px;
   border-collapse: collapse;
 
   @media (max-width: 768px) {

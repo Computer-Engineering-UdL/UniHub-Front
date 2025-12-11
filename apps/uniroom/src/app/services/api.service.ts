@@ -8,8 +8,8 @@ import { StorageService } from './storage.service';
   providedIn: 'root'
 })
 export class ApiService {
-  private http = inject(HttpClient);
-  private storage = inject(StorageService);
+  private readonly http = inject(HttpClient);
+  private readonly storage = inject(StorageService);
   public readonly API_URL = environment.apiUrl;
 
   get<T>(
