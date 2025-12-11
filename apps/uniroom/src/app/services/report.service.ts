@@ -70,15 +70,15 @@ export class ReportService {
   }
 
   updateReportStatus(reportId: string, action: ReportActionRequest): Observable<void> {
-    return this.apiService.patch<void>(`admin/reports/${reportId}/`, action);
+    return this.apiService.patch<void>(`admin/reports/${reportId}`, action);
   }
 
   updateReportPriority(reportId: string, priority: ReportPriority): Observable<void> {
-    return this.apiService.patch<void>(`admin/reports/${reportId}/`, { priority });
+    return this.apiService.patch<void>(`admin/reports/${reportId}`, { priority });
   }
 
   deleteReport(reportId: string): Observable<void> {
-    return this.apiService.delete<void>(`admin/reports/${reportId}/`);
+    return this.apiService.delete<void>(`admin/reports/${reportId}`);
   }
 
   bulkUpdateReports(reportIds: string[], action: ReportActionRequest): Observable<void> {
@@ -86,7 +86,7 @@ export class ReportService {
       reportIds,
       action
     };
-    return this.apiService.patch<void>('admin/reports/bulk/', request);
+    return this.apiService.patch<void>('admin/reports/bulk', request);
   }
 
   createReport(request: CreateReportRequest): Observable<Report> {
