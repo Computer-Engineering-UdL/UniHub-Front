@@ -40,6 +40,7 @@ export class ReportService {
   }
 
   getReports(page: number, size: number, searchTerm?: string, filters?: ReportFilters): Observable<ReportsResponse> {
+    page = page + 1;
     const params: Record<string, any> = {
       page,
       size
