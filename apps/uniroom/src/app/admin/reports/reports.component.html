@@ -112,7 +112,6 @@
             <th class="checkbox-col">
               <ion-checkbox [checked]="allSelected" (ionChange)="toggleAllReports()"></ion-checkbox>
             </th>
-            <th>{{ 'ADMIN.REPORTS.TABLE.ID' | translate }}</th>
             <th>{{ 'ADMIN.REPORTS.TABLE.CONTENT' | translate }}</th>
             <th>{{ 'ADMIN.REPORTS.TABLE.REASON' | translate }}</th>
             <th>{{ 'ADMIN.REPORTS.TABLE.REPORTED_BY' | translate }}</th>
@@ -125,12 +124,12 @@
         </thead>
         <tbody>
           <tr *ngIf="loading">
-            <td colspan="10" class="loading-row">
+            <td colspan="9" class="loading-row">
               <ion-spinner></ion-spinner>
             </td>
           </tr>
           <tr *ngIf="!loading && reports.length === 0">
-            <td colspan="10" class="empty-row">{{ 'ADMIN.REPORTS.NO_REPORTS' | translate }}</td>
+            <td colspan="9" class="empty-row">{{ 'ADMIN.REPORTS.NO_REPORTS' | translate }}</td>
           </tr>
           <ng-container *ngFor="let report of reports">
             <tr
@@ -141,7 +140,6 @@
                   [checked]="selectedReports.has(report.id)"
                   (ionChange)="toggleReportSelection(report.id)"></ion-checkbox>
               </td>
-              <td class="report-id">{{ report.id }}</td>
               <td>
                 <div class="content-info">
                   <ion-icon [name]="getCategoryIcon(report.contentType)"></ion-icon>
@@ -154,12 +152,13 @@
                 </div>
               </td>
               <td>
-                <ion-badge class="reason-badge">{{
-                  'ADMIN.REPORTS.REASON.' + report.reason.toUpperCase() | translate
-                }}</ion-badge>
+                <ion-badge class="reason-badge" [color]="getReasonColor(report.reason)">
+                  <ion-icon [name]="getReasonIcon(report.reason)"></ion-icon>
+                  {{ 'ADMIN.REPORTS.REASON.' + report.reason.toUpperCase() | translate }}
+                </ion-badge>
               </td>
               <td>
-                <div class="user-info">
+                <div class="user-info clickable" (click)="navigateToProfile(report.reportedBy.id)">
                   <ion-avatar>
                     <img
                       [src]="report.reportedBy.avatarUrl || 'assets/default-avatar.png'"
@@ -172,7 +171,9 @@
                 </div>
               </td>
               <td>
-                <div class="user-info">
+                <div
+                  class="user-info clickable"
+                  (click)="navigateToProfile(report.reportedUser.id)">
                   <ion-avatar>
                     <img
                       [src]="report.reportedUser.avatarUrl || 'assets/default-avatar.png'"
@@ -255,8 +256,12 @@
               </td>
             </tr>
             <tr *ngIf="expandedReportId === report.id" class="details-row">
-              <td colspan="10">
+              <td colspan="9">
                 <div class="report-details">
+                  <div class="detail-section">
+                    <h4>{{ 'ADMIN.REPORTS.DETAILS.REPORT_ID' | translate }}</h4>
+                    <p class="report-id-text">{{ report.id }}</p>
+                  </div>
                   <div class="detail-section" *ngIf="report.description">
                     <h4>{{ 'ADMIN.REPORTS.DETAILS.DESCRIPTION' | translate }}</h4>
                     <p>{{ report.description }}</p>

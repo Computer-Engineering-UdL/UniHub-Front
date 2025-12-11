@@ -857,6 +857,7 @@
         "MARK_DISMISSED": "Mark as Dismissed"
       },
       "DETAILS": {
+        "REPORT_ID": "Report ID",
         "DESCRIPTION": "Description",
         "RESOLUTION": "Resolution",
         "REVIEWED_BY": "Reviewed By",

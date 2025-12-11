@@ -571,6 +571,7 @@
       "DETACHED_HOUSE": "Casa independent"
     },
     "DETAILS": {
+      "REPORT_ID": "ID del report",
       "PAGE_TITLE": "Detalls de l'anunci",
       "BACK_TO_LIST": "Torna als anuncis",
       "LOADING": "Carregant la informació de l'habitatge...",

@@ -37,7 +37,7 @@ export class ReportService {
   private readonly apiService: ApiService = inject(ApiService);
 
   getReportStats(): Observable<ReportStats> {
-    return this.apiService.get<ReportStats>('admin/reports/stats');
+    return this.apiService.get<ReportStats>('admin/reports/stats/');
   }
 
   getReports(page: number, size: number, searchTerm?: string, filters?: ReportFilters): Observable<ReportsResponse> {
@@ -66,19 +66,19 @@ export class ReportService {
       params['reason'] = filters.reason;
     }
 
-    return this.apiService.get<ReportsResponse>('admin/reports', params);
+    return this.apiService.get<ReportsResponse>('admin/reports/', params);
   }
 
   updateReportStatus(reportId: string, action: ReportActionRequest): Observable<void> {
-    return this.apiService.patch<void>(`admin/reports/${reportId}`, action);
+    return this.apiService.patch<void>(`admin/reports/${reportId}/`, action);
   }
 
   updateReportPriority(reportId: string, priority: ReportPriority): Observable<void> {
-    return this.apiService.patch<void>(`admin/reports/${reportId}`, { priority });
+    return this.apiService.patch<void>(`admin/reports/${reportId}/`, { priority });
   }
 
   deleteReport(reportId: string): Observable<void> {
-    return this.apiService.delete<void>(`admin/reports/${reportId}`);
+    return this.apiService.delete<void>(`admin/reports/${reportId}/`);
   }
 
   bulkUpdateReports(reportIds: string[], action: ReportActionRequest): Observable<void> {
@@ -86,10 +86,10 @@ export class ReportService {
       reportIds,
       action
     };
-    return this.apiService.patch<void>('admin/reports/bulk', request);
+    return this.apiService.patch<void>('admin/reports/bulk/', request);
   }
 
   createReport(request: CreateReportRequest): Observable<Report> {
-    return this.apiService.post<Report>('reports', request);
+    return this.apiService.post<Report>('reports/', request);
   }
 }

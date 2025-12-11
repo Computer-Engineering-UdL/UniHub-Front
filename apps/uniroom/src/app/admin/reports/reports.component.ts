@@ -16,6 +16,7 @@ import {
 import { lastValueFrom, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ReportService } from '../../services/report.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-reports',
@@ -29,6 +30,7 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
   private readonly localizationService: LocalizationService = inject(LocalizationService);
   private readonly translateService: TranslateService = inject(TranslateService);
   private readonly alertController: AlertController = inject(AlertController);
+  private readonly router: Router = inject(Router);
 
   reports: Report[] = [];
   stats: ReportStats = { total: 0, pending: 0, reviewing: 0, resolved: 0, dismissed: 0, critical: 0 };
@@ -134,7 +136,15 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
     this.expandedReportId = this.expandedReportId === reportId ? null : reportId;
   }
 
+  closePopover(popoverId: string): void {
+    const popover = document.querySelector(`ion-popover[trigger="${popoverId}"]`);
+    if (popover && 'dismiss' in popover) {
+      void (popover as any).dismiss();
+    }
+  }
+
   async handleReportAction(report: Report, newStatus: ReportStatus): Promise<void> {
+    this.closePopover('actions-' + report.id);
     if (newStatus === ReportStatus.RESOLVED || newStatus === ReportStatus.DISMISSED) {
       const alert = await this.alertController.create({
         header: this.translateService.instant('ADMIN.REPORTS.ACTION_MODAL.TITLE'),
@@ -188,6 +198,7 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
   }
 
   async deleteReport(reportId: string): Promise<void> {
+    this.closePopover('actions-' + reportId);
     const alert = await this.alertController.create({
       header: this.translateService.instant('ADMIN.REPORTS.DELETE_MODAL.TITLE'),
       message: this.translateService.instant('ADMIN.REPORTS.DELETE_MODAL.MESSAGE'),
@@ -295,6 +306,52 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
       default:
         return 'alert-circle';
     }
+  }
+
+  getReasonIcon(reason: ReportReason): string {
+    switch (reason) {
+      case ReportReason.SCAM_FRAUD:
+        return 'cash-outline';
+      case ReportReason.FAKE_LISTING:
+        return 'close-circle-outline';
+      case ReportReason.INAPPROPRIATE_CONTENT:
+        return 'eye-off-outline';
+      case ReportReason.HARASSMENT:
+        return 'hand-left-outline';
+      case ReportReason.SPAM:
+        return 'mail-unread-outline';
+      case ReportReason.HATE_SPEECH:
+        return 'megaphone-outline';
+      case ReportReason.VIOLENCE:
+        return 'alert-circle-outline';
+      case ReportReason.OTHER:
+        return 'help-circle-outline';
+      default:
+        return 'alert-circle-outline';
+    }
+  }
+
+  getReasonColor(reason: ReportReason): string {
+    switch (reason) {
+      case ReportReason.SCAM_FRAUD:
+      case ReportReason.HARASSMENT:
+      case ReportReason.HATE_SPEECH:
+      case ReportReason.VIOLENCE:
+        return 'danger';
+      case ReportReason.FAKE_LISTING:
+      case ReportReason.SPAM:
+        return 'warning';
+      case ReportReason.INAPPROPRIATE_CONTENT:
+        return 'tertiary';
+      case ReportReason.OTHER:
+        return 'medium';
+      default:
+        return 'medium';
+    }
+  }
+
+  navigateToProfile(userId: string): void {
+    void this.router.navigate(['/profile', userId]);
   }
 
   formatDate(date: string): string {

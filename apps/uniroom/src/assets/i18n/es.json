@@ -853,6 +853,7 @@
         "MARK_DISMISSED": "Marcar como Descartado"
       },
       "DETAILS": {
+        "REPORT_ID": "ID del Informe",
         "DESCRIPTION": "Descripción",
         "RESOLUTION": "Resolución",
         "REVIEWED_BY": "Revisado Por",
