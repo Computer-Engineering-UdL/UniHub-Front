@@ -231,6 +231,60 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
     this.openedMenuReportId = null;
   }
 
+  async changePriority(report: Report): Promise<void> {
+    const alert = await this.alertController.create({
+      header: this.translateService.instant('ADMIN.REPORTS.PRIORITY_MODAL.TITLE'),
+      message: this.translateService.instant('ADMIN.REPORTS.PRIORITY_MODAL.MESSAGE'),
+      cssClass: 'priority-alert',
+      inputs: [
+        {
+          type: 'radio',
+          label: `${this.translateService.instant('ADMIN.REPORTS.PRIORITY.CRITICAL')}`,
+          value: ReportPriority.CRITICAL,
+          checked: report.priority === ReportPriority.CRITICAL,
+          cssClass: 'priority-critical'
+        },
+        {
+          type: 'radio',
+          label: `${this.translateService.instant('ADMIN.REPORTS.PRIORITY.HIGH')}`,
+          value: ReportPriority.HIGH,
+          checked: report.priority === ReportPriority.HIGH,
+          cssClass: 'priority-high'
+        },
+        {
+          type: 'radio',
+          label: `${this.translateService.instant('ADMIN.REPORTS.PRIORITY.MEDIUM')}`,
+          value: ReportPriority.MEDIUM,
+          checked: report.priority === ReportPriority.MEDIUM,
+          cssClass: 'priority-medium'
+        },
+        {
+          type: 'radio',
+          label: `${this.translateService.instant('ADMIN.REPORTS.PRIORITY.LOW')}`,
+          value: ReportPriority.LOW,
+          checked: report.priority === ReportPriority.LOW,
+          cssClass: 'priority-low'
+        }
+      ],
+      buttons: [
+        {
+          text: this.translateService.instant('ADMIN.REPORTS.PRIORITY_MODAL.CANCEL'),
+          role: 'cancel'
+        },
+        {
+          text: this.translateService.instant('ADMIN.REPORTS.PRIORITY_MODAL.CONFIRM'),
+          handler: async (priority: ReportPriority) => {
+            if (priority && priority !== report.priority) {
+              await this.updateReportPriority(report.id, priority);
+            }
+          }
+        }
+      ]
+    });
+    await alert.present();
+    this.openedMenuReportId = null;
+  }
+
   async bulkUpdateStatus(status: ReportStatus): Promise<void> {
     if (this.selectedReports.size === 0) return;
 
@@ -276,6 +330,21 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
         return 'medium';
       default:
         return 'medium';
+    }
+  }
+
+  getStatusIcon(status: ReportStatus): string {
+    switch (status) {
+      case ReportStatus.PENDING:
+        return 'time-outline';
+      case ReportStatus.REVIEWING:
+        return 'eye-outline';
+      case ReportStatus.RESOLVED:
+        return 'checkmark-circle-outline';
+      case ReportStatus.DISMISSED:
+        return 'close-circle-outline';
+      default:
+        return 'help-circle-outline';
     }
   }
 

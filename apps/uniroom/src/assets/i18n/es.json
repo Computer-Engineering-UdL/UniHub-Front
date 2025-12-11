@@ -858,7 +858,8 @@
         "DELETE": "Eliminar",
         "MARK_REVIEWING": "Marcar en Revisión",
         "MARK_RESOLVED": "Marcar como Resuelto",
-        "MARK_DISMISSED": "Marcar como Descartado"
+        "MARK_DISMISSED": "Marcar como Descartado",
+        "CHANGE_PRIORITY": "Cambiar Prioridad"
       },
       "DETAILS": {
         "REPORT_ID": "ID del Informe",
@@ -871,6 +872,12 @@
         "TITLE": "Resolver Informe",
         "MESSAGE": "Por favor proporciona una resolución para este informe:",
         "RESOLUTION_PLACEHOLDER": "Describe la resolución...",
+        "CANCEL": "Cancelar",
+        "CONFIRM": "Confirmar"
+      },
+      "PRIORITY_MODAL": {
+        "TITLE": "Cambiar Prioridad",
+        "MESSAGE": "Selecciona la nueva prioridad para este informe:",
         "CANCEL": "Cancelar",
         "CONFIRM": "Confirmar"
       },

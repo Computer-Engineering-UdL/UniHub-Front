@@ -31,59 +31,80 @@
           (ionInput)="onSearchChange($event)"
           class="reports-searchbar"></ion-searchbar>
 
-        <select class="filter-select" [(ngModel)]="filters.status" (change)="onFilterChange()">
-          <option value="all">{{ 'ADMIN.REPORTS.FILTERS.ALL_STATUSES' | translate }}</option>
-          <option [value]="ReportStatus.PENDING">
+        <ion-select
+          [(ngModel)]="filters.status"
+          (ionChange)="onFilterChange()"
+          [placeholder]="'ADMIN.REPORTS.FILTERS.ALL_STATUSES' | translate"
+          interface="popover"
+          class="filter-select-ionic">
+          <ion-select-option value="all">{{
+            'ADMIN.REPORTS.FILTERS.ALL_STATUSES' | translate
+          }}</ion-select-option>
+          <ion-select-option [value]="ReportStatus.PENDING">
             {{ 'ADMIN.REPORTS.STATUS.PENDING' | translate }}
-          </option>
-          <option [value]="ReportStatus.REVIEWING">
+          </ion-select-option>
+          <ion-select-option [value]="ReportStatus.REVIEWING">
             {{ 'ADMIN.REPORTS.STATUS.REVIEWING' | translate }}
-          </option>
-          <option [value]="ReportStatus.RESOLVED">
+          </ion-select-option>
+          <ion-select-option [value]="ReportStatus.RESOLVED">
             {{ 'ADMIN.REPORTS.STATUS.RESOLVED' | translate }}
-          </option>
-          <option [value]="ReportStatus.DISMISSED">
+          </ion-select-option>
+          <ion-select-option [value]="ReportStatus.DISMISSED">
             {{ 'ADMIN.REPORTS.STATUS.DISMISSED' | translate }}
-          </option>
-        </select>
+          </ion-select-option>
+        </ion-select>
 
-        <select class="filter-select" [(ngModel)]="filters.priority" (change)="onFilterChange()">
-          <option value="all">{{ 'ADMIN.REPORTS.FILTERS.ALL_PRIORITIES' | translate }}</option>
-          <option [value]="ReportPriority.CRITICAL">
+        <ion-select
+          [(ngModel)]="filters.priority"
+          (ionChange)="onFilterChange()"
+          [placeholder]="'ADMIN.REPORTS.FILTERS.ALL_PRIORITIES' | translate"
+          interface="popover"
+          class="filter-select-ionic">
+          <ion-select-option value="all">{{
+            'ADMIN.REPORTS.FILTERS.ALL_PRIORITIES' | translate
+          }}</ion-select-option>
+          <ion-select-option [value]="ReportPriority.CRITICAL">
             {{ 'ADMIN.REPORTS.PRIORITY.CRITICAL' | translate }}
-          </option>
-          <option [value]="ReportPriority.HIGH">
+          </ion-select-option>
+          <ion-select-option [value]="ReportPriority.HIGH">
             {{ 'ADMIN.REPORTS.PRIORITY.HIGH' | translate }}
-          </option>
-          <option [value]="ReportPriority.MEDIUM">
+          </ion-select-option>
+          <ion-select-option [value]="ReportPriority.MEDIUM">
             {{ 'ADMIN.REPORTS.PRIORITY.MEDIUM' | translate }}
-          </option>
-          <option [value]="ReportPriority.LOW">
+          </ion-select-option>
+          <ion-select-option [value]="ReportPriority.LOW">
             {{ 'ADMIN.REPORTS.PRIORITY.LOW' | translate }}
-          </option>
-        </select>
+          </ion-select-option>
+        </ion-select>
 
-        <select class="filter-select" [(ngModel)]="filters.category" (change)="onFilterChange()">
-          <option value="all">{{ 'ADMIN.REPORTS.FILTERS.ALL_CATEGORIES' | translate }}</option>
-          <option [value]="ReportCategory.HOUSING">
+        <ion-select
+          [(ngModel)]="filters.category"
+          (ionChange)="onFilterChange()"
+          [placeholder]="'ADMIN.REPORTS.FILTERS.ALL_CATEGORIES' | translate"
+          interface="popover"
+          class="filter-select-ionic">
+          <ion-select-option value="all">{{
+            'ADMIN.REPORTS.FILTERS.ALL_CATEGORIES' | translate
+          }}</ion-select-option>
+          <ion-select-option [value]="ReportCategory.HOUSING">
             {{ 'ADMIN.REPORTS.CATEGORY.HOUSING' | translate }}
-          </option>
-          <option [value]="ReportCategory.MARKETPLACE">
+          </ion-select-option>
+          <ion-select-option [value]="ReportCategory.MARKETPLACE">
             {{ 'ADMIN.REPORTS.CATEGORY.MARKETPLACE' | translate }}
-          </option>
-          <option [value]="ReportCategory.CHANNELS">
+          </ion-select-option>
+          <ion-select-option [value]="ReportCategory.CHANNELS">
             {{ 'ADMIN.REPORTS.CATEGORY.CHANNELS' | translate }}
-          </option>
-          <option [value]="ReportCategory.MESSAGES">
+          </ion-select-option>
+          <ion-select-option [value]="ReportCategory.MESSAGES">
             {{ 'ADMIN.REPORTS.CATEGORY.MESSAGES' | translate }}
-          </option>
-          <option [value]="ReportCategory.SERVICES">
+          </ion-select-option>
+          <ion-select-option [value]="ReportCategory.SERVICES">
             {{ 'ADMIN.REPORTS.CATEGORY.SERVICES' | translate }}
-          </option>
-          <option [value]="ReportCategory.USER">
+          </ion-select-option>
+          <ion-select-option [value]="ReportCategory.USER">
             {{ 'ADMIN.REPORTS.CATEGORY.USER' | translate }}
-          </option>
-        </select>
+          </ion-select-option>
+        </ion-select>
       </div>
 
       <div class="bulk-actions" *ngIf="selectedReports.size > 0">
@@ -262,11 +283,12 @@
               </ion-badge>
             </td>
             <td class="col-status">
-              <span class="status-badge" [ngClass]="getStatusBadgeClass(report.status)">
+              <ion-badge [color]="getStatusColor(report.status)" class="status-badge-ionic">
+                <ion-icon [name]="getStatusIcon(report.status)"></ion-icon>
                 {{
                   translateService.instant('ADMIN.REPORTS.STATUS.' + report.status.toUpperCase())
                 }}
-              </span>
+              </ion-badge>
             </td>
             <td class="col-date">
               {{ formatDate(report.createdAt) }}
@@ -311,6 +333,13 @@
                         name="close"
                         [color]="getStatusColor(ReportStatus.DISMISSED)"></ion-icon>
                       {{ 'ADMIN.REPORTS.ACTIONS.MARK_DISMISSED' | translate }}
+                    </ion-item>
+                    <ion-item [button]="true" (click)="changePriority(report)">
+                      <ion-icon
+                        slot="start"
+                        name="flag"
+                        [color]="getPriorityColor(report.priority)"></ion-icon>
+                      {{ 'ADMIN.REPORTS.ACTIONS.CHANGE_PRIORITY' | translate }}
                     </ion-item>
                     <ion-item [button]="true" (click)="deleteReport(report.id)" class="delete-item">
                       <ion-icon slot="start" name="trash" color="danger"></ion-icon>

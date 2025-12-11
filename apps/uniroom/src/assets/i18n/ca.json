@@ -858,7 +858,8 @@
         "DELETE": "Eliminar",
         "MARK_REVIEWING": "Marcar en Revisió",
         "MARK_RESOLVED": "Marcar com Resolt",
-        "MARK_DISMISSED": "Marcar com Descartat"
+        "MARK_DISMISSED": "Marcar com Descartat",
+        "CHANGE_PRIORITY": "Canviar Prioritat"
       },
       "DETAILS": {
         "DESCRIPTION": "Descripció",
@@ -870,6 +871,12 @@
         "TITLE": "Resoldre Informe",
         "MESSAGE": "Si us plau proporciona una resolució per a aquest informe:",
         "RESOLUTION_PLACEHOLDER": "Descriu la resolució...",
+        "CANCEL": "Cancel·lar",
+        "CONFIRM": "Confirmar"
+      },
+      "PRIORITY_MODAL": {
+        "TITLE": "Canviar Prioritat",
+        "MESSAGE": "Selecciona la nova prioritat per a aquest informe:",
         "CANCEL": "Cancel·lar",
         "CONFIRM": "Confirmar"
       },

@@ -862,7 +862,8 @@
         "DELETE": "Delete",
         "MARK_REVIEWING": "Mark as Reviewing",
         "MARK_RESOLVED": "Mark as Resolved",
-        "MARK_DISMISSED": "Mark as Dismissed"
+        "MARK_DISMISSED": "Mark as Dismissed",
+        "CHANGE_PRIORITY": "Change Priority"
       },
       "DETAILS": {
         "REPORT_ID": "Report ID",
@@ -875,6 +876,12 @@
         "TITLE": "Resolve Report",
         "MESSAGE": "Please provide a resolution for this report:",
         "RESOLUTION_PLACEHOLDER": "Describe the resolution...",
+        "CANCEL": "Cancel",
+        "CONFIRM": "Confirm"
+      },
+      "PRIORITY_MODAL": {
+        "TITLE": "Change Priority",
+        "MESSAGE": "Select the new priority for this report:",
         "CANCEL": "Cancel",
         "CONFIRM": "Confirm"
       },
