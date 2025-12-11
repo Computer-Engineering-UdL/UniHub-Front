@@ -13,7 +13,7 @@
   <div class="ban-modal-content">
     <div class="member-info">
       <ion-avatar>
-        <img [src]="member.user?.imgUrl || 'assets/icon/default_avatar.svg'" alt="User avatar" />
+        <img [appCachedAvatar]="member.user?.imgUrl" alt="User avatar" />
       </ion-avatar>
       <div class="member-details">
         <h3>{{ member.user?.fullName || member.user?.username }}</h3>

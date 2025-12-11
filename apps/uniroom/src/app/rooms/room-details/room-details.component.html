@@ -332,11 +332,7 @@
             <ion-card-content>
               <div class="landlord-header">
                 <div class="avatar" [class.has-image]="!!room.landlord.avatar">
-                  @if (room.landlord.avatar) {
-                    <img [ngSrc]="room.landlord.avatar" alt="{{ room.landlord.name }}" fill />
-                  } @else {
-                    <span>{{ room.landlord.initials }}</span>
-                  }
+                  <img [appCachedAvatar]="room.landlord.avatar" [alt]="room.landlord.name" />
                 </div>
                 <div class="landlord-meta">
                   <h3>{{ room.landlord.name }}</h3>

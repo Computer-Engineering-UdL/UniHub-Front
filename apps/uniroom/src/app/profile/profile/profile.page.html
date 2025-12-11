@@ -2,7 +2,7 @@
   <div class="profile-wrapper" *ngIf="user">
     <div class="profile-header">
       <div class="profile-avatar">
-        <img [src]="avatarSrc" (error)="onAvatarError()" [alt]="getUserDisplayName()" />
+        <img [appCachedAvatar]="avatarSrc" (error)="onAvatarError()" [alt]="getUserDisplayName()" />
       </div>
 
       <div class="profile-info">

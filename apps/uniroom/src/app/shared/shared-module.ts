@@ -10,6 +10,7 @@ import { NotificationContainerComponent } from './notification-container/notific
 import { ReportModalComponent } from './reports/report-modal.component';
 import { LocationPickerComponent } from './location-picker/location-picker.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { CachedAvatarDirective } from './directives/cached-avatar.directive';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { TranslateModule } from '@ngx-translate/core';
     NotificationToastComponent,
     NotificationContainerComponent,
     ReportModalComponent,
-    LocationPickerComponent
+    LocationPickerComponent,
+    CachedAvatarDirective
   ],
   imports: [CommonModule, IonicModule, RouterModule, FormsModule, TranslateModule, NgOptimizedImage],
   exports: [
@@ -27,7 +29,8 @@ import { TranslateModule } from '@ngx-translate/core';
     NotificationToastComponent,
     NotificationContainerComponent,
     ReportModalComponent,
-    LocationPickerComponent
+    LocationPickerComponent,
+    CachedAvatarDirective
   ]
 })
 export class SharedModule {}

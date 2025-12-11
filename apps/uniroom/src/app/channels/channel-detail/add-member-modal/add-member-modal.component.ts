@@ -11,13 +11,14 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
+import { SharedModule } from '../../../shared/shared-module';
 
 @Component({
   selector: 'app-add-member-modal',
   templateUrl: './add-member-modal.component.html',
   styleUrls: ['./add-member-modal.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, TranslateModule]
+  imports: [CommonModule, FormsModule, IonicModule, TranslateModule, SharedModule]
 })
 export class AddMemberModalComponent implements OnInit {
   @Input() channelId: string = '';

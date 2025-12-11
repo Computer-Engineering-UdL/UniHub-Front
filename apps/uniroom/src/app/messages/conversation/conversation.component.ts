@@ -24,13 +24,14 @@ import { DEFAULT_USER_URL, User } from '../../models/auth.types';
 import NotificationService from '../../services/notification.service';
 import { TopBarNotificationService } from '../../services/topbar-notification.service';
 import { debounceTime } from 'rxjs/operators';
+import { SharedModule } from '../../shared/shared-module';
 
 @Component({
   selector: 'app-conversation',
   templateUrl: './conversation.component.html',
   styleUrls: ['./conversation.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, TranslateModule]
+  imports: [CommonModule, FormsModule, IonicModule, TranslateModule, SharedModule]
 })
 export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild(IonContent) content!: IonContent;
@@ -229,19 +230,6 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
 
   trackByMessageId(_index: number, message: Message): string {
     return message.id;
-  }
-
-  getUserAvatar(user: User | undefined): string {
-    return user?.avatar_url || user?.imgUrl || this.defaultUserUrl;
-  }
-
-  getOtherUserInitials(): string {
-    if (!this.otherUser) {
-      return '?';
-    }
-    const firstName: string = this.otherUser.firstName || this.otherUser.name || '';
-    const lastName: string = this.otherUser.lastName || '';
-    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
   }
 
   async viewUserProfile(): Promise<void> {

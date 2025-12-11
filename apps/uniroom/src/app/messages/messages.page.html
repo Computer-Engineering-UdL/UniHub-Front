@@ -55,7 +55,7 @@
             class="conversation-item">
             <ion-avatar slot="start" class="user-avatar">
               <img
-                [src]="getUserAvatar(conversation.other_user)"
+                [appCachedAvatar]="conversation.other_user?.imgUrl"
                 [alt]="conversation.other_user?.username || ''" />
             </ion-avatar>
 

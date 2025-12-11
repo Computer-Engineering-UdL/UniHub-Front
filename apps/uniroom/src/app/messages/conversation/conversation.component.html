@@ -9,7 +9,7 @@
     <ion-title *ngIf="otherUser">
       <div class="conversation-header" (click)="viewUserProfile()">
         <ion-avatar class="header-avatar">
-          <img [src]="getUserAvatar(otherUser)" [alt]="otherUser.name || otherUser.username" />
+          <img [appCachedAvatar]="otherUser.imgUrl" [alt]="otherUser.name || otherUser.username" />
         </ion-avatar>
         <div class="header-info">
           <h3>{{ otherUser.firstName || otherUser.name }} {{ otherUser.lastName }}</h3>

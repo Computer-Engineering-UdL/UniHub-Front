@@ -161,7 +161,7 @@
                 <div class="user-info clickable" (click)="navigateToProfile(report.reportedBy.id)">
                   <ion-avatar>
                     <img
-                      [src]="report.reportedBy.avatarUrl || 'assets/default-avatar.png'"
+                      [appCachedAvatar]="report.reportedBy.avatarUrl"
                       [alt]="report.reportedBy.fullName" />
                   </ion-avatar>
                   <div class="user-details">
@@ -176,7 +176,7 @@
                   (click)="navigateToProfile(report.reportedUser.id)">
                   <ion-avatar>
                     <img
-                      [src]="report.reportedUser.avatarUrl || 'assets/default-avatar.png'"
+                      [appCachedAvatar]="report.reportedUser.avatarUrl"
                       [alt]="report.reportedUser.fullName" />
                   </ion-avatar>
                   <div class="user-details">

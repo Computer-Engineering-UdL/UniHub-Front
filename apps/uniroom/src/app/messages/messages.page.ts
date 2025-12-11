@@ -12,13 +12,14 @@ import { DEFAULT_USER_URL, User } from '../models/auth.types';
 import { ConversationComponent } from './conversation/conversation.component';
 import { StartConversationModalComponent } from './start-conversation-modal/start-conversation-modal.component';
 import { ActivatedRoute } from '@angular/router';
+import { SharedModule } from '../shared/shared-module';
 
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.page.html',
   styleUrls: ['./messages.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, TranslateModule, ConversationComponent]
+  imports: [CommonModule, FormsModule, IonicModule, TranslateModule, ConversationComponent, SharedModule]
 })
 export class MessagesPage implements OnInit, OnDestroy {
   private readonly messageService: MessageService = inject(MessageService);
@@ -152,11 +153,6 @@ export class MessagesPage implements OnInit, OnDestroy {
     if (this.isMobile) {
       this.selectedConversationId = null;
     }
-  }
-
-  getUserAvatar(user?: User | null): string {
-    if (!user) return this.defaultUserUrl;
-    return user.imgUrl || this.defaultUserUrl;
   }
 
   getOfferCoverImage(conversation: ConversationWithOtherUser): string | null {

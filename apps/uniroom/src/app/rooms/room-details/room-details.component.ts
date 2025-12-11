@@ -7,7 +7,7 @@ import { LocalizationService } from '../../services/localization.service';
 import { Offer, OfferAmenity, OfferHouseRules, OfferPhoto } from '../../models/offer.types';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../models/auth.types';
+import { DEFAULT_USER_URL, User } from '../../models/auth.types';
 import {
   AMENITY_DEFINITIONS,
   AMENITY_DEFINITIONS_BY_CODE,
@@ -169,6 +169,9 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       );
       const landlordUser: User | null = this.getCachedLandlordUser(response.user_id);
       this.offer = this.mapToViewModel(response, landlordUser);
+      if (!this.offer?.landlord?.avatar) {
+        this.offer.landlord.avatar = await this.getUserAvatar(this.offer.landlord.userId as string);
+      }
 
       // load like status for this offer
       try {
@@ -183,6 +186,13 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     } finally {
       this.loading = false;
     }
+  }
+
+  private async getUserAvatar(userId: string): Promise<string> {
+    const user: User = this.authService.mapUserFromApi(
+      await firstValueFrom(this.apiService.get<User>(`user/public/${userId}`))
+    );
+    return user.avatar_url || user.imgUrl || '';
   }
 
   public async toggleLike(): Promise<void> {
@@ -758,4 +768,6 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
     return undefined;
   }
+
+  protected readonly avatarSrc = DEFAULT_USER_URL;
 }
