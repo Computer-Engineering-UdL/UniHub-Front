@@ -27,8 +27,8 @@ import { Router } from '@angular/router';
 export class AdminReportsComponent implements OnInit, OnDestroy {
   private readonly reportService: ReportService = inject(ReportService);
   private readonly notificationService: NotificationService = inject(NotificationService);
-  private readonly localizationService: LocalizationService = inject(LocalizationService);
-  private readonly translateService: TranslateService = inject(TranslateService);
+  readonly localizationService: LocalizationService = inject(LocalizationService);
+  readonly translateService: TranslateService = inject(TranslateService);
   private readonly alertController: AlertController = inject(AlertController);
   private readonly router: Router = inject(Router);
 
@@ -46,10 +46,13 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
     reason: 'all'
   };
   selectedReports: Set<string> = new Set();
-  expandedReportId: string | null = null;
+  openedMenuReportId: string | null = null;
   pageSizeOptions: number[] = [10, 25, 50, 100];
 
   private readonly searchSubject: Subject<string> = new Subject<string>();
+
+  sortField: string = 'createdAt';
+  sortOrder: 'asc' | 'desc' = 'desc';
 
   readonly ReportStatus = ReportStatus;
   readonly ReportPriority = ReportPriority;
@@ -137,19 +140,15 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleReportDetails(reportId: string): void {
-    this.expandedReportId = this.expandedReportId === reportId ? null : reportId;
+  openActionsMenu(reportId: string): void {
+    this.openedMenuReportId = reportId;
   }
 
-  closePopover(popoverId: string): void {
-    const popover = document.querySelector(`ion-popover[trigger="${popoverId}"]`);
-    if (popover && 'dismiss' in popover) {
-      void (popover as any).dismiss();
-    }
+  closeActionsMenu(): void {
+    this.openedMenuReportId = null;
   }
 
   async handleReportAction(report: Report, newStatus: ReportStatus): Promise<void> {
-    this.closePopover('actions-' + report.id);
     if (newStatus === ReportStatus.RESOLVED || newStatus === ReportStatus.DISMISSED) {
       const alert = await this.alertController.create({
         header: this.translateService.instant('ADMIN.REPORTS.ACTION_MODAL.TITLE'),
@@ -178,6 +177,7 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
     } else {
       await this.updateReportStatus(report.id, { status: newStatus });
     }
+    this.openedMenuReportId = null;
   }
 
   async updateReportStatus(reportId: string, action: ReportActionRequest): Promise<void> {
@@ -203,7 +203,6 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
   }
 
   async deleteReport(reportId: string): Promise<void> {
-    this.closePopover('actions-' + reportId);
     const alert = await this.alertController.create({
       header: this.translateService.instant('ADMIN.REPORTS.DELETE_MODAL.TITLE'),
       message: this.translateService.instant('ADMIN.REPORTS.DELETE_MODAL.MESSAGE'),
@@ -229,6 +228,7 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
       ]
     });
     await alert.present();
+    this.openedMenuReportId = null;
   }
 
   async bulkUpdateStatus(status: ReportStatus): Promise<void> {
@@ -411,5 +411,71 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
 
   get allSelected(): boolean {
     return this.reports.length > 0 && this.selectedReports.size === this.reports.length;
+  }
+
+  onSort(field: string): void {
+    if (this.sortField === field) {
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortField = field;
+      this.sortOrder = 'asc';
+    }
+    this.sortReports();
+  }
+
+  private sortReports(): void {
+    this.reports.sort((a: Report, b: Report) => {
+      let compareValue;
+
+      switch (this.sortField) {
+        case 'contentTitle':
+          compareValue = (this.getContentTitle(a) || '').localeCompare(this.getContentTitle(b) || '');
+          break;
+        case 'reason':
+          compareValue = a.reason.localeCompare(b.reason);
+          break;
+        case 'reportedBy':
+          compareValue = a.reportedBy.fullName.localeCompare(b.reportedBy.fullName);
+          break;
+        case 'reportedUser':
+          compareValue = a.reportedUser.fullName.localeCompare(b.reportedUser.fullName);
+          break;
+        case 'priority': {
+          const priorityOrder: Record<ReportPriority, number> = {
+            [ReportPriority.CRITICAL]: 4,
+            [ReportPriority.HIGH]: 3,
+            [ReportPriority.MEDIUM]: 2,
+            [ReportPriority.LOW]: 1
+          };
+          compareValue = priorityOrder[a.priority] - priorityOrder[b.priority];
+          break;
+        }
+        case 'status':
+          compareValue = a.status.localeCompare(b.status);
+          break;
+        case 'createdAt':
+          compareValue = new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+          break;
+        default:
+          compareValue = 0;
+      }
+
+      return this.sortOrder === 'asc' ? compareValue : -compareValue;
+    });
+  }
+
+  getStatusBadgeClass(status: ReportStatus): string {
+    switch (status) {
+      case ReportStatus.PENDING:
+        return 'status-pending';
+      case ReportStatus.REVIEWING:
+        return 'status-reviewing';
+      case ReportStatus.RESOLVED:
+        return 'status-resolved';
+      case ReportStatus.DISMISSED:
+        return 'status-dismissed';
+      default:
+        return '';
+    }
   }
 }

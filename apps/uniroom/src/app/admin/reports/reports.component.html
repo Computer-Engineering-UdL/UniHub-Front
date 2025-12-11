@@ -105,21 +105,91 @@
       </div>
     </div>
 
-    <div class="reports-table-container">
+    <div class="table-container">
       <table class="reports-table">
         <thead>
           <tr>
-            <th class="checkbox-col">
+            <th class="col-checkbox">
               <ion-checkbox [checked]="allSelected" (ionChange)="toggleAllReports()"></ion-checkbox>
             </th>
-            <th>{{ 'ADMIN.REPORTS.TABLE.CONTENT' | translate }}</th>
-            <th>{{ 'ADMIN.REPORTS.TABLE.REASON' | translate }}</th>
-            <th>{{ 'ADMIN.REPORTS.TABLE.REPORTED_BY' | translate }}</th>
-            <th>{{ 'ADMIN.REPORTS.TABLE.REPORTED_USER' | translate }}</th>
-            <th>{{ 'ADMIN.REPORTS.TABLE.PRIORITY' | translate }}</th>
-            <th>{{ 'ADMIN.REPORTS.TABLE.STATUS' | translate }}</th>
-            <th>{{ 'ADMIN.REPORTS.TABLE.DATE' | translate }}</th>
-            <th>{{ 'ADMIN.REPORTS.TABLE.ACTIONS' | translate }}</th>
+            <th class="col-content" (click)="onSort('contentTitle')">
+              {{ 'ADMIN.REPORTS.TABLE.CONTENT' | translate }}
+              <ion-icon
+                [name]="
+                  sortField === 'contentTitle'
+                    ? sortOrder === 'asc'
+                      ? 'chevron-up-outline'
+                      : 'chevron-down-outline'
+                    : 'swap-vertical-outline'
+                "></ion-icon>
+            </th>
+            <th class="col-reason" (click)="onSort('reason')">
+              {{ 'ADMIN.REPORTS.TABLE.REASON' | translate }}
+              <ion-icon
+                [name]="
+                  sortField === 'reason'
+                    ? sortOrder === 'asc'
+                      ? 'chevron-up-outline'
+                      : 'chevron-down-outline'
+                    : 'swap-vertical-outline'
+                "></ion-icon>
+            </th>
+            <th class="col-reported-by" (click)="onSort('reportedBy')">
+              {{ 'ADMIN.REPORTS.TABLE.REPORTED_BY' | translate }}
+              <ion-icon
+                [name]="
+                  sortField === 'reportedBy'
+                    ? sortOrder === 'asc'
+                      ? 'chevron-up-outline'
+                      : 'chevron-down-outline'
+                    : 'swap-vertical-outline'
+                "></ion-icon>
+            </th>
+            <th class="col-reported-user" (click)="onSort('reportedUser')">
+              {{ 'ADMIN.REPORTS.TABLE.REPORTED_USER' | translate }}
+              <ion-icon
+                [name]="
+                  sortField === 'reportedUser'
+                    ? sortOrder === 'asc'
+                      ? 'chevron-up-outline'
+                      : 'chevron-down-outline'
+                    : 'swap-vertical-outline'
+                "></ion-icon>
+            </th>
+            <th class="col-priority" (click)="onSort('priority')">
+              {{ 'ADMIN.REPORTS.TABLE.PRIORITY' | translate }}
+              <ion-icon
+                [name]="
+                  sortField === 'priority'
+                    ? sortOrder === 'asc'
+                      ? 'chevron-up-outline'
+                      : 'chevron-down-outline'
+                    : 'swap-vertical-outline'
+                "></ion-icon>
+            </th>
+            <th class="col-status" (click)="onSort('status')">
+              {{ 'ADMIN.REPORTS.TABLE.STATUS' | translate }}
+              <ion-icon
+                [name]="
+                  sortField === 'status'
+                    ? sortOrder === 'asc'
+                      ? 'chevron-up-outline'
+                      : 'chevron-down-outline'
+                    : 'swap-vertical-outline'
+                "></ion-icon>
+            </th>
+            <th class="col-date" (click)="onSort('createdAt')">
+              {{ 'ADMIN.REPORTS.TABLE.DATE' | translate }}
+              <ion-icon
+                [name]="
+                  sortField === 'createdAt'
+                    ? sortOrder === 'asc'
+                      ? 'chevron-up-outline'
+                      : 'chevron-down-outline'
+                    : 'swap-vertical-outline'
+                "></ion-icon>
+            </th>
+            <th class="col-actions"></th>
           </tr>
         </thead>
         <tbody>
@@ -131,160 +201,128 @@
           <tr *ngIf="!loading && reports.length === 0">
             <td colspan="9" class="empty-row">{{ 'ADMIN.REPORTS.NO_REPORTS' | translate }}</td>
           </tr>
-          <ng-container *ngFor="let report of reports">
-            <tr
-              [class.selected]="selectedReports.has(report.id)"
-              [class.expanded]="expandedReportId === report.id">
-              <td class="checkbox-col">
-                <ion-checkbox
-                  [checked]="selectedReports.has(report.id)"
-                  (ionChange)="toggleReportSelection(report.id)"></ion-checkbox>
-              </td>
-              <td>
-                <div class="content-info">
-                  <ion-icon [name]="getCategoryIcon(report.contentType)"></ion-icon>
-                  <div>
-                    <div class="content-title">{{ getContentTitle(report) }}</div>
-                    <div class="content-category">
-                      {{ 'ADMIN.REPORTS.CATEGORY.' + report.contentType.toUpperCase() | translate }}
-                    </div>
+          <tr *ngFor="let report of reports" [class.selected]="selectedReports.has(report.id)">
+            <td class="col-checkbox">
+              <ion-checkbox
+                [checked]="selectedReports.has(report.id)"
+                (ionChange)="toggleReportSelection(report.id)"></ion-checkbox>
+            </td>
+            <td class="col-content">
+              <div class="content-info">
+                <ion-icon [name]="getCategoryIcon(report.contentType)"></ion-icon>
+                <div>
+                  <div class="content-title">{{ getContentTitle(report) }}</div>
+                  <div class="content-category">
+                    {{ 'ADMIN.REPORTS.CATEGORY.' + report.contentType.toUpperCase() | translate }}
                   </div>
                 </div>
-              </td>
-              <td>
-                <ion-badge class="reason-badge" [color]="getReasonColor(report.reason)">
-                  <ion-icon [name]="getReasonIcon(report.reason)"></ion-icon>
-                  {{ 'ADMIN.REPORTS.REASON.' + report.reason.toUpperCase() | translate }}
-                </ion-badge>
-              </td>
-              <td>
-                <div class="user-info clickable" (click)="navigateToProfile(report.reportedBy.id)">
-                  <ion-avatar>
-                    <img
-                      [appCachedAvatar]="report.reportedBy.avatarUrl"
-                      [alt]="report.reportedBy.fullName" />
-                  </ion-avatar>
-                  <div class="user-details">
-                    <div class="user-name">{{ report.reportedBy.fullName }}</div>
-                    <div class="user-username">{{ '@' + report.reportedBy.username }}</div>
-                  </div>
+              </div>
+            </td>
+            <td class="col-reason">
+              <ion-badge class="reason-badge" [color]="getReasonColor(report.reason)">
+                <ion-icon [name]="getReasonIcon(report.reason)"></ion-icon>
+                {{ 'ADMIN.REPORTS.REASON.' + report.reason.toUpperCase() | translate }}
+              </ion-badge>
+            </td>
+            <td class="col-reported-by">
+              <div class="user-info clickable" (click)="navigateToProfile(report.reportedBy.id)">
+                <ion-avatar>
+                  <img
+                    src="assets/img/default-profile.png"
+                    [appCachedAvatar]="report.reportedBy.avatarUrl"
+                    [alt]="report.reportedBy.fullName" />
+                </ion-avatar>
+                <div class="user-details">
+                  <div class="user-name">{{ report.reportedBy.fullName }}</div>
+                  <div class="user-username">{{ '@' + report.reportedBy.username }}</div>
                 </div>
-              </td>
-              <td>
-                <div
-                  class="user-info clickable"
-                  (click)="navigateToProfile(report.reportedUser.id)">
-                  <ion-avatar>
-                    <img
-                      [appCachedAvatar]="report.reportedUser.avatarUrl"
-                      [alt]="report.reportedUser.fullName" />
-                  </ion-avatar>
-                  <div class="user-details">
-                    <div class="user-name">{{ report.reportedUser.fullName }}</div>
-                    <div class="user-username">{{ '@' + report.reportedUser.username }}</div>
-                  </div>
+              </div>
+            </td>
+            <td class="col-reported-user">
+              <div class="user-info clickable" (click)="navigateToProfile(report.reportedUser.id)">
+                <ion-avatar>
+                  <img
+                    src="assets/img/default-profile.png"
+                    [appCachedAvatar]="report.reportedUser.avatarUrl"
+                    [alt]="report.reportedUser.fullName" />
+                </ion-avatar>
+                <div class="user-details">
+                  <div class="user-name">{{ report.reportedUser.fullName }}</div>
+                  <div class="user-username">{{ '@' + report.reportedUser.username }}</div>
                 </div>
-              </td>
-              <td>
-                <select
-                  class="priority-select"
-                  [(ngModel)]="report.priority"
-                  (change)="updateReportPriority(report.id, report.priority)">
-                  <option [value]="ReportPriority.LOW">
-                    {{ 'ADMIN.REPORTS.PRIORITY.LOW' | translate }}
-                  </option>
-                  <option [value]="ReportPriority.MEDIUM">
-                    {{ 'ADMIN.REPORTS.PRIORITY.MEDIUM' | translate }}
-                  </option>
-                  <option [value]="ReportPriority.HIGH">
-                    {{ 'ADMIN.REPORTS.PRIORITY.HIGH' | translate }}
-                  </option>
-                  <option [value]="ReportPriority.CRITICAL">
-                    {{ 'ADMIN.REPORTS.PRIORITY.CRITICAL' | translate }}
-                  </option>
-                </select>
-              </td>
-              <td>
-                <ion-badge [color]="getStatusColor(report.status)">{{
-                  'ADMIN.REPORTS.STATUS.' + report.status.toUpperCase() | translate
-                }}</ion-badge>
-              </td>
-              <td class="date-col">{{ formatDate(report.createdAt) }}</td>
-              <td class="actions-col">
-                <ion-button fill="clear" size="small" (click)="toggleReportDetails(report.id)">
-                  <ion-icon
-                    slot="icon-only"
-                    [name]="
-                      expandedReportId === report.id ? 'chevron-up' : 'chevron-down'
-                    "></ion-icon>
-                </ion-button>
-                <ion-button fill="clear" size="small" [id]="'actions-' + report.id">
-                  <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
-                </ion-button>
-                <ion-popover [trigger]="'actions-' + report.id" triggerAction="click">
-                  <ng-template>
-                    <ion-content class="ion-padding">
-                      <ion-list lines="none">
-                        <ion-item
-                          [button]="true"
-                          (click)="handleReportAction(report, ReportStatus.REVIEWING)">
-                          <ion-icon slot="start" name="eye" color="primary"></ion-icon>
-                          <ion-label>{{ 'ADMIN.REPORTS.ACTIONS.REVIEW' | translate }}</ion-label>
-                        </ion-item>
-                        <ion-item
-                          [button]="true"
-                          (click)="handleReportAction(report, ReportStatus.RESOLVED)">
-                          <ion-icon slot="start" name="checkmark-circle" color="success"></ion-icon>
-                          <ion-label>{{ 'ADMIN.REPORTS.ACTIONS.RESOLVE' | translate }}</ion-label>
-                        </ion-item>
-                        <ion-item
-                          [button]="true"
-                          (click)="handleReportAction(report, ReportStatus.DISMISSED)">
-                          <ion-icon slot="start" name="close-circle" color="medium"></ion-icon>
-                          <ion-label>{{ 'ADMIN.REPORTS.ACTIONS.DISMISS' | translate }}</ion-label>
-                        </ion-item>
-                        <ion-item [button]="true" (click)="deleteReport(report.id)">
-                          <ion-icon slot="start" name="trash" color="danger"></ion-icon>
-                          <ion-label color="danger">{{
-                            'ADMIN.REPORTS.ACTIONS.DELETE' | translate
-                          }}</ion-label>
-                        </ion-item>
-                      </ion-list>
-                    </ion-content>
-                  </ng-template>
-                </ion-popover>
-              </td>
-            </tr>
-            <tr *ngIf="expandedReportId === report.id" class="details-row">
-              <td colspan="9">
-                <div class="report-details">
-                  <div class="detail-section">
-                    <h4>{{ 'ADMIN.REPORTS.DETAILS.REPORT_ID' | translate }}</h4>
-                    <p class="report-id-text">{{ report.id }}</p>
-                  </div>
-                  <div class="detail-section" *ngIf="report.description">
-                    <h4>{{ 'ADMIN.REPORTS.DETAILS.DESCRIPTION' | translate }}</h4>
-                    <p>{{ report.description }}</p>
-                  </div>
-                  <div class="detail-section" *ngIf="report.resolution">
-                    <h4>{{ 'ADMIN.REPORTS.DETAILS.RESOLUTION' | translate }}</h4>
-                    <p>{{ report.resolution }}</p>
-                  </div>
-                  <div class="detail-section" *ngIf="report.reviewedBy">
-                    <h4>{{ 'ADMIN.REPORTS.DETAILS.REVIEWED_BY' | translate }}</h4>
-                    <p>
-                      {{ report.reviewedBy.fullName }} ({{ '@' + report.reviewedBy.username }}) -
-                      {{ formatDate(report.reviewedAt!) }}
-                    </p>
-                  </div>
-                  <div class="detail-section">
-                    <h4>{{ 'ADMIN.REPORTS.DETAILS.CONTENT_ID' | translate }}</h4>
-                    <p>{{ report.contentId }}</p>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </ng-container>
+              </div>
+            </td>
+            <td class="col-priority">
+              <ion-badge [color]="getPriorityColor(report.priority)">
+                {{
+                  translateService.instant(
+                    'ADMIN.REPORTS.PRIORITY.' + report.priority.toUpperCase()
+                  )
+                }}
+              </ion-badge>
+            </td>
+            <td class="col-status">
+              <span class="status-badge" [ngClass]="getStatusBadgeClass(report.status)">
+                {{
+                  translateService.instant('ADMIN.REPORTS.STATUS.' + report.status.toUpperCase())
+                }}
+              </span>
+            </td>
+            <td class="col-date">
+              {{ formatDate(report.createdAt) }}
+            </td>
+            <td class="col-actions">
+              <ion-button
+                fill="clear"
+                size="small"
+                [id]="'actions-button-' + report.id"
+                (click)="openedMenuReportId = openedMenuReportId === report.id ? null : report.id">
+                <ion-icon name="ellipsis-vertical"></ion-icon>
+              </ion-button>
+              <ion-popover
+                [trigger]="'actions-button-' + report.id"
+                [isOpen]="openedMenuReportId === report.id"
+                (didDismiss)="openedMenuReportId = null">
+                <ng-template>
+                  <ion-list>
+                    <ion-item
+                      [button]="true"
+                      (click)="handleReportAction(report, ReportStatus.REVIEWING)">
+                      <ion-icon
+                        slot="start"
+                        name="eye"
+                        [color]="getStatusColor(ReportStatus.REVIEWING)"></ion-icon>
+                      {{ 'ADMIN.REPORTS.ACTIONS.MARK_REVIEWING' | translate }}
+                    </ion-item>
+                    <ion-item
+                      [button]="true"
+                      (click)="handleReportAction(report, ReportStatus.RESOLVED)">
+                      <ion-icon
+                        slot="start"
+                        name="checkmark"
+                        [color]="getStatusColor(ReportStatus.RESOLVED)"></ion-icon>
+                      {{ 'ADMIN.REPORTS.ACTIONS.MARK_RESOLVED' | translate }}
+                    </ion-item>
+                    <ion-item
+                      [button]="true"
+                      (click)="handleReportAction(report, ReportStatus.DISMISSED)">
+                      <ion-icon
+                        slot="start"
+                        name="close"
+                        [color]="getStatusColor(ReportStatus.DISMISSED)"></ion-icon>
+                      {{ 'ADMIN.REPORTS.ACTIONS.MARK_DISMISSED' | translate }}
+                    </ion-item>
+                    <ion-item [button]="true" (click)="deleteReport(report.id)" class="delete-item">
+                      <ion-icon slot="start" name="trash" color="danger"></ion-icon>
+                      <ion-label color="danger">{{
+                        'ADMIN.REPORTS.ACTIONS.DELETE' | translate
+                      }}</ion-label>
+                    </ion-item>
+                  </ion-list>
+                </ng-template>
+              </ion-popover>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
