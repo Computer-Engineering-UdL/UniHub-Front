@@ -99,7 +99,7 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
   private async getFallbackStats(): Promise<ReportStats> {
     let page: number = 0;
     const size = 100;
-    let allReports: any[] = [];
+    let allReports: Report[] = [];
     let total: number = 0;
     let hasMore: boolean = true;
     while (hasMore) {

@@ -36,7 +36,7 @@ export class ReportService {
   private readonly apiService: ApiService = inject(ApiService);
 
   getReportStats(): Observable<ReportStats> {
-    return this.apiService.get<ReportStats>('admin/reports/stats/');
+    return this.apiService.get<ReportStats>('admin/reports/stats');
   }
 
   getReports(page: number, size: number, searchTerm?: string, filters?: ReportFilters): Observable<ReportsResponse> {
