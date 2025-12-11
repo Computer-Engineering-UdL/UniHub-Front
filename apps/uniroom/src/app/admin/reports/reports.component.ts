@@ -47,6 +47,7 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
   };
   selectedReports: Set<string> = new Set();
   openedMenuReportId: string | null = null;
+  expandedReportId: string | null = null;
   pageSizeOptions: number[] = [10, 25, 50, 100];
 
   private readonly searchSubject: Subject<string> = new Subject<string>();
@@ -260,6 +261,10 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
     });
     await alert.present();
     this.openedMenuReportId = null;
+  }
+
+  toggleReportDetails(reportId: string): void {
+    this.expandedReportId = this.expandedReportId === reportId ? null : reportId;
   }
 
   async changePriority(report: Report): Promise<void> {

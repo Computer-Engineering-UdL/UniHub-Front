@@ -284,12 +284,17 @@
         border-bottom: none;
       }
 
-      &:hover {
+      &:hover:not(.details-row) {
         background: var(--ion-color-light-tint, #f9f9f9);
       }
 
       &.selected {
         background: rgba(var(--ion-color-primary-rgb), 0.05);
+      }
+
+      &.expanded {
+        background: rgba(var(--ion-color-primary-rgb), 0.02);
+        border-bottom: none;
       }
     }
 
@@ -303,6 +308,56 @@
         font-size: 0.8125rem;
       }
     }
+  }
+
+  .checkbox-col {
+    width: 48px;
+    text-align: center;
+  }
+
+  .report-id {
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: var(--ion-color-medium);
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .col-checkbox {
+    width: 48px;
+    padding: 0.75rem 0.5rem !important;
+  }
+
+  .col-content {
+    min-width: 200px;
+  }
+
+  .col-reason {
+    min-width: 140px;
+  }
+
+  .col-reported-by,
+  .col-reported-user {
+    min-width: 180px;
+  }
+
+  .col-priority {
+    min-width: 120px;
+  }
+
+  .col-status {
+    min-width: 120px;
+  }
+
+  .col-date {
+    min-width: 140px;
+  }
+
+  .col-actions {
+    min-width: 100px;
+    text-align: right;
   }
 }
 
@@ -496,47 +551,77 @@
 }
 
 .details-row {
-  background: rgba(0, 0, 0, 0.02);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+  background: var(--ion-color-light, #f8f9fa) !important;
+  border-bottom: 1px solid var(--ion-border-color, #e0e0e0) !important;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.02) !important;
+    background: var(--ion-color-light, #f8f9fa) !important;
   }
 
   td {
-    padding: 1.5rem !important;
+    padding: 2rem 1.5rem !important;
+
+    @media (max-width: 768px) {
+      padding: 1.5rem 1rem !important;
+    }
   }
 }
 
 .report-details {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
+  padding: 0.5rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 
   .detail-section {
+    background: var(--ion-card-background);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--ion-border-color, #e0e0e0);
+
     h4 {
-      font-size: 0.875rem;
+      font-size: 0.75rem;
       font-weight: 700;
       color: var(--ion-color-medium);
       text-transform: uppercase;
-      margin: 0 0 0.5rem 0;
+      margin: 0 0 0.75rem 0;
       letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      &::before {
+        content: '';
+        width: 3px;
+        height: 14px;
+        background: var(--ion-color-primary);
+        border-radius: 2px;
+      }
     }
 
     p {
       margin: 0;
       color: var(--ion-text-color);
       line-height: 1.6;
+      font-size: 0.875rem;
+      word-wrap: break-word;
     }
 
     .report-id-text {
       font-family: monospace;
-      font-size: 0.875rem;
+      font-size: 0.813rem;
       color: var(--ion-color-medium);
-      background: rgba(0, 0, 0, 0.05);
-      padding: 0.5rem;
+      background: var(--ion-color-light, #f8f9fa);
+      padding: 0.5rem 0.75rem;
       border-radius: 6px;
       display: inline-block;
+      border: 1px solid var(--ion-border-color, #e0e0e0);
+      word-break: break-all;
     }
   }
 }
@@ -672,8 +757,8 @@ ion-popover {
 
   .reports-table {
     thead {
-      background: rgba(255, 255, 255, 0.02);
-      border-bottom-color: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.02) !important;
+      border-bottom-color: rgba(255, 255, 255, 0.1) !important;
     }
 
     tbody tr {
@@ -687,6 +772,19 @@ ion-popover {
 
   .details-row {
     background: rgba(255, 255, 255, 0.02) !important;
+    border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .report-details {
+    .detail-section {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.08);
+
+      .report-id-text {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+    }
   }
 
   .bulk-actions {

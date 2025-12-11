@@ -222,136 +222,183 @@
           <tr *ngIf="!loading && reports.length === 0">
             <td colspan="9" class="empty-row">{{ 'ADMIN.REPORTS.NO_REPORTS' | translate }}</td>
           </tr>
-          <tr *ngFor="let report of reports" [class.selected]="selectedReports.has(report.id)">
-            <td class="col-checkbox">
-              <ion-checkbox
-                [checked]="selectedReports.has(report.id)"
-                (ionChange)="toggleReportSelection(report.id)"></ion-checkbox>
-            </td>
-            <td class="col-content">
-              <div class="content-info">
-                <ion-icon [name]="getCategoryIcon(report.contentType)"></ion-icon>
-                <div>
-                  <div class="content-title">{{ getContentTitle(report) }}</div>
-                  <div class="content-category">
-                    {{ 'ADMIN.REPORTS.CATEGORY.' + report.contentType.toUpperCase() | translate }}
+          <ng-container *ngFor="let report of reports">
+            <tr
+              [class.selected]="selectedReports.has(report.id)"
+              [class.expanded]="expandedReportId === report.id">
+              <td class="col-checkbox">
+                <ion-checkbox
+                  [checked]="selectedReports.has(report.id)"
+                  (ionChange)="toggleReportSelection(report.id)"></ion-checkbox>
+              </td>
+              <td class="col-content">
+                <div class="content-info">
+                  <ion-icon [name]="getCategoryIcon(report.contentType)"></ion-icon>
+                  <div>
+                    <div class="content-title">{{ getContentTitle(report) }}</div>
+                    <div class="content-category">
+                      {{ 'ADMIN.REPORTS.CATEGORY.' + report.contentType.toUpperCase() | translate }}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </td>
-            <td class="col-reason">
-              <ion-badge class="reason-badge" [color]="getReasonColor(report.reason)">
-                <ion-icon [name]="getReasonIcon(report.reason)"></ion-icon>
-                {{ 'ADMIN.REPORTS.REASON.' + report.reason.toUpperCase() | translate }}
-              </ion-badge>
-            </td>
-            <td class="col-reported-by">
-              <div class="user-info clickable" (click)="navigateToProfile(report.reportedBy.id)">
-                <ion-avatar>
-                  <img
-                    src="assets/img/default-profile.png"
-                    [appCachedAvatar]="report.reportedBy.avatarUrl"
-                    [alt]="report.reportedBy.fullName" />
-                </ion-avatar>
-                <div class="user-details">
-                  <div class="user-name">{{ report.reportedBy.fullName }}</div>
-                  <div class="user-username">{{ '@' + report.reportedBy.username }}</div>
+              </td>
+              <td class="col-reason">
+                <ion-badge class="reason-badge" [color]="getReasonColor(report.reason)">
+                  <ion-icon [name]="getReasonIcon(report.reason)"></ion-icon>
+                  {{ 'ADMIN.REPORTS.REASON.' + report.reason.toUpperCase() | translate }}
+                </ion-badge>
+              </td>
+              <td class="col-reported-by">
+                <div class="user-info clickable" (click)="navigateToProfile(report.reportedBy.id)">
+                  <ion-avatar>
+                    <img
+                      src="assets/img/default-profile.png"
+                      [appCachedAvatar]="report.reportedBy.avatarUrl"
+                      [alt]="report.reportedBy.fullName" />
+                  </ion-avatar>
+                  <div class="user-details">
+                    <div class="user-name">{{ report.reportedBy.fullName }}</div>
+                    <div class="user-username">{{ '@' + report.reportedBy.username }}</div>
+                  </div>
                 </div>
-              </div>
-            </td>
-            <td class="col-reported-user">
-              <div class="user-info clickable" (click)="navigateToProfile(report.reportedUser.id)">
-                <ion-avatar>
-                  <img
-                    src="assets/img/default-profile.png"
-                    [appCachedAvatar]="report.reportedUser.avatarUrl"
-                    [alt]="report.reportedUser.fullName" />
-                </ion-avatar>
-                <div class="user-details">
-                  <div class="user-name">{{ report.reportedUser.fullName }}</div>
-                  <div class="user-username">{{ '@' + report.reportedUser.username }}</div>
+              </td>
+              <td class="col-reported-user">
+                <div
+                  class="user-info clickable"
+                  (click)="navigateToProfile(report.reportedUser.id)">
+                  <ion-avatar>
+                    <img
+                      src="assets/img/default-profile.png"
+                      [appCachedAvatar]="report.reportedUser.avatarUrl"
+                      [alt]="report.reportedUser.fullName" />
+                  </ion-avatar>
+                  <div class="user-details">
+                    <div class="user-name">{{ report.reportedUser.fullName }}</div>
+                    <div class="user-username">{{ '@' + report.reportedUser.username }}</div>
+                  </div>
                 </div>
-              </div>
-            </td>
-            <td class="col-priority">
-              <ion-badge [color]="getPriorityColor(report.priority)">
-                {{
-                  translateService.instant(
-                    'ADMIN.REPORTS.PRIORITY.' + report.priority.toUpperCase()
-                  )
-                }}
-              </ion-badge>
-            </td>
-            <td class="col-status">
-              <ion-badge [color]="getStatusColor(report.status)" class="status-badge-ionic">
-                <ion-icon [name]="getStatusIcon(report.status)"></ion-icon>
-                {{
-                  translateService.instant('ADMIN.REPORTS.STATUS.' + report.status.toUpperCase())
-                }}
-              </ion-badge>
-            </td>
-            <td class="col-date">
-              {{ formatDate(report.createdAt) }}
-            </td>
-            <td class="col-actions">
-              <ion-button
-                fill="clear"
-                size="small"
-                [id]="'actions-button-' + report.id"
-                (click)="openedMenuReportId = openedMenuReportId === report.id ? null : report.id">
-                <ion-icon name="ellipsis-vertical"></ion-icon>
-              </ion-button>
-              <ion-popover
-                [trigger]="'actions-button-' + report.id"
-                [isOpen]="openedMenuReportId === report.id"
-                (didDismiss)="openedMenuReportId = null">
-                <ng-template>
-                  <ion-list>
-                    <ion-item
-                      [button]="true"
-                      (click)="handleReportAction(report, ReportStatus.REVIEWING)">
-                      <ion-icon
-                        slot="start"
-                        name="eye"
-                        [color]="getStatusColor(ReportStatus.REVIEWING)"></ion-icon>
-                      {{ 'ADMIN.REPORTS.ACTIONS.MARK_REVIEWING' | translate }}
-                    </ion-item>
-                    <ion-item
-                      [button]="true"
-                      (click)="handleReportAction(report, ReportStatus.RESOLVED)">
-                      <ion-icon
-                        slot="start"
-                        name="checkmark"
-                        [color]="getStatusColor(ReportStatus.RESOLVED)"></ion-icon>
-                      {{ 'ADMIN.REPORTS.ACTIONS.MARK_RESOLVED' | translate }}
-                    </ion-item>
-                    <ion-item
-                      [button]="true"
-                      (click)="handleReportAction(report, ReportStatus.DISMISSED)">
-                      <ion-icon
-                        slot="start"
-                        name="close"
-                        [color]="getStatusColor(ReportStatus.DISMISSED)"></ion-icon>
-                      {{ 'ADMIN.REPORTS.ACTIONS.MARK_DISMISSED' | translate }}
-                    </ion-item>
-                    <ion-item [button]="true" (click)="changePriority(report)">
-                      <ion-icon
-                        slot="start"
-                        name="flag"
-                        [color]="getPriorityColor(report.priority)"></ion-icon>
-                      {{ 'ADMIN.REPORTS.ACTIONS.CHANGE_PRIORITY' | translate }}
-                    </ion-item>
-                    <ion-item [button]="true" (click)="deleteReport(report.id)" class="delete-item">
-                      <ion-icon slot="start" name="trash" color="danger"></ion-icon>
-                      <ion-label color="danger">{{
-                        'ADMIN.REPORTS.ACTIONS.DELETE' | translate
-                      }}</ion-label>
-                    </ion-item>
-                  </ion-list>
-                </ng-template>
-              </ion-popover>
-            </td>
-          </tr>
+              </td>
+              <td class="col-priority">
+                <ion-badge [color]="getPriorityColor(report.priority)">
+                  {{
+                    translateService.instant(
+                      'ADMIN.REPORTS.PRIORITY.' + report.priority.toUpperCase()
+                    )
+                  }}
+                </ion-badge>
+              </td>
+              <td class="col-status">
+                <ion-badge [color]="getStatusColor(report.status)" class="status-badge-ionic">
+                  <ion-icon [name]="getStatusIcon(report.status)"></ion-icon>
+                  {{
+                    translateService.instant('ADMIN.REPORTS.STATUS.' + report.status.toUpperCase())
+                  }}
+                </ion-badge>
+              </td>
+              <td class="col-date">
+                {{ formatDate(report.createdAt) }}
+              </td>
+              <td class="col-actions">
+                <ion-button fill="clear" size="small" (click)="toggleReportDetails(report.id)">
+                  <ion-icon
+                    slot="icon-only"
+                    [name]="expandedReportId === report.id ? 'chevron-up' : 'chevron-down'">
+                  </ion-icon>
+                </ion-button>
+                <ion-button
+                  fill="clear"
+                  size="small"
+                  [id]="'actions-button-' + report.id"
+                  (click)="
+                    openedMenuReportId = openedMenuReportId === report.id ? null : report.id
+                  ">
+                  <ion-icon name="ellipsis-vertical"></ion-icon>
+                </ion-button>
+                <ion-popover
+                  [trigger]="'actions-button-' + report.id"
+                  [isOpen]="openedMenuReportId === report.id"
+                  (didDismiss)="openedMenuReportId = null">
+                  <ng-template>
+                    <ion-list>
+                      <ion-item
+                        [button]="true"
+                        (click)="handleReportAction(report, ReportStatus.REVIEWING)">
+                        <ion-icon
+                          slot="start"
+                          name="eye"
+                          [color]="getStatusColor(ReportStatus.REVIEWING)"></ion-icon>
+                        {{ 'ADMIN.REPORTS.ACTIONS.MARK_REVIEWING' | translate }}
+                      </ion-item>
+                      <ion-item
+                        [button]="true"
+                        (click)="handleReportAction(report, ReportStatus.RESOLVED)">
+                        <ion-icon
+                          slot="start"
+                          name="checkmark"
+                          [color]="getStatusColor(ReportStatus.RESOLVED)"></ion-icon>
+                        {{ 'ADMIN.REPORTS.ACTIONS.MARK_RESOLVED' | translate }}
+                      </ion-item>
+                      <ion-item
+                        [button]="true"
+                        (click)="handleReportAction(report, ReportStatus.DISMISSED)">
+                        <ion-icon
+                          slot="start"
+                          name="close"
+                          [color]="getStatusColor(ReportStatus.DISMISSED)"></ion-icon>
+                        {{ 'ADMIN.REPORTS.ACTIONS.MARK_DISMISSED' | translate }}
+                      </ion-item>
+                      <ion-item [button]="true" (click)="changePriority(report)">
+                        <ion-icon
+                          slot="start"
+                          name="flag"
+                          [color]="getPriorityColor(report.priority)"></ion-icon>
+                        {{ 'ADMIN.REPORTS.ACTIONS.CHANGE_PRIORITY' | translate }}
+                      </ion-item>
+                      <ion-item
+                        [button]="true"
+                        (click)="deleteReport(report.id)"
+                        class="delete-item">
+                        <ion-icon slot="start" name="trash" color="danger"></ion-icon>
+                        <ion-label color="danger">{{
+                          'ADMIN.REPORTS.ACTIONS.DELETE' | translate
+                        }}</ion-label>
+                      </ion-item>
+                    </ion-list>
+                  </ng-template>
+                </ion-popover>
+              </td>
+            </tr>
+            <tr *ngIf="expandedReportId === report.id" class="details-row">
+              <td colspan="9">
+                <div class="report-details">
+                  <div class="detail-section" *ngIf="report.description">
+                    <h4>{{ 'ADMIN.REPORTS.DETAILS.DESCRIPTION' | translate }}</h4>
+                    <p>{{ report.description }}</p>
+                  </div>
+                  <div class="detail-section" *ngIf="report.resolution">
+                    <h4>{{ 'ADMIN.REPORTS.DETAILS.RESOLUTION' | translate }}</h4>
+                    <p>{{ report.resolution }}</p>
+                  </div>
+                  <div class="detail-section" *ngIf="report.reviewedBy">
+                    <h4>{{ 'ADMIN.REPORTS.DETAILS.REVIEWED_BY' | translate }}</h4>
+                    <p>
+                      {{ report.reviewedBy.fullName }} ({{ '@' + report.reviewedBy.username }})
+                      <br />
+                      {{ formatDate(report.reviewedAt!) }}
+                    </p>
+                  </div>
+                  <div class="detail-section">
+                    <h4>{{ 'ADMIN.REPORTS.DETAILS.CONTENT_ID' | translate }}</h4>
+                    <p class="report-id-text">{{ report.contentId }}</p>
+                  </div>
+                  <div class="detail-section">
+                    <h4>{{ 'ADMIN.REPORTS.DETAILS.REPORT_ID' | translate }}</h4>
+                    <p class="report-id-text">{{ report.id }}</p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>
