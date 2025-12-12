@@ -392,18 +392,18 @@
                     <p class="report-id-text">
                       {{ report.contentId }}
                     </p>
-                      <ng-container *ngIf="getGoToContentConfig(report.contentType) as config">
-                        <ion-button
-                          class="go-to-content-btn"
-                          size="small"
-                          fill="outline"
-                          (click)="navigateToContent(report.contentType, report.contentId)">
-                          <ion-icon slot="start" [name]="config.icon"></ion-icon>
-                          <span class="go-to-content-label">
-                            {{ config.labelKey | translate }}
-                          </span>
-                        </ion-button>
-                      </ng-container>
+                    <ng-container *ngIf="getGoToContentConfig(report.contentType) as config">
+                      <ion-button
+                        class="go-to-content-btn"
+                        size="small"
+                        fill="outline"
+                        (click)="navigateToContent(report.contentType, report.contentId)">
+                        <ion-icon slot="start" [name]="config.icon"></ion-icon>
+                        <span class="go-to-content-label">
+                          {{ config.labelKey | translate }}
+                        </span>
+                      </ion-button>
+                    </ng-container>
                   </div>
                   <div class="detail-section">
                     <h4>{{ 'ADMIN.REPORTS.DETAILS.REPORT_ID' | translate }}</h4>

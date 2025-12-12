@@ -509,7 +509,7 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
       case 'housing':
         return `${environment.apiUrl}/offers/${contentId}`;
       case 'channels':
-        return `${environment.apiUrl}/channels/${contentId}`;
+        return `${environment.apiUrl}/channel/${contentId}`;
       default:
         return null;
     }

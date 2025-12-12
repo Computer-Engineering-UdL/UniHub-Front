@@ -18,6 +18,15 @@
       <ion-badge color="primary">{{ members.length }}</ion-badge>
     </ion-button>
     <ion-button
+      *ngIf="channel"
+      fill="clear"
+      color="danger"
+      (click)="openReportChannelModal()"
+      class="report-channel-button"
+      [title]="'REPORT.REPORT_CHANNEL' | translate">
+      <ion-icon slot="icon-only" name="flag-outline"></ion-icon>
+    </ion-button>
+    <ion-button
       *ngIf="channel && (channel.is_member || getCurrentMember())"
       fill="outline"
       color="medium"

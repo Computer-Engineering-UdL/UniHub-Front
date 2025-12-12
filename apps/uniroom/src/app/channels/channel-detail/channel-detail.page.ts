@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, interval, Subscription } from 'rxjs';
 import { Channel, ChannelMember, ChannelRole } from '../../models/channel.types';
 import { ChannelMessage, Conversation } from '../../models/message.types';
-import { DEFAULT_USER_URL, Role, User } from '../../models/auth.types';
+import { Role, User } from '../../models/auth.types';
 import { ChannelService } from '../../services/channel.service';
 import { AuthService } from '../../services/auth.service';
 import { LocalizationService } from '../../services/localization.service';
@@ -13,6 +13,9 @@ import NotificationService from '../../services/notification.service';
 import { ApiService } from '../../services/api.service';
 import { BanMemberModalComponent } from './ban-member-modal/ban-member-modal.component';
 import { MessageService } from '../../services/message.service';
+import { ReportModalComponent, ReportContext } from '../../shared/reports/report-modal.component';
+import { ReportService } from '../../services/report.service';
+import { ReportCategory, ReportReason } from '../../models/report.types';
 
 interface MemberAction {
   icon: string;
@@ -47,6 +50,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   private readonly modalController: ModalController = inject(ModalController);
   private readonly popoverCtrl: PopoverController = inject(PopoverController);
   private readonly messageService: MessageService = inject(MessageService);
+  private readonly reportService: ReportService = inject(ReportService);
   private userSubscription?: Subscription;
 
   private messagesRefreshSubscription?: Subscription;
@@ -68,8 +72,6 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   editingMessageId: string | null = null;
   replyingToMessage: ChannelMessage | null = null;
   showMembersModal: boolean = false;
-
-  readonly defaultUserUrl: string = DEFAULT_USER_URL;
 
   async ngOnInit(): Promise<void> {
     this.userSubscription = this.authService.currentUser$.subscribe((user: User | null): void => {
@@ -112,7 +114,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     }
   }
 
-  async loadMessages(silent: boolean = false, scrollToBottom: boolean = true): Promise<void> {
+  async loadMessages(silent: boolean = false, _scrollToBottom: boolean = true): Promise<void> {
     if (!this.channelId) {
       return;
     }
@@ -145,7 +147,9 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
     const sorted = Array.from(map.entries()).sort((a, b) => b[0] - a[0]);
     this.messageGroups = sorted.map(([ts, msgs]) => ({
       date: new Date(ts).toISOString(),
-      messages: msgs.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+      messages: [...msgs].sort(
+        (a: ChannelMessage, b: ChannelMessage) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+      )
     }));
   }
 
@@ -174,7 +178,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
       );
 
       this.members = activeMembers.filter((member: ChannelMember): boolean => !member.is_banned);
-      this.bannedMembers = activeMembers.filter((member: ChannelMember): boolean => !!member.is_banned);
+      this.bannedMembers = activeMembers.filter((member: ChannelMember): boolean => member.is_banned);
 
       this.adminMembers = this.members.filter((member: ChannelMember): boolean => member.role === 'admin');
       this.moderatorMembers = this.members.filter((member: ChannelMember): boolean => member.role === 'moderator');
@@ -705,6 +709,57 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   async viewMemberProfile(member: ChannelMember): Promise<void> {
     if (member.user_id) {
       await this.router.navigate(['/profile', member.user_id]);
+    }
+  }
+
+  async openReportChannelModal(): Promise<void> {
+    if (!this.channel) {
+      return;
+    }
+    const modal = await this.modalController.create({
+      component: ReportModalComponent,
+      componentProps: {
+        context: {
+          contentType: ReportCategory.CHANNELS,
+          contentId: this.channel.id,
+          contentTitle: this.channel.name,
+          allowedReasons: [
+            ReportReason.HARASSMENT,
+            ReportReason.HATE_SPEECH,
+            ReportReason.SPAM,
+            ReportReason.INAPPROPRIATE_CONTENT,
+            ReportReason.SCAM_FRAUD,
+            ReportReason.OTHER
+          ]
+        } satisfies ReportContext
+      },
+      cssClass: 'report-modal',
+      backdropDismiss: true
+    });
+    await modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'submit' && data) {
+      await this.submitChannelReport(data.reason, data.description);
+    }
+  }
+
+  async submitChannelReport(reason: ReportReason, description?: string): Promise<void> {
+    if (!this.channel) {
+      return;
+    }
+    try {
+      this.reportService
+        .createReport({
+          contentType: ReportCategory.CHANNELS,
+          contentId: this.channel.id,
+          reportedUserId: this.channel.memberships?.find((m) => m.role == 'admin')?.user_id ?? '',
+          reason,
+          description
+        })
+        .subscribe();
+      this.notificationService.success(this.translate.instant('REPORT.SUCCESS'));
+    } catch {
+      this.notificationService.error(this.translate.instant('REPORT.ERROR'));
     }
   }
 }
