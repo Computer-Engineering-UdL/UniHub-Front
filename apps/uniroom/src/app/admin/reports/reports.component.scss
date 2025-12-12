@@ -393,22 +393,22 @@
 
   &.status-pending {
     background: rgba(245, 158, 11, 0.1);
-    color: #f59e0b;
+    color: #b45309;
   }
 
   &.status-reviewing {
     background: rgba(59, 130, 246, 0.1);
-    color: #3b82f6;
+    color: #1e3a8a;
   }
 
   &.status-resolved {
     background: rgba(16, 185, 129, 0.1);
-    color: #10b981;
+    color: #065f46;
   }
 
   &.status-dismissed {
     background: rgba(107, 114, 128, 0.1);
-    color: #6b7280;
+    color: #111827;
   }
 }
 
@@ -751,6 +751,26 @@ ion-popover {
       font-size: 1.25rem;
     }
   }
+}
+
+.go-to-content-btn {
+  margin-left: 12px;
+  --background: var(--ion-color-light, #f4f5f8);
+  --color: var(--ion-color-primary, #3880ff);
+  --border-radius: 8px;
+  --box-shadow: none;
+  font-weight: 500;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.2s;
+}
+.go-to-content-btn:hover {
+  --background: var(--ion-color-primary, #3880ff);
+  --color: var(--ion-color-light, #f4f5f8);
+}
+.go-to-content-label {
+  margin-left: 4px;
 }
 
 @media (max-width: 1200px) {

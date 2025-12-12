@@ -791,6 +791,9 @@
       "SEARCH_PLACEHOLDER": "Buscar informes...",
       "NO_REPORTS": "No se han encontrado informes",
       "SELECTED_COUNT": "{{count}} seleccionados",
+      "GO_TO_USER": "Ver perfil del usuario",
+      "GO_TO_ROOM": "Ir al anuncio",
+      "GO_TO_CHANNEL": "Ir al canal",
       "CONTENT_TITLE": {
         "HOUSING": "Habitación: {{title}}",
         "MARKETPLACE": "Artículo: {{title}}",
@@ -909,7 +912,8 @@
         "UPDATE_STATUS": "Error al actualizar el estado del informe",
         "UPDATE_PRIORITY": "Error al actualizar la prioridad del informe",
         "DELETE": "Error al eliminar el informe",
-        "BULK_UPDATE": "Error al actualizar los informes"
+        "BULK_UPDATE": "Error al actualizar los informes",
+        "NO_ACCESS_CONTENT": "No tienes acceso al contenido reportado o ya ha sido eliminado"
       }
     }
   },

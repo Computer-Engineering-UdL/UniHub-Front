@@ -795,6 +795,9 @@
       "SEARCH_PLACEHOLDER": "Search reports...",
       "NO_REPORTS": "No reports found",
       "SELECTED_COUNT": "{{count}} selected",
+      "GO_TO_USER": "View user profile",
+      "GO_TO_ROOM": "Go to the announcement",
+      "GO_TO_CHANNEL": "Go to the channel",
       "CONTENT_TITLE": {
         "HOUSING": "Room: {{title}}",
         "MARKETPLACE": "Item: {{title}}",
@@ -913,7 +916,8 @@
         "UPDATE_STATUS": "Error updating report status",
         "UPDATE_PRIORITY": "Error updating report priority",
         "DELETE": "Error deleting report",
-        "BULK_UPDATE": "Error updating reports"
+        "BULK_UPDATE": "Error updating reports",
+        "NO_ACCESS_CONTENT": "You do not have access to the reported content or it has already been deleted"
       }
     }
   },

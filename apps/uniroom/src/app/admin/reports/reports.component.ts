@@ -17,6 +17,8 @@ import { lastValueFrom, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ReportService, ReportsResponse } from '../../services/report.service';
 import { Router } from '@angular/router';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-admin-reports',
@@ -59,6 +61,8 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
   readonly ReportPriority = ReportPriority;
   readonly ReportCategory = ReportCategory;
   readonly ReportReason = ReportReason;
+  private readonly accessCheckCache: Map<string, Promise<boolean>> = new Map();
+  private readonly http: HttpClient = inject(HttpClient);
 
   ngOnInit(): void {
     this.searchSubject.pipe(debounceTime(500), distinctUntilChanged()).subscribe((term: string) => {
@@ -464,6 +468,72 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
     void this.router.navigate(['/profile', userId]);
   }
 
+  navigateToUser(userId: string): void {
+    if (userId) {
+      void this.router.navigate(['/profile', userId]);
+    }
+  }
+
+  async navigateToRoom(roomId: string): Promise<void> {
+    if (roomId) {
+      void this.router.navigate(['/rooms/details', roomId]);
+    }
+  }
+
+  navigateToChannel(channelId: string): void {
+    if (channelId) {
+      void this.router.navigate(['/channels', channelId]);
+    }
+  }
+
+  getGoToContentConfig(contentType: string): { icon: string; labelKey: string } | null {
+    switch (contentType) {
+      case 'user':
+        return { icon: 'person-circle-outline', labelKey: 'ADMIN.REPORTS.GO_TO_USER' };
+      case 'housing':
+        return { icon: 'home-outline', labelKey: 'ADMIN.REPORTS.GO_TO_ROOM' };
+      case 'channels':
+        return { icon: 'chatbubbles-outline', labelKey: 'ADMIN.REPORTS.GO_TO_CHANNEL' };
+      default:
+        return null;
+    }
+  }
+
+  private getContentApiUrl(contentType: string, contentId: string): string | null {
+    if (!contentType || !contentId) {
+      return null;
+    }
+    switch (contentType) {
+      case 'user':
+        return `${environment.apiUrl}/user/public/${contentId}`;
+      case 'housing':
+        return `${environment.apiUrl}/offers/${contentId}`;
+      case 'channels':
+        return `${environment.apiUrl}/channels/${contentId}`;
+      default:
+        return null;
+    }
+  }
+
+  async navigateToContent(contentType: string, contentId: string): Promise<void> {
+    const apiUrl: string | null = this.getContentApiUrl(contentType, contentId);
+    if (apiUrl) {
+      const ok: boolean = await this.canAccessUrl(apiUrl);
+      if (!ok) {
+        this.notificationService.error('ADMIN.REPORTS.ERROR.NO_ACCESS_CONTENT');
+        return;
+      }
+    }
+
+    if (contentType === 'user') {
+      this.navigateToUser(contentId);
+    } else if (contentType === 'housing') {
+      await this.navigateToRoom(contentId);
+    } else if (contentType === 'channels') {
+      this.navigateToChannel(contentId);
+    }
+  }
+
   getContentTitle(report: Report): string {
     if (!report.contentTitle) {
       return this.translateService.instant(`ADMIN.REPORTS.CATEGORY.${report.contentType.toUpperCase()}`);
@@ -582,5 +652,50 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
       default:
         return '';
     }
+  }
+
+  async canAccessUrl(url: string): Promise<boolean> {
+    if (!url) {
+      return false;
+    }
+    if (this.accessCheckCache.has(url)) {
+      return this.accessCheckCache.get(url)!;
+    }
+
+    const checkPromise = (async (): Promise<boolean> => {
+      try {
+        await lastValueFrom(
+          this.http.head(url, {
+            observe: 'response',
+            responseType: 'text' as 'json'
+          })
+        );
+        return true;
+      } catch (err) {
+        if (err instanceof HttpErrorResponse) {
+          if (err.status === 401 || err.status === 403) {
+            return false;
+          }
+          try {
+            await lastValueFrom(
+              this.http.get(url, {
+                observe: 'response',
+                responseType: 'text' as 'json'
+              })
+            );
+            return true;
+          } catch (error_) {
+            if (error_ instanceof HttpErrorResponse && (error_.status === 401 || error_.status === 403)) {
+              return false;
+            }
+            return false;
+          }
+        }
+        return false;
+      }
+    })();
+
+    this.accessCheckCache.set(url, checkPromise);
+    return checkPromise;
   }
 }

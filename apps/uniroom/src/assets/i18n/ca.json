@@ -791,6 +791,9 @@
       "SEARCH_PLACEHOLDER": "Cercar informes...",
       "NO_REPORTS": "No s'han trobat informes",
       "SELECTED_COUNT": "{{count}} seleccionats",
+      "GO_TO_USER": "Veure perfil del usuari",
+      "GO_TO_ROOM": "Anar a l'anunci",
+      "GO_TO_CHANNEL": "Anar al canal",
       "CONTENT_TITLE": {
         "HOUSING": "Habitació: {{title}}",
         "MARKETPLACE": "Artícle: {{title}}",
@@ -908,7 +911,8 @@
         "UPDATE_STATUS": "Error al actualitzar l'estat de l'informe",
         "UPDATE_PRIORITY": "Error al actualitzar la prioritat de l'informe",
         "DELETE": "Error al eliminar l'informe",
-        "BULK_UPDATE": "Error al actualitzar els informes"
+        "BULK_UPDATE": "Error al actualitzar els informes",
+        "NO_ACCESS_CONTENT": "No tens accés al contingut reportat o ja ha estat eliminat"
       }
     }
   },
