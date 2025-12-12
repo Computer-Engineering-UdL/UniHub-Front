@@ -1,7 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
-import { DashboardStats, DashboardActivity, WeeklyChartData, DistributionChartData } from '../models/dashboard.model';
+import {
+  DashboardStats,
+  DashboardActivity,
+  ActivityChartData,
+  DistributionChartData,
+  ChannelsChartData,
+  TimeRange
+} from '../models/dashboard.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +24,15 @@ export class DashboardService {
     return this.apiService.get<DashboardActivity[]>('dashboard/activity');
   }
 
-  getWeeklyChart(): Observable<WeeklyChartData> {
-    return this.apiService.get<WeeklyChartData>('dashboard/charts/weekly');
+  getActivityChart(timeRange: TimeRange = 'week'): Observable<ActivityChartData> {
+    return this.apiService.get<ActivityChartData>(`dashboard/charts/activity?time_range=${timeRange}`);
   }
 
   getDistributionChart(): Observable<DistributionChartData> {
     return this.apiService.get<DistributionChartData>('dashboard/charts/distribution');
+  }
+
+  getChannelsChart(): Observable<ChannelsChartData> {
+    return this.apiService.get<ChannelsChartData>('dashboard/charts/channels');
   }
 }

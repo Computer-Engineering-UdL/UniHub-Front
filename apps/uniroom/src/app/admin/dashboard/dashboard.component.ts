@@ -6,8 +6,9 @@ import { LocalizationService } from '../../services/localization.service';
 import {
   DashboardStats,
   DashboardActivity,
-  WeeklyChartData,
-  DistributionChartData
+  ActivityChartData,
+  DistributionChartData,
+  TimeRange
 } from '../../models/dashboard.model';
 
 @Component({
@@ -24,15 +25,16 @@ export class AdminDashboardComponent implements OnInit {
 
   stats: DashboardStats | null = null;
   recentActivity: DashboardActivity[] = [];
-  weeklyData: WeeklyChartData | null = null;
+  activityData: ActivityChartData | null = null;
   distributionData: DistributionChartData | null = null;
 
   isLoadingStats: boolean = true;
   isLoadingActivity: boolean = true;
-  isLoadingWeekly: boolean = true;
+  isLoadingActivityChart: boolean = true;
   isLoadingDistribution: boolean = true;
 
-  weeklyChartMax: number = 0;
+  selectedTimeRange: TimeRange = 'week';
+  activityChartMax: number = 0;
 
   ngOnInit(): void {
     this.loadDashboardData();
@@ -41,7 +43,7 @@ export class AdminDashboardComponent implements OnInit {
   loadDashboardData(): void {
     this.loadStats();
     this.loadActivity();
-    this.loadWeeklyChart();
+    this.loadActivityChart();
     this.loadDistributionChart();
   }
 
@@ -73,17 +75,17 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
-  loadWeeklyChart(): void {
-    this.isLoadingWeekly = true;
-    this.dashboardService.getWeeklyChart().subscribe({
-      next: (data: WeeklyChartData) => {
-        this.weeklyData = data;
-        this.weeklyChartMax = this.calculateChartMax(data);
-        this.isLoadingWeekly = false;
+  loadActivityChart(): void {
+    this.isLoadingActivityChart = true;
+    this.dashboardService.getActivityChart(this.selectedTimeRange).subscribe({
+      next: (data: ActivityChartData) => {
+        this.activityData = data;
+        this.activityChartMax = this.calculateChartMax(data);
+        this.isLoadingActivityChart = false;
       },
       error: () => {
         this.notificationService.error('ADMIN.DASHBOARD.ERROR.LOAD_CHART');
-        this.isLoadingWeekly = false;
+        this.isLoadingActivityChart = false;
       }
     });
   }
@@ -102,14 +104,19 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
-  calculateChartMax(data: WeeklyChartData): number {
+  changeTimeRange(range: TimeRange): void {
+    this.selectedTimeRange = range;
+    this.loadActivityChart();
+  }
+
+  calculateChartMax(data: ActivityChartData): number {
     let max: number = 0;
     data.datasets.forEach((dataset: { label: string; data: number[] }) => {
       dataset.data.forEach((value: number) => {
         if (value > max) max = value;
       });
     });
-    return max || 1;
+    return max > 0 ? max : 1;
   }
 
   formatNumber(num: number | undefined): string {
@@ -150,7 +157,9 @@ export class AdminDashboardComponent implements OnInit {
       new_user: 'person-add',
       new_housing: 'home',
       new_report: 'warning',
-      user_verified: 'checkmark-circle'
+      user_verified: 'checkmark-circle',
+      new_channel: 'chatbubbles',
+      new_post: 'newspaper'
     };
     return icons[type] || 'information-circle';
   }
@@ -197,6 +206,18 @@ export class AdminDashboardComponent implements OnInit {
     if (joinedMatch) {
       const username: string = joinedMatch[1];
       return this.translateService.instant('ADMIN.DASHBOARD.ACTIVITY.USER_JOINED', { username });
+    }
+
+    const channelMatch: RegExpMatchArray | null = description.match(/New channel created: (.+)$/);
+    if (channelMatch) {
+      const channelName: string = channelMatch[1];
+      return this.translateService.instant('ADMIN.DASHBOARD.ACTIVITY.CHANNEL_CREATED', { name: channelName });
+    }
+
+    const postMatch: RegExpMatchArray | null = description.match(/New post created: (.+)$/);
+    if (postMatch) {
+      const postTitle: string = postMatch[1];
+      return this.translateService.instant('ADMIN.DASHBOARD.ACTIVITY.POST_CREATED', { title: postTitle });
     }
 
     return description;

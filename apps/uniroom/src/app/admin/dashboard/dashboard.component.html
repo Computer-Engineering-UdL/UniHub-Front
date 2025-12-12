@@ -61,24 +61,24 @@
       <div class="stat-card">
         <div class="stat-header">
           <div class="stat-icon warning">
-            <ion-icon name="warning"></ion-icon>
+            <ion-icon name="chatbubbles"></ion-icon>
           </div>
           <ion-icon
-            *ngIf="stats?.pending_reports"
-            [name]="getTrendIcon(stats!.pending_reports.trend)"
-            [color]="getTrendColor(stats!.pending_reports.trend)"
+            *ngIf="stats?.total_channels"
+            [name]="getTrendIcon(stats!.total_channels.trend)"
+            [color]="getTrendColor(stats!.total_channels.trend)"
             class="trend-icon"></ion-icon>
         </div>
         <div class="stat-content">
-          <span class="stat-label">{{ 'ADMIN.DASHBOARD.STATS.PENDING_REPORTS' | translate }}</span>
+          <span class="stat-label">{{ 'ADMIN.DASHBOARD.STATS.TOTAL_CHANNELS' | translate }}</span>
           <h3 class="stat-value">
-            {{ isLoadingStats ? '...' : formatNumber(stats?.pending_reports?.value) }}
+            {{ isLoadingStats ? '...' : formatNumber(stats?.total_channels?.value) }}
           </h3>
           <div
             class="stat-change"
-            [ngClass]="getTrendColor(stats?.pending_reports?.trend || 'neutral')"
-            *ngIf="stats?.pending_reports">
-            <span>{{ formatPercentage(stats!.pending_reports.change_percentage) }}</span>
+            [ngClass]="getTrendColor(stats?.total_channels?.trend || 'neutral')"
+            *ngIf="stats?.total_channels">
+            <span>{{ formatPercentage(stats!.total_channels.change_percentage) }}</span>
           </div>
         </div>
       </div>
@@ -112,34 +112,58 @@
     <div class="charts-section">
       <div class="chart-card weekly-chart">
         <div class="chart-header">
-          <h2>{{ 'ADMIN.DASHBOARD.CHARTS.WEEKLY_ACTIVITY' | translate }}</h2>
+          <h2>{{ 'ADMIN.DASHBOARD.CHARTS.ACTIVITY' | translate }}</h2>
+          <div class="time-range-selector">
+            <button
+              class="time-range-btn"
+              [class.active]="selectedTimeRange === 'week'"
+              (click)="changeTimeRange('week')">
+              {{ 'ADMIN.DASHBOARD.TIME_RANGE.WEEK' | translate }}
+            </button>
+            <button
+              class="time-range-btn"
+              [class.active]="selectedTimeRange === 'month'"
+              (click)="changeTimeRange('month')">
+              {{ 'ADMIN.DASHBOARD.TIME_RANGE.MONTH' | translate }}
+            </button>
+            <button
+              class="time-range-btn"
+              [class.active]="selectedTimeRange === 'trimester'"
+              (click)="changeTimeRange('trimester')">
+              {{ 'ADMIN.DASHBOARD.TIME_RANGE.TRIMESTER' | translate }}
+            </button>
+            <button
+              class="time-range-btn"
+              [class.active]="selectedTimeRange === 'year'"
+              (click)="changeTimeRange('year')">
+              {{ 'ADMIN.DASHBOARD.TIME_RANGE.YEAR' | translate }}
+            </button>
+          </div>
         </div>
         <div class="chart-content">
-          <div class="chart-placeholder" *ngIf="isLoadingWeekly">
+          <div class="chart-placeholder" *ngIf="isLoadingActivityChart">
             <ion-spinner></ion-spinner>
           </div>
-          <div class="weekly-chart-container" *ngIf="!isLoadingWeekly && weeklyData">
+          <div class="weekly-chart-container" *ngIf="!isLoadingActivityChart && activityData">
             <div class="chart-legend">
-              <div class="legend-item" *ngFor="let dataset of weeklyData.datasets">
+              <div class="legend-item" *ngFor="let dataset of activityData.datasets">
                 <span
                   class="legend-dot"
-                  [attr.data-index]="weeklyData.datasets.indexOf(dataset)"></span>
+                  [attr.data-index]="activityData.datasets.indexOf(dataset)"></span>
                 <span>{{ translateDatasetLabel(dataset.label) | translate }}</span>
               </div>
             </div>
             <div class="chart-bars">
-              <div class="bar-group" *ngFor="let label of weeklyData.labels; let i = index">
+              <div class="bar-group" *ngFor="let label of activityData.labels; let i = index">
                 <div class="bars">
                   <div
                     class="bar"
-                    *ngFor="let dataset of weeklyData.datasets; let j = index"
+                    *ngFor="let dataset of activityData.datasets; let j = index"
                     [attr.data-index]="j"
-                    [style.height.%]="(dataset.data[i] / weeklyChartMax) * 100"
+                    [style.height.%]="(dataset.data[i] / activityChartMax) * 100"
                     [title]="translateDatasetLabel(dataset.label) + ': ' + dataset.data[i]"></div>
                 </div>
-                <span class="bar-label">{{
-                  'COMMON.DAYS.' + label.toUpperCase() | translate
-                }}</span>
+                <span class="bar-label">{{ label }}</span>
               </div>
             </div>
           </div>

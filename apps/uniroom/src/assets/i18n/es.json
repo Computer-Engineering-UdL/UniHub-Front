@@ -690,15 +690,23 @@
         "TOTAL_USERS": "Total de Usuarios",
         "ACTIVE_HOUSING": "Viviendas Activas",
         "ACTIVE_CONTENT": "Contenido Activo",
+        "TOTAL_CHANNELS": "Total de Canales",
         "PENDING_REPORTS": "Informes Pendientes",
         "VERIFIED_USERS": "Usuarios Verificados %",
         "ENGAGEMENT_RATE": "Tasa de Usuarios Verificados"
       },
       "CHARTS": {
         "WEEKLY_ACTIVITY": "Actividad Semanal",
+        "ACTIVITY": "Actividad",
         "CONTENT_DISTRIBUTION": "Distribución de Contenido",
         "NEW_USERS": "Nuevos Usuarios",
         "NEW_HOUSING": "Nuevas Viviendas"
+      },
+      "TIME_RANGE": {
+        "WEEK": "Semana",
+        "MONTH": "Mes",
+        "TRIMESTER": "Trimestre",
+        "YEAR": "Año"
       },
       "CONTENT_OVERVIEW": {
         "TITLE": "Resumen de Contenido"
@@ -709,12 +717,22 @@
         "JOB_POSTINGS": "Ofertas de Trabajo",
         "CARPOOL_OFFERS": "Ofertas de Coche Compartido"
       },
+      "CHANNELS": {
+        "TITLE": "Canales",
+        "HOUSING": "Canales de Vivienda",
+        "MARKETPLACE": "Canales de Marketplace",
+        "JOBS": "Canales de Trabajo",
+        "CARPOOL": "Canales de Coche Compartido",
+        "GENERAL": "Canales Generales"
+      },
       "RECENT_ACTIVITY": {
         "TITLE": "Actividad Reciente",
         "EMPTY": "No hay actividad reciente"
       },
       "ACTIVITY": {
-        "USER_JOINED": "{{username}} se ha unido a la plataforma"
+        "USER_JOINED": "{{username}} se ha unido a la plataforma",
+        "CHANNEL_CREATED": "Nuevo canal creado: {{name}}",
+        "POST_CREATED": "Nueva publicación creada: {{title}}"
       },
       "ERROR": {
         "LOAD_STATS": "Error al cargar las estadísticas",

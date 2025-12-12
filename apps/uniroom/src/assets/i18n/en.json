@@ -694,15 +694,23 @@
         "TOTAL_USERS": "Total Users",
         "ACTIVE_HOUSING": "Active Housing",
         "ACTIVE_CONTENT": "Active Content",
+        "TOTAL_CHANNELS": "Total Channels",
         "PENDING_REPORTS": "Pending Reports",
         "VERIFIED_USERS": "Verified Users %",
         "ENGAGEMENT_RATE": "Verified Users Rate"
       },
       "CHARTS": {
         "WEEKLY_ACTIVITY": "Weekly Activity",
+        "ACTIVITY": "Activity",
         "CONTENT_DISTRIBUTION": "Content Distribution",
         "NEW_USERS": "New Users",
         "NEW_HOUSING": "New Housing"
+      },
+      "TIME_RANGE": {
+        "WEEK": "Week",
+        "MONTH": "Month",
+        "TRIMESTER": "Trimester",
+        "YEAR": "Year"
       },
       "CONTENT_OVERVIEW": {
         "TITLE": "Content Overview"
@@ -713,12 +721,22 @@
         "JOB_POSTINGS": "Job Postings",
         "CARPOOL_OFFERS": "Carpool Offers"
       },
+      "CHANNELS": {
+        "TITLE": "Channels",
+        "HOUSING": "Housing Channels",
+        "MARKETPLACE": "Marketplace Channels",
+        "JOBS": "Job Channels",
+        "CARPOOL": "Carpool Channels",
+        "GENERAL": "General Channels"
+      },
       "RECENT_ACTIVITY": {
         "TITLE": "Recent Activity",
         "EMPTY": "No recent activity"
       },
       "ACTIVITY": {
-        "USER_JOINED": "{{username}} joined the platform"
+        "USER_JOINED": "{{username}} joined the platform",
+        "CHANNEL_CREATED": "New channel created: {{name}}",
+        "POST_CREATED": "New post created: {{title}}"
       },
       "ERROR": {
         "LOAD_STATS": "Error loading statistics",

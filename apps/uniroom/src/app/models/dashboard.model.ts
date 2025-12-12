@@ -8,7 +8,7 @@ export interface StatCard {
 export interface DashboardStats {
   total_users: StatCard;
   active_content: StatCard;
-  pending_reports: StatCard;
+  total_channels: StatCard;
   engagement_rate: StatCard;
 }
 
@@ -21,7 +21,7 @@ export interface DashboardActivity {
   user_avatar?: string;
 }
 
-export interface WeeklyChartData {
+export interface ActivityChartData {
   labels: string[];
   datasets: Array<{
     label: string;
@@ -36,3 +36,13 @@ export interface DistributionChartData {
     data: number[];
   }>;
 }
+
+export interface ChannelsChartData {
+  labels: string[];
+  datasets: Array<{
+    label: string;
+    data: number[];
+  }>;
+}
+
+export type TimeRange = 'week' | 'month' | 'trimester' | 'year';

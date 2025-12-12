@@ -690,15 +690,23 @@
         "TOTAL_USERS": "Total d'Usuaris",
         "ACTIVE_HOUSING": "Habitatges Actius",
         "ACTIVE_CONTENT": "Contingut Actiu",
+        "TOTAL_CHANNELS": "Total de Canals",
         "PENDING_REPORTS": "Informes Pendents",
         "VERIFIED_USERS": "Usuaris Verificats %",
         "ENGAGEMENT_RATE": "Taxa d'Usuaris Verificats"
       },
       "CHARTS": {
         "WEEKLY_ACTIVITY": "Activitat Setmanal",
+        "ACTIVITY": "Activitat",
         "CONTENT_DISTRIBUTION": "Distribució de Contingut",
         "NEW_USERS": "Nous Usuaris",
         "NEW_HOUSING": "Nous Habitatges"
+      },
+      "TIME_RANGE": {
+        "WEEK": "Setmana",
+        "MONTH": "Mes",
+        "TRIMESTER": "Trimestre",
+        "YEAR": "Any"
       },
       "CONTENT_OVERVIEW": {
         "TITLE": "Resum de Contingut"
@@ -709,12 +717,22 @@
         "JOB_POSTINGS": "Ofertes de Feina",
         "CARPOOL_OFFERS": "Ofertes de Cotxe Compartit"
       },
+      "CHANNELS": {
+        "TITLE": "Canals",
+        "HOUSING": "Canals d'Habitatge",
+        "MARKETPLACE": "Canals de Marketplace",
+        "JOBS": "Canals de Feina",
+        "CARPOOL": "Canals de Cotxe Compartit",
+        "GENERAL": "Canals Generals"
+      },
       "RECENT_ACTIVITY": {
         "TITLE": "Activitat Recent",
         "EMPTY": "No hi ha activitat recent"
       },
       "ACTIVITY": {
-        "USER_JOINED": "{{username}} s'ha unit a la plataforma"
+        "USER_JOINED": "{{username}} s'ha unit a la plataforma",
+        "CHANNEL_CREATED": "Nou canal creat: {{name}}",
+        "POST_CREATED": "Nova publicació creada: {{title}}"
       },
       "ERROR": {
         "LOAD_STATS": "Error al carregar les estadístiques",
