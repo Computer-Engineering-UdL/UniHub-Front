@@ -161,7 +161,7 @@
                     *ngFor="let dataset of activityData.datasets; let j = index"
                     [attr.data-index]="j"
                     [style.height.%]="(dataset.data[i] / activityChartMax) * 100"
-                    [title]="translateDatasetLabel(dataset.label) + ': ' + dataset.data[i]"></div>
+                    [title]="getBarTooltip(dataset.label, dataset.data[i])"></div>
                 </div>
                 <span class="bar-label">{{ label }}</span>
               </div>

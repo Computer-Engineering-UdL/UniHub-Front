@@ -202,6 +202,12 @@ export class AdminDashboardComponent implements OnInit {
     return labelMap[label] || label;
   }
 
+  getBarTooltip(label: string, value: number): string {
+    const translationKey = this.translateDatasetLabel(label);
+    const translatedLabel = this.translateService.instant(translationKey);
+    return `${translatedLabel}: ${value}`;
+  }
+
   getActivityDescription(activity: DashboardActivity): string {
     let description: string = activity.description;
 
