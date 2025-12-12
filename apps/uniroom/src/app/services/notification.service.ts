@@ -13,8 +13,10 @@ export interface ToastNotification {
 
 @Injectable({ providedIn: 'root' })
 class NotificationService {
-  private translateService: TranslateService = inject(TranslateService);
-  private notificationsSubject: BehaviorSubject<ToastNotification[]> = new BehaviorSubject<ToastNotification[]>([]);
+  private readonly translateService: TranslateService = inject(TranslateService);
+  private readonly notificationsSubject: BehaviorSubject<ToastNotification[]> = new BehaviorSubject<
+    ToastNotification[]
+  >([]);
   public notifications$: Observable<ToastNotification[]> = this.notificationsSubject.asObservable();
 
   show(message: string, type: NotificationType = 'info', duration: number = 3000): void {

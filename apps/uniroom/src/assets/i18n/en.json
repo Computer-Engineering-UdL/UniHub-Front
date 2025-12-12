@@ -664,7 +664,8 @@
         "OFFER_VALID_UNTIL": "Offer valid until",
         "LISTED_ON": "Listed on"
       },
-      "REPORT_LISTING": "Report Listing"
+      "REPORT_LISTING": "Report Listing",
+      "DELETE_LISTING": "Delete Listing"
     },
     "REPORT": {
       "TITLE": "Report Listing",

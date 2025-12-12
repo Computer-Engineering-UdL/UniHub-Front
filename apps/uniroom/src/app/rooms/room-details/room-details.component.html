@@ -440,6 +440,15 @@
                 <ion-icon slot="start" name="flag-outline"></ion-icon>
                 {{ 'ROOM.DETAILS.REPORT_LISTING' | translate }}
               </ion-button>
+              <ion-button
+                *ngIf="canDeleteOffer()"
+                expand="block"
+                color="danger"
+                fill="solid"
+                (click)="deleteOffer()">
+                <ion-icon slot="start" name="trash-outline"></ion-icon>
+                {{ 'ROOM.DETAILS.DELETE_LISTING' | translate }}
+              </ion-button>
             </ion-card-content>
           </ion-card>
         </aside>

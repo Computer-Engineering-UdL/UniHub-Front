@@ -660,7 +660,8 @@
         "OFFER_VALID_UNTIL": "Oferta vàlida fins",
         "LISTED_ON": "Publicat el"
       },
-      "REPORT_LISTING": "Reporta l'anunci"
+      "REPORT_LISTING": "Reportar anunci",
+      "DELETE_LISTING": "Eliminar anunci"
     },
     "REPORT": {
       "TITLE": "Reportar Anunci",

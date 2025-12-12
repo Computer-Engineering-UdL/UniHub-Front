@@ -22,6 +22,7 @@ import { ModalController } from '@ionic/angular';
 import { ReportCategory, ReportReason } from '../../models/report.types';
 import { ReportModalComponent } from '../../shared/reports/report-modal.component';
 import { ReportService } from '../../services/report.service';
+import { AlertController } from '@ionic/angular';
 
 interface AmenityItem {
   icon: string;
@@ -130,6 +131,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   private readonly likesService: LikesService = inject(LikesService);
   private readonly modalController: ModalController = inject(ModalController);
   private readonly reportService: ReportService = inject(ReportService);
+  private readonly alertController: AlertController = inject(AlertController);
 
   loading: boolean = false;
   error: boolean = false;
@@ -767,6 +769,46 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     }
 
     return undefined;
+  }
+
+  canDeleteOffer(): boolean {
+    const currentUser: User | null = this.authService.currentUser;
+    if (!this.offer || !currentUser) {
+      return false;
+    }
+    return currentUser.role === 'Admin' || this.offer.landlord.userId === currentUser.id;
+  }
+
+  async deleteOffer(): Promise<void> {
+    if (!this.offer) {
+      return;
+    }
+    const alert = await this.alertController.create({
+      cssClass: 'custom-delete-alert',
+      header: this.translate.instant('ROOM.DELETE_CONFIRM_TITLE'),
+      message: this.translate.instant('ROOM.DELETE_CONFIRM_MESSAGE'),
+      buttons: [
+        {
+          text: this.translate.instant('COMMON.CANCEL'),
+          role: 'cancel'
+        },
+        {
+          text: this.translate.instant('COMMON.DELETE'),
+          cssClass: 'danger-btn',
+          role: 'destructive',
+          handler: async (): Promise<void> => {
+            try {
+              await firstValueFrom(this.apiService.delete(`offers/${this.offer!.id}`));
+              this.notificationService.success('ROOM.DELETE_SUCCESS');
+              await this.router.navigate(['/rooms']);
+            } catch {
+              this.notificationService.error('ROOM.DELETE_FAILED');
+            }
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
   protected readonly avatarSrc = DEFAULT_USER_URL;

@@ -660,7 +660,8 @@
         "OFFER_VALID_UNTIL": "Oferta válida hasta",
         "LISTED_ON": "Publicado el"
       },
-      "REPORT_LISTING": "Reportar anuncio"
+      "REPORT_LISTING": "Reportar anuncio",
+      "DELETE_LISTING": "Eliminar anuncio"
     },
     "REPORT": {
       "TITLE": "Reportar Anuncio",
