@@ -260,7 +260,8 @@ export class PublicProfilePage implements OnInit, OnDestroy {
             contentId: this.user.id,
             reportedUserId: this.user.id,
             reason: data.reason,
-            description: data.description
+            description: data.description,
+            contentTitle: this.getUserDisplayName()
           })
         );
         this.notificationService.success(this.translate.instant('REPORT.SUCCESS'));

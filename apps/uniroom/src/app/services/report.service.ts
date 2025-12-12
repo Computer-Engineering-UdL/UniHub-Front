@@ -27,6 +27,7 @@ export interface CreateReportRequest {
   reportedUserId?: string;
   reason: ReportReason;
   description?: string;
+  contentTitle?: string;
 }
 
 @Injectable({

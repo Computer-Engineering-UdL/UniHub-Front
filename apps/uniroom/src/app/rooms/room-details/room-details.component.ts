@@ -744,7 +744,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
             contentId: this.offer.id,
             reportedUserId: this.offer.landlord.userId,
             reason: data.reason,
-            description: data.description
+            description: data.description,
+            contentTitle: this.offer.title
           })
         );
         this.notificationService.success(this.translate.instant('REPORT.SUCCESS'));

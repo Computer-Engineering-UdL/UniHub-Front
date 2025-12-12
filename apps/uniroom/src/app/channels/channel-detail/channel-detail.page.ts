@@ -754,7 +754,8 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
           contentId: this.channel.id,
           reportedUserId: this.channel.memberships?.find((m) => m.role == 'admin')?.user_id ?? '',
           reason,
-          description
+          description,
+          contentTitle: this.channel.name
         })
         .subscribe();
       this.notificationService.success(this.translate.instant('REPORT.SUCCESS'));
