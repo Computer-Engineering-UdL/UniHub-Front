@@ -91,7 +91,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
 
       this.messages = [...filteredMessages];
       if (previousCount > 0 && filteredMessages.length > previousCount) {
-        this.markAsReadSubject$.next();
+        this.markConversationAsRead();
       }
 
       setTimeout((): void => {
@@ -167,7 +167,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
             void this.scrollToBottom();
           }, 100);
           setTimeout(() => {
-            this.markAsReadSubject$.next();
+            this.markConversationAsRead();
           }, 300);
         },
         error: (_): void => {
@@ -207,6 +207,9 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private performMarkAsRead(): void {
+    if (!this.router.url.startsWith('/messages')) {
+      return;
+    }
     this.messageService
       .markAsRead(this.conversationId)
       .pipe(takeUntil(this.destroy$))
