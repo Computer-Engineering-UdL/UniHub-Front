@@ -191,12 +191,10 @@
   background: var(--ion-card-background);
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 16px;
-  overflow: hidden;
+  overflow-x: auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-
-  @media (max-width: 1024px) {
-    overflow-x: auto;
-  }
+  width: 100%;
+  max-width: 100vw;
 }
 
 .table-container {
@@ -229,9 +227,10 @@
 }
 
 .reports-table {
+  min-width: 1200px;
   width: 100%;
-  min-width: 900px;
   border-collapse: collapse;
+  table-layout: fixed;
 
   @media (max-width: 768px) {
     min-width: 900px;
@@ -358,6 +357,11 @@
   .col-actions {
     min-width: 100px;
     text-align: right;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.25rem;
   }
 }
 
@@ -543,6 +547,12 @@
 
 .actions-col {
   text-align: right;
+  min-width: 100px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.25rem;
 
   ion-button {
     --padding-start: 8px;
@@ -560,6 +570,8 @@
 
   td {
     padding: 2rem 1.5rem !important;
+    min-width: 1200px;
+    overflow-x: auto;
 
     @media (max-width: 768px) {
       padding: 1.5rem 1rem !important;
@@ -738,5 +750,17 @@ ion-popover {
       margin-right: 0.75rem;
       font-size: 1.25rem;
     }
+  }
+}
+
+@media (max-width: 1200px) {
+  .actions-col {
+    min-width: 100px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+  .details-row td {
+    min-width: 1200px;
+    overflow-x: auto;
   }
 }
