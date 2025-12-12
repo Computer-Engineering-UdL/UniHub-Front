@@ -181,10 +181,12 @@ export class AdminDashboardComponent implements OnInit {
 
   getContentLabel(label: string): string {
     const labelMap: Record<string, string> = {
-      Housing: 'ADMIN.DASHBOARD.CONTENT.HOUSING_POSTS',
+      Housing: 'ADMIN.DASHBOARD.CONTENT.HOUSING_OFFERS',
       Marketplace: 'ADMIN.DASHBOARD.CONTENT.MARKETPLACE_ITEMS',
       Jobs: 'ADMIN.DASHBOARD.CONTENT.JOB_POSTINGS',
-      Carpool: 'ADMIN.DASHBOARD.CONTENT.CARPOOL_OFFERS'
+      Carpool: 'ADMIN.DASHBOARD.CONTENT.CARPOOL_OFFERS',
+      'Housing Offers': 'ADMIN.DASHBOARD.CONTENT.HOUSING_OFFERS',
+      Channels: 'ADMIN.DASHBOARD.CONTENT.CHANNELS'
     };
     return labelMap[label] || label;
   }
@@ -192,7 +194,10 @@ export class AdminDashboardComponent implements OnInit {
   translateDatasetLabel(label: string): string {
     const labelMap: Record<string, string> = {
       'New Users': 'ADMIN.DASHBOARD.CHARTS.NEW_USERS',
-      'New Housing': 'ADMIN.DASHBOARD.CHARTS.NEW_HOUSING'
+      'New Housing': 'ADMIN.DASHBOARD.CHARTS.NEW_HOUSING',
+      'Activity (Posts & Messages)': 'ADMIN.DASHBOARD.CHARTS.ACTIVITY_POSTS_MESSAGES',
+      'Nuevos Usuarios': 'ADMIN.DASHBOARD.CHARTS.NEW_USERS',
+      'Actividad (Posts & Mensajes)': 'ADMIN.DASHBOARD.CHARTS.ACTIVITY_POSTS_MESSAGES'
     };
     return labelMap[label] || label;
   }

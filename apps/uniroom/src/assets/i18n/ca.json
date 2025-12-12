@@ -688,7 +688,7 @@
       "SUBTITLE": "Vista general de l'activitat i el rendiment del sistema",
       "STATS": {
         "TOTAL_USERS": "Total d'Usuaris",
-        "ACTIVE_HOUSING": "Habitatges Actius",
+        "ACTIVE_HOUSING": "Vivendes Actives",
         "ACTIVE_CONTENT": "Contingut Actiu",
         "TOTAL_CHANNELS": "Total de Canals",
         "PENDING_REPORTS": "Informes Pendents",
@@ -700,7 +700,8 @@
         "ACTIVITY": "Activitat",
         "CONTENT_DISTRIBUTION": "Distribució de Contingut",
         "NEW_USERS": "Nous Usuaris",
-        "NEW_HOUSING": "Nous Habitatges"
+        "NEW_HOUSING": "Nous Habitatges",
+        "ACTIVITY_POSTS_MESSAGES": "Activitat (Publicacions i Missatges)"
       },
       "TIME_RANGE": {
         "WEEK": "Setmana",
@@ -715,7 +716,9 @@
         "HOUSING_POSTS": "Publicacions d'Habitatge",
         "MARKETPLACE_ITEMS": "Articles de Marketplace",
         "JOB_POSTINGS": "Ofertes de Feina",
-        "CARPOOL_OFFERS": "Ofertes de Cotxe Compartit"
+        "CARPOOL_OFFERS": "Ofertes de Cotxe Compartit",
+        "HOUSING_OFFERS": "Ofertes d'Habitatge",
+        "CHANNELS": "Canals"
       },
       "CHANNELS": {
         "TITLE": "Canals",
@@ -735,9 +738,9 @@
         "POST_CREATED": "Nova publicació creada: {{title}}"
       },
       "ERROR": {
-        "LOAD_STATS": "Error al carregar les estadístiques",
-        "LOAD_ACTIVITY": "Error al carregar l'activitat",
-        "LOAD_CHART": "Error al carregar el gràfic"
+        "LOAD_STATS": "Error en carregar les estadístiques",
+        "LOAD_ACTIVITY": "Error en carregar l'activitat",
+        "LOAD_CHART": "Error en carregar el gràfic"
       }
     },
     "USERS": {

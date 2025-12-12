@@ -704,7 +704,8 @@
         "ACTIVITY": "Activity",
         "CONTENT_DISTRIBUTION": "Content Distribution",
         "NEW_USERS": "New Users",
-        "NEW_HOUSING": "New Housing"
+        "NEW_HOUSING": "New Housing",
+        "ACTIVITY_POSTS_MESSAGES": "Activity (Posts & Messages)"
       },
       "TIME_RANGE": {
         "WEEK": "Week",
@@ -716,10 +717,12 @@
         "TITLE": "Content Overview"
       },
       "CONTENT": {
-        "HOUSING_POSTS": "Housing Posts",
+        "HOUSING_POSTS": "Housing Offers",
         "MARKETPLACE_ITEMS": "Marketplace Items",
         "JOB_POSTINGS": "Job Postings",
-        "CARPOOL_OFFERS": "Carpool Offers"
+        "CARPOOL_OFFERS": "Carpool Offers",
+        "HOUSING_OFFERS": "Housing Offers",
+        "CHANNELS": "Channels"
       },
       "CHANNELS": {
         "TITLE": "Channels",

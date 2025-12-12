@@ -700,7 +700,8 @@
         "ACTIVITY": "Actividad",
         "CONTENT_DISTRIBUTION": "Distribución de Contenido",
         "NEW_USERS": "Nuevos Usuarios",
-        "NEW_HOUSING": "Nuevas Viviendas"
+        "NEW_HOUSING": "Nuevas Viviendas",
+        "ACTIVITY_POSTS_MESSAGES": "Actividad (Publicaciones y Mensajes)"
       },
       "TIME_RANGE": {
         "WEEK": "Semana",
@@ -715,7 +716,9 @@
         "HOUSING_POSTS": "Publicaciones de Vivienda",
         "MARKETPLACE_ITEMS": "Artículos de Marketplace",
         "JOB_POSTINGS": "Ofertas de Trabajo",
-        "CARPOOL_OFFERS": "Ofertas de Coche Compartido"
+        "CARPOOL_OFFERS": "Ofertas de Coche Compartido",
+        "HOUSING_OFFERS": "Ofertas de Vivienda",
+        "CHANNELS": "Canales"
       },
       "CHANNELS": {
         "TITLE": "Canales",
