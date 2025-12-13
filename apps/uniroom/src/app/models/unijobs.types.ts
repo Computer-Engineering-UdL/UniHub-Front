@@ -1,5 +1,7 @@
 export type JobType = 'full_time' | 'part_time' | 'internship' | 'freelance';
 export type JobWorkplace = 'on_site' | 'hybrid' | 'remote';
+export type JobSalaryPeriod = 'year' | 'month' | 'hour';
+
 export type JobCategory =
   | 'Technology'
   | 'Marketing'
@@ -19,9 +21,9 @@ export interface JobOffer {
   description: string;
   category: JobCategory;
   jobType: JobType;
-  workplaceType: JobWorkplace;
+  workplaceType?: JobWorkplace;
   location: string;
-  salaryPeriod: 'year' | 'month' | 'hour';
+  salaryPeriod: JobSalaryPeriod;
   salaryMin?: number;
   salaryMax?: number;
   companyName: string;
@@ -38,6 +40,25 @@ export interface JobOffer {
   requirements?: string[];
   niceToHave?: string[];
 }
+
+export interface JobOfferCreate {
+  title: string;
+  description: string;
+  category: JobCategory;
+  jobType: JobType;
+  location: string;
+  salaryPeriod: JobSalaryPeriod;
+  companyName: string;
+  workplaceType?: JobWorkplace;
+  salaryMin?: number;
+  salaryMax?: number;
+  companyDescription?: string;
+  companyWebsite?: string;
+  companyEmployeeCount?: string;
+  fileIds?: string[];
+}
+
+export type JobOfferUpdate = Partial<JobOfferCreate>;
 
 export interface JobApplication {
   id: string;

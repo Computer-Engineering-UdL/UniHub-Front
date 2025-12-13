@@ -1289,7 +1289,10 @@
         "APPLIED": "Aplicadas"
       },
       "APPLY": "Aplicar",
+      "APPLIED": "Aplicada",
       "EMPTY": "No hay ofertas que coincidan con tus filtros.",
+      "EMPTY_STATE_TITLE": "No encontramos ofertas",
+      "EMPTY_STATE_SUBTITLE": "Prueba a ajustar los filtros o vuelve más tarde.",
       "LOADING_MORE": "Cargando más ofertas...",
       "SALARY": {
         "NA": "Salario no indicado",
@@ -1303,6 +1306,7 @@
     "FILTERS": {
       "TITLE": "Filtros",
       "SUBTITLE": "Refina tu búsqueda",
+      "SEARCH": "Buscar",
       "JOB_TYPE": {
         "TITLE": "Tipo de puesto",
         "FULL_TIME": "Tiempo completo",
@@ -1312,6 +1316,7 @@
       },
       "CATEGORY": "Categoría",
       "LOCATION": "Ubicación",
+      "LOCATION_PLACEHOLDER": "Selecciona ubicaciones",
       "TOGGLE": "Filtros",
       "CLEAR": "Limpiar filtros",
       "APPLY": "Aplicar filtros"
@@ -1370,7 +1375,8 @@
       "ERROR": "No se pudo enviar la solicitud.",
       "REQUIRED": "Este campo es obligatorio.",
       "LOGIN_REQUIRED": "Inicia sesión para aplicar a esta oferta.",
-      "VERIFICATION_REQUIRED": "Verifica tu cuenta para aplicar a ofertas."
+      "VERIFICATION_REQUIRED": "Verifica tu cuenta para aplicar a ofertas.",
+      "ROLE_REQUIRED": "Solo los usuarios Basic pueden aplicar a ofertas."
     },
     "APPLICATIONS": {
       "EYEBROW": "Sigue tu progreso",
@@ -1394,16 +1400,56 @@
       "RESUME": "Currículum",
       "VIEW_JOB": "Ver oferta",
       "EMPTY": "Todavía no has enviado ninguna solicitud.",
+      "EMPTY_STATE_TITLE": "Sin solicitudes todavía",
+      "EMPTY_STATE_SUBTITLE": "Cuando apliques a ofertas aparecerán aquí.",
       "VERIFICATION_REQUIRED": "Debes verificar tu cuenta para ver las solicitudes."
+    },
+    "CREATE": {
+      "TITLE": "Crear oferta de empleo",
+      "SUBTITLE": "Publica una nueva oportunidad para la comunidad",
+      "EYEBROW": "Solo administradores",
+      "CANCEL": "Cancelar",
+      "SAVE": "Publicar oferta",
+      "BASIC_INFO": "Datos básicos",
+      "BASIC_INFO_SUBTITLE": "Define título, empresa y categoría",
+      "TITLE_LABEL": "Título del puesto",
+      "TITLE_PLACEHOLDER": "Ej. Desarrollador Frontend",
+      "COMPANY_NAME": "Nombre de la empresa",
+      "COMPANY_PLACEHOLDER": "Empresa que contrata",
+      "WORKPLACE": {
+        "TITLE": "Modalidad",
+        "PLACEHOLDER": "Selecciona modalidad",
+        "ON_SITE": "Presencial",
+        "HYBRID": "Híbrido",
+        "REMOTE": "Remoto"
+      },
+      "DETAILS": "Detalles",
+      "DETAILS_SUBTITLE": "Describe el rol, salario y beneficios",
+      "DESCRIPTION": "Descripción",
+      "DESCRIPTION_PLACEHOLDER": "Añade responsabilidades y requisitos",
+      "COMPANY_DESCRIPTION": "Descripción de la empresa",
+      "COMPANY_WEBSITE": "Web de la empresa",
+      "COMPANY_SIZE": "Tamaño de la empresa",
+      "SALARY_PERIOD": "Periodo salarial",
+      "SALARY_MIN": "Salario mínimo",
+      "SALARY_MAX": "Salario máximo",
+      "FILE_IDS": "IDs de archivos adjuntos",
+      "FILE_IDS_PLACEHOLDER": "UUID separados por comas para logo o archivos"
     },
     "ERROR": {
       "LOAD_JOBS": "No se pudieron cargar las ofertas.",
       "SAVE_FAILED": "No se pudo actualizar el guardado.",
       "LOAD_JOB_DETAIL": "No se pudo cargar el detalle.",
-      "LOAD_APPLICATIONS": "No se pudieron cargar las solicitudes."
+      "LOAD_APPLICATIONS": "No se pudieron cargar las solicitudes.",
+      "SALARY_RANGE": "El salario mínimo debe ser menor o igual que el máximo.",
+      "CREATE_FAILED": "No pudimos crear la oferta. Inténtalo de nuevo.",
+      "APPLY_ROLE": "Solo los usuarios Basic pueden aplicar a ofertas."
     },
     "ADMIN": {
       "ONLY": "Solo los administradores pueden hacer esta acción."
+    },
+    "SUCCESS": {
+      "CREATED": "Oferta creada correctamente."
     }
   }
 }

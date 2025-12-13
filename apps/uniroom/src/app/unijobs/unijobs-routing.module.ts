@@ -4,12 +4,19 @@ import { AuthGuard } from '../guards/auth.guard';
 import { JobsListPage } from './jobs-list/jobs-list.page';
 import { MyApplicationsPage } from './my-applications/my-applications.page';
 import { JobDetailPage } from './job-detail/job-detail.page';
+import { CreateJobPage } from './create-job/create-job.page';
 
 const routes: Routes = [
   {
     path: '',
     component: JobsListPage,
     data: { public: true, titleKey: 'UNIJOBS.LIST.TITLE' }
+  },
+  {
+    path: 'create',
+    component: CreateJobPage,
+    canActivate: [AuthGuard],
+    data: { roles: ['Admin'], titleKey: 'UNIJOBS.CREATE.TITLE' }
   },
   {
     path: 'applications',

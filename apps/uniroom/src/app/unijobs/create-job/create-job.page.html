@@ -1,0 +1,120 @@
+<ion-content class="create-job-page">
+  <div class="page-wrapper">
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">{{ 'UNIJOBS.CREATE.EYEBROW' | translate }}</p>
+        <h1>{{ 'UNIJOBS.CREATE.TITLE' | translate }}</h1>
+        <p class="subtitle">{{ 'UNIJOBS.CREATE.SUBTITLE' | translate }}</p>
+      </div>
+      <div class="header-actions">
+        <ion-button fill="clear" color="medium" (click)="cancel()">
+          {{ 'UNIJOBS.CREATE.CANCEL' | translate }}
+        </ion-button>
+        <ion-button (click)="submit()" [disabled]="submitting">
+          <ion-spinner *ngIf="submitting" slot="start"></ion-spinner>
+          {{ 'UNIJOBS.CREATE.SAVE' | translate }}
+        </ion-button>
+      </div>
+    </header>
+
+    <form class="form-grid" [formGroup]="form" (ngSubmit)="submit()">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ 'UNIJOBS.CREATE.BASIC_INFO' | translate }}</ion-card-title>
+          <ion-card-subtitle>{{ 'UNIJOBS.CREATE.BASIC_INFO_SUBTITLE' | translate }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content class="card-content-grid">
+          <ion-item fill="outline" class="field" [class.invalid]="form.controls.title.invalid && form.controls.title.touched">
+            <ion-label position="stacked">{{ 'UNIJOBS.CREATE.TITLE_LABEL' | translate }}</ion-label>
+            <ion-input formControlName="title" [placeholder]="'UNIJOBS.CREATE.TITLE_PLACEHOLDER' | translate"></ion-input>
+          </ion-item>
+          <ion-item
+            fill="outline"
+            class="field"
+            [class.invalid]="form.controls.companyName.invalid && form.controls.companyName.touched">
+            <ion-label position="stacked">{{ 'UNIJOBS.CREATE.COMPANY_NAME' | translate }}</ion-label>
+            <ion-input formControlName="companyName" [placeholder]="'UNIJOBS.CREATE.COMPANY_PLACEHOLDER' | translate"></ion-input>
+          </ion-item>
+          <ion-item fill="outline" class="field" [class.invalid]="form.controls.category.invalid && form.controls.category.touched">
+            <ion-label position="stacked">{{ 'UNIJOBS.FILTERS.CATEGORY' | translate }}</ion-label>
+            <ion-select formControlName="category" interface="popover">
+              <ion-select-option *ngFor="let category of categories" [value]="category">
+                {{ ('UNIJOBS.CATEGORIES.' + category) | translate }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item fill="outline" class="field" [class.invalid]="form.controls.jobType.invalid && form.controls.jobType.touched">
+            <ion-label position="stacked">{{ 'UNIJOBS.FILTERS.JOB_TYPE.TITLE' | translate }}</ion-label>
+            <ion-select formControlName="jobType" interface="popover">
+              <ion-select-option *ngFor="let type of jobTypes" [value]="type.value">{{ type.label | translate }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item fill="outline" class="field">
+            <ion-label position="stacked">{{ 'UNIJOBS.CREATE.WORKPLACE.TITLE' | translate }}</ion-label>
+            <ion-select formControlName="workplaceType" interface="popover" [placeholder]="'UNIJOBS.CREATE.WORKPLACE.PLACEHOLDER' | translate">
+              <ion-select-option *ngFor="let workplace of workplaces" [value]="workplace.value">
+                {{ workplace.label | translate }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item fill="outline" class="field" [class.invalid]="form.controls.location.invalid && form.controls.location.touched">
+            <ion-label position="stacked">{{ 'UNIJOBS.FILTERS.LOCATION' | translate }}</ion-label>
+            <ion-select formControlName="location" interface="popover" [placeholder]="'UNIJOBS.FILTERS.LOCATION_PLACEHOLDER' | translate">
+              <ion-select-option *ngFor="let loc of locations" [value]="loc">{{ loc }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ 'UNIJOBS.CREATE.DETAILS' | translate }}</ion-card-title>
+          <ion-card-subtitle>{{ 'UNIJOBS.CREATE.DETAILS_SUBTITLE' | translate }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content class="card-content-grid">
+          <ion-item fill="outline" class="field" [class.invalid]="form.controls.description.invalid && form.controls.description.touched">
+            <ion-label position="stacked">{{ 'UNIJOBS.CREATE.DESCRIPTION' | translate }}</ion-label>
+            <ion-textarea
+              formControlName="description"
+              [placeholder]="'UNIJOBS.CREATE.DESCRIPTION_PLACEHOLDER' | translate"
+              autoGrow="true"></ion-textarea>
+          </ion-item>
+          <ion-item fill="outline" class="field">
+            <ion-label position="stacked">{{ 'UNIJOBS.CREATE.COMPANY_DESCRIPTION' | translate }}</ion-label>
+            <ion-textarea formControlName="companyDescription" autoGrow="true"></ion-textarea>
+          </ion-item>
+          <ion-item fill="outline" class="field">
+            <ion-label position="stacked">{{ 'UNIJOBS.CREATE.COMPANY_WEBSITE' | translate }}</ion-label>
+            <ion-input formControlName="companyWebsite"></ion-input>
+          </ion-item>
+          <ion-item fill="outline" class="field">
+            <ion-label position="stacked">{{ 'UNIJOBS.CREATE.COMPANY_SIZE' | translate }}</ion-label>
+            <ion-input formControlName="companyEmployeeCount"></ion-input>
+          </ion-item>
+          <ion-item fill="outline" class="field" [class.invalid]="form.controls.salaryPeriod.invalid && form.controls.salaryPeriod.touched">
+            <ion-label position="stacked">{{ 'UNIJOBS.CREATE.SALARY_PERIOD' | translate }}</ion-label>
+            <ion-select formControlName="salaryPeriod" interface="popover">
+              <ion-select-option *ngFor="let period of salaryPeriods" [value]="period.value">
+                {{ ('UNIJOBS.LIST.SALARY.PERIOD.' + period.value) | translate }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <div class="salary-range">
+            <ion-item fill="outline" class="field">
+              <ion-label position="stacked">{{ 'UNIJOBS.CREATE.SALARY_MIN' | translate }}</ion-label>
+              <ion-input type="number" formControlName="salaryMin"></ion-input>
+            </ion-item>
+            <ion-item fill="outline" class="field">
+              <ion-label position="stacked">{{ 'UNIJOBS.CREATE.SALARY_MAX' | translate }}</ion-label>
+              <ion-input type="number" formControlName="salaryMax"></ion-input>
+            </ion-item>
+          </div>
+          <ion-item fill="outline" class="field">
+            <ion-label position="stacked">{{ 'UNIJOBS.CREATE.FILE_IDS' | translate }}</ion-label>
+            <ion-input formControlName="fileIds" [placeholder]="'UNIJOBS.CREATE.FILE_IDS_PLACEHOLDER' | translate"></ion-input>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+    </form>
+  </div>
+</ion-content>

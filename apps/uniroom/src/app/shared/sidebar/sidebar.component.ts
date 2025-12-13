@@ -27,7 +27,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     { translationKey: 'SIDEBAR.UNIITEMS', route: '/items', icon: 'cube-outline' },
     { translationKey: 'SIDEBAR.UNISERVICES', route: '/uniservices', icon: 'construct-outline' },
     { translationKey: 'SIDEBAR.UNICAR', route: '/unicar', icon: 'car-outline' },
-    { translationKey: 'SIDEBAR.UNIBORSA', route: '/uniborsa', icon: 'briefcase-outline' },
+    { translationKey: 'SIDEBAR.UNIBORSA', route: '/jobs', icon: 'briefcase-outline' },
     { translationKey: 'SIDEBAR.MESSAGES', route: '/messages', icon: 'mail-outline', requiresAuth: true },
     { translationKey: 'SIDEBAR.PROFILE', route: '/profile', icon: 'person-outline', requiresAuth: true },
     {
@@ -81,7 +81,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     { translationKey: 'SIDEBAR.UNIITEMS', route: '/items', icon: 'cube-outline' },
     { translationKey: 'SIDEBAR.UNISERVICES', route: '/uniservices', icon: 'construct-outline' },
     { translationKey: 'SIDEBAR.UNICAR', route: '/unicar', icon: 'car-outline' },
-    { translationKey: 'SIDEBAR.UNIBORSA', route: '/uniborsa', icon: 'briefcase-outline' }
+    { translationKey: 'SIDEBAR.UNIBORSA', route: '/jobs', icon: 'briefcase-outline' }
   ];
 
   currentUser$: Observable<User | null> = this.authService.currentUser$;
@@ -118,7 +118,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         { translationKey: 'SIDEBAR.UNIITEMS', route: '/items', icon: 'cube-outline' },
         { translationKey: 'SIDEBAR.UNISERVICES', route: '/uniservices', icon: 'construct-outline' },
         { translationKey: 'SIDEBAR.UNICAR', route: '/unicar', icon: 'car-outline' },
-        { translationKey: 'SIDEBAR.UNIBORSA', route: '/uniborsa', icon: 'briefcase-outline' }
+        { translationKey: 'SIDEBAR.UNIBORSA', route: '/jobs', icon: 'briefcase-outline' }
       ];
 
       if (user?.role === 'Admin') {

@@ -1,15 +1,17 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, InfiniteScrollCustomEvent, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { firstValueFrom } from 'rxjs';
+import { Subscription, firstValueFrom } from 'rxjs';
 import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
 import { UniJobsService } from '../../services/unijobs.service';
 import { JobOffer, JobCategory, JobType, JobsQuery } from '../../models/unijobs.types';
 import { ApplyJobDialogComponent } from '../apply-job-dialog/apply-job-dialog.component';
 import { SharedModule } from '../../shared/shared-module';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../models/auth.types';
 
 interface JobTab {
   key: 'all' | 'saved' | 'applied';
@@ -23,7 +25,7 @@ interface JobTab {
   standalone: true,
   imports: [CommonModule, FormsModule, IonicModule, TranslateModule, SharedModule]
 })
-export class JobsListPage implements OnInit {
+export class JobsListPage implements OnInit, OnDestroy {
   private readonly PAGE_SIZE: number = 10;
 
   private readonly uniJobsService: UniJobsService = inject(UniJobsService);
@@ -32,6 +34,7 @@ export class JobsListPage implements OnInit {
   private readonly translateService: TranslateService = inject(TranslateService);
   protected readonly localizationService: LocalizationService = inject(LocalizationService);
   private readonly navController: NavController = inject(NavController);
+  private readonly authService: AuthService = inject(AuthService);
 
   protected jobs: JobOffer[] = [];
   protected loading: boolean = true;
@@ -44,7 +47,10 @@ export class JobsListPage implements OnInit {
   protected savedCount: number = 0;
   protected appliedCount: number = 0;
   protected hasMore: boolean = true;
-  protected filtersOpen: boolean = false;
+  protected showMobileFilters: boolean = false;
+  protected canCreate: boolean = false;
+
+  Array = Array
 
   protected readonly tabs: JobTab[] = [
     { key: 'all', label: 'UNIJOBS.LIST.TABS.ALL' },
@@ -73,17 +79,38 @@ export class JobsListPage implements OnInit {
     'Other'
   ];
 
-  protected readonly locations: string[] = ['Barcelona', 'Madrid', 'Valencia', 'Sevilla', 'Remote'];
+  protected readonly locations: string[] = [
+    'Barcelona',
+    'Lleida',
+    'Balaguer',
+    'Les Borges Blanques',
+    'Torrefarrera',
+    'Mollerussa',
+    'Tremp',
+    'Fraga'
+  ];
 
   private currentPage: number = 1;
+  private userSubscription?: Subscription;
 
   ngOnInit(): void {
+    this.userSubscription = this.authService.currentUser$.subscribe((user: User | null) => {
+      this.canCreate = user?.role === 'Admin';
+    });
     this.loadTab('all');
     this.loadBadges();
   }
 
+  ngOnDestroy(): void {
+    this.userSubscription?.unsubscribe();
+  }
+
   protected async openApplications(): Promise<void> {
     await this.navController.navigateForward('/jobs/applications');
+  }
+
+  protected async openCreate(): Promise<void> {
+    await this.navController.navigateForward('/jobs/create');
   }
 
   protected changeTab(tab: 'all' | 'saved' | 'applied'): void {
@@ -127,10 +154,18 @@ export class JobsListPage implements OnInit {
     this.loadJobs(true);
   }
 
+  protected onLocationsChange(locations: string[] | undefined): void {
+    this.selectedLocations = new Set<string>(locations ?? []);
+    this.resetList();
+    this.loadJobs(true);
+  }
+
   protected clearFilters(): void {
+    this.searchTerm = '';
     this.selectedCategory = undefined;
     this.selectedJobTypes.clear();
     this.selectedLocations.clear();
+    this.showMobileFilters = false;
     this.resetList();
     this.loadJobs(true);
   }
@@ -195,11 +230,11 @@ export class JobsListPage implements OnInit {
   }
 
   protected toggleFiltersPanel(): void {
-    this.filtersOpen = !this.filtersOpen;
+    this.showMobileFilters = !this.showMobileFilters;
   }
 
   protected hideFiltersPanel(): void {
-    this.filtersOpen = false;
+    this.showMobileFilters = false;
   }
 
   private loadTab(tab: 'all' | 'saved' | 'applied'): void {

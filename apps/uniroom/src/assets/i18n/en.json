@@ -1292,7 +1292,10 @@
         "APPLIED": "Applied"
       },
       "APPLY": "Apply",
+      "APPLIED": "Applied",
       "EMPTY": "No jobs match your filters yet.",
+      "EMPTY_STATE_TITLE": "No job offers found",
+      "EMPTY_STATE_SUBTITLE": "Try adjusting the filters or come back soon for new roles.",
       "LOADING_MORE": "Loading more jobs...",
       "SALARY": {
         "NA": "Salary not disclosed",
@@ -1306,6 +1309,7 @@
     "FILTERS": {
       "TITLE": "Filters",
       "SUBTITLE": "Refine your search",
+      "SEARCH": "Search",
       "JOB_TYPE": {
         "TITLE": "Job Type",
         "FULL_TIME": "Full-time",
@@ -1315,6 +1319,7 @@
       },
       "CATEGORY": "Category",
       "LOCATION": "Location",
+      "LOCATION_PLACEHOLDER": "Select locations",
       "TOGGLE": "Filters",
       "CLEAR": "Clear filters",
       "APPLY": "Apply filters"
@@ -1373,7 +1378,8 @@
       "ERROR": "Could not submit the application.",
       "REQUIRED": "This field is required.",
       "LOGIN_REQUIRED": "Please login to apply for this job.",
-      "VERIFICATION_REQUIRED": "Verify your account to apply for jobs."
+      "VERIFICATION_REQUIRED": "Verify your account to apply for jobs.",
+      "ROLE_REQUIRED": "Only Basic users can apply to jobs."
     },
     "APPLICATIONS": {
       "EYEBROW": "Track your progress",
@@ -1397,16 +1403,56 @@
       "RESUME": "Resume",
       "VIEW_JOB": "View Job Posting",
       "EMPTY": "You have not submitted any applications yet.",
+      "EMPTY_STATE_TITLE": "No applications yet",
+      "EMPTY_STATE_SUBTITLE": "Apply to job offers to track them here.",
       "VERIFICATION_REQUIRED": "You must verify your account to view applications."
+    },
+    "CREATE": {
+      "TITLE": "Create job offer",
+      "SUBTITLE": "Publish a new opportunity for UniHub students",
+      "EYEBROW": "Admin only",
+      "CANCEL": "Cancel",
+      "SAVE": "Publish offer",
+      "BASIC_INFO": "Job basics",
+      "BASIC_INFO_SUBTITLE": "Define title, company and category",
+      "TITLE_LABEL": "Job title",
+      "TITLE_PLACEHOLDER": "e.g. Frontend Developer",
+      "COMPANY_NAME": "Company name",
+      "COMPANY_PLACEHOLDER": "Name of the hiring company",
+      "WORKPLACE": {
+        "TITLE": "Workplace type",
+        "PLACEHOLDER": "Select workplace",
+        "ON_SITE": "On-site",
+        "HYBRID": "Hybrid",
+        "REMOTE": "Remote"
+      },
+      "DETAILS": "Details",
+      "DETAILS_SUBTITLE": "Describe the role, salary and perks",
+      "DESCRIPTION": "Description",
+      "DESCRIPTION_PLACEHOLDER": "Add responsibilities, expectations and perks",
+      "COMPANY_DESCRIPTION": "Company description",
+      "COMPANY_WEBSITE": "Company website",
+      "COMPANY_SIZE": "Company size",
+      "SALARY_PERIOD": "Salary period",
+      "SALARY_MIN": "Minimum salary",
+      "SALARY_MAX": "Maximum salary",
+      "FILE_IDS": "Attachment file IDs",
+      "FILE_IDS_PLACEHOLDER": "Comma-separated UUIDs for logo or files"
     },
     "ERROR": {
       "LOAD_JOBS": "Unable to load jobs right now.",
       "SAVE_FAILED": "Could not update saved jobs.",
       "LOAD_JOB_DETAIL": "Unable to load job details.",
-      "LOAD_APPLICATIONS": "Unable to load applications."
+      "LOAD_APPLICATIONS": "Unable to load applications.",
+      "SALARY_RANGE": "Minimum salary must be less than or equal to maximum salary.",
+      "CREATE_FAILED": "We could not create this job offer. Please try again.",
+      "APPLY_ROLE": "Only Basic users can apply to job offers."
     },
     "ADMIN": {
       "ONLY": "Only admins can perform this action."
+    },
+    "SUCCESS": {
+      "CREATED": "Job offer created successfully."
     }
   }
 }

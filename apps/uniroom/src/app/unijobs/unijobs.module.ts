@@ -9,6 +9,7 @@ import { JobsListPage } from './jobs-list/jobs-list.page';
 import { JobDetailPage } from './job-detail/job-detail.page';
 import { MyApplicationsPage } from './my-applications/my-applications.page';
 import { ApplyJobDialogComponent } from './apply-job-dialog/apply-job-dialog.component';
+import { CreateJobPage } from './create-job/create-job.page';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { ApplyJobDialogComponent } from './apply-job-dialog/apply-job-dialog.com
     JobsListPage,
     JobDetailPage,
     MyApplicationsPage,
-    ApplyJobDialogComponent
+    ApplyJobDialogComponent,
+    CreateJobPage
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

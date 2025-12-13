@@ -3,7 +3,18 @@ import { Observable, map, throwError } from 'rxjs';
 import { ApiService } from './api.service';
 import { AuthService } from './auth.service';
 import NotificationService from './notification.service';
-import { JobApplication, JobApplicationPayload, JobOffer, JobsQuery, PagedJobsResult } from '../models/unijobs.types';
+import {
+  JobApplication,
+  JobApplicationPayload,
+  JobOffer,
+  JobOfferCreate,
+  JobOfferUpdate,
+  JobSalaryPeriod,
+  JobType,
+  JobsQuery,
+  PagedJobsResult,
+  JobWorkplace
+} from '../models/unijobs.types';
 import { Role, User } from '../models/auth.types';
 
 interface RawPagedResult<T> {
@@ -19,47 +30,35 @@ interface RawJobOffer {
   title: string;
   description: string;
   category: JobOffer['category'];
-  job_type?: JobOffer['jobType'];
-  jobType?: JobOffer['jobType'];
-  workplace_type?: JobOffer['workplaceType'];
-  workplaceType?: JobOffer['workplaceType'];
+  job_type?: JobType;
+  workplace_type?: JobWorkplace;
   location: string;
-  salary_period?: JobOffer['salaryPeriod'];
-  salaryPeriod?: JobOffer['salaryPeriod'];
+  salary_period?: JobSalaryPeriod;
   salary_min?: number;
-  salaryMin?: number;
   salary_max?: number;
-  salaryMax?: number;
   company_name?: string;
-  companyName?: string;
   company_description?: string;
-  companyDescription?: string;
   company_website?: string;
-  companyWebsite?: string;
   company_employee_count?: string;
-  companyEmployeeCount?: string;
   logo_url?: string;
-  logoUrl?: string;
   created_at?: string;
-  createdAt?: string;
   is_active?: boolean;
-  isActive?: boolean;
   is_saved?: boolean;
-  isSaved?: boolean;
   is_applied?: boolean;
-  isApplied?: boolean;
   application_count?: number;
-  applicationCount?: number;
   tags?: string[];
   requirements?: string[];
   nice_to_have?: string[];
-  niceToHave?: string[];
 }
 
-interface RawJobApplication extends JobApplication {
+interface RawJobApplication {
+  id: string;
   job_id?: string;
   job_title?: string;
   company_name?: string;
+  location?: string;
+  job_type?: JobType;
+  status?: JobApplication['status'];
   applied_at?: string;
   resume_file_name?: string;
   cover_letter_preview?: string;
@@ -76,7 +75,7 @@ export class UniJobsService {
   getJobs(query: JobsQuery): Observable<PagedJobsResult> {
     const params: Record<string, string | number | boolean> = this.serializeQuery(query);
     return this.apiService
-      .get<RawPagedResult<RawJobOffer> | RawJobOffer[]>('job', params, undefined, false)
+      .get<RawPagedResult<RawJobOffer> | RawJobOffer[]>('job/', params, undefined, false)
       .pipe(map((response) => this.mapPagedJobs(response)));
   }
 
@@ -95,9 +94,7 @@ export class UniJobsService {
   }
 
   getJobDetail(jobId: string): Observable<JobOffer> {
-    return this.apiService
-      .get<RawJobOffer>(`job/${jobId}`, undefined, undefined, false)
-      .pipe(map((response: RawJobOffer) => this.mapJob(response)));
+    return this.apiService.get<RawJobOffer>(`job/${jobId}`, undefined, undefined, false).pipe(map((response) => this.mapJob(response)));
   }
 
   toggleSave(jobId: string): Observable<boolean> {
@@ -116,22 +113,26 @@ export class UniJobsService {
       this.notificationService.error('UNIJOBS.APPLY.VERIFICATION_REQUIRED');
       return throwError(() => new Error('User not verified'));
     }
+    if (currentUser.role !== 'Basic') {
+      this.notificationService.error('UNIJOBS.APPLY.ROLE_REQUIRED');
+      return throwError(() => new Error('Role not allowed'));
+    }
 
     const body: FormData | Record<string, string> = this.buildApplicationPayload(payload);
     return this.apiService.post<void, FormData | Record<string, string>>(`job/${jobId}/apply`, body);
   }
 
-  createJob(payload: Partial<JobOffer>): Observable<JobOffer> {
+  createJob(payload: JobOfferCreate): Observable<JobOffer> {
     if (!this.isAdmin()) {
       this.notificationService.error('UNIJOBS.ADMIN.ONLY');
       return throwError(() => new Error('Admin only'));
     }
     return this.apiService
-      .post<RawJobOffer>('job', this.mapJobPayload(payload))
+      .post<RawJobOffer>('job/', this.mapJobPayload(payload))
       .pipe(map((response: RawJobOffer) => this.mapJob(response)));
   }
 
-  updateJob(jobId: string, payload: Partial<JobOffer>): Observable<JobOffer> {
+  updateJob(jobId: string, payload: JobOfferUpdate): Observable<JobOffer> {
     if (!this.isAdmin()) {
       this.notificationService.error('UNIJOBS.ADMIN.ONLY');
       return throwError(() => new Error('Admin only'));
@@ -151,8 +152,8 @@ export class UniJobsService {
 
   getJobApplications(): Observable<JobApplication[]> {
     return this.apiService
-      .get<RawJobApplication[]>('job/applications')
-      .pipe(map((apps: RawJobApplication[]) => apps.map((a: RawJobApplication) => this.mapApplication(a))));
+      .get<RawJobApplication[]>('job/applied')
+      .pipe(map((apps: RawJobApplication[]) => apps.map((application) => this.mapApplication(application))));
   }
 
   private buildApplicationPayload(payload: JobApplicationPayload): FormData | Record<string, string> {
@@ -231,29 +232,29 @@ export class UniJobsService {
       title: data.title,
       description: data.description,
       category: data.category,
-      jobType: (data.job_type ?? data.jobType)!,
-      workplaceType: (data.workplace_type ?? data.workplaceType)!,
+      jobType: data.job_type ?? 'full_time',
+      workplaceType: data.workplace_type,
       location: data.location,
-      salaryPeriod: (data.salary_period ?? data.salaryPeriod)!,
-      salaryMin: data.salary_min ?? data.salaryMin,
-      salaryMax: data.salary_max ?? data.salaryMax,
-      companyName: (data.company_name ?? data.companyName)!,
-      companyDescription: data.company_description ?? data.companyDescription,
-      companyWebsite: data.company_website ?? data.companyWebsite,
-      companyEmployeeCount: data.company_employee_count ?? data.companyEmployeeCount,
-      logoUrl: data.logo_url ?? data.logoUrl,
-      createdAt: (data.created_at ?? data.createdAt)!,
-      isActive: data.is_active ?? data.isActive ?? true,
-      isSaved: data.is_saved ?? data.isSaved ?? false,
-      isApplied: data.is_applied ?? data.isApplied ?? false,
-      applicationCount: data.application_count ?? data.applicationCount ?? 0,
+      salaryPeriod: data.salary_period ?? 'month',
+      salaryMin: data.salary_min,
+      salaryMax: data.salary_max,
+      companyName: data.company_name ?? '',
+      companyDescription: data.company_description,
+      companyWebsite: data.company_website,
+      companyEmployeeCount: data.company_employee_count,
+      logoUrl: data.logo_url,
+      createdAt: data.created_at ?? '',
+      isActive: data.is_active ?? true,
+      isSaved: data.is_saved ?? false,
+      isApplied: data.is_applied ?? false,
+      applicationCount: data.application_count ?? 0,
       tags: data.tags,
       requirements: data.requirements,
-      niceToHave: data.nice_to_have ?? data.niceToHave
+      niceToHave: data.nice_to_have
     };
   }
 
-  private mapJobPayload(payload: Partial<JobOffer>): Record<string, string | number | string[] | undefined> {
+  private mapJobPayload(payload: JobOfferCreate | JobOfferUpdate): Record<string, string | number | string[] | undefined> {
     return {
       title: payload.title,
       description: payload.description,
@@ -268,20 +269,22 @@ export class UniJobsService {
       company_description: payload.companyDescription,
       company_website: payload.companyWebsite,
       company_employee_count: payload.companyEmployeeCount,
-      logo_url: payload.logoUrl,
-      tags: payload.tags
+      file_ids: payload.fileIds
     };
   }
 
   private mapApplication(data: RawJobApplication): JobApplication {
     return {
-      ...data,
-      jobId: data.job_id ?? data.jobId,
-      jobTitle: data.job_title ?? data.jobTitle,
-      companyName: data.company_name ?? data.companyName,
-      appliedAt: data.applied_at ?? data.appliedAt,
-      resumeFileName: data.resume_file_name ?? data.resumeFileName,
-      coverLetterPreview: data.cover_letter_preview ?? data.coverLetterPreview
+      id: data.id,
+      jobId: data.job_id ?? '',
+      jobTitle: data.job_title ?? '',
+      companyName: data.company_name ?? '',
+      location: data.location ?? '',
+      jobType: data.job_type ?? 'full_time',
+      status: data.status ?? 'pending',
+      appliedAt: data.applied_at ?? '',
+      resumeFileName: data.resume_file_name,
+      coverLetterPreview: data.cover_letter_preview
     };
   }
 
