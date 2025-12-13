@@ -94,7 +94,9 @@ export class UniJobsService {
   }
 
   getJobDetail(jobId: string): Observable<JobOffer> {
-    return this.apiService.get<RawJobOffer>(`job/${jobId}`, undefined, undefined, false).pipe(map((response) => this.mapJob(response)));
+    return this.apiService
+      .get<RawJobOffer>(`job/${jobId}`, undefined, undefined, false)
+      .pipe(map((response) => this.mapJob(response)));
   }
 
   toggleSave(jobId: string): Observable<boolean> {
@@ -254,7 +256,9 @@ export class UniJobsService {
     };
   }
 
-  private mapJobPayload(payload: JobOfferCreate | JobOfferUpdate): Record<string, string | number | string[] | undefined> {
+  private mapJobPayload(
+    payload: JobOfferCreate | JobOfferUpdate
+  ): Record<string, string | number | string[] | undefined> {
     return {
       title: payload.title,
       description: payload.description,

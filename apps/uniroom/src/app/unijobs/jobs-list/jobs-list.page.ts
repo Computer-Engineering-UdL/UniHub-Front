@@ -50,7 +50,7 @@ export class JobsListPage implements OnInit, OnDestroy {
   protected showMobileFilters: boolean = false;
   protected canCreate: boolean = false;
 
-  Array = Array
+  Array = Array;
 
   protected readonly tabs: JobTab[] = [
     { key: 'all', label: 'UNIJOBS.LIST.TABS.ALL' },

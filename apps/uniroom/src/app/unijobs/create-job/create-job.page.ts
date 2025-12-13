@@ -169,7 +169,10 @@ export class CreateJobPage implements OnInit, OnDestroy {
       salaryPeriod: this.formBuilder.control<JobSalaryPeriod | null>(null, { validators: [Validators.required] }),
       salaryMin: this.formBuilder.control<number | null>(null, { validators: [Validators.min(0)] }),
       salaryMax: this.formBuilder.control<number | null>(null, { validators: [Validators.min(0)] }),
-      companyName: this.formBuilder.control('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(120)] }),
+      companyName: this.formBuilder.control('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.maxLength(120)]
+      }),
       companyDescription: this.formBuilder.control('', { nonNullable: true, validators: [Validators.maxLength(1000)] }),
       companyWebsite: this.formBuilder.control('', { nonNullable: true, validators: [Validators.maxLength(200)] }),
       companyEmployeeCount: this.formBuilder.control('', { nonNullable: true, validators: [Validators.maxLength(50)] }),

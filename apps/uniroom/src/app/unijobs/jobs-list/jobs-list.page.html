@@ -1,15 +1,26 @@
 <ion-content class="jobs-page">
   <div class="jobs-container">
-    <div class="filters-overlay" [class.visible]="showMobileFilters" (click)="hideFiltersPanel()"></div>
+    <div
+      class="filters-overlay"
+      [class.visible]="showMobileFilters"
+      (click)="hideFiltersPanel()"></div>
 
     <aside class="filters-sidebar" [class.mobile-visible]="showMobileFilters">
       <div class="filters-header">
         <h3>{{ 'UNIJOBS.FILTERS.TITLE' | translate }}</h3>
         <div class="filter-header-actions">
-          <ion-button class="close-filters-mobile" fill="clear" size="small" (click)="hideFiltersPanel()">
+          <ion-button
+            class="close-filters-mobile"
+            fill="clear"
+            size="small"
+            (click)="hideFiltersPanel()">
             <ion-icon slot="icon-only" name="close-outline"></ion-icon>
           </ion-button>
-          <ion-button fill="clear" size="small" (click)="clearFilters()" [title]="'UNIJOBS.FILTERS.CLEAR' | translate">
+          <ion-button
+            fill="clear"
+            size="small"
+            (click)="clearFilters()"
+            [title]="'UNIJOBS.FILTERS.CLEAR' | translate">
             <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
           </ion-button>
         </div>
@@ -29,7 +40,10 @@
         <label class="filter-label">{{ 'UNIJOBS.FILTERS.JOB_TYPE.TITLE' | translate }}</label>
         <div class="option-list">
           <ion-item lines="none" *ngFor="let type of jobTypes">
-            <ion-checkbox slot="start" [checked]="selectedJobTypes.has(type.value)" (ionChange)="toggleJobType(type.value)">
+            <ion-checkbox
+              slot="start"
+              [checked]="selectedJobTypes.has(type.value)"
+              (ionChange)="toggleJobType(type.value)">
             </ion-checkbox>
             <ion-label>{{ type.label | translate }}</ion-label>
           </ion-item>
@@ -58,13 +72,19 @@
           multiple="true"
           interface="popover"
           (ionChange)="onLocationsChange($event.detail.value)">
-          <ion-select-option *ngFor="let loc of locations" [value]="loc">{{ loc }}</ion-select-option>
+          <ion-select-option *ngFor="let loc of locations" [value]="loc"
+            >{{ loc }}</ion-select-option
+          >
         </ion-select>
       </div>
 
       <div class="filter-actions">
-        <ion-button expand="block" (click)="hideFiltersPanel()">{{ 'UNIJOBS.FILTERS.APPLY' | translate }}</ion-button>
-        <ion-button expand="block" fill="clear" (click)="clearFilters()">{{ 'UNIJOBS.FILTERS.CLEAR' | translate }}</ion-button>
+        <ion-button expand="block" (click)="hideFiltersPanel()"
+          >{{ 'UNIJOBS.FILTERS.APPLY' | translate }}</ion-button
+        >
+        <ion-button expand="block" fill="clear" (click)="clearFilters()"
+          >{{ 'UNIJOBS.FILTERS.CLEAR' | translate }}</ion-button
+        >
       </div>
     </aside>
 
@@ -76,7 +96,12 @@
           <p class="subtitle">{{ 'UNIJOBS.LIST.SUBTITLE' | translate }}</p>
         </div>
         <div class="header-actions">
-          <ion-button *ngIf="canCreate" (click)="openCreate()" class="create-action-btn" fill="solid" color="primary">
+          <ion-button
+            *ngIf="canCreate"
+            (click)="openCreate()"
+            class="create-action-btn"
+            fill="solid"
+            color="primary">
             <ion-icon slot="start" name="add-circle-outline"></ion-icon>
             {{ 'UNIJOBS.CREATE.TITLE' | translate }}
           </ion-button>
@@ -140,7 +165,9 @@
                 <p class="company">{{ job.companyName }}</p>
                 <div class="tags">
                   <span class="pill">{{ ('UNIJOBS.JOB_TYPE.' + job.jobType) | translate }}</span>
-                  <span class="pill ghost">{{ ('UNIJOBS.CATEGORIES.' + job.category) | translate }}</span>
+                  <span class="pill ghost"
+                    >{{ ('UNIJOBS.CATEGORIES.' + job.category) | translate }}</span
+                  >
                 </div>
               </div>
               <div class="card-actions">
@@ -148,7 +175,8 @@
                   <ion-icon [name]="job.isSaved ? 'bookmark' : 'bookmark-outline'"></ion-icon>
                 </ion-button>
                 <ion-button size="small" (click)="openApply(job)">
-                  {{ job.isApplied ? ('UNIJOBS.LIST.APPLIED' | translate) : ('UNIJOBS.LIST.APPLY' | translate) }}
+                  {{ job.isApplied ? ('UNIJOBS.LIST.APPLIED' | translate) : ('UNIJOBS.LIST.APPLY' |
+                  translate) }}
                 </ion-button>
               </div>
             </div>
