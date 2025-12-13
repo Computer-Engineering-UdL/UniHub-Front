@@ -46,7 +46,9 @@
             *ngFor="let offer of recommendedOffers"
             (click)="navigateToOffer(offer.id)">
             <div class="offer-image" [style.background-image]="'url(' + offer.image + ')'">
-              <ion-badge class="status-badge" color="success">{{ offer.status }}</ion-badge>
+              <ion-badge class="status-badge" color="success"
+                >{{ ('ROOM.STATUS.' + offer.status.toUpperCase()) | translate }}</ion-badge
+              >
             </div>
             <div class="offer-content">
               <h3 class="offer-title">{{ offer.title }}</h3>
@@ -127,7 +129,9 @@
         <div class="offers-grid">
           <div class="offer-card" *ngFor="let offer of offers" (click)="navigateToOffer(offer.id)">
             <div class="offer-image" [style.background-image]="'url(' + offer.image + ')'">
-              <ion-badge class="status-badge" color="success">{{ offer.status }}</ion-badge>
+              <ion-badge class="status-badge" color="success"
+                >{{ ('ROOM.STATUS.' + offer.status.toUpperCase()) | translate }}</ion-badge
+              >
             </div>
             <div class="offer-content">
               <h3 class="offer-title">{{ offer.title }}</h3>
