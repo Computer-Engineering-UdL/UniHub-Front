@@ -1,0 +1,150 @@
+.applications-page {
+  --background: var(--ion-background-color);
+}
+
+.page-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.header h1 {
+  margin: 4px 0;
+}
+
+.subtitle {
+  color: var(--ion-color-medium);
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--ion-color-primary);
+  font-weight: 700;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.stat-card {
+  background: var(--ion-card-background, #fff);
+  border: 1px solid var(--ion-border-color, rgba(0, 0, 0, 0.08));
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.stat-card .label {
+  margin: 0;
+  color: var(--ion-color-medium);
+}
+
+.stat-card h2 {
+  margin: 4px 0 0;
+}
+
+.status-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--ion-border-color, rgba(0, 0, 0, 0.08));
+  background: var(--ion-card-background, #fff);
+  cursor: pointer;
+}
+
+.tab.active {
+  border-color: var(--ion-color-primary);
+  color: var(--ion-color-primary);
+  background: color-mix(in srgb, var(--ion-color-primary) 10%, transparent);
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.applications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.application-card {
+  background: var(--ion-card-background, #fff);
+  border: 1px solid var(--ion-border-color, rgba(0, 0, 0, 0.08));
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.company {
+  color: var(--ion-color-medium);
+  margin: 4px 0 0;
+}
+
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--ion-color-medium);
+}
+
+.meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--ion-color-primary) 8%, transparent);
+}
+
+.extra .label {
+  margin: 0;
+  font-weight: 600;
+}
+
+.extra .text {
+  margin: 4px 0 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.empty {
+  text-align: center;
+  color: var(--ion-color-medium);
+  padding: 24px 0;
+}
+
+.empty ion-icon {
+  font-size: 36px;
+  margin-bottom: 6px;
+}
+
+@media (max-width: 640px) {
+  .card-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

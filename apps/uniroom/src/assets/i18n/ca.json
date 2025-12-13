@@ -1274,5 +1274,135 @@
     "TODAY": "Avui",
     "YESTERDAY": "Ahir",
     "DAYS_AGO": "fa {{count}} dies"
+  },
+  "UNIJOBS": {
+    "LIST": {
+      "EYEBROW": "Troba la teva propera oportunitat",
+      "TITLE": "Tauler de feina",
+      "SUBTITLE": "Descobreix llocs seleccionats de les millors empreses",
+      "SEARCH_PLACEHOLDER": "Cerca feines, empreses, paraules clau…",
+      "MY_APPLICATIONS": "Les meves sol·licituds",
+      "TABS": {
+        "ALL": "Totes",
+        "SAVED": "Guardades",
+        "APPLIED": "Aplicades"
+      },
+      "APPLY": "Aplica",
+      "EMPTY": "Encara no hi ha ofertes que coincideixin amb els filtres.",
+      "LOADING_MORE": "Carregant més ofertes...",
+      "SALARY": {
+        "NA": "Salari no indicat",
+        "PERIOD": {
+          "year": "any",
+          "month": "mes",
+          "hour": "hora"
+        }
+      }
+    },
+    "FILTERS": {
+      "TITLE": "Filtres",
+      "SUBTITLE": "Ajusta la teva cerca",
+      "JOB_TYPE": {
+        "TITLE": "Tipus de feina",
+        "FULL_TIME": "Jornada completa",
+        "PART_TIME": "Mitja jornada",
+        "INTERNSHIP": "Pràctiques",
+        "FREELANCE": "Freelance"
+      },
+      "CATEGORY": "Categoria",
+      "LOCATION": "Ubicació",
+      "TOGGLE": "Filtres",
+      "CLEAR": "Neteja filtres",
+      "APPLY": "Aplica filtres"
+    },
+    "CATEGORIES": {
+      "Technology": "Tecnologia",
+      "Marketing": "Màrqueting",
+      "Design": "Disseny",
+      "Sales": "Vendes",
+      "Finance": "Finances",
+      "Human Resources": "Recursos Humans",
+      "Customer Service": "Atenció al client",
+      "Engineering": "Enginyeria",
+      "Education": "Educació",
+      "Healthcare": "Salut",
+      "Other": "Altres"
+    },
+    "JOB_TYPE": {
+      "full_time": "Jornada completa",
+      "part_time": "Mitja jornada",
+      "internship": "Pràctiques",
+      "freelance": "Freelance"
+    },
+    "DETAIL": {
+      "BACK": "Enrere",
+      "APPLY": "Aplica ara",
+      "APPLIED": "Aplicat",
+      "DESCRIPTION": "Descripció de la feina",
+      "REQUIREMENTS": "Requisits",
+      "NO_REQUIREMENTS": "Sense requisits específics.",
+      "NICE_TO_HAVE": "Valorable",
+      "COMPANY": "Sobre l'empresa"
+    },
+    "APPLY": {
+      "TITLE": "Aplica a {{job}}",
+      "SUBTITLE": "Envia la teva sol·licitud per aquesta posició a {{company}}",
+      "FULL_NAME": "Nom complet",
+      "FULL_NAME_PLACEHOLDER": "Escriu el teu nom complet",
+      "EMAIL": "Correu electrònic",
+      "EMAIL_PLACEHOLDER": "nom@exemple.com",
+      "EMAIL_INVALID": "Introdueix un correu vàlid.",
+      "PHONE": "Telèfon",
+      "PHONE_PLACEHOLDER": "+34 123 456 789",
+      "RESUME": "Currículum",
+      "UPLOAD_HINT": "Fes clic per pujar o arrossega el fitxer",
+      "UPLOAD_SUBTITLE": "PDF, DOC o DOCX (màx 5MB)",
+      "FILE_TYPE_ERROR": "Puja un fitxer PDF, DOC o DOCX.",
+      "FILE_SIZE_ERROR": "El fitxer ha de pesar menys de 5MB.",
+      "COVER_LETTER": "Carta de presentació",
+      "COVER_LETTER_PLACEHOLDER": "Explica per què encaixes amb el rol",
+      "COVER_LETTER_MAX": "Màxim 1000 caràcters.",
+      "CANCEL": "Cancel·la",
+      "SUBMIT": "Enviar sol·licitud",
+      "SUBMITTING": "Enviant...",
+      "SUBMIT_SUCCESS": "Sol·licitud enviada correctament!",
+      "ERROR": "No s’ha pogut enviar la sol·licitud.",
+      "REQUIRED": "Aquest camp és obligatori.",
+      "LOGIN_REQUIRED": "Inicia sessió per aplicar a aquesta oferta.",
+      "VERIFICATION_REQUIRED": "Verifica el teu compte per aplicar a ofertes."
+    },
+    "APPLICATIONS": {
+      "EYEBROW": "Segueix el teu progrés",
+      "TITLE": "Les meves sol·licituds",
+      "SUBTITLE": "Consulta l’estat de les teves sol·licituds de feina",
+      "STATS": {
+        "TOTAL": "Total",
+        "PENDING": "Pendents",
+        "INTERVIEW": "Entrevista",
+        "ACCEPTED": "Acceptades",
+        "REJECTED": "Rebutjades"
+      },
+      "STATUS": {
+        "ALL": "Totes",
+        "PENDING": "Pendents",
+        "INTERVIEW": "Entrevista",
+        "ACCEPTED": "Acceptades",
+        "REJECTED": "Rebutjades"
+      },
+      "COVER_LETTER": "Carta de presentació",
+      "RESUME": "Currículum",
+      "VIEW_JOB": "Veure l'oferta",
+      "EMPTY": "Encara no has enviat cap sol·licitud.",
+      "VERIFICATION_REQUIRED": "Has de verificar el compte per veure les sol·licituds."
+    },
+    "ERROR": {
+      "LOAD_JOBS": "No s’han pogut carregar les ofertes.",
+      "SAVE_FAILED": "No s’ha pogut actualitzar el guardat.",
+      "LOAD_JOB_DETAIL": "No s’ha pogut carregar el detall.",
+      "LOAD_APPLICATIONS": "No s’han pogut carregar les sol·licituds."
+    },
+    "ADMIN": {
+      "ONLY": "Només els administradors poden fer aquesta acció."
+    }
   }
 }

@@ -34,6 +34,11 @@ const routes: Routes = [
     data: { public: true, titleKey: 'TOPBAR.UNIITEMS' }
   },
   {
+    path: 'jobs',
+    loadChildren: () => import('./unijobs/unijobs.module').then((m) => m.UniJobsModule),
+    data: { public: true, titleKey: 'UNIJOBS.LIST.TITLE' }
+  },
+  {
     path: 'channels',
     loadChildren: () => import('./channels/channels.module').then((m) => m.ChannelsModule),
     data: { titleKey: 'TOPBAR.CHANNELS' }
