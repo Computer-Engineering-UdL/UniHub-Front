@@ -76,13 +76,45 @@
     }
   },
   "HOME": {
-    "WELCOME": "¡Bienvenido de nuevo!",
+    "WELCOME": "¡Bienvenido!",
+    "WELCOME_BACK": "¡Bienvenido de nuevo",
+    "SUBTITLE": "Conecta con estudiantes, encuentra alojamiento y comparte recursos",
     "STUDENT": "Estudiante",
     "EMAIL": "Correo electrónico",
     "LOGIN_METHOD": "Método de inicio de sesión",
     "READY": "¿Listo para encontrar tu alojamiento perfecto?",
     "START": "Comienza a explorar habitaciones con",
-    "LOGOUT": "Cerrar sesión"
+    "LOGOUT": "Cerrar sesión",
+    "EXPLORE": "Explorar",
+    "VIEW_ALL": "Ver todo",
+    "YOUR_CHANNELS": "Tus canales",
+    "NEAR_CAMPUS": "Cerca del campus",
+    "RECENT_ITEMS": "Artículos recientes",
+    "LOADING": "Cargando...",
+    "MONTH": "mes",
+    "SECTIONS": {
+      "CHANNELS": {
+        "TITLE": "Canales",
+        "SUBTITLE": "Únete a grupos de estudio y discusiones académicas"
+      },
+      "UNIROOM": {
+        "TITLE": "Habitaciones",
+        "SUBTITLE": "Encuentra alojamiento cerca del campus"
+      },
+      "UNIITEMS": {
+        "TITLE": "Objetos",
+        "SUBTITLE": "Compra y vende artículos de estudiantes"
+      },
+      "UNIBORSA": {
+        "TITLE": "Bolsa de Trabajo",
+        "SUBTITLE": "Descubre oportunidades laborales para estudiantes"
+      }
+    },
+    "RECOMMENDED_ROOMS": "Habitaciones recomendadas",
+    "POPULAR_CHANNELS": "Canales populares",
+    "ERROR": {
+      "LOAD_FAILED": "Error al cargar los datos"
+    }
   },
   "USER": {
     "STATUS_ACTIVE": "Activo",

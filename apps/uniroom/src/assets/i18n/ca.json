@@ -81,13 +81,45 @@
     "STATUS_SUSPENDED": "Suspés"
   },
   "HOME": {
-    "WELCOME": "Benvingut de nou!",
+    "WELCOME": "Benvingut!",
+    "WELCOME_BACK": "Benvingut de nou",
+    "SUBTITLE": "Connecta amb estudiants, troba allotjament i comparteix recursos",
     "STUDENT": "Estudiant",
     "EMAIL": "Correu electrònic",
     "LOGIN_METHOD": "Mètode d'inici de sessió",
     "READY": "Preparat per trobar el teu allotjament perfecte?",
     "START": "Comença a explorar habitacions amb",
-    "LOGOUT": "Tancar sessió"
+    "LOGOUT": "Tancar sessió",
+    "EXPLORE": "Explorar",
+    "VIEW_ALL": "Veure tot",
+    "YOUR_CHANNELS": "Els teus canals",
+    "NEAR_CAMPUS": "A prop del campus",
+    "RECENT_ITEMS": "Articles recents",
+    "LOADING": "Carregant...",
+    "MONTH": "mes",
+    "SECTIONS": {
+      "CHANNELS": {
+        "TITLE": "Canals",
+        "SUBTITLE": "Uneix-te a grups d'estudi i discussions acadèmiques"
+      },
+      "UNIROOM": {
+        "TITLE": "Habitacions",
+        "SUBTITLE": "Troba allotjament a prop del campus"
+      },
+      "UNIITEMS": {
+        "TITLE": "Objectes",
+        "SUBTITLE": "Compra i ven articles d'estudiants"
+      },
+      "UNIBORSA": {
+        "TITLE": "Borsa de Treball",
+        "SUBTITLE": "Descobreix oportunitats laborals per a estudiants"
+      }
+    },
+    "RECOMMENDED_ROOMS": "Habitacions recomanades",
+    "POPULAR_CHANNELS": "Canals populars",
+    "ERROR": {
+      "LOAD_FAILED": "Error al carregar les dades"
+    }
   },
   "PROFILE": {
     "TITLE": "Perfil",
