@@ -326,7 +326,7 @@
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    border-color: var(--ion-color-success);
+    border-color: var(--card-border-color);
 
     .offer-image {
       transform: scale(1.05);
@@ -386,7 +386,7 @@
     .offer-price {
       font-size: 22px;
       font-weight: 800;
-      color: var(--ion-color-success);
+      color: var(--ion-color-primary);
 
       .period {
         font-size: 14px;

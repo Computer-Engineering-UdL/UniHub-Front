@@ -11,6 +11,7 @@ import { UniItem, UniItemsQuery } from '../models/uni-item.types';
 import { UniItemsService } from '../services/uni-items.service';
 import { LocalizationService } from '../services/localization.service';
 import NotificationService from '../services/notification.service';
+import { resolveFileUrl } from '../utils/file-url.util';
 
 interface HomeSection {
   title: string;
@@ -128,6 +129,7 @@ export class HomePage implements OnInit, OnDestroy {
           const rawPrice: number = offer.price ?? 0;
           const currency: string = (offer.currency as string) ?? 'EUR';
           offer.priceFormatted = this.localizationService.formatPrice(rawPrice, currency);
+          offer.image = this.resolveOfferImage(offer);
           return offer;
         });
     } catch {
@@ -143,7 +145,15 @@ export class HomePage implements OnInit, OnDestroy {
         sort: 'newest'
       };
       const result = await firstValueFrom(this.uniItemsService.getItems(query));
-      this.uniItems = result.items.slice(0, 4);
+      this.uniItems = result.items.slice(0, 4).map((item: UniItem): UniItem => {
+        if (item.images && item.images.length > 0) {
+          item.images = item.images.map((img: string): string => {
+            const resolved: string | null = resolveFileUrl(img);
+            return resolved ?? img;
+          });
+        }
+        return item;
+      });
     } catch {
       this.uniItems = [];
     }
@@ -162,6 +172,7 @@ export class HomePage implements OnInit, OnDestroy {
           const rawPrice: number = offer.price ?? 0;
           const currency: string = (offer.currency as string) ?? 'EUR';
           offer.priceFormatted = this.localizationService.formatPrice(rawPrice, currency);
+          offer.image = this.resolveOfferImage(offer);
           return offer;
         });
     } catch {
@@ -179,6 +190,28 @@ export class HomePage implements OnInit, OnDestroy {
     } catch {
       this.popularChannels = [];
     }
+  }
+
+  private resolveOfferImage(offer: OfferListItem): string {
+    if (offer.base_image) {
+      const resolvedUrl: string | null = resolveFileUrl(offer.base_image);
+      if (resolvedUrl) {
+        return resolvedUrl;
+      }
+    }
+
+    if (offer.image) {
+      const trimmed: string = offer.image.trim();
+      if (/^https?:\/\//i.test(trimmed)) {
+        return trimmed;
+      }
+      const resolvedUrl: string | null = resolveFileUrl(trimmed);
+      if (resolvedUrl) {
+        return resolvedUrl;
+      }
+    }
+
+    return 'https://via.placeholder.com/400x300/e0e0e0/666666?text=No+Image';
   }
 
   public navigateTo(route: string): void {
