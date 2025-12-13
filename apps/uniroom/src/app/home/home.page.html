@@ -155,9 +155,7 @@
         </div>
         <div class="items-grid">
           <div class="item-card" *ngFor="let item of uniItems" (click)="navigateToItem(item.id)">
-            <div
-              class="item-image"
-              [style.background-image]="'url(' + item.images?.[0] + ')'"></div>
+            <div class="item-image" [style.background-image]="'url(' + item.images[0] + ')'"></div>
             <div class="item-content">
               <h3 class="item-title">{{ item.title }}</h3>
               <div class="item-category">{{ item.category }}</div>

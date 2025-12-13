@@ -1278,5 +1278,135 @@
     "TODAY": "Today",
     "YESTERDAY": "Yesterday",
     "DAYS_AGO": "{{count}} days ago"
+  },
+  "UNIJOBS": {
+    "LIST": {
+      "EYEBROW": "Find your next opportunity",
+      "TITLE": "Job Board",
+      "SUBTITLE": "Discover curated roles from top companies",
+      "SEARCH_PLACEHOLDER": "Search jobs, companies, keywords…",
+      "MY_APPLICATIONS": "My Applications",
+      "TABS": {
+        "ALL": "All Jobs",
+        "SAVED": "Saved",
+        "APPLIED": "Applied"
+      },
+      "APPLY": "Apply",
+      "EMPTY": "No jobs match your filters yet.",
+      "LOADING_MORE": "Loading more jobs...",
+      "SALARY": {
+        "NA": "Salary not disclosed",
+        "PERIOD": {
+          "year": "year",
+          "month": "month",
+          "hour": "hour"
+        }
+      }
+    },
+    "FILTERS": {
+      "TITLE": "Filters",
+      "SUBTITLE": "Refine your search",
+      "JOB_TYPE": {
+        "TITLE": "Job Type",
+        "FULL_TIME": "Full-time",
+        "PART_TIME": "Part-time",
+        "INTERNSHIP": "Internship",
+        "FREELANCE": "Freelance"
+      },
+      "CATEGORY": "Category",
+      "LOCATION": "Location",
+      "TOGGLE": "Filters",
+      "CLEAR": "Clear filters",
+      "APPLY": "Apply filters"
+    },
+    "CATEGORIES": {
+      "Technology": "Technology",
+      "Marketing": "Marketing",
+      "Design": "Design",
+      "Sales": "Sales",
+      "Finance": "Finance",
+      "Human Resources": "Human Resources",
+      "Customer Service": "Customer Service",
+      "Engineering": "Engineering",
+      "Education": "Education",
+      "Healthcare": "Healthcare",
+      "Other": "Other"
+    },
+    "JOB_TYPE": {
+      "full_time": "Full-time",
+      "part_time": "Part-time",
+      "internship": "Internship",
+      "freelance": "Freelance"
+    },
+    "DETAIL": {
+      "BACK": "Back",
+      "APPLY": "Apply Now",
+      "APPLIED": "Applied",
+      "DESCRIPTION": "Job Description",
+      "REQUIREMENTS": "Requirements",
+      "NO_REQUIREMENTS": "No specific requirements listed.",
+      "NICE_TO_HAVE": "Nice to Have",
+      "COMPANY": "About Company"
+    },
+    "APPLY": {
+      "TITLE": "Apply for {{job}}",
+      "SUBTITLE": "Submit your application for this position at {{company}}",
+      "FULL_NAME": "Full Name",
+      "FULL_NAME_PLACEHOLDER": "Enter your full name",
+      "EMAIL": "Email",
+      "EMAIL_PLACEHOLDER": "name@example.com",
+      "EMAIL_INVALID": "Enter a valid email.",
+      "PHONE": "Phone Number",
+      "PHONE_PLACEHOLDER": "+34 123 456 789",
+      "RESUME": "Resume/CV",
+      "UPLOAD_HINT": "Click to upload or drag and drop",
+      "UPLOAD_SUBTITLE": "PDF, DOC or DOCX (max 5MB)",
+      "FILE_TYPE_ERROR": "Please upload a PDF, DOC or DOCX file.",
+      "FILE_SIZE_ERROR": "File size must be under 5MB.",
+      "COVER_LETTER": "Cover Letter",
+      "COVER_LETTER_PLACEHOLDER": "Tell us why you are a great fit for this role",
+      "COVER_LETTER_MAX": "Cover letter must be under 1000 characters.",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Submit Application",
+      "SUBMITTING": "Submitting...",
+      "SUBMIT_SUCCESS": "Application sent successfully!",
+      "ERROR": "Could not submit the application.",
+      "REQUIRED": "This field is required.",
+      "LOGIN_REQUIRED": "Please login to apply for this job.",
+      "VERIFICATION_REQUIRED": "Verify your account to apply for jobs."
+    },
+    "APPLICATIONS": {
+      "EYEBROW": "Track your progress",
+      "TITLE": "My Applications",
+      "SUBTITLE": "Track the status of your job applications",
+      "STATS": {
+        "TOTAL": "Total",
+        "PENDING": "Pending",
+        "INTERVIEW": "Interview",
+        "ACCEPTED": "Accepted",
+        "REJECTED": "Rejected"
+      },
+      "STATUS": {
+        "ALL": "All",
+        "PENDING": "Pending",
+        "INTERVIEW": "Interview",
+        "ACCEPTED": "Accepted",
+        "REJECTED": "Rejected"
+      },
+      "COVER_LETTER": "Cover Letter",
+      "RESUME": "Resume",
+      "VIEW_JOB": "View Job Posting",
+      "EMPTY": "You have not submitted any applications yet.",
+      "VERIFICATION_REQUIRED": "You must verify your account to view applications."
+    },
+    "ERROR": {
+      "LOAD_JOBS": "Unable to load jobs right now.",
+      "SAVE_FAILED": "Could not update saved jobs.",
+      "LOAD_JOB_DETAIL": "Unable to load job details.",
+      "LOAD_APPLICATIONS": "Unable to load applications."
+    },
+    "ADMIN": {
+      "ONLY": "Only admins can perform this action."
+    }
   }
 }

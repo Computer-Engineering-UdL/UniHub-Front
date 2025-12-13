@@ -1,0 +1,110 @@
+<ion-content class="job-detail-page">
+  <div class="page-wrapper" *ngIf="!loading && job; else loadingTpl">
+    <button class="back" type="button" (click)="goBack()">
+      <ion-icon name="arrow-back"></ion-icon>
+      {{ 'UNIJOBS.DETAIL.BACK' | translate }}
+    </button>
+
+    <section class="hero">
+      <div class="hero-main">
+        <div class="logo" [class.placeholder]="!job.logoUrl">
+          <img *ngIf="job.logoUrl" [src]="job.logoUrl" [alt]="job.companyName" />
+          <span *ngIf="!job.logoUrl">{{ getInitials(job.companyName || '') }}</span>
+        </div>
+        <div class="hero-text">
+          <h1>{{ job.title }}</h1>
+          <p class="company">{{ job.companyName }}</p>
+          <div class="tags">
+            <span class="pill">{{ ('UNIJOBS.JOB_TYPE.' + job.jobType) | translate }}</span>
+            <span class="pill ghost">{{ ('UNIJOBS.CATEGORIES.' + job.category) | translate }}</span>
+          </div>
+          <div class="meta-row">
+            <div class="meta">
+              <ion-icon name="location-outline"></ion-icon>
+              <span>{{ job.location }}</span>
+            </div>
+            <div class="meta">
+              <ion-icon name="cash-outline"></ion-icon>
+              <span>{{ formatSalary() }}</span>
+            </div>
+            <div class="meta">
+              <ion-icon name="time-outline"></ion-icon>
+              <span>{{ formatRelative(job.createdAt || '') }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <ion-button fill="clear" (click)="toggleSave()">
+          <ion-icon [name]="job.isSaved ? 'bookmark' : 'bookmark-outline'"></ion-icon>
+        </ion-button>
+        <ion-button expand="block" size="large" (click)="openApply()">
+          {{ job.isApplied ? ('UNIJOBS.DETAIL.APPLIED' | translate) : ('UNIJOBS.DETAIL.APPLY' |
+          translate) }}
+        </ion-button>
+      </div>
+    </section>
+
+    <section class="content">
+      <div class="card">
+        <h3>{{ 'UNIJOBS.DETAIL.DESCRIPTION' | translate }}</h3>
+        <p>{{ job.description }}</p>
+      </div>
+      <div class="card">
+        <h3>{{ 'UNIJOBS.DETAIL.REQUIREMENTS' | translate }}</h3>
+        <ul>
+          <li *ngFor="let req of job.requirements">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            <span>{{ req }}</span>
+          </li>
+          <li *ngIf="!job.requirements?.length">
+            {{ 'UNIJOBS.DETAIL.NO_REQUIREMENTS' | translate }}
+          </li>
+        </ul>
+      </div>
+      <div class="card" *ngIf="job.niceToHave?.length">
+        <h3>{{ 'UNIJOBS.DETAIL.NICE_TO_HAVE' | translate }}</h3>
+        <ul>
+          <li *ngFor="let nice of job.niceToHave">
+            <ion-icon name="star-outline"></ion-icon>
+            <span>{{ nice }}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>{{ 'UNIJOBS.DETAIL.COMPANY' | translate }}</h3>
+        <p>{{ job.companyDescription }}</p>
+        <div class="company-meta">
+          <div>
+            <ion-icon name="people-outline"></ion-icon>
+            <span>{{ job.companyEmployeeCount }}</span>
+          </div>
+          <div>
+            <ion-icon name="briefcase-outline"></ion-icon>
+            <span>{{ ('UNIJOBS.CATEGORIES.' + job.category) | translate }}</span>
+          </div>
+          <div *ngIf="job.companyWebsite">
+            <ion-icon name="link-outline"></ion-icon>
+            <a [href]="job.companyWebsite" target="_blank" rel="noopener"
+              >{{ job.companyWebsite }}</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="bottom-cta">
+      <ion-button expand="block" size="large" (click)="openApply()">
+        {{ 'UNIJOBS.DETAIL.APPLY' | translate }}
+      </ion-button>
+    </div>
+  </div>
+
+  <ng-template #loadingTpl>
+    <div class="loading-state">
+      <ion-skeleton-text [animated]="true" style="width: 120px; height: 24px"></ion-skeleton-text>
+      <ion-skeleton-text [animated]="true" style="width: 80%; height: 140px"></ion-skeleton-text>
+      <ion-skeleton-text [animated]="true" style="width: 100%; height: 200px"></ion-skeleton-text>
+    </div>
+  </ng-template>
+</ion-content>

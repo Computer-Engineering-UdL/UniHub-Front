@@ -1275,5 +1275,135 @@
     "TODAY": "Hoy",
     "YESTERDAY": "Ayer",
     "DAYS_AGO": "hace {{count}} días"
+  },
+  "UNIJOBS": {
+    "LIST": {
+      "EYEBROW": "Encuentra tu próxima oportunidad",
+      "TITLE": "Bolsa de trabajo",
+      "SUBTITLE": "Descubre ofertas seleccionadas de las mejores empresas",
+      "SEARCH_PLACEHOLDER": "Busca puestos, empresas, palabras clave…",
+      "MY_APPLICATIONS": "Mis solicitudes",
+      "TABS": {
+        "ALL": "Todas",
+        "SAVED": "Guardadas",
+        "APPLIED": "Aplicadas"
+      },
+      "APPLY": "Aplicar",
+      "EMPTY": "No hay ofertas que coincidan con tus filtros.",
+      "LOADING_MORE": "Cargando más ofertas...",
+      "SALARY": {
+        "NA": "Salario no indicado",
+        "PERIOD": {
+          "year": "año",
+          "month": "mes",
+          "hour": "hora"
+        }
+      }
+    },
+    "FILTERS": {
+      "TITLE": "Filtros",
+      "SUBTITLE": "Refina tu búsqueda",
+      "JOB_TYPE": {
+        "TITLE": "Tipo de puesto",
+        "FULL_TIME": "Tiempo completo",
+        "PART_TIME": "Medio tiempo",
+        "INTERNSHIP": "Prácticas",
+        "FREELANCE": "Freelance"
+      },
+      "CATEGORY": "Categoría",
+      "LOCATION": "Ubicación",
+      "TOGGLE": "Filtros",
+      "CLEAR": "Limpiar filtros",
+      "APPLY": "Aplicar filtros"
+    },
+    "CATEGORIES": {
+      "Technology": "Tecnología",
+      "Marketing": "Marketing",
+      "Design": "Diseño",
+      "Sales": "Ventas",
+      "Finance": "Finanzas",
+      "Human Resources": "Recursos Humanos",
+      "Customer Service": "Atención al cliente",
+      "Engineering": "Ingeniería",
+      "Education": "Educación",
+      "Healthcare": "Sanidad",
+      "Other": "Otros"
+    },
+    "JOB_TYPE": {
+      "full_time": "Tiempo completo",
+      "part_time": "Medio tiempo",
+      "internship": "Prácticas",
+      "freelance": "Freelance"
+    },
+    "DETAIL": {
+      "BACK": "Volver",
+      "APPLY": "Aplicar ahora",
+      "APPLIED": "Aplicado",
+      "DESCRIPTION": "Descripción",
+      "REQUIREMENTS": "Requisitos",
+      "NO_REQUIREMENTS": "Sin requisitos específicos.",
+      "NICE_TO_HAVE": "Valorable",
+      "COMPANY": "Sobre la empresa"
+    },
+    "APPLY": {
+      "TITLE": "Aplicar a {{job}}",
+      "SUBTITLE": "Envía tu solicitud para esta posición en {{company}}",
+      "FULL_NAME": "Nombre completo",
+      "FULL_NAME_PLACEHOLDER": "Escribe tu nombre completo",
+      "EMAIL": "Correo electrónico",
+      "EMAIL_PLACEHOLDER": "nombre@ejemplo.com",
+      "EMAIL_INVALID": "Introduce un email válido.",
+      "PHONE": "Teléfono",
+      "PHONE_PLACEHOLDER": "+34 123 456 789",
+      "RESUME": "Currículum",
+      "UPLOAD_HINT": "Haz clic para subir o arrastra el archivo",
+      "UPLOAD_SUBTITLE": "PDF, DOC o DOCX (máx 5MB)",
+      "FILE_TYPE_ERROR": "Sube un archivo PDF, DOC o DOCX.",
+      "FILE_SIZE_ERROR": "El archivo debe pesar menos de 5MB.",
+      "COVER_LETTER": "Carta de presentación",
+      "COVER_LETTER_PLACEHOLDER": "Cuéntanos por qué eres ideal para el puesto",
+      "COVER_LETTER_MAX": "Máximo 1000 caracteres.",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Enviar solicitud",
+      "SUBMITTING": "Enviando...",
+      "SUBMIT_SUCCESS": "Solicitud enviada correctamente.",
+      "ERROR": "No se pudo enviar la solicitud.",
+      "REQUIRED": "Este campo es obligatorio.",
+      "LOGIN_REQUIRED": "Inicia sesión para aplicar a esta oferta.",
+      "VERIFICATION_REQUIRED": "Verifica tu cuenta para aplicar a ofertas."
+    },
+    "APPLICATIONS": {
+      "EYEBROW": "Sigue tu progreso",
+      "TITLE": "Mis solicitudes",
+      "SUBTITLE": "Consulta el estado de tus solicitudes de empleo",
+      "STATS": {
+        "TOTAL": "Total",
+        "PENDING": "Pendientes",
+        "INTERVIEW": "Entrevista",
+        "ACCEPTED": "Aceptadas",
+        "REJECTED": "Rechazadas"
+      },
+      "STATUS": {
+        "ALL": "Todas",
+        "PENDING": "Pendientes",
+        "INTERVIEW": "Entrevista",
+        "ACCEPTED": "Aceptadas",
+        "REJECTED": "Rechazadas"
+      },
+      "COVER_LETTER": "Carta de presentación",
+      "RESUME": "Currículum",
+      "VIEW_JOB": "Ver oferta",
+      "EMPTY": "Todavía no has enviado ninguna solicitud.",
+      "VERIFICATION_REQUIRED": "Debes verificar tu cuenta para ver las solicitudes."
+    },
+    "ERROR": {
+      "LOAD_JOBS": "No se pudieron cargar las ofertas.",
+      "SAVE_FAILED": "No se pudo actualizar el guardado.",
+      "LOAD_JOB_DETAIL": "No se pudo cargar el detalle.",
+      "LOAD_APPLICATIONS": "No se pudieron cargar las solicitudes."
+    },
+    "ADMIN": {
+      "ONLY": "Solo los administradores pueden hacer esta acción."
+    }
   }
 }
