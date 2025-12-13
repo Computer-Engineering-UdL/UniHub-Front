@@ -15,8 +15,7 @@
         class="section-card"
         *ngFor="let section of sections"
         [ngClass]="'section-' + section.color"
-        (click)="navigateTo(section.route)"
-      >
+        (click)="navigateTo(section.route)">
         <div class="section-header">
           <div class="section-icon-wrapper">
             <ion-icon [name]="section.icon"></ion-icon>
@@ -42,7 +41,10 @@
           </ion-button>
         </div>
         <div class="offers-grid">
-          <div class="offer-card" *ngFor="let offer of recommendedOffers" (click)="navigateToOffer(offer.id)">
+          <div
+            class="offer-card"
+            *ngFor="let offer of recommendedOffers"
+            (click)="navigateToOffer(offer.id)">
             <div class="offer-image" [style.background-image]="'url(' + offer.image + ')'">
               <ion-badge class="status-badge" color="success">{{ offer.status }}</ion-badge>
             </div>
@@ -52,7 +54,11 @@
                 <ion-icon name="location-outline"></ion-icon>
                 <span>{{ offer.city }}</span>
               </div>
-              <div class="offer-price">{{ offer.priceFormatted }}<span class="period">/{{ 'HOME.MONTH' | translate }}</span></div>
+              <div class="offer-price">
+                {{ offer.priceFormatted }}<span class="period"
+                  >/{{ 'HOME.MONTH' | translate }}</span
+                >
+              </div>
             </div>
           </div>
         </div>
@@ -67,7 +73,10 @@
           </ion-button>
         </div>
         <div class="channels-grid">
-          <div class="channel-card" *ngFor="let channel of popularChannels" (click)="navigateToChannel(channel.id)">
+          <div
+            class="channel-card"
+            *ngFor="let channel of popularChannels"
+            (click)="navigateToChannel(channel.id)">
             <div class="channel-emoji" *ngIf="channel.emoji">{{ channel.emoji }}</div>
             <div class="channel-info">
               <h3 class="channel-name">{{ channel.name }}</h3>
@@ -90,7 +99,10 @@
           </ion-button>
         </div>
         <div class="channels-grid">
-          <div class="channel-card" *ngFor="let channel of channels" (click)="navigateToChannel(channel.id)">
+          <div
+            class="channel-card"
+            *ngFor="let channel of channels"
+            (click)="navigateToChannel(channel.id)">
             <div class="channel-emoji" *ngIf="channel.emoji">{{ channel.emoji }}</div>
             <div class="channel-info">
               <h3 class="channel-name">{{ channel.name }}</h3>
@@ -123,7 +135,11 @@
                 <ion-icon name="location-outline"></ion-icon>
                 <span>{{ offer.city }}</span>
               </div>
-              <div class="offer-price">{{ offer.priceFormatted }}<span class="period">/{{ 'HOME.MONTH' | translate }}</span></div>
+              <div class="offer-price">
+                {{ offer.priceFormatted }}<span class="period"
+                  >/{{ 'HOME.MONTH' | translate }}</span
+                >
+              </div>
             </div>
           </div>
         </div>
@@ -139,13 +155,17 @@
         </div>
         <div class="items-grid">
           <div class="item-card" *ngFor="let item of uniItems" (click)="navigateToItem(item.id)">
-            <div class="item-image" [style.background-image]="'url(' + item.images?.[0] + ')'"></div>
+            <div
+              class="item-image"
+              [style.background-image]="'url(' + item.images?.[0] + ')'"></div>
             <div class="item-content">
               <h3 class="item-title">{{ item.title }}</h3>
               <div class="item-category">{{ item.category }}</div>
               <div class="item-footer">
                 <div class="item-price">{{ item.price }} {{ item.currency }}</div>
-                <ion-badge [color]="item.condition === 'new' ? 'success' : 'medium'" class="condition-badge">
+                <ion-badge
+                  [color]="item.condition === 'new' ? 'success' : 'medium'"
+                  class="condition-badge">
                   {{ 'ITEM.CONDITION.' + item.condition.toUpperCase() | translate }}
                 </ion-badge>
               </div>

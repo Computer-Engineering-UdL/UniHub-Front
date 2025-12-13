@@ -162,19 +162,19 @@ export class HomePage implements OnInit, OnDestroy {
   private async loadRecommendedOffers(): Promise<void> {
     try {
       const allOffers: OfferListItem[] = await firstValueFrom(this.apiService.get<OfferListItem[]>('offers/'));
-      const activeOffers: OfferListItem[] = allOffers.filter((offer: OfferListItem): boolean => offer.status === 'active');
-      const sortedOffers: OfferListItem[] = [...activeOffers].sort((a: OfferListItem, b: OfferListItem): number =>
-        (b.price ?? 0) - (a.price ?? 0)
+      const activeOffers: OfferListItem[] = allOffers.filter(
+        (offer: OfferListItem): boolean => offer.status === 'active'
       );
-      this.recommendedOffers = sortedOffers
-        .slice(0, 8)
-        .map((offer: OfferListItem): OfferListItem => {
-          const rawPrice: number = offer.price ?? 0;
-          const currency: string = (offer.currency as string) ?? 'EUR';
-          offer.priceFormatted = this.localizationService.formatPrice(rawPrice, currency);
-          offer.image = this.resolveOfferImage(offer);
-          return offer;
-        });
+      const sortedOffers: OfferListItem[] = [...activeOffers].sort(
+        (a: OfferListItem, b: OfferListItem): number => (b.price ?? 0) - (a.price ?? 0)
+      );
+      this.recommendedOffers = sortedOffers.slice(0, 8).map((offer: OfferListItem): OfferListItem => {
+        const rawPrice: number = offer.price ?? 0;
+        const currency: string = (offer.currency as string) ?? 'EUR';
+        offer.priceFormatted = this.localizationService.formatPrice(rawPrice, currency);
+        offer.image = this.resolveOfferImage(offer);
+        return offer;
+      });
     } catch {
       this.recommendedOffers = [];
     }
@@ -183,8 +183,8 @@ export class HomePage implements OnInit, OnDestroy {
   private async loadPopularChannels(): Promise<void> {
     try {
       const allChannels: Channel[] = await this.channelService.fetchChannels();
-      const sortedChannels: Channel[] = [...allChannels].sort((a: Channel, b: Channel): number =>
-        this.getChannelMemberCount(b) - this.getChannelMemberCount(a)
+      const sortedChannels: Channel[] = [...allChannels].sort(
+        (a: Channel, b: Channel): number => this.getChannelMemberCount(b) - this.getChannelMemberCount(a)
       );
       this.popularChannels = sortedChannels.slice(0, 6);
     } catch {
