@@ -1,30 +1,183 @@
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">{{ 'APP.TITLE' | translate }}</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <div class="home-container">
-    <div class="welcome-section" *ngIf="user">
-      <h1>
-        {{ 'HOME.WELCOME' | translate }}, {{ user.name || user.firstName || ('HOME.STUDENT' |
-        translate) }}!
-      </h1>
-      <p class="subtitle">{{ 'HOME.READY' | translate }}</p>
-      <ion-button expand="block" (click)="navigateToRooms()" class="explore-btn">
-        <ion-icon slot="start" name="business-outline"></ion-icon>
-        {{ 'HOME.START' | translate }} {{ 'APP.TITLE' | translate }}
-      </ion-button>
+    <div class="welcome-section">
+      <div class="welcome-content">
+        <h1 class="welcome-title">
+          {{ (user ? 'HOME.WELCOME_BACK' : 'HOME.WELCOME') | translate }}
+          <span *ngIf="user" class="user-name">{{ user.name || user.firstName }}</span>
+        </h1>
+        <p class="welcome-subtitle">{{ 'HOME.SUBTITLE' | translate }}</p>
+      </div>
     </div>
 
-    <div class="welcome-section" *ngIf="!user">
-      <h1>{{ 'HOME.WELCOME' | translate }}</h1>
-      <p class="subtitle">{{ 'HOME.READY' | translate }}</p>
-      <ion-button expand="block" (click)="navigateToRooms()" class="explore-btn">
-        <ion-icon slot="start" name="business-outline"></ion-icon>
-        {{ 'HOME.START' | translate }} {{ 'APP.TITLE' | translate }}
-      </ion-button>
+    <div class="sections-grid" *ngIf="!loading">
+      <div
+        class="section-card"
+        *ngFor="let section of sections"
+        [ngClass]="'section-' + section.color"
+        (click)="navigateTo(section.route)">
+        <div class="section-header">
+          <div class="section-icon-wrapper">
+            <ion-icon [name]="section.icon"></ion-icon>
+          </div>
+          <ion-badge *ngIf="section.badge" class="section-badge">{{ section.badge }}</ion-badge>
+        </div>
+        <h2 class="section-title">{{ section.title | translate }}</h2>
+        <p class="section-subtitle">{{ section.subtitle | translate }}</p>
+        <ion-button fill="clear" size="small" class="section-action">
+          {{ 'HOME.EXPLORE' | translate }}
+          <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+
+    <div class="content-sections" *ngIf="!loading">
+      <div class="content-section" *ngIf="recommendedOffers.length > 0">
+        <div class="section-header-row">
+          <h2 class="section-heading">{{ 'HOME.RECOMMENDED_ROOMS' | translate }}</h2>
+          <ion-button fill="clear" size="small" (click)="navigateTo('/rooms')">
+            {{ 'HOME.VIEW_ALL' | translate }}
+            <ion-icon slot="end" name="arrow-forward"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="offers-grid">
+          <div
+            class="offer-card"
+            *ngFor="let offer of recommendedOffers"
+            (click)="navigateToOffer(offer.id)">
+            <div class="offer-image" [style.background-image]="'url(' + offer.image + ')'">
+              <ion-badge class="status-badge" color="success">{{ offer.status }}</ion-badge>
+            </div>
+            <div class="offer-content">
+              <h3 class="offer-title">{{ offer.title }}</h3>
+              <div class="offer-location">
+                <ion-icon name="location-outline"></ion-icon>
+                <span>{{ offer.city }}</span>
+              </div>
+              <div class="offer-price">
+                {{ offer.priceFormatted }}<span class="period"
+                  >/{{ 'HOME.MONTH' | translate }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section" *ngIf="popularChannels.length > 0">
+        <div class="section-header-row">
+          <h2 class="section-heading">{{ 'HOME.POPULAR_CHANNELS' | translate }}</h2>
+          <ion-button fill="clear" size="small" (click)="navigateTo('/channels')">
+            {{ 'HOME.VIEW_ALL' | translate }}
+            <ion-icon slot="end" name="arrow-forward"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="channels-grid">
+          <div
+            class="channel-card"
+            *ngFor="let channel of popularChannels"
+            (click)="navigateToChannel(channel.id)">
+            <div class="channel-emoji" *ngIf="channel.emoji">{{ channel.emoji }}</div>
+            <div class="channel-info">
+              <h3 class="channel-name">{{ channel.name }}</h3>
+              <p class="channel-category">{{ channel.category }}</p>
+            </div>
+            <div class="channel-meta">
+              <ion-icon name="people-outline"></ion-icon>
+              <span>{{ getChannelMemberCount(channel) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section" *ngIf="channels.length > 0">
+        <div class="section-header-row">
+          <h2 class="section-heading">{{ 'HOME.YOUR_CHANNELS' | translate }}</h2>
+          <ion-button fill="clear" size="small" (click)="navigateTo('/channels')">
+            {{ 'HOME.VIEW_ALL' | translate }}
+            <ion-icon slot="end" name="arrow-forward"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="channels-grid">
+          <div
+            class="channel-card"
+            *ngFor="let channel of channels"
+            (click)="navigateToChannel(channel.id)">
+            <div class="channel-emoji" *ngIf="channel.emoji">{{ channel.emoji }}</div>
+            <div class="channel-info">
+              <h3 class="channel-name">{{ channel.name }}</h3>
+              <p class="channel-category">{{ channel.category }}</p>
+            </div>
+            <div class="channel-meta">
+              <ion-icon name="people-outline"></ion-icon>
+              <span>{{ getChannelMemberCount(channel) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section" *ngIf="offers.length > 0">
+        <div class="section-header-row">
+          <h2 class="section-heading">{{ 'HOME.NEAR_CAMPUS' | translate }}</h2>
+          <ion-button fill="clear" size="small" (click)="navigateTo('/rooms')">
+            {{ 'HOME.VIEW_ALL' | translate }}
+            <ion-icon slot="end" name="arrow-forward"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="offers-grid">
+          <div class="offer-card" *ngFor="let offer of offers" (click)="navigateToOffer(offer.id)">
+            <div class="offer-image" [style.background-image]="'url(' + offer.image + ')'">
+              <ion-badge class="status-badge" color="success">{{ offer.status }}</ion-badge>
+            </div>
+            <div class="offer-content">
+              <h3 class="offer-title">{{ offer.title }}</h3>
+              <div class="offer-location">
+                <ion-icon name="location-outline"></ion-icon>
+                <span>{{ offer.city }}</span>
+              </div>
+              <div class="offer-price">
+                {{ offer.priceFormatted }}<span class="period"
+                  >/{{ 'HOME.MONTH' | translate }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section" *ngIf="uniItems.length > 0">
+        <div class="section-header-row">
+          <h2 class="section-heading">{{ 'HOME.RECENT_ITEMS' | translate }}</h2>
+          <ion-button fill="clear" size="small" (click)="navigateTo('/uni-items')">
+            {{ 'HOME.VIEW_ALL' | translate }}
+            <ion-icon slot="end" name="arrow-forward"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="items-grid">
+          <div class="item-card" *ngFor="let item of uniItems" (click)="navigateToItem(item.id)">
+            <div
+              class="item-image"
+              [style.background-image]="'url(' + item.images?.[0] + ')'"></div>
+            <div class="item-content">
+              <h3 class="item-title">{{ item.title }}</h3>
+              <div class="item-category">{{ item.category }}</div>
+              <div class="item-footer">
+                <div class="item-price">{{ item.price }} {{ item.currency }}</div>
+                <ion-badge
+                  [color]="item.condition === 'new' ? 'success' : 'medium'"
+                  class="condition-badge">
+                  {{ 'ITEM.CONDITION.' + item.condition.toUpperCase() | translate }}
+                </ion-badge>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="loading-container" *ngIf="loading">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>{{ 'HOME.LOADING' | translate }}</p>
     </div>
   </div>
 </ion-content>

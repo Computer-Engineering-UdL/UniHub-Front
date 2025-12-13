@@ -81,13 +81,45 @@
     "STATUS_SUSPENDED": "Suspended"
   },
   "HOME": {
-    "WELCOME": "Welcome back!",
+    "WELCOME": "Welcome!",
+    "WELCOME_BACK": "Welcome back",
+    "SUBTITLE": "Connect with students, find housing and share resources",
     "STUDENT": "Student",
     "EMAIL": "Email",
     "LOGIN_METHOD": "Login method",
     "READY": "Ready to find your perfect accommodation?",
     "START": "Start exploring rooms with",
-    "LOGOUT": "Logout"
+    "LOGOUT": "Logout",
+    "EXPLORE": "Explore",
+    "VIEW_ALL": "View all",
+    "YOUR_CHANNELS": "Your channels",
+    "NEAR_CAMPUS": "Near Campus",
+    "RECENT_ITEMS": "Recent items",
+    "LOADING": "Loading...",
+    "MONTH": "month",
+    "SECTIONS": {
+      "CHANNELS": {
+        "TITLE": "Channels",
+        "SUBTITLE": "Join study groups and faculty discussions"
+      },
+      "UNIROOM": {
+        "TITLE": "Rooms",
+        "SUBTITLE": "Find accommodation near campus"
+      },
+      "UNIITEMS": {
+        "TITLE": "Objects",
+        "SUBTITLE": "Buy and sell student items"
+      },
+      "UNIBORSA": {
+        "TITLE": "Job Board",
+        "SUBTITLE": "Discover student job opportunities"
+      }
+    },
+    "RECOMMENDED_ROOMS": "Recommended Rooms",
+    "POPULAR_CHANNELS": "Popular Channels",
+    "ERROR": {
+      "LOAD_FAILED": "Error loading data"
+    }
   },
   "PROFILE": {
     "TITLE": "Profile",
