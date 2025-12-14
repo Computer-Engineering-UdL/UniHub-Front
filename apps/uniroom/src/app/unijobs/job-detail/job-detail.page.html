@@ -8,11 +8,9 @@
     <section class="hero">
       <div class="hero-main">
         <div class="logo" [class.placeholder]="!jobLogo(job)">
-          <img
-            *ngIf="jobLogo(job) as logo"
-            [src]="logo"
-            [alt]="job.companyName"
-            appCachedAvatar="logo" />
+          <ng-container *ngIf="jobLogo(job) as logo">
+            <img [appCachedAvatar]="logo" [alt]="job.companyName" />
+          </ng-container>
           <span *ngIf="!jobLogo(job)">{{ getInitials(job.companyName || '') }}</span>
         </div>
         <div class="hero-text">
