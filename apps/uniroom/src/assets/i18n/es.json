@@ -635,7 +635,8 @@
         "BALCONY": "Balcón",
         "INCLUDED": "Incluido",
         "NOT_AVAILABLE": "No disponible",
-        "NOT_SPECIFIED": "No especificado"
+        "NOT_SPECIFIED": "No especificado",
+        "OTHER": "Comodidad desconocida"
       },
       "HOUSE_RULES_TITLE": "Normas de la casa",
       "HOUSE_RULES": {

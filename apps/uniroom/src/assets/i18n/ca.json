@@ -636,7 +636,8 @@
         "BALCONY": "Balcó",
         "INCLUDED": "Inclòs",
         "NOT_AVAILABLE": "No disponible",
-        "NOT_SPECIFIED": "No especificat"
+        "NOT_SPECIFIED": "No especificat",
+        "OTHER": "Comoditat desconeguda"
       },
       "HOUSE_RULES_TITLE": "Normes de la casa",
       "HOUSE_RULES": {

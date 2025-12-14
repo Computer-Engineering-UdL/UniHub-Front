@@ -635,7 +635,8 @@
         "BALCONY": "Balcony",
         "INCLUDED": "Included",
         "NOT_AVAILABLE": "Not available",
-        "NOT_SPECIFIED": "Not specified"
+        "NOT_SPECIFIED": "Not specified",
+        "OTHER": "Unknown amenity"
       },
       "HOUSE_RULES_TITLE": "House Rules",
       "HOUSE_RULES": {

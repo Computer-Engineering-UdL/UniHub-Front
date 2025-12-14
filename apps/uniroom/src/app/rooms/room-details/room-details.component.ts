@@ -182,8 +182,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       } catch {
         this.isLiked = false;
       }
-    } catch (error: unknown) {
-      console.error('Error loading offer details', error);
+    } catch {
       this.error = true;
     } finally {
       this.loading = false;
@@ -442,7 +441,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
       amenityMap.set(key, {
         icon: 'ellipse-outline',
-        labelKey: `ROOM.DETAILS.AMENITIES.${key.toUpperCase()}`,
+        labelKey: this.getAmenityLabel(key),
         available: resolvedAvailability
       });
       extraAmenityKeys.add(key);
@@ -810,6 +809,15 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       ]
     });
     await alert.present();
+  }
+
+  getAmenityLabel(amenityId: string): string {
+    const amenityKey: string = `ROOM.DETAILS.AMENITIES.${amenityId.toUpperCase()}`;
+    const translation: string = this.translate.instant(amenityKey);
+    if (translation === amenityKey) {
+      return this.translate.instant('ROOM.DETAILS.AMENITIES.OTHER');
+    }
+    return translation;
   }
 
   protected readonly avatarSrc = DEFAULT_USER_URL;
