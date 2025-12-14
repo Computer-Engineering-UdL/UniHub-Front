@@ -204,7 +204,7 @@ export class ChannelsPage implements OnInit, OnDestroy {
       this.updateChannelCounts();
       this.notificationService.success('CHANNELS.SUCCESS.JOIN_CHANNEL');
       this.filterChannels();
-    } catch (_) {
+    } catch {
       channel.is_member = false;
       this.notificationService.error('CHANNELS.ERROR.JOIN_CHANNEL');
     }

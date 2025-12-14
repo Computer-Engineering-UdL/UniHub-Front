@@ -101,4 +101,49 @@ describe('AuthGuard', () => {
     expect(routerMock.parseUrl).toHaveBeenCalledWith('/unauthorized');
     expect((result as any).url).toBe('/unauthorized');
   });
+
+  it('should allow access when user has one of multiple required roles', async () => {
+    authServiceMock.isAuthenticated.and.returnValue(true);
+    authServiceMock._user = {
+      id: '1',
+      email: 'a@b.com',
+      role: 'Seller' as Role
+    };
+    const route = createRoute({ roles: ['Seller', 'Admin'] });
+    const result = await guard.canActivate(route, {} as RouterStateSnapshot);
+    expect(result).toBeTrue();
+  });
+
+  it('should redirect to unauthorized when no roles match', async () => {
+    authServiceMock.isAuthenticated.and.returnValue(true);
+    authServiceMock._user = {
+      id: '1',
+      email: 'a@b.com',
+      role: 'Basic' as Role
+    };
+    const route = createRoute({ roles: ['Admin', 'Seller'] });
+    const result = (await guard.canActivate(route, {} as RouterStateSnapshot)) as UrlTree | boolean;
+    expect(routerMock.parseUrl).toHaveBeenCalledWith('/unauthorized');
+  });
+
+  it('should allow access to route without role restrictions', async () => {
+    authServiceMock.isAuthenticated.and.returnValue(true);
+    authServiceMock._user = {
+      id: '1',
+      email: 'a@b.com',
+      role: 'Basic' as Role
+    };
+    const route = createRoute({});
+    const result = await guard.canActivate(route, {} as RouterStateSnapshot);
+    expect(result).toBeTrue();
+  });
+
+  it('should handle null user when authenticated', async () => {
+    authServiceMock.isAuthenticated.and.returnValue(true);
+    authServiceMock._user = null;
+    const route = createRoute({ roles: ['Admin'] });
+    const result = (await guard.canActivate(route, {} as RouterStateSnapshot)) as UrlTree | boolean;
+    expect(routerMock.parseUrl).toHaveBeenCalledWith('/unauthorized');
+    expect((result as any).url).toBe('/unauthorized');
+  });
 });

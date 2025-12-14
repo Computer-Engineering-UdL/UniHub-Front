@@ -68,4 +68,55 @@ describe('AddMemberModalComponent', () => {
     expect(notificationServiceStub.success).toHaveBeenCalled();
     expect(modalControllerStub.dismiss).toHaveBeenCalledWith(true);
   });
+
+  it('should trigger search when search term changes', () => {
+    component.searchTerm = 'Bob';
+    component.onSearchChange({ target: { value: 'Bob' } });
+    expect(component.searchTerm).toBe('Bob');
+  });
+
+  it('should load initial users without search', () => {
+    component.searchTerm = '';
+    component.loadInitialUsers();
+    expect(userServiceStub.getUsers).toHaveBeenCalled();
+  });
+
+  it('should dismiss modal', () => {
+    component.dismiss(false);
+    expect(modalControllerStub.dismiss).toHaveBeenCalledWith(false);
+  });
+
+  it('should handle error when adding member fails', async () => {
+    channelServiceStub.addMember.and.returnValue(Promise.reject(new Error('Add failed')));
+    component.channelId = 'c1';
+    await component.addMember(users[0] as any);
+    expect(notificationServiceStub.error).toHaveBeenCalled();
+  });
+
+  it('should filter out current user from search results', () => {
+    component.existingMembers = [];
+    component.bannedMemberIds = [];
+    currentUserSubject.next({ id: 'u2' });
+    const filtered = (component as any).filterUsers(users as any);
+    expect(filtered.some((u: any) => u.id === 'u2')).toBeFalse();
+  });
+
+  it('should show empty state when no users available', () => {
+    component.users = [];
+    expect(component.users.length).toBe(0);
+  });
+
+  it('should handle multiple banned members', () => {
+    component.bannedMemberIds = ['u1', 'u3'];
+    component.existingMembers = [];
+    const filtered = (component as any).filterUsers(users as any);
+    expect(filtered.some((u: any) => u.id === 'u1')).toBeFalse();
+    expect(filtered.some((u: any) => u.id === 'u3')).toBeFalse();
+  });
+
+  it('should handle search term changes via onSearchChange', () => {
+    const event = { target: { value: 'Alice' } };
+    component.onSearchChange(event);
+    expect(component.searchTerm).toBe('Alice');
+  });
 });

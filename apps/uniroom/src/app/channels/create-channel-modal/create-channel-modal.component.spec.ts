@@ -71,4 +71,47 @@ describe('CreateChannelModalComponent', () => {
     expect(channelServiceStub.updateChannel).toHaveBeenCalled();
     expect(modalControllerStub.dismiss).toHaveBeenCalledWith({ updated: true });
   });
+
+  it('should not submit when form is invalid', async () => {
+    component.channelForm.setValue({ name: '', description: '', category: '' });
+    await component.onSubmit();
+    expect(channelServiceStub.createChannel).not.toHaveBeenCalled();
+    expect(channelServiceStub.updateChannel).not.toHaveBeenCalled();
+  });
+
+  it('should validate form fields correctly', () => {
+    expect(component.channelForm.get('name')?.valid).toBeFalse();
+    component.channelForm.get('name')?.setValue('Test Channel');
+    expect(component.channelForm.get('name')?.valid).toBeTrue();
+  });
+
+  it('should handle emoji selection correctly', async () => {
+    expect(component.selectedEmoji).toBe('💬');
+    await component.openEmojiPicker(new Event('click'));
+    expect(component.selectedEmoji).toBe('🔥');
+  });
+
+  it('should show error notification on create failure', async () => {
+    channelServiceStub.createChannel.and.returnValue(Promise.reject(new Error('Create failed')));
+    component.channelForm.setValue({ name: 'New', description: 'A description', category: 'General' });
+    await component.onSubmit();
+    expect(notificationServiceStub.error).toHaveBeenCalled();
+  });
+
+  it('should show error notification on update failure', async () => {
+    component.channel = { id: '1', name: 'Old', description: 'desc', category: 'General' } as any;
+    component.ngOnInit();
+    channelServiceStub.updateChannel.and.returnValue(Promise.reject(new Error('Update failed')));
+    component.channelForm.setValue({ name: 'Updated', description: 'A description', category: 'General' });
+    await component.onSubmit();
+    expect(notificationServiceStub.error).toHaveBeenCalled();
+  });
+
+  it('should populate form in edit mode', () => {
+    component.channel = { id: '1', name: 'Test', description: 'Test Desc', category: 'General', emoji: '🎯' } as any;
+    component.ngOnInit();
+    expect(component.isEditMode).toBeTrue();
+    expect(component.channelForm.get('name')?.value).toBe('Test');
+    expect(component.selectedEmoji).toBe('🎯');
+  });
 });

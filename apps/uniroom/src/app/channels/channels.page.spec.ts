@@ -113,4 +113,67 @@ describe('ChannelsPage', () => {
     component.navigateToChannelDetail(ch);
     expect(routerStub.navigate).toHaveBeenCalled();
   });
+
+  it('should join channel successfully', async () => {
+    const channel = { id: '2', name: 'Eng', is_member: false } as any;
+    await component.joinChannel(channel);
+    expect(channelServiceStub.joinChannel).toHaveBeenCalledWith('2');
+    expect(notificationServiceStub.success).toHaveBeenCalled();
+  });
+
+  it('should leave channel successfully', async () => {
+    const channel = { id: '1', name: 'General', is_member: true } as any;
+    await component.leaveChannel(channel);
+    expect(channelServiceStub.leaveChannel).toHaveBeenCalledWith('1');
+    expect(notificationServiceStub.success).toHaveBeenCalled();
+  });
+
+  it('should open create channel modal', async () => {
+    await component.openCreateChannelModal();
+    expect(modalControllerStub.create).toHaveBeenCalled();
+  });
+
+  it('should open edit channel modal with channel data', async () => {
+    const channel = { id: '1', name: 'General' } as any;
+    await component.editChannel(channel);
+    expect(modalControllerStub.create).toHaveBeenCalled();
+  });
+
+  it('should delete channel after confirmation', async () => {
+    const channel = { id: '1', name: 'General' } as any;
+    await component.deleteChannel(channel);
+    expect(alertControllerStub.create).toHaveBeenCalled();
+  });
+
+  it('should filter by category using onCategoryChange', () => {
+    component.channels = mockChannels as any;
+    component.onCategoryChange('Engineering');
+    expect(component.selectedCategory).toBe('Engineering');
+  });
+
+  it('should clear search when search query is empty', () => {
+    component.channels = mockChannels as any;
+    component.searchQuery = '';
+    component.filterChannels();
+    expect(component.filteredChannels.length).toBe(component.channels.length);
+  });
+
+  it('should count my channels correctly', async () => {
+    await component.ngOnInit();
+    const myChannels = component.channels.filter((c) => c.is_member);
+    expect(component.myChannelsCount).toBe(myChannels.length);
+  });
+
+  it('should handle empty channels list', async () => {
+    channelServiceStub.fetchChannels.and.returnValue(Promise.resolve([]));
+    await component.loadChannels();
+    expect(component.channels.length).toBe(0);
+    expect(component.myChannelsCount).toBe(0);
+  });
+
+  it('should show error notification on channel load failure', async () => {
+    channelServiceStub.fetchChannels.and.returnValue(Promise.reject(new Error('Network error')));
+    await component.loadChannels();
+    expect(notificationServiceStub.error).toHaveBeenCalled();
+  });
 });
