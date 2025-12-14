@@ -6,9 +6,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
 import { UniJobsService } from '../../services/unijobs.service';
-import { JobApplication } from '../../models/unijobs.types';
+import { JobApplication, JobType } from '../../models/unijobs.types';
 import { AuthService } from '../../services/auth.service';
 import { SharedModule } from '../../shared/shared-module';
+import { JOB_TYPE_TRANSLATION_KEYS, PROFILE_VERIFICATION_ENABLED } from '../unijobs.constants';
 
 interface ApplicationStats {
   total: number;
@@ -70,9 +71,14 @@ export class MyApplicationsPage implements OnInit {
 
   ngOnInit(): void {
     const user = this.authService.currentUser;
-    if (!user?.isVerified) {
+    if (!user) {
+      this.notificationService.error('UNIJOBS.APPLICATIONS.LOGIN_REQUIRED');
+      void this.router.navigateByUrl('/login');
+      return;
+    }
+    if (PROFILE_VERIFICATION_ENABLED && !user.isVerified) {
       this.notificationService.error('UNIJOBS.APPLICATIONS.VERIFICATION_REQUIRED');
-      this.router.navigateByUrl('/profile');
+      void this.router.navigateByUrl('/profile');
       return;
     }
     this.loadApplications();
@@ -106,6 +112,10 @@ export class MyApplicationsPage implements OnInit {
 
   protected trackByApplication(_: number, application: JobApplication): string {
     return application.id;
+  }
+
+  protected jobTypeLabel(jobType: JobType): string {
+    return JOB_TYPE_TRANSLATION_KEYS[jobType];
   }
 
   private loadApplications(): void {

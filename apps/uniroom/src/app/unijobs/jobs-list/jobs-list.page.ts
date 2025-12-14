@@ -11,7 +11,8 @@ import { JobOffer, JobCategory, JobType, JobsQuery } from '../../models/unijobs.
 import { ApplyJobDialogComponent } from '../apply-job-dialog/apply-job-dialog.component';
 import { SharedModule } from '../../shared/shared-module';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../models/auth.types';
+import { Role, User } from '../../models/auth.types';
+import { JOB_CREATOR_ROLES, JOB_TYPE_TRANSLATION_KEYS } from '../unijobs.constants';
 
 interface JobTab {
   key: 'all' | 'saved' | 'applied';
@@ -95,7 +96,8 @@ export class JobsListPage implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userSubscription = this.authService.currentUser$.subscribe((user: User | null) => {
-      this.canCreate = user?.role === 'Admin';
+      const role: Role | undefined = user?.role;
+      this.canCreate = role ? JOB_CREATOR_ROLES.includes(role) : false;
     });
     this.loadTab('all');
     this.loadBadges();
@@ -235,6 +237,19 @@ export class JobsListPage implements OnInit, OnDestroy {
 
   protected hideFiltersPanel(): void {
     this.showMobileFilters = false;
+  }
+
+  protected hasActiveFilters(): boolean {
+    return (
+      !!this.searchTerm.trim() ||
+      !!this.selectedCategory ||
+      this.selectedJobTypes.size > 0 ||
+      this.selectedLocations.size > 0
+    );
+  }
+
+  protected jobTypeLabel(type: JobType): string {
+    return JOB_TYPE_TRANSLATION_KEYS[type];
   }
 
   private loadTab(tab: 'all' | 'saved' | 'applied'): void {

@@ -10,86 +10,107 @@
 </ion-header>
 
 <ion-content class="apply-dialog">
-  <form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="dialog-wrapper">
     <p class="subtitle">
       {{ 'UNIJOBS.APPLY.SUBTITLE' | translate: { company: companyName } }}
     </p>
 
-    <div class="form-grid">
-      <div class="form-group">
-        <label>{{ 'UNIJOBS.APPLY.FULL_NAME' | translate }}</label>
-        <ion-input
-          formControlName="fullName"
-          [placeholder]="'UNIJOBS.APPLY.FULL_NAME_PLACEHOLDER' | translate"></ion-input>
-        <div class="error" *ngIf="form.controls.fullName.touched && form.controls.fullName.invalid">
+    <form class="form-shell" [formGroup]="form" (ngSubmit)="submit()">
+      <ion-list lines="none" class="form-list">
+        <ion-item
+          lines="full"
+          class="input-item"
+          [class.item-invalid]="form.controls.fullName.touched && form.controls.fullName.invalid">
+          <ion-label position="stacked">{{ 'UNIJOBS.APPLY.FULL_NAME' | translate }}</ion-label>
+          <ion-input
+            formControlName="fullName"
+            [placeholder]="'UNIJOBS.APPLY.FULL_NAME_PLACEHOLDER' | translate"></ion-input>
+        </ion-item>
+        <ion-note *ngIf="form.controls.fullName.touched && form.controls.fullName.invalid" color="danger">
           {{ 'UNIJOBS.APPLY.REQUIRED' | translate }}
-        </div>
-      </div>
-      <div class="form-group">
-        <label>{{ 'UNIJOBS.APPLY.EMAIL' | translate }}</label>
-        <ion-input
-          type="email"
-          formControlName="email"
-          [placeholder]="'UNIJOBS.APPLY.EMAIL_PLACEHOLDER' | translate"></ion-input>
-        <div class="error" *ngIf="form.controls.email.touched && form.controls.email.invalid">
+        </ion-note>
+
+        <ion-item
+          lines="full"
+          class="input-item"
+          [class.item-invalid]="form.controls.email.touched && form.controls.email.invalid">
+          <ion-label position="stacked">{{ 'UNIJOBS.APPLY.EMAIL' | translate }}</ion-label>
+          <ion-input
+            type="email"
+            formControlName="email"
+            [placeholder]="'UNIJOBS.APPLY.EMAIL_PLACEHOLDER' | translate"></ion-input>
+        </ion-item>
+        <ion-note *ngIf="form.controls.email.touched && form.controls.email.invalid" color="danger">
           {{
             form.controls.email.errors?.['email']
               ? ('UNIJOBS.APPLY.EMAIL_INVALID' | translate)
               : ('UNIJOBS.APPLY.REQUIRED' | translate)
           }}
-        </div>
-      </div>
-      <div class="form-group">
-        <label>{{ 'UNIJOBS.APPLY.PHONE' | translate }}</label>
-        <ion-input
-          formControlName="phone"
-          [placeholder]="'UNIJOBS.APPLY.PHONE_PLACEHOLDER' | translate"></ion-input>
-        <div class="error" *ngIf="form.controls.phone.touched && form.controls.phone.invalid">
+        </ion-note>
+
+        <ion-item
+          lines="full"
+          class="input-item"
+          [class.item-invalid]="form.controls.phone.touched && form.controls.phone.invalid">
+          <ion-label position="stacked">{{ 'UNIJOBS.APPLY.PHONE' | translate }}</ion-label>
+          <ion-input
+            formControlName="phone"
+            [placeholder]="'UNIJOBS.APPLY.PHONE_PLACEHOLDER' | translate"></ion-input>
+        </ion-item>
+        <ion-note *ngIf="form.controls.phone.touched && form.controls.phone.invalid" color="danger">
           {{ 'UNIJOBS.APPLY.REQUIRED' | translate }}
-        </div>
-      </div>
-      <div class="form-group file-group">
-        <label>{{ 'UNIJOBS.APPLY.RESUME' | translate }}</label>
-        <div class="upload" (click)="fileInput.click()">
-          <ion-icon name="cloud-upload-outline"></ion-icon>
-          <p>{{ 'UNIJOBS.APPLY.UPLOAD_HINT' | translate }}</p>
-          <small>{{ 'UNIJOBS.APPLY.UPLOAD_SUBTITLE' | translate }}</small>
-          <input
-            #fileInput
-            type="file"
-            (change)="onFileSelected($event)"
-            accept=".pdf,.doc,.docx"
-            hidden />
-        </div>
-        <div class="file-info" *ngIf="resumeFile">{{ resumeFile.name }}</div>
-        <div class="error" *ngIf="fileError">{{ fileError }}</div>
-      </div>
-    </div>
+        </ion-note>
 
-    <div class="form-group">
-      <label>{{ 'UNIJOBS.APPLY.COVER_LETTER' | translate }}</label>
-      <ion-textarea
-        formControlName="coverLetter"
-        [placeholder]="'UNIJOBS.APPLY.COVER_LETTER_PLACEHOLDER' | translate"
-        [autoGrow]="true"
-        maxlength="1000"></ion-textarea>
-      <div class="counter">{{ coverLetterLength }} / 1000</div>
-      <div class="error" *ngIf="form.controls.coverLetter.errors?.['maxlength']">
-        {{ 'UNIJOBS.APPLY.COVER_LETTER_MAX' | translate }}
-      </div>
-    </div>
+        <ion-item lines="full" class="file-item" button (click)="fileInput.click()">
+          <ion-label position="stacked">{{ 'UNIJOBS.APPLY.RESUME' | translate }}</ion-label>
+          <div class="file-trigger">
+            <ion-icon name="cloud-upload-outline"></ion-icon>
+            <div class="file-copy">
+              <p>{{ 'UNIJOBS.APPLY.UPLOAD_HINT' | translate }}</p>
+              <small>{{ 'UNIJOBS.APPLY.UPLOAD_SUBTITLE' | translate }}</small>
+            </div>
+          </div>
+        </ion-item>
+        <input
+          #fileInput
+          type="file"
+          (change)="onFileSelected($event)"
+          accept=".pdf,.doc,.docx"
+          hidden />
+        <ion-note *ngIf="resumeFile" color="medium" class="file-note">{{ resumeFile.name }}</ion-note>
+        <ion-note *ngIf="fileError" color="danger">{{ fileError }}</ion-note>
 
-    <div class="actions">
-      <ion-button fill="clear" type="button" (click)="dismiss()">{{
-        'UNIJOBS.APPLY.CANCEL' | translate
-      }}</ion-button>
-      <ion-button type="submit" [disabled]="submitting" color="primary">
-        {{
-          submitting
-            ? ('UNIJOBS.APPLY.SUBMITTING' | translate)
-            : ('UNIJOBS.APPLY.SUBMIT' | translate)
-        }}
-      </ion-button>
-    </div>
-  </form>
+        <ion-item
+          lines="full"
+          class="textarea-item"
+          [class.item-invalid]="form.controls.coverLetter.errors?.['maxlength']">
+          <ion-label position="stacked">{{ 'UNIJOBS.APPLY.COVER_LETTER' | translate }}</ion-label>
+          <ion-textarea
+            formControlName="coverLetter"
+            [placeholder]="'UNIJOBS.APPLY.COVER_LETTER_PLACEHOLDER' | translate"
+            [autoGrow]="true"
+            maxlength="1000"></ion-textarea>
+        </ion-item>
+        <div class="helper-row">
+          <span class="counter">{{ coverLetterLength }} / 1000</span>
+          <ion-note *ngIf="form.controls.coverLetter.errors?.['maxlength']" color="danger">
+            {{ 'UNIJOBS.APPLY.COVER_LETTER_MAX' | translate }}
+          </ion-note>
+        </div>
+      </ion-list>
+
+      <div class="actions">
+        <ion-button fill="clear" type="button" (click)="dismiss()">
+          {{ 'UNIJOBS.APPLY.CANCEL' | translate }}
+        </ion-button>
+        <ion-button type="submit" [disabled]="submitting" color="primary">
+          {{
+            submitting
+              ? ('UNIJOBS.APPLY.SUBMITTING' | translate)
+              : ('UNIJOBS.APPLY.SUBMIT' | translate)
+          }}
+        </ion-button>
+      </div>
+    </form>
+  </div>
 </ion-content>

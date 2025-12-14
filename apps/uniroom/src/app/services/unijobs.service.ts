@@ -16,6 +16,14 @@ import {
   JobWorkplace
 } from '../models/unijobs.types';
 import { Role, User } from '../models/auth.types';
+import {
+  JOB_CREATOR_ROLES,
+  JOB_TYPE_FROM_API,
+  JOB_TYPE_TO_API,
+  PROFILE_VERIFICATION_ENABLED,
+  WORKPLACE_FROM_API,
+  WORKPLACE_TO_API
+} from '../unijobs/unijobs.constants';
 
 interface RawPagedResult<T> {
   items?: T[];
@@ -30,8 +38,8 @@ interface RawJobOffer {
   title: string;
   description: string;
   category: JobOffer['category'];
-  job_type?: JobType;
-  workplace_type?: JobWorkplace;
+  job_type?: JobType | string;
+  workplace_type?: JobWorkplace | string;
   location: string;
   salary_period?: JobSalaryPeriod;
   salary_min?: number;
@@ -57,7 +65,7 @@ interface RawJobApplication {
   job_title?: string;
   company_name?: string;
   location?: string;
-  job_type?: JobType;
+  job_type?: JobType | string;
   status?: JobApplication['status'];
   applied_at?: string;
   resume_file_name?: string;
@@ -111,13 +119,9 @@ export class UniJobsService {
       this.notificationService.error('UNIJOBS.APPLY.LOGIN_REQUIRED');
       return throwError(() => new Error('User not authenticated'));
     }
-    if (!currentUser.isVerified) {
+    if (PROFILE_VERIFICATION_ENABLED && !currentUser.isVerified) {
       this.notificationService.error('UNIJOBS.APPLY.VERIFICATION_REQUIRED');
       return throwError(() => new Error('User not verified'));
-    }
-    if (currentUser.role !== 'Basic') {
-      this.notificationService.error('UNIJOBS.APPLY.ROLE_REQUIRED');
-      return throwError(() => new Error('Role not allowed'));
     }
 
     const body: FormData | Record<string, string> = this.buildApplicationPayload(payload);
@@ -125,7 +129,7 @@ export class UniJobsService {
   }
 
   createJob(payload: JobOfferCreate): Observable<JobOffer> {
-    if (!this.isAdmin()) {
+    if (!this.hasCreatorRole()) {
       this.notificationService.error('UNIJOBS.ADMIN.ONLY');
       return throwError(() => new Error('Admin only'));
     }
@@ -135,7 +139,7 @@ export class UniJobsService {
   }
 
   updateJob(jobId: string, payload: JobOfferUpdate): Observable<JobOffer> {
-    if (!this.isAdmin()) {
+    if (!this.hasCreatorRole()) {
       this.notificationService.error('UNIJOBS.ADMIN.ONLY');
       return throwError(() => new Error('Admin only'));
     }
@@ -145,7 +149,7 @@ export class UniJobsService {
   }
 
   deleteJob(jobId: string): Observable<void> {
-    if (!this.isAdmin()) {
+    if (!this.hasCreatorRole()) {
       this.notificationService.error('UNIJOBS.ADMIN.ONLY');
       return throwError(() => new Error('Admin only'));
     }
@@ -194,7 +198,12 @@ export class UniJobsService {
       params['category'] = query.category;
     }
     if (query.jobTypes?.length) {
-      params['job_type'] = query.jobTypes.join(',');
+      const mappedTypes: string[] = query.jobTypes
+        .map((type: JobType) => JOB_TYPE_TO_API[type])
+        .filter((value: string | undefined): value is string => !!value);
+      if (mappedTypes.length) {
+        params['job_type'] = mappedTypes.join(',');
+      }
     }
     if (query.locations?.length) {
       params['location'] = query.locations.join(',');
@@ -234,8 +243,8 @@ export class UniJobsService {
       title: data.title,
       description: data.description,
       category: data.category,
-      jobType: data.job_type ?? 'full_time',
-      workplaceType: data.workplace_type,
+      jobType: this.mapJobTypeFromApi(data.job_type),
+      workplaceType: this.mapWorkplaceFromApi(data.workplace_type),
       location: data.location,
       salaryPeriod: data.salary_period ?? 'month',
       salaryMin: data.salary_min,
@@ -263,8 +272,8 @@ export class UniJobsService {
       title: payload.title,
       description: payload.description,
       category: payload.category,
-      job_type: payload.jobType,
-      workplace_type: payload.workplaceType,
+      job_type: this.mapJobTypeToApi(payload.jobType),
+      workplace_type: this.mapWorkplaceToApi(payload.workplaceType),
       location: payload.location,
       salary_period: payload.salaryPeriod,
       salary_min: payload.salaryMin,
@@ -284,7 +293,7 @@ export class UniJobsService {
       jobTitle: data.job_title ?? '',
       companyName: data.company_name ?? '',
       location: data.location ?? '',
-      jobType: data.job_type ?? 'full_time',
+      jobType: this.mapJobTypeFromApi(data.job_type),
       status: data.status ?? 'pending',
       appliedAt: data.applied_at ?? '',
       resumeFileName: data.resume_file_name,
@@ -292,9 +301,48 @@ export class UniJobsService {
     };
   }
 
-  private isAdmin(): boolean {
+  private hasCreatorRole(): boolean {
     const user: User | null = this.authService.currentUser;
     const role: Role | undefined = user?.role;
-    return role === 'Admin';
+    return role ? JOB_CREATOR_ROLES.includes(role) : false;
+  }
+
+  private mapJobTypeFromApi(type: JobType | string | undefined): JobType {
+    if (!type) {
+      return 'full_time';
+    }
+    if (JOB_TYPE_TO_API[type as JobType]) {
+      return type as JobType;
+    }
+    const mappedType: JobType | undefined = JOB_TYPE_FROM_API[type];
+    if (mappedType) {
+      return mappedType;
+    }
+    const normalized: string = type.toString().replace(/[-\s]/g, '_').toLowerCase();
+    return (JOB_TYPE_FROM_API[normalized] as JobType) || 'full_time';
+  }
+
+  private mapJobTypeToApi(type: JobType | undefined): string | undefined {
+    if (!type) {
+      return undefined;
+    }
+    return JOB_TYPE_TO_API[type] ?? type;
+  }
+
+  private mapWorkplaceFromApi(type: JobWorkplace | string | undefined): JobWorkplace | undefined {
+    if (!type) {
+      return undefined;
+    }
+    if (WORKPLACE_TO_API[type as JobWorkplace]) {
+      return type as JobWorkplace;
+    }
+    return WORKPLACE_FROM_API[type] ?? WORKPLACE_FROM_API[type.toString().toLowerCase()] ?? undefined;
+  }
+
+  private mapWorkplaceToApi(type: JobWorkplace | undefined): string | undefined {
+    if (!type) {
+      return undefined;
+    }
+    return WORKPLACE_TO_API[type] ?? type;
   }
 }
