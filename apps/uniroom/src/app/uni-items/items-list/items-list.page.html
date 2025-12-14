@@ -119,6 +119,10 @@
     <div class="items-section">
       <div class="section-header">
         <div class="header-info">
+          <ion-button *ngIf="canCreate" (click)="goToCreate()" class="create-action-btn">
+            <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+            {{ 'UNI_ITEMS.LIST.NEW_LISTING' | translate }}
+          </ion-button>
           <ion-chip color="primary" class="count-chip"
             >{{ total }} {{ 'UNI_ITEMS.LIST.COUNT' | translate }}</ion-chip
           >
@@ -127,10 +131,6 @@
           <ion-button class="toggle-filters-mobile" fill="outline" (click)="openFilters()">
             <ion-icon slot="start" name="options-outline"></ion-icon>
             {{ 'UNI_ITEMS.FILTERS.TITLE' | translate }}
-          </ion-button>
-          <ion-button *ngIf="canCreate" (click)="goToCreate()" class="create-action-btn">
-            <ion-icon slot="start" name="add-circle-outline"></ion-icon>
-            {{ 'UNI_ITEMS.LIST.NEW_LISTING' | translate }}
           </ion-button>
         </div>
       </div>
