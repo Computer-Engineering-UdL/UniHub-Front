@@ -107,15 +107,6 @@ export class ItemEditPage implements OnInit {
   async loadCategories(): Promise<void> {
     try {
       this.categories = await firstValueFrom(this.uniItemsService.getCategories());
-      if (this.categories?.length === 0) {
-        this.categories = [
-          { id: '1', name: 'FURNITURE' },
-          { id: '2', name: 'BOOKS' },
-          { id: '3', name: 'ELECTRONICS' },
-          { id: '4', name: 'CLOTHING' },
-          { id: '5', name: 'OTHER' }
-        ];
-      }
     } catch {
       this.notificationService.error('UNI_ITEMS.FORM.ERROR_LOAD_CATEGORIES');
     }

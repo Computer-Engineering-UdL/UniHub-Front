@@ -79,7 +79,7 @@ export class HomePage implements OnInit, OnDestroy {
       {
         title: 'HOME.SECTIONS.UNIITEMS.TITLE',
         subtitle: 'HOME.SECTIONS.UNIITEMS.SUBTITLE',
-        icon: 'cart',
+        icon: 'cube-outline',
         route: '/items',
         color: 'secondary'
       },
