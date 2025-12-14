@@ -17,7 +17,7 @@ describe('AppComponent', () => {
   beforeEach(async () => {
     mockLocalizationService = jasmine.createSpyObj('LocalizationService', ['syncLanguage']);
     mockAuthService = jasmine.createSpyObj('AuthService', ['initialize']);
-    mockMessageService = jasmine.createSpyObj('MessageService', ['init']);
+    mockMessageService = jasmine.createSpyObj('MessageService', ['getConversations']);
     mockAvatarCacheService = jasmine.createSpyObj('AvatarCacheService', ['init', 'clearExpiredCache']);
 
     mockLocalizationService.syncLanguage.and.returnValue(Promise.resolve());
@@ -50,5 +50,12 @@ describe('AppComponent', () => {
     expect(mockLocalizationService.syncLanguage).toHaveBeenCalled();
     expect(mockAuthService.initialize).toHaveBeenCalled();
     expect(mockAvatarCacheService.init).toHaveBeenCalled();
+  });
+
+  it('should inject MessageService for real-time notifications', () => {
+    const messageService = TestBed.inject(MessageService);
+    TestBed.createComponent(AppComponent);
+
+    expect(messageService).toBeDefined();
   });
 });

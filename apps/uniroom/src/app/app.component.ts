@@ -13,10 +13,10 @@ import { AvatarCacheService } from './services/avatar-cache.service';
 export class AppComponent {
   private readonly localizationService: LocalizationService = inject(LocalizationService);
   private readonly authService: AuthService = inject(AuthService);
-  private readonly messageService: MessageService = inject(MessageService);
   private readonly avatarCacheService: AvatarCacheService = inject(AvatarCacheService);
 
   constructor() {
+    inject(MessageService);
     this.initialize();
   }
 

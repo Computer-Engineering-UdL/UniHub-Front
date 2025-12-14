@@ -36,6 +36,7 @@ export class MessageService implements OnDestroy {
 
   constructor() {
     this.initializeWebSocket();
+    this.initializeConversations();
   }
 
   ngOnDestroy(): void {
@@ -51,6 +52,16 @@ export class MessageService implements OnDestroy {
       this.ngZone.run(() => {
         this.handleWebSocketMessage(wsMessage);
       });
+    });
+  }
+
+  private initializeConversations(): void {
+    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | null) => {
+      if (user) {
+        this.getConversations().subscribe();
+      } else {
+        this.conversationsSubject.next([]);
+      }
     });
   }
 
@@ -151,6 +162,29 @@ export class MessageService implements OnDestroy {
         route: '/messages',
         routeParams: { conversationId: message.conversation_id }
       });
+    } else {
+      this.apiService
+        .get<User>(`user/public/${message.sender_id}`)
+        .pipe(
+          map((userData: User): User => this.authService.mapUserFromApi(userData)),
+          catchError(() => of(null))
+        )
+        .subscribe((user: User | null) => {
+          if (user) {
+            const senderName = user.firstName || user.username || 'Unknown';
+            const messagePreview =
+              message.content.length > 50 ? message.content.substring(0, 50) + '...' : message.content;
+
+            this.topBarNotificationService.addNotification({
+              title: `${senderName}`,
+              message: messagePreview,
+              icon: 'chatbubbles',
+              category: 'message',
+              route: '/messages',
+              routeParams: { conversationId: message.conversation_id }
+            });
+          }
+        });
     }
   }
 
