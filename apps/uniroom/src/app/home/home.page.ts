@@ -65,7 +65,7 @@ export class HomePage implements OnInit, OnDestroy {
       {
         title: 'HOME.SECTIONS.CHANNELS.TITLE',
         subtitle: 'HOME.SECTIONS.CHANNELS.SUBTITLE',
-        icon: 'people',
+        icon: 'chatbubbles-outline',
         route: '/channels',
         color: 'primary'
       },
