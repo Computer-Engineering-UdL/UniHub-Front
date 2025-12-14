@@ -1448,6 +1448,12 @@
         "ACCEPTED": "Aceptadas",
         "REJECTED": "Rechazadas"
       },
+      "STATUS_BADGE": {
+        "PENDING": "Pendiente",
+        "INTERVIEW": "Entrevista",
+        "ACCEPTED": "Aceptado",
+        "REJECTED": "Rechazado"
+      },
       "COVER_LETTER": "Carta de presentación",
       "RESUME": "Currículum",
       "VIEW_JOB": "Ver oferta",

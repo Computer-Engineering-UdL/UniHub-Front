@@ -2,11 +2,11 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
 import { UniJobsService } from '../../services/unijobs.service';
-import { JobApplication, JobType } from '../../models/unijobs.types';
+import { JobApplication, JobCategory, JobType, JobWorkplace } from '../../models/unijobs.types';
 import { AuthService } from '../../services/auth.service';
 import { SharedModule } from '../../shared/shared-module';
 import { JOB_TYPE_TRANSLATION_KEYS, PROFILE_VERIFICATION_ENABLED } from '../unijobs.constants';
@@ -24,6 +24,8 @@ interface StatOption {
   label: string;
 }
 
+type JobStatusFilter = 'all' | 'pending' | 'interview' | 'accepted' | 'rejected';
+
 @Component({
   selector: 'app-my-applications',
   templateUrl: './my-applications.page.html',
@@ -37,10 +39,11 @@ export class MyApplicationsPage implements OnInit {
   protected readonly localizationService: LocalizationService = inject(LocalizationService);
   private readonly router: Router = inject(Router);
   private readonly authService: AuthService = inject(AuthService);
+  private readonly translateService: TranslateService = inject(TranslateService);
 
   protected applications: JobApplication[] = [];
   protected filteredApplications: JobApplication[] = [];
-  protected selectedStatus: 'all' | 'pending' | 'interview' | 'accepted' | 'rejected' = 'all';
+  protected selectedStatus: JobStatusFilter = 'all';
   protected loading: boolean = true;
   protected stats: ApplicationStats = {
     total: 0,
@@ -59,7 +62,7 @@ export class MyApplicationsPage implements OnInit {
   ];
 
   protected readonly statusOptions: Array<{
-    key: 'all' | 'pending' | 'interview' | 'accepted' | 'rejected';
+    key: JobStatusFilter;
     label: string;
   }> = [
     { key: 'all', label: 'UNIJOBS.APPLICATIONS.STATUS.ALL' },
@@ -84,7 +87,7 @@ export class MyApplicationsPage implements OnInit {
     this.loadApplications();
   }
 
-  protected selectStatus(status: 'all' | 'pending' | 'interview' | 'accepted' | 'rejected'): void {
+  protected selectStatus(status: JobStatusFilter): void {
     this.selectedStatus = status;
     this.applyFilter();
   }
@@ -94,7 +97,7 @@ export class MyApplicationsPage implements OnInit {
     return formatted === '—' ? this.localizationService.formatDate(date) : formatted;
   }
 
-  protected getStatusColor(status: 'pending' | 'interview' | 'accepted' | 'rejected'): string {
+  protected getStatusColor(status: JobStatusFilter): string {
     switch (status) {
       case 'accepted':
         return 'success';
@@ -120,7 +123,47 @@ export class MyApplicationsPage implements OnInit {
   }
 
   protected statusKey(status: 'pending' | 'interview' | 'accepted' | 'rejected'): string {
-    return `UNIJOBS.APPLICATIONS.STATUS.${status.toUpperCase()}`;
+    return `UNIJOBS.APPLICATIONS.STATUS_BADGE.${status.toUpperCase()}`;
+  }
+
+  protected formatSalary(app: JobApplication): string {
+    if (!app.salaryMin && !app.salaryMax) {
+      return this.translateService.instant('UNIJOBS.LIST.SALARY.NA');
+    }
+    const min: string | null = app.salaryMin ? this.localizationService.formatPrice(app.salaryMin) : null;
+    const max: string | null = app.salaryMax ? this.localizationService.formatPrice(app.salaryMax) : null;
+    const range: string = min && max ? `${min} - ${max}` : min || max || '';
+    const period: string = app.salaryPeriod || 'year';
+    return `${range} / ${this.translateService.instant(`UNIJOBS.LIST.SALARY.PERIOD.${period}` as const)}`;
+  }
+
+  protected workplaceLabel(type: JobWorkplace | undefined): string {
+    if (!type) {
+      return '';
+    }
+    return `UNIJOBS.CREATE.WORKPLACE.${type.toUpperCase()}`;
+  }
+
+  protected getCategoryLabel(category: JobCategory | undefined): string {
+    if (!category) {
+      return '';
+    }
+    return `UNIJOBS.CATEGORIES.${category}`;
+  }
+
+  protected getStatColor(key: keyof ApplicationStats): string {
+    switch (key) {
+      case 'accepted':
+        return 'success';
+      case 'interview':
+        return 'tertiary';
+      case 'rejected':
+        return 'danger';
+      case 'pending':
+        return 'warning';
+      default:
+        return 'primary';
+    }
   }
 
   private loadApplications(): void {

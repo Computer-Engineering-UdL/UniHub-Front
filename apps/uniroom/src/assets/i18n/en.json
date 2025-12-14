@@ -1448,6 +1448,12 @@
         "ACCEPTED": "Accepted",
         "REJECTED": "Rejected"
       },
+      "STATUS_BADGE": {
+        "PENDING": "Pending",
+        "INTERVIEW": "Interview",
+        "ACCEPTED": "Accepted",
+        "REJECTED": "Rejected"
+      },
       "COVER_LETTER": "Cover Letter",
       "RESUME": "Resume",
       "VIEW_JOB": "View Job Posting",

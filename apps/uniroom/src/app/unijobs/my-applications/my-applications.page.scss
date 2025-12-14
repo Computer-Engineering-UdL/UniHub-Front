@@ -44,11 +44,63 @@
 
 .stat-card {
   background: var(--ion-card-background);
-  border: 1px solid var(--ion-border-color);
+  border: 2px solid var(--ion-border-color);
   border-radius: 16px;
   padding: 20px;
   box-shadow: 0 2px 12px color-mix(in srgb, var(--ion-color-dark) 4%, transparent);
   transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--ion-border-color);
+  }
+
+  &[data-type='accepted']::before {
+    background: var(--ion-color-success);
+  }
+
+  &[data-type='accepted'] {
+    border-color: color-mix(in srgb, var(--ion-color-success) 30%, transparent);
+  }
+
+  &[data-type='interview']::before {
+    background: var(--ion-color-tertiary);
+  }
+
+  &[data-type='interview'] {
+    border-color: color-mix(in srgb, var(--ion-color-tertiary) 30%, transparent);
+  }
+
+  &[data-type='rejected']::before {
+    background: var(--ion-color-danger);
+  }
+
+  &[data-type='rejected'] {
+    border-color: color-mix(in srgb, var(--ion-color-danger) 30%, transparent);
+  }
+
+  &[data-type='pending']::before {
+    background: var(--ion-color-warning);
+  }
+
+  &[data-type='pending'] {
+    border-color: color-mix(in srgb, var(--ion-color-warning) 30%, transparent);
+  }
+
+  &[data-type='total']::before {
+    background: var(--ion-color-primary);
+  }
+
+  &[data-type='total'] {
+    border-color: color-mix(in srgb, var(--ion-color-primary) 30%, transparent);
+  }
 
   &:hover {
     transform: translateY(-2px);
@@ -117,12 +169,12 @@
   background: var(--ion-card-background);
   border: 1px solid var(--ion-border-color);
   border-radius: 18px;
-  padding: 24px;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
   box-shadow: 0 2px 12px color-mix(in srgb, var(--ion-color-dark) 4%, transparent);
   transition: all 0.2s ease;
+  overflow: hidden;
 
   &:hover {
     transform: translateY(-2px);
@@ -130,90 +182,133 @@
   }
 }
 
-.card-top {
+.card-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
+  padding: 24px 24px 20px;
+  border-bottom: 1px solid var(--ion-border-color);
 
-  > div {
+  .header-content {
     flex: 1;
     min-width: 0;
   }
 
   h3 {
-    margin: 0 0 6px 0;
-    font-size: 20px;
+    margin: 0 0 8px 0;
+    font-size: 24px;
     font-weight: 700;
     color: var(--ion-text-color);
+    line-height: 1.3;
   }
 
   .company {
-    color: var(--ion-color-medium);
+    color: var(--ion-text-color);
     margin: 0;
-    font-size: 15px;
-    font-weight: 500;
+    font-size: clamp(14px, 1.2vw, 16px);
+    font-weight: 600;
   }
 
-  ion-badge {
+  .status-badge {
     --padding-top: 8px;
     --padding-bottom: 8px;
-    --padding-start: 14px;
-    --padding-end: 14px;
-    font-weight: 600;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    font-weight: 700;
     font-size: 13px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
   }
 }
 
-.meta-row {
+.card-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
+  padding: 20px 24px;
+  background: color-mix(in srgb, var(--ion-color-light) 30%, transparent);
 }
 
-.meta {
+.meta-item {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 8px 14px;
   border-radius: 12px;
-  background: color-mix(in srgb, var(--ion-color-light) 60%, transparent);
+  background: var(--ion-card-background);
+  border: 1px solid var(--ion-border-color);
   color: var(--ion-text-color);
   font-size: 14px;
   font-weight: 500;
 
   ion-icon {
     font-size: 18px;
-    color: var(--ion-color-medium);
+    color: var(--ion-color-primary);
   }
 }
 
-.extra {
-  padding: 16px;
-  border-radius: 12px;
-  background: color-mix(in srgb, var(--ion-color-light) 40%, transparent);
+.card-description {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--ion-border-color);
 
-  .label {
-    margin: 0 0 8px 0;
-    font-weight: 600;
-    font-size: 13px;
-    color: var(--ion-color-medium);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+  .description-text {
+    margin: 0;
+    color: var(--ion-text-color);
+    font-size: 15px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+  }
+}
+
+.card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 24px;
+}
+
+.detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .detail-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    ion-icon {
+      font-size: 20px;
+      color: var(--ion-color-primary);
+    }
+
+    .detail-label {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--ion-color-medium);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
   }
 
-  .text {
+  .detail-text {
     margin: 0;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--ion-color-light) 50%, transparent);
+    color: var(--ion-text-color);
     font-size: 14px;
     line-height: 1.6;
-    color: var(--ion-text-color);
+    border-left: 3px solid var(--ion-color-primary);
   }
 }
 
-.actions {
+.card-footer {
   display: flex;
   justify-content: flex-end;
-  padding-top: 8px;
+  padding: 16px 24px 20px;
   border-top: 1px solid var(--ion-border-color);
 
   ion-button {
@@ -226,6 +321,7 @@
     --padding-end: 20px;
     font-weight: 600;
     font-size: 14px;
+    text-transform: none;
   }
 }
 
@@ -279,20 +375,25 @@
     }
   }
 
-  .card-top {
+  .card-header {
     flex-direction: column;
     align-items: flex-start;
+    padding: 20px 20px 16px;
 
-    ion-badge {
+    .status-badge {
       align-self: flex-start;
     }
   }
 
-  .application-card {
-    padding: 20px;
+  .card-meta,
+  .card-details,
+  .card-description {
+    padding: 16px 20px;
   }
 
-  .actions {
+  .card-footer {
+    padding: 16px 20px;
+
     ion-button {
       width: 100%;
     }
@@ -308,5 +409,32 @@
 
   .stats {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .card-header {
+    padding: 16px 16px 12px;
+
+    h3 {
+      font-size: 20px;
+    }
+  }
+
+  .card-meta,
+  .card-details,
+  .card-description {
+    padding: 12px 16px;
+  }
+
+  .card-footer {
+    padding: 12px 16px;
+  }
+
+  .meta-item {
+    font-size: 13px;
+    padding: 6px 12px;
+
+    ion-icon {
+      font-size: 16px;
+    }
   }
 }

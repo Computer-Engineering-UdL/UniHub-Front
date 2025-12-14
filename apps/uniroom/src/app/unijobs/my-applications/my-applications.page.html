@@ -2,14 +2,13 @@
   <div class="page-wrapper">
     <div class="header">
       <div>
-        <p class="eyebrow">{{ 'UNIJOBS.APPLICATIONS.EYEBROW' | translate }}</p>
         <h1>{{ 'UNIJOBS.APPLICATIONS.TITLE' | translate }}</h1>
         <p class="subtitle">{{ 'UNIJOBS.APPLICATIONS.SUBTITLE' | translate }}</p>
       </div>
     </div>
 
     <div class="stats">
-      <div class="stat-card" *ngFor="let stat of statOptions">
+      <div class="stat-card" *ngFor="let stat of statOptions" [attr.data-type]="stat.key">
         <p class="label">{{ stat.label | translate }}</p>
         <h2>{{ stats[stat.key] }}</h2>
       </div>
@@ -35,39 +34,70 @@
       <div
         class="application-card"
         *ngFor="let app of filteredApplications; trackBy: trackByApplication">
-        <div class="card-top">
-          <div>
-            <h3>{{ app.jobTitle }}</h3>
+        <div class="card-header">
+          <div class="header-content">
+            <h3>{{ app.jobTitle || app.title }}</h3>
             <p class="company">{{ app.companyName }}</p>
           </div>
-          <ion-badge [color]="getStatusColor(app.status)">
+          <ion-badge [color]="getStatusColor(app.status)" class="status-badge">
             {{ statusKey(app.status) | translate }}
           </ion-badge>
         </div>
-        <div class="meta-row">
-          <div class="meta">
-            <ion-icon name="location-outline"></ion-icon>
+
+        <div class="card-meta">
+          <div class="meta-item">
+            <ion-icon name="location"></ion-icon>
             <span>{{ app.location }}</span>
           </div>
-          <div class="meta">
-            <ion-icon name="briefcase-outline"></ion-icon>
+          <div class="meta-item">
+            <ion-icon name="briefcase"></ion-icon>
             <span>{{ jobTypeLabel(app.jobType) | translate }}</span>
           </div>
-          <div class="meta">
-            <ion-icon name="calendar-outline"></ion-icon>
+          <div class="meta-item" *ngIf="app.workplaceType">
+            <ion-icon name="business"></ion-icon>
+            <span>{{ workplaceLabel(app.workplaceType) | translate }}</span>
+          </div>
+          <div class="meta-item">
+            <ion-icon name="calendar"></ion-icon>
             <span>{{ formatAppliedDate(app.appliedAt) }}</span>
           </div>
+          <div class="meta-item" *ngIf="app.category">
+            <ion-icon name="pricetag"></ion-icon>
+            <span>{{ getCategoryLabel(app.category) | translate }}</span>
+          </div>
+          <div class="meta-item" *ngIf="app.salaryMin || app.salaryMax">
+            <ion-icon name="cash"></ion-icon>
+            <span>{{ formatSalary(app) }}</span>
+          </div>
         </div>
-        <div class="extra" *ngIf="app.coverLetterPreview">
-          <p class="label">{{ 'UNIJOBS.APPLICATIONS.COVER_LETTER' | translate }}</p>
-          <p class="text">{{ app.coverLetterPreview }}</p>
+
+        <div class="card-description" *ngIf="app.description">
+          <p class="description-text">{{ app.description }}</p>
         </div>
-        <div class="extra" *ngIf="app.resumeFileName">
-          <p class="label">{{ 'UNIJOBS.APPLICATIONS.RESUME' | translate }}</p>
-          <p class="text">{{ app.resumeFileName }}</p>
+
+        <div class="card-details" *ngIf="app.coverLetterPreview || app.resumeFileName">
+          <div class="detail-section" *ngIf="app.coverLetterPreview">
+            <div class="detail-header">
+              <ion-icon name="document-text"></ion-icon>
+              <span class="detail-label"
+                >{{ 'UNIJOBS.APPLICATIONS.COVER_LETTER' | translate }}</span
+              >
+            </div>
+            <p class="detail-text">{{ app.coverLetterPreview }}</p>
+          </div>
+
+          <div class="detail-section" *ngIf="app.resumeFileName">
+            <div class="detail-header">
+              <ion-icon name="document-attach"></ion-icon>
+              <span class="detail-label">{{ 'UNIJOBS.APPLICATIONS.RESUME' | translate }}</span>
+            </div>
+            <p class="detail-text">{{ app.resumeFileName }}</p>
+          </div>
         </div>
-        <div class="actions">
-          <ion-button fill="outline" (click)="goToJob(app.id)">
+
+        <div class="card-footer">
+          <ion-button fill="outline" size="default" (click)="goToJob(app.jobId)">
+            <ion-icon slot="start" name="open-outline"></ion-icon>
             {{ 'UNIJOBS.APPLICATIONS.VIEW_JOB' | translate }}
           </ion-button>
         </div>

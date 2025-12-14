@@ -73,6 +73,20 @@ export interface JobApplication {
   appliedAt: string;
   coverLetterPreview?: string;
   resumeFileName?: string;
+  title?: string;
+  description?: string;
+  category?: JobCategory;
+  workplaceType?: JobWorkplace;
+  salaryMin?: number;
+  salaryMax?: number;
+  salaryPeriod?: JobSalaryPeriod;
+  companyDescription?: string;
+  companyWebsite?: string;
+  companyEmployeeCount?: string;
+  logoUrl?: string;
+  createdAt?: string;
+  isActive?: boolean;
+  applicationCount?: number;
 }
 
 export interface JobsQuery {
