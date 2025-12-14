@@ -1,6 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -472,7 +480,9 @@ export class CreateJobPage implements OnInit, OnDestroy {
 
   private scrollToFirstError(): void {
     setTimeout(() => {
-      const firstError: Element | null = document.querySelector('.wizard-panel .item-has-error, .wizard-panel .ion-invalid');
+      const firstError: Element | null = document.querySelector(
+        '.wizard-panel .item-has-error, .wizard-panel .ion-invalid'
+      );
       if (firstError) {
         firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
