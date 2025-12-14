@@ -21,7 +21,7 @@
           <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.CATEGORY' | translate }} *</ion-label>
           <ion-select interface="popover" formControlName="category">
             <ion-select-option *ngFor="let category of categories" [value]="category"
-              >{{ category }}</ion-select-option
+              >{{ 'UNI_ITEMS.CATEGORY.' + category.toUpperCase() | translate }}</ion-select-option
             >
           </ion-select>
         </ion-item>

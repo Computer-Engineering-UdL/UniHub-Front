@@ -158,7 +158,9 @@
             <div class="item-image" [style.background-image]="'url(' + item.images[0] + ')'"></div>
             <div class="item-content">
               <h3 class="item-title">{{ item.title }}</h3>
-              <div class="item-category">{{ item.category }}</div>
+              <div class="item-category">
+                {{ 'UNI_ITEMS.CATEGORY.' + item.category.toUpperCase() | translate }}
+              </div>
               <div class="item-footer">
                 <div class="item-price">{{ item.price }} {{ item.currency }}</div>
                 <ion-badge

@@ -1259,6 +1259,15 @@
       "SUCCESS_EDIT": "Article actualitzat",
       "ERROR_SAVE": "No s'ha pogut desar l'article",
       "ERROR_LOAD": "No s'ha pogut carregar l'article"
+    },
+    "CATEGORY": {
+      "ELECTRONICS": "Electrònica",
+      "BOOKS": "Llibres",
+      "FURNITURE": "Mobles",
+      "CLOTHING": "Roba",
+      "SPORTS": "Esports",
+      "MISCELLANEOUS": "Diversos",
+      "OTHER": "Altres"
     }
   },
   "LOCATION_PICKER": {

@@ -1268,6 +1268,15 @@
       "SUCCESS_EDIT": "Artículo actualizado",
       "ERROR_SAVE": "No se pudo guardar el artículo",
       "ERROR_LOAD": "No se pudo cargar el artículo"
+    },
+    "CATEGORY": {
+      "BOOKS": "Libros",
+      "ELECTRONICS": "Electrónica",
+      "FURNITURE": "Muebles",
+      "CLOTHING": "Ropa",
+      "SPORTS": "Deportes",
+      "MISC": "Varios",
+      "OTHER": "Otros"
     }
   },
   "LOCATION_PICKER": {

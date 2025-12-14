@@ -18,7 +18,9 @@
         <div>
           <h1>{{ item.title }}</h1>
           <div class="meta">
-            <ion-chip color="primary" outline>{{ item.category }}</ion-chip>
+            <ion-chip color="primary" outline
+              >{{ 'UNI_ITEMS.CATEGORY.' + item.category.toUpperCase() | translate }}</ion-chip
+            >
             <ion-chip color="medium" outline
               >{{ ('UNI_ITEMS.CONDITION_LABELS.' + item.condition) | translate }}</ion-chip
             >

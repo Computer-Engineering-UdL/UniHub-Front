@@ -1271,6 +1271,15 @@
       "SUCCESS_EDIT": "Item updated",
       "ERROR_SAVE": "Unable to save item",
       "ERROR_LOAD": "Unable to load item data"
+    },
+    "CATEGORY": {
+      "ELECTRONICS": "Electronics",
+      "BOOKS": "Books",
+      "FURNITURE": "Furniture",
+      "CLOTHING": "Clothing",
+      "SPORTS": "Sports",
+      "MISC": "Miscellaneous",
+      "OTHER": "Other"
     }
   },
   "LOCATION_PICKER": {
