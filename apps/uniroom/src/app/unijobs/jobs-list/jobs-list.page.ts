@@ -16,8 +16,9 @@ import { Role, User } from '../../models/auth.types';
 import { JOB_CREATOR_ROLES, JOB_TYPE_TRANSLATION_KEYS } from '../unijobs.constants';
 import { JobAvatarService } from '../../services/job-avatar.service';
 
+type JobTabKey = 'all' | 'saved' | 'applied';
 interface JobTab {
-  key: 'all' | 'saved' | 'applied';
+  key: JobTabKey;
   label: string;
 }
 
