@@ -1,8 +1,11 @@
 <ion-content class="create-job-page">
-  <form [formGroup]="form" (ngSubmit)="submit()" class="wizard-shell">
+  <form [formGroup]="form" (ngSubmit)="submit()" class="wizard-shell" *ngIf="!loadingJob">
     <div class="wizard-header">
       <div class="wizard-header__titles">
-        <p class="wizard-header__eyebrow">{{ 'UNIJOBS.CREATE.EYEBROW' | translate }}</p>
+        <p class="wizard-header__eyebrow">
+          {{ isEditMode ? ('UNIJOBS.CREATE.EDIT_EYEBROW' | translate) : ('UNIJOBS.CREATE.EYEBROW' |
+          translate) }}
+        </p>
         <div class="wizard-header__title-row">
           <h2>{{ currentStep.titleKey | translate }}</h2>
           <span class="wizard-header__counter"
@@ -460,4 +463,10 @@
       </div>
     </div>
   </form>
+
+  <div class="loading-state" *ngIf="loadingJob">
+    <ion-skeleton-text [animated]="true" style="width: 60%; height: 30px"></ion-skeleton-text>
+    <ion-skeleton-text [animated]="true" style="width: 100%; height: 200px"></ion-skeleton-text>
+    <ion-skeleton-text [animated]="true" style="width: 100%; height: 150px"></ion-skeleton-text>
+  </div>
 </ion-content>

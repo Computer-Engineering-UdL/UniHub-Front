@@ -9,7 +9,7 @@ import {
   ValidationErrors,
   Validators
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subscription, firstValueFrom } from 'rxjs';
@@ -17,6 +17,7 @@ import {
   JobCategory,
   JobOffer,
   JobOfferCreate,
+  JobOfferUpdate,
   JobSalaryPeriod,
   JobType,
   JobWorkplace
@@ -64,6 +65,10 @@ interface WizardStep {
 export class CreateJobPage implements OnInit, OnDestroy {
   protected form!: FormGroup<CreateJobForm>;
   protected submitting: boolean = false;
+  protected isEditMode: boolean = false;
+  protected editingJobId?: string;
+  protected loadingJob: boolean = false;
+  protected originalJob?: JobOffer;
 
   protected readonly categories: JobCategory[] = [
     'Technology',
@@ -117,6 +122,7 @@ export class CreateJobPage implements OnInit, OnDestroy {
   private readonly uniJobsService: UniJobsService = inject(UniJobsService);
   private readonly notificationService: NotificationService = inject(NotificationService);
   private readonly router: Router = inject(Router);
+  private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly authService: AuthService = inject(AuthService);
   private readonly localizationService: LocalizationService = inject(LocalizationService);
   private userSubscription?: Subscription;
@@ -124,6 +130,14 @@ export class CreateJobPage implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.buildForm();
     this.configureWizardSteps();
+
+    const jobId: string | null = this.route.snapshot.paramMap.get('id');
+    if (jobId) {
+      this.isEditMode = true;
+      this.editingJobId = jobId;
+      this.loadJobForEdit(jobId);
+    }
+
     this.userSubscription = this.authService.currentUser$.subscribe((user: User | null) => {
       if (!user || !JOB_CREATOR_ROLES.includes(user.role)) {
         this.notificationService.error('UNIJOBS.CREATE.ERROR_UNAUTHORIZED');
@@ -263,15 +277,23 @@ export class CreateJobPage implements OnInit, OnDestroy {
       return;
     }
 
-    const payload: JobOfferCreate = this.buildPayload();
     this.submitting = true;
 
     try {
-      const createdJob: JobOffer | undefined = await firstValueFrom(this.uniJobsService.createJob(payload));
-      this.notificationService.success('UNIJOBS.CREATE.SUCCESS');
-      await this.router.navigate(['/jobs'], { state: { refreshJobs: true, createdJobId: createdJob?.id } });
+      if (this.isEditMode && this.editingJobId) {
+        const payload: JobOfferUpdate = this.buildUpdatePayload();
+        await firstValueFrom(this.uniJobsService.updateJob(this.editingJobId, payload));
+        this.notificationService.success('UNIJOBS.CREATE.UPDATE_SUCCESS');
+        await this.router.navigate(['/jobs', this.editingJobId]);
+      } else {
+        const payload: JobOfferCreate = this.buildPayload();
+        const createdJob: JobOffer | undefined = await firstValueFrom(this.uniJobsService.createJob(payload));
+        this.notificationService.success('UNIJOBS.CREATE.SUCCESS');
+        await this.router.navigate(['/jobs'], { state: { refreshJobs: true, createdJobId: createdJob?.id } });
+      }
     } catch {
-      this.notificationService.error('UNIJOBS.CREATE.ERROR_GENERIC');
+      const errorKey: string = this.isEditMode ? 'UNIJOBS.CREATE.UPDATE_ERROR' : 'UNIJOBS.CREATE.ERROR_GENERIC';
+      this.notificationService.error(errorKey);
     } finally {
       this.submitting = false;
     }
@@ -491,5 +513,70 @@ export class CreateJobPage implements OnInit, OnDestroy {
         firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }, 50);
+  }
+
+  private async loadJobForEdit(jobId: string): Promise<void> {
+    this.loadingJob = true;
+    try {
+      const job: JobOffer = await firstValueFrom(this.uniJobsService.getJobDetail(jobId));
+      this.originalJob = job;
+
+      const currentUser: User | null = this.authService.currentUser;
+      const isAdmin: boolean = currentUser?.role === 'Admin';
+      const isOwner: boolean = currentUser?.id === job.creatorId;
+
+      if (!isAdmin && !isOwner) {
+        this.notificationService.error('UNIJOBS.CREATE.ERROR_UNAUTHORIZED');
+        void this.router.navigateByUrl('/jobs');
+        return;
+      }
+
+      this.populateFormFromJob(job);
+    } catch {
+      this.notificationService.error('UNIJOBS.ERROR.LOAD_JOB_DETAIL');
+      void this.router.navigateByUrl('/jobs');
+    } finally {
+      this.loadingJob = false;
+    }
+  }
+
+  private populateFormFromJob(job: JobOffer): void {
+    this.form.patchValue({
+      title: job.title,
+      description: job.description,
+      category: job.category,
+      jobType: job.jobType,
+      workplaceType: job.workplaceType || 'on_site',
+      location: job.location,
+      salaryPeriod: job.salaryPeriod,
+      salaryMin: job.salaryMin || null,
+      salaryMax: job.salaryMax || null,
+      companyName: job.companyName,
+      companyDescription: job.companyDescription || '',
+      companyWebsite: job.companyWebsite || '',
+      companyEmployeeCount: job.companyEmployeeCount || ''
+    });
+  }
+
+  private buildUpdatePayload(): JobOfferUpdate {
+    const value = this.form.getRawValue();
+    const salaryMin: number | undefined = this.toNumber(value.salaryMin) ?? undefined;
+    const salaryMax: number | undefined = this.toNumber(value.salaryMax) ?? undefined;
+
+    return {
+      title: value.title.trim(),
+      description: value.description.trim(),
+      category: value.category!,
+      jobType: value.jobType!,
+      workplaceType: value.workplaceType || undefined,
+      location: value.location.trim(),
+      salaryPeriod: value.salaryPeriod ?? 'year',
+      salaryMin,
+      salaryMax,
+      companyName: value.companyName.trim(),
+      companyDescription: value.companyDescription.trim() || undefined,
+      companyWebsite: value.companyWebsite.trim() || undefined,
+      companyEmployeeCount: value.companyEmployeeCount.trim() || undefined
+    };
   }
 }

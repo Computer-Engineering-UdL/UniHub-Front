@@ -322,6 +322,15 @@
   margin-left: -8px;
 }
 
+.loading-state {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 @media (max-width: 720px) {
   .wizard-header__compact {
     flex-direction: column;

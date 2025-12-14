@@ -1466,6 +1466,7 @@
     "CREATE": {
       "TITLE": "Create Job Offer",
       "EYEBROW": "Publish high-quality offers",
+      "EDIT_EYEBROW": "Update your offer",
       "STEPS": {
         "BASIC": "Basic Info",
         "BASIC_DESC": "Title, company and location",

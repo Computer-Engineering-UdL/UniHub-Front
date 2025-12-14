@@ -169,6 +169,13 @@ export class JobDetailPage implements OnInit, OnDestroy {
     await alert.present();
   }
 
+  protected async editJob(): Promise<void> {
+    if (!this.job || !this.canManage) {
+      return;
+    }
+    await this.router.navigate(['/jobs', 'edit', this.job.id]);
+  }
+
   private fetchJob(id: string): void {
     this.loading = true;
     this.uniJobsService.getJobDetail(id).subscribe({

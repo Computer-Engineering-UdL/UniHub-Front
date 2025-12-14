@@ -72,6 +72,14 @@
           translate) }}
         </ion-button>
         <ion-button
+          color="primary"
+          fill="outline"
+          *ngIf="canManage"
+          class="edit-btn"
+          (click)="editJob()">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button
           color="danger"
           fill="outline"
           *ngIf="canManage"

@@ -19,6 +19,12 @@ const routes: Routes = [
     data: { roles: ['Admin'], titleKey: 'UNIJOBS.CREATE.TITLE' }
   },
   {
+    path: 'edit/:id',
+    component: CreateJobPage,
+    canActivate: [AuthGuard],
+    data: { roles: ['Admin'], titleKey: 'COMMON.EDIT' }
+  },
+  {
     path: 'applications',
     component: MyApplicationsPage,
     canActivate: [AuthGuard],

@@ -1466,6 +1466,7 @@
     "CREATE": {
       "TITLE": "Crear oferta de feina",
       "EYEBROW": "Publica ofertes de qualitat",
+      "EDIT_EYEBROW": "Actualitza la teva oferta",
       "STEPS": {
         "BASIC": "Info bàsica",
         "BASIC_DESC": "Títol, empresa i ubicació",
@@ -1527,6 +1528,8 @@
         "SALARY_RANGE": "El salari mínim no pot ser superior al màxim"
       },
       "SUCCESS": "Oferta creada correctament",
+      "UPDATE_SUCCESS": "Oferta actualitzada correctament",
+      "UPDATE_ERROR": "Error en actualitzar l'oferta",
       "ERROR_GENERIC": "Error en crear l'oferta",
       "ERROR_UNAUTHORIZED": "Has de ser administrador per crear ofertes",
       "ERROR_VERIFICATION_REQUIRED": "Verifica el teu compte primer",

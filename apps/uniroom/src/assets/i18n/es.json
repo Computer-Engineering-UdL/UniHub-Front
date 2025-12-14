@@ -1466,6 +1466,7 @@
     "CREATE": {
       "TITLE": "Crear oferta de trabajo",
       "EYEBROW": "Publica ofertas de calidad",
+      "EDIT_EYEBROW": "Actualiza tu oferta",
       "STEPS": {
         "BASIC": "Información básica",
         "BASIC_DESC": "Título, empresa y ubicación",
@@ -1527,6 +1528,8 @@
         "SALARY_RANGE": "El salario mínimo no puede ser mayor que el máximo"
       },
       "SUCCESS": "Oferta creada correctamente",
+      "UPDATE_SUCCESS": "Oferta actualizada correctamente",
+      "UPDATE_ERROR": "Error al actualizar la oferta",
       "ERROR_GENERIC": "Error al crear la oferta",
       "ERROR_UNAUTHORIZED": "Debes ser administrador para crear ofertas",
       "ERROR_VERIFICATION_REQUIRED": "Verifica tu cuenta primero",
