@@ -15,18 +15,16 @@
 
     <div class="item-content">
       <div class="title-row">
-        <div>
-          <h1>{{ item.title }}</h1>
-          <div class="meta">
-            <ion-chip color="primary" outline>{{ item.categoryName }}</ion-chip>
-            <ion-chip color="medium" outline
-              >{{ conditionLabelMap[item.condition] | translate }}</ion-chip
-            >
-          </div>
-          <div class="location">
-            <ion-icon name="location-outline"></ion-icon>
-            <span>{{ item.location }}</span>
-          </div>
+        <h1>{{ item.title }}</h1>
+        <div class="meta">
+          <ion-chip color="primary" outline>{{ item.categoryName }}</ion-chip>
+          <ion-chip color="medium" outline
+            >{{ conditionLabelMap[item.condition] | translate }}</ion-chip
+          >
+        </div>
+        <div class="location">
+          <ion-icon name="location-outline"></ion-icon>
+          <span>{{ item.location }}</span>
         </div>
         <div class="price">{{ item.priceFormatted }}</div>
       </div>
@@ -65,7 +63,7 @@
           <ion-avatar>
             <img
               *ngIf="item.ownerAvatar; else avatarFallback"
-              [src]="item.ownerAvatar"
+              [appCachedAvatar]="item.ownerAvatar"
               [alt]="item.ownerName" />
             <ng-template #avatarFallback>
               <ion-icon name="person-circle-outline"></ion-icon>

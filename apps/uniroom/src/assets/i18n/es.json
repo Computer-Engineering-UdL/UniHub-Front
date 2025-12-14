@@ -1298,8 +1298,9 @@
       "CLOTHING": "Ropa",
       "SPORTS": "Deportes",
       "MISC": "Varios",
-      "OTHER": "Otros",
-      "MISCELLANEOUS": "Varios"
+      "MISCELLANEOUS": "Varios",
+      "MUSIC": "Música",
+      "OTHER": "Otros"
     }
   },
   "LOCATION_PICKER": {
