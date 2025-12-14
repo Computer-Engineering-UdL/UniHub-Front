@@ -29,7 +29,8 @@ export class RoleUtils {
     const labels: Record<Role, string> = {
       Basic: 'Basic User',
       Seller: 'Seller',
-      Admin: 'Administrator'
+      Recruiter: 'Recruiter',
+      Admin: 'Admin'
     };
     return labels[role];
   }
@@ -38,6 +39,7 @@ export class RoleUtils {
     const priorities: Record<Role, number> = {
       Basic: 1,
       Seller: 2,
+      Recruiter: 2,
       Admin: 3
     };
     return priorities[role];
