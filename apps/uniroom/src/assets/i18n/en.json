@@ -976,7 +976,15 @@
     }
   },
   "ERROR": {
-    "LOAD_USERS": "Failed to load users"
+    "LOAD_USERS": "Failed to load users",
+    "LOAD_JOBS": "Unable to load jobs right now.",
+    "SAVE_FAILED": "Could not update saved jobs.",
+    "LOAD_JOB_DETAIL": "Unable to load job details.",
+    "LOAD_APPLICATIONS": "Unable to load applications.",
+    "SALARY_RANGE": "Minimum salary must be less than or equal to maximum salary.",
+    "CREATE_FAILED": "We could not create this job offer. Please try again.",
+    "APPLY_ROLE": "Only Basic users can apply to job offers.",
+    "FORM_INVALID": "Please review the required fields before continuing."
   },
   "ROLE": {
     "ADMIN": "Administrator",
@@ -1446,7 +1454,8 @@
       "LOAD_APPLICATIONS": "Unable to load applications.",
       "SALARY_RANGE": "Minimum salary must be less than or equal to maximum salary.",
       "CREATE_FAILED": "We could not create this job offer. Please try again.",
-      "APPLY_ROLE": "Only Basic users can apply to job offers."
+      "APPLY_ROLE": "Only Basic users can apply to job offers.",
+      "FORM_INVALID": "Please review the required fields before continuing."
     },
     "ADMIN": {
       "ONLY": "Only admins can perform this action."

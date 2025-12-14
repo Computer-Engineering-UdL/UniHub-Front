@@ -1,5 +1,5 @@
 <ion-content class="create-job-page">
-  <div class="page-wrapper">
+  <form class="page-wrapper" [formGroup]="form" (ngSubmit)="submit()" novalidate>
     <header class="page-header">
       <div>
         <p class="eyebrow">{{ 'UNIJOBS.CREATE.EYEBROW' | translate }}</p>
@@ -7,17 +7,17 @@
         <p class="subtitle">{{ 'UNIJOBS.CREATE.SUBTITLE' | translate }}</p>
       </div>
       <div class="header-actions">
-        <ion-button fill="clear" color="medium" (click)="cancel()">
+        <ion-button fill="clear" color="medium" type="button" (click)="cancel()">
           {{ 'UNIJOBS.CREATE.CANCEL' | translate }}
         </ion-button>
-        <ion-button (click)="submit()" [disabled]="submitting">
+        <ion-button type="submit" [disabled]="submitting">
           <ion-spinner *ngIf="submitting" slot="start"></ion-spinner>
           {{ 'UNIJOBS.CREATE.SAVE' | translate }}
         </ion-button>
       </div>
     </header>
 
-    <form class="form-grid" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-grid">
       <ion-card>
         <ion-card-header>
           <ion-card-title>{{ 'UNIJOBS.CREATE.BASIC_INFO' | translate }}</ion-card-title>
@@ -130,7 +130,7 @@
           </ion-item>
           <ion-item fill="outline" class="field">
             <ion-label position="stacked"
-              >{{ 'UNIJOBS.CREATE.COMPANY_SIZE' | translate }}</ion-label
+              >{{ 'UNIJOBS.CREATE.COMPANY_SIZE' | translate }}</ion-label>
             >
             <ion-input formControlName="companyEmployeeCount"></ion-input>
           </ion-item>
@@ -169,6 +169,6 @@
           </ion-item>
         </ion-card-content>
       </ion-card>
-    </form>
-  </div>
+    </div>
+  </form>
 </ion-content>

@@ -1436,13 +1436,14 @@
       "FILE_IDS_PLACEHOLDER": "UUID separats per comes per al logo o arxius"
     },
     "ERROR": {
-      "LOAD_JOBS": "No s’han pogut carregar les ofertes.",
-      "SAVE_FAILED": "No s’ha pogut actualitzar el guardat.",
-      "LOAD_JOB_DETAIL": "No s’ha pogut carregar el detall.",
-      "LOAD_APPLICATIONS": "No s’han pogut carregar les sol·licituds.",
+      "LOAD_JOBS": "No s'han pogut carregar les ofertes.",
+      "SAVE_FAILED": "No s'ha pogut actualitzar el guardat.",
+      "LOAD_JOB_DETAIL": "No s'ha pogut carregar el detall.",
+      "LOAD_APPLICATIONS": "No s'han pogut carregar les sol·licituds.",
       "SALARY_RANGE": "El salari mínim ha de ser menor o igual que el màxim.",
       "CREATE_FAILED": "No hem pogut crear l'oferta. Torna-ho a provar.",
-      "APPLY_ROLE": "Només els usuaris Basic poden aplicar a ofertes."
+      "APPLY_ROLE": "Només els usuaris Basic poden aplicar a ofertes.",
+      "FORM_INVALID": "Revisa els camps obligatoris abans de continuar."
     },
     "ADMIN": {
       "ONLY": "Només els administradors poden fer aquesta acció."

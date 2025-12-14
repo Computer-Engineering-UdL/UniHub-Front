@@ -972,7 +972,15 @@
     }
   },
   "ERROR": {
-    "LOAD_USERS": "Error al cargar los usuarios"
+    "LOAD_USERS": "Error al cargar los usuarios",
+    "LOAD_JOBS": "No se pudieron cargar las ofertas.",
+    "SAVE_FAILED": "No se pudo actualizar el guardado.",
+    "LOAD_JOB_DETAIL": "No se pudo cargar el detalle.",
+    "LOAD_APPLICATIONS": "No se pudieron cargar las solicitudes.",
+    "SALARY_RANGE": "El salario mínimo debe ser menor o igual que el máximo.",
+    "CREATE_FAILED": "No pudimos crear la oferta. Inténtalo de nuevo.",
+    "APPLY_ROLE": "Solo los usuarios Basic pueden aplicar a ofertas.",
+    "FORM_INVALID": "Revisa los campos obligatorios antes de continuar."
   },
   "ROLE": {
     "ADMIN": "Administrador",
@@ -1443,7 +1451,8 @@
       "LOAD_APPLICATIONS": "No se pudieron cargar las solicitudes.",
       "SALARY_RANGE": "El salario mínimo debe ser menor o igual que el máximo.",
       "CREATE_FAILED": "No pudimos crear la oferta. Inténtalo de nuevo.",
-      "APPLY_ROLE": "Solo los usuarios Basic pueden aplicar a ofertas."
+      "APPLY_ROLE": "Solo los usuarios Basic pueden aplicar a ofertas.",
+      "FORM_INVALID": "Revisa los campos obligatorios antes de continuar."
     },
     "ADMIN": {
       "ONLY": "Solo los administradores pueden hacer esta acción."
