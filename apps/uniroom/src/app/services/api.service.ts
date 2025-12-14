@@ -81,11 +81,21 @@ export class ApiService {
     let httpParams: HttpParams = new HttpParams();
 
     if (params) {
-      Object.keys(params).forEach((key) => {
-        const value = params[key];
-        if (value !== null && value !== undefined) {
-          httpParams = httpParams.set(key, value.toString());
+      Object.entries(params).forEach(([key, value]) => {
+        if (value === null || value === undefined) {
+          return;
         }
+
+        if (Array.isArray(value)) {
+          value
+            .filter((entry) => entry !== null && entry !== undefined)
+            .forEach((entry) => {
+              httpParams = httpParams.append(key, String(entry));
+            });
+          return;
+        }
+
+        httpParams = httpParams.set(key, String(value));
       });
     }
 

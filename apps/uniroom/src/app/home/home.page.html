@@ -148,25 +148,30 @@
       <div class="content-section" *ngIf="uniItems.length > 0">
         <div class="section-header-row">
           <h2 class="section-heading">{{ 'HOME.RECENT_ITEMS' | translate }}</h2>
-          <ion-button fill="clear" size="small" (click)="navigateTo('/uni-items')">
+          <ion-button fill="clear" size="small" (click)="navigateTo('/items')">
             {{ 'HOME.VIEW_ALL' | translate }}
             <ion-icon slot="end" name="arrow-forward"></ion-icon>
           </ion-button>
         </div>
         <div class="items-grid">
           <div class="item-card" *ngFor="let item of uniItems" (click)="navigateToItem(item.id)">
-            <div class="item-image" [style.background-image]="'url(' + item.images[0] + ')'"></div>
+            <div
+              class="item-image"
+              [class.no-image]="!item.imageUrl"
+              [style.background-image]="item.imageUrl ? 'url(' + item.imageUrl + ')' : 'none'">
+              <ion-icon *ngIf="!item.imageUrl" name="cube-outline"></ion-icon>
+            </div>
             <div class="item-content">
               <h3 class="item-title">{{ item.title }}</h3>
               <div class="item-category">
-                {{ 'UNI_ITEMS.CATEGORY.' + item.category.toUpperCase() | translate }}
+                {{ item.categoryName || ('UNI_ITEMS.CATEGORY.OTHER' | translate) }}
               </div>
               <div class="item-footer">
-                <div class="item-price">{{ item.price }} {{ item.currency }}</div>
+                <div class="item-price">{{ item.priceFormatted }}</div>
                 <ion-badge
-                  [color]="item.condition === 'new' ? 'success' : 'medium'"
+                  [color]="item.condition === 'New' ? 'success' : 'medium'"
                   class="condition-badge">
-                  {{ 'ITEM.CONDITION.' + item.condition.toUpperCase() | translate }}
+                  {{ conditionLabelMap[item.condition] | translate }}
                 </ion-badge>
               </div>
             </div>

@@ -7,7 +7,7 @@ import { ChannelService } from '../services/channel.service';
 import { Channel } from '../models/channel.types';
 import { OfferListItem } from '../models/offer.types';
 import { ApiService } from '../services/api.service';
-import { Item, UniItemsQuery } from '../models/uni-item.types';
+import { ItemCondition, ItemRead, ItemsListParams } from '../models/uni-item.types';
 import { UniItemsService } from '../services/uni-items.service';
 import { LocalizationService } from '../services/localization.service';
 import NotificationService from '../services/notification.service';
@@ -22,6 +22,15 @@ interface HomeSection {
   badge?: number;
 }
 
+interface HomeItemCard {
+  id: string;
+  title: string;
+  categoryName: string;
+  condition: ItemCondition;
+  priceFormatted: string;
+  imageUrl: string | null;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -33,7 +42,7 @@ export class HomePage implements OnInit, OnDestroy {
   public loading: boolean = true;
   public channels: Channel[] = [];
   public offers: OfferListItem[] = [];
-  public uniItems: Item[] = [];
+  public uniItems: HomeItemCard[] = [];
   public sections: HomeSection[] = [];
   public recommendedOffers: OfferListItem[] = [];
   public popularChannels: Channel[] = [];
@@ -46,6 +55,13 @@ export class HomePage implements OnInit, OnDestroy {
   private readonly localizationService: LocalizationService = inject(LocalizationService);
   private readonly notificationService: NotificationService = inject(NotificationService);
   private userSub?: Subscription;
+  readonly conditionLabelMap: Record<ItemCondition, string> = {
+    New: 'UNI_ITEMS.CONDITION_LABELS.NEW',
+    'Like New': 'UNI_ITEMS.CONDITION_LABELS.LIKE_NEW',
+    Good: 'UNI_ITEMS.CONDITION_LABELS.GOOD',
+    Fair: 'UNI_ITEMS.CONDITION_LABELS.FAIR',
+    Poor: 'UNI_ITEMS.CONDITION_LABELS.POOR'
+  };
 
   ngOnInit(): void {
     this.userSub = this.authService.currentUser$.subscribe((user: User | null): void => {
@@ -139,21 +155,22 @@ export class HomePage implements OnInit, OnDestroy {
 
   private async loadUniItems(): Promise<void> {
     try {
-      const query: UniItemsQuery = {
+      const query: ItemsListParams = {
         page: 1,
-        pageSize: 4,
+        page_size: 4,
         sort: 'newest'
       };
-      const result = await firstValueFrom(this.uniItemsService.getItems(query));
-      this.uniItems = result.items.slice(0, 4).map((item: Item): Item => {
-        if (item.images && item.images.length > 0) {
-          item.images = item.images.map((img: string): string => {
-            const resolved: string | null = resolveFileUrl(img);
-            return resolved ?? img;
-          });
-        }
-        return item;
-      });
+      const result = await firstValueFrom(this.uniItemsService.listItems(query));
+      this.uniItems = result.items.slice(0, 4).map(
+        (item: ItemRead): HomeItemCard => ({
+          id: item.id,
+          title: item.title,
+          categoryName: item.category?.name ?? '',
+          condition: item.condition,
+          priceFormatted: this.localizationService.formatPrice(item.price, item.currency),
+          imageUrl: item.image_urls?.[0] ?? item.owner_details?.avatar_url ?? null
+        })
+      );
     } catch {
       this.uniItems = [];
     }

@@ -1215,7 +1215,9 @@
       "LOCATION": "Location",
       "LOCATION_PLACEHOLDER": "City or campus",
       "SORT": "Sort",
-      "CLEAR": "Clear filters"
+      "CLEAR": "Clear filters",
+      "APPLY": "Apply filters",
+      "ERROR_CATEGORIES": "Unable to load categories"
     },
     "SORT": {
       "NEWEST": "Newest",
@@ -1227,7 +1229,12 @@
       "like_new": "Like new",
       "good": "Good",
       "used": "Used",
-      "for_parts": "For parts"
+      "for_parts": "For parts",
+      "NEW": "New",
+      "LIKE_NEW": "Like new",
+      "GOOD": "Good",
+      "FAIR": "Fair",
+      "POOR": "Poor"
     },
     "DETAIL": {
       "TITLE": "Item details",
@@ -1266,6 +1273,9 @@
       "NO_PHOTOS": "No photos. Click to add some.",
       "PHOTO_REQUIRED": "You must add at least one photo",
       "PHOTO_UPLOAD_FAILED": "Failed to upload photos",
+      "PHOTO_TYPE_ERROR": "Unsupported file type",
+      "PHOTO_SIZE_ERROR": "File exceeds the maximum size",
+      "PHOTO_LIMIT": "Too many photos selected",
       "CREATE": "Create",
       "SAVE_CHANGES": "Save changes",
       "CANCEL": "Cancel",
@@ -1276,6 +1286,9 @@
       "ERROR_LOAD_CATEGORIES": "Unable to load categories",
       "VALIDATION_ERROR": "Please check the form fields",
       "INVALID_CATEGORY": "Invalid category"
+    },
+    "AUTH": {
+      "REQUIRED": "Please log in to continue"
     },
     "CATEGORY": {
       "ELECTRONICS": "Electronics",

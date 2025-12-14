@@ -1215,7 +1215,9 @@
       "LOCATION": "Ubicación",
       "LOCATION_PLACEHOLDER": "Ciudad o campus",
       "SORT": "Ordenar",
-      "CLEAR": "Borrar filtros"
+      "CLEAR": "Borrar filtros",
+      "APPLY": "Aplicar filtros",
+      "ERROR_CATEGORIES": "No se pudieron cargar las categorías"
     },
     "SORT": {
       "NEWEST": "Más recientes",
@@ -1227,7 +1229,12 @@
       "like_new": "Como nuevo",
       "good": "Buen estado",
       "used": "Usado",
-      "for_parts": "Para piezas"
+      "for_parts": "Para piezas",
+      "NEW": "Nuevo",
+      "LIKE_NEW": "Como nuevo",
+      "GOOD": "Buen estado",
+      "FAIR": "Aceptable",
+      "POOR": "Deteriorado"
     },
     "DETAIL": {
       "TITLE": "Detalle del artículo",
@@ -1266,6 +1273,9 @@
       "NO_PHOTOS": "No hay fotos. Haz clic para añadir.",
       "PHOTO_REQUIRED": "Debes añadir al menos una foto",
       "PHOTO_UPLOAD_FAILED": "Error al subir las fotos",
+      "PHOTO_TYPE_ERROR": "Tipo de archivo no permitido",
+      "PHOTO_SIZE_ERROR": "El archivo supera el tamaño máximo",
+      "PHOTO_LIMIT": "Has seleccionado demasiadas fotos",
       "CREATE": "Crear",
       "SAVE_CHANGES": "Guardar cambios",
       "CANCEL": "Cancelar",
@@ -1276,6 +1286,9 @@
       "ERROR_LOAD_CATEGORIES": "No se pudieron cargar las categorías",
       "VALIDATION_ERROR": "Revisa los campos del formulario",
       "INVALID_CATEGORY": "Categoría inválida"
+    },
+    "AUTH": {
+      "REQUIRED": "Inicia sesión para continuar"
     },
     "CATEGORY": {
       "BOOKS": "Libros",

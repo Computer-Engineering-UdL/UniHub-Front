@@ -99,8 +99,14 @@
 
     .seller-card {
       display: flex;
-      flex-direction: column;
-      gap: 4px;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+
+      ion-avatar {
+        width: 56px;
+        height: 56px;
+      }
 
       .seller-name {
         margin: 0;

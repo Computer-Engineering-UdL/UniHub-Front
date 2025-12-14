@@ -5,12 +5,19 @@ import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
-import { Item, UniItemsQuery } from '../../models/uni-item.types';
+import { ItemCategory, ItemCondition, ItemRead, ItemsListParams, ItemsListResponse } from '../../models/uni-item.types';
 import { UniItemsService } from '../../services/uni-items.service';
 
-interface UniItemViewModel extends Item {
+interface UniItemViewModel {
+  id: string;
+  title: string;
+  description: string;
+  categoryName: string;
+  condition: ItemCondition;
   priceFormatted: string;
   primaryImage: string | null;
+  location: string;
+  postedDate: string;
 }
 
 @Component({
@@ -34,31 +41,44 @@ export class ItemsListPage implements OnInit {
   readonly pageSize: number = 10;
   showMobileFilters: boolean = false;
 
-  filters: UniItemsQuery = {
+  filters: ItemsListParams = {
     search: '',
-    categories: [],
-    minPrice: undefined,
-    maxPrice: undefined,
-    condition: '',
+    category_ids: [],
+    min_price: undefined,
+    max_price: undefined,
+    conditions: [],
     location: '',
     sort: 'newest'
   };
 
-  readonly categories: string[] = ['Furniture', 'Books', 'Electronics', 'Clothing', 'Other'];
-  readonly conditions: { value: Item['condition']; labelKey: string }[] = [
-    { value: 'new', labelKey: 'UNI_ITEMS.CONDITION_LABELS.new' },
-    { value: 'like_new', labelKey: 'UNI_ITEMS.CONDITION_LABELS.like_new' },
-    { value: 'good', labelKey: 'UNI_ITEMS.CONDITION_LABELS.good' },
-    { value: 'used', labelKey: 'UNI_ITEMS.CONDITION_LABELS.used' },
-    { value: 'for_parts', labelKey: 'UNI_ITEMS.CONDITION_LABELS.for_parts' }
+  categories: ItemCategory[] = [];
+  readonly conditionOptions: ReadonlyArray<{ value: ItemCondition; labelKey: string }> = [
+    { value: 'New', labelKey: 'UNI_ITEMS.CONDITION_LABELS.NEW' },
+    { value: 'Like New', labelKey: 'UNI_ITEMS.CONDITION_LABELS.LIKE_NEW' },
+    { value: 'Good', labelKey: 'UNI_ITEMS.CONDITION_LABELS.GOOD' },
+    { value: 'Fair', labelKey: 'UNI_ITEMS.CONDITION_LABELS.FAIR' },
+    { value: 'Poor', labelKey: 'UNI_ITEMS.CONDITION_LABELS.POOR' }
   ];
+  readonly conditionLabelMap: Record<ItemCondition, string> = this.conditionOptions.reduce(
+    (acc: Record<ItemCondition, string>, option) => ({ ...acc, [option.value]: option.labelKey }),
+    {} as Record<ItemCondition, string>
+  );
 
   get canCreate(): boolean {
     return !!this.authService.currentUser;
   }
 
   ngOnInit(): void {
+    void this.loadCategories();
     void this.loadItems(true);
+  }
+
+  async loadCategories(): Promise<void> {
+    try {
+      this.categories = await firstValueFrom(this.uniItemsService.getCategories());
+    } catch {
+      this.notificationService.error('UNI_ITEMS.FILTERS.ERROR_CATEGORIES');
+    }
   }
 
   async loadItems(reset: boolean = false, event?: InfiniteScrollCustomEvent): Promise<void> {
@@ -73,20 +93,27 @@ export class ItemsListPage implements OnInit {
     }
 
     this.loading = reset;
-    const query: UniItemsQuery = {
+    const query: ItemsListParams = {
       ...this.filters,
-      categories: this.filters.categories?.length ? this.filters.categories : undefined,
+      category_ids: this.filters.category_ids?.length ? this.filters.category_ids : undefined,
+      conditions: this.filters.conditions?.length ? this.filters.conditions : undefined,
       page: this.currentPage,
-      pageSize: this.pageSize
+      page_size: this.pageSize
     };
 
     try {
-      const response = await firstValueFrom(this.uniItemsService.getItems(query));
+      const response: ItemsListResponse = await firstValueFrom(this.uniItemsService.listItems(query));
       const mapped: UniItemViewModel[] = response.items.map(
-        (item: Item): UniItemViewModel => ({
-          ...item,
+        (item: ItemRead): UniItemViewModel => ({
+          id: item.id,
+          title: item.title,
+          description: item.description,
+          categoryName: item.category?.name ?? '',
+          condition: item.condition,
           priceFormatted: this.localization.formatPrice(item.price, item.currency),
-          primaryImage: item.images?.[0] ?? null
+          primaryImage: item.image_urls?.[0] ?? item.owner_details?.avatar_url ?? null,
+          location: item.location,
+          postedDate: this.localization.formatDate(item.posted_date)
         })
       );
 
@@ -95,7 +122,6 @@ export class ItemsListPage implements OnInit {
       this.hasMore = this.items.length < this.total;
       this.currentPage += 1;
     } catch (error) {
-      console.error('Error loading items', error);
       this.notificationService.error('UNI_ITEMS.LIST.ERROR');
     } finally {
       this.loading = false;
@@ -110,28 +136,38 @@ export class ItemsListPage implements OnInit {
   clearFilters(): void {
     this.filters = {
       search: '',
-      categories: [],
-      minPrice: undefined,
-      maxPrice: undefined,
-      condition: '',
+      category_ids: [],
+      min_price: undefined,
+      max_price: undefined,
+      conditions: [],
       location: '',
       sort: 'newest'
     };
     void this.loadItems(true);
   }
 
-  toggleCategory(category: string): void {
-    const categories: string[] = this.filters.categories || [];
-    if (categories.includes(category)) {
-      this.filters.categories = categories.filter((c: string): boolean => c !== category);
+  toggleCategory(categoryId: string): void {
+    const categoryIds: string[] = this.filters.category_ids || [];
+    if (categoryIds.includes(categoryId)) {
+      this.filters.category_ids = categoryIds.filter((c: string): boolean => c !== categoryId);
     } else {
-      this.filters.categories = [...categories, category];
+      this.filters.category_ids = [...categoryIds, categoryId];
     }
     this.applyFilters();
   }
 
-  selectCondition(condition: Item['condition'] | ''): void {
-    this.filters.condition = condition;
+  toggleCondition(condition: ItemCondition): void {
+    const selected: ItemCondition[] = this.filters.conditions || [];
+    if (selected.includes(condition)) {
+      this.filters.conditions = selected.filter((value: ItemCondition) => value !== condition);
+    } else {
+      this.filters.conditions = [...selected, condition];
+    }
+    this.applyFilters();
+  }
+
+  clearConditions(): void {
+    this.filters.conditions = [];
     this.applyFilters();
   }
 
@@ -159,7 +195,7 @@ export class ItemsListPage implements OnInit {
     void this.router.navigate(['/items/new']);
   }
 
-  openItem(item: Item): void {
+  openItem(item: UniItemViewModel): void {
     void this.router.navigate(['/items', item.id]);
   }
 }

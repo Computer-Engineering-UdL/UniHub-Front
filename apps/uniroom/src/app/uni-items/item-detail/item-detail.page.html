@@ -1,8 +1,8 @@
 <ion-content [fullscreen]="true">
   <div class="item-detail-container" *ngIf="item; else loadingState">
-    <div class="gallery" *ngIf="item.images?.length; else noImages">
+    <div class="gallery" *ngIf="item.imageUrls?.length; else noImages">
       <swiper-container [pagination]="true">
-        <swiper-slide *ngFor="let image of item.images">
+        <swiper-slide *ngFor="let image of item.imageUrls">
           <img [src]="image" [alt]="item.title" />
         </swiper-slide>
       </swiper-container>
@@ -18,11 +18,9 @@
         <div>
           <h1>{{ item.title }}</h1>
           <div class="meta">
-            <ion-chip color="primary" outline
-              >{{ 'UNI_ITEMS.CATEGORY.' + item.category.toUpperCase() | translate }}</ion-chip
-            >
+            <ion-chip color="primary" outline>{{ item.categoryName }}</ion-chip>
             <ion-chip color="medium" outline
-              >{{ ('UNI_ITEMS.CONDITION_LABELS.' + item.condition) | translate }}</ion-chip
+              >{{ conditionLabelMap[item.condition] | translate }}</ion-chip
             >
           </div>
           <div class="location">
@@ -64,12 +62,21 @@
           <ion-card-title>{{ 'UNI_ITEMS.DETAIL.SELLER' | translate }}</ion-card-title>
         </ion-card-header>
         <ion-card-content class="seller-card">
+          <ion-avatar>
+            <img
+              *ngIf="item.ownerAvatar; else avatarFallback"
+              [src]="item.ownerAvatar"
+              [alt]="item.ownerName" />
+            <ng-template #avatarFallback>
+              <ion-icon name="person-circle-outline"></ion-icon>
+            </ng-template>
+          </ion-avatar>
           <div>
             <p class="seller-name">
               {{ item.ownerName || ('UNI_ITEMS.DETAIL.UNKNOWN_SELLER' | translate) }}
             </p>
-            <p class="subtle" *ngIf="item.createdAt">
-              {{ 'UNI_ITEMS.DETAIL.POSTED_ON' | translate }} {{ item.createdAt | date }}
+            <p class="subtle">
+              {{ 'UNI_ITEMS.DETAIL.POSTED_ON' | translate }} {{ item.postedDateLabel }}
             </p>
             <p class="subtle" *ngIf="item.updatedLabel">
               {{ 'UNI_ITEMS.DETAIL.UPDATED' | translate }} {{ item.updatedLabel }}

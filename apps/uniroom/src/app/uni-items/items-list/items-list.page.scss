@@ -154,6 +154,18 @@
       }
     }
   }
+
+  .filter-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+
+    ion-button {
+      --border-radius: 12px;
+      text-transform: none;
+    }
+  }
 }
 
 .items-section {
@@ -299,6 +311,11 @@
       gap: 6px;
       color: var(--ion-color-medium);
       font-weight: 600;
+    }
+
+    .subtle {
+      color: var(--ion-color-medium);
+      font-weight: 500;
     }
   }
 }

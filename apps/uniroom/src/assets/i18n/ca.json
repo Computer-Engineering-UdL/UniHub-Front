@@ -1215,7 +1215,9 @@
       "LOCATION": "Ubicació",
       "LOCATION_PLACEHOLDER": "Ciutat o campus",
       "SORT": "Ordenar",
-      "CLEAR": "Netejar filtres"
+      "CLEAR": "Netejar filtres",
+      "APPLY": "Aplicar filtres",
+      "ERROR_CATEGORIES": "No s'han pogut carregar les categories"
     },
     "SORT": {
       "NEWEST": "Més nous",
@@ -1227,7 +1229,12 @@
       "like_new": "Com nou",
       "good": "Bon estat",
       "used": "Usat",
-      "for_parts": "Per peces"
+      "for_parts": "Per peces",
+      "NEW": "Nou",
+      "LIKE_NEW": "Com nou",
+      "GOOD": "Bon estat",
+      "FAIR": "Acceptable",
+      "POOR": "Deteriorat"
     },
     "DETAIL": {
       "TITLE": "Detall de l'article",
@@ -1266,6 +1273,9 @@
       "NO_PHOTOS": "No hi ha fotos. Fes clic per afegir-ne.",
       "PHOTO_REQUIRED": "Has d'afegir almenys una foto",
       "PHOTO_UPLOAD_FAILED": "Error en pujar les fotos",
+      "PHOTO_TYPE_ERROR": "Tipus d'arxiu no permès",
+      "PHOTO_SIZE_ERROR": "L'arxiu supera la mida màxima",
+      "PHOTO_LIMIT": "Has seleccionat massa fotos",
       "CREATE": "Crear",
       "SAVE_CHANGES": "Desar canvis",
       "CANCEL": "Cancel·lar",
@@ -1276,6 +1286,9 @@
       "ERROR_LOAD_CATEGORIES": "No s'han pogut carregar les categories",
       "VALIDATION_ERROR": "Revisa els camps del formulari",
       "INVALID_CATEGORY": "Categoria invàlida"
+    },
+    "AUTH": {
+      "REQUIRED": "Inicia sessió per continuar"
     },
     "CATEGORY": {
       "ELECTRONICS": "Electrònica",

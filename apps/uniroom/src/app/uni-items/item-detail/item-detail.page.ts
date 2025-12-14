@@ -4,7 +4,7 @@ import { AlertController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import NotificationService from '../../services/notification.service';
-import { Item } from '../../models/uni-item.types';
+import { ItemCondition, ItemRead } from '../../models/uni-item.types';
 import { UniItemsService } from '../../services/uni-items.service';
 import { LocalizationService } from '../../services/localization.service';
 import { MessageService } from '../../services/message.service';
@@ -14,8 +14,19 @@ import { register } from 'swiper/element/bundle';
 // Register Swiper web components
 register();
 
-interface UniItemDetailViewModel extends Item {
+interface UniItemDetailViewModel {
+  id: string;
+  title: string;
+  description: string;
   priceFormatted: string;
+  categoryName: string;
+  condition: ItemCondition;
+  location: string;
+  imageUrls: string[];
+  ownerId: string;
+  ownerName: string;
+  ownerAvatar: string | null;
+  postedDateLabel: string;
   updatedLabel?: string;
 }
 
@@ -39,6 +50,13 @@ export class ItemDetailPage implements OnInit {
   item: UniItemDetailViewModel | null = null;
   loading: boolean = true;
   contacting: boolean = false;
+  readonly conditionLabelMap: Record<ItemCondition, string> = {
+    New: 'UNI_ITEMS.CONDITION_LABELS.NEW',
+    'Like New': 'UNI_ITEMS.CONDITION_LABELS.LIKE_NEW',
+    Good: 'UNI_ITEMS.CONDITION_LABELS.GOOD',
+    Fair: 'UNI_ITEMS.CONDITION_LABELS.FAIR',
+    Poor: 'UNI_ITEMS.CONDITION_LABELS.POOR'
+  };
 
   get isOwner(): boolean {
     return !!this.item && this.authService.currentUser?.id === this.item.ownerId;
@@ -54,14 +72,23 @@ export class ItemDetailPage implements OnInit {
   async loadItem(id: string): Promise<void> {
     this.loading = true;
     try {
-      const response = await firstValueFrom(this.uniItemsService.getItemById(id));
+      const response: ItemRead = await firstValueFrom(this.uniItemsService.getItemDetail(id));
       this.item = {
-        ...response,
+        id: response.id,
+        title: response.title,
+        description: response.description,
         priceFormatted: this.localization.formatPrice(response.price, response.currency),
-        updatedLabel: response.updatedAt ? this.localization.formatRelativeTime(response.updatedAt) : undefined
+        categoryName: response.category?.name ?? '',
+        condition: response.condition,
+        location: response.location,
+        imageUrls: response.image_urls ?? [],
+        ownerId: response.owner_details?.id ?? '',
+        ownerName: response.owner_details?.full_name || response.owner_details?.username || '',
+        ownerAvatar: response.owner_details?.avatar_url ?? null,
+        postedDateLabel: this.localization.formatDate(response.posted_date),
+        updatedLabel: response.updated_at ? this.localization.formatRelativeTime(response.updated_at) : undefined
       };
     } catch (error) {
-      console.error('Error loading item', error);
       this.notificationService.error('UNI_ITEMS.DETAIL.ERROR');
     } finally {
       this.loading = false;
@@ -74,6 +101,7 @@ export class ItemDetailPage implements OnInit {
     }
 
     if (!this.authService.currentUser) {
+      this.notificationService.error('UNI_ITEMS.AUTH.REQUIRED');
       await this.router.navigate(['/login']);
       return;
     }
@@ -84,7 +112,6 @@ export class ItemDetailPage implements OnInit {
       this.notificationService.success('UNI_ITEMS.DETAIL.CONTACT_SUCCESS');
       await this.router.navigate(['/messages']);
     } catch (error) {
-      console.error('Error contacting seller', error);
       this.notificationService.error('UNI_ITEMS.DETAIL.CONTACT_ERROR');
     } finally {
       this.contacting = false;
@@ -124,7 +151,6 @@ export class ItemDetailPage implements OnInit {
       this.notificationService.success('UNI_ITEMS.DETAIL.DELETE_SUCCESS');
       await this.router.navigate(['/items']);
     } catch (error) {
-      console.error('Error deleting item', error);
       this.notificationService.error('UNI_ITEMS.DETAIL.DELETE_ERROR');
     }
   }

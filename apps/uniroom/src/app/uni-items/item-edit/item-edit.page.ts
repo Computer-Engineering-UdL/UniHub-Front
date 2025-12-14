@@ -5,12 +5,17 @@ import { firstValueFrom } from 'rxjs';
 import { ModalController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
 import NotificationService from '../../services/notification.service';
-import { Item, ItemCategory } from '../../models/uni-item.types';
+import {
+  ItemCategory,
+  ItemCondition,
+  ItemCreateRequest,
+  ItemRead,
+  ItemUpdateRequest
+} from '../../models/uni-item.types';
 import { UniItemsService } from '../../services/uni-items.service';
 import { ApiService } from '../../services/api.service';
 import { LocalizationService } from '../../services/localization.service';
 import { FileMetadata } from '../../models/offer.types';
-import { resolveFileUrl } from '../../utils/file-url.util';
 import { LocationPickerComponent } from '../../shared/location-picker/location-picker.component';
 import { LocationResult } from '../../services/google-places.service';
 
@@ -54,26 +59,17 @@ export class ItemEditPage implements OnInit {
   readonly maxPhotoCount: number = 5;
   readonly allowedPhotoMimeTypes: Set<string> = new Set(['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
   readonly maxPhotoSizeBytes: number = 10 * 1024 * 1024;
-  readonly maxPhotoSizeMB: number = 10;
 
   categories: ItemCategory[] = [];
-  readonly conditions: { value: Item['condition']; labelKey: string }[] = [
-    { value: 'new', labelKey: 'UNI_ITEMS.CONDITION_LABELS.new' },
-    { value: 'like_new', labelKey: 'UNI_ITEMS.CONDITION_LABELS.like_new' },
-    { value: 'good', labelKey: 'UNI_ITEMS.CONDITION_LABELS.good' },
-    { value: 'used', labelKey: 'UNI_ITEMS.CONDITION_LABELS.used' },
-    { value: 'for_parts', labelKey: 'UNI_ITEMS.CONDITION_LABELS.for_parts' }
+  readonly conditions: { value: ItemCondition; labelKey: string }[] = [
+    { value: 'New', labelKey: 'UNI_ITEMS.CONDITION_LABELS.NEW' },
+    { value: 'Like New', labelKey: 'UNI_ITEMS.CONDITION_LABELS.LIKE_NEW' },
+    { value: 'Good', labelKey: 'UNI_ITEMS.CONDITION_LABELS.GOOD' },
+    { value: 'Fair', labelKey: 'UNI_ITEMS.CONDITION_LABELS.FAIR' },
+    { value: 'Poor', labelKey: 'UNI_ITEMS.CONDITION_LABELS.POOR' }
   ];
 
   currencies: Array<{ value: string; label: string }> = [];
-
-  readonly backendConditionMap: Record<string, string> = {
-    new: 'New',
-    like_new: 'Like New',
-    good: 'Good',
-    used: 'Fair',
-    for_parts: 'Poor'
-  };
 
   fieldErrors: Record<string, string> = {};
 
@@ -88,19 +84,23 @@ export class ItemEditPage implements OnInit {
       title: ['', Validators.required],
       description: [''],
       category: ['', Validators.required],
-      condition: ['good', Validators.required],
+      condition: ['Good', Validators.required],
       price: [null, [Validators.required, Validators.min(0)]],
       currency: ['EUR', Validators.required],
       location: ['', Validators.required]
     });
 
-    void this.loadCategories();
-
     this.itemId = this.route.snapshot.paramMap.get('id');
     this.isEditMode = !!this.itemId;
 
+    void this.initializeData();
+  }
+
+  private async initializeData(): Promise<void> {
+    await this.loadCategories();
+
     if (this.isEditMode && this.itemId) {
-      void this.loadItem(this.itemId);
+      await this.loadItem(this.itemId);
     }
   }
 
@@ -132,14 +132,14 @@ export class ItemEditPage implements OnInit {
   async loadItem(id: string): Promise<void> {
     this.loading = true;
     try {
-      const item: Item = await firstValueFrom(this.uniItemsService.getItemById(id));
-      if (item.ownerId && this.authService.currentUser?.id !== item.ownerId) {
+      const item: ItemRead = await firstValueFrom(this.uniItemsService.getItemDetail(id));
+      if (item.owner_details?.id && this.authService.currentUser?.id !== item.owner_details.id) {
         await this.router.navigate(['/items']);
         return;
       }
 
       const category: ItemCategory | undefined = this.categories.find(
-        (cat: ItemCategory) => cat.name === item.category
+        (cat: ItemCategory) => cat.id === item.category?.id
       );
 
       this.form.patchValue({
@@ -173,20 +173,20 @@ export class ItemEditPage implements OnInit {
     let hasError: boolean = false;
 
     if (files.length > filesToProcess.length) {
-      this.photoUploadError = `Máximo ${this.maxPhotoCount} fotos`;
+      this.photoUploadError = 'UNI_ITEMS.FORM.PHOTO_LIMIT';
       hasError = true;
     }
 
     const validFiles: File[] = filesToProcess.filter((file: File) => {
       if (!this.allowedPhotoMimeTypes.has(file.type)) {
         if (!hasError) {
-          this.photoUploadError = 'Tipo de archivo no permitido';
+          this.photoUploadError = 'UNI_ITEMS.FORM.PHOTO_TYPE_ERROR';
           hasError = true;
         }
         return false;
       }
       if (file.size > this.maxPhotoSizeBytes) {
-        this.photoUploadError = `Tamaño máximo ${this.maxPhotoSizeMB}MB`;
+        this.photoUploadError = 'UNI_ITEMS.FORM.PHOTO_SIZE_ERROR';
         hasError = true;
         return false;
       }
@@ -255,7 +255,6 @@ export class ItemEditPage implements OnInit {
       return [];
     }
 
-    const uploadedUrls: string[] = [];
     const uploadedFileIds: string[] = [];
 
     try {
@@ -266,14 +265,9 @@ export class ItemEditPage implements OnInit {
 
         const response: FileMetadata = await firstValueFrom(this.apiService.post<FileMetadata>('files/', formData));
         uploadedFileIds.push(response.id);
-
-        const url: string | null = response.public_url ? resolveFileUrl(response.public_url) : '';
-        if (url) {
-          uploadedUrls.push(url);
-        }
       }
 
-      return uploadedUrls;
+      return uploadedFileIds;
     } catch {
       if (uploadedFileIds.length) {
         await this.cleanupUploadedFiles(uploadedFileIds);
@@ -300,18 +294,25 @@ export class ItemEditPage implements OnInit {
       return;
     }
 
-    if (this.photoPreviews.length === 0 && !this.isEditMode) {
-      this.photoUploadError = 'UNI_ITEMS.FORM.PHOTO_REQUIRED';
-      this.notificationService.error('UNI_ITEMS.FORM.PHOTO_REQUIRED');
-      return;
-    }
-
     this.loading = true;
     this.fieldErrors = {};
 
     try {
-      const imageUrls: string[] = await this.uploadSelectedPhotos();
-      const formValue = this.form.value;
+      if (!this.authService.currentUser) {
+        this.notificationService.error('UNI_ITEMS.AUTH.REQUIRED');
+        await this.router.navigate(['/login']);
+        return;
+      }
+
+      const formValue: {
+        title: string;
+        description: string;
+        category: string;
+        condition: ItemCondition;
+        price: number;
+        currency: string;
+        location: string;
+      } = this.form.value;
 
       const selectedCategory: ItemCategory | undefined = this.categories.find(
         (cat: ItemCategory) => cat.id === formValue.category
@@ -322,23 +323,32 @@ export class ItemEditPage implements OnInit {
         return;
       }
 
-      const payload: any = {
+      const fileIds: string[] = await this.uploadSelectedPhotos();
+
+      const basePayload: ItemUpdateRequest = {
         title: formValue.title,
         description: formValue.description || '',
-        condition: this.backendConditionMap[formValue.condition] || 'Good',
-        price: formValue.price,
+        condition: formValue.condition,
+        price: Number(formValue.price),
         currency: formValue.currency,
         location: formValue.location,
-        category_id: selectedCategory.id,
-        images: imageUrls
+        category_id: selectedCategory.id
       };
 
       if (this.isEditMode && this.itemId) {
-        const updated: Item = await firstValueFrom(this.uniItemsService.updateItem(this.itemId, payload));
+        const payload: ItemUpdateRequest = { ...basePayload };
+        if (fileIds.length) {
+          payload.file_ids = fileIds;
+        }
+        const updated: ItemRead = await firstValueFrom(this.uniItemsService.updateItem(this.itemId, payload));
         this.notificationService.success('UNI_ITEMS.FORM.SUCCESS_EDIT');
         await this.router.navigate(['/items', updated.id]);
       } else {
-        const created: Item = await firstValueFrom(this.uniItemsService.createItem(payload));
+        const payload: ItemCreateRequest = {
+          ...(basePayload as ItemCreateRequest),
+          file_ids: fileIds
+        };
+        const created: ItemRead = await firstValueFrom(this.uniItemsService.createItem(payload));
         this.notificationService.success('UNI_ITEMS.FORM.SUCCESS_CREATE');
         await this.router.navigate(['/items', created.id]);
       }

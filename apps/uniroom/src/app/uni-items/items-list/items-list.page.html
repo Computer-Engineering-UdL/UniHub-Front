@@ -33,11 +33,11 @@
         <div class="chips">
           <ion-chip
             *ngFor="let category of categories"
-            (click)="toggleCategory(category)"
-            [color]="filters.categories?.includes(category) ? 'primary' : 'medium'"
-            [outline]="!filters.categories?.includes(category)"
+            (click)="toggleCategory(category.id)"
+            [color]="filters.category_ids?.includes(category.id) ? 'primary' : 'medium'"
+            [outline]="!filters.category_ids?.includes(category.id)"
             class="interactive">
-            {{ category }}
+            {{ category.name }}
           </ion-chip>
         </div>
       </div>
@@ -46,17 +46,17 @@
         <label class="filter-label">{{ 'UNI_ITEMS.FILTERS.CONDITION' | translate }}</label>
         <div class="chips">
           <ion-chip
-            [color]="!filters.condition ? 'primary' : 'medium'"
-            [outline]="!!filters.condition"
+            [color]="!(filters.conditions?.length) ? 'primary' : 'medium'"
+            [outline]="!!(filters.conditions?.length)"
             class="interactive"
-            (click)="selectCondition('')">
+            (click)="clearConditions()">
             {{ 'UNI_ITEMS.FILTERS.ANY_CONDITION' | translate }}
           </ion-chip>
           <ion-chip
-            *ngFor="let condition of conditions"
-            (click)="selectCondition(condition.value)"
-            [color]="filters.condition === condition.value ? 'primary' : 'medium'"
-            [outline]="filters.condition !== condition.value"
+            *ngFor="let condition of conditionOptions"
+            (click)="toggleCondition(condition.value)"
+            [color]="filters.conditions?.includes(condition.value) ? 'primary' : 'medium'"
+            [outline]="!filters.conditions?.includes(condition.value)"
             class="interactive">
             {{ condition.labelKey | translate }}
           </ion-chip>
@@ -68,14 +68,14 @@
         <div class="price-inputs">
           <ion-input
             type="number"
-            [(ngModel)]="filters.minPrice"
+            [(ngModel)]="filters.min_price"
             (ionChange)="applyFilters()"
             [placeholder]="'UNI_ITEMS.FILTERS.MIN_PRICE' | translate"
             fill="outline"></ion-input>
           <span class="range-separator">—</span>
           <ion-input
             type="number"
-            [(ngModel)]="filters.maxPrice"
+            [(ngModel)]="filters.max_price"
             (ionChange)="applyFilters()"
             [placeholder]="'UNI_ITEMS.FILTERS.MAX_PRICE' | translate"
             fill="outline"></ion-input>
@@ -104,6 +104,15 @@
             >{{ 'UNI_ITEMS.SORT.PRICE_HIGH' | translate }}</ion-select-option
           >
         </ion-select>
+      </div>
+
+      <div class="filter-actions">
+        <ion-button expand="block" color="primary" (click)="applyFilters()">
+          {{ 'UNI_ITEMS.FILTERS.APPLY' | translate }}
+        </ion-button>
+        <ion-button expand="block" fill="clear" color="medium" (click)="clearFilters()">
+          {{ 'UNI_ITEMS.FILTERS.CLEAR' | translate }}
+        </ion-button>
       </div>
     </aside>
 
@@ -162,9 +171,9 @@
               <span class="price">{{ item.priceFormatted }}</span>
             </div>
             <div class="badges">
-              <ion-chip color="primary" outline>{{ item.category }}</ion-chip>
+              <ion-chip color="primary" outline>{{ item.categoryName }}</ion-chip>
               <ion-chip color="medium" outline>
-                {{ ('UNI_ITEMS.CONDITION_LABELS.' + item.condition) | translate }}
+                {{ conditionLabelMap[item.condition] | translate }}
               </ion-chip>
             </div>
           </ion-card-header>
@@ -172,6 +181,10 @@
             <div class="meta">
               <ion-icon name="location-outline"></ion-icon>
               <span>{{ item.location }}</span>
+            </div>
+            <div class="meta subtle">
+              <ion-icon name="time-outline"></ion-icon>
+              <span>{{ item.postedDate }}</span>
             </div>
           </ion-card-content>
         </ion-card>
