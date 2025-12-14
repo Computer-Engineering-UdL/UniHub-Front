@@ -443,8 +443,10 @@ export class CreateJobPage implements OnInit, OnDestroy {
       title: value.title.trim(),
       description: value.description.trim(),
       category: value.category!,
-      jobType: value.jobType!,
-      workplaceType: value.workplaceType ?? undefined,
+      jobType: this.mapJobTypeToBackend(value.jobType!) as unknown as JobType,
+      workplaceType: value.workplaceType
+        ? (this.mapWorkplaceToBackend(value.workplaceType) as unknown as JobWorkplace)
+        : undefined,
       location: value.location.trim(),
       salaryPeriod: value.salaryPeriod ?? 'year',
       salaryMin,
@@ -455,6 +457,25 @@ export class CreateJobPage implements OnInit, OnDestroy {
       companyEmployeeCount: value.companyEmployeeCount.trim() || undefined,
       fileIds: []
     };
+  }
+
+  private mapJobTypeToBackend(type: JobType): string {
+    const mapping: Record<JobType, string> = {
+      full_time: 'Full-time',
+      part_time: 'Part-time',
+      internship: 'Internship',
+      freelance: 'Freelance'
+    };
+    return mapping[type] ?? type;
+  }
+
+  private mapWorkplaceToBackend(type: JobWorkplace): string {
+    const mapping: Record<JobWorkplace, string> = {
+      on_site: 'On-site',
+      hybrid: 'Hybrid',
+      remote: 'Remote'
+    };
+    return mapping[type] ?? type;
   }
 
   private toNumber(value: unknown): number | null {
