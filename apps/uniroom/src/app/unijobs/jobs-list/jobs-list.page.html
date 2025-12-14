@@ -128,7 +128,11 @@
             <ion-badge *ngIf="tab.key === 'applied'" color="light">{{ appliedCount }}</ion-badge>
           </button>
         </div>
-        <button *ngIf="hasActiveFilters()" class="clear-filters" type="button" (click)="clearFilters()">
+        <button
+          *ngIf="hasActiveFilters()"
+          class="clear-filters"
+          type="button"
+          (click)="clearFilters()">
           {{ 'UNIJOBS.FILTERS.CLEAR' | translate }}
         </button>
       </div>

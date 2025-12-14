@@ -11,10 +11,10 @@
           <img *ngIf="job.logoUrl" [src]="job.logoUrl" [alt]="job.companyName" />
           <span *ngIf="!job.logoUrl">{{ getInitials(job.companyName || '') }}</span>
         </div>
-          <div class="hero-text">
-            <h1>{{ job.title }}</h1>
-            <p class="company">{{ job.companyName }}</p>
-            <div class="tags">
+        <div class="hero-text">
+          <h1>{{ job.title }}</h1>
+          <p class="company">{{ job.companyName }}</p>
+          <div class="tags">
             <span class="pill">{{ jobTypeLabel(job.jobType) | translate }}</span>
             <span class="pill ghost">{{ ('UNIJOBS.CATEGORIES.' + job.category) | translate }}</span>
           </div>

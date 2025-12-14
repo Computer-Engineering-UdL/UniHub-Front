@@ -26,7 +26,9 @@
             formControlName="fullName"
             [placeholder]="'UNIJOBS.APPLY.FULL_NAME_PLACEHOLDER' | translate"></ion-input>
         </ion-item>
-        <ion-note *ngIf="form.controls.fullName.touched && form.controls.fullName.invalid" color="danger">
+        <ion-note
+          *ngIf="form.controls.fullName.touched && form.controls.fullName.invalid"
+          color="danger">
           {{ 'UNIJOBS.APPLY.REQUIRED' | translate }}
         </ion-note>
 
@@ -77,7 +79,9 @@
           (change)="onFileSelected($event)"
           accept=".pdf,.doc,.docx"
           hidden />
-        <ion-note *ngIf="resumeFile" color="medium" class="file-note">{{ resumeFile.name }}</ion-note>
+        <ion-note *ngIf="resumeFile" color="medium" class="file-note">{{
+          resumeFile.name
+        }}</ion-note>
         <ion-note *ngIf="fileError" color="danger">{{ fileError }}</ion-note>
 
         <ion-item
