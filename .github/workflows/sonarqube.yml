@@ -52,5 +52,5 @@ jobs:
             -Dsonar.projectKey=UniHub-Front
             -Dsonar.projectName=UniHub-Front
             -Dsonar.sources=src
-            -Dsonar.javascript.lcov.reportPaths=coverage/uniroom/lcov.info
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
 
