@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
-import { PagedResult, UniItem, UniItemsQuery } from '../models/uni-item.types';
+import { ItemCategory, PagedResult, Item, UniItemsQuery } from '../models/uni-item.types';
 
 @Injectable({
   providedIn: 'root'
@@ -9,21 +9,25 @@ import { PagedResult, UniItem, UniItemsQuery } from '../models/uni-item.types';
 export class UniItemsService {
   private readonly apiService: ApiService = inject(ApiService);
 
-  getItems(query: UniItemsQuery): Observable<PagedResult<UniItem>> {
+  getItems(query: UniItemsQuery): Observable<PagedResult<Item>> {
     const params: Record<string, any> = this.serializeQuery(query);
-    return this.apiService.get<PagedResult<UniItem>>('items', params, undefined, false);
+    return this.apiService.get<PagedResult<Item>>('items/', params, undefined, false);
   }
 
-  getItemById(id: string): Observable<UniItem> {
-    return this.apiService.get<UniItem>(`items/${id}`, undefined, undefined, false);
+  getItemById(id: string): Observable<Item> {
+    return this.apiService.get<Item>(`items/${id}`, undefined, undefined, false);
   }
 
-  createItem(payload: Partial<UniItem>): Observable<UniItem> {
-    return this.apiService.post<UniItem>('items', payload);
+  getCategories(): Observable<ItemCategory[]> {
+    return this.apiService.get<ItemCategory[]>('item-categories/', undefined, undefined, false);
   }
 
-  updateItem(id: string, payload: Partial<UniItem>): Observable<UniItem> {
-    return this.apiService.put<UniItem>(`items/${id}`, payload);
+  createItem(payload: Partial<Item>): Observable<Item> {
+    return this.apiService.post<Item>('items', payload);
+  }
+
+  updateItem(id: string, payload: Partial<Item>): Observable<Item> {
+    return this.apiService.put<Item>(`items/${id}`, payload);
   }
 
   deleteItem(id: string): Observable<void> {

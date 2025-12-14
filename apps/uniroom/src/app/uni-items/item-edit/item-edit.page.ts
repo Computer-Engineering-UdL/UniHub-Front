@@ -5,7 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import { ModalController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
 import NotificationService from '../../services/notification.service';
-import { UniItem } from '../../models/uni-item.types';
+import { Item, ItemCategory } from '../../models/uni-item.types';
 import { UniItemsService } from '../../services/uni-items.service';
 import { ApiService } from '../../services/api.service';
 import { LocalizationService } from '../../services/localization.service';
@@ -56,8 +56,8 @@ export class ItemEditPage implements OnInit {
   readonly maxPhotoSizeBytes: number = 10 * 1024 * 1024;
   readonly maxPhotoSizeMB: number = 10;
 
-  readonly categories: string[] = ['Furniture', 'Books', 'Electronics', 'Clothing', 'Other'];
-  readonly conditions: { value: UniItem['condition']; labelKey: string }[] = [
+  categories: ItemCategory[] = [];
+  readonly conditions: { value: Item['condition']; labelKey: string }[] = [
     { value: 'new', labelKey: 'UNI_ITEMS.CONDITION_LABELS.new' },
     { value: 'like_new', labelKey: 'UNI_ITEMS.CONDITION_LABELS.like_new' },
     { value: 'good', labelKey: 'UNI_ITEMS.CONDITION_LABELS.good' },
@@ -66,6 +66,16 @@ export class ItemEditPage implements OnInit {
   ];
 
   currencies: Array<{ value: string; label: string }> = [];
+
+  readonly backendConditionMap: Record<string, string> = {
+    new: 'New',
+    like_new: 'Like New',
+    good: 'Good',
+    used: 'Fair',
+    for_parts: 'Poor'
+  };
+
+  fieldErrors: Record<string, string> = {};
 
   get canAddMorePhotos(): boolean {
     return this.photoPreviews.length < this.maxPhotoCount;
@@ -84,11 +94,30 @@ export class ItemEditPage implements OnInit {
       location: ['', Validators.required]
     });
 
+    void this.loadCategories();
+
     this.itemId = this.route.snapshot.paramMap.get('id');
     this.isEditMode = !!this.itemId;
 
     if (this.isEditMode && this.itemId) {
       void this.loadItem(this.itemId);
+    }
+  }
+
+  async loadCategories(): Promise<void> {
+    try {
+      this.categories = await firstValueFrom(this.uniItemsService.getCategories());
+      if (this.categories?.length === 0) {
+        this.categories = [
+          { id: '1', name: 'FURNITURE' },
+          { id: '2', name: 'BOOKS' },
+          { id: '3', name: 'ELECTRONICS' },
+          { id: '4', name: 'CLOTHING' },
+          { id: '5', name: 'OTHER' }
+        ];
+      }
+    } catch {
+      this.notificationService.error('UNI_ITEMS.FORM.ERROR_LOAD_CATEGORIES');
     }
   }
 
@@ -112,16 +141,20 @@ export class ItemEditPage implements OnInit {
   async loadItem(id: string): Promise<void> {
     this.loading = true;
     try {
-      const item: UniItem = await firstValueFrom(this.uniItemsService.getItemById(id));
+      const item: Item = await firstValueFrom(this.uniItemsService.getItemById(id));
       if (item.ownerId && this.authService.currentUser?.id !== item.ownerId) {
         await this.router.navigate(['/items']);
         return;
       }
 
+      const category: ItemCategory | undefined = this.categories.find(
+        (cat: ItemCategory) => cat.name === item.category
+      );
+
       this.form.patchValue({
         title: item.title,
         description: item.description,
-        category: item.category,
+        category: category?.id || '',
         condition: item.condition,
         price: item.price,
         currency: item.currency,
@@ -272,38 +305,67 @@ export class ItemEditPage implements OnInit {
   async submit(): Promise<void> {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      this.notificationService.error('UNI_ITEMS.FORM.VALIDATION_ERROR');
       return;
     }
 
     if (this.photoPreviews.length === 0 && !this.isEditMode) {
-      this.photoUploadError = 'Debe añadir al menos una foto';
+      this.photoUploadError = 'UNI_ITEMS.FORM.PHOTO_REQUIRED';
       this.notificationService.error('UNI_ITEMS.FORM.PHOTO_REQUIRED');
       return;
     }
 
     this.loading = true;
+    this.fieldErrors = {};
 
     try {
       const imageUrls: string[] = await this.uploadSelectedPhotos();
+      const formValue = this.form.value;
 
-      const payload: Partial<UniItem> = {
-        ...this.form.value,
+      const selectedCategory: ItemCategory | undefined = this.categories.find(
+        (cat: ItemCategory) => cat.id === formValue.category
+      );
+
+      if (!selectedCategory) {
+        this.notificationService.error('UNI_ITEMS.FORM.INVALID_CATEGORY');
+        return;
+      }
+
+      const payload: any = {
+        title: formValue.title,
+        description: formValue.description || '',
+        condition: this.backendConditionMap[formValue.condition] || 'Good',
+        price: formValue.price,
+        currency: formValue.currency,
+        location: formValue.location,
+        category_id: selectedCategory.id,
         images: imageUrls
-      } as Partial<UniItem>;
+      };
 
       if (this.isEditMode && this.itemId) {
-        const updated: UniItem = await firstValueFrom(this.uniItemsService.updateItem(this.itemId, payload));
+        const updated: Item = await firstValueFrom(this.uniItemsService.updateItem(this.itemId, payload));
         this.notificationService.success('UNI_ITEMS.FORM.SUCCESS_EDIT');
         await this.router.navigate(['/items', updated.id]);
       } else {
-        const created: UniItem = await firstValueFrom(this.uniItemsService.createItem(payload));
+        const created: Item = await firstValueFrom(this.uniItemsService.createItem(payload));
         this.notificationService.success('UNI_ITEMS.FORM.SUCCESS_CREATE');
         await this.router.navigate(['/items', created.id]);
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof PhotoUploadException) {
         return;
       }
+
+      if (error?.error?.detail && Array.isArray(error.error.detail)) {
+        for (const err of error.error.detail) {
+          const fieldName: string = err.loc?.[1];
+          if (fieldName) {
+            const mappedField: string = fieldName === 'category_id' ? 'category' : fieldName;
+            this.fieldErrors[mappedField] = err.msg;
+          }
+        }
+      }
+
       this.notificationService.error('UNI_ITEMS.FORM.ERROR_SAVE');
     } finally {
       this.loading = false;

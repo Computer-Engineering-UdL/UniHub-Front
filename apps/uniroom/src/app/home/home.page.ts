@@ -7,7 +7,7 @@ import { ChannelService } from '../services/channel.service';
 import { Channel } from '../models/channel.types';
 import { OfferListItem } from '../models/offer.types';
 import { ApiService } from '../services/api.service';
-import { UniItem, UniItemsQuery } from '../models/uni-item.types';
+import { Item, UniItemsQuery } from '../models/uni-item.types';
 import { UniItemsService } from '../services/uni-items.service';
 import { LocalizationService } from '../services/localization.service';
 import NotificationService from '../services/notification.service';
@@ -33,7 +33,7 @@ export class HomePage implements OnInit, OnDestroy {
   public loading: boolean = true;
   public channels: Channel[] = [];
   public offers: OfferListItem[] = [];
-  public uniItems: UniItem[] = [];
+  public uniItems: Item[] = [];
   public sections: HomeSection[] = [];
   public recommendedOffers: OfferListItem[] = [];
   public popularChannels: Channel[] = [];
@@ -145,7 +145,7 @@ export class HomePage implements OnInit, OnDestroy {
         sort: 'newest'
       };
       const result = await firstValueFrom(this.uniItemsService.getItems(query));
-      this.uniItems = result.items.slice(0, 4).map((item: UniItem): UniItem => {
+      this.uniItems = result.items.slice(0, 4).map((item: Item): Item => {
         if (item.images && item.images.length > 0) {
           item.images = item.images.map((img: string): string => {
             const resolved: string | null = resolveFileUrl(img);

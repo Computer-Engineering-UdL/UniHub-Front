@@ -4,7 +4,7 @@ import { AlertController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import NotificationService from '../../services/notification.service';
-import { UniItem } from '../../models/uni-item.types';
+import { Item } from '../../models/uni-item.types';
 import { UniItemsService } from '../../services/uni-items.service';
 import { LocalizationService } from '../../services/localization.service';
 import { MessageService } from '../../services/message.service';
@@ -14,7 +14,7 @@ import { register } from 'swiper/element/bundle';
 // Register Swiper web components
 register();
 
-interface UniItemDetailViewModel extends UniItem {
+interface UniItemDetailViewModel extends Item {
   priceFormatted: string;
   updatedLabel?: string;
 }

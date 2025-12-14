@@ -1,4 +1,4 @@
-export interface UniItem {
+export interface Item {
   id: string;
   title: string;
   description: string;
@@ -13,6 +13,12 @@ export interface UniItem {
   createdAt: string;
   updatedAt?: string;
   isActive: boolean;
+}
+
+export interface ItemCategory {
+  id: string;
+  name: string;
+  description?: string;
 }
 
 export interface UniItemsQuery {

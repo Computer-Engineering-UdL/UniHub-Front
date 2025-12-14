@@ -1258,7 +1258,10 @@
       "SUCCESS_CREATE": "Article creat",
       "SUCCESS_EDIT": "Article actualitzat",
       "ERROR_SAVE": "No s'ha pogut desar l'article",
-      "ERROR_LOAD": "No s'ha pogut carregar l'article"
+      "ERROR_LOAD": "No s'ha pogut carregar l'article",
+      "ERROR_LOAD_CATEGORIES": "No s'han pogut carregar les categories",
+      "VALIDATION_ERROR": "Revisa els camps del formulari",
+      "INVALID_CATEGORY": "Categoria invàlida"
     },
     "CATEGORY": {
       "ELECTRONICS": "Electrònica",

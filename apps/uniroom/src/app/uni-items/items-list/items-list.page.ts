@@ -5,10 +5,10 @@ import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
-import { UniItem, UniItemsQuery } from '../../models/uni-item.types';
+import { Item, UniItemsQuery } from '../../models/uni-item.types';
 import { UniItemsService } from '../../services/uni-items.service';
 
-interface UniItemViewModel extends UniItem {
+interface UniItemViewModel extends Item {
   priceFormatted: string;
   primaryImage: string | null;
 }
@@ -45,7 +45,7 @@ export class ItemsListPage implements OnInit {
   };
 
   readonly categories: string[] = ['Furniture', 'Books', 'Electronics', 'Clothing', 'Other'];
-  readonly conditions: { value: UniItem['condition']; labelKey: string }[] = [
+  readonly conditions: { value: Item['condition']; labelKey: string }[] = [
     { value: 'new', labelKey: 'UNI_ITEMS.CONDITION_LABELS.new' },
     { value: 'like_new', labelKey: 'UNI_ITEMS.CONDITION_LABELS.like_new' },
     { value: 'good', labelKey: 'UNI_ITEMS.CONDITION_LABELS.good' },
@@ -83,7 +83,7 @@ export class ItemsListPage implements OnInit {
     try {
       const response = await firstValueFrom(this.uniItemsService.getItems(query));
       const mapped: UniItemViewModel[] = response.items.map(
-        (item: UniItem): UniItemViewModel => ({
+        (item: Item): UniItemViewModel => ({
           ...item,
           priceFormatted: this.localization.formatPrice(item.price, item.currency),
           primaryImage: item.images?.[0] ?? null
@@ -130,7 +130,7 @@ export class ItemsListPage implements OnInit {
     this.applyFilters();
   }
 
-  selectCondition(condition: UniItem['condition'] | ''): void {
+  selectCondition(condition: Item['condition'] | ''): void {
     this.filters.condition = condition;
     this.applyFilters();
   }
@@ -159,7 +159,7 @@ export class ItemsListPage implements OnInit {
     void this.router.navigate(['/items/new']);
   }
 
-  openItem(item: UniItem): void {
+  openItem(item: Item): void {
     void this.router.navigate(['/items', item.id]);
   }
 }

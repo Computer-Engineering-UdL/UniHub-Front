@@ -1270,7 +1270,10 @@
       "SUCCESS_CREATE": "Item created",
       "SUCCESS_EDIT": "Item updated",
       "ERROR_SAVE": "Unable to save item",
-      "ERROR_LOAD": "Unable to load item data"
+      "ERROR_LOAD": "Unable to load item data",
+      "ERROR_LOAD_CATEGORIES": "Unable to load categories",
+      "VALIDATION_ERROR": "Please check the form fields",
+      "INVALID_CATEGORY": "Invalid category"
     },
     "CATEGORY": {
       "ELECTRONICS": "Electronics",

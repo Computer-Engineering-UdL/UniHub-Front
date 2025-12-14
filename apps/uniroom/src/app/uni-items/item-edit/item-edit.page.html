@@ -10,21 +10,28 @@
         <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.TITLE' | translate }} *</ion-label>
         <ion-input formControlName="title" [required]="true"></ion-input>
       </ion-item>
+      <ion-note *ngIf="fieldErrors['title']" color="danger">{{ fieldErrors['title'] }}</ion-note>
 
       <ion-item lines="none">
         <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.DESCRIPTION' | translate }}</ion-label>
         <ion-textarea formControlName="description" [rows]="4"></ion-textarea>
       </ion-item>
+      <ion-note *ngIf="fieldErrors['description']" color="danger"
+        >{{ fieldErrors['description'] }}</ion-note
+      >
 
       <div class="two-column">
         <ion-item lines="none">
           <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.CATEGORY' | translate }} *</ion-label>
           <ion-select interface="popover" formControlName="category">
-            <ion-select-option *ngFor="let category of categories" [value]="category"
-              >{{ 'UNI_ITEMS.CATEGORY.' + category.toUpperCase() | translate }}</ion-select-option
-            >
+            <ion-select-option *ngFor="let category of categories" [value]="category.id">
+              {{ 'UNI_ITEMS.CATEGORY.' + category.name.toUpperCase() | translate }}
+            </ion-select-option>
           </ion-select>
         </ion-item>
+        <ion-note *ngIf="fieldErrors['category']" color="danger"
+          >{{ fieldErrors['category'] }}</ion-note
+        >
 
         <ion-item lines="none">
           <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.CONDITION' | translate }} *</ion-label>
@@ -34,6 +41,9 @@
             </ion-select-option>
           </ion-select>
         </ion-item>
+        <ion-note *ngIf="fieldErrors['condition']" color="danger"
+          >{{ fieldErrors['condition'] }}</ion-note
+        >
       </div>
 
       <div class="two-column">
@@ -41,6 +51,7 @@
           <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.PRICE' | translate }} *</ion-label>
           <ion-input type="number" formControlName="price" min="0"></ion-input>
         </ion-item>
+        <ion-note *ngIf="fieldErrors['price']" color="danger">{{ fieldErrors['price'] }}</ion-note>
 
         <ion-item lines="none">
           <ion-label position="stacked">{{ 'UNI_ITEMS.FORM.CURRENCY' | translate }} *</ion-label>
@@ -50,6 +61,9 @@
             </ion-select-option>
           </ion-select>
         </ion-item>
+        <ion-note *ngIf="fieldErrors['currency']" color="danger"
+          >{{ fieldErrors['currency'] }}</ion-note
+        >
       </div>
 
       <div class="location-field">
@@ -66,6 +80,9 @@
           <span *ngIf="form.get('location')?.value">{{ form.get('location')?.value }}</span>
         </ion-button>
         <ion-note>{{ 'UNI_ITEMS.FORM.LOCATION_HELPER' | translate }}</ion-note>
+        <ion-note *ngIf="fieldErrors['location']" color="danger"
+          >{{ fieldErrors['location'] }}</ion-note
+        >
       </div>
 
       <div class="photos-section">
@@ -89,8 +106,11 @@
         </div>
 
         <ion-note *ngIf="photoUploadError" color="danger" class="photo-error">
-          {{ photoUploadError }}
+          {{ photoUploadError | translate }}
         </ion-note>
+        <ion-note *ngIf="fieldErrors['images']" color="danger"
+          >{{ fieldErrors['images'] | translate }}</ion-note
+        >
 
         <div class="photo-grid" *ngIf="photoPreviews.length > 0">
           <div
@@ -124,15 +144,15 @@
       </div>
 
       <div class="form-actions">
+        <ion-button fill="clear" color="medium" [disabled]="loading" (click)="cancel()">
+          {{ 'UNI_ITEMS.FORM.CANCEL' | translate }}
+        </ion-button>
         <ion-button type="submit" color="primary" [disabled]="loading">
           <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
           <span *ngIf="!loading">
             {{ isEditMode ? ('UNI_ITEMS.FORM.SAVE_CHANGES' | translate) : ('UNI_ITEMS.FORM.CREATE' |
             translate) }}
           </span>
-        </ion-button>
-        <ion-button fill="clear" color="medium" [disabled]="loading" (click)="cancel()">
-          {{ 'UNI_ITEMS.FORM.CANCEL' | translate }}
         </ion-button>
       </div>
     </form>

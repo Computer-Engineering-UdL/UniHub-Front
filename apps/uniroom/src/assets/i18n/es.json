@@ -1267,7 +1267,10 @@
       "SUCCESS_CREATE": "Artículo creado",
       "SUCCESS_EDIT": "Artículo actualizado",
       "ERROR_SAVE": "No se pudo guardar el artículo",
-      "ERROR_LOAD": "No se pudo cargar el artículo"
+      "ERROR_LOAD": "No se pudo cargar el artículo",
+      "ERROR_LOAD_CATEGORIES": "No se pudieron cargar las categorías",
+      "VALIDATION_ERROR": "Revisa los campos del formulario",
+      "INVALID_CATEGORY": "Categoría inválida"
     },
     "CATEGORY": {
       "BOOKS": "Libros",
