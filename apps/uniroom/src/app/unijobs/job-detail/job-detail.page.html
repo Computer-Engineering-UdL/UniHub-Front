@@ -1,3 +1,9 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'UNIJOBS.DETAIL.TITLE' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content class="job-detail-page">
   <div class="page-wrapper" *ngIf="!loading && job; else loadingTpl">
     <button class="back" type="button" (click)="goBack()">
@@ -21,7 +27,7 @@
                 >{{ 'UNIJOBS.DETAIL.APPLIED' | translate }}</ion-chip
               >
               <ion-chip color="primary" *ngIf="job.isSaved"
-                >{{ 'UNIJOBS.LIST.TABS.SAVED' | translate }}</ion-chip
+                >{{ 'UNIJOBS.DETAIL.SAVED' | translate }}</ion-chip
               >
             </div>
           </div>
@@ -54,12 +60,8 @@
         </div>
       </div>
       <div class="hero-actions">
-        <ion-button fill="clear" class="save-btn" (click)="toggleSave()">
-          <ion-icon [name]="job.isSaved ? 'bookmark' : 'bookmark-outline'"></ion-icon>
-        </ion-button>
         <ion-button
           expand="block"
-          size="large"
           class="apply-btn"
           [disabled]="job.isApplied"
           (click)="openApply()">
@@ -73,11 +75,12 @@
           color="danger"
           fill="outline"
           *ngIf="canManage"
-          size="small"
           class="delete-btn"
           (click)="confirmDelete()">
-          <ion-icon slot="start" name="trash-outline"></ion-icon>
-          {{ 'UNIJOBS.DETAIL.DELETE_ACTION' | translate }}
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" class="save-btn" (click)="toggleSave()">
+          <ion-icon [name]="job.isSaved ? 'bookmark' : 'bookmark-outline'"></ion-icon>
         </ion-button>
       </div>
     </section>
@@ -173,7 +176,7 @@
     </section>
 
     <div class="bottom-cta">
-      <ion-button expand="block" size="large" [disabled]="job.isApplied" (click)="openApply()">
+      <ion-button expand="block" [disabled]="job.isApplied" (click)="openApply()">
         <ion-icon
           slot="start"
           [name]="job.isApplied ? 'checkmark-circle' : 'paper-plane'"></ion-icon>

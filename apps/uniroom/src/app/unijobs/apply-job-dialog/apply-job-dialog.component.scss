@@ -45,6 +45,7 @@
 
 .file-trigger {
   width: 100%;
+  margin-top: 10px;
   border: 1px dashed var(--ion-border-color);
   border-radius: 12px;
   padding: 12px;
@@ -95,4 +96,8 @@ ion-note {
   justify-content: flex-end;
   gap: 10px;
   padding: 4px;
+}
+
+ion-label {
+  margin-left: 5px !important;
 }

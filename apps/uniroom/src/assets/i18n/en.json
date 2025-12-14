@@ -1380,9 +1380,11 @@
       "FREELANCE": "Freelance"
     },
     "DETAIL": {
+      "TITLE": "Job Details",
       "BACK": "Back",
       "APPLY": "Apply Now",
       "APPLIED": "Applied",
+      "SAVED": "Saved",
       "DESCRIPTION": "Job Description",
       "REQUIREMENTS": "Requirements",
       "NO_REQUIREMENTS": "No specific requirements listed.",

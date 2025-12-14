@@ -28,16 +28,6 @@
       </div>
 
       <div class="filter-section">
-        <label class="filter-label">{{ 'UNIJOBS.FILTERS.SEARCH' | translate }}</label>
-        <ion-searchbar
-          [(ngModel)]="searchTerm"
-          (ionInput)="onSearchChange($event)"
-          [placeholder]="'UNIJOBS.LIST.SEARCH_PLACEHOLDER' | translate"
-          [debounce]="300">
-        </ion-searchbar>
-      </div>
-
-      <div class="filter-section">
         <label class="filter-label">{{ 'UNIJOBS.FILTERS.JOB_TYPE.TITLE' | translate }}</label>
         <div class="option-list">
           <ion-item lines="none" *ngFor="let type of jobTypes">
@@ -83,9 +73,8 @@
     <section class="jobs-section">
       <div class="section-header">
         <div class="header-info">
-          <p class="eyebrow">{{ 'UNIJOBS.LIST.EYEBROW' | translate }}</p>
           <h1>{{ 'UNIJOBS.LIST.TITLE' | translate }}</h1>
-          <p class="subtitle">{{ 'UNIJOBS.LIST.SUBTITLE' | translate }}</p>
+          <p class="eyebrow">{{ 'UNIJOBS.LIST.EYEBROW' | translate }}</p>
         </div>
         <div class="header-actions">
           <ion-button
