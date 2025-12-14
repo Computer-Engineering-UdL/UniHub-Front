@@ -1,7 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
@@ -26,12 +26,14 @@ interface UniItemViewModel {
   styleUrls: ['./items-list.page.scss'],
   standalone: false
 })
-export class ItemsListPage implements OnInit {
+export class ItemsListPage implements OnInit, OnDestroy {
   private readonly uniItemsService: UniItemsService = inject(UniItemsService);
   private readonly authService: AuthService = inject(AuthService);
   private readonly localization: LocalizationService = inject(LocalizationService);
   private readonly notificationService: NotificationService = inject(NotificationService);
   private readonly router: Router = inject(Router);
+
+  private itemsChangedSubscription?: Subscription;
 
   items: UniItemViewModel[] = [];
   loading: boolean = false;
@@ -68,9 +70,29 @@ export class ItemsListPage implements OnInit {
     return !!this.authService.currentUser;
   }
 
+  get hasActiveFilters(): boolean {
+    return !!(
+      this.filters.search ||
+      this.filters.category_ids?.length ||
+      this.filters.conditions?.length ||
+      this.filters.min_price ||
+      this.filters.max_price ||
+      this.filters.location ||
+      this.filters.sort !== 'newest'
+    );
+  }
+
   ngOnInit(): void {
     void this.loadCategories();
     void this.loadItems(true);
+
+    this.itemsChangedSubscription = this.uniItemsService.itemsChanged$.subscribe(() => {
+      void this.loadItems(true);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.itemsChangedSubscription?.unsubscribe();
   }
 
   async loadCategories(): Promise<void> {
@@ -108,7 +130,7 @@ export class ItemsListPage implements OnInit {
           id: item.id,
           title: item.title,
           description: item.description,
-          categoryName: item.category?.name ?? '',
+          categoryName: this.getCategoryTranslationKey(item.category?.name ?? ''),
           condition: item.condition,
           priceFormatted: this.localization.formatPrice(item.price, item.currency),
           primaryImage: item.image_urls?.[0] ?? item.owner_details?.avatar_url ?? null,
@@ -121,7 +143,7 @@ export class ItemsListPage implements OnInit {
       this.total = response.total;
       this.hasMore = this.items.length < this.total;
       this.currentPage += 1;
-    } catch (error) {
+    } catch {
       this.notificationService.error('UNI_ITEMS.LIST.ERROR');
     } finally {
       this.loading = false;
@@ -197,5 +219,13 @@ export class ItemsListPage implements OnInit {
 
   openItem(item: UniItemViewModel): void {
     void this.router.navigate(['/items', item.id]);
+  }
+
+  getCategoryTranslationKey(categoryName: string): string {
+    if (!categoryName) {
+      return '';
+    }
+    const normalized: string = categoryName.toUpperCase().replace(/\s+/g, '_');
+    return `UNI_ITEMS.CATEGORY.${normalized}`;
   }
 }

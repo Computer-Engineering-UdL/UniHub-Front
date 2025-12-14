@@ -23,6 +23,8 @@ export interface ItemRead {
   price: number;
   currency: string;
   location: string;
+  latitude?: number | null;
+  longitude?: number | null;
   condition: ItemCondition;
   status: ItemStatus;
   posted_date: string;

@@ -1255,7 +1255,10 @@
       "DELETE_CONFIRM": "Eliminar",
       "DELETE_SUCCESS": "Article eliminat",
       "DELETE_ERROR": "No s'ha pogut eliminar l'article",
-      "ERROR": "No s'ha pogut carregar aquest article"
+      "ERROR": "No s'ha pogut carregar aquest article",
+      "BACK_TO_LIST": "Tornar al llistat",
+      "LOCATION": "Ubicació",
+      "MAP_UNAVAILABLE": "Mapa no disponible"
     },
     "FORM": {
       "TITLE_NEW": "Crear article",

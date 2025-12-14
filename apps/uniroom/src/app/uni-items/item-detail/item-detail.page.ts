@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import NotificationService from '../../services/notification.service';
@@ -28,6 +29,7 @@ interface UniItemDetailViewModel {
   ownerAvatar: string | null;
   postedDateLabel: string;
   updatedLabel?: string;
+  mapUrl?: SafeResourceUrl;
 }
 
 @Component({
@@ -46,6 +48,7 @@ export class ItemDetailPage implements OnInit {
   private readonly messageService: MessageService = inject(MessageService);
   private readonly alertController: AlertController = inject(AlertController);
   private readonly translate: TranslateService = inject(TranslateService);
+  private readonly sanitizer: DomSanitizer = inject(DomSanitizer);
 
   item: UniItemDetailViewModel | null = null;
   loading: boolean = true;
@@ -78,7 +81,7 @@ export class ItemDetailPage implements OnInit {
         title: response.title,
         description: response.description,
         priceFormatted: this.localization.formatPrice(response.price, response.currency),
-        categoryName: response.category?.name ?? '',
+        categoryName: this.getCategoryTranslationKey(response.category?.name ?? ''),
         condition: response.condition,
         location: response.location,
         imageUrls: response.image_urls ?? [],
@@ -86,13 +89,31 @@ export class ItemDetailPage implements OnInit {
         ownerName: response.owner_details?.full_name || response.owner_details?.username || '',
         ownerAvatar: response.owner_details?.avatar_url ?? null,
         postedDateLabel: this.localization.formatDate(response.posted_date),
-        updatedLabel: response.updated_at ? this.localization.formatRelativeTime(response.updated_at) : undefined
+        updatedLabel: response.updated_at ? this.localization.formatRelativeTime(response.updated_at) : undefined,
+        mapUrl: this.buildMapUrl(response)
       };
-    } catch (error) {
+    } catch {
       this.notificationService.error('UNI_ITEMS.DETAIL.ERROR');
     } finally {
       this.loading = false;
     }
+  }
+
+  private buildMapUrl(item: ItemRead): SafeResourceUrl | undefined {
+    if (item.latitude != null && item.longitude != null) {
+      const coords: string = `${item.latitude},${item.longitude}`;
+      return this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.google.com/maps?q=${coords}&z=15&output=embed`);
+    }
+
+    if (item.location) {
+      const query: string = encodeURIComponent(item.location.trim());
+      if (query.length === 0) {
+        return undefined;
+      }
+      return this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.google.com/maps?q=${query}&z=15&output=embed`);
+    }
+
+    return undefined;
   }
 
   async contactSeller(): Promise<void> {
@@ -111,7 +132,7 @@ export class ItemDetailPage implements OnInit {
       await firstValueFrom(this.messageService.createConversation(this.item.ownerId, undefined, this.item.id));
       this.notificationService.success('UNI_ITEMS.DETAIL.CONTACT_SUCCESS');
       await this.router.navigate(['/messages']);
-    } catch (error) {
+    } catch {
       this.notificationService.error('UNI_ITEMS.DETAIL.CONTACT_ERROR');
     } finally {
       this.contacting = false;
@@ -150,7 +171,7 @@ export class ItemDetailPage implements OnInit {
       await firstValueFrom(this.uniItemsService.deleteItem(this.item.id));
       this.notificationService.success('UNI_ITEMS.DETAIL.DELETE_SUCCESS');
       await this.router.navigate(['/items']);
-    } catch (error) {
+    } catch {
       this.notificationService.error('UNI_ITEMS.DETAIL.DELETE_ERROR');
     }
   }
@@ -160,5 +181,23 @@ export class ItemDetailPage implements OnInit {
       return;
     }
     void this.router.navigate(['/items', this.item.id, 'edit']);
+  }
+
+  goBackToList(): void {
+    void this.router.navigate(['/items']);
+  }
+
+  async viewSellerProfile(): Promise<void> {
+    if (this.item?.ownerId) {
+      await this.router.navigate(['/profile', this.item.ownerId]);
+    }
+  }
+
+  private getCategoryTranslationKey(categoryName: string): string {
+    if (!categoryName) {
+      return '';
+    }
+    const normalized: string = categoryName.toUpperCase().replace(/\s+/g, '_');
+    return `UNI_ITEMS.CATEGORY.${normalized}`;
   }
 }

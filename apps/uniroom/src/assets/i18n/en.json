@@ -1255,7 +1255,10 @@
       "DELETE_CONFIRM": "Delete",
       "DELETE_SUCCESS": "Item deleted",
       "DELETE_ERROR": "Unable to delete item",
-      "ERROR": "Unable to load this item"
+      "ERROR": "Unable to load this item",
+      "BACK_TO_LIST": "Back to list",
+      "LOCATION": "Location",
+      "MAP_UNAVAILABLE": "Map unavailable"
     },
     "FORM": {
       "TITLE_NEW": "Create item",

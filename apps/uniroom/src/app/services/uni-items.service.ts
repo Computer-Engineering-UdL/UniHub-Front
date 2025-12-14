@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ApiService } from './api.service';
 import {
   ItemCategory,
@@ -15,6 +15,9 @@ import {
 })
 export class UniItemsService {
   private readonly apiService: ApiService = inject(ApiService);
+  private readonly itemsChangedSubject: Subject<void> = new Subject<void>();
+
+  readonly itemsChanged$: Observable<void> = this.itemsChangedSubject.asObservable();
 
   listItems(query: ItemsListParams): Observable<ItemsListResponse> {
     const params: Record<string, any> = this.serializeQuery(query);
@@ -30,15 +33,42 @@ export class UniItemsService {
   }
 
   createItem(payload: ItemCreateRequest): Observable<ItemRead> {
-    return this.apiService.post<ItemRead>('items/', payload);
+    return new Observable<ItemRead>((observer) => {
+      this.apiService.post<ItemRead>('items/', payload).subscribe({
+        next: (result: ItemRead) => {
+          this.itemsChangedSubject.next();
+          observer.next(result);
+          observer.complete();
+        },
+        error: (err) => observer.error(err)
+      });
+    });
   }
 
   updateItem(id: string, payload: ItemUpdateRequest): Observable<ItemRead> {
-    return this.apiService.patch<ItemRead>(`items/${id}`, payload);
+    return new Observable<ItemRead>((observer) => {
+      this.apiService.patch<ItemRead>(`items/${id}`, payload).subscribe({
+        next: (result: ItemRead) => {
+          this.itemsChangedSubject.next();
+          observer.next(result);
+          observer.complete();
+        },
+        error: (err) => observer.error(err)
+      });
+    });
   }
 
   deleteItem(id: string): Observable<void> {
-    return this.apiService.delete<void>(`items/${id}`);
+    return new Observable<void>((observer) => {
+      this.apiService.delete<void>(`items/${id}`).subscribe({
+        next: () => {
+          this.itemsChangedSubject.next();
+          observer.next();
+          observer.complete();
+        },
+        error: (err) => observer.error(err)
+      });
+    });
   }
 
   private serializeQuery(query: ItemsListParams): Record<string, string | number | string[]> {

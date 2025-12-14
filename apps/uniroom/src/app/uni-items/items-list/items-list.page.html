@@ -13,7 +13,7 @@
             (click)="closeFilters()">
             <ion-icon slot="icon-only" name="close-outline"></ion-icon>
           </ion-button>
-          <ion-button fill="clear" size="small" (click)="clearFilters()">
+          <ion-button *ngIf="hasActiveFilters" fill="clear" size="small" (click)="clearFilters()">
             <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
           </ion-button>
         </div>
@@ -37,7 +37,7 @@
             [color]="filters.category_ids?.includes(category.id) ? 'primary' : 'medium'"
             [outline]="!filters.category_ids?.includes(category.id)"
             class="interactive">
-            {{ category.name }}
+            {{ getCategoryTranslationKey(category.name) | translate }}
           </ion-chip>
         </div>
       </div>
@@ -105,15 +105,6 @@
           >
         </ion-select>
       </div>
-
-      <div class="filter-actions">
-        <ion-button expand="block" color="primary" (click)="applyFilters()">
-          {{ 'UNI_ITEMS.FILTERS.APPLY' | translate }}
-        </ion-button>
-        <ion-button expand="block" fill="clear" color="medium" (click)="clearFilters()">
-          {{ 'UNI_ITEMS.FILTERS.CLEAR' | translate }}
-        </ion-button>
-      </div>
     </aside>
 
     <div class="items-section">
@@ -171,7 +162,7 @@
               <span class="price">{{ item.priceFormatted }}</span>
             </div>
             <div class="badges">
-              <ion-chip color="primary" outline>{{ item.categoryName }}</ion-chip>
+              <ion-chip color="primary" outline>{{ item.categoryName | translate }}</ion-chip>
               <ion-chip color="medium" outline>
                 {{ conditionLabelMap[item.condition] | translate }}
               </ion-chip>

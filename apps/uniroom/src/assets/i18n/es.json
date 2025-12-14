@@ -1255,7 +1255,10 @@
       "DELETE_CONFIRM": "Eliminar",
       "DELETE_SUCCESS": "Artículo eliminado",
       "DELETE_ERROR": "No se pudo eliminar el artículo",
-      "ERROR": "No se pudo cargar este artículo"
+      "ERROR": "No se pudo cargar este artículo",
+      "BACK_TO_LIST": "Volver al listado",
+      "LOCATION": "Ubicación",
+      "MAP_UNAVAILABLE": "Mapa no disponible"
     },
     "FORM": {
       "TITLE_NEW": "Crear artículo",
