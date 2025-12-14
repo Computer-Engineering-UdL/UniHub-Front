@@ -12,23 +12,28 @@
             *ngIf="jobLogo(job) as logo"
             [src]="logo"
             [alt]="job.companyName"
-            appCachedAvatar="logo"
-          />
+            appCachedAvatar="logo" />
           <span *ngIf="!jobLogo(job)">{{ getInitials(job.companyName || '') }}</span>
         </div>
         <div class="hero-text">
           <div class="hero-title">
             <h1>{{ job.title }}</h1>
             <div class="status-chips">
-              <ion-chip color="success" *ngIf="job.isApplied">{{ 'UNIJOBS.DETAIL.APPLIED' | translate }}</ion-chip>
-              <ion-chip color="primary" *ngIf="job.isSaved">{{ 'UNIJOBS.LIST.TABS.SAVED' | translate }}</ion-chip>
+              <ion-chip color="success" *ngIf="job.isApplied"
+                >{{ 'UNIJOBS.DETAIL.APPLIED' | translate }}</ion-chip
+              >
+              <ion-chip color="primary" *ngIf="job.isSaved"
+                >{{ 'UNIJOBS.LIST.TABS.SAVED' | translate }}</ion-chip
+              >
             </div>
           </div>
           <p class="company">{{ job.companyName }}</p>
           <div class="tags">
             <span class="pill">{{ jobTypeLabel(job.jobType) | translate }}</span>
             <span class="pill ghost">{{ ('UNIJOBS.CATEGORIES.' + job.category) | translate }}</span>
-            <span class="pill ghost" *ngIf="job.workplaceType">{{ workplaceLabel(job.workplaceType) | translate }}</span>
+            <span class="pill ghost" *ngIf="job.workplaceType"
+              >{{ workplaceLabel(job.workplaceType) | translate }}</span
+            >
           </div>
           <div class="meta-row">
             <div class="meta">
@@ -109,7 +114,9 @@
           </div>
           <div>
             <p class="label">{{ 'UNIJOBS.DETAIL.WORKPLACE' | translate }}</p>
-            <p class="value">{{ job.workplaceType ? (workplaceLabel(job.workplaceType) | translate) : '—' }}</p>
+            <p class="value">
+              {{ job.workplaceType ? (workplaceLabel(job.workplaceType) | translate) : '—' }}
+            </p>
           </div>
           <div>
             <p class="label">{{ 'UNIJOBS.DETAIL.SALARY' | translate }}</p>
@@ -149,7 +156,8 @@
 
     <div class="bottom-cta">
       <ion-button expand="block" size="large" [disabled]="job.isApplied" (click)="openApply()">
-        {{ job.isApplied ? ('UNIJOBS.DETAIL.APPLIED' | translate) : ('UNIJOBS.DETAIL.APPLY' | translate) }}
+        {{ job.isApplied ? ('UNIJOBS.DETAIL.APPLIED' | translate) : ('UNIJOBS.DETAIL.APPLY' |
+        translate) }}
       </ion-button>
     </div>
   </div>

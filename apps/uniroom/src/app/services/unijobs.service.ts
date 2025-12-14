@@ -139,15 +139,13 @@ export class UniJobsService {
       this.notificationService.error('UNIJOBS.ADMIN.ONLY');
       return throwError(() => new Error('Admin only'));
     }
-    return this.apiService
-      .post<RawJobOffer>('job/', this.mapJobPayload(payload))
-      .pipe(
-        map((response: RawJobOffer) => this.mapJob(response)),
-        tap((job: JobOffer) => {
-          this.lastCreatedJob = job;
-          this.jobCreatedSubject.next(job);
-        })
-      );
+    return this.apiService.post<RawJobOffer>('job/', this.mapJobPayload(payload)).pipe(
+      map((response: RawJobOffer) => this.mapJob(response)),
+      tap((job: JobOffer) => {
+        this.lastCreatedJob = job;
+        this.jobCreatedSubject.next(job);
+      })
+    );
   }
 
   consumeLastCreatedJob(): JobOffer | undefined {

@@ -157,13 +157,14 @@
                   *ngIf="jobLogo(job) as logo"
                   [src]="logo"
                   [alt]="job.companyName"
-                  appCachedAvatar="logo"
-                />
+                  appCachedAvatar="logo" />
                 <span *ngIf="!jobLogo(job)">{{ getInitials(job.companyName) }}</span>
               </div>
               <div class="title-group">
                 <h3>
-                  <button class="link-btn" type="button" (click)="openJob(job)">{{ job.title }}</button>
+                  <button class="link-btn" type="button" (click)="openJob(job)">
+                    {{ job.title }}
+                  </button>
                 </h3>
                 <p class="company">{{ job.companyName }}</p>
                 <div class="tags">

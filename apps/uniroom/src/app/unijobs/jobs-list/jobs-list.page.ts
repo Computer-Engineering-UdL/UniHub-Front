@@ -206,9 +206,7 @@ export class JobsListPage implements OnInit, OnDestroy {
     const { data } = await modal.onDidDismiss();
     if (data?.applied && !job.isApplied) {
       this.jobs = this.jobs.map((j: JobOffer) =>
-        j.id === job.id
-          ? { ...j, isApplied: true, applicationCount: (j.applicationCount ?? 0) + 1 }
-          : j
+        j.id === job.id ? { ...j, isApplied: true, applicationCount: (j.applicationCount ?? 0) + 1 } : j
       );
       this.appliedCount = Math.max(0, this.appliedCount + 1);
     }
@@ -396,9 +394,7 @@ export class JobsListPage implements OnInit, OnDestroy {
       this.creatorAvatarCache.set(userId, avatarUrl);
     }
     this.jobs = this.jobs.map((job: JobOffer) =>
-      job.id === jobId
-        ? { ...job, creatorId: userId, creatorAvatarUrl: avatarUrl ?? undefined }
-        : job
+      job.id === jobId ? { ...job, creatorId: userId, creatorAvatarUrl: avatarUrl ?? undefined } : job
     );
   }
 }
