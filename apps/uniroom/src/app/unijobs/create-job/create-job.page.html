@@ -137,7 +137,7 @@
                 interface="popover"
                 [placeholder]="'UNIJOBS.CREATE.JOB_TYPE_PLACEHOLDER' | translate"
                 [class.ion-invalid]="isControlInvalid('jobType')"
-                [class.ion-touched]="form.controls.jobType?.touched ?? false">
+                [class.ion-touched]="form.controls.jobType.touched">
                 <ion-select-option *ngFor="let type of jobTypes" [value]="type.value">
                   {{ type.label | translate }}
                 </ion-select-option>
@@ -247,7 +247,7 @@
                   inputmode="decimal"
                   min="0"
                   [class.ion-invalid]="isControlInvalid('salaryMin')"
-                  [class.ion-touched]="form.controls.salaryMin?.touched ?? false"></ion-input>
+                  [class.ion-touched]="form.controls.salaryMin.touched"></ion-input>
               </ion-item>
               <ion-text *ngIf="isControlInvalid('salaryMin')" color="danger" class="error-text">
                 {{ getErrorKey('salaryMin') | translate }}
@@ -265,7 +265,7 @@
                   inputmode="decimal"
                   min="0"
                   [class.ion-invalid]="isControlInvalid('salaryMax')"
-                  [class.ion-touched]="form.controls.salaryMax?.touched ?? false"></ion-input>
+                  [class.ion-touched]="form.controls.salaryMax.touched"></ion-input>
               </ion-item>
               <ion-text *ngIf="isControlInvalid('salaryMax')" color="danger" class="error-text">
                 {{ getErrorKey('salaryMax') | translate }}
