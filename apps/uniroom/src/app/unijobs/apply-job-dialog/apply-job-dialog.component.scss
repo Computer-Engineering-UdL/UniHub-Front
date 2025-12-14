@@ -1,53 +1,91 @@
 .apply-dialog {
+  --background: var(--ion-background-color);
+}
+
+.dialog-wrapper {
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .subtitle {
   color: var(--ion-color-medium);
-  margin: 0 0 12px;
+  margin: 0 4px 4px;
 }
 
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+.form-shell {
+  display: flex;
+  flex-direction: column;
   gap: 12px;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.form-list {
+  border: 1px solid var(--ion-border-color);
+  border-radius: 16px;
+  background: var(--ion-card-background);
+  padding: 8px 12px;
 }
 
-label {
-  font-weight: 600;
-  color: var(--ion-text-color, #111);
+.input-item,
+.file-item,
+.textarea-item {
+  --background: transparent;
+  --inner-padding-end: 8px;
+  --padding-start: 0;
+  --inner-border-width: 0;
+  --border-radius: 12px;
 }
 
-.upload {
-  border: 1px dashed var(--ion-border-color, rgba(0, 0, 0, 0.12));
-  padding: 14px;
+.input-item.item-invalid,
+.textarea-item.item-invalid {
+  --highlight-height: 2px;
+  --highlight-color-focused: var(--ion-color-danger);
+}
+
+.file-trigger {
+  width: 100%;
+  border: 1px dashed var(--ion-border-color);
   border-radius: 12px;
-  text-align: center;
-  color: var(--ion-color-medium);
-  cursor: pointer;
+  padding: 12px;
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  gap: 12px;
+  align-items: center;
+  background: color-mix(in srgb, var(--ion-color-primary) 6%, transparent);
+  cursor: pointer;
 }
 
-.file-info {
-  font-size: 13px;
+.file-trigger ion-icon {
+  font-size: 22px;
+  color: var(--ion-color-primary);
+}
+
+.file-copy p {
+  margin: 0;
+  font-weight: 600;
   color: var(--ion-text-color);
 }
 
-.error {
-  color: var(--ion-color-danger);
-  font-size: 13px;
+.file-copy small {
+  color: var(--ion-color-medium);
+}
+
+.file-note {
+  margin-top: 4px;
+}
+
+ion-note {
+  margin: 2px 4px 10px;
+}
+
+.helper-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
 }
 
 .counter {
-  text-align: right;
   font-size: 12px;
   color: var(--ion-color-medium);
 }
@@ -56,5 +94,5 @@ label {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  margin-top: 12px;
+  padding: 4px;
 }

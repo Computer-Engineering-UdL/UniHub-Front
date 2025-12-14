@@ -178,12 +178,6 @@
   background: color-mix(in srgb, var(--ion-color-primary) 12%, transparent);
 }
 
-.filter-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
 .jobs-section {
   min-width: 0;
 
@@ -403,10 +397,6 @@
   display: flex;
   align-items: center;
   gap: 6px;
-
-  ion-button {
-    --color: var(--ion-color-primary);
-  }
 }
 
 .meta-row {

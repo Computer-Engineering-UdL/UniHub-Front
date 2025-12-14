@@ -7,9 +7,10 @@ import { Subscription, firstValueFrom } from 'rxjs';
 import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
 import { UniJobsService } from '../../services/unijobs.service';
-import { JobOffer } from '../../models/unijobs.types';
+import { JobOffer, JobType } from '../../models/unijobs.types';
 import { ApplyJobDialogComponent } from '../apply-job-dialog/apply-job-dialog.component';
 import { SharedModule } from '../../shared/shared-module';
+import { JOB_TYPE_TRANSLATION_KEYS } from '../unijobs.constants';
 
 @Component({
   selector: 'app-job-detail',
@@ -75,6 +76,10 @@ export class JobDetailPage implements OnInit, OnDestroy {
       .map((part: string) => part.charAt(0).toUpperCase())
       .slice(0, 2)
       .join('');
+  }
+
+  protected jobTypeLabel(jobType: JobType): string {
+    return JOB_TYPE_TRANSLATION_KEYS[jobType] ?? JOB_TYPE_TRANSLATION_KEYS.full_time;
   }
 
   protected async openApply(): Promise<void> {

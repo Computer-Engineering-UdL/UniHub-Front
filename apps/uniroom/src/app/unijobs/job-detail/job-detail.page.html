@@ -15,7 +15,7 @@
           <h1>{{ job.title }}</h1>
           <p class="company">{{ job.companyName }}</p>
           <div class="tags">
-            <span class="pill">{{ ('UNIJOBS.JOB_TYPE.' + job.jobType) | translate }}</span>
+            <span class="pill">{{ jobTypeLabel(job.jobType) | translate }}</span>
             <span class="pill ghost">{{ ('UNIJOBS.CATEGORIES.' + job.category) | translate }}</span>
           </div>
           <div class="meta-row">

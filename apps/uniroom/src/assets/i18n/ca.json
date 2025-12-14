@@ -1289,14 +1289,14 @@
   },
   "UNIJOBS": {
     "LIST": {
-      "EYEBROW": "Troba la teva propera oportunitat",
-      "TITLE": "Tauler de feina",
-      "SUBTITLE": "Descobreix llocs seleccionats de les millors empreses",
+      "EYEBROW": "Troba la teva pròxima oportunitat",
+      "TITLE": "Borsa de feina",
+      "SUBTITLE": "Descobreix llocs seleccionats de bones empreses",
       "SEARCH_PLACEHOLDER": "Cerca feines, empreses, paraules clau…",
       "MY_APPLICATIONS": "Les meves sol·licituds",
       "TABS": {
         "ALL": "Totes",
-        "SAVED": "Guardades",
+        "SAVED": "Desades",
         "APPLIED": "Aplicades"
       },
       "APPLY": "Aplica",
@@ -1329,8 +1329,7 @@
       "LOCATION": "Ubicació",
       "LOCATION_PLACEHOLDER": "Selecciona ubicacions",
       "TOGGLE": "Filtres",
-      "CLEAR": "Neteja filtres",
-      "APPLY": "Aplica filtres"
+      "CLEAR": "Neteja filtres"
     },
     "CATEGORIES": {
       "Technology": "Tecnologia",
@@ -1345,70 +1344,16 @@
       "Healthcare": "Sanitat",
       "Other": "Altres"
     },
-    "CREATE": {
-      "TITLE": "Crear Oferta de Feina",
-      "EYEBROW": "Publica una nova oportunitat",
-      "STEPS": {
-        "BASIC": "Info Bàsica",
-        "BASIC_DESC": "Títol, empresa i ubicació",
-        "DETAILS": "Detalls",
-        "DETAILS_DESC": "Descripció i salari",
-        "COMPANY": "Empresa",
-        "COMPANY_DESC": "Sobre l'empresa",
-        "REVIEW": "Revisar",
-        "REVIEW_DESC": "Revisar i publicar"
-      },
-      "STEP_BASIC_TITLE": "Informació Bàsica",
-      "STEP_BASIC_SUBTITLE": "Comencem amb els detalls principals del lloc.",
-      "TITLE_LABEL": "Títol del Lloc",
-      "TITLE_PLACEHOLDER": "ex. Desenvolupador Frontend Senior",
-      "COMPANY_NAME": "Nom de l'Empresa",
-      "COMPANY_PLACEHOLDER": "ex. Tech Solutions Inc.",
-      "CATEGORY_PLACEHOLDER": "Selecciona una categoria",
-      "JOB_TYPE_LABEL": "Tipus de Feina",
-      "JOB_TYPE_PLACEHOLDER": "Selecciona tipus de feina",
-      "WORKPLACE": {
-        "TITLE": "Modalitat de Treball",
-        "PLACEHOLDER": "Selecciona modalitat",
-        "ON_SITE": "Presencial",
-        "HYBRID": "Híbrid",
-        "REMOTE": "Remot"
-      },
-      "STEP_DETAILS_TITLE": "Detalls del Lloc",
-      "STEP_DETAILS_SUBTITLE": "Descriu el rol i la compensació.",
-      "DESCRIPTION": "Descripció",
-      "DESCRIPTION_PLACEHOLDER": "Descriu les responsabilitats, requisits i beneficis...",
-      "SALARY_PERIOD": "Període Salarial",
-      "SALARY_MIN": "Salari Mín",
-      "SALARY_MAX": "Salari Màx",
-      "STEP_COMPANY_TITLE": "Detalls de l'Empresa",
-      "STEP_COMPANY_SUBTITLE": "Explica als candidats més sobre la teva empresa.",
-      "COMPANY_DESCRIPTION": "Descripció de l'Empresa",
-      "COMPANY_DESCRIPTION_PLACEHOLDER": "Descriu breument què fa la teva empresa...",
-      "ERRORS": {
-        "REQUIRED": "Aquest camp és obligatori",
-        "MAX_LENGTH": "El text és massa llarg",
-        "MIN_LENGTH": "El text és massa curt",
-        "MIN_VALUE": "El valor ha de ser positiu",
-        "INVALID_URL": "Si us plau introdueix una URL vàlida",
-        "SALARY_RANGE": "El salari mínim no pot ser major que el màxim"
-      },
-      "SUCCESS": "Oferta creada correctament",
-      "ERROR_GENERIC": "Error al crear l'oferta",
-      "ERROR_UNAUTHORIZED": "Has de ser administrador per crear ofertes",
-      "ERROR_VERIFICATION_REQUIRED": "Si us plau verifica el teu compte primer",
-      "ERROR_GLOBAL": "Si us plau corregeix els errors abans de continuar"
-    },
     "JOB_TYPE": {
-      "full_time": "Jornada completa",
-      "part_time": "Mitja jornada",
-      "internship": "Pràctiques",
-      "freelance": "Freelance"
+      "FULL_TIME": "Jornada completa",
+      "PART_TIME": "Mitja jornada",
+      "INTERNSHIP": "Pràctiques",
+      "FREELANCE": "Freelance"
     },
     "DETAIL": {
       "BACK": "Enrere",
       "APPLY": "Aplica ara",
-      "APPLIED": "Aplicat",
+      "APPLIED": "Aplicada",
       "DESCRIPTION": "Descripció de la feina",
       "REQUIREMENTS": "Requisits",
       "NO_REQUIREMENTS": "Sense requisits específics.",
@@ -1467,96 +1412,86 @@
       "EMPTY": "Encara no has enviat cap sol·licitud.",
       "EMPTY_STATE_TITLE": "Encara sense sol·licituds",
       "EMPTY_STATE_SUBTITLE": "Quan apliquis a ofertes apareixeran aquí.",
+      "LOGIN_REQUIRED": "Inicia sessió per veure les sol·licituds.",
       "VERIFICATION_REQUIRED": "Has de verificar el compte per veure les sol·licituds."
     },
     "CREATE": {
+      "TITLE": "Crear oferta de feina",
       "EYEBROW": "Publica ofertes de qualitat",
-      "CANCEL": "Cancel·la",
-      "BACK": "Enrere",
-      "NEXT": "Següent",
-      "PUBLISH": "Publicar oferta",
-      "STEP_BASIC_TITLE": "Dades bàsiques",
-      "STEP_BASIC_SUBTITLE": "Defineix el títol i la informació mínima",
-      "STEP_DETAILS_TITLE": "Detalls de la posició",
-      "STEP_DETAILS_SUBTITLE": "Afegeix descripció i salaris",
-      "STEP_COMPANY_TITLE": "Sobre l'empresa",
-      "STEP_COMPANY_SUBTITLE": "Context addicional per a candidats",
-      "STEP_REVIEW_TITLE": "Revisa i publica",
-      "STEP_REVIEW_SUBTITLE": "Confirma que les dades són correctes",
-      "TITLE_LABEL": "Títol de l'oferta",
-      "TITLE_PLACEHOLDER": "Ex: Desenvolupador/a front-end junior",
+      "STEPS": {
+        "BASIC": "Info bàsica",
+        "BASIC_DESC": "Títol, empresa i ubicació",
+        "DETAILS": "Detalls",
+        "DETAILS_DESC": "Descripció i salari",
+        "COMPANY": "Empresa",
+        "COMPANY_DESC": "Sobre l'empresa",
+        "REVIEW": "Revisar",
+        "REVIEW_DESC": "Revisar i publicar"
+      },
+      "STEP_BASIC_TITLE": "Informació bàsica",
+      "STEP_BASIC_SUBTITLE": "Comencem amb els detalls principals del lloc.",
+      "TITLE_LABEL": "Títol de la feina",
+      "TITLE_PLACEHOLDER": "Ex. Desenvolupador Frontend",
       "COMPANY_NAME": "Nom de l'empresa",
-      "COMPANY_PLACEHOLDER": "Ex: UniHub Labs",
+      "COMPANY_PLACEHOLDER": "Ex. Tech Solutions Inc.",
       "CATEGORY_PLACEHOLDER": "Selecciona una categoria",
       "JOB_TYPE_LABEL": "Tipus de feina",
-      "JOB_TYPE_PLACEHOLDER": "Selecciona el tipus",
+      "JOB_TYPE_PLACEHOLDER": "Selecciona tipus de feina",
       "WORKPLACE": {
         "TITLE": "Modalitat de treball",
-        "PLACEHOLDER": "Selecciona la modalitat",
+        "PLACEHOLDER": "Selecciona modalitat",
         "ON_SITE": "Presencial",
         "HYBRID": "Híbrid",
         "REMOTE": "Remot"
       },
-      "LOCATION_LABEL": "Ubicació",
+      "STEP_DETAILS_TITLE": "Detalls del lloc",
+      "STEP_DETAILS_SUBTITLE": "Descriu el rol i la compensació.",
       "DESCRIPTION": "Descripció",
-      "DESCRIPTION_PLACEHOLDER": "Explica en què consisteix el rol i què busqueu",
+      "DESCRIPTION_PLACEHOLDER": "Descriu responsabilitats, requisits i beneficis...",
       "SALARY_PERIOD": "Període salarial",
       "SALARY_MIN": "Salari mínim",
       "SALARY_MAX": "Salari màxim",
+      "STEP_COMPANY_TITLE": "Detalls de l'empresa",
+      "STEP_COMPANY_SUBTITLE": "Explica als candidats més sobre la teva empresa.",
       "COMPANY_DESCRIPTION": "Descripció de l'empresa",
-      "COMPANY_DESCRIPTION_PLACEHOLDER": "Explica què feu i com treballeu",
+      "COMPANY_DESCRIPTION_PLACEHOLDER": "Descriu breument què fa la teva empresa...",
       "COMPANY_WEBSITE": "Web de l'empresa",
-      "COMPANY_WEBSITE_PLACEHOLDER": "https://empresa.com",
+      "COMPANY_WEBSITE_PLACEHOLDER": "https://",
       "COMPANY_SIZE": "Mida de l'empresa",
-      "COMPANY_SIZE_PLACEHOLDER": "Ex: 50-200",
-      "STEP_BASIC": "Bàsic",
-      "STEP_DETAILS": "Detalls",
-      "STEP_COMPANY": "Empresa",
-      "STEP_REVIEW": "Resum",
-      "STEPS": {
-        "BASIC": "Dades bàsiques",
-        "BASIC_DESC": "Completa els camps obligatoris inicials",
-        "DETAILS": "Detalls de la posició",
-        "DETAILS_DESC": "Informació sobre funcions i salari",
-        "COMPANY": "Sobre l'empresa",
-        "COMPANY_DESC": "Context addicional per als candidats",
-        "REVIEW": "Revisió final",
-        "REVIEW_DESC": "Confirma i publica l'oferta"
-      },
+      "COMPANY_SIZE_PLACEHOLDER": "Ex. 50-100",
+      "STEP_REVIEW_TITLE": "Revisa i publica",
+      "STEP_REVIEW_SUBTITLE": "Confirma que les dades són correctes",
       "REVIEW": {
-        "BASIC": "Informació bàsica",
+        "BASIC": "Bàsics",
         "DETAILS": "Detalls",
         "COMPANY": "Empresa"
       },
+      "CANCEL": "Cancel·la",
+      "BACK": "Enrere",
+      "NEXT": "Següent",
+      "PUBLISH": "Publicar oferta",
       "ERRORS": {
-        "REQUIRED": "Aquest camp és obligatori",
-        "MAX_LENGTH": "Has superat la longitud permesa",
-        "MIN_LENGTH": "Introdueix més informació",
-        "MIN_VALUE": "El valor no pot ser negatiu",
+        "REQUIRED": "Camp obligatori",
+        "MAX_LENGTH": "El text és massa llarg",
+        "MIN_LENGTH": "El text és massa curt",
+        "MIN_VALUE": "El valor ha de ser positiu",
         "INVALID_URL": "Introdueix una URL vàlida",
-        "SALARY_RANGE": "El salari mínim no pot superar el màxim"
+        "SALARY_RANGE": "El salari mínim no pot ser superior al màxim"
       },
-      "ERROR_GLOBAL": "Revisa els errors dels passos previs",
-      "ERROR_GENERIC": "No s'ha pogut publicar l'oferta",
-      "ERROR_UNAUTHORIZED": "No tens permisos per crear ofertes",
-      "ERROR_VERIFICATION_REQUIRED": "Verifica el correu per crear ofertes",
-      "SUCCESS": "Oferta publicada correctament"
-    },
-    "ERROR": {
-      "LOAD_JOBS": "No s'han pogut carregar les ofertes.",
-      "SAVE_FAILED": "No s'ha pogut actualitzar el guardat.",
-      "LOAD_JOB_DETAIL": "No s'ha pogut carregar el detall.",
-      "LOAD_APPLICATIONS": "No s'han pogut carregar les sol·licituds.",
-      "SALARY_RANGE": "El salari mínim ha de ser menor o igual que el màxim.",
-      "CREATE_FAILED": "No hem pogut crear l'oferta. Torna-ho a provar.",
-      "APPLY_ROLE": "Només els usuaris Basic poden aplicar a ofertes.",
-      "FORM_INVALID": "Revisa els camps obligatoris abans de continuar."
+      "SUCCESS": "Oferta creada correctament",
+      "ERROR_GENERIC": "Error en crear l'oferta",
+      "ERROR_UNAUTHORIZED": "Has de ser administrador per crear ofertes",
+      "ERROR_VERIFICATION_REQUIRED": "Verifica el teu compte primer",
+      "ERROR_GLOBAL": "Corregeix els errors abans de continuar"
     },
     "ADMIN": {
-      "ONLY": "Només els administradors poden fer aquesta acció."
+      "ONLY": "Només administradors o recruiters poden fer aquesta acció."
     },
-    "SUCCESS": {
-      "CREATED": "Oferta creada correctament."
+    "ERROR": {
+      "LOAD_JOBS": "No es poden carregar les ofertes ara mateix.",
+      "SAVE_FAILED": "No s'ha pogut actualitzar el desat.",
+      "LOAD_JOB_DETAIL": "No s'ha pogut carregar el detall de l'oferta.",
+      "LOAD_APPLICATIONS": "No s'han pogut carregar les sol·licituds."
     }
   }
 }
