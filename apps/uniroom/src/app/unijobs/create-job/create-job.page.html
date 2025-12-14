@@ -116,7 +116,7 @@
                 interface="popover"
                 [placeholder]="'UNIJOBS.CREATE.CATEGORY_PLACEHOLDER' | translate"
                 [class.ion-invalid]="isControlInvalid('category')"
-                [class.ion-touched]="form.controls.category?.touched ?? false">
+                [class.ion-touched]="form.controls.category.touched">
                 <ion-select-option *ngFor="let category of categories" [value]="category">
                   {{ ('UNIJOBS.CATEGORIES.' + category) | translate }}
                 </ion-select-option>
