@@ -1303,6 +1303,7 @@
       "SUBTITLE": "Descubre vacantes seleccionadas de grandes empresas",
       "SEARCH_PLACEHOLDER": "Buscar trabajos, empresas, palabras clave…",
       "MY_APPLICATIONS": "Mis solicitudes",
+      "VIEW": "Ver detalles",
       "TABS": {
         "ALL": "Todas",
         "SAVED": "Guardadas",
@@ -1367,7 +1368,18 @@
       "REQUIREMENTS": "Requisitos",
       "NO_REQUIREMENTS": "No se indicaron requisitos específicos.",
       "NICE_TO_HAVE": "Deseable",
-      "COMPANY": "Sobre la empresa"
+      "COMPANY": "Sobre la empresa",
+      "POSTED_ON": "Publicada",
+      "LOCATION": "Ubicación",
+      "WORKPLACE": "Modalidad",
+      "SALARY": "Salario",
+      "JOB_TYPE": "Tipo de trabajo",
+      "APPLICATIONS": "Solicitudes",
+      "NO_COMPANY_DESC": "Sin descripción de la empresa.",
+      "DELETE_TITLE": "Eliminar oferta",
+      "DELETE_CONFIRM": "¿Seguro que quieres eliminar esta oferta de trabajo? Esta acción no se puede deshacer.",
+      "DELETE_ACTION": "Eliminar",
+      "DELETE_SUCCESS": "Oferta eliminada"
     },
     "APPLY": {
       "TITLE": "Aplicar a {{job}}",
@@ -1500,7 +1512,8 @@
       "LOAD_JOBS": "No se pueden cargar las ofertas ahora.",
       "SAVE_FAILED": "No se pudo actualizar el guardado.",
       "LOAD_JOB_DETAIL": "No se pudo cargar la oferta.",
-      "LOAD_APPLICATIONS": "No se pudieron cargar las solicitudes."
+      "LOAD_APPLICATIONS": "No se pudieron cargar las solicitudes.",
+      "DELETE_JOB": "No se pudo eliminar la oferta."
     }
   }
 }

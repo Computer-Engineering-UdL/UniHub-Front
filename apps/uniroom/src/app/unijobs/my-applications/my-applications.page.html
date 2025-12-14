@@ -40,9 +40,9 @@
             <h3>{{ app.jobTitle }}</h3>
             <p class="company">{{ app.companyName }}</p>
           </div>
-          <ion-badge [color]="getStatusColor(app.status)"
-            >{{ ('UNIJOBS.APPLICATIONS.STATUS.' + app.status) | translate }}</ion-badge
-          >
+          <ion-badge [color]="getStatusColor(app.status)">
+            {{ statusKey(app.status) | translate }}
+          </ion-badge>
         </div>
         <div class="meta-row">
           <div class="meta">
@@ -55,7 +55,7 @@
           </div>
           <div class="meta">
             <ion-icon name="calendar-outline"></ion-icon>
-            <span>{{ formatDate(app.appliedAt) }}</span>
+            <span>{{ formatAppliedDate(app.appliedAt) }}</span>
           </div>
         </div>
         <div class="extra" *ngIf="app.coverLetterPreview">

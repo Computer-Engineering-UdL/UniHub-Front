@@ -13,7 +13,14 @@ import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subscription, firstValueFrom } from 'rxjs';
-import { JobCategory, JobOfferCreate, JobSalaryPeriod, JobType, JobWorkplace } from '../../models/unijobs.types';
+import {
+  JobCategory,
+  JobOffer,
+  JobOfferCreate,
+  JobSalaryPeriod,
+  JobType,
+  JobWorkplace
+} from '../../models/unijobs.types';
 import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
 import { UniJobsService } from '../../services/unijobs.service';
@@ -260,9 +267,9 @@ export class CreateJobPage implements OnInit, OnDestroy {
     this.submitting = true;
 
     try {
-      await firstValueFrom(this.uniJobsService.createJob(payload));
+      const createdJob: JobOffer | undefined = await firstValueFrom(this.uniJobsService.createJob(payload));
       this.notificationService.success('UNIJOBS.CREATE.SUCCESS');
-      await this.router.navigateByUrl('/jobs');
+      await this.router.navigate(['/jobs'], { state: { refreshJobs: true, createdJobId: createdJob?.id } });
     } catch {
       this.notificationService.error('UNIJOBS.CREATE.ERROR_GENERIC');
     } finally {

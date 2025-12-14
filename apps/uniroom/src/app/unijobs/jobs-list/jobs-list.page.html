@@ -152,12 +152,19 @@
         <ng-container *ngIf="!loading">
           <article class="job-card" *ngFor="let job of jobs; trackBy: trackByJob">
             <div class="card-header">
-              <div class="logo" [class.placeholder]="!job.logoUrl">
-                <img *ngIf="job.logoUrl" [src]="job.logoUrl" [alt]="job.companyName" />
-                <span *ngIf="!job.logoUrl">{{ getInitials(job.companyName) }}</span>
+              <div class="logo" [class.placeholder]="!jobLogo(job)">
+                <img
+                  *ngIf="jobLogo(job) as logo"
+                  [src]="logo"
+                  [alt]="job.companyName"
+                  appCachedAvatar="logo"
+                />
+                <span *ngIf="!jobLogo(job)">{{ getInitials(job.companyName) }}</span>
               </div>
               <div class="title-group">
-                <h3>{{ job.title }}</h3>
+                <h3>
+                  <button class="link-btn" type="button" (click)="openJob(job)">{{ job.title }}</button>
+                </h3>
                 <p class="company">{{ job.companyName }}</p>
                 <div class="tags">
                   <span class="pill">{{ jobTypeLabel(job.jobType) | translate }}</span>
@@ -167,10 +174,13 @@
                 </div>
               </div>
               <div class="card-actions">
+                <ion-badge *ngIf="job.isApplied" color="success" class="applied-chip">
+                  {{ 'UNIJOBS.LIST.APPLIED' | translate }}
+                </ion-badge>
                 <ion-button fill="clear" (click)="toggleSave(job)">
                   <ion-icon [name]="job.isSaved ? 'bookmark' : 'bookmark-outline'"></ion-icon>
                 </ion-button>
-                <ion-button size="small" (click)="openApply(job)">
+                <ion-button size="small" [disabled]="job.isApplied" (click)="openApply(job)">
                   {{ job.isApplied ? ('UNIJOBS.LIST.APPLIED' | translate) : ('UNIJOBS.LIST.APPLY' |
                   translate) }}
                 </ion-button>
@@ -185,14 +195,23 @@
                 <ion-icon name="cash-outline"></ion-icon>
                 <span>{{ formatSalary(job) }}</span>
               </div>
-              <div class="meta">
-                <ion-icon name="time-outline"></ion-icon>
-                <span>{{ formatRelative(job.createdAt) }}</span>
+              <div class="meta" *ngIf="job.workplaceType">
+                <ion-icon name="business-outline"></ion-icon>
+                <span>{{ workplaceLabel(job.workplaceType) | translate }}</span>
               </div>
             </div>
             <p class="description">
               {{ job.description | slice:0:200 }}{{ job.description.length > 200 ? '…' : '' }}
             </p>
+            <div class="card-footer">
+              <div class="meta secondary">
+                <ion-icon name="time-outline"></ion-icon>
+                <span>{{ formatRelative(job.createdAt) }}</span>
+              </div>
+              <ion-button fill="clear" size="small" (click)="openJob(job)">
+                {{ 'UNIJOBS.LIST.VIEW' | translate }}
+              </ion-button>
+            </div>
             <div class="skills" *ngIf="job.tags?.length">
               <span class="skill" *ngFor="let tag of job.tags">{{ tag }}</span>
             </div>

@@ -2,17 +2,19 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, InfiniteScrollCustomEvent, ModalController, NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subscription, firstValueFrom } from 'rxjs';
 import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
 import { UniJobsService } from '../../services/unijobs.service';
-import { JobOffer, JobCategory, JobType, JobsQuery } from '../../models/unijobs.types';
+import { JobOffer, JobCategory, JobType, JobsQuery, JobWorkplace } from '../../models/unijobs.types';
 import { ApplyJobDialogComponent } from '../apply-job-dialog/apply-job-dialog.component';
 import { SharedModule } from '../../shared/shared-module';
 import { AuthService } from '../../services/auth.service';
 import { Role, User } from '../../models/auth.types';
 import { JOB_CREATOR_ROLES, JOB_TYPE_TRANSLATION_KEYS } from '../unijobs.constants';
+import { JobAvatarService } from '../../services/job-avatar.service';
 
 interface JobTab {
   key: 'all' | 'saved' | 'applied';
@@ -36,6 +38,8 @@ export class JobsListPage implements OnInit, OnDestroy {
   protected readonly localizationService: LocalizationService = inject(LocalizationService);
   private readonly navController: NavController = inject(NavController);
   private readonly authService: AuthService = inject(AuthService);
+  private readonly jobAvatarService: JobAvatarService = inject(JobAvatarService);
+  private readonly router: Router = inject(Router);
 
   protected jobs: JobOffer[] = [];
   protected loading: boolean = true;
@@ -93,22 +97,40 @@ export class JobsListPage implements OnInit, OnDestroy {
 
   private currentPage: number = 1;
   private userSubscription?: Subscription;
+  private jobCreatedSubscription?: Subscription;
+  private readonly creatorAvatarCache: Map<string, string | null> = new Map<string, string | null>();
 
   ngOnInit(): void {
     this.userSubscription = this.authService.currentUser$.subscribe((user: User | null) => {
       const role: Role | undefined = user?.role;
       this.canCreate = role ? JOB_CREATOR_ROLES.includes(role) : false;
     });
+    const navigation = this.router.getCurrentNavigation();
+    const shouldRefresh: boolean = Boolean(navigation?.extras.state?.['refreshJobs']);
+    const pendingCreatedJob: JobOffer | undefined = this.uniJobsService.consumeLastCreatedJob();
+    if (pendingCreatedJob || shouldRefresh) {
+      this.resetList();
+    }
     this.loadTab('all');
     this.loadBadges();
+    this.jobCreatedSubscription = this.uniJobsService.jobCreated$.subscribe(() => {
+      this.resetList();
+      this.loadJobs(true);
+      this.loadBadges();
+    });
   }
 
   ngOnDestroy(): void {
     this.userSubscription?.unsubscribe();
+    this.jobCreatedSubscription?.unsubscribe();
   }
 
   protected async openApplications(): Promise<void> {
     await this.navController.navigateForward('/jobs/applications');
+  }
+
+  protected async openJob(job: JobOffer): Promise<void> {
+    await this.navController.navigateForward(['/jobs', job.id]);
   }
 
   protected async openCreate(): Promise<void> {
@@ -173,6 +195,9 @@ export class JobsListPage implements OnInit, OnDestroy {
   }
 
   protected async openApply(job: JobOffer): Promise<void> {
+    if (job.isApplied) {
+      return;
+    }
     const modal = await this.modalController.create({
       component: ApplyJobDialogComponent,
       componentProps: { jobTitle: job.title, companyName: job.companyName, jobId: job.id }
@@ -180,7 +205,11 @@ export class JobsListPage implements OnInit, OnDestroy {
     await modal.present();
     const { data } = await modal.onDidDismiss();
     if (data?.applied && !job.isApplied) {
-      this.jobs = this.jobs.map((j: JobOffer) => (j.id === job.id ? { ...j, isApplied: true } : j));
+      this.jobs = this.jobs.map((j: JobOffer) =>
+        j.id === job.id
+          ? { ...j, isApplied: true, applicationCount: (j.applicationCount ?? 0) + 1 }
+          : j
+      );
       this.appliedCount = Math.max(0, this.appliedCount + 1);
     }
   }
@@ -215,7 +244,8 @@ export class JobsListPage implements OnInit, OnDestroy {
   }
 
   protected formatRelative(date: string): string {
-    return this.localizationService.formatRelativeTime(date);
+    const relative: string = this.localizationService.formatRelativeTime(date);
+    return relative === '—' ? this.localizationService.formatDate(date) : relative;
   }
 
   protected getInitials(name: string): string {
@@ -229,6 +259,25 @@ export class JobsListPage implements OnInit, OnDestroy {
 
   protected trackByJob(_: number, job: JobOffer): string {
     return job.id;
+  }
+
+  protected jobLogo(job: JobOffer): string | null {
+    if (job.logoUrl) {
+      return job.logoUrl;
+    }
+    if (job.creatorAvatarUrl) {
+      return job.creatorAvatarUrl;
+    }
+    const creatorId: string | undefined = job.creatorId;
+    if (!creatorId) {
+      return null;
+    }
+    if (this.creatorAvatarCache.has(creatorId)) {
+      return this.creatorAvatarCache.get(creatorId) ?? null;
+    }
+    this.creatorAvatarCache.set(creatorId, null);
+    void this.loadCreatorAvatar(creatorId, job.id);
+    return null;
   }
 
   protected toggleFiltersPanel(): void {
@@ -250,6 +299,13 @@ export class JobsListPage implements OnInit, OnDestroy {
 
   protected jobTypeLabel(type: JobType): string {
     return JOB_TYPE_TRANSLATION_KEYS[type];
+  }
+
+  protected workplaceLabel(type: JobWorkplace | undefined): string {
+    if (!type) {
+      return '';
+    }
+    return `UNIJOBS.CREATE.WORKPLACE.${type.toUpperCase()}`;
   }
 
   private loadTab(tab: 'all' | 'saved' | 'applied'): void {
@@ -332,5 +388,17 @@ export class JobsListPage implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  private async loadCreatorAvatar(userId: string, jobId: string): Promise<void> {
+    const avatarUrl: string | null = await this.jobAvatarService.getAvatarForUser(userId);
+    if (avatarUrl) {
+      this.creatorAvatarCache.set(userId, avatarUrl);
+    }
+    this.jobs = this.jobs.map((job: JobOffer) =>
+      job.id === jobId
+        ? { ...job, creatorId: userId, creatorAvatarUrl: avatarUrl ?? undefined }
+        : job
+    );
   }
 }

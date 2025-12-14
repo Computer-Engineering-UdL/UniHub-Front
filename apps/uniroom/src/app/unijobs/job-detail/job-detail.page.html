@@ -7,21 +7,37 @@
 
     <section class="hero">
       <div class="hero-main">
-        <div class="logo" [class.placeholder]="!job.logoUrl">
-          <img *ngIf="job.logoUrl" [src]="job.logoUrl" [alt]="job.companyName" />
-          <span *ngIf="!job.logoUrl">{{ getInitials(job.companyName || '') }}</span>
+        <div class="logo" [class.placeholder]="!jobLogo(job)">
+          <img
+            *ngIf="jobLogo(job) as logo"
+            [src]="logo"
+            [alt]="job.companyName"
+            appCachedAvatar="logo"
+          />
+          <span *ngIf="!jobLogo(job)">{{ getInitials(job.companyName || '') }}</span>
         </div>
         <div class="hero-text">
-          <h1>{{ job.title }}</h1>
+          <div class="hero-title">
+            <h1>{{ job.title }}</h1>
+            <div class="status-chips">
+              <ion-chip color="success" *ngIf="job.isApplied">{{ 'UNIJOBS.DETAIL.APPLIED' | translate }}</ion-chip>
+              <ion-chip color="primary" *ngIf="job.isSaved">{{ 'UNIJOBS.LIST.TABS.SAVED' | translate }}</ion-chip>
+            </div>
+          </div>
           <p class="company">{{ job.companyName }}</p>
           <div class="tags">
             <span class="pill">{{ jobTypeLabel(job.jobType) | translate }}</span>
             <span class="pill ghost">{{ ('UNIJOBS.CATEGORIES.' + job.category) | translate }}</span>
+            <span class="pill ghost" *ngIf="job.workplaceType">{{ workplaceLabel(job.workplaceType) | translate }}</span>
           </div>
           <div class="meta-row">
             <div class="meta">
               <ion-icon name="location-outline"></ion-icon>
               <span>{{ job.location }}</span>
+            </div>
+            <div class="meta" *ngIf="job.workplaceType">
+              <ion-icon name="business-outline"></ion-icon>
+              <span>{{ workplaceLabel(job.workplaceType) | translate }}</span>
             </div>
             <div class="meta">
               <ion-icon name="cash-outline"></ion-icon>
@@ -38,64 +54,102 @@
         <ion-button fill="clear" (click)="toggleSave()">
           <ion-icon [name]="job.isSaved ? 'bookmark' : 'bookmark-outline'"></ion-icon>
         </ion-button>
-        <ion-button expand="block" size="large" (click)="openApply()">
+        <ion-button expand="block" size="large" [disabled]="job.isApplied" (click)="openApply()">
           {{ job.isApplied ? ('UNIJOBS.DETAIL.APPLIED' | translate) : ('UNIJOBS.DETAIL.APPLY' |
           translate) }}
+        </ion-button>
+        <ion-button
+          color="danger"
+          fill="outline"
+          *ngIf="canManage"
+          size="small"
+          class="delete-btn"
+          (click)="confirmDelete()">
+          <ion-icon slot="start" name="trash-outline"></ion-icon>
+          {{ 'UNIJOBS.DETAIL.DELETE_ACTION' | translate }}
         </ion-button>
       </div>
     </section>
 
     <section class="content">
-      <div class="card">
-        <h3>{{ 'UNIJOBS.DETAIL.DESCRIPTION' | translate }}</h3>
-        <p>{{ job.description }}</p>
-      </div>
-      <div class="card">
-        <h3>{{ 'UNIJOBS.DETAIL.REQUIREMENTS' | translate }}</h3>
-        <ul>
-          <li *ngFor="let req of job.requirements">
-            <ion-icon name="checkmark-circle-outline"></ion-icon>
-            <span>{{ req }}</span>
-          </li>
-          <li *ngIf="!job.requirements?.length">
-            {{ 'UNIJOBS.DETAIL.NO_REQUIREMENTS' | translate }}
-          </li>
-        </ul>
-      </div>
-      <div class="card" *ngIf="job.niceToHave?.length">
-        <h3>{{ 'UNIJOBS.DETAIL.NICE_TO_HAVE' | translate }}</h3>
-        <ul>
-          <li *ngFor="let nice of job.niceToHave">
-            <ion-icon name="star-outline"></ion-icon>
-            <span>{{ nice }}</span>
-          </li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>{{ 'UNIJOBS.DETAIL.COMPANY' | translate }}</h3>
-        <p>{{ job.companyDescription }}</p>
-        <div class="company-meta">
+      <div class="cards-grid">
+        <div class="card">
+          <h3>{{ 'UNIJOBS.DETAIL.DESCRIPTION' | translate }}</h3>
+          <p>{{ job.description }}</p>
+        </div>
+        <div class="card">
+          <h3>{{ 'UNIJOBS.DETAIL.REQUIREMENTS' | translate }}</h3>
+          <ul>
+            <li *ngFor="let req of job.requirements">
+              <ion-icon name="checkmark-circle-outline"></ion-icon>
+              <span>{{ req }}</span>
+            </li>
+            <li *ngIf="!job.requirements?.length">
+              {{ 'UNIJOBS.DETAIL.NO_REQUIREMENTS' | translate }}
+            </li>
+          </ul>
+        </div>
+        <div class="card" *ngIf="job.niceToHave?.length">
+          <h3>{{ 'UNIJOBS.DETAIL.NICE_TO_HAVE' | translate }}</h3>
+          <ul>
+            <li *ngFor="let nice of job.niceToHave">
+              <ion-icon name="star-outline"></ion-icon>
+              <span>{{ nice }}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="card info-grid">
           <div>
-            <ion-icon name="people-outline"></ion-icon>
-            <span>{{ job.companyEmployeeCount }}</span>
+            <p class="label">{{ 'UNIJOBS.DETAIL.POSTED_ON' | translate }}</p>
+            <p class="value">{{ formatRelative(job.createdAt) }}</p>
           </div>
           <div>
-            <ion-icon name="briefcase-outline"></ion-icon>
-            <span>{{ ('UNIJOBS.CATEGORIES.' + job.category) | translate }}</span>
+            <p class="label">{{ 'UNIJOBS.DETAIL.LOCATION' | translate }}</p>
+            <p class="value">{{ job.location }}</p>
           </div>
-          <div *ngIf="job.companyWebsite">
-            <ion-icon name="link-outline"></ion-icon>
-            <a [href]="job.companyWebsite" target="_blank" rel="noopener"
-              >{{ job.companyWebsite }}</a
-            >
+          <div>
+            <p class="label">{{ 'UNIJOBS.DETAIL.WORKPLACE' | translate }}</p>
+            <p class="value">{{ job.workplaceType ? (workplaceLabel(job.workplaceType) | translate) : '—' }}</p>
+          </div>
+          <div>
+            <p class="label">{{ 'UNIJOBS.DETAIL.SALARY' | translate }}</p>
+            <p class="value">{{ formatSalary() }}</p>
+          </div>
+          <div>
+            <p class="label">{{ 'UNIJOBS.DETAIL.JOB_TYPE' | translate }}</p>
+            <p class="value">{{ jobTypeLabel(job.jobType) | translate }}</p>
+          </div>
+          <div>
+            <p class="label">{{ 'UNIJOBS.DETAIL.APPLICATIONS' | translate }}</p>
+            <p class="value">{{ job.applicationCount }}</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3>{{ 'UNIJOBS.DETAIL.COMPANY' | translate }}</h3>
+          <p>{{ job.companyDescription || ('UNIJOBS.DETAIL.NO_COMPANY_DESC' | translate) }}</p>
+          <div class="company-meta">
+            <div *ngIf="job.companyEmployeeCount">
+              <ion-icon name="people-outline"></ion-icon>
+              <span>{{ job.companyEmployeeCount }}</span>
+            </div>
+            <div>
+              <ion-icon name="briefcase-outline"></ion-icon>
+              <span>{{ ('UNIJOBS.CATEGORIES.' + job.category) | translate }}</span>
+            </div>
+            <div *ngIf="job.companyWebsite">
+              <ion-icon name="link-outline"></ion-icon>
+              <a [href]="job.companyWebsite" target="_blank" rel="noopener"
+                >{{ job.companyWebsite }}</a
+              >
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <div class="bottom-cta">
-      <ion-button expand="block" size="large" (click)="openApply()">
-        {{ 'UNIJOBS.DETAIL.APPLY' | translate }}
+      <ion-button expand="block" size="large" [disabled]="job.isApplied" (click)="openApply()">
+        {{ job.isApplied ? ('UNIJOBS.DETAIL.APPLIED' | translate) : ('UNIJOBS.DETAIL.APPLY' | translate) }}
       </ion-button>
     </div>
   </div>

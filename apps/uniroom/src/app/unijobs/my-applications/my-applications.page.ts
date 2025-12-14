@@ -89,8 +89,9 @@ export class MyApplicationsPage implements OnInit {
     this.applyFilter();
   }
 
-  protected formatDate(date: string): string {
-    return this.localizationService.formatDate(date);
+  protected formatAppliedDate(date: string): string {
+    const formatted: string = this.localizationService.formatDateTime(date);
+    return formatted === '—' ? this.localizationService.formatDate(date) : formatted;
   }
 
   protected getStatusColor(status: 'pending' | 'interview' | 'accepted' | 'rejected'): string {
@@ -116,6 +117,10 @@ export class MyApplicationsPage implements OnInit {
 
   protected jobTypeLabel(jobType: JobType): string {
     return JOB_TYPE_TRANSLATION_KEYS[jobType];
+  }
+
+  protected statusKey(status: 'pending' | 'interview' | 'accepted' | 'rejected'): string {
+    return `UNIJOBS.APPLICATIONS.STATUS.${status.toUpperCase()}`;
   }
 
   private loadApplications(): void {

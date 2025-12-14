@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, map, throwError } from 'rxjs';
+import { Observable, Subject, map, tap, throwError } from 'rxjs';
 import { ApiService } from './api.service';
 import { AuthService } from './auth.service';
 import NotificationService from './notification.service';
@@ -49,6 +49,8 @@ interface RawJobOffer {
   company_website?: string;
   company_employee_count?: string;
   logo_url?: string;
+  user_id?: string;
+  creator_avatar_url?: string;
   created_at?: string;
   is_active?: boolean;
   is_saved?: boolean;
@@ -79,6 +81,10 @@ export class UniJobsService {
   private readonly apiService: ApiService = inject(ApiService);
   private readonly authService: AuthService = inject(AuthService);
   private readonly notificationService: NotificationService = inject(NotificationService);
+  private readonly jobCreatedSubject: Subject<JobOffer> = new Subject<JobOffer>();
+
+  jobCreated$ = this.jobCreatedSubject.asObservable();
+  private lastCreatedJob?: JobOffer;
 
   getJobs(query: JobsQuery): Observable<PagedJobsResult> {
     const params: Record<string, string | number | boolean> = this.serializeQuery(query);
@@ -135,7 +141,19 @@ export class UniJobsService {
     }
     return this.apiService
       .post<RawJobOffer>('job/', this.mapJobPayload(payload))
-      .pipe(map((response: RawJobOffer) => this.mapJob(response)));
+      .pipe(
+        map((response: RawJobOffer) => this.mapJob(response)),
+        tap((job: JobOffer) => {
+          this.lastCreatedJob = job;
+          this.jobCreatedSubject.next(job);
+        })
+      );
+  }
+
+  consumeLastCreatedJob(): JobOffer | undefined {
+    const job: JobOffer | undefined = this.lastCreatedJob;
+    this.lastCreatedJob = undefined;
+    return job;
   }
 
   updateJob(jobId: string, payload: JobOfferUpdate): Observable<JobOffer> {
@@ -254,6 +272,8 @@ export class UniJobsService {
       companyWebsite: data.company_website,
       companyEmployeeCount: data.company_employee_count,
       logoUrl: data.logo_url,
+      creatorId: data.user_id,
+      creatorAvatarUrl: data.creator_avatar_url,
       createdAt: data.created_at ?? '',
       isActive: data.is_active ?? true,
       isSaved: data.is_saved ?? false,

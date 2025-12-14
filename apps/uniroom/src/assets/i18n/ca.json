@@ -1294,6 +1294,7 @@
       "SUBTITLE": "Descobreix llocs seleccionats de bones empreses",
       "SEARCH_PLACEHOLDER": "Cerca feines, empreses, paraules clau…",
       "MY_APPLICATIONS": "Les meves sol·licituds",
+      "VIEW": "Veure detall",
       "TABS": {
         "ALL": "Totes",
         "SAVED": "Desades",
@@ -1358,7 +1359,18 @@
       "REQUIREMENTS": "Requisits",
       "NO_REQUIREMENTS": "Sense requisits específics.",
       "NICE_TO_HAVE": "Valorable",
-      "COMPANY": "Sobre l'empresa"
+      "COMPANY": "Sobre l'empresa",
+      "POSTED_ON": "Publicada",
+      "LOCATION": "Ubicació",
+      "WORKPLACE": "Modalitat",
+      "SALARY": "Salari",
+      "JOB_TYPE": "Tipus de feina",
+      "APPLICATIONS": "Sol·licituds",
+      "NO_COMPANY_DESC": "Sense descripció de l'empresa.",
+      "DELETE_TITLE": "Eliminar oferta",
+      "DELETE_CONFIRM": "Segur que vols eliminar aquesta oferta? Aquesta acció no es pot desfer.",
+      "DELETE_ACTION": "Eliminar",
+      "DELETE_SUCCESS": "Oferta eliminada"
     },
     "APPLY": {
       "TITLE": "Aplica a {{job}}",
@@ -1491,7 +1503,8 @@
       "LOAD_JOBS": "No es poden carregar les ofertes ara mateix.",
       "SAVE_FAILED": "No s'ha pogut actualitzar el desat.",
       "LOAD_JOB_DETAIL": "No s'ha pogut carregar el detall de l'oferta.",
-      "LOAD_APPLICATIONS": "No s'han pogut carregar les sol·licituds."
+      "LOAD_APPLICATIONS": "No s'han pogut carregar les sol·licituds.",
+      "DELETE_JOB": "No s'ha pogut eliminar l'oferta."
     }
   }
 }

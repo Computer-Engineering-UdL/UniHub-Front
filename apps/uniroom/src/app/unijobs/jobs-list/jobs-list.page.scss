@@ -367,6 +367,21 @@
   color: var(--ion-text-color);
 }
 
+.link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--ion-color-primary);
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.link-btn:hover {
+  text-decoration: underline;
+}
+
 .title-group .company {
   margin: 4px 0;
   color: var(--ion-text-color-secondary);
@@ -399,6 +414,12 @@
   gap: 6px;
 }
 
+.applied-chip {
+  --background: color-mix(in srgb, var(--ion-color-success) 16%, transparent);
+  --color: var(--ion-color-success-contrast);
+  font-weight: 700;
+}
+
 .meta-row {
   display: flex;
   flex-wrap: wrap;
@@ -414,6 +435,11 @@
   padding: 6px 10px;
   border-radius: 10px;
   background: color-mix(in srgb, var(--ion-color-primary) 8%, transparent);
+}
+
+.meta.secondary {
+  background: var(--ion-background-color);
+  border: 1px solid var(--ion-border-color);
 }
 
 .description {
@@ -435,6 +461,14 @@
   background: var(--ion-background-color);
   color: var(--ion-text-color);
   font-size: 13px;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 4px;
 }
 
 .skeletons .job-card {

@@ -31,6 +31,8 @@ export interface JobOffer {
   companyWebsite?: string;
   companyEmployeeCount?: string;
   logoUrl?: string;
+  creatorId?: string;
+  creatorAvatarUrl?: string;
   createdAt: string;
   isActive: boolean;
   isSaved: boolean;

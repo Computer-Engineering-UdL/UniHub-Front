@@ -38,6 +38,18 @@
   gap: 12px;
 }
 
+.hero-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.status-chips {
+  display: flex;
+  gap: 6px;
+}
+
 .logo {
   width: 64px;
   height: 64px;
@@ -113,11 +125,18 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .content {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 12px;
 }
 
@@ -167,6 +186,27 @@
   bottom: 12px;
   background: color-mix(in srgb, var(--ion-background-color) 80%, #0000);
   padding: 8px 0;
+}
+
+.delete-btn {
+  margin-left: auto;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.info-grid .label {
+  margin: 0;
+  color: var(--ion-color-medium);
+  font-weight: 600;
+}
+
+.info-grid .value {
+  margin: 4px 0 0;
+  font-weight: 700;
 }
 
 .loading-state {
