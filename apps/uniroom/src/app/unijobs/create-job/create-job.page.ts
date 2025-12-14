@@ -107,6 +107,7 @@ export class CreateJobPage implements OnInit, OnDestroy {
   protected async submit(): Promise<void> {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
+      this.notificationService.error('UNIJOBS.ERROR.FORM_INVALID');
       return;
     }
 

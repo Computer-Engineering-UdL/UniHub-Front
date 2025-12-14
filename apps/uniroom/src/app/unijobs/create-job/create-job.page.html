@@ -10,7 +10,7 @@
         <ion-button fill="clear" color="medium" type="button" (click)="cancel()">
           {{ 'UNIJOBS.CREATE.CANCEL' | translate }}
         </ion-button>
-        <ion-button type="submit" [disabled]="submitting">
+        <ion-button type="button" [disabled]="submitting" (click)="submit()">
           <ion-spinner *ngIf="submitting" slot="start"></ion-spinner>
           {{ 'UNIJOBS.CREATE.SAVE' | translate }}
         </ion-button>
