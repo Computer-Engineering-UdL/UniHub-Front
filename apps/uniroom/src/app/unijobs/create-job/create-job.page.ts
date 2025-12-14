@@ -161,14 +161,6 @@ export class CreateJobPage implements OnInit, OnDestroy {
     }
     return ((this.currentStepIndex + 1) / this.wizardSteps.length) * 100;
   }
-
-  protected goToStep(index: number): void {
-    if (index < 0 || index > this.furthestStepIndex || index >= this.wizardSteps.length) {
-      return;
-    }
-    this.currentStepIndex = index;
-  }
-
   protected next(): void {
     if (this.isLastStep) {
       void this.submit();
@@ -352,7 +344,7 @@ export class CreateJobPage implements OnInit, OnDestroy {
           validators: [Validators.maxLength(50)]
         })
       },
-      { validators: [this.salaryRangeValidator.bind(this)] }
+      { validators: [(control: AbstractControl) => this.salaryRangeValidator(control)] }
     );
   }
 
@@ -403,9 +395,13 @@ export class CreateJobPage implements OnInit, OnDestroy {
       .filter((control: AbstractControl | null): control is AbstractControl => control !== null);
   }
 
-  private salaryRangeValidator(group: FormGroup): ValidationErrors | null {
-    const minControl: AbstractControl | null = group.get('salaryMin');
-    const maxControl: AbstractControl | null = group.get('salaryMax');
+  private salaryRangeValidator(control: AbstractControl): ValidationErrors | null {
+    if (!(control instanceof FormGroup)) {
+      return null;
+    }
+
+    const minControl: AbstractControl | null = control.get('salaryMin');
+    const maxControl: AbstractControl | null = control.get('salaryMax');
     const minValue: number | null = this.toNumber(minControl?.value);
     const maxValue: number | null = this.toNumber(maxControl?.value);
 
