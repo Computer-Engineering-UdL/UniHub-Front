@@ -697,7 +697,8 @@
         "LISTED_ON": "Listed on"
       },
       "REPORT_LISTING": "Report Listing",
-      "DELETE_LISTING": "Delete Listing"
+      "DELETE_LISTING": "Delete Listing",
+      "REPORT_ID": "Report ID"
     },
     "REPORT": {
       "TITLE": "Report Listing",
@@ -1131,7 +1132,8 @@
         "BAN_MOTIVE_REQUIRED": "Ban reason is required (minimum 3 characters).",
         "BAN_DURATION_REQUIRED": "Ban duration is required (minimum 1 day)."
       },
-      "VIEW_PROFILE": "View Profile"
+      "VIEW_PROFILE": "View Profile",
+      "BAN_DURATION_PLACEHOLDER": "Duration in days (1-365)"
     },
     "ADD_MEMBER": {
       "TITLE": "Add Member",
@@ -1282,7 +1284,8 @@
       "CLOTHING": "Clothing",
       "SPORTS": "Sports",
       "MISC": "Miscellaneous",
-      "OTHER": "Other"
+      "OTHER": "Other",
+      "MISCELLANEOUS": "Miscellaneous"
     }
   },
   "LOCATION_PICKER": {

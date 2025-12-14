@@ -366,7 +366,8 @@
     },
     "VALIDATION": {
       "FIELD_REQUIRED": "Aquest camp és obligatori ({{min}}-{{max}} caràcters)"
-    }
+    },
+    "PREVIOUS": "Anterior"
   },
   "UNAUTHORIZED": {
     "TITLE": "Accés denegat",
@@ -581,7 +582,11 @@
       },
       "CREATE_ERROR": "No s'ha pogut crear l'anunci. Revisa el formulari i torna-ho a provar.",
       "PHOTO_UPLOAD_FAILED": "No s'han pogut pujar les fotos. Podràs afegir-les més endavant des de l'anunci.",
-      "PHOTO_UPLOAD_PARTIAL": "Algunes fotos no s'han pujat. L'anunci s'ha creat sense elles."
+      "PHOTO_UPLOAD_PARTIAL": "Algunes fotos no s'han pujat. L'anunci s'ha creat sense elles.",
+      "AMENITIES": "Comoditats",
+      "REVIEW": "Revisar i publicar",
+      "REVIEW_SUMMARY": "Revisar i publicar",
+      "REVIEW_SUBTITLE": "Assegura't que tot estigui correcte abans d'enviar"
     },
     "CITIES": {
       "LLEIDA": "Lleida",
@@ -922,7 +927,8 @@
         "DESCRIPTION": "Descripció",
         "RESOLUTION": "Resolució",
         "REVIEWED_BY": "Revisat Per",
-        "CONTENT_ID": "ID del Contingut"
+        "CONTENT_ID": "ID del Contingut",
+        "REPORT_ID": "ID del report"
       },
       "ACTION_MODAL": {
         "TITLE": "Resoldre Informe",
@@ -971,7 +977,15 @@
     }
   },
   "ERROR": {
-    "LOAD_USERS": "Error al carregar els usuaris"
+    "LOAD_USERS": "Error al carregar els usuaris",
+    "LOAD_JOBS": "No s'han pogut carregar les ofertes.",
+    "SAVE_FAILED": "No s'ha pogut actualitzar el desat.",
+    "LOAD_JOB_DETAIL": "No s'ha pogut carregar el detall de l'oferta.",
+    "LOAD_APPLICATIONS": "No s'han pogut carregar les sol·licituds.",
+    "SALARY_RANGE": "El salari mínim ha de ser menor o igual que el màxim.",
+    "CREATE_FAILED": "No s'ha pogut crear l'oferta. Torna-ho a intentar.",
+    "APPLY_ROLE": "Només els usuaris bàsics poden aplicar a ofertes.",
+    "FORM_INVALID": "Revisa els camps obligatoris abans de continuar."
   },
   "ROLE": {
     "ADMIN": "Administrador",
@@ -1270,7 +1284,8 @@
       "CLOTHING": "Roba",
       "SPORTS": "Esports",
       "MISCELLANEOUS": "Diversos",
-      "OTHER": "Altres"
+      "OTHER": "Altres",
+      "MISC": "Diversos"
     }
   },
   "LOCATION_PICKER": {

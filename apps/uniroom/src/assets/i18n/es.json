@@ -366,7 +366,8 @@
     },
     "VALIDATION": {
       "FIELD_REQUIRED": "Este campo es obligatorio ({{min}}-{{max}} caracteres)"
-    }
+    },
+    "PREVIOUS": "Anterior"
   },
   "UNAUTHORIZED": {
     "TITLE": "Acceso denegado",
@@ -582,7 +583,10 @@
       },
       "CREATE_ERROR": "No hemos podido crear la oferta. Revisa el formulario e inténtalo de nuevo.",
       "PHOTO_UPLOAD_FAILED": "No se pudieron subir las fotos. Podrás editarlas más tarde desde la oferta.",
-      "PHOTO_UPLOAD_PARTIAL": "Algunas fotos no se subieron. La oferta se creó sin ellas."
+      "PHOTO_UPLOAD_PARTIAL": "Algunas fotos no se subieron. La oferta se creó sin ellas.",
+      "REVIEW": "Revisar y publicar",
+      "REVIEW_SUMMARY": "Revisar y publicar",
+      "REVIEW_SUBTITLE": "Asegúrate de que todo esté correcto antes de enviar"
     },
     "CITIES": {
       "LLEIDA": "Lleida",
@@ -693,7 +697,8 @@
         "LISTED_ON": "Publicado el"
       },
       "REPORT_LISTING": "Reportar anuncio",
-      "DELETE_LISTING": "Eliminar anuncio"
+      "DELETE_LISTING": "Eliminar anuncio",
+      "REPORT_ID": "ID del informe"
     },
     "REPORT": {
       "TITLE": "Reportar Anuncio",
@@ -1279,7 +1284,8 @@
       "CLOTHING": "Ropa",
       "SPORTS": "Deportes",
       "MISC": "Varios",
-      "OTHER": "Otros"
+      "OTHER": "Otros",
+      "MISCELLANEOUS": "Varios"
     }
   },
   "LOCATION_PICKER": {
