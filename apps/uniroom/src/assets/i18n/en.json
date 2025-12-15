@@ -858,6 +858,8 @@
       "GO_TO_USER": "View user profile",
       "GO_TO_ROOM": "Go to the announcement",
       "GO_TO_CHANNEL": "Go to the channel",
+      "GO_TO_JOB": "Go to the job offer",
+      "GO_TO_ITEM": "Go to article",
       "CONTENT_TITLE": {
         "HOUSING": "Room: {{title}}",
         "MARKETPLACE": "Item: {{title}}",

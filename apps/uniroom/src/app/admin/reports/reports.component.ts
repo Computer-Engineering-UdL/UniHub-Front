@@ -408,7 +408,7 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
       case ReportCategory.HOUSING:
         return 'home';
       case ReportCategory.MARKETPLACE:
-        return 'storefront';
+        return 'cube-outline';
       case ReportCategory.CHANNELS:
         return 'chatbubbles';
       case ReportCategory.MESSAGES:
@@ -486,14 +486,31 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
     }
   }
 
-  getGoToContentConfig(contentType: string): { icon: string; labelKey: string } | null {
-    switch (contentType) {
+  navigateToItem(itemId: string): void {
+    if (itemId) {
+      void this.router.navigate(['/items/', itemId]);
+    }
+  }
+
+  navigateToJob(jobId: string): void {
+    if (jobId) {
+      void this.router.navigate(['/jobs/', jobId]);
+    }
+  }
+
+  getGoToContentConfig(category: ReportCategory): { icon: string; labelKey: string } | null {
+    const categoryIcon: string = this.getCategoryIcon(category);
+    switch (category) {
       case 'user':
-        return { icon: 'person-circle-outline', labelKey: 'ADMIN.REPORTS.GO_TO_USER' };
+        return { icon: categoryIcon, labelKey: 'ADMIN.REPORTS.GO_TO_USER' };
       case 'housing':
-        return { icon: 'home-outline', labelKey: 'ADMIN.REPORTS.GO_TO_ROOM' };
+        return { icon: categoryIcon, labelKey: 'ADMIN.REPORTS.GO_TO_ROOM' };
       case 'channels':
-        return { icon: 'chatbubbles-outline', labelKey: 'ADMIN.REPORTS.GO_TO_CHANNEL' };
+        return { icon: categoryIcon, labelKey: 'ADMIN.REPORTS.GO_TO_CHANNEL' };
+      case 'marketplace':
+        return { icon: categoryIcon, labelKey: 'ADMIN.REPORTS.GO_TO_ITEM' };
+      case 'services':
+        return { icon: categoryIcon, labelKey: 'ADMIN.REPORTS.GO_TO_JOB' };
       default:
         return null;
     }
@@ -510,6 +527,10 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
         return `${environment.apiUrl}/offers/${contentId}`;
       case 'channels':
         return `${environment.apiUrl}/channel/${contentId}`;
+      case 'marketplace':
+        return `${environment.apiUrl}/items/${contentId}`;
+      case 'services':
+        return `${environment.apiUrl}/job/${contentId}`;
       default:
         return null;
     }
@@ -531,6 +552,10 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
       await this.navigateToRoom(contentId);
     } else if (contentType === 'channels') {
       this.navigateToChannel(contentId);
+    } else if (contentType === 'marketplace') {
+      this.navigateToItem(contentId);
+    } else if (contentType === 'services') {
+      this.navigateToJob(contentId);
     }
   }
 
