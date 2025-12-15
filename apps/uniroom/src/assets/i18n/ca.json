@@ -1258,7 +1258,8 @@
       "ERROR": "No s'ha pogut carregar aquest article",
       "BACK_TO_LIST": "Tornar al llistat",
       "LOCATION": "Ubicació",
-      "MAP_UNAVAILABLE": "Mapa no disponible"
+      "MAP_UNAVAILABLE": "Mapa no disponible",
+      "REPORT": "Reportar article"
     },
     "FORM": {
       "TITLE_NEW": "Crear article",

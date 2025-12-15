@@ -21,7 +21,11 @@
     "OPTIONAL_HINT": "This field is optional, but it helps us better understand the issue.",
     "SUBMIT": "Submit Report",
     "SUCCESS": "Report submitted successfully",
-    "ERROR": "Error submitting report"
+    "ERROR": "Error submitting report",
+    "CANNOT_REPORT_YOURSELF": "You cannot report your own content"
+  },
+  "AUTH": {
+    "REQUIRED": "You must log in to perform this action"
   },
   "NOTIFICATIONS": {
     "TITLE": "Notifications",
@@ -1258,7 +1262,8 @@
       "ERROR": "Unable to load this item",
       "BACK_TO_LIST": "Back to list",
       "LOCATION": "Location",
-      "MAP_UNAVAILABLE": "Map unavailable"
+      "MAP_UNAVAILABLE": "Map unavailable",
+      "REPORT": "Report item"
     },
     "FORM": {
       "TITLE_NEW": "Create item",

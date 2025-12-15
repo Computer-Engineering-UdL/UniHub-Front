@@ -86,7 +86,11 @@
             <ion-icon slot="start" name="add-circle-outline"></ion-icon>
             {{ 'UNIJOBS.CREATE.TITLE' | translate }}
           </ion-button>
-          <ion-button fill="outline" (click)="openApplications()">
+          <ion-button
+            fill="outline"
+            color="primary"
+            (click)="openApplications()"
+            class="applications-btn">
             <ion-icon slot="start" name="clipboard-outline"></ion-icon>
             {{ 'UNIJOBS.LIST.MY_APPLICATIONS' | translate }}
           </ion-button>
@@ -196,7 +200,8 @@
                 <ion-icon name="time-outline"></ion-icon>
                 <span>{{ formatRelative(job.createdAt) }}</span>
               </div>
-              <ion-button fill="clear" size="small" (click)="openJob(job)">
+              <ion-button fill="solid" size="small" color="primary" (click)="openJob(job)">
+                <ion-icon slot="start" name="eye-outline"></ion-icon>
                 {{ 'UNIJOBS.LIST.VIEW' | translate }}
               </ion-button>
             </div>

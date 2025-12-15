@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { firstValueFrom, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -14,6 +14,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { register } from 'swiper/element/bundle';
 import { environment } from '../../../environments/environment';
 import { API_VERSION_PATH } from '../../../environments/environment.model';
+import { ReportContext, ReportModalComponent } from '../../shared/reports/report-modal.component';
+import { ReportCategory, ReportReason } from '../../models/report.types';
+import { ReportService } from '../../services/report.service';
 
 // Register Swiper web components
 register();
@@ -52,6 +55,8 @@ export class ItemDetailPage implements OnInit, OnDestroy {
   private readonly alertController: AlertController = inject(AlertController);
   private readonly translate: TranslateService = inject(TranslateService);
   private readonly sanitizer: DomSanitizer = inject(DomSanitizer);
+  private readonly modalController: ModalController = inject(ModalController);
+  private readonly reportService: ReportService = inject(ReportService);
 
   private readonly destroy$ = new Subject<void>();
 
@@ -232,5 +237,62 @@ export class ItemDetailPage implements OnInit, OnDestroy {
     }
     const normalized: string = categoryName.toUpperCase().replace(/\s+/g, '_');
     return `UNI_ITEMS.CATEGORY.${normalized}`;
+  }
+
+  async reportItem(): Promise<void> {
+    if (!this.item) {
+      return;
+    }
+
+    if (!this.authService.currentUser) {
+      this.notificationService.error('AUTH.REQUIRED');
+      await this.router.navigate(['/login']);
+      return;
+    }
+
+    if (this.isOwner) {
+      this.notificationService.error('REPORT.CANNOT_REPORT_YOURSELF');
+      return;
+    }
+
+    const context: ReportContext = {
+      contentType: ReportCategory.MARKETPLACE,
+      contentId: this.item.id,
+      contentTitle: this.item.title,
+      reportedUserId: this.item.ownerId,
+      allowedReasons: [
+        ReportReason.SCAM_FRAUD,
+        ReportReason.FAKE_LISTING,
+        ReportReason.INAPPROPRIATE_CONTENT,
+        ReportReason.SPAM,
+        ReportReason.OTHER
+      ]
+    };
+
+    const modal = await this.modalController.create({
+      component: ReportModalComponent,
+      componentProps: { context }
+    });
+
+    await modal.present();
+    const { data, role } = await modal.onDidDismiss();
+
+    if (role === 'submit' && data) {
+      try {
+        await firstValueFrom(
+          this.reportService.createReport({
+            contentType: ReportCategory.MARKETPLACE,
+            contentId: this.item.id,
+            reportedUserId: this.item.ownerId,
+            reason: data.reason,
+            description: data.description,
+            contentTitle: this.item.title
+          })
+        );
+        this.notificationService.success('REPORT.SUCCESS');
+      } catch {
+        this.notificationService.error('REPORT.ERROR');
+      }
+    }
   }
 }

@@ -87,6 +87,14 @@
           (click)="confirmDelete()">
           <ion-icon name="trash-outline"></ion-icon>
         </ion-button>
+        <ion-button
+          color="warning"
+          fill="outline"
+          *ngIf="!canManage"
+          class="report-btn"
+          (click)="reportJob()">
+          <ion-icon name="flag-outline"></ion-icon>
+        </ion-button>
         <ion-button fill="clear" class="save-btn" (click)="toggleSave()">
           <ion-icon [name]="job.isSaved ? 'bookmark' : 'bookmark-outline'"></ion-icon>
         </ion-button>

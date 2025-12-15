@@ -48,6 +48,10 @@
             {{ 'UNI_ITEMS.DETAIL.DELETE' | translate }}
           </ion-button>
         </div>
+        <ion-button fill="outline" color="warning" *ngIf="!isOwner" (click)="reportItem()">
+          <ion-icon slot="start" name="flag-outline"></ion-icon>
+          {{ 'UNI_ITEMS.DETAIL.REPORT' | translate }}
+        </ion-button>
       </div>
 
       <ion-card>

@@ -14,6 +14,9 @@ import { JOB_CREATOR_ROLES, JOB_TYPE_TRANSLATION_KEYS } from '../unijobs.constan
 import { JobAvatarService } from '../../services/job-avatar.service';
 import { AuthService } from '../../services/auth.service';
 import { Role } from '../../models/auth.types';
+import { ReportContext, ReportModalComponent } from '../../shared/reports/report-modal.component';
+import { ReportCategory, ReportReason } from '../../models/report.types';
+import { ReportService } from '../../services/report.service';
 
 @Component({
   selector: 'app-job-detail',
@@ -33,6 +36,7 @@ export class JobDetailPage implements OnInit, OnDestroy {
   private readonly alertController: AlertController = inject(AlertController);
   private readonly jobAvatarService: JobAvatarService = inject(JobAvatarService);
   private readonly authService: AuthService = inject(AuthService);
+  private readonly reportService: ReportService = inject(ReportService);
 
   protected job?: JobOffer;
   protected loading: boolean = true;
@@ -212,6 +216,63 @@ export class JobDetailPage implements OnInit, OnDestroy {
       await this.router.navigate(['/jobs'], { state: { refreshJobs: true } });
     } catch {
       this.notificationService.error('UNIJOBS.ERROR.DELETE_JOB');
+    }
+  }
+
+  protected async reportJob(): Promise<void> {
+    if (!this.job) {
+      return;
+    }
+
+    if (!this.authService.currentUser) {
+      this.notificationService.error('AUTH.REQUIRED');
+      await this.router.navigate(['/login']);
+      return;
+    }
+
+    if (this.canManage) {
+      this.notificationService.error('REPORT.CANNOT_REPORT_YOURSELF');
+      return;
+    }
+
+    const context: ReportContext = {
+      contentType: ReportCategory.SERVICES,
+      contentId: this.job.id,
+      contentTitle: this.job.title,
+      reportedUserId: this.job.creatorId,
+      allowedReasons: [
+        ReportReason.SCAM_FRAUD,
+        ReportReason.FAKE_LISTING,
+        ReportReason.INAPPROPRIATE_CONTENT,
+        ReportReason.SPAM,
+        ReportReason.OTHER
+      ]
+    };
+
+    const modal = await this.modalController.create({
+      component: ReportModalComponent,
+      componentProps: { context }
+    });
+
+    await modal.present();
+    const { data, role } = await modal.onDidDismiss();
+
+    if (role === 'submit' && data) {
+      try {
+        await firstValueFrom(
+          this.reportService.createReport({
+            contentType: ReportCategory.SERVICES,
+            contentId: this.job.id,
+            reportedUserId: this.job.creatorId,
+            reason: data.reason,
+            description: data.description,
+            contentTitle: this.job.title
+          })
+        );
+        this.notificationService.success('REPORT.SUCCESS');
+      } catch {
+        this.notificationService.error('REPORT.ERROR');
+      }
     }
   }
 }

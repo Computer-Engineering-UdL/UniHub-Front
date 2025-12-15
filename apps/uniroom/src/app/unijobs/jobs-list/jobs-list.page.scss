@@ -242,9 +242,30 @@
 }
 
 .create-action-btn {
-  --padding-start: 14px;
-  --padding-end: 14px;
-  font-weight: 700;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  font-weight: 600;
+  text-transform: none;
+  height: 44px;
+  --border-radius: 12px;
+
+  ion-icon {
+    font-size: 20px;
+  }
+}
+
+.applications-btn {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  font-weight: 600;
+  text-transform: none;
+  height: 44px;
+  --border-radius: 12px;
+  --border-width: 1.5px;
+
+  ion-icon {
+    font-size: 20px;
+  }
 }
 
 .toggle-filters-mobile {
@@ -468,7 +489,22 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-top: 4px;
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--ion-border-color);
+
+  ion-button {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    font-weight: 600;
+    text-transform: none;
+    height: 36px;
+    --border-radius: 10px;
+
+    ion-icon {
+      font-size: 18px;
+    }
+  }
 }
 
 .skeletons .job-card {
