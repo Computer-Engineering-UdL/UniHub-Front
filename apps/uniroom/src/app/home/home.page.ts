@@ -14,6 +14,7 @@ import NotificationService from '../services/notification.service';
 import { resolveFileUrl } from '../utils/file-url.util';
 import { environment } from '../../environments/environment';
 import { API_VERSION_PATH } from '../../environments/environment.model';
+import { JobOffer } from '../models/unijobs.types';
 
 interface HomeSection {
   title: string;
@@ -48,6 +49,7 @@ export class HomePage implements OnInit, OnDestroy {
   public sections: HomeSection[] = [];
   public recommendedOffers: OfferListItem[] = [];
   public popularChannels: Channel[] = [];
+  public jobOffers: JobOffer[] = [];
 
   private readonly authService: AuthService = inject(AuthService);
   private readonly router: Router = inject(Router);
@@ -119,7 +121,8 @@ export class HomePage implements OnInit, OnDestroy {
         this.loadOffers(),
         this.loadUniItems(),
         this.loadRecommendedOffers(),
-        this.loadPopularChannels()
+        this.loadPopularChannels(),
+        this.loadJobOffers()
       ]);
     } catch {
       this.notificationService.error('HOME.ERROR.LOAD_FAILED');
@@ -219,6 +222,35 @@ export class HomePage implements OnInit, OnDestroy {
     }
   }
 
+  private async loadJobOffers(): Promise<void> {
+    try {
+      const response: any = await firstValueFrom(this.apiService.get<JobOffer>('job/'));
+      this.jobOffers = (response.jobs || []).slice(0, 4).map(
+        (job: JobOffer): JobOffer => ({
+          id: job.id,
+          title: job.title,
+          companyName: job.companyName,
+          location: job.location,
+          jobType: job.jobType,
+          category: job.category,
+          salaryMin: job.salaryMin,
+          salaryMax: job.salaryMax,
+          salaryPeriod: job.salaryPeriod,
+          createdAt: job.createdAt,
+          description: job.description,
+          workplaceType: job.workplaceType,
+          applicationCount: job.applicationCount,
+          isSaved: job.isSaved,
+          isApplied: job.isApplied,
+          creatorId: job.creatorId,
+          isActive: job.isActive
+        })
+      );
+    } catch {
+      this.jobOffers = [];
+    }
+  }
+
   private resolveOfferImage(offer: OfferListItem): string {
     if (offer.base_image) {
       const resolvedUrl: string | null = resolveFileUrl(offer.base_image);
@@ -255,6 +287,10 @@ export class HomePage implements OnInit, OnDestroy {
 
   public navigateToItem(itemId: string): void {
     void this.router.navigate(['/items', itemId]);
+  }
+
+  public navigateToJob(jobId: string): void {
+    void this.router.navigate(['/jobs', jobId]);
   }
 
   public getChannelMemberCount(channel: Channel): number {

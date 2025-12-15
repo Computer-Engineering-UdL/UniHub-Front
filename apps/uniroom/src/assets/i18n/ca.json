@@ -95,6 +95,7 @@
     "YOUR_CHANNELS": "Els teus canals",
     "NEAR_CAMPUS": "A prop del campus",
     "RECENT_ITEMS": "Articles recents",
+    "RECENT_JOBS": "Ofertes de treball recents",
     "LOADING": "Carregant...",
     "MONTH": "mes",
     "SECTIONS": {
@@ -482,8 +483,10 @@
       "YES": "Sí",
       "NO": "No",
       "NOT_PROVIDED": "No especificat",
-      "LOAD_ERROR": "No hem pogut carregar aquest apartament. Torna-ho a provar."
+      "LOAD_ERROR": "No hem pogut carregar aquest apartament. Torna-ho a provar.",
+      "ALREADY_SELECTED": "Aquesta habitació ja està seleccionada per comparar"
     },
+    "ADD_TO_COMPARE": "Afegir a comparativa",
     "STATUS": {
       "ACTIVE": "Activa",
       "INACTIVE": "Inactiva",
@@ -1439,6 +1442,7 @@
       "ROLE_REQUIRED": "Només els usuaris Basic poden aplicar a ofertes."
     },
     "APPLICATIONS": {
+      "BACK": "Tornar a ofertes",
       "EYEBROW": "Segueix el teu progrés",
       "TITLE": "Les meves sol·licituds",
       "SUBTITLE": "Consulta l’estat de les teves sol·licituds de feina",

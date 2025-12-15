@@ -1,6 +1,10 @@
 <ion-content class="applications-page">
   <div class="page-wrapper">
     <div class="header">
+      <ion-button fill="clear" class="back-btn" (click)="goBack()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+        {{ 'UNIJOBS.APPLICATIONS.BACK' | translate }}
+      </ion-button>
       <div>
         <h1>{{ 'UNIJOBS.APPLICATIONS.TITLE' | translate }}</h1>
         <p class="subtitle">{{ 'UNIJOBS.APPLICATIONS.SUBTITLE' | translate }}</p>

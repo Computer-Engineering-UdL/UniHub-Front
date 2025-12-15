@@ -94,6 +94,7 @@
     "YOUR_CHANNELS": "Tus canales",
     "NEAR_CAMPUS": "Cerca del campus",
     "RECENT_ITEMS": "Artículos recientes",
+    "RECENT_JOBS": "Ofertas de trabajo recientes",
     "LOADING": "Cargando...",
     "MONTH": "mes",
     "SECTIONS": {
@@ -486,8 +487,10 @@
       "YES": "Sí",
       "NO": "No",
       "NOT_PROVIDED": "No indicado",
-      "LOAD_ERROR": "No hemos podido cargar este apartamento. Inténtalo de nuevo."
+      "LOAD_ERROR": "No hemos podido cargar este apartamento. Inténtalo de nuevo.",
+      "ALREADY_SELECTED": "Esta habitación ya está seleccionada para comparar"
     },
+    "ADD_TO_COMPARE": "Añadir a comparativa",
     "STATUS": {
       "ACTIVE": "Activa",
       "INACTIVE": "Inactiva",
@@ -1444,6 +1447,7 @@
     },
     "APPLICATIONS": {
       "EYEBROW": "Sigue tu progreso",
+      "BACK": "Volver a ofertas",
       "TITLE": "Mis solicitudes",
       "SUBTITLE": "Consulta el estado de tus solicitudes",
       "STATS": {

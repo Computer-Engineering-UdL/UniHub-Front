@@ -178,6 +178,35 @@
           </div>
         </div>
       </div>
+
+      <div class="content-section" *ngIf="jobOffers.length > 0">
+        <div class="section-header-row">
+          <h2 class="section-heading">{{ 'HOME.RECENT_JOBS' | translate }}</h2>
+          <ion-button fill="clear" size="small" (click)="navigateTo('/jobs')">
+            {{ 'HOME.VIEW_ALL' | translate }}
+            <ion-icon slot="end" name="arrow-forward"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="jobs-grid">
+          <div class="job-card" *ngFor="let job of jobOffers" (click)="navigateToJob(job.id)">
+            <div class="job-header">
+              <h3 class="job-title">{{ job.title }}</h3>
+              <p class="job-company">{{ job.companyName }}</p>
+            </div>
+            <div class="job-meta">
+              <div class="job-meta-item">
+                <ion-icon name="location-outline"></ion-icon>
+                <span>{{ job.location }}</span>
+              </div>
+              <div class="job-meta-item">
+                <ion-icon name="briefcase-outline"></ion-icon>
+                <span>{{ job.category }}</span>
+              </div>
+            </div>
+            <ion-badge class="job-type-badge" color="primary">{{ job.jobType }}</ion-badge>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="loading-container" *ngIf="loading">

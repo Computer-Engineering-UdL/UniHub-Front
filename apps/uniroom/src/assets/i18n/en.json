@@ -99,6 +99,7 @@
     "YOUR_CHANNELS": "Your channels",
     "NEAR_CAMPUS": "Near Campus",
     "RECENT_ITEMS": "Recent items",
+    "RECENT_JOBS": "Recent job offers",
     "LOADING": "Loading...",
     "MONTH": "month",
     "SECTIONS": {
@@ -486,8 +487,10 @@
       "YES": "Yes",
       "NO": "No",
       "NOT_PROVIDED": "Not provided",
-      "LOAD_ERROR": "We couldn't load this apartment. Please try again."
+      "LOAD_ERROR": "We couldn't load this apartment. Please try again.",
+      "ALREADY_SELECTED": "This room is already selected for comparison"
     },
+    "ADD_TO_COMPARE": "Add to comparison",
     "STATUS": {
       "ACTIVE": "Active",
       "INACTIVE": "Inactive",
@@ -1444,6 +1447,7 @@
     },
     "APPLICATIONS": {
       "EYEBROW": "Track your progress",
+      "BACK": "Back to jobs",
       "TITLE": "My Applications",
       "SUBTITLE": "Track the status of your job applications",
       "STATS": {

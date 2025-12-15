@@ -555,9 +555,19 @@
                 <ion-icon name="resize-outline"></ion-icon>
                 <span>{{ offer.areaFormatted }} m²</span>
               </div>
-              <div class="detail-item">
-                <ion-icon name="calendar-outline"></ion-icon>
-                <span>{{ offer.posted_date | date: 'mediumDate' }}</span>
+              <div class="detail-item date-with-compare">
+                <div class="date-info">
+                  <ion-icon name="calendar-outline"></ion-icon>
+                  <span>{{ offer.posted_date | date: 'mediumDate' }}</span>
+                </div>
+                <ion-button
+                  class="compare-btn"
+                  fill="clear"
+                  size="small"
+                  (click)="openComparisonSelector(offer); $event.stopPropagation()"
+                  [title]="'ROOM.ADD_TO_COMPARE' | translate">
+                  <ion-icon slot="icon-only" name="git-compare-outline"></ion-icon>
+                </ion-button>
               </div>
             </div>
 

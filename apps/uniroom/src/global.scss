@@ -49,6 +49,20 @@
   --padding-start: 24px;
   --padding-end: 24px;
   --padding-top: 14px;
+
+  /**
+ * Cancel Button Style
+ * -----------------------------------------------------
+ * Special rounded button style for cancel/back actions
+ */
+  ion-button.cancel-btn,
+  ion-button.wizard-actions__cancel {
+    .button-inner {
+      border-radius: 25px !important;
+      border: 1px solid var(--ion-color-medium) !important;
+      padding: 8px 16px !important;
+    }
+  }
   --padding-bottom: 14px;
   --background: var(--ion-color-primary);
   --background-activated: var(--ion-color-primary-shade);

@@ -282,6 +282,28 @@ export class RoomsComponent implements OnInit {
     }
   }
 
+  public async openComparisonSelector(offer: OfferListItem): Promise<void> {
+    if (!this.showComparisonSection) {
+      this.showComparisonSection = true;
+    }
+
+    if (this.compareSelection.first === offer.id || this.compareSelection.second === offer.id) {
+      this.notificationService.info('ROOM.COMPARISON.ALREADY_SELECTED');
+      return;
+    }
+
+    if (!this.compareSelection.first) {
+      this.compareSelection.first = offer.id;
+      await this.loadComparisonOffer('first', offer.id);
+    } else if (!this.compareSelection.second) {
+      this.compareSelection.second = offer.id;
+      await this.loadComparisonOffer('second', offer.id);
+    } else {
+      this.compareSelection.first = offer.id;
+      await this.loadComparisonOffer('first', offer.id);
+    }
+  }
+
   public resetComparisonSelection(): void {
     this.compareSelection = { first: null, second: null };
     this.comparisonOffers = { first: null, second: null };

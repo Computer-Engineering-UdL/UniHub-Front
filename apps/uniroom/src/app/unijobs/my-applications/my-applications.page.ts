@@ -204,4 +204,8 @@ export class MyApplicationsPage implements OnInit {
     });
     this.stats = stats;
   }
+
+  protected goBack(): void {
+    void this.router.navigate(['/jobs']);
+  }
 }
