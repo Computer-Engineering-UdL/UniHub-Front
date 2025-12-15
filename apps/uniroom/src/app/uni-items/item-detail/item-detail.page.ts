@@ -11,6 +11,8 @@ import { LocalizationService } from '../../services/localization.service';
 import { MessageService } from '../../services/message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { register } from 'swiper/element/bundle';
+import { environment } from '../../../environments/environment';
+import { API_VERSION_PATH } from '../../../environments/environment.model';
 
 // Register Swiper web components
 register();
@@ -84,7 +86,7 @@ export class ItemDetailPage implements OnInit {
         categoryName: this.getCategoryTranslationKey(response.category?.name ?? ''),
         condition: response.condition,
         location: response.location,
-        imageUrls: response.image_urls ?? [],
+        imageUrls: this.resolveImagesUrls(response.image_urls) ?? [],
         ownerId: response.owner_details?.id ?? '',
         ownerName: response.owner_details?.full_name || response.owner_details?.username || '',
         ownerAvatar: response.owner_details?.avatar_url ?? null,
@@ -97,6 +99,23 @@ export class ItemDetailPage implements OnInit {
     } finally {
       this.loading = false;
     }
+  }
+
+  private resolveImagesUrls(baseImage: string[]): string[] | null {
+    if (!baseImage) {
+      return null;
+    }
+
+    let resolvedUrls: string[] = [];
+    for (const img of baseImage) {
+      resolvedUrls.push(this.getFullImageUrl(img));
+    }
+    return resolvedUrls;
+  }
+
+  private getFullImageUrl(imagePath: string): string {
+    const apiBaseUrl: string = environment.apiUrl.replace(API_VERSION_PATH, '');
+    return `${apiBaseUrl}${imagePath}`;
   }
 
   private buildMapUrl(item: ItemRead): SafeResourceUrl | undefined {

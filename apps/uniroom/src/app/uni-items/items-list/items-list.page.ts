@@ -7,6 +7,8 @@ import { LocalizationService } from '../../services/localization.service';
 import NotificationService from '../../services/notification.service';
 import { ItemCategory, ItemCondition, ItemRead, ItemsListParams, ItemsListResponse } from '../../models/uni-item.types';
 import { UniItemsService } from '../../services/uni-items.service';
+import { environment } from '../../../environments/environment';
+import { API_VERSION_PATH } from '../../../environments/environment.model';
 
 interface UniItemViewModel {
   id: string;
@@ -133,7 +135,7 @@ export class ItemsListPage implements OnInit, OnDestroy {
           categoryName: this.getCategoryTranslationKey(item.category?.name ?? ''),
           condition: item.condition,
           priceFormatted: this.localization.formatPrice(item.price, item.currency),
-          primaryImage: item.image_urls?.[0] ?? item.owner_details?.avatar_url ?? null,
+          primaryImage: this.resolveImageUrl(item.image_urls?.[0] ?? item.owner_details?.avatar_url ?? null),
           location: item.location,
           postedDate: this.localization.formatDate(item.posted_date)
         })
@@ -227,5 +229,13 @@ export class ItemsListPage implements OnInit, OnDestroy {
     }
     const normalized: string = categoryName.toUpperCase().replace(/\s+/g, '_');
     return `UNI_ITEMS.CATEGORY.${normalized}`;
+  }
+
+  private resolveImageUrl(baseImage: string | null): string | null {
+    if (!baseImage) {
+      return null;
+    }
+    const apiBaseUrl: string = environment.apiUrl.replace(API_VERSION_PATH, '');
+    return `${apiBaseUrl}${baseImage}`;
   }
 }
