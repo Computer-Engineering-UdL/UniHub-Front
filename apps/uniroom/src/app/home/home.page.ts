@@ -12,8 +12,8 @@ import { UniItemsService } from '../services/uni-items.service';
 import { LocalizationService } from '../services/localization.service';
 import NotificationService from '../services/notification.service';
 import { resolveFileUrl } from '../utils/file-url.util';
-import { environment } from "../../environments/environment";
-import { API_VERSION_PATH } from "../../environments/environment.model";
+import { environment } from '../../environments/environment';
+import { API_VERSION_PATH } from '../../environments/environment.model';
 
 interface HomeSection {
   title: string;
