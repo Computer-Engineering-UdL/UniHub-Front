@@ -12,6 +12,8 @@ import { UniItemsService } from '../services/uni-items.service';
 import { LocalizationService } from '../services/localization.service';
 import NotificationService from '../services/notification.service';
 import { resolveFileUrl } from '../utils/file-url.util';
+import { environment } from "../../environments/environment";
+import { API_VERSION_PATH } from "../../environments/environment.model";
 
 interface HomeSection {
   title: string;
@@ -168,12 +170,20 @@ export class HomePage implements OnInit, OnDestroy {
           categoryName: item.category?.name ?? '',
           condition: item.condition,
           priceFormatted: this.localizationService.formatPrice(item.price, item.currency),
-          imageUrl: item.image_urls?.[0] ?? item.owner_details?.avatar_url ?? null
+          imageUrl: this.resolveImageUrl(item.image_urls?.[0] ?? item.owner_details?.avatar_url ?? null)
         })
       );
     } catch {
       this.uniItems = [];
     }
+  }
+
+  private resolveImageUrl(baseImage: string | null): string | null {
+    if (!baseImage) {
+      return null;
+    }
+    const apiBaseUrl: string = environment.apiUrl.replace(API_VERSION_PATH, '');
+    return `${apiBaseUrl}${baseImage}`;
   }
 
   private async loadRecommendedOffers(): Promise<void> {
