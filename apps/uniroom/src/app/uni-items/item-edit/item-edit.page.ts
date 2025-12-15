@@ -342,7 +342,10 @@ export class ItemEditPage implements OnInit {
         }
         const updated: ItemRead = await firstValueFrom(this.uniItemsService.updateItem(this.itemId, payload));
         this.notificationService.success('UNI_ITEMS.FORM.SUCCESS_EDIT');
-        await this.router.navigate(['/items', updated.id]);
+        await this.router.navigate(['/items', updated.id], {
+          queryParams: { refresh: Date.now() },
+          replaceUrl: false
+        });
       } else {
         const payload: ItemCreateRequest = {
           ...(basePayload as ItemCreateRequest),

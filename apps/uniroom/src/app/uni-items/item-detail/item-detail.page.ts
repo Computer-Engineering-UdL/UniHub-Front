@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import NotificationService from '../../services/notification.service';
 import { ItemCondition, ItemRead } from '../../models/uni-item.types';
@@ -40,7 +41,7 @@ interface UniItemDetailViewModel {
   styleUrls: ['./item-detail.page.scss'],
   standalone: false
 })
-export class ItemDetailPage implements OnInit {
+export class ItemDetailPage implements OnInit, OnDestroy {
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly router: Router = inject(Router);
   private readonly uniItemsService: UniItemsService = inject(UniItemsService);
@@ -51,6 +52,8 @@ export class ItemDetailPage implements OnInit {
   private readonly alertController: AlertController = inject(AlertController);
   private readonly translate: TranslateService = inject(TranslateService);
   private readonly sanitizer: DomSanitizer = inject(DomSanitizer);
+
+  private readonly destroy$ = new Subject<void>();
 
   item: UniItemDetailViewModel | null = null;
   loading: boolean = true;
@@ -72,6 +75,17 @@ export class ItemDetailPage implements OnInit {
     if (id) {
       void this.loadItem(id);
     }
+
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params) => {
+      if (params['refresh'] && id) {
+        void this.loadItem(id);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   async loadItem(id: string): Promise<void> {
