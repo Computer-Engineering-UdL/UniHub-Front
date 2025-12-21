@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'ADMIN.TERMS.TITLE' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openCreateModal()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="terms-container">
+    <ion-refresher slot="fixed" (ionRefresh)="loadTerms(); $event.target.complete()">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
+
+    <div *ngIf="!loading && terms.length === 0" class="empty-state">
+      <ion-icon name="document-text-outline"></ion-icon>
+      <p>{{ 'ADMIN.TERMS.NO_TERMS' | translate }}</p>
+      <ion-button (click)="openCreateModal()">
+        {{ 'ADMIN.TERMS.CREATE_FIRST' | translate }}
+      </ion-button>
+    </div>
+
+    <ion-list *ngIf="!loading && terms.length > 0">
+      <ion-item *ngFor="let term of terms" class="terms-item">
+        <ion-label>
+          <h2>{{ 'ADMIN.TERMS.VERSION' | translate }}: {{ term.version }}</h2>
+          <p>{{ 'ADMIN.TERMS.CREATED' | translate }}: {{ formatDate(term.created_at) }}</p>
+          <p *ngIf="term.updated_at">
+            {{ 'ADMIN.TERMS.UPDATED' | translate }}: {{ formatDate(term.updated_at) }}
+          </p>
+          <ion-badge [color]="term.is_active ? 'success' : 'medium'">
+            {{ (term.is_active ? 'ADMIN.TERMS.ACTIVE' : 'ADMIN.TERMS.INACTIVE') | translate }}
+          </ion-badge>
+        </ion-label>
+        <ion-buttons slot="end">
+          <ion-button (click)="toggleActive(term)" [color]="term.is_active ? 'medium' : 'success'">
+            <ion-icon
+              slot="icon-only"
+              [name]="term.is_active ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          </ion-button>
+          <ion-button (click)="editTerms(term)" color="primary">
+            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+          </ion-button>
+          <ion-button (click)="deleteTerms(term)" color="danger">
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

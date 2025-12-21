@@ -392,6 +392,7 @@
     "ADMIN_DASHBOARD": "Panel de Administración",
     "ADMIN_REPORTS": "Reportes",
     "ADMIN_SETTINGS": "Configuración",
+    "ADMIN_TERMS": "Términos y Condiciones",
     "ADMIN_USERS": "Gestión de Usuarios",
     "CHANNELS": "Canales",
     "HOME": "Inicio",
@@ -991,6 +992,32 @@
         "BULK_UPDATE": "Error al actualizar los informes",
         "NO_ACCESS_CONTENT": "No tienes acceso al contenido reportado o ya ha sido eliminado"
       }
+    },
+    "TERMS": {
+      "TITLE": "Gestión de Términos y Condiciones",
+      "CREATE_TITLE": "Crear Nuevos Términos",
+      "EDIT_TITLE": "Editar Términos",
+      "DELETE_CONFIRM_TITLE": "Eliminar Términos",
+      "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar esta versión de los términos?",
+      "VERSION_PLACEHOLDER": "Versión (ej: 1.0.0)",
+      "CONTENT_CA_PLACEHOLDER": "Contenido en Catalán",
+      "CONTENT_ES_PLACEHOLDER": "Contenido en Español",
+      "CONTENT_EN_PLACEHOLDER": "Contenido en Inglés",
+      "NO_TERMS": "No hay términos creados",
+      "CREATE_FIRST": "Crear Primeros Términos",
+      "VERSION": "Versión",
+      "CREATED": "Creado",
+      "UPDATED": "Actualizado",
+      "ACTIVE": "Activo",
+      "INACTIVE": "Inactivo",
+      "CREATE_SUCCESS": "Términos creados correctamente",
+      "CREATE_ERROR": "Error al crear los términos",
+      "UPDATE_SUCCESS": "Términos actualizados correctamente",
+      "UPDATE_ERROR": "Error al actualizar los términos",
+      "DELETE_SUCCESS": "Términos eliminados correctamente",
+      "DELETE_ERROR": "Error al eliminar los términos",
+      "ERROR_LOADING": "Error al cargar los términos",
+      "VALIDATION_ERROR": "Por favor, completa todos los campos requeridos"
     }
   },
   "ERROR": {
@@ -1568,5 +1595,16 @@
       "LOAD_APPLICATIONS": "No se pudieron cargar las solicitudes.",
       "DELETE_JOB": "No se pudo eliminar la oferta."
     }
+  },
+  "TERMS": {
+    "TITLE": "Términos y Condiciones",
+    "VERSION": "Versión",
+    "ACCEPT": "Aceptar Términos",
+    "DECLINE": "Rechazar",
+    "SCROLL_TO_CONTINUE": "Desplázate hasta el final para continuar",
+    "ACCEPTED_SUCCESS": "Términos aceptados correctamente",
+    "ACCEPT_ERROR": "Error al aceptar los términos",
+    "ERROR_LOADING": "Error al cargar los términos",
+    "NO_TERMS_AVAILABLE": "No hay términos disponibles"
   }
 }

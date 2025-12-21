@@ -392,6 +392,7 @@
     "ADMIN_DASHBOARD": "Admin Dashboard",
     "ADMIN_REPORTS": "Reports",
     "ADMIN_SETTINGS": "Settings",
+    "ADMIN_TERMS": "Terms and Conditions",
     "ADMIN_USERS": "Users",
     "CHANNELS": "Channels",
     "HOME": "Home",
@@ -991,6 +992,32 @@
         "BULK_UPDATE": "Error updating reports",
         "NO_ACCESS_CONTENT": "You do not have access to the reported content or it has already been deleted"
       }
+    },
+    "TERMS": {
+      "TITLE": "Terms and Conditions Management",
+      "CREATE_TITLE": "Create New Terms",
+      "EDIT_TITLE": "Edit Terms",
+      "DELETE_CONFIRM_TITLE": "Delete Terms",
+      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this version of the terms?",
+      "VERSION_PLACEHOLDER": "Version (e.g., 1.0.0)",
+      "CONTENT_CA_PLACEHOLDER": "Content in Catalan",
+      "CONTENT_ES_PLACEHOLDER": "Content in Spanish",
+      "CONTENT_EN_PLACEHOLDER": "Content in English",
+      "NO_TERMS": "No terms created",
+      "CREATE_FIRST": "Create First Terms",
+      "VERSION": "Version",
+      "CREATED": "Created",
+      "UPDATED": "Updated",
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive",
+      "CREATE_SUCCESS": "Terms created successfully",
+      "CREATE_ERROR": "Error creating terms",
+      "UPDATE_SUCCESS": "Terms updated successfully",
+      "UPDATE_ERROR": "Error updating terms",
+      "DELETE_SUCCESS": "Terms deleted successfully",
+      "DELETE_ERROR": "Error deleting terms",
+      "ERROR_LOADING": "Error loading terms",
+      "VALIDATION_ERROR": "Please fill in all required fields"
     }
   },
   "ERROR": {
@@ -1566,5 +1593,16 @@
       "LOAD_APPLICATIONS": "Could not load applications.",
       "DELETE_JOB": "Could not delete the job offer."
     }
+  },
+  "TERMS": {
+    "TITLE": "Terms and Conditions",
+    "VERSION": "Version",
+    "ACCEPT": "Accept Terms",
+    "DECLINE": "Decline",
+    "SCROLL_TO_CONTINUE": "Scroll to the bottom to continue",
+    "ACCEPTED_SUCCESS": "Terms accepted successfully",
+    "ACCEPT_ERROR": "Error accepting terms",
+    "ERROR_LOADING": "Error loading terms",
+    "NO_TERMS_AVAILABLE": "No terms available"
   }
 }

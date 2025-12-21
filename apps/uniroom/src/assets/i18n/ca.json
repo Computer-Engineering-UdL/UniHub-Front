@@ -388,6 +388,7 @@
     "ADMIN_DASHBOARD": "Panel d'Administració",
     "ADMIN_REPORTS": "Reportes",
     "ADMIN_SETTINGS": "Configuració",
+    "ADMIN_TERMS": "Termes i Condicions",
     "ADMIN_USERS": "Gestió d'Usuaris",
     "CHANNELS": "Canals",
     "HOME": "Inici",
@@ -987,6 +988,32 @@
         "BULK_UPDATE": "Error al actualitzar els informes",
         "NO_ACCESS_CONTENT": "No tens accés al contingut reportat o ja ha estat eliminat"
       }
+    },
+    "TERMS": {
+      "TITLE": "Gestió de Termes i Condicions",
+      "CREATE_TITLE": "Crear Nous Termes",
+      "EDIT_TITLE": "Editar Termes",
+      "DELETE_CONFIRM_TITLE": "Eliminar Termes",
+      "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar aquesta versió dels termes?",
+      "VERSION_PLACEHOLDER": "Versió (ex: 1.0.0)",
+      "CONTENT_CA_PLACEHOLDER": "Contingut en Català",
+      "CONTENT_ES_PLACEHOLDER": "Contingut en Espanyol",
+      "CONTENT_EN_PLACEHOLDER": "Contingut en Anglès",
+      "NO_TERMS": "No hi ha termes creats",
+      "CREATE_FIRST": "Crear Primers Termes",
+      "VERSION": "Versió",
+      "CREATED": "Creat",
+      "UPDATED": "Actualitzat",
+      "ACTIVE": "Actiu",
+      "INACTIVE": "Inactiu",
+      "CREATE_SUCCESS": "Termes creats correctament",
+      "CREATE_ERROR": "Error en crear els termes",
+      "UPDATE_SUCCESS": "Termes actualitzats correctament",
+      "UPDATE_ERROR": "Error en actualitzar els termes",
+      "DELETE_SUCCESS": "Termes eliminats correctament",
+      "DELETE_ERROR": "Error en eliminar els termes",
+      "ERROR_LOADING": "Error en carregar els termes",
+      "VALIDATION_ERROR": "Si us plau, emplena tots els camps requerits"
     }
   },
   "ERROR": {
@@ -1564,5 +1591,16 @@
       "LOAD_APPLICATIONS": "No s'han pogut carregar les sol·licituds.",
       "DELETE_JOB": "No s'ha pogut eliminar l'oferta."
     }
+  },
+  "TERMS": {
+    "TITLE": "Termes i Condicions",
+    "VERSION": "Versió",
+    "ACCEPT": "Acceptar Termes",
+    "DECLINE": "Declinar",
+    "SCROLL_TO_CONTINUE": "Desplaça't fins al final per continuar",
+    "ACCEPTED_SUCCESS": "Termes acceptats correctament",
+    "ACCEPT_ERROR": "Error en acceptar els termes",
+    "ERROR_LOADING": "Error en carregar els termes",
+    "NO_TERMS_AVAILABLE": "No hi ha termes disponibles"
   }
 }

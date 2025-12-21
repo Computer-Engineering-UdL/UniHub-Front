@@ -1,0 +1,50 @@
+.terms-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+  min-height: 50vh;
+
+  ion-icon {
+    font-size: 4rem;
+    color: var(--ion-color-medium);
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: var(--ion-color-medium);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.terms-item {
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+  margin-bottom: 0.5rem;
+
+  ion-label {
+    h2 {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    p {
+      font-size: 0.875rem;
+      color: var(--ion-color-medium);
+      margin: 0.25rem 0;
+    }
+
+    ion-badge {
+      margin-top: 0.5rem;
+    }
+  }
+}
