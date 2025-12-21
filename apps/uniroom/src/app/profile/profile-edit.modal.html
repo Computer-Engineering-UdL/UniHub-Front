@@ -10,7 +10,31 @@
     <div class="modal-top">
       <div class="avatar-wrap">
         <img [src]="avatarSrc" (error)="onAvatarError()" alt="avatar" />
+        @if (photoPreview) {
+        <button
+          class="avatar-remove"
+          type="button"
+          (click)="removePhoto()"
+          [attr.aria-label]="'PROFILE.REMOVE_PHOTO' | translate">
+          <ion-icon name="close-circle"></ion-icon>
+        </button>
+        }
       </div>
+
+      <div class="photo-upload-section">
+        <label class="photo-upload-trigger">
+          <ion-icon name="cloud-upload-outline"></ion-icon>
+          <span>{{ 'PROFILE.UPLOAD_PHOTO' | translate }}</span>
+          <input type="file" accept="image/*" (change)="onPhotoSelected($event)" />
+        </label>
+        <ion-note color="medium" class="photo-upload-note">
+          {{ 'PROFILE.PHOTO_UPLOAD_HELPER' | translate: { maxSize: maxPhotoSizeMB } }}
+        </ion-note>
+        @if (photoUploadError) {
+        <ion-text color="danger" class="photo-upload-error"> {{ photoUploadError }} </ion-text>
+        }
+      </div>
+
       <h3 class="username">
         {{ user.firstName ? (user.firstName + ' ' + (user.lastName || '')) : (user.username) }}
       </h3>
@@ -64,14 +88,6 @@
             (ionChange)="user.yearOfStudy = ($any($event.detail.value))"></ion-range>
           <span class="range-ext">12</span>
         </div>
-      </label>
-
-      <label>
-        <div class="label">{{ 'PROFILE.IMAGE_URL' | translate }}</div>
-        <input
-          type="text"
-          [value]="user.imgUrl || ''"
-          (input)="onImgUrlInput($any($event.target).value)" />
       </label>
     </form>
 
