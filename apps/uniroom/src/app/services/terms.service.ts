@@ -1,13 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ApiService } from './api.service';
-import {
-  CreateTermsDto,
-  LatestTermsStatus,
-  Terms,
-  UpdateTermsDto,
-  UserTermsAcceptance
-} from '../models/terms.types';
+import { CreateTermsDto, LatestTermsStatus, Terms, UpdateTermsDto, UserTermsAcceptance } from '../models/terms.types';
 
 @Injectable({ providedIn: 'root' })
 export class TermsService {

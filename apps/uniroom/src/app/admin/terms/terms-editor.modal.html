@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ (isEditing ? 'ADMIN.TERMS.EDIT_TITLE' : 'ADMIN.TERMS.CREATE_TITLE') | translate }}</ion-title>
+    <ion-title
+      >{{ (isEditing ? 'ADMIN.TERMS.EDIT_TITLE' : 'ADMIN.TERMS.CREATE_TITLE') | translate
+      }}</ion-title
+    >
     <ion-buttons slot="end">
       <ion-button (click)="dismiss()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
@@ -35,7 +38,9 @@
 
       <div class="content-editor" [ngSwitch]="selectedLang">
         <ion-item *ngSwitchCase="'ca'" lines="none">
-          <ion-label position="stacked">{{ 'ADMIN.TERMS.CONTENT_CA_PLACEHOLDER' | translate }}</ion-label>
+          <ion-label position="stacked"
+            >{{ 'ADMIN.TERMS.CONTENT_CA_PLACEHOLDER' | translate }}</ion-label
+          >
           <ion-textarea
             [(ngModel)]="formData.content_ca"
             name="content_ca"
@@ -44,7 +49,9 @@
         </ion-item>
 
         <ion-item *ngSwitchCase="'es'" lines="none">
-          <ion-label position="stacked">{{ 'ADMIN.TERMS.CONTENT_ES_PLACEHOLDER' | translate }}</ion-label>
+          <ion-label position="stacked"
+            >{{ 'ADMIN.TERMS.CONTENT_ES_PLACEHOLDER' | translate }}</ion-label
+          >
           <ion-textarea
             [(ngModel)]="formData.content_es"
             name="content_es"
@@ -53,7 +60,9 @@
         </ion-item>
 
         <ion-item *ngSwitchCase="'en'" lines="none">
-          <ion-label position="stacked">{{ 'ADMIN.TERMS.CONTENT_EN_PLACEHOLDER' | translate }}</ion-label>
+          <ion-label position="stacked"
+            >{{ 'ADMIN.TERMS.CONTENT_EN_PLACEHOLDER' | translate }}</ion-label
+          >
           <ion-textarea
             [(ngModel)]="formData.content_en"
             name="content_en"
@@ -73,4 +82,3 @@
     </form>
   </div>
 </ion-content>
-

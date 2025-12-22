@@ -5,7 +5,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TermsService } from '../services/terms.service';
 import { Terms, LatestTermsStatus, TermsContent } from '../models/terms.types';
 import NotificationService from '../services/notification.service';
-import { clearTermsCache } from "../guards/terms.guard";
+import { clearTermsCache } from '../guards/terms.guard';
 
 @Component({
   selector: 'app-terms-acceptance-modal',

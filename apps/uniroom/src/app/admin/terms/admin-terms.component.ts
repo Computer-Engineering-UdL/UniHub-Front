@@ -233,14 +233,22 @@ export class AdminTermsComponent implements OnInit {
   async updateTerms(termsId: string, data: TermsFormData): Promise<void> {
     this.loading = true;
     try {
-      const contentString: string = this.serializeTermsContent(data);
+      const currentVersion: string = this.latestTerm?.version || '';
+      const newVersion: string = data.version.trim();
+      const versionChanged: boolean = currentVersion !== newVersion;
 
-      const payload: UpdateTermsDto = {
-        version: data.version.trim(),
-        content: contentString
-      };
+      if (versionChanged) {
+        const shouldRecreate: boolean = await this.askIfShouldRecreateTerms(newVersion);
 
-      await this.termsService.updateTerms(termsId, payload);
+        if (shouldRecreate) {
+          await this.recreateTerms(termsId, data);
+        } else {
+          await this.patchTerms(termsId, data);
+        }
+      } else {
+        await this.patchTerms(termsId, data);
+      }
+
       clearTermsCache();
       this.notificationService.success('ADMIN.TERMS.UPDATE_SUCCESS');
       await this.loadTerms();
@@ -249,6 +257,58 @@ export class AdminTermsComponent implements OnInit {
     } finally {
       this.loading = false;
     }
+  }
+
+  private async askIfShouldRecreateTerms(newVersion: string): Promise<boolean> {
+    return new Promise<boolean>((resolve) => {
+      void (async (): Promise<void> => {
+        const alert: HTMLIonAlertElement = await this.alertCtrl.create({
+          header: this.translateService.instant('ADMIN.TERMS.VERSION_CHANGED_TITLE'),
+          message: this.translateService.instant('ADMIN.TERMS.VERSION_CHANGED_MESSAGE', { version: newVersion }),
+          cssClass: 'custom-alert',
+          buttons: [
+            {
+              text: this.translateService.instant('ADMIN.TERMS.KEEP_ACCEPTANCES'),
+              role: 'cancel',
+              handler: (): void => {
+                resolve(false);
+              }
+            },
+            {
+              text: this.translateService.instant('ADMIN.TERMS.REQUIRE_NEW_ACCEPTANCE'),
+              handler: (): void => {
+                resolve(true);
+              }
+            }
+          ]
+        });
+        await alert.present();
+      })();
+    });
+  }
+
+  private async patchTerms(termsId: string, data: TermsFormData): Promise<void> {
+    const contentString: string = this.serializeTermsContent(data);
+
+    const payload: UpdateTermsDto = {
+      version: data.version.trim(),
+      content: contentString
+    };
+
+    await this.termsService.updateTerms(termsId, payload);
+  }
+
+  private async recreateTerms(termsId: string, data: TermsFormData): Promise<void> {
+    await this.termsService.deleteTerms(termsId);
+
+    const contentString: string = this.serializeTermsContent(data);
+
+    const createPayload: CreateTermsDto = {
+      version: data.version.trim(),
+      content: contentString
+    };
+
+    await this.termsService.createTerms(createPayload);
   }
 
   async deleteTerms(term: Terms): Promise<void> {

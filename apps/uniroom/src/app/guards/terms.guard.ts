@@ -29,7 +29,7 @@ export const termsGuard: CanActivateFn = async (): Promise<boolean> => {
     const now: number = Date.now();
     let status: LatestTermsStatus;
 
-    if (termsCheckCache && (now - termsCheckCache.timestamp) < CACHE_DURATION) {
+    if (termsCheckCache && now - termsCheckCache.timestamp < CACHE_DURATION) {
       status = termsCheckCache.status;
     } else {
       status = await termsService.checkLatestTermsStatus();
