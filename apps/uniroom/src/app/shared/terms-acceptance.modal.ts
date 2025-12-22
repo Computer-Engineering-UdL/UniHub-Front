@@ -5,6 +5,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TermsService } from '../services/terms.service';
 import { Terms, LatestTermsStatus } from '../models/terms.types';
 import NotificationService from '../services/notification.service';
+import { clearTermsCache } from "../guards/terms.guard";
 
 @Component({
   selector: 'app-terms-acceptance-modal',
@@ -53,7 +54,7 @@ export class TermsAcceptanceModal implements OnInit {
       return;
     }
 
-    const currentLang: string = this.translateService.currentLang ?? this.translateService.defaultLang ?? 'ca';
+    const currentLang: string = this.translateService.currentLang || 'ca';
 
     if (currentLang === 'ca' && this.terms.content_ca) {
       this.termsContent = this.terms.content_ca;
@@ -87,6 +88,7 @@ export class TermsAcceptanceModal implements OnInit {
     this.accepting = true;
     try {
       await this.termsService.acceptLatestTerms();
+      clearTermsCache();
       this.notificationService.success('TERMS.ACCEPTED_SUCCESS');
       await this.modalCtrl.dismiss({ accepted: true });
     } catch {

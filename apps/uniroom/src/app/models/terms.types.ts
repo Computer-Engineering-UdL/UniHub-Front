@@ -10,6 +10,27 @@ export interface Terms {
   updated_at?: string;
 }
 
+export interface CreateTermsDto {
+  version: string;
+  content: string;
+}
+
+export interface UpdateTermsDto {
+  version?: string;
+  content?: string;
+  content_ca?: string;
+  content_es?: string;
+  content_en?: string;
+  is_active?: boolean;
+}
+
+export interface TermsFormData {
+  version: string;
+  content_ca: string;
+  content_es: string;
+  content_en: string;
+}
+
 export interface UserTermsAcceptance {
   id: string;
   user_id: string;

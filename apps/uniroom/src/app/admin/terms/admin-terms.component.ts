@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule, AlertController } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TermsService } from '../../services/terms.service';
-import { Terms } from '../../models/terms.types';
+import { Terms, UpdateTermsDto } from '../../models/terms.types';
 import NotificationService from '../../services/notification.service';
 import { LocalizationService } from '../../services/localization.service';
+import { clearTermsCache } from '../../guards/terms.guard';
 
 @Component({
   selector: 'app-admin-terms',
@@ -109,22 +110,31 @@ export class AdminTermsComponent implements OnInit {
   }): Promise<void> {
     this.loading = true;
     try {
-      const payload: any = {
+      const defaultContent: string = data.content_en?.trim() || data.content_ca?.trim() || data.content_es?.trim() || '';
+
+      const createPayload: { version: string; content: string } = {
         version: data.version.trim(),
-        content: data.content_en?.trim() || data.content_ca?.trim() || data.content_es?.trim() || ''
+        content: defaultContent
       };
 
+      const createdTerm: Terms = await this.termsService.createTerms(createPayload);
+
+      const updatePayload: any = {};
       if (data.content_ca?.trim()) {
-        payload.content_ca = data.content_ca.trim();
+        updatePayload.content_ca = data.content_ca.trim();
       }
       if (data.content_es?.trim()) {
-        payload.content_es = data.content_es.trim();
+        updatePayload.content_es = data.content_es.trim();
       }
       if (data.content_en?.trim()) {
-        payload.content_en = data.content_en.trim();
+        updatePayload.content_en = data.content_en.trim();
       }
 
-      await this.termsService.createTerms(payload);
+      if (Object.keys(updatePayload).length > 0) {
+        await this.termsService.updateTerms(createdTerm.id, updatePayload);
+      }
+
+      clearTermsCache();
       this.notificationService.success('ADMIN.TERMS.CREATE_SUCCESS');
       await this.loadTerms();
     } catch {
@@ -138,10 +148,12 @@ export class AdminTermsComponent implements OnInit {
     const newActiveState: boolean = !term.is_active;
 
     try {
-      await this.termsService.updateTerms(term.id, { is_active: newActiveState });
+      const updateDto: UpdateTermsDto = { is_active: newActiveState };
+      await this.termsService.updateTerms(term.id, updateDto);
       term.is_active = newActiveState;
+      clearTermsCache();
       this.notificationService.success('ADMIN.TERMS.UPDATE_SUCCESS');
-    } catch {
+    } catch (error: unknown) {
       this.notificationService.error('ADMIN.TERMS.UPDATE_ERROR');
     }
   }
@@ -149,6 +161,7 @@ export class AdminTermsComponent implements OnInit {
   async editTerms(term: Terms): Promise<void> {
     const alert: HTMLIonAlertElement = await this.alertCtrl.create({
       header: this.translateService.instant('ADMIN.TERMS.EDIT_TITLE'),
+      cssClass: 'wide-alert',
       inputs: [
         {
           name: 'version',
@@ -159,7 +172,7 @@ export class AdminTermsComponent implements OnInit {
         {
           name: 'content_ca',
           type: 'textarea',
-          value: term.content_ca || term.content || '',
+          value: term.content_ca || '',
           placeholder: this.translateService.instant('ADMIN.TERMS.CONTENT_CA_PLACEHOLDER'),
           attributes: {
             rows: 10
@@ -168,7 +181,7 @@ export class AdminTermsComponent implements OnInit {
         {
           name: 'content_es',
           type: 'textarea',
-          value: term.content_es || term.content || '',
+          value: term.content_es || '',
           placeholder: this.translateService.instant('ADMIN.TERMS.CONTENT_ES_PLACEHOLDER'),
           attributes: {
             rows: 10
@@ -177,7 +190,7 @@ export class AdminTermsComponent implements OnInit {
         {
           name: 'content_en',
           type: 'textarea',
-          value: term.content_en || term.content || '',
+          value: term.content_en || '',
           placeholder: this.translateService.instant('ADMIN.TERMS.CONTENT_EN_PLACEHOLDER'),
           attributes: {
             rows: 10
@@ -220,8 +233,7 @@ export class AdminTermsComponent implements OnInit {
     this.loading = true;
     try {
       const payload: any = {
-        version: data.version.trim(),
-        content: data.content_en?.trim() || data.content_ca?.trim() || data.content_es?.trim() || ''
+        version: data.version.trim()
       };
 
       if (data.content_ca?.trim()) {
@@ -235,6 +247,7 @@ export class AdminTermsComponent implements OnInit {
       }
 
       await this.termsService.updateTerms(termsId, payload);
+      clearTermsCache();
       this.notificationService.success('ADMIN.TERMS.UPDATE_SUCCESS');
       await this.loadTerms();
     } catch {
@@ -262,6 +275,7 @@ export class AdminTermsComponent implements OnInit {
             this.loading = true;
             try {
               await this.termsService.deleteTerms(term.id);
+              clearTermsCache();
               this.notificationService.success('ADMIN.TERMS.DELETE_SUCCESS');
               await this.loadTerms();
             } catch {

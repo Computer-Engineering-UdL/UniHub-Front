@@ -1,7 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ApiService } from './api.service';
-import { LatestTermsStatus, Terms, UserTermsAcceptance } from '../models/terms.types';
+import {
+  CreateTermsDto,
+  LatestTermsStatus,
+  Terms,
+  UpdateTermsDto,
+  UserTermsAcceptance
+} from '../models/terms.types';
 
 @Injectable({ providedIn: 'root' })
 export class TermsService {
@@ -19,17 +25,11 @@ export class TermsService {
     return await firstValueFrom(this.apiService.get<Terms>(`terms/version/${version}`));
   }
 
-  async createTerms(data: {
-    version: string;
-    content: string;
-    content_ca?: string;
-    content_es?: string;
-    content_en?: string;
-  }): Promise<Terms> {
+  async createTerms(data: CreateTermsDto): Promise<Terms> {
     return await firstValueFrom(this.apiService.post<Terms>('terms/', data));
   }
 
-  async updateTerms(termsId: string, data: Partial<Terms>): Promise<Terms> {
+  async updateTerms(termsId: string, data: UpdateTermsDto): Promise<Terms> {
     return await firstValueFrom(this.apiService.patch<Terms>(`terms/${termsId}`, data));
   }
 

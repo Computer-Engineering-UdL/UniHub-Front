@@ -6,6 +6,13 @@ import { TermsService } from '../services/terms.service';
 import { LatestTermsStatus, Terms } from '../models/terms.types';
 import { TermsAcceptanceModal } from '../shared/terms-acceptance.modal';
 
+let termsCheckCache: { status: LatestTermsStatus; timestamp: number } | null = null;
+const CACHE_DURATION: number = 5 * 60 * 1000;
+
+export function clearTermsCache(): void {
+  termsCheckCache = null;
+}
+
 export const termsGuard: CanActivateFn = async (): Promise<boolean> => {
   const authService: AuthService = inject(AuthService);
   const termsService: TermsService = inject(TermsService);
@@ -19,7 +26,15 @@ export const termsGuard: CanActivateFn = async (): Promise<boolean> => {
   }
 
   try {
-    const status: LatestTermsStatus = await termsService.checkLatestTermsStatus();
+    const now: number = Date.now();
+    let status: LatestTermsStatus;
+
+    if (termsCheckCache && (now - termsCheckCache.timestamp) < CACHE_DURATION) {
+      status = termsCheckCache.status;
+    } else {
+      status = await termsService.checkLatestTermsStatus();
+      termsCheckCache = { status, timestamp: now };
+    }
 
     if (status.accepted_latest) {
       return true;
@@ -45,6 +60,7 @@ export const termsGuard: CanActivateFn = async (): Promise<boolean> => {
     const result: any = await modal.onWillDismiss();
 
     if (result.data?.accepted) {
+      clearTermsCache();
       return true;
     } else {
       await authService.logout();

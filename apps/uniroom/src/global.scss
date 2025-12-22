@@ -169,6 +169,30 @@
 }
 
 /**
+ * Wide Alert (for forms with multiple textareas)
+ * -----------------------------------------------------
+ */
+.wide-alert {
+  --width: 95%;
+  --max-width: 900px;
+
+  .alert-wrapper {
+    width: 95%;
+    max-width: 900px;
+  }
+
+  .alert-input-group {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  textarea.alert-input {
+    min-height: 120px;
+    resize: vertical;
+  }
+}
+
+/**
  * Create Offer Modal
  */
 .create-offer-modal {

@@ -1,0 +1,40 @@
+.terms-editor-container {
+  padding: 1rem;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  ion-item {
+    --padding-start: 0;
+    --inner-padding-end: 0;
+  }
+
+  ion-segment {
+    margin: 1rem 0;
+  }
+
+  .content-editor {
+    ion-textarea {
+      --padding-top: 0.5rem;
+      --padding-bottom: 0.5rem;
+      border: 1px solid var(--ion-color-step-200);
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+
+    ion-button {
+      flex: 1;
+    }
+  }
+}
+
