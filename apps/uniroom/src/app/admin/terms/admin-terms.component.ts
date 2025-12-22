@@ -82,16 +82,19 @@ export class AdminTermsComponent implements OnInit {
   async openCreateModal(): Promise<void> {
     const alert: HTMLIonAlertElement = await this.alertCtrl.create({
       header: this.translateService.instant('ADMIN.TERMS.CREATE_TITLE'),
+      message: this.translateService.instant('ADMIN.TERMS.CREATE_MESSAGE'),
       cssClass: 'wide-alert',
       inputs: [
         {
           name: 'version',
           type: 'text',
+          label: this.translateService.instant('ADMIN.TERMS.VERSION_LABEL'),
           placeholder: this.translateService.instant('ADMIN.TERMS.VERSION_PLACEHOLDER')
         },
         {
           name: 'content_ca',
           type: 'textarea',
+          label: this.translateService.instant('ADMIN.TERMS.CONTENT_CA_LABEL'),
           placeholder: this.translateService.instant('ADMIN.TERMS.CONTENT_CA_PLACEHOLDER'),
           attributes: {
             rows: 10
@@ -100,6 +103,7 @@ export class AdminTermsComponent implements OnInit {
         {
           name: 'content_es',
           type: 'textarea',
+          label: this.translateService.instant('ADMIN.TERMS.CONTENT_ES_LABEL'),
           placeholder: this.translateService.instant('ADMIN.TERMS.CONTENT_ES_PLACEHOLDER'),
           attributes: {
             rows: 10
@@ -108,6 +112,7 @@ export class AdminTermsComponent implements OnInit {
         {
           name: 'content_en',
           type: 'textarea',
+          label: this.translateService.instant('ADMIN.TERMS.CONTENT_EN_LABEL'),
           placeholder: this.translateService.instant('ADMIN.TERMS.CONTENT_EN_PLACEHOLDER'),
           attributes: {
             rows: 10
@@ -157,20 +162,6 @@ export class AdminTermsComponent implements OnInit {
       this.notificationService.error('ADMIN.TERMS.CREATE_ERROR');
     } finally {
       this.loading = false;
-    }
-  }
-
-  async toggleActive(term: Terms): Promise<void> {
-    const newActiveState: boolean = !term.is_active;
-
-    try {
-      const updateDto: UpdateTermsDto = { is_active: newActiveState };
-      await this.termsService.updateTerms(term.id, updateDto);
-      term.is_active = newActiveState;
-      clearTermsCache();
-      this.notificationService.success('ADMIN.TERMS.UPDATE_SUCCESS');
-    } catch {
-      this.notificationService.error('ADMIN.TERMS.UPDATE_ERROR');
     }
   }
 

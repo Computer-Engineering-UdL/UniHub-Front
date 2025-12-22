@@ -29,9 +29,6 @@
       <div class="terms-header">
         <div class="version-section">
           <h1>{{ 'ADMIN.TERMS.VERSION' | translate }}: {{ latestTerm.version }}</h1>
-          <ion-badge [color]="latestTerm.is_active ? 'success' : 'medium'">
-            {{ (latestTerm.is_active ? 'ADMIN.TERMS.ACTIVE' : 'ADMIN.TERMS.INACTIVE') | translate }}
-          </ion-badge>
         </div>
         <div class="dates-section">
           <p>
@@ -46,17 +43,6 @@
       </div>
 
       <div class="terms-actions">
-        <ion-button
-          (click)="toggleActive(latestTerm)"
-          [color]="latestTerm.is_active ? 'medium' : 'success'"
-          fill="outline">
-          <ion-icon
-            slot="start"
-            [name]="latestTerm.is_active ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
-          {{
-            (latestTerm.is_active ? 'ADMIN.TERMS.DEACTIVATE' : 'ADMIN.TERMS.ACTIVATE') | translate
-          }}
-        </ion-button>
         <ion-button (click)="editTerms(latestTerm)" color="primary" fill="outline">
           <ion-icon slot="start" name="create-outline"></ion-icon>
           {{ 'COMMON.EDIT' | translate }}

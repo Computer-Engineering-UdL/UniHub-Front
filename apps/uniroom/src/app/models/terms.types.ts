@@ -21,7 +21,6 @@ export interface CreateTermsDto {
 export interface UpdateTermsDto {
   version?: string;
   content?: string;
-  is_active?: boolean;
 }
 
 export interface TermsFormData {
