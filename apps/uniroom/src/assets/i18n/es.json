@@ -360,6 +360,7 @@
     "CANCEL": "Cancelar",
     "CONFIRM": "Confirmar",
     "SUSPEND": "Suspender",
+    "CREATE": "Crear",
     "NEXT": "Siguiente",
     "BACK": "Atrás",
     "SUBMIT": "Enviar",
@@ -392,6 +393,7 @@
     "ADMIN_DASHBOARD": "Panel de Administración",
     "ADMIN_REPORTS": "Reportes",
     "ADMIN_SETTINGS": "Configuración",
+    "ADMIN_TERMS": "Términos y Condiciones",
     "ADMIN_USERS": "Gestión de Usuarios",
     "CHANNELS": "Canales",
     "HOME": "Inicio",
@@ -991,6 +993,48 @@
         "BULK_UPDATE": "Error al actualizar los informes",
         "NO_ACCESS_CONTENT": "No tienes acceso al contenido reportado o ya ha sido eliminado"
       }
+    },
+    "TERMS": {
+      "TITLE": "Gestión de Términos y Condiciones",
+      "CREATE_TITLE": "Crear Nuevos Términos",
+      "CREATE_MESSAGE": "Introduce la versión y el contenido de los términos en cada idioma",
+      "EDIT_TITLE": "Editar Términos",
+      "EDIT_MESSAGE": "Modifica la versión y el contenido de los términos en cada idioma",
+      "DELETE_CONFIRM_TITLE": "Eliminar Términos",
+      "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar esta versión de los términos?",
+      "VERSION": "Versión",
+      "VERSION_LABEL": "Versión de los términos",
+      "VERSION_PLACEHOLDER": "Versión (ej: 1.0.0)",
+      "VERSION_CHANGED_TITLE": "Versión cambiada",
+      "VERSION_CHANGED_MESSAGE": "Has cambiado la versión a {{version}}. ¿Quieres que los usuarios tengan que volver a aceptar estos términos?",
+      "KEEP_ACCEPTANCES": "No, mantener aceptaciones",
+      "REQUIRE_NEW_ACCEPTANCE": "Sí, requerir nueva aceptación",
+      "CONTENT_CA_LABEL": "Contenido en Catalán",
+      "CONTENT_CA_PLACEHOLDER": "Escribe aquí el contenido en catalán...",
+      "CONTENT_ES_LABEL": "Contenido en Español",
+      "CONTENT_ES_PLACEHOLDER": "Escribe aquí el contenido en español...",
+      "CONTENT_EN_LABEL": "Contenido en Inglés",
+      "CONTENT_EN_PLACEHOLDER": "Escribe aquí el contenido en inglés...",
+      "NO_TERMS": "No hay términos creados",
+      "CREATE_FIRST": "Crear Primeros Términos",
+      "ACTIVATE": "Activar",
+      "DEACTIVATE": "Desactivar",
+      "CATALAN": "Catalán",
+      "SPANISH": "Castellano",
+      "ENGLISH": "Inglés",
+      "NO_CONTENT_AVAILABLE": "No hay contenido disponible en este idioma",
+      "CREATED": "Creado",
+      "UPDATED": "Actualizado",
+      "ACTIVE": "Activo",
+      "INACTIVE": "Inactivo",
+      "CREATE_SUCCESS": "Términos creados correctamente",
+      "CREATE_ERROR": "Error al crear los términos",
+      "UPDATE_SUCCESS": "Términos actualizados correctamente",
+      "UPDATE_ERROR": "Error al actualizar los términos",
+      "DELETE_SUCCESS": "Términos eliminados correctamente",
+      "DELETE_ERROR": "Error al eliminar los términos",
+      "ERROR_LOADING": "Error al cargar los términos",
+      "VALIDATION_ERROR": "Por favor, completa todos los campos requeridos"
     }
   },
   "ERROR": {
@@ -1568,5 +1612,16 @@
       "LOAD_APPLICATIONS": "No se pudieron cargar las solicitudes.",
       "DELETE_JOB": "No se pudo eliminar la oferta."
     }
+  },
+  "TERMS": {
+    "TITLE": "Términos y Condiciones",
+    "VERSION": "Versión",
+    "ACCEPT": "Aceptar Términos",
+    "DECLINE": "Rechazar",
+    "SCROLL_TO_CONTINUE": "Desplázate hasta el final para continuar",
+    "ACCEPTED_SUCCESS": "Términos aceptados correctamente",
+    "ACCEPT_ERROR": "Error al aceptar los términos",
+    "ERROR_LOADING": "Error al cargar los términos",
+    "NO_TERMS_AVAILABLE": "No hay términos disponibles"
   }
 }

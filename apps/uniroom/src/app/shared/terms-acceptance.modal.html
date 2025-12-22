@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'TERMS.TITLE' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="terms-modal-container">
+    <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
+
+    <div *ngIf="!loading && terms" class="terms-content">
+      <div class="version-info">
+        <ion-badge color="primary"
+          >{{ 'TERMS.VERSION' | translate }}: {{ terms.version }}</ion-badge
+        >
+      </div>
+
+      <div class="scrollable-content" (scroll)="onScroll($event)">
+        <div class="terms-text" [innerHTML]="termsContent"></div>
+      </div>
+
+      <div class="scroll-indicator" *ngIf="hasScroll && !scrolledToBottom">
+        <ion-icon name="chevron-down-outline"></ion-icon>
+        <p>{{ 'TERMS.SCROLL_TO_CONTINUE' | translate }}</p>
+      </div>
+
+      <div class="actions">
+        <ion-button
+          expand="block"
+          color="primary"
+          (click)="accept()"
+          [disabled]="accepting || (hasScroll && !scrolledToBottom)"
+          class="accept-button">
+          <ion-spinner *ngIf="accepting" name="crescent"></ion-spinner>
+          <span *ngIf="!accepting">{{ 'TERMS.ACCEPT' | translate }}</span>
+        </ion-button>
+        <ion-button
+          expand="block"
+          fill="outline"
+          color="danger"
+          (click)="decline()"
+          [disabled]="accepting">
+          {{ 'TERMS.DECLINE' | translate }}
+        </ion-button>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && !terms" class="error-state">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <p>{{ 'TERMS.NO_TERMS_AVAILABLE' | translate }}</p>
+      <ion-button (click)="decline()">{{ 'COMMON.CLOSE' | translate }}</ion-button>
+    </div>
+  </div>
+</ion-content>

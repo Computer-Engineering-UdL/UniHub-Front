@@ -1,0 +1,200 @@
+.terms-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+  min-height: 50vh;
+
+  ion-icon {
+    font-size: 4rem;
+    color: var(--ion-color-medium);
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: var(--ion-color-medium);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.terms-card {
+  background: var(--ion-color-step-50);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  .terms-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--ion-color-step-200);
+
+    .version-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+
+      h1 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--ion-text-color);
+      }
+
+      ion-badge {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
+      }
+    }
+
+    .dates-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      p {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0;
+        font-size: 0.875rem;
+        color: var(--ion-color-medium);
+
+        ion-icon {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  .terms-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+
+    ion-button {
+      flex: 1;
+      min-width: 150px;
+    }
+  }
+
+  .terms-content {
+    ion-segment {
+      margin-bottom: 1rem;
+    }
+
+    .content-display {
+      background: var(--ion-background-color);
+      border: 1px solid var(--ion-color-step-200);
+      border-radius: 8px;
+      padding: 1.5rem;
+      min-height: 300px;
+      max-height: 600px;
+      overflow-y: auto;
+
+      .language-content {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: var(--ion-text-color);
+        white-space: pre-wrap;
+        word-wrap: break-word;
+
+        ::ng-deep {
+          h1,
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--ion-text-color);
+
+            &:first-child {
+              margin-top: 0;
+            }
+          }
+
+          h1 {
+            font-size: 1.5rem;
+          }
+          h2 {
+            font-size: 1.3rem;
+          }
+          h3 {
+            font-size: 1.1rem;
+          }
+
+          p {
+            margin-bottom: 1rem;
+          }
+
+          ul,
+          ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+          }
+
+          li {
+            margin-bottom: 0.5rem;
+          }
+
+          strong {
+            font-weight: 600;
+          }
+
+          a {
+            color: var(--ion-color-primary);
+            text-decoration: underline;
+          }
+        }
+
+        .no-content {
+          color: var(--ion-color-medium);
+          font-style: italic;
+          text-align: center;
+          padding: 2rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .terms-card {
+    padding: 1rem;
+
+    .terms-header .version-section {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+
+      h1 {
+        font-size: 1.25rem;
+      }
+    }
+
+    .terms-actions {
+      flex-direction: column;
+
+      ion-button {
+        width: 100%;
+      }
+    }
+
+    .terms-content .content-display {
+      padding: 1rem;
+    }
+  }
+}

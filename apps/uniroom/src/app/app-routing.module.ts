@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { termsGuard } from './guards/terms.guard';
 
 const routes: Routes = [
   {
@@ -21,44 +22,49 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
+    canActivate: [termsGuard],
     data: { public: true, titleKey: 'TOPBAR.HOME' }
   },
   {
     path: 'rooms',
     loadChildren: () => import('./rooms/rooms.module').then((m) => m.RoomsModule),
+    canActivate: [termsGuard],
     data: { public: true, titleKey: 'TOPBAR.ROOMS' }
   },
   {
     path: 'items',
     loadChildren: () => import('./uni-items/uni-items.module').then((m) => m.UniItemsModule),
+    canActivate: [termsGuard],
     data: { public: true, titleKey: 'TOPBAR.UNIITEMS' }
   },
   {
     path: 'jobs',
     loadChildren: () => import('./unijobs/unijobs.module').then((m) => m.UniJobsModule),
+    canActivate: [termsGuard],
     data: { public: true, titleKey: 'UNIJOBS.LIST.TITLE' }
   },
   {
     path: 'channels',
     loadChildren: () => import('./channels/channels.module').then((m) => m.ChannelsModule),
+    canActivate: [termsGuard],
     data: { titleKey: 'TOPBAR.CHANNELS' }
   },
   {
     path: 'profile',
     loadChildren: () => import('./profile/profile-module').then((m) => m.ProfileModule),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, termsGuard],
     data: { titleKey: 'TOPBAR.PROFILE' }
   },
   {
     path: 'messages',
     loadChildren: () => import('./messages/messages.module').then((m) => m.MessagesModule),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, termsGuard],
     data: { titleKey: 'TOPBAR.MESSAGES' }
   },
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, termsGuard],
     data: { roles: ['Admin'] }
   },
   {

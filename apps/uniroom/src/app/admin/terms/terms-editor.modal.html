@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title
+      >{{ (isEditing ? 'ADMIN.TERMS.EDIT_TITLE' : 'ADMIN.TERMS.CREATE_TITLE') | translate
+      }}</ion-title
+    >
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="terms-editor-container">
+    <form>
+      <ion-item>
+        <ion-label position="stacked">{{ 'ADMIN.TERMS.VERSION' | translate }} *</ion-label>
+        <ion-input
+          [(ngModel)]="formData.version"
+          name="version"
+          [placeholder]="'ADMIN.TERMS.VERSION_PLACEHOLDER' | translate"
+          required></ion-input>
+      </ion-item>
+
+      <ion-segment [(ngModel)]="selectedLang" name="language">
+        <ion-segment-button value="ca">
+          <ion-label>{{ 'ADMIN.TERMS.CATALAN' | translate }}</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="es">
+          <ion-label>{{ 'ADMIN.TERMS.SPANISH' | translate }}</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="en">
+          <ion-label>{{ 'ADMIN.TERMS.ENGLISH' | translate }}</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+
+      <div class="content-editor" [ngSwitch]="selectedLang">
+        <ion-item *ngSwitchCase="'ca'" lines="none">
+          <ion-label position="stacked"
+            >{{ 'ADMIN.TERMS.CONTENT_CA_PLACEHOLDER' | translate }}</ion-label
+          >
+          <ion-textarea
+            [(ngModel)]="formData.content_ca"
+            name="content_ca"
+            rows="15"
+            [placeholder]="'ADMIN.TERMS.CONTENT_CA_PLACEHOLDER' | translate"></ion-textarea>
+        </ion-item>
+
+        <ion-item *ngSwitchCase="'es'" lines="none">
+          <ion-label position="stacked"
+            >{{ 'ADMIN.TERMS.CONTENT_ES_PLACEHOLDER' | translate }}</ion-label
+          >
+          <ion-textarea
+            [(ngModel)]="formData.content_es"
+            name="content_es"
+            rows="15"
+            [placeholder]="'ADMIN.TERMS.CONTENT_ES_PLACEHOLDER' | translate"></ion-textarea>
+        </ion-item>
+
+        <ion-item *ngSwitchCase="'en'" lines="none">
+          <ion-label position="stacked"
+            >{{ 'ADMIN.TERMS.CONTENT_EN_PLACEHOLDER' | translate }}</ion-label
+          >
+          <ion-textarea
+            [(ngModel)]="formData.content_en"
+            name="content_en"
+            rows="15"
+            [placeholder]="'ADMIN.TERMS.CONTENT_EN_PLACEHOLDER' | translate"></ion-textarea>
+        </ion-item>
+      </div>
+
+      <div class="actions">
+        <ion-button expand="block" (click)="dismiss()" fill="outline" color="medium">
+          {{ 'COMMON.CANCEL' | translate }}
+        </ion-button>
+        <ion-button expand="block" (click)="save()" [disabled]="!isValid()" color="primary">
+          {{ 'COMMON.SAVE' | translate }}
+        </ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

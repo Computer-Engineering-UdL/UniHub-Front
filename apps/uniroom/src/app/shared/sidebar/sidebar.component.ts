@@ -50,6 +50,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
       requiresAuth: true
     },
     {
+      translationKey: 'SIDEBAR.ADMIN_TERMS',
+      route: '/admin/terms',
+      icon: 'document-text-outline',
+      roles: ['Admin'],
+      requiresAuth: true
+    },
+    {
       translationKey: 'SIDEBAR.ADMIN_SETTINGS',
       route: '/admin/settings',
       icon: 'settings-outline',
