@@ -82,20 +82,20 @@
 
         <div class="content-display" [ngSwitch]="selectedLang">
           <div *ngSwitchCase="'ca'" class="language-content">
-            <div *ngIf="latestTerm.content_ca" [innerHTML]="latestTerm.content_ca"></div>
-            <p *ngIf="!latestTerm.content_ca" class="no-content">
+            <div *ngIf="getContentForLanguage('ca')" [innerHTML]="getContentForLanguage('ca')"></div>
+            <p *ngIf="!getContentForLanguage('ca')" class="no-content">
               {{ 'ADMIN.TERMS.NO_CONTENT_AVAILABLE' | translate }}
             </p>
           </div>
           <div *ngSwitchCase="'es'" class="language-content">
-            <div *ngIf="latestTerm.content_es" [innerHTML]="latestTerm.content_es"></div>
-            <p *ngIf="!latestTerm.content_es" class="no-content">
+            <div *ngIf="getContentForLanguage('es')" [innerHTML]="getContentForLanguage('es')"></div>
+            <p *ngIf="!getContentForLanguage('es')" class="no-content">
               {{ 'ADMIN.TERMS.NO_CONTENT_AVAILABLE' | translate }}
             </p>
           </div>
           <div *ngSwitchCase="'en'" class="language-content">
-            <div *ngIf="latestTerm.content_en" [innerHTML]="latestTerm.content_en"></div>
-            <p *ngIf="!latestTerm.content_en" class="no-content">
+            <div *ngIf="getContentForLanguage('en')" [innerHTML]="getContentForLanguage('en')"></div>
+            <p *ngIf="!getContentForLanguage('en')" class="no-content">
               {{ 'ADMIN.TERMS.NO_CONTENT_AVAILABLE' | translate }}
             </p>
           </div>

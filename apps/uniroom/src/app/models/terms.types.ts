@@ -2,12 +2,15 @@ export interface Terms {
   id: string;
   version: string;
   content: string;
-  content_ca?: string;
-  content_es?: string;
-  content_en?: string;
   is_active: boolean;
   created_at: string;
   updated_at?: string;
+}
+
+export interface TermsContent {
+  ca?: string;
+  es?: string;
+  en?: string;
 }
 
 export interface CreateTermsDto {
@@ -18,9 +21,6 @@ export interface CreateTermsDto {
 export interface UpdateTermsDto {
   version?: string;
   content?: string;
-  content_ca?: string;
-  content_es?: string;
-  content_en?: string;
   is_active?: boolean;
 }
 

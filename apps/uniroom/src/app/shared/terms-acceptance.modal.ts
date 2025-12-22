@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TermsService } from '../services/terms.service';
-import { Terms, LatestTermsStatus } from '../models/terms.types';
+import { Terms, LatestTermsStatus, TermsContent } from '../models/terms.types';
 import NotificationService from '../services/notification.service';
 import { clearTermsCache } from "../guards/terms.guard";
 
@@ -56,13 +56,19 @@ export class TermsAcceptanceModal implements OnInit {
 
     const currentLang: string = this.translateService.currentLang || 'ca';
 
-    if (currentLang === 'ca' && this.terms.content_ca) {
-      this.termsContent = this.terms.content_ca;
-    } else if (currentLang === 'es' && this.terms.content_es) {
-      this.termsContent = this.terms.content_es;
-    } else if (currentLang === 'en' && this.terms.content_en) {
-      this.termsContent = this.terms.content_en;
-    } else {
+    try {
+      const parsedContent: TermsContent = JSON.parse(this.terms.content);
+
+      if (currentLang === 'ca' && parsedContent.ca) {
+        this.termsContent = parsedContent.ca;
+      } else if (currentLang === 'es' && parsedContent.es) {
+        this.termsContent = parsedContent.es;
+      } else if (currentLang === 'en' && parsedContent.en) {
+        this.termsContent = parsedContent.en;
+      } else {
+        this.termsContent = parsedContent.ca || parsedContent.es || parsedContent.en || this.terms.content;
+      }
+    } catch {
       this.termsContent = this.terms.content;
     }
   }
