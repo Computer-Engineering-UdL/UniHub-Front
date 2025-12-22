@@ -17,7 +17,7 @@
 
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
 
-    <div *ngIf="!loading && terms.length === 0" class="empty-state">
+    <div *ngIf="!loading && !latestTerm" class="empty-state">
       <ion-icon name="document-text-outline"></ion-icon>
       <p>{{ 'ADMIN.TERMS.NO_TERMS' | translate }}</p>
       <ion-button (click)="openCreateModal()">
@@ -25,32 +25,82 @@
       </ion-button>
     </div>
 
-    <ion-list *ngIf="!loading && terms.length > 0">
-      <ion-item *ngFor="let term of terms" class="terms-item">
-        <ion-label>
-          <h2>{{ 'ADMIN.TERMS.VERSION' | translate }}: {{ term.version }}</h2>
-          <p>{{ 'ADMIN.TERMS.CREATED' | translate }}: {{ formatDate(term.created_at) }}</p>
-          <p *ngIf="term.updated_at">
-            {{ 'ADMIN.TERMS.UPDATED' | translate }}: {{ formatDate(term.updated_at) }}
-          </p>
-          <ion-badge [color]="term.is_active ? 'success' : 'medium'">
-            {{ (term.is_active ? 'ADMIN.TERMS.ACTIVE' : 'ADMIN.TERMS.INACTIVE') | translate }}
+    <div *ngIf="!loading && latestTerm" class="terms-card">
+      <div class="terms-header">
+        <div class="version-section">
+          <h1>{{ 'ADMIN.TERMS.VERSION' | translate }}: {{ latestTerm.version }}</h1>
+          <ion-badge [color]="latestTerm.is_active ? 'success' : 'medium'">
+            {{ (latestTerm.is_active ? 'ADMIN.TERMS.ACTIVE' : 'ADMIN.TERMS.INACTIVE') | translate }}
           </ion-badge>
-        </ion-label>
-        <ion-buttons slot="end">
-          <ion-button (click)="toggleActive(term)" [color]="term.is_active ? 'medium' : 'success'">
-            <ion-icon
-              slot="icon-only"
-              [name]="term.is_active ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
-          </ion-button>
-          <ion-button (click)="editTerms(term)" color="primary">
-            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-          </ion-button>
-          <ion-button (click)="deleteTerms(term)" color="danger">
-            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-item>
-    </ion-list>
+        </div>
+        <div class="dates-section">
+          <p>
+            <ion-icon name="calendar-outline"></ion-icon>
+            {{ 'ADMIN.TERMS.CREATED' | translate }}: {{ formatDate(latestTerm.created_at) }}
+          </p>
+          <p *ngIf="latestTerm.updated_at">
+            <ion-icon name="time-outline"></ion-icon>
+            {{ 'ADMIN.TERMS.UPDATED' | translate }}: {{ formatDate(latestTerm.updated_at) }}
+          </p>
+        </div>
+      </div>
+
+      <div class="terms-actions">
+        <ion-button
+          (click)="toggleActive(latestTerm)"
+          [color]="latestTerm.is_active ? 'medium' : 'success'"
+          fill="outline">
+          <ion-icon
+            slot="start"
+            [name]="latestTerm.is_active ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          {{
+            (latestTerm.is_active ? 'ADMIN.TERMS.DEACTIVATE' : 'ADMIN.TERMS.ACTIVATE') | translate
+          }}
+        </ion-button>
+        <ion-button (click)="editTerms(latestTerm)" color="primary" fill="outline">
+          <ion-icon slot="start" name="create-outline"></ion-icon>
+          {{ 'COMMON.EDIT' | translate }}
+        </ion-button>
+        <ion-button (click)="deleteTerms(latestTerm)" color="danger" fill="outline">
+          <ion-icon slot="start" name="trash-outline"></ion-icon>
+          {{ 'COMMON.DELETE' | translate }}
+        </ion-button>
+      </div>
+
+      <div class="terms-content">
+        <ion-segment [(ngModel)]="selectedLang">
+          <ion-segment-button value="ca">
+            <ion-label>{{ 'ADMIN.TERMS.CATALAN' | translate }}</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="es">
+            <ion-label>{{ 'ADMIN.TERMS.SPANISH' | translate }}</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="en">
+            <ion-label>{{ 'ADMIN.TERMS.ENGLISH' | translate }}</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+
+        <div class="content-display" [ngSwitch]="selectedLang">
+          <div *ngSwitchCase="'ca'" class="language-content">
+            <div *ngIf="latestTerm.content_ca" [innerHTML]="latestTerm.content_ca"></div>
+            <p *ngIf="!latestTerm.content_ca" class="no-content">
+              {{ 'ADMIN.TERMS.NO_CONTENT_AVAILABLE' | translate }}
+            </p>
+          </div>
+          <div *ngSwitchCase="'es'" class="language-content">
+            <div *ngIf="latestTerm.content_es" [innerHTML]="latestTerm.content_es"></div>
+            <p *ngIf="!latestTerm.content_es" class="no-content">
+              {{ 'ADMIN.TERMS.NO_CONTENT_AVAILABLE' | translate }}
+            </p>
+          </div>
+          <div *ngSwitchCase="'en'" class="language-content">
+            <div *ngIf="latestTerm.content_en" [innerHTML]="latestTerm.content_en"></div>
+            <p *ngIf="!latestTerm.content_en" class="no-content">
+              {{ 'ADMIN.TERMS.NO_CONTENT_AVAILABLE' | translate }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </ion-content>

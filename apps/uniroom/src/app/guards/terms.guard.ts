@@ -3,7 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { TermsService } from '../services/terms.service';
-import { LatestTermsStatus } from '../models/terms.types';
+import { LatestTermsStatus, Terms } from '../models/terms.types';
 import { TermsAcceptanceModal } from '../shared/terms-acceptance.modal';
 
 export const termsGuard: CanActivateFn = async (): Promise<boolean> => {
@@ -22,6 +22,16 @@ export const termsGuard: CanActivateFn = async (): Promise<boolean> => {
     const status: LatestTermsStatus = await termsService.checkLatestTermsStatus();
 
     if (status.accepted_latest) {
+      return true;
+    }
+
+    if (!status.latest_terms_id) {
+      return true;
+    }
+
+    const latestTerms: Terms = await termsService.getTermsById(status.latest_terms_id);
+
+    if (!latestTerms.is_active) {
       return true;
     }
 

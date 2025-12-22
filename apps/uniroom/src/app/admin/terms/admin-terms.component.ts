@@ -16,8 +16,9 @@ import { LocalizationService } from '../../services/localization.service';
   imports: [CommonModule, FormsModule, IonicModule, TranslateModule]
 })
 export class AdminTermsComponent implements OnInit {
-  terms: Terms[] = [];
+  latestTerm: Terms | null = null;
   loading: boolean = false;
+  selectedLang: string = 'ca';
 
   private readonly termsService: TermsService = inject(TermsService);
   private readonly notificationService: NotificationService = inject(NotificationService);
@@ -25,17 +26,20 @@ export class AdminTermsComponent implements OnInit {
   private readonly localizationService: LocalizationService = inject(LocalizationService);
   private readonly translateService: TranslateService = inject(TranslateService);
 
-  async ngOnInit(): Promise<void> {
-    await this.loadTerms();
+  ngOnInit(): void {
+    void this.loadTerms();
   }
 
   async loadTerms(): Promise<void> {
     this.loading = true;
     try {
-      this.terms = await this.termsService.getAllTerms();
-      this.terms.sort(
-        (a: Terms, b: Terms): number => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-      );
+      const terms: Terms[] = await this.termsService.getAllTerms();
+      if (terms.length > 0) {
+        terms.sort((a: Terms, b: Terms): number => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        this.latestTerm = terms[0];
+      } else {
+        this.latestTerm = null;
+      }
     } catch {
       this.notificationService.error('ADMIN.TERMS.ERROR_LOADING');
     } finally {
@@ -123,7 +127,7 @@ export class AdminTermsComponent implements OnInit {
       await this.termsService.createTerms(payload);
       this.notificationService.success('ADMIN.TERMS.CREATE_SUCCESS');
       await this.loadTerms();
-    } catch (error) {
+    } catch {
       this.notificationService.error('ADMIN.TERMS.CREATE_ERROR');
     } finally {
       this.loading = false;
@@ -155,20 +159,29 @@ export class AdminTermsComponent implements OnInit {
         {
           name: 'content_ca',
           type: 'textarea',
-          value: term.content_ca || '',
-          placeholder: this.translateService.instant('ADMIN.TERMS.CONTENT_CA_PLACEHOLDER')
+          value: term.content_ca || term.content || '',
+          placeholder: this.translateService.instant('ADMIN.TERMS.CONTENT_CA_PLACEHOLDER'),
+          attributes: {
+            rows: 10
+          }
         },
         {
           name: 'content_es',
           type: 'textarea',
-          value: term.content_es || '',
-          placeholder: this.translateService.instant('ADMIN.TERMS.CONTENT_ES_PLACEHOLDER')
+          value: term.content_es || term.content || '',
+          placeholder: this.translateService.instant('ADMIN.TERMS.CONTENT_ES_PLACEHOLDER'),
+          attributes: {
+            rows: 10
+          }
         },
         {
           name: 'content_en',
           type: 'textarea',
-          value: term.content_en || '',
-          placeholder: this.translateService.instant('ADMIN.TERMS.CONTENT_EN_PLACEHOLDER')
+          value: term.content_en || term.content || '',
+          placeholder: this.translateService.instant('ADMIN.TERMS.CONTENT_EN_PLACEHOLDER'),
+          attributes: {
+            rows: 10
+          }
         }
       ],
       buttons: [

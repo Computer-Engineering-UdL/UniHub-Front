@@ -19,14 +19,15 @@ export class TermsAcceptanceModal implements OnInit {
   loading: boolean = true;
   accepting: boolean = false;
   scrolledToBottom: boolean = false;
+  hasScroll: boolean = false;
 
   private readonly termsService: TermsService = inject(TermsService);
   private readonly modalCtrl: ModalController = inject(ModalController);
   private readonly notificationService: NotificationService = inject(NotificationService);
   private readonly translateService: TranslateService = inject(TranslateService);
 
-  async ngOnInit(): Promise<void> {
-    await this.loadLatestTerms();
+  ngOnInit(): void {
+    void this.loadLatestTerms();
   }
 
   async loadLatestTerms(): Promise<void> {
@@ -37,6 +38,7 @@ export class TermsAcceptanceModal implements OnInit {
       if (status.latest_terms_id) {
         this.terms = await this.termsService.getTermsById(status.latest_terms_id);
         this.setTermsContent();
+        setTimeout(() => this.checkIfScrollNeeded(), 100);
       }
     } catch {
       this.notificationService.error('TERMS.ERROR_LOADING');
@@ -51,7 +53,7 @@ export class TermsAcceptanceModal implements OnInit {
       return;
     }
 
-    const currentLang: string = this.translateService.currentLang || 'ca';
+    const currentLang: string = this.translateService.currentLang ?? this.translateService.defaultLang ?? 'ca';
 
     if (currentLang === 'ca' && this.terms.content_ca) {
       this.termsContent = this.terms.content_ca;
@@ -61,6 +63,16 @@ export class TermsAcceptanceModal implements OnInit {
       this.termsContent = this.terms.content_en;
     } else {
       this.termsContent = this.terms.content;
+    }
+  }
+
+  checkIfScrollNeeded(): void {
+    const element: HTMLElement | null = document.querySelector('.scrollable-content');
+    if (element) {
+      this.hasScroll = element.scrollHeight > element.clientHeight;
+      if (!this.hasScroll) {
+        this.scrolledToBottom = true;
+      }
     }
   }
 
@@ -77,7 +89,7 @@ export class TermsAcceptanceModal implements OnInit {
       await this.termsService.acceptLatestTerms();
       this.notificationService.success('TERMS.ACCEPTED_SUCCESS');
       await this.modalCtrl.dismiss({ accepted: true });
-    } catch (error) {
+    } catch {
       this.notificationService.error('TERMS.ACCEPT_ERROR');
     } finally {
       this.accepting = false;
