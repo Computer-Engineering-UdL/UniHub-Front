@@ -6,7 +6,7 @@ import { TermsService } from '../services/terms.service';
 import { LatestTermsStatus } from '../models/terms.types';
 import { TermsAcceptanceModal } from '../shared/terms-acceptance.modal';
 
-export const termsGuard: CanActivateFn = async () => {
+export const termsGuard: CanActivateFn = async (): Promise<boolean> => {
   const authService: AuthService = inject(AuthService);
   const termsService: TermsService = inject(TermsService);
   const modalCtrl: ModalController = inject(ModalController);

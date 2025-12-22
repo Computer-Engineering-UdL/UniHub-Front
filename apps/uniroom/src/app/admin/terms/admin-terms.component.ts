@@ -235,6 +235,7 @@ export class AdminTermsComponent implements OnInit {
     const alert: HTMLIonAlertElement = await this.alertCtrl.create({
       header: this.translateService.instant('ADMIN.TERMS.DELETE_CONFIRM_TITLE'),
       message: this.translateService.instant('ADMIN.TERMS.DELETE_CONFIRM_MESSAGE'),
+      cssClass: 'custom-delete-alert',
       buttons: [
         {
           text: this.translateService.instant('COMMON.CANCEL'),
@@ -243,6 +244,7 @@ export class AdminTermsComponent implements OnInit {
         {
           text: this.translateService.instant('COMMON.DELETE'),
           role: 'destructive',
+          cssClass: 'danger-btn',
           handler: async (): Promise<void> => {
             this.loading = true;
             try {
