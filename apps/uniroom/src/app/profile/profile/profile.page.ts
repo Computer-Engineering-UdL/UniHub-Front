@@ -59,14 +59,14 @@ export class ProfilePage implements OnInit, OnDestroy {
     { type: 'verification', translationKey: 'PROFILE.RECENT_ACTIVITY.EMAIL_VERIFIED', daysAgo: 7 }
   ];
 
-  private modalCtrl: ModalController = inject(ModalController);
-  private authService: AuthService = inject(AuthService);
-  private channelService: ChannelService = inject(ChannelService);
-  private apiService: ApiService = inject(ApiService);
-  private router: Router = inject(Router);
-  private route: ActivatedRoute = inject(ActivatedRoute);
+  private readonly modalCtrl: ModalController = inject(ModalController);
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly channelService: ChannelService = inject(ChannelService);
+  private readonly apiService: ApiService = inject(ApiService);
+  private readonly router: Router = inject(Router);
+  private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private userSub?: Subscription;
-  private localization: LocalizationService = inject(LocalizationService);
+  private readonly localization: LocalizationService = inject(LocalizationService);
 
   ngOnInit(): void {
     const tab: string | null = this.route.snapshot.queryParamMap.get('tab');
@@ -142,8 +142,8 @@ export class ProfilePage implements OnInit, OnDestroy {
         })
       );
 
-      return membershipChecks.filter((isMember: boolean): boolean => isMember).length;
-    } catch (_) {
+      return membershipChecks.filter(Boolean).length;
+    } catch {
       return 0;
     }
   }
@@ -230,7 +230,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     try {
       this.loadingInterests = true;
       this.availableCategories = await this.authService.getAllInterestCategories();
-    } catch (_) {
+    } catch {
     } finally {
       this.loadingInterests = false;
     }
@@ -239,7 +239,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   private async loadUserInterests(userId: string): Promise<void> {
     try {
       this.userInterests = await this.authService.getUserInterests(userId);
-    } catch (_) {
+    } catch {
       this.userInterests = [];
     }
   }
@@ -249,7 +249,7 @@ export class ProfilePage implements OnInit, OnDestroy {
       this.loadingOffers = true;
       this.userOffers = await firstValueFrom(this.apiService.get<OfferListItem[]>(`offers/user/${userId}`));
       this.formatUserOffers();
-    } catch (_) {
+    } catch {
       this.userOffers = [];
     } finally {
       this.loadingOffers = false;
@@ -310,7 +310,7 @@ export class ProfilePage implements OnInit, OnDestroy {
       this.loadingInterests = true;
       await this.authService.removeInterestFromUser(this.user.id, interest.id);
       await this.loadUserInterests(this.user.id);
-    } catch (_) {
+    } catch {
     } finally {
       this.loadingInterests = false;
     }
@@ -325,7 +325,7 @@ export class ProfilePage implements OnInit, OnDestroy {
       this.loadingInterests = true;
       await this.authService.addInterestToUser(this.user.id, interest.id);
       await this.loadUserInterests(this.user.id);
-    } catch (_) {
+    } catch {
     } finally {
       this.loadingInterests = false;
     }
@@ -371,7 +371,7 @@ export class ProfilePage implements OnInit, OnDestroy {
 
     await modal.present();
     const { data } = await modal.onDidDismiss();
-    if (data && data.saved && data.user) {
+    if (data?.saved && data.user) {
       this.user = data.user as User;
       this.updateAvatarSrc();
       this.setBasicInfo();
