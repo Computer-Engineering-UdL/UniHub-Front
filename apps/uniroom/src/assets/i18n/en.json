@@ -146,6 +146,9 @@
     "PHONE": "Phone",
     "UNIVERSITY": "University",
     "YEAR_OF_STUDY": "Year of study",
+    "ROOM": "Room",
+    "REFERRAL_CODE": "Referral Code",
+    "PROVIDER": "Provider",
     "IMAGE_URL": "Image URL",
     "UPLOAD_PHOTO": "Upload photo",
     "REMOVE_PHOTO": "Remove photo",
@@ -161,7 +164,10 @@
       "POSTS": "Posts",
       "LISTINGS": "Listings",
       "HELPFUL": "Helpful",
-      "CHANNELS": "Channels"
+      "CHANNELS": "Channels",
+      "HOUSING_OFFERS": "Housing Offers",
+      "HOUSING_SEARCHES": "Housing Searches",
+      "ACTIVE_LISTINGS": "Active Listings"
     },
     "INTERESTS": {
       "TITLE": "Interests",

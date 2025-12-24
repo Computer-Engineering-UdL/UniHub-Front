@@ -146,6 +146,9 @@
     "PHONE": "Teléfono",
     "UNIVERSITY": "Universidad",
     "YEAR_OF_STUDY": "Año de estudio",
+    "ROOM": "Habitación",
+    "REFERRAL_CODE": "Código de referencia",
+    "PROVIDER": "Proveedor",
     "IMAGE_URL": "URL de la imagen",
     "UPLOAD_PHOTO": "Subir foto",
     "REMOVE_PHOTO": "Eliminar foto",
@@ -161,7 +164,10 @@
       "POSTS": "Publicaciones",
       "LISTINGS": "Anuncios",
       "HELPFUL": "Útil",
-      "CHANNELS": "Canales"
+      "CHANNELS": "Canales",
+      "HOUSING_OFFERS": "Ofertas de vivienda",
+      "HOUSING_SEARCHES": "Búsquedas de vivienda",
+      "ACTIVE_LISTINGS": "Anuncios activos"
     },
     "INTERESTS": {
       "TITLE": "Intereses",

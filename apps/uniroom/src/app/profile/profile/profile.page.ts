@@ -16,15 +16,33 @@ import { API_VERSION_PATH } from '../../../environments/environment.model';
 
 interface ProfileStats {
   posts: number;
-  listings: number;
-  helpful: number;
   channels: number;
+  housingOffers: number;
+  activeListings: number;
 }
 
 interface RecentActivity {
   type: 'post' | 'listing' | 'verification';
   translationKey: string;
   daysAgo: number;
+}
+
+interface PublicUserProfile {
+  id: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  avatar_url: string;
+  faculty: {
+    id: string;
+    name: string;
+    address: string;
+    university: {
+      id: string;
+      name: string;
+    };
+  } | null;
+  is_verified: boolean;
 }
 
 @Component({
@@ -41,14 +59,16 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   stats: ProfileStats = {
     posts: 0,
-    listings: 0,
-    helpful: 0,
-    channels: 0
+    channels: 0,
+    housingOffers: 0,
+    activeListings: 0
   };
 
   availableCategories: InterestCategory[] = [];
   userInterests: Interest[] = [];
   userOffers: OfferListItem[] = [];
+
+  facultyInfo: { facultyName: string; universityName: string } | null = null;
 
   loadingInterests: boolean = false;
   loadingOffers: boolean = false;
@@ -80,6 +100,7 @@ export class ProfilePage implements OnInit, OnDestroy {
       this.setBasicInfo();
       if (this.user) {
         void this.loadAvailableInterests();
+        void this.loadPublicProfileInfo(this.user.id);
         void this.loadUserInterests(this.user.id);
         void this.loadUserOffers(this.user.id);
         void this.parseStats();
@@ -92,13 +113,66 @@ export class ProfilePage implements OnInit, OnDestroy {
     if (!this.authService.currentUser) {
       return;
     }
-    this.user = await this.authService.fetchUserById(this.authService.currentUser.id);
-    this.updateAvatarSrc();
-    this.setBasicInfo();
-    if (this.user) {
-      await this.loadUserInterests(this.user.id);
-      await this.loadUserOffers(this.user.id);
-      await this.parseStats();
+    await this.loadFullUserProfile();
+  }
+
+  private async loadFullUserProfile(): Promise<void> {
+    try {
+      const fullProfile: User = await firstValueFrom(this.apiService.get<User>('user/me'));
+
+      if (fullProfile) {
+        this.user = {
+          ...fullProfile,
+          firstName: fullProfile.first_name || fullProfile.firstName,
+          lastName: fullProfile.last_name || fullProfile.lastName,
+          yearOfStudy: fullProfile.year_of_study || fullProfile.yearOfStudy,
+          isVerified: fullProfile.is_verified ?? fullProfile.isVerified,
+          isActive: fullProfile.is_active ?? fullProfile.isActive
+        };
+
+        this.updateAvatarSrc();
+        this.setBasicInfo();
+
+        if (this.user) {
+          await this.loadPublicProfileInfo(this.user.id);
+
+          if (fullProfile.interests && fullProfile.interests.length > 0) {
+            this.userInterests = fullProfile.interests;
+          } else {
+            await this.loadUserInterests(this.user.id);
+          }
+
+          await this.loadUserOffers(this.user.id);
+          await this.parseStats();
+        }
+      }
+    } catch {
+      this.user = await this.authService.fetchUserById(this.authService.currentUser!.id);
+      this.updateAvatarSrc();
+      this.setBasicInfo();
+      if (this.user) {
+        await this.loadPublicProfileInfo(this.user.id);
+        await this.loadUserInterests(this.user.id);
+        await this.loadUserOffers(this.user.id);
+        await this.parseStats();
+      }
+    }
+  }
+
+  private async loadPublicProfileInfo(userId: string): Promise<void> {
+    try {
+      const publicProfile: PublicUserProfile = await firstValueFrom(
+        this.apiService.get<PublicUserProfile>(`user/public/${userId}`)
+      );
+
+      if (publicProfile?.faculty) {
+        this.facultyInfo = {
+          facultyName: publicProfile.faculty.name,
+          universityName: publicProfile.faculty.university.name
+        };
+      }
+    } catch {
+      this.facultyInfo = null;
     }
   }
 
@@ -122,9 +196,9 @@ export class ProfilePage implements OnInit, OnDestroy {
 
     this.stats = {
       posts: 0,
-      listings: this.userOffers.length,
-      helpful: 0,
-      channels: await this.getUserChannels()
+      channels: await this.getUserChannels(),
+      housingOffers: this.user.housing_offer_count ?? 0,
+      activeListings: this.user.listings_active ?? 0
     };
   }
 

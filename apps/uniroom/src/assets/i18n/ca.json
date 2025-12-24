@@ -142,6 +142,9 @@
     "PHONE": "Telèfon",
     "UNIVERSITY": "Universitat",
     "YEAR_OF_STUDY": "Any d'estudi",
+    "ROOM": "Habitació",
+    "REFERRAL_CODE": "Codi de referència",
+    "PROVIDER": "Proveïdor",
     "IMAGE_URL": "URL de la imatge",
     "UPLOAD_PHOTO": "Pujar foto",
     "REMOVE_PHOTO": "Eliminar foto",
@@ -157,7 +160,10 @@
       "POSTS": "Publicacions",
       "LISTINGS": "Anuncis",
       "HELPFUL": "Útil",
-      "CHANNELS": "Canals"
+      "CHANNELS": "Canals",
+      "HOUSING_OFFERS": "Ofertes d'habitatge",
+      "HOUSING_SEARCHES": "Cerques d'habitatge",
+      "ACTIVE_LISTINGS": "Anuncis actius"
     },
     "INTERESTS": {
       "TITLE": "Interessos",

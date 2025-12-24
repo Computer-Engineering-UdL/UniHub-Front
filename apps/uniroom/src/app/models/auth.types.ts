@@ -18,6 +18,8 @@ export interface User {
   name?: string;
   firstName?: string;
   lastName?: string;
+  first_name?: string;
+  last_name?: string;
   fullName?: string; // name + ' ' + lastName
   phone?: string;
   university?: string;
@@ -27,9 +29,19 @@ export interface User {
   imgUrl?: string;
   joinedDate?: string;
   yearOfStudy?: number;
+  year_of_study?: number;
   isVerified?: boolean;
+  is_verified?: boolean;
   isActive?: boolean;
+  is_active?: boolean;
   interests?: Interest[];
+  faculty_id?: string;
+  room_number?: string;
+  created_at?: string;
+  referral_code?: string;
+  housing_offer_count?: number;
+  housing_search_count?: number;
+  listings_active?: number;
 }
 
 export const DEFAULT_USER_URL = 'assets/img/default-profile.png';

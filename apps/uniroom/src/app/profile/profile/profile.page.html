@@ -68,14 +68,25 @@
               <ion-icon name="person-outline"></ion-icon>
               <span>{{ user.username }}</span>
             </span>
-            <span class="meta-item" *ngIf="user.university">
+            <span class="meta-item" *ngIf="facultyInfo">
               <ion-icon name="school-outline"></ion-icon>
+              <span>{{ facultyInfo.facultyName }} • {{ facultyInfo.universityName }}</span>
+            </span>
+            <span class="meta-item" *ngIf="user.yearOfStudy">
+              <ion-icon name="book-outline"></ion-icon>
+              <span>{{ 'PROFILE.YEAR' | translate: {year: user.yearOfStudy} }}</span>
+            </span>
+            <span class="meta-item" *ngIf="user.phone">
+              <ion-icon name="call-outline"></ion-icon>
+              <span>{{ user.phone }}</span>
+            </span>
+            <span class="meta-item" *ngIf="user.created_at">
+              <ion-icon name="calendar-outline"></ion-icon>
               <span
-                >{{ user.university }} • {{ 'PROFILE.YEAR' | translate: {year: user.yearOfStudy}
-                }}</span
+                >{{ 'PROFILE.JOINED' | translate }} {{ user.created_at | date:'dd/MM/yyyy' }}</span
               >
             </span>
-            <span class="meta-item">
+            <span class="meta-item" *ngIf="!user.created_at && user.joinedDate">
               <ion-icon name="calendar-outline"></ion-icon>
               <span>{{ 'PROFILE.JOINED' | translate }} {{ user.joinedDate }}</span>
             </span>
@@ -91,12 +102,12 @@
         <div class="stat-label">{{ 'PROFILE.STATS.POSTS' | translate }}</div>
       </div>
       <div class="stat-item">
-        <div class="stat-value">{{ stats.listings }}</div>
-        <div class="stat-label">{{ 'PROFILE.STATS.LISTINGS' | translate }}</div>
+        <div class="stat-value">{{ stats.housingOffers }}</div>
+        <div class="stat-label">{{ 'PROFILE.STATS.HOUSING_OFFERS' | translate }}</div>
       </div>
       <div class="stat-item">
-        <div class="stat-value">{{ stats.helpful }}</div>
-        <div class="stat-label">{{ 'PROFILE.STATS.HELPFUL' | translate }}</div>
+        <div class="stat-value">{{ stats.activeListings }}</div>
+        <div class="stat-label">{{ 'PROFILE.STATS.ACTIVE_LISTINGS' | translate }}</div>
       </div>
       <div class="stat-item">
         <div class="stat-value">{{ stats.channels }}</div>
