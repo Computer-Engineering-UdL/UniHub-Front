@@ -224,28 +224,32 @@ export class HomePage implements OnInit, OnDestroy {
 
   private async loadJobOffers(): Promise<void> {
     try {
-      const response: any = await firstValueFrom(this.apiService.get<JobOffer>('job/'));
-      this.jobOffers = (response.jobs || []).slice(0, 4).map(
-        (job: JobOffer): JobOffer => ({
+      const response: any[] = await firstValueFrom(this.apiService.get<any[]>('job/'));
+      this.jobOffers = (Array.isArray(response) ? response : []).slice(0, 6).map(
+        (job): JobOffer => ({
           id: job.id,
           title: job.title,
-          companyName: job.companyName,
-          location: job.location,
-          jobType: job.jobType,
-          category: job.category,
-          salaryMin: job.salaryMin,
-          salaryMax: job.salaryMax,
-          salaryPeriod: job.salaryPeriod,
-          createdAt: job.createdAt,
           description: job.description,
-          workplaceType: job.workplaceType,
-          applicationCount: job.applicationCount,
-          isSaved: job.isSaved,
-          isApplied: job.isApplied,
-          creatorId: job.creatorId,
-          isActive: job.isActive
+          category: job.category,
+          jobType: job.job_type,
+          workplaceType: job.workplace_type,
+          location: job.location,
+          salaryMin: job.salary_min,
+          salaryMax: job.salary_max,
+          salaryPeriod: job.salary_period,
+          companyName: job.company_name,
+          companyDescription: job.company_description,
+          companyWebsite: job.company_website,
+          companyEmployeeCount: job.company_employee_count,
+          logoUrl: job.logo_url,
+          creatorId: job.user_id,
+          createdAt: job.created_at,
+          isActive: job.is_active,
+          isSaved: job.is_saved ?? false,
+          isApplied: job.is_applied ?? false,
+          applicationCount: job.application_count ?? 0
         })
-      );
+      ) satisfies JobOffer[];
     } catch {
       this.jobOffers = [];
     }

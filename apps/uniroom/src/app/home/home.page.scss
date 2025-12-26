@@ -627,7 +627,7 @@
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    border-color: var(--ion-color-secondary);
+    border-color: var(--ion-color-primary);
 
     .item-image {
       transform: scale(1.05);
@@ -716,7 +716,7 @@
       .item-price {
         font-size: 15px;
         font-weight: 800;
-        color: var(--ion-color-secondary);
+        color: var(--ion-color-primary);
 
         @media (min-width: 768px) {
           font-size: 16px;
