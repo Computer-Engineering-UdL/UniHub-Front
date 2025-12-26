@@ -116,7 +116,9 @@
     border-radius: 50%;
     background: rgba(var(--ion-color-primary-rgb), 0.1);
     transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
+    transition:
+      width 0.6s,
+      height 0.6s;
   }
 
   &:active::after {
@@ -934,4 +936,3 @@
     background-position: 200% center;
   }
 }
-
