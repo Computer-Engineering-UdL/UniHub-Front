@@ -11,6 +11,26 @@
   padding-top: 56px;
 }
 
+.back-button {
+  position: absolute;
+  top: 86px;
+  left: 16px;
+  z-index: 10;
+  --color: var(--ion-color-primary);
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-transform: capitalize;
+
+  ion-icon {
+    font-size: 1.2rem;
+  }
+
+  @media (min-width: 768px) {
+    top: 86px;
+    left: 24px;
+  }
+}
+
 .profile-header {
   padding: clamp(24px, 5vw, 48px);
   background: linear-gradient(135deg, var(--ion-card-background) 0%, var(--ion-color-light) 100%);

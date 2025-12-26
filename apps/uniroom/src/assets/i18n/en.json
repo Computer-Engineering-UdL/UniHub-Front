@@ -128,6 +128,7 @@
   },
   "PROFILE": {
     "TITLE": "Profile",
+    "BACK": "Back",
     "USER_INFO": "User Information",
     "USER_INFORMATION": "User information",
     "PERSONAL_INFO": "Personal information",

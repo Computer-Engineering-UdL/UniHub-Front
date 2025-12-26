@@ -124,6 +124,7 @@
   },
   "PROFILE": {
     "TITLE": "Perfil",
+    "BACK": "Enrere",
     "USER_INFO": "Informació de l'Usuari",
     "USER_INFORMATION": "Informació de l'usuari",
     "PERSONAL_INFO": "Informació personal",

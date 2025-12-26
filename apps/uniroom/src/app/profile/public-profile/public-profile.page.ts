@@ -1,5 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { ModalController } from '@ionic/angular';
 import { ApiService } from '../../services/api.service';
 import NotificationService from '../../services/notification.service';
@@ -45,6 +46,7 @@ export class PublicProfilePage implements OnInit, OnDestroy {
   private readonly notificationService: NotificationService = inject(NotificationService);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly router: Router = inject(Router);
+  private readonly location: Location = inject(Location);
   private readonly localization: LocalizationService = inject(LocalizationService);
   private readonly modalController: ModalController = inject(ModalController);
   private readonly reportService: ReportService = inject(ReportService);
@@ -292,6 +294,14 @@ export class PublicProfilePage implements OnInit, OnDestroy {
       await this.router.navigate(['/messages'], { queryParams: { id: conversation.id } });
     } catch {
       this.notificationService.error('MESSAGES.CREATE_ERROR');
+    }
+  }
+
+  goBack(): void {
+    if (globalThis.history.length > 1) {
+      this.location.back();
+    } else {
+      void this.router.navigate(['/home']);
     }
   }
 }

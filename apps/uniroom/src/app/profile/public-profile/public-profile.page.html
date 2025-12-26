@@ -2,6 +2,10 @@
   <ion-spinner *ngIf="loadingProfile" class="loading-spinner-center"></ion-spinner>
 
   <div class="profile-wrapper" *ngIf="!loadingProfile && user">
+    <ion-button fill="clear" class="back-button" size="small" (click)="goBack()">
+      <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+      {{ 'PROFILE.BACK' | translate }}
+    </ion-button>
     <div class="profile-header">
       <div class="profile-avatar">
         <img [appCachedAvatar]="avatarSrc" (error)="onAvatarError()" [alt]="getUserDisplayName()" />
