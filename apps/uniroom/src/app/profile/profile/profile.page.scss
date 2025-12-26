@@ -15,38 +15,62 @@
 .profile-header {
   background: linear-gradient(135deg, var(--ion-card-background) 0%, var(--ion-color-light) 100%);
   border-bottom: 1px solid var(--card-border-color);
-  padding: clamp(24px, 5vw, 48px);
+  padding: 20px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
   @media (min-width: 768px) {
     flex-direction: row;
     align-items: flex-start;
     gap: 24px;
+    padding: 32px 32px;
+  }
+
+  @media (min-width: 1024px) {
     padding: 40px 48px;
   }
 }
 
 .profile-avatar {
   flex-shrink: 0;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    border: 2px solid var(--ion-color-primary);
+    animation: avatarPulse 2s ease-in-out infinite;
+    opacity: 0;
+  }
 
   img {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     object-fit: cover;
-    border: 5px solid var(--ion-color-primary);
+    border: 4px solid var(--ion-color-primary);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
       transform: scale(1.05);
     }
 
     @media (min-width: 768px) {
+      width: 140px;
+      height: 140px;
+      border-width: 5px;
+    }
+
+    @media (min-width: 1024px) {
       width: 160px;
       height: 160px;
     }
@@ -67,7 +91,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 8px;
   flex-wrap: wrap;
 
@@ -75,6 +99,7 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
+    gap: 12px;
   }
 }
 
@@ -82,23 +107,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   width: 100%;
 
   @media (min-width: 768px) {
     flex-direction: row;
     align-items: center;
     width: auto;
+    gap: 8px;
   }
 
   h1 {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 800;
     margin: 0 0 4px 0;
     color: var(--ion-text-color);
     line-height: 1.2;
 
     @media (min-width: 768px) {
+      font-size: 1.9rem;
+    }
+
+    @media (min-width: 1024px) {
       font-size: 2.25rem;
     }
   }
@@ -106,18 +136,28 @@
   .verified-badge {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 4px 10px;
-    font-size: 0.7rem;
+    gap: 3px;
+    padding: 3px 8px;
+    font-size: 0.65rem;
     font-weight: 600;
     box-shadow: 0 2px 8px rgba(var(--ion-color-success-rgb), 0.3);
     border: 1px solid rgba(var(--ion-color-success-rgb), 0.2);
 
     ion-icon {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
 
     @media (min-width: 768px) {
+      gap: 4px;
+      padding: 4px 10px;
+      font-size: 0.7rem;
+
+      ion-icon {
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
       font-size: 0.75rem;
       padding: 4px 12px;
 
@@ -130,14 +170,14 @@
 
 .profile-actions {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-direction: row;
+  gap: 6px;
   width: 100%;
 
   @media (min-width: 768px) {
-    flex-direction: row;
     width: auto;
     align-items: center;
+    gap: 8px;
   }
 }
 
@@ -145,33 +185,44 @@
   --border-radius: 10px;
   --padding-start: 10px;
   --padding-end: 10px;
-  height: 40px;
-  min-width: 40px;
+  height: 38px;
+  min-width: 38px;
   flex-shrink: 0;
-  order: 2;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   @media (min-width: 768px) {
+    height: 42px;
+    min-width: 42px;
+  }
+
+  @media (min-width: 1024px) {
     --padding-start: 12px;
     --padding-end: 12px;
     height: 44px;
     min-width: 44px;
-    order: 1;
   }
 
   &:hover {
     transform: translateY(-2px) rotate(5deg);
     box-shadow: 0 4px 12px rgba(var(--ion-color-danger-rgb), 0.3);
   }
+
+  &:active {
+    transform: translateY(0) rotate(0);
+  }
 }
 
 .profile-email {
   color: var(--ion-text-color-secondary);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   margin: 0;
   font-weight: 500;
 
   @media (min-width: 768px) {
+    font-size: 0.95rem;
+  }
+
+  @media (min-width: 1024px) {
     font-size: 1.05rem;
   }
 }
@@ -179,29 +230,45 @@
 .profile-meta {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
   margin-bottom: 0;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--ion-text-color-secondary);
   align-items: center;
 
   @media (min-width: 768px) {
     flex-direction: row;
     flex-wrap: wrap;
+    gap: 10px;
+    font-size: 0.85rem;
+    align-items: flex-start;
+  }
+
+  @media (min-width: 1024px) {
     gap: 12px;
     font-size: 0.9rem;
-    align-items: flex-start;
   }
 
   .meta-item {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     background: var(--ion-card-background);
-    padding: 8px 14px;
-    border-radius: 20px;
+    padding: 6px 10px;
+    border-radius: 16px;
     border: 1px solid var(--card-border-color);
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    @media (min-width: 768px) {
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: 18px;
+    }
+
+    @media (min-width: 1024px) {
+      padding: 8px 14px;
+      border-radius: 20px;
+    }
 
     &:hover {
       transform: translateY(-2px);
@@ -209,12 +276,20 @@
       border-color: var(--ion-color-primary);
     }
 
+    &:active {
+      transform: translateY(0);
+    }
+
     ion-icon {
-      font-size: 1.1rem;
+      font-size: 1rem;
       flex-shrink: 0;
       color: var(--ion-color-primary);
 
       @media (min-width: 768px) {
+        font-size: 1.1rem;
+      }
+
+      @media (min-width: 1024px) {
         font-size: 1.2rem;
       }
     }
@@ -222,9 +297,13 @@
     span {
       line-height: 1.2;
       font-weight: 500;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
 
       @media (min-width: 768px) {
+        font-size: 0.9rem;
+      }
+
+      @media (min-width: 1024px) {
         font-size: 0.95rem;
       }
     }
@@ -235,12 +314,17 @@
   margin-bottom: 0;
 
   ion-badge {
-    font-size: 0.85rem;
-    padding: 6px 14px;
+    font-size: 0.8rem;
+    padding: 5px 12px;
     font-weight: 600;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 
     @media (min-width: 768px) {
+      font-size: 0.85rem;
+      padding: 6px 13px;
+    }
+
+    @media (min-width: 1024px) {
       font-size: 0.9rem;
       padding: 7px 16px;
     }
@@ -249,22 +333,32 @@
 
 .edit-profile-btn {
   width: 100%;
-  --border-radius: 12px;
+  --border-radius: 10px;
   font-weight: 600;
-  font-size: 0.95rem;
-  order: 1;
+  font-size: 0.9rem;
   box-shadow: 0 2px 8px rgba(var(--ion-color-primary-rgb), 0.3);
   letter-spacing: 0.3px;
+  height: 38px;
+
+  @media (min-width: 768px) {
+    width: auto;
+    font-size: 0.95rem;
+    --border-radius: 12px;
+    height: 42px;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 1rem;
+    height: 44px;
+  }
 
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.4);
   }
 
-  @media (min-width: 768px) {
-    width: auto;
-    font-size: 1rem;
-    order: 2;
+  &:active {
+    transform: translateY(0);
   }
 }
 
@@ -282,9 +376,9 @@
 
   .stat-item {
     background: var(--ion-card-background);
-    padding: 20px 16px;
+    padding: 16px 12px;
     text-align: center;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -295,13 +389,21 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 3px;
+      height: 2px;
       background: var(--ion-color-primary);
       transform: scaleX(0);
       transition: transform 0.3s ease;
     }
 
     @media (min-width: 768px) {
+      padding: 20px 16px;
+
+      &::before {
+        height: 3px;
+      }
+    }
+
+    @media (min-width: 1024px) {
       padding: 24px 20px;
     }
 
@@ -318,25 +420,38 @@
       }
     }
 
+    &:active {
+      transform: translateY(0);
+    }
+
     .stat-value {
-      font-size: 2rem;
+      font-size: 1.75rem;
       font-weight: 800;
       color: var(--ion-color-primary);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       transition: transform 0.3s ease;
 
       @media (min-width: 768px) {
+        font-size: 2rem;
+        margin-bottom: 6px;
+      }
+
+      @media (min-width: 1024px) {
         font-size: 2.25rem;
       }
     }
 
     .stat-label {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       color: var(--ion-text-color-secondary);
       font-weight: 600;
       letter-spacing: 0.3px;
 
       @media (min-width: 768px) {
+        font-size: 0.8rem;
+      }
+
+      @media (min-width: 1024px) {
         font-size: 0.9rem;
       }
     }
@@ -360,37 +475,47 @@
 
   .tab-button {
     flex: 1;
-    min-width: 100px;
-    padding: 16px 20px;
+    min-width: 90px;
+    padding: 12px 16px;
     border: none;
     background: transparent;
     color: var(--ion-text-color-secondary);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
-    border-bottom: 3px solid transparent;
-    transition: all 0.2s ease;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     letter-spacing: 0.3px;
     overflow: hidden;
 
     @media (min-width: 768px) {
+      min-width: 100px;
+      padding: 14px 18px;
+      font-size: 0.9rem;
+      border-bottom: 3px solid transparent;
+    }
+
+    @media (min-width: 1024px) {
       min-width: 120px;
       padding: 18px 24px;
       font-size: 1rem;
     }
 
-    // Barra inferior animada
     &::before {
       content: '';
       position: absolute;
       bottom: 0;
       left: 50%;
       right: 50%;
-      height: 3px;
+      height: 2px;
       background: var(--ion-color-primary);
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: 0 0 10px var(--ion-color-primary);
+
+      @media (min-width: 768px) {
+        height: 3px;
+      }
     }
 
     &:hover {
@@ -441,10 +566,14 @@
 }
 
 .profile-content {
-  padding: 16px;
+  padding: 12px;
   background: var(--ion-background-color);
 
   @media (min-width: 768px) {
+    padding: 16px;
+  }
+
+  @media (min-width: 1024px) {
     padding: 24px;
   }
 }
@@ -466,10 +595,14 @@
 
 .content-grid {
   display: grid;
-  gap: 20px;
+  gap: 16px;
 
   @media (min-width: 992px) {
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @media (min-width: 1200px) {
     gap: 24px;
   }
 }
@@ -477,19 +610,29 @@
 .content-card {
   background: var(--ion-card-background);
   border: 1px solid var(--card-border-color);
-  border-radius: 16px;
-  padding: 16px;
+  border-radius: 12px;
+  padding: 14px;
   box-shadow: var(--card-shadow);
-  margin-bottom: 20px;
-  transition: all 0.3s ease;
+  margin-bottom: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @media (min-width: 768px) {
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 20px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 24px;
+  }
 
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   }
 
-  @media (min-width: 768px) {
-    padding: 24px;
+  &:active {
+    transform: translateY(-2px);
   }
 
   &:last-child {
@@ -497,28 +640,44 @@
   }
 
   .card-title {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: var(--ion-text-color);
-    margin: 0 0 16px 0;
-    padding-bottom: 12px;
+    margin: 0 0 12px 0;
+    padding-bottom: 10px;
     border-bottom: 2px solid var(--card-border-color);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 
     &::before {
       content: '';
       display: inline-block;
-      width: 4px;
-      height: 24px;
+      width: 3px;
+      height: 20px;
       background: var(--ion-color-primary);
       border-radius: 2px;
     }
 
     @media (min-width: 768px) {
+      font-size: 1.2rem;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      gap: 10px;
+
+      &::before {
+        width: 4px;
+        height: 22px;
+      }
+    }
+
+    @media (min-width: 1024px) {
       font-size: 1.35rem;
       margin-bottom: 20px;
+
+      &::before {
+        height: 24px;
+      }
     }
   }
 
@@ -533,61 +692,107 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
     border-bottom: 2px solid var(--card-border-color);
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
+
+    @media (min-width: 768px) {
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      gap: 12px;
+    }
+
+    @media (min-width: 1024px) {
+      margin-bottom: 16px;
+    }
 
     .card-title {
       margin: 0;
       padding: 0;
       border: none;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
 
       &::before {
         content: '';
         display: inline-block;
-        width: 4px;
-        height: 24px;
+        width: 3px;
+        height: 20px;
         background: var(--ion-color-primary);
         border-radius: 2px;
       }
 
       @media (min-width: 768px) {
+        font-size: 1.2rem;
+        gap: 10px;
+
+        &::before {
+          width: 4px;
+          height: 22px;
+        }
+      }
+
+      @media (min-width: 1024px) {
         font-size: 1.35rem;
+
+        &::before {
+          height: 24px;
+        }
       }
     }
 
     ion-button {
-      --border-radius: 12px;
-      --padding-start: 16px;
-      --padding-end: 16px;
-      --padding-top: 10px;
-      --padding-bottom: 10px;
-      font-size: 0.9rem;
+      --border-radius: 10px;
+      --padding-start: 12px;
+      --padding-end: 12px;
+      --padding-top: 8px;
+      --padding-bottom: 8px;
+      font-size: 0.85rem;
       font-weight: 600;
       text-transform: none;
       letter-spacing: 0.3px;
       box-shadow: 0 2px 6px rgba(var(--ion-color-primary-rgb), 0.2);
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+      @media (min-width: 768px) {
+        --border-radius: 12px;
+        --padding-start: 14px;
+        --padding-end: 14px;
+        --padding-top: 9px;
+        --padding-bottom: 9px;
+        font-size: 0.9rem;
+      }
+
+      @media (min-width: 1024px) {
+        --padding-start: 16px;
+        --padding-end: 16px;
+        --padding-top: 10px;
+        --padding-bottom: 10px;
+        font-size: 0.95rem;
+      }
 
       &:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);
       }
 
-      ion-icon {
-        font-size: 1.2rem;
-        margin-inline-end: 6px;
+      &:active {
+        transform: translateY(0);
       }
 
-      @media (min-width: 768px) {
-        font-size: 0.95rem;
+      ion-icon {
+        font-size: 1.1rem;
+        margin-inline-end: 4px;
+
+        @media (min-width: 768px) {
+          font-size: 1.2rem;
+          margin-inline-end: 6px;
+        }
       }
     }
   }
@@ -596,38 +801,78 @@
 .user-interests-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 8px;
   align-items: flex-start;
-  min-height: 100px;
+  min-height: 80px;
+
+  @media (min-width: 768px) {
+    gap: 10px;
+    min-height: 100px;
+  }
+
+  @media (min-width: 1024px) {
+    gap: 12px;
+  }
 
   ion-spinner {
     margin: 12px auto;
   }
 
   .user-interest-chip {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 500;
-    height: 36px;
-    border-radius: 20px;
-    padding: 8px 12px 8px 14px;
+    height: 32px;
+    border-radius: 18px;
+    padding: 6px 10px 6px 12px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    @media (min-width: 768px) {
+      font-size: 0.85rem;
+      height: 34px;
+      border-radius: 20px;
+      padding: 7px 11px 7px 13px;
+    }
+
+    @media (min-width: 1024px) {
+      height: 36px;
+      padding: 8px 12px 8px 14px;
+    }
 
     &:hover {
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
     }
 
     ion-label {
-      margin: 0 4px;
+      margin: 0 3px;
       letter-spacing: 0.1px;
+
+      @media (min-width: 768px) {
+        margin: 0 4px;
+      }
     }
 
     ion-icon {
-      margin-inline-start: 6px;
-      font-size: 1.2rem;
+      margin-inline-start: 4px;
+      font-size: 1.1rem;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       opacity: 0.85;
+
+      @media (min-width: 768px) {
+        margin-inline-start: 5px;
+        font-size: 1.15rem;
+      }
+
+      @media (min-width: 1024px) {
+        margin-inline-start: 6px;
+        font-size: 1.2rem;
+      }
 
       &:hover:not(.disabled) {
         opacity: 1;
@@ -650,26 +895,49 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 48px 32px;
+    padding: 32px 24px;
     text-align: center;
     width: 100%;
     background: linear-gradient(135deg, var(--ion-color-light) 0%, var(--ion-card-background) 100%);
-    border-radius: 12px;
+    border-radius: 10px;
     border: 2px dashed var(--card-border-color);
 
+    @media (min-width: 768px) {
+      padding: 40px 28px;
+      border-radius: 12px;
+    }
+
+    @media (min-width: 1024px) {
+      padding: 48px 32px;
+    }
+
     ion-icon {
-      font-size: 4rem;
+      font-size: 3rem;
       color: var(--ion-color-medium);
       opacity: 0.5;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+
+      @media (min-width: 768px) {
+        font-size: 3.5rem;
+        margin-bottom: 14px;
+      }
+
+      @media (min-width: 1024px) {
+        font-size: 4rem;
+        margin-bottom: 16px;
+      }
     }
 
     p {
       color: var(--ion-color-medium);
-      font-size: 1rem;
+      font-size: 0.95rem;
       margin: 0;
       font-weight: 500;
       line-height: 1.5;
+
+      @media (min-width: 768px) {
+        font-size: 1rem;
+      }
     }
   }
 }
@@ -836,27 +1104,51 @@ body.theme-dark {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 80px 32px;
+  padding: 48px 24px;
   text-align: center;
   background: linear-gradient(135deg, var(--ion-color-light) 0%, var(--ion-card-background) 100%);
-  border-radius: 16px;
+  border-radius: 12px;
   border: 2px dashed var(--card-border-color);
   margin: 20px 0;
 
+  @media (min-width: 768px) {
+    padding: 64px 28px;
+    border-radius: 14px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 80px 32px;
+    border-radius: 16px;
+  }
+
   .empty-icon {
-    font-size: 5rem;
+    font-size: 4rem;
     color: var(--ion-text-color-secondary);
     opacity: 0.4;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     animation: float 3s ease-in-out infinite;
+
+    @media (min-width: 768px) {
+      font-size: 4.5rem;
+      margin-bottom: 18px;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 5rem;
+      margin-bottom: 20px;
+    }
   }
 
   p {
     color: var(--ion-text-color-secondary);
-    font-size: 1.05rem;
+    font-size: 1rem;
     margin: 0;
     font-weight: 500;
     line-height: 1.5;
+
+    @media (min-width: 768px) {
+      font-size: 1.05rem;
+    }
   }
 }
 
@@ -1024,25 +1316,36 @@ ion-header {
 
 .listings-grid {
   display: grid;
-  gap: 20px;
+  gap: 12px;
   grid-template-columns: 1fr;
 
-  @media (min-width: 768px) {
+  @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 
   @media (min-width: 1200px) {
     grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
   }
 }
 
 .listing-card {
   background: var(--ion-card-background);
   border: 1px solid var(--card-border-color);
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
+
+  @media (min-width: 768px) {
+    border-radius: 16px;
+  }
 
   &:hover {
     transform: translateY(-4px);
@@ -1050,52 +1353,97 @@ ion-header {
     border-color: var(--ion-color-primary);
   }
 
+  &:active {
+    transform: translateY(-2px);
+  }
+
   .listing-image {
     width: 100%;
-    height: 200px;
+    height: 160px;
     background-size: cover;
     background-position: center;
     background-color: var(--ion-color-light);
     position: relative;
 
+    @media (min-width: 768px) {
+      height: 180px;
+    }
+
+    @media (min-width: 1024px) {
+      height: 200px;
+    }
+
     .status-badge {
       position: absolute;
-      top: 12px;
-      right: 12px;
+      top: 10px;
+      right: 10px;
       font-weight: 600;
-      font-size: 0.75rem;
-      padding: 6px 12px;
-      border-radius: 8px;
+      font-size: 0.7rem;
+      padding: 5px 10px;
+      border-radius: 6px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      backdrop-filter: blur(4px);
+
+      @media (min-width: 768px) {
+        top: 12px;
+        right: 12px;
+        font-size: 0.75rem;
+        padding: 6px 12px;
+        border-radius: 8px;
+      }
     }
   }
 
   .listing-content {
-    padding: 16px;
+    padding: 14px;
+
+    @media (min-width: 768px) {
+      padding: 16px;
+    }
 
     .listing-title {
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 700;
       color: var(--ion-text-color);
-      margin: 0 0 8px 0;
+      margin: 0 0 6px 0;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      line-height: 1.3;
+
+      @media (min-width: 768px) {
+        font-size: 1.05rem;
+        margin-bottom: 8px;
+      }
+
+      @media (min-width: 1024px) {
+        font-size: 1.1rem;
+      }
     }
 
     .listing-location {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 0.9rem;
+      gap: 5px;
+      font-size: 0.85rem;
       color: var(--ion-text-color-secondary);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
+
+      @media (min-width: 768px) {
+        gap: 6px;
+        font-size: 0.9rem;
+        margin-bottom: 12px;
+      }
 
       ion-icon {
-        font-size: 1rem;
+        font-size: 0.95rem;
         flex-shrink: 0;
+
+        @media (min-width: 768px) {
+          font-size: 1rem;
+        }
       }
     }
 
@@ -1103,35 +1451,62 @@ ion-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      padding: 12px 0;
+      gap: 10px;
+      padding: 10px 0;
       border-top: 1px solid var(--card-border-color);
       border-bottom: 1px solid var(--card-border-color);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
+
+      @media (min-width: 768px) {
+        gap: 12px;
+        padding: 12px 0;
+        margin-bottom: 12px;
+      }
 
       .listing-price {
-        font-size: 1.25rem;
+        font-size: 1.1rem;
         font-weight: 800;
         color: var(--ion-color-primary);
+
+        @media (min-width: 768px) {
+          font-size: 1.2rem;
+        }
+
+        @media (min-width: 1024px) {
+          font-size: 1.25rem;
+        }
       }
 
       .listing-area {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         font-weight: 600;
         color: var(--ion-text-color-secondary);
+
+        @media (min-width: 768px) {
+          font-size: 0.9rem;
+        }
       }
     }
 
     .listing-date {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 0.85rem;
+      gap: 5px;
+      font-size: 0.8rem;
       color: var(--ion-text-color-secondary);
 
+      @media (min-width: 768px) {
+        gap: 6px;
+        font-size: 0.85rem;
+      }
+
       ion-icon {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         flex-shrink: 0;
+
+        @media (min-width: 768px) {
+          font-size: 0.95rem;
+        }
       }
     }
   }
@@ -1140,17 +1515,32 @@ ion-header {
 .activity-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
+
+  @media (min-width: 768px) {
+    gap: 12px;
+  }
 }
 
 .activity-item {
   display: flex;
-  gap: 14px;
-  padding: 16px;
-  border-radius: 12px;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 10px;
   background: var(--ion-color-light);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid transparent;
+
+  @media (min-width: 768px) {
+    gap: 12px;
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  @media (min-width: 1024px) {
+    gap: 14px;
+    padding: 16px;
+  }
 
   &:hover {
     background: var(--ion-color-light-shade);
@@ -1159,18 +1549,28 @@ ion-header {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   }
 
+  &:active {
+    transform: translateX(2px);
+  }
+
   .activity-icon {
-    font-size: 1rem;
+    font-size: 1.3rem;
     color: var(--ion-color-primary);
     flex-shrink: 0;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 8px;
 
     @media (min-width: 768px) {
+      font-size: 1.4rem;
+      width: 36px;
+      height: 36px;
+    }
+
+    @media (min-width: 1024px) {
       font-size: 1.5rem;
       width: 40px;
       height: 40px;
@@ -1184,23 +1584,32 @@ ion-header {
     justify-content: center;
 
     .activity-text {
-      margin: 0 0 4px 0;
+      margin: 0 0 3px 0;
       color: var(--ion-text-color);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 500;
       line-height: 1.4;
 
       @media (min-width: 768px) {
+        margin-bottom: 4px;
+        font-size: 0.95rem;
+      }
+
+      @media (min-width: 1024px) {
         font-size: 1rem;
       }
     }
 
     .activity-time {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--ion-text-color-secondary);
       font-weight: 500;
 
       @media (min-width: 768px) {
+        font-size: 0.8rem;
+      }
+
+      @media (min-width: 1024px) {
         font-size: 0.85rem;
       }
     }
@@ -1215,32 +1624,50 @@ ion-header {
 .info-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
+  gap: 6px;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
   border-bottom: 2px solid var(--ion-color-primary);
   opacity: 0.9;
 
+  @media (min-width: 768px) {
+    gap: 7px;
+    margin-bottom: 11px;
+    padding-bottom: 7px;
+  }
+
+  @media (min-width: 1024px) {
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+  }
+
   ion-icon {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--ion-color-primary);
     animation: pulse 2s ease-in-out infinite;
+
+    @media (min-width: 768px) {
+      font-size: 1.2rem;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 1.3rem;
+    }
   }
 
   span {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.8px;
     color: var(--ion-color-primary);
-  }
 
-  @media (min-width: 768px) {
-    ion-icon {
-      font-size: 1.3rem;
+    @media (min-width: 768px) {
+      font-size: 0.85rem;
     }
 
-    span {
+    @media (min-width: 1024px) {
       font-size: 0.9rem;
     }
   }
@@ -1249,8 +1676,16 @@ ion-header {
 .profile-info-section,
 .profile-contact-section,
 .profile-role-section {
-  margin-top: 20px;
+  margin-top: 14px;
   animation: fadeInUp 0.6s ease both;
+
+  @media (min-width: 768px) {
+    margin-top: 18px;
+  }
+
+  @media (min-width: 1024px) {
+    margin-top: 20px;
+  }
 
   &:nth-child(2) {
     animation-delay: 0.1s;
@@ -1287,6 +1722,21 @@ ion-header {
   }
   50% {
     transform: scale(1.1);
+  }
+}
+
+@keyframes avatarPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.15);
+    opacity: 0;
   }
 }
 
