@@ -16,13 +16,15 @@ interface SettingConfig<T extends SettingValue = SettingValue> {
   status?: SettingStatus;
 }
 
+type AvailableSettingLangsCode = 'auto' | 'ca' | 'es' | 'en';
+
 interface SystemSettings {
   maintenanceMode: SettingConfig<boolean>;
   allowNewRegistrations: SettingConfig<boolean>;
   requireEmailVerification: SettingConfig<boolean>;
   maxUploadSizeMb: SettingConfig<number>;
   sessionTimeoutMinutes: SettingConfig<number>;
-  defaultLanguage: SettingConfig<string>;
+  defaultLanguage: SettingConfig<AvailableSettingLangsCode>;
   emailNotifications: SettingConfig<boolean>;
   pushNotifications: SettingConfig<boolean>;
   autoModeration: SettingConfig<boolean>;
@@ -61,7 +63,7 @@ interface NotificationSettings {
 }
 
 interface LanguageOption {
-  code: string;
+  code: AvailableSettingLangsCode;
   name: string;
 }
 
@@ -238,7 +240,7 @@ export class AdminSettingsComponent implements OnInit {
       requireEmailVerification: { value: true, status: 'stable' },
       maxUploadSizeMb: { value: 10, status: 'stable' },
       sessionTimeoutMinutes: { value: 120, status: 'stable' },
-      defaultLanguage: { value: 'ca', status: 'stable' },
+      defaultLanguage: { value: 'auto', status: 'stable' },
       emailNotifications: { value: true, status: 'stable' },
       pushNotifications: { value: true, status: 'beta' },
       autoModeration: { value: false, status: 'beta' },
