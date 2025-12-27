@@ -8,6 +8,7 @@ import { AdminUsersComponent } from './users/users.component';
 import { AdminDashboardComponent } from './dashboard/dashboard.component';
 import { AdminReportsComponent } from './reports/reports.component';
 import { AdminTermsComponent } from './terms/admin-terms.component';
+import { AdminSettingsComponent } from './settings/settings.component';
 import { SharedModule } from '../shared/shared-module';
 
 const routes: Routes = [
@@ -32,6 +33,11 @@ const routes: Routes = [
     data: { titleKey: 'ADMIN.TERMS.TITLE' }
   },
   {
+    path: 'settings',
+    component: AdminSettingsComponent,
+    data: { titleKey: 'ADMIN.SETTINGS.TITLE' }
+  },
+  {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full'
@@ -47,7 +53,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     NgOptimizedImage,
     SharedModule,
-    AdminTermsComponent
+    AdminTermsComponent,
+    AdminSettingsComponent
   ],
   declarations: [AdminUsersComponent, AdminDashboardComponent, AdminReportsComponent]
 })

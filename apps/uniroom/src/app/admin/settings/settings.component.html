@@ -1,0 +1,523 @@
+<ion-content>
+  <div class="settings-container">
+    <div class="settings-header">
+      <h1>{{ 'ADMIN.SETTINGS.TITLE' | translate }}</h1>
+      <p class="subtitle">{{ 'ADMIN.SETTINGS.SUBTITLE' | translate }}</p>
+    </div>
+
+    <div class="settings-tabs">
+      <ion-segment [(ngModel)]="selectedTab" (ionChange)="changeTab(selectedTab)">
+        <ion-segment-button value="system">
+          <ion-icon name="settings-outline"></ion-icon>
+          <ion-label>{{ 'ADMIN.SETTINGS.TABS.SYSTEM' | translate }}</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="security">
+          <ion-icon name="shield-checkmark-outline"></ion-icon>
+          <ion-label>{{ 'ADMIN.SETTINGS.TABS.SECURITY' | translate }}</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="content">
+          <ion-icon name="document-text-outline"></ion-icon>
+          <ion-label>{{ 'ADMIN.SETTINGS.TABS.CONTENT' | translate }}</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="notifications">
+          <ion-icon name="mail-outline"></ion-icon>
+          <ion-label>{{ 'ADMIN.SETTINGS.TABS.NOTIFICATIONS' | translate }}</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+
+    <div class="settings-content" *ngIf="!isLoading">
+      <div class="tab-content" [class.active]="selectedTab === 'system'">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ 'ADMIN.SETTINGS.SYSTEM.GENERAL' | translate }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="construct-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.SYSTEM.MAINTENANCE_MODE' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.SYSTEM.MAINTENANCE_MODE_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-toggle [(ngModel)]="systemSettings.maintenanceMode"></ion-toggle>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="person-add-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.SYSTEM.ALLOW_REGISTRATIONS' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.SYSTEM.ALLOW_REGISTRATIONS_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-toggle [(ngModel)]="systemSettings.allowNewRegistrations"></ion-toggle>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="mail-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.SYSTEM.REQUIRE_EMAIL_VERIFICATION' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.SYSTEM.REQUIRE_EMAIL_VERIFICATION_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-toggle [(ngModel)]="systemSettings.requireEmailVerification"></ion-toggle>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="time-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.SYSTEM.SESSION_TIMEOUT' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.SYSTEM.SESSION_TIMEOUT_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-input
+                type="number"
+                [(ngModel)]="systemSettings.sessionTimeoutMinutes"
+                min="5"
+                max="1440"></ion-input>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="cloud-upload-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.SYSTEM.MAX_UPLOAD_SIZE' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.SYSTEM.MAX_UPLOAD_SIZE_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-input
+                type="number"
+                [(ngModel)]="systemSettings.maxUploadSizeMb"
+                min="1"
+                max="100"></ion-input>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="images-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.SYSTEM.MAX_IMAGES_PER_POST' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.SYSTEM.MAX_IMAGES_PER_POST_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-input
+                type="number"
+                [(ngModel)]="systemSettings.maxImagesPerPost"
+                min="1"
+                max="20"></ion-input>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="language-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.SYSTEM.DEFAULT_LANGUAGE' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.SYSTEM.DEFAULT_LANGUAGE_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-select [(ngModel)]="systemSettings.defaultLanguage" interface="popover">
+                <ion-select-option *ngFor="let lang of availableLanguages" [value]="lang.code">
+                  {{ lang.name }}
+                </ion-select-option>
+              </ion-select>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ 'ADMIN.SETTINGS.SYSTEM.FEATURES' | translate }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="mail-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.SYSTEM.EMAIL_NOTIFICATIONS' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.SYSTEM.EMAIL_NOTIFICATIONS_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-toggle [(ngModel)]="systemSettings.emailNotifications"></ion-toggle>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="notifications-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.SYSTEM.PUSH_NOTIFICATIONS' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.SYSTEM.PUSH_NOTIFICATIONS_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-toggle [(ngModel)]="systemSettings.pushNotifications"></ion-toggle>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="shield-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.SYSTEM.AUTO_MODERATION' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.SYSTEM.AUTO_MODERATION_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-toggle [(ngModel)]="systemSettings.autoModeration"></ion-toggle>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <div class="tab-content" [class.active]="selectedTab === 'security'">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{
+              'ADMIN.SETTINGS.SECURITY.PASSWORD_POLICY' | translate
+            }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="key-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.SECURITY.PASSWORD_MIN_LENGTH' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.SECURITY.PASSWORD_MIN_LENGTH_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-input
+                type="number"
+                [(ngModel)]="securitySettings.passwordMinLength"
+                min="6"
+                max="20"></ion-input>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="text-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.SECURITY.REQUIRE_UPPERCASE' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.SECURITY.REQUIRE_UPPERCASE_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-toggle [(ngModel)]="securitySettings.passwordRequireUppercase"></ion-toggle>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="calculator-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.SECURITY.REQUIRE_NUMBERS' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.SECURITY.REQUIRE_NUMBERS_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-toggle [(ngModel)]="securitySettings.passwordRequireNumbers"></ion-toggle>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="at-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.SECURITY.REQUIRE_SPECIAL_CHARS' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.SECURITY.REQUIRE_SPECIAL_CHARS_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-toggle [(ngModel)]="securitySettings.passwordRequireSpecialChars"></ion-toggle>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{
+              'ADMIN.SETTINGS.SECURITY.ACCOUNT_SECURITY' | translate
+            }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.SECURITY.MAX_LOGIN_ATTEMPTS' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.SECURITY.MAX_LOGIN_ATTEMPTS_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-input
+                type="number"
+                [(ngModel)]="securitySettings.maxLoginAttempts"
+                min="3"
+                max="10"></ion-input>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="time-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.SECURITY.LOCKOUT_DURATION' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.SECURITY.LOCKOUT_DURATION_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-input
+                type="number"
+                [(ngModel)]="securitySettings.accountLockoutMinutes"
+                min="5"
+                max="1440"></ion-input>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="phone-portrait-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.SECURITY.TWO_FACTOR_AUTH' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.SECURITY.TWO_FACTOR_AUTH_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-toggle [(ngModel)]="securitySettings.twoFactorAuthEnabled"></ion-toggle>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <div class="tab-content" [class.active]="selectedTab === 'content'">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ 'ADMIN.SETTINGS.CONTENT.MODERATION' | translate }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="eye-off-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.CONTENT.ALLOW_ANONYMOUS' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.CONTENT.ALLOW_ANONYMOUS_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-toggle [(ngModel)]="contentSettings.allowAnonymousPosts"></ion-toggle>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="checkmark-circle-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.CONTENT.REQUIRE_APPROVAL' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.CONTENT.REQUIRE_APPROVAL_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-toggle [(ngModel)]="contentSettings.requirePostApproval"></ion-toggle>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="filter-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.CONTENT.PROFANITY_FILTER' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.CONTENT.PROFANITY_FILTER_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-toggle [(ngModel)]="contentSettings.profanityFilterEnabled"></ion-toggle>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="alert-circle-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.CONTENT.REPORT_THRESHOLD' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.CONTENT.REPORT_THRESHOLD_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-input
+                type="number"
+                [(ngModel)]="contentSettings.minReportThreshold"
+                min="1"
+                max="10"></ion-input>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{
+              'ADMIN.SETTINGS.CONTENT.POST_SETTINGS' | translate
+            }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="text-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.CONTENT.MAX_POST_LENGTH' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.CONTENT.MAX_POST_LENGTH_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-input
+                type="number"
+                [(ngModel)]="contentSettings.maxPostLength"
+                min="100"
+                max="10000"></ion-input>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <ion-icon name="link-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.CONTENT.ALLOW_EXTERNAL_LINKS' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.CONTENT.ALLOW_EXTERNAL_LINKS_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-toggle [(ngModel)]="contentSettings.allowExternalLinks"></ion-toggle>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <div class="tab-content" [class.active]="selectedTab === 'notifications'">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{
+              'ADMIN.SETTINGS.NOTIFICATIONS.EMAIL_CONFIG' | translate
+            }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="setting-item vertical">
+              <div class="setting-label">
+                <ion-icon name="mail-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.NOTIFICATIONS.EMAIL_FROM' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.NOTIFICATIONS.EMAIL_FROM_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-input
+                type="email"
+                [(ngModel)]="notificationSettings.emailFrom"
+                placeholder="noreply@unihub.smuks.dev"></ion-input>
+            </div>
+
+            <div class="setting-item vertical">
+              <div class="setting-label">
+                <ion-icon name="return-down-back-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.NOTIFICATIONS.EMAIL_REPLY_TO' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.NOTIFICATIONS.EMAIL_REPLY_TO_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-input
+                type="email"
+                [(ngModel)]="notificationSettings.emailReplyTo"
+                placeholder="support@unihub.smuks.dev"></ion-input>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{
+              'ADMIN.SETTINGS.NOTIFICATIONS.SMTP_CONFIG' | translate
+            }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="setting-item vertical">
+              <div class="setting-label">
+                <ion-icon name="server-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.NOTIFICATIONS.SMTP_SERVER' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.NOTIFICATIONS.SMTP_SERVER_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-input
+                [(ngModel)]="notificationSettings.smtpServer"
+                placeholder="smtp.gmail.com"></ion-input>
+            </div>
+
+            <div class="setting-item vertical">
+              <div class="setting-label">
+                <ion-icon name="cellular-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.NOTIFICATIONS.SMTP_PORT' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.NOTIFICATIONS.SMTP_PORT_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-input
+                type="number"
+                [(ngModel)]="notificationSettings.smtpPort"
+                min="1"
+                max="65535"></ion-input>
+            </div>
+
+            <div class="setting-item vertical">
+              <div class="setting-label">
+                <ion-icon name="person-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.NOTIFICATIONS.SMTP_USERNAME' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.NOTIFICATIONS.SMTP_USERNAME_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-input
+                [(ngModel)]="notificationSettings.smtpUsername"
+                placeholder="username@gmail.com"></ion-input>
+            </div>
+
+            <div class="setting-item vertical">
+              <div class="setting-label">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <div>
+                  <h3>{{ 'ADMIN.SETTINGS.NOTIFICATIONS.SMTP_PASSWORD' | translate }}</h3>
+                  <p>{{ 'ADMIN.SETTINGS.NOTIFICATIONS.SMTP_PASSWORD_DESC' | translate }}</p>
+                </div>
+              </div>
+              <ion-input
+                type="password"
+                [(ngModel)]="notificationSettings.smtpPassword"
+                placeholder="••••••••"></ion-input>
+            </div>
+
+            <div class="action-buttons">
+              <ion-button (click)="testEmailSettings()" fill="outline" expand="block">
+                <ion-icon name="mail-outline" slot="start"></ion-icon>
+                {{ 'ADMIN.SETTINGS.ACTIONS.TEST_EMAIL' | translate }}
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+
+    <div class="loading-state" *ngIf="isLoading">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+
+    <div class="settings-actions">
+      <div class="action-buttons">
+        <ion-button (click)="clearCache()" fill="outline" color="medium">
+          <ion-icon name="trash-outline" slot="start"></ion-icon>
+          {{ 'ADMIN.SETTINGS.ACTIONS.CLEAR_CACHE' | translate }}
+        </ion-button>
+
+        <ion-button (click)="resetToDefaults()" fill="outline" color="warning">
+          <ion-icon name="refresh-outline" slot="start"></ion-icon>
+          {{ 'ADMIN.SETTINGS.ACTIONS.RESET_DEFAULTS' | translate }}
+        </ion-button>
+
+        <ion-button (click)="exportSettings()" fill="outline">
+          <ion-icon name="download-outline" slot="start"></ion-icon>
+          {{ 'ADMIN.SETTINGS.ACTIONS.EXPORT' | translate }}
+        </ion-button>
+
+        <ion-button (click)="fileInput.click()" fill="outline">
+          <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+          {{ 'ADMIN.SETTINGS.ACTIONS.IMPORT' | translate }}
+        </ion-button>
+        <input
+          #fileInput
+          type="file"
+          accept=".json"
+          (change)="importSettings($event)"
+          style="display: none" />
+
+        <ion-button (click)="saveSettings()" [disabled]="isSaving" expand="block" color="primary">
+          <ion-icon name="save-outline" slot="start"></ion-icon>
+          {{ 'ADMIN.SETTINGS.ACTIONS.SAVE' | translate }}
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>
