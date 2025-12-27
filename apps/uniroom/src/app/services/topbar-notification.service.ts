@@ -2,6 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { StorageService } from './storage.service';
+import { Capacitor } from '@capacitor/core';
+import { LocalNotifications, LocalNotificationSchema } from '@capacitor/local-notifications';
 
 export type NotificationIcon =
   | 'mail'
@@ -41,8 +43,36 @@ export class TopBarNotificationService {
   private readonly unreadCountSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   public readonly unreadCount$: Observable<number> = this.unreadCountSubject.asObservable();
 
+  private readonly isNativePlatform: boolean = Capacitor.isNativePlatform();
+  private notificationIdCounter: number = 1;
+
   constructor() {
     this.loadNotifications();
+    if (this.isNativePlatform) {
+      this.initializeLocalNotifications();
+    }
+  }
+
+  private async initializeLocalNotifications(): Promise<void> {
+    try {
+      const permissionStatus = await LocalNotifications.checkPermissions();
+      if (permissionStatus.display !== 'granted') {
+        const requestResult = await LocalNotifications.requestPermissions();
+        if (requestResult.display !== 'granted') {
+          return;
+        }
+      }
+
+      await LocalNotifications.addListener('localNotificationActionPerformed', (notification) => {
+        const notificationId = notification.notification.extra?.notificationId as string | undefined;
+        if (notificationId) {
+          const topbarNotification = this.notificationsSubject.value.find((n) => n.id === notificationId);
+          if (topbarNotification) {
+            void this.navigateToNotification(topbarNotification);
+          }
+        }
+      });
+    } catch {}
   }
 
   private async loadNotifications(): Promise<void> {
@@ -79,6 +109,56 @@ export class TopBarNotificationService {
     this.notificationsSubject.next(updatedNotifications);
     this.updateUnreadCount();
     void this.saveNotifications();
+
+    if (this.isNativePlatform) {
+      void this.sendNativeNotification(newNotification);
+    }
+  }
+
+  private async sendNativeNotification(notification: TopBarNotification): Promise<void> {
+    try {
+      const localNotification: LocalNotificationSchema = {
+        id: this.notificationIdCounter++,
+        title: notification.title,
+        body: notification.message,
+        smallIcon: this.getNotificationIcon(notification.icon),
+        iconColor: this.getIconColor(notification.category),
+        extra: {
+          notificationId: notification.id,
+          route: notification.route,
+          routeParams: notification.routeParams
+        }
+      };
+
+      await LocalNotifications.schedule({
+        notifications: [localNotification]
+      });
+    } catch {
+    }
+  }
+
+  private getNotificationIcon(icon: NotificationIcon): string {
+    const iconMap: Record<NotificationIcon, string> = {
+      mail: 'ic_stat_mail',
+      chatbubbles: 'ic_stat_chat',
+      heart: 'ic_stat_heart',
+      home: 'ic_stat_home',
+      'alert-circle': 'ic_stat_alert',
+      'information-circle': 'ic_stat_info',
+      'checkmark-circle': 'ic_stat_check'
+    };
+    return iconMap[icon] || 'ic_stat_notification';
+  }
+
+  private getIconColor(category: TopBarNotification['category']): string {
+    const colorMap: Record<TopBarNotification['category'], string> = {
+      message: '#3880ff',
+      like: '#eb445a',
+      offer: '#2dd36f',
+      system: '#ffc409',
+      other: '#92949c'
+    };
+    return colorMap[category] || '#3880ff';
   }
 
   markAsRead(notificationId: string): void {

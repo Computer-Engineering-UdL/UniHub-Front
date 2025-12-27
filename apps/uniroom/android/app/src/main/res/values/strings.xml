@@ -4,4 +4,7 @@
     <string name="title_activity_main">UniHub</string>
     <string name="package_name">com.tuorg.uniroom</string>
     <string name="custom_url_scheme">com.tuorg.uniroom</string>
+    <string name="default_notification_channel_id">unihub_notifications</string>
+    <string name="default_notification_channel_name">UniHub Notifications</string>
+    <string name="default_notification_channel_description">Notifications from UniHub about messages, likes, and updates</string>
 </resources>

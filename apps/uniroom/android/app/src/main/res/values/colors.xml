@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary color for notifications -->
+    <color name="primary">#3880ff</color>
+
+    <!-- Additional colors -->
+    <color name="colorPrimary">#3880ff</color>
+    <color name="colorPrimaryDark">#2a5fcc</color>
+    <color name="colorAccent">#3880ff</color>
+</resources>
+
