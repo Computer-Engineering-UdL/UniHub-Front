@@ -183,6 +183,9 @@ export class ProfileEditModal implements OnInit {
     if (this.user?.imgUrl) {
       return this.user.imgUrl;
     }
+    if (this.user?.avatar_url) {
+      return this.user.avatar_url;
+    }
     const first: string = this.user?.firstName?.trim() || '';
     const last: string = this.user?.lastName?.trim() || '';
     const name: string =
