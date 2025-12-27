@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
@@ -9,6 +9,7 @@ import { UniJobsService } from '../../services/unijobs.service';
 import { AuthService } from '../../services/auth.service';
 import { JobApplicationPayload } from '../../models/unijobs.types';
 import { SharedModule } from '../../shared/shared-module';
+import { User } from '../../models/auth.types';
 
 interface ApplyJobForm {
   fullName: FormControl<string>;
@@ -50,8 +51,23 @@ export class ApplyJobDialogComponent implements OnInit {
   protected submitting: boolean = false;
 
   ngOnInit(): void {
-    const user = this.authService.currentUser;
-    if (user) {
+    void this.loadUserData();
+  }
+
+  private async loadUserData(): Promise<void> {
+    const user: User | null = this.authService.currentUser;
+    if (!user) {
+      return;
+    }
+
+    try {
+      const fullUser: User = await this.authService.fetchUserById(user.id);
+      this.form.patchValue({
+        fullName: fullUser.fullName ?? fullUser.name ?? '',
+        email: fullUser.email ?? '',
+        phone: fullUser.phone ?? ''
+      });
+    } catch {
       this.form.patchValue({
         fullName: user.fullName ?? user.name ?? '',
         email: user.email ?? '',
