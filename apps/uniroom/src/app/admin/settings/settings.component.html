@@ -151,11 +151,19 @@
                   <h3>
                     {{ 'ADMIN.SETTINGS.SYSTEM.PUSH_NOTIFICATIONS' | translate }}
                     <ion-badge
-                      *ngIf="systemSettings.pushNotifications.isBeta"
+                      *ngIf="systemSettings.pushNotifications.status === 'beta'"
                       color="warning"
-                      class="beta-badge"
-                      >BETA</ion-badge
-                    >
+                      class="status-badge">
+                      <ion-icon name="flask-outline"></ion-icon>
+                      BETA
+                    </ion-badge>
+                    <ion-badge
+                      *ngIf="systemSettings.pushNotifications.status === 'coming-soon'"
+                      color="medium"
+                      class="status-badge">
+                      <ion-icon name="time-outline"></ion-icon>
+                      COMING SOON
+                    </ion-badge>
                   </h3>
                   <p>{{ 'ADMIN.SETTINGS.SYSTEM.PUSH_NOTIFICATIONS_DESC' | translate }}</p>
                 </div>
@@ -170,11 +178,19 @@
                   <h3>
                     {{ 'ADMIN.SETTINGS.SYSTEM.AUTO_MODERATION' | translate }}
                     <ion-badge
-                      *ngIf="systemSettings.autoModeration.isBeta"
+                      *ngIf="systemSettings.autoModeration.status === 'beta'"
                       color="warning"
-                      class="beta-badge"
-                      >BETA</ion-badge
-                    >
+                      class="status-badge">
+                      <ion-icon name="flask-outline"></ion-icon>
+                      BETA
+                    </ion-badge>
+                    <ion-badge
+                      *ngIf="systemSettings.autoModeration.status === 'coming-soon'"
+                      color="medium"
+                      class="status-badge">
+                      <ion-icon name="time-outline"></ion-icon>
+                      COMING SOON
+                    </ion-badge>
                   </h3>
                   <p>{{ 'ADMIN.SETTINGS.SYSTEM.AUTO_MODERATION_DESC' | translate }}</p>
                 </div>
@@ -289,11 +305,19 @@
                   <h3>
                     {{ 'ADMIN.SETTINGS.SECURITY.TWO_FACTOR_AUTH' | translate }}
                     <ion-badge
-                      *ngIf="securitySettings.twoFactorAuthEnabled.isBeta"
+                      *ngIf="securitySettings.twoFactorAuthEnabled.status === 'beta'"
                       color="warning"
-                      class="beta-badge"
-                      >BETA</ion-badge
-                    >
+                      class="status-badge">
+                      <ion-icon name="flask-outline"></ion-icon>
+                      BETA
+                    </ion-badge>
+                    <ion-badge
+                      *ngIf="securitySettings.twoFactorAuthEnabled.status === 'coming-soon'"
+                      color="medium"
+                      class="status-badge">
+                      <ion-icon name="time-outline"></ion-icon>
+                      COMING SOON
+                    </ion-badge>
                   </h3>
                   <p>{{ 'ADMIN.SETTINGS.SECURITY.TWO_FACTOR_AUTH_DESC' | translate }}</p>
                 </div>
@@ -317,11 +341,19 @@
                   <h3>
                     {{ 'ADMIN.SETTINGS.CONTENT.REQUIRE_APPROVAL' | translate }}
                     <ion-badge
-                      *ngIf="contentSettings.requirePostApproval.isBeta"
+                      *ngIf="contentSettings.requirePostApproval.status === 'beta'"
                       color="warning"
-                      class="beta-badge"
-                      >BETA</ion-badge
-                    >
+                      class="status-badge">
+                      <ion-icon name="flask-outline"></ion-icon>
+                      BETA
+                    </ion-badge>
+                    <ion-badge
+                      *ngIf="contentSettings.requirePostApproval.status === 'coming-soon'"
+                      color="medium"
+                      class="status-badge">
+                      <ion-icon name="time-outline"></ion-icon>
+                      COMING SOON
+                    </ion-badge>
                   </h3>
                   <p>{{ 'ADMIN.SETTINGS.CONTENT.REQUIRE_APPROVAL_DESC' | translate }}</p>
                 </div>
@@ -336,11 +368,19 @@
                   <h3>
                     {{ 'ADMIN.SETTINGS.CONTENT.PROFANITY_FILTER' | translate }}
                     <ion-badge
-                      *ngIf="contentSettings.profanityFilterEnabled.isBeta"
+                      *ngIf="contentSettings.profanityFilterEnabled.status === 'beta'"
                       color="warning"
-                      class="beta-badge"
-                      >BETA</ion-badge
-                    >
+                      class="status-badge">
+                      <ion-icon name="flask-outline"></ion-icon>
+                      BETA
+                    </ion-badge>
+                    <ion-badge
+                      *ngIf="contentSettings.profanityFilterEnabled.status === 'coming-soon'"
+                      color="medium"
+                      class="status-badge">
+                      <ion-icon name="time-outline"></ion-icon>
+                      COMING SOON
+                    </ion-badge>
                   </h3>
                   <p>{{ 'ADMIN.SETTINGS.CONTENT.PROFANITY_FILTER_DESC' | translate }}</p>
                 </div>

@@ -208,13 +208,44 @@ ion-card {
   }
 }
 
-.beta-badge {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 6px;
+.status-badge {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  ion-icon {
+    font-size: 13px;
+    margin: 0;
+    color: var(--ion-color-contrast);
+  }
+
+  &[color='warning'] {
+    background: linear-gradient(135deg, #ffc409 0%, #ffb300 100%);
+    color: #000;
+    border: 1px solid rgba(255, 196, 9, 0.3);
+  }
+
+  &[color='medium'] {
+    background: linear-gradient(135deg, #92949c 0%, #6d6d6d 100%);
+    color: var(--ion-color-contrast);
+    border: 1px solid rgba(146, 148, 156, 0.3);
+  }
 }
 
 ion-input,

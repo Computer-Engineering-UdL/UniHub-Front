@@ -9,10 +9,11 @@ import { firstValueFrom, lastValueFrom } from 'rxjs';
 import NotificationService from '../../services/notification.service';
 
 type SettingValue = boolean | number | string;
+type SettingStatus = 'stable' | 'beta' | 'coming-soon';
 
 interface SettingConfig<T extends SettingValue = SettingValue> {
   value: T;
-  isBeta?: boolean;
+  status?: SettingStatus;
 }
 
 interface SystemSettings {
@@ -101,46 +102,46 @@ export class AdminSettingsComponent implements OnInit {
   selectedTab: string = 'system';
 
   systemSettings: SystemSettings = {
-    maintenanceMode: { value: false, isBeta: false },
-    allowNewRegistrations: { value: true, isBeta: false },
-    requireEmailVerification: { value: true, isBeta: false },
-    maxUploadSizeMb: { value: 10, isBeta: false },
-    sessionTimeoutMinutes: { value: 120, isBeta: false },
-    defaultLanguage: { value: 'auto', isBeta: false },
-    emailNotifications: { value: true, isBeta: false },
-    pushNotifications: { value: true, isBeta: true },
-    autoModeration: { value: false, isBeta: true },
-    maxImagesPerPost: { value: 10, isBeta: false }
+    maintenanceMode: { value: false, status: 'stable' },
+    allowNewRegistrations: { value: true, status: 'stable' },
+    requireEmailVerification: { value: true, status: 'stable' },
+    maxUploadSizeMb: { value: 10, status: 'stable' },
+    sessionTimeoutMinutes: { value: 120, status: 'stable' },
+    defaultLanguage: { value: 'auto', status: 'stable' },
+    emailNotifications: { value: true, status: 'stable' },
+    pushNotifications: { value: true, status: 'beta' },
+    autoModeration: { value: false, status: 'beta' },
+    maxImagesPerPost: { value: 10, status: 'stable' }
   };
 
   securitySettings: SecuritySettings = {
-    passwordMinLength: { value: 8, isBeta: false },
-    passwordRequireUppercase: { value: true, isBeta: false },
-    passwordRequireNumbers: { value: true, isBeta: false },
-    passwordRequireSpecialChars: { value: false, isBeta: false },
-    maxLoginAttempts: { value: 5, isBeta: false },
-    accountLockoutMinutes: { value: 30, isBeta: false },
-    twoFactorAuthEnabled: { value: false, isBeta: true }
+    passwordMinLength: { value: 8, status: 'stable' },
+    passwordRequireUppercase: { value: true, status: 'stable' },
+    passwordRequireNumbers: { value: true, status: 'stable' },
+    passwordRequireSpecialChars: { value: false, status: 'stable' },
+    maxLoginAttempts: { value: 5, status: 'stable' },
+    accountLockoutMinutes: { value: 30, status: 'stable' },
+    twoFactorAuthEnabled: { value: false, status: 'coming-soon' }
   };
 
   contentSettings: ContentSettings = {
-    requirePostApproval: { value: false, isBeta: true },
-    maxPostLength: { value: 5000, isBeta: false },
-    allowExternalLinks: { value: true, isBeta: false },
-    profanityFilterEnabled: { value: true, isBeta: true },
-    minReportThreshold: { value: 3, isBeta: false }
+    requirePostApproval: { value: false, status: 'beta' },
+    maxPostLength: { value: 5000, status: 'stable' },
+    allowExternalLinks: { value: true, status: 'stable' },
+    profanityFilterEnabled: { value: true, status: 'beta' },
+    minReportThreshold: { value: 3, status: 'stable' }
   };
 
   DEFAULT_NO_REPLY_EMAIL: string = 'noreply@unihub.smuks.dev';
   DEFAULT_SUPPORT_EMAIL: string = 'support@unihub.smuks.dev';
 
   notificationSettings: NotificationSettings = {
-    emailFrom: { value: this.DEFAULT_NO_REPLY_EMAIL, isBeta: false },
-    emailReplyTo: { value: this.DEFAULT_SUPPORT_EMAIL, isBeta: false },
-    smtpServer: { value: 'smtp.gmail.com', isBeta: false },
-    smtpPort: { value: 587, isBeta: false },
-    smtpUsername: { value: '', isBeta: false },
-    smtpPassword: { value: '', isBeta: false }
+    emailFrom: { value: this.DEFAULT_NO_REPLY_EMAIL, status: 'stable' },
+    emailReplyTo: { value: this.DEFAULT_SUPPORT_EMAIL, status: 'stable' },
+    smtpServer: { value: 'smtp.gmail.com', status: 'stable' },
+    smtpPort: { value: 587, status: 'stable' },
+    smtpUsername: { value: '', status: 'stable' },
+    smtpPassword: { value: '', status: 'stable' }
   };
 
   availableLanguages: Array<LanguageOption> = [
@@ -151,7 +152,7 @@ export class AdminSettingsComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.loadSettings();
+    void this.loadSettings();
   }
 
   async loadSettings(): Promise<void> {
@@ -232,34 +233,34 @@ export class AdminSettingsComponent implements OnInit {
     }
 
     this.systemSettings = {
-      maintenanceMode: { value: false, isBeta: false },
-      allowNewRegistrations: { value: true, isBeta: false },
-      requireEmailVerification: { value: true, isBeta: false },
-      maxUploadSizeMb: { value: 10, isBeta: false },
-      sessionTimeoutMinutes: { value: 120, isBeta: false },
-      defaultLanguage: { value: 'ca', isBeta: false },
-      emailNotifications: { value: true, isBeta: false },
-      pushNotifications: { value: true, isBeta: true },
-      autoModeration: { value: false, isBeta: true },
-      maxImagesPerPost: { value: 10, isBeta: false }
+      maintenanceMode: { value: false, status: 'stable' },
+      allowNewRegistrations: { value: true, status: 'stable' },
+      requireEmailVerification: { value: true, status: 'stable' },
+      maxUploadSizeMb: { value: 10, status: 'stable' },
+      sessionTimeoutMinutes: { value: 120, status: 'stable' },
+      defaultLanguage: { value: 'ca', status: 'stable' },
+      emailNotifications: { value: true, status: 'stable' },
+      pushNotifications: { value: true, status: 'beta' },
+      autoModeration: { value: false, status: 'beta' },
+      maxImagesPerPost: { value: 10, status: 'stable' }
     };
 
     this.securitySettings = {
-      passwordMinLength: { value: 8, isBeta: false },
-      passwordRequireUppercase: { value: true, isBeta: false },
-      passwordRequireNumbers: { value: true, isBeta: false },
-      passwordRequireSpecialChars: { value: false, isBeta: false },
-      maxLoginAttempts: { value: 5, isBeta: false },
-      accountLockoutMinutes: { value: 30, isBeta: false },
-      twoFactorAuthEnabled: { value: false, isBeta: true }
+      passwordMinLength: { value: 8, status: 'stable' },
+      passwordRequireUppercase: { value: true, status: 'stable' },
+      passwordRequireNumbers: { value: true, status: 'stable' },
+      passwordRequireSpecialChars: { value: false, status: 'stable' },
+      maxLoginAttempts: { value: 5, status: 'stable' },
+      accountLockoutMinutes: { value: 30, status: 'stable' },
+      twoFactorAuthEnabled: { value: false, status: 'coming-soon' }
     };
 
     this.contentSettings = {
-      requirePostApproval: { value: false, isBeta: true },
-      maxPostLength: { value: 5000, isBeta: false },
-      allowExternalLinks: { value: true, isBeta: false },
-      profanityFilterEnabled: { value: true, isBeta: true },
-      minReportThreshold: { value: 3, isBeta: false }
+      requirePostApproval: { value: false, status: 'beta' },
+      maxPostLength: { value: 5000, status: 'stable' },
+      allowExternalLinks: { value: true, status: 'stable' },
+      profanityFilterEnabled: { value: true, status: 'beta' },
+      minReportThreshold: { value: 3, status: 'stable' }
     };
 
     this.notificationService.success('ADMIN.SETTINGS.SUCCESS.RESET');
