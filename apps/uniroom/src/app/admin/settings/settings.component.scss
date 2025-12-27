@@ -194,6 +194,10 @@ ion-card {
     font-size: 16px;
     font-weight: 600;
     color: var(--ion-text-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
   }
 
   p {
@@ -202,6 +206,15 @@ ion-card {
     color: var(--ion-color-medium);
     line-height: 1.4;
   }
+}
+
+.beta-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 ion-input,

@@ -8,45 +8,78 @@ import { AuthService } from '../../services/auth.service';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
 import NotificationService from '../../services/notification.service';
 
+type SettingValue = boolean | number | string;
+
+interface SettingConfig<T extends SettingValue = SettingValue> {
+  value: T;
+  isBeta?: boolean;
+}
+
 interface SystemSettings {
-  maintenanceMode: boolean;
-  allowNewRegistrations: boolean;
-  requireEmailVerification: boolean;
-  maxUploadSizeMb: number;
-  sessionTimeoutMinutes: number;
-  defaultLanguage: string;
-  emailNotifications: boolean;
-  pushNotifications: boolean;
-  autoModeration: boolean;
-  maxImagesPerPost: number;
+  maintenanceMode: SettingConfig<boolean>;
+  allowNewRegistrations: SettingConfig<boolean>;
+  requireEmailVerification: SettingConfig<boolean>;
+  maxUploadSizeMb: SettingConfig<number>;
+  sessionTimeoutMinutes: SettingConfig<number>;
+  defaultLanguage: SettingConfig<string>;
+  emailNotifications: SettingConfig<boolean>;
+  pushNotifications: SettingConfig<boolean>;
+  autoModeration: SettingConfig<boolean>;
+  maxImagesPerPost: SettingConfig<number>;
+  [key: string]: SettingConfig;
 }
 
 interface SecuritySettings {
-  passwordMinLength: number;
-  passwordRequireUppercase: boolean;
-  passwordRequireNumbers: boolean;
-  passwordRequireSpecialChars: boolean;
-  maxLoginAttempts: number;
-  accountLockoutMinutes: number;
-  twoFactorAuthEnabled: boolean;
+  passwordMinLength: SettingConfig<number>;
+  passwordRequireUppercase: SettingConfig<boolean>;
+  passwordRequireNumbers: SettingConfig<boolean>;
+  passwordRequireSpecialChars: SettingConfig<boolean>;
+  maxLoginAttempts: SettingConfig<number>;
+  accountLockoutMinutes: SettingConfig<number>;
+  twoFactorAuthEnabled: SettingConfig<boolean>;
+  [key: string]: SettingConfig;
 }
 
 interface ContentSettings {
-  allowAnonymousPosts: boolean;
-  requirePostApproval: boolean;
-  maxPostLength: number;
-  allowExternalLinks: boolean;
-  profanityFilterEnabled: boolean;
-  minReportThreshold: number;
+  requirePostApproval: SettingConfig<boolean>;
+  maxPostLength: SettingConfig<number>;
+  allowExternalLinks: SettingConfig<boolean>;
+  profanityFilterEnabled: SettingConfig<boolean>;
+  minReportThreshold: SettingConfig<number>;
+  [key: string]: SettingConfig;
 }
 
 interface NotificationSettings {
-  emailFrom: string;
-  emailReplyTo: string;
-  smtpServer: string;
-  smtpPort: number;
-  smtpUsername: string;
-  smtpPassword: string;
+  emailFrom: SettingConfig<string>;
+  emailReplyTo: SettingConfig<string>;
+  smtpServer: SettingConfig<string>;
+  smtpPort: SettingConfig<number>;
+  smtpUsername: SettingConfig<string>;
+  smtpPassword: SettingConfig<string>;
+  [key: string]: SettingConfig;
+}
+
+interface LanguageOption {
+  code: string;
+  name: string;
+}
+
+interface SettingsResponse {
+  system?: Partial<Record<keyof SystemSettings, SettingValue>>;
+  security?: Partial<Record<keyof SecuritySettings, SettingValue>>;
+  content?: Partial<Record<keyof ContentSettings, SettingValue>>;
+  notifications?: Partial<Record<keyof NotificationSettings, SettingValue>>;
+}
+
+interface SettingsPayload {
+  system: Record<string, SettingValue>;
+  security: Record<string, SettingValue>;
+  content: Record<string, SettingValue>;
+  notifications: Record<string, SettingValue>;
+}
+
+interface User {
+  email?: string;
 }
 
 @Component({
@@ -68,47 +101,49 @@ export class AdminSettingsComponent implements OnInit {
   selectedTab: string = 'system';
 
   systemSettings: SystemSettings = {
-    maintenanceMode: false,
-    allowNewRegistrations: true,
-    requireEmailVerification: true,
-    maxUploadSizeMb: 10,
-    sessionTimeoutMinutes: 120,
-    defaultLanguage: 'auto',
-    emailNotifications: true,
-    pushNotifications: true,
-    autoModeration: false,
-    maxImagesPerPost: 10
+    maintenanceMode: { value: false, isBeta: false },
+    allowNewRegistrations: { value: true, isBeta: false },
+    requireEmailVerification: { value: true, isBeta: false },
+    maxUploadSizeMb: { value: 10, isBeta: false },
+    sessionTimeoutMinutes: { value: 120, isBeta: false },
+    defaultLanguage: { value: 'auto', isBeta: false },
+    emailNotifications: { value: true, isBeta: false },
+    pushNotifications: { value: true, isBeta: true },
+    autoModeration: { value: false, isBeta: true },
+    maxImagesPerPost: { value: 10, isBeta: false }
   };
 
   securitySettings: SecuritySettings = {
-    passwordMinLength: 8,
-    passwordRequireUppercase: true,
-    passwordRequireNumbers: true,
-    passwordRequireSpecialChars: false,
-    maxLoginAttempts: 5,
-    accountLockoutMinutes: 30,
-    twoFactorAuthEnabled: false
+    passwordMinLength: { value: 8, isBeta: false },
+    passwordRequireUppercase: { value: true, isBeta: false },
+    passwordRequireNumbers: { value: true, isBeta: false },
+    passwordRequireSpecialChars: { value: false, isBeta: false },
+    maxLoginAttempts: { value: 5, isBeta: false },
+    accountLockoutMinutes: { value: 30, isBeta: false },
+    twoFactorAuthEnabled: { value: false, isBeta: true }
   };
 
   contentSettings: ContentSettings = {
-    allowAnonymousPosts: false,
-    requirePostApproval: false,
-    maxPostLength: 5000,
-    allowExternalLinks: true,
-    profanityFilterEnabled: true,
-    minReportThreshold: 3
+    requirePostApproval: { value: false, isBeta: true },
+    maxPostLength: { value: 5000, isBeta: false },
+    allowExternalLinks: { value: true, isBeta: false },
+    profanityFilterEnabled: { value: true, isBeta: true },
+    minReportThreshold: { value: 3, isBeta: false }
   };
+
+  DEFAULT_NO_REPLY_EMAIL: string = 'noreply@unihub.smuks.dev';
+  DEFAULT_SUPPORT_EMAIL: string = 'support@unihub.smuks.dev';
 
   notificationSettings: NotificationSettings = {
-    emailFrom: 'noreply@unihub.smuks.dev',
-    emailReplyTo: 'support@unihub.smuks.dev',
-    smtpServer: 'smtp.gmail.com',
-    smtpPort: 587,
-    smtpUsername: '',
-    smtpPassword: ''
+    emailFrom: { value: this.DEFAULT_NO_REPLY_EMAIL, isBeta: false },
+    emailReplyTo: { value: this.DEFAULT_SUPPORT_EMAIL, isBeta: false },
+    smtpServer: { value: 'smtp.gmail.com', isBeta: false },
+    smtpPort: { value: 587, isBeta: false },
+    smtpUsername: { value: '', isBeta: false },
+    smtpPassword: { value: '', isBeta: false }
   };
 
-  availableLanguages: Array<{ code: string; name: string }> = [
+  availableLanguages: Array<LanguageOption> = [
     { code: 'auto', name: this.translate.instant('ADMIN.TERMS.AUTO') },
     { code: 'ca', name: this.translate.instant('ADMIN.TERMS.CATALAN') },
     { code: 'es', name: this.translate.instant('ADMIN.TERMS.SPANISH') },
@@ -122,13 +157,22 @@ export class AdminSettingsComponent implements OnInit {
   async loadSettings(): Promise<void> {
     this.isLoading = true;
     try {
-      const settings = await this.apiService.get<any>('admin/settings').toPromise();
+      const settings: SettingsResponse | undefined = await firstValueFrom(
+        this.apiService.get<SettingsResponse>('admin/settings')
+      );
       if (settings) {
-        if (settings.system) this.systemSettings = { ...this.systemSettings, ...settings.system };
-        if (settings.security) this.securitySettings = { ...this.securitySettings, ...settings.security };
-        if (settings.content) this.contentSettings = { ...this.contentSettings, ...settings.content };
-        if (settings.notifications)
-          this.notificationSettings = { ...this.notificationSettings, ...settings.notifications };
+        if (settings.system) {
+          this.mergeSettings(this.systemSettings, settings.system);
+        }
+        if (settings.security) {
+          this.mergeSettings(this.securitySettings, settings.security);
+        }
+        if (settings.content) {
+          this.mergeSettings(this.contentSettings, settings.content);
+        }
+        if (settings.notifications) {
+          this.mergeSettings(this.notificationSettings, settings.notifications);
+        }
       }
     } catch {
       this.notificationService.error('ADMIN.SETTINGS.ERROR.LOAD_FAILED');
@@ -137,17 +181,32 @@ export class AdminSettingsComponent implements OnInit {
     }
   }
 
+  private mergeSettings<T extends Record<string, SettingConfig>>(
+    target: T,
+    source: Partial<Record<keyof T, SettingValue>>
+  ): void {
+    for (const key in source) {
+      if (key in target && key in source) {
+        const typedKey = key as keyof T;
+        const sourceValue = source[typedKey];
+        if (sourceValue !== undefined) {
+          (target[typedKey] as SettingConfig).value = sourceValue as SettingValue;
+        }
+      }
+    }
+  }
+
   async saveSettings(): Promise<void> {
     this.isSaving = true;
     try {
-      const payload: any = {
-        system: this.systemSettings,
-        security: this.securitySettings,
-        content: this.contentSettings,
-        notifications: this.notificationSettings
+      const payload: SettingsPayload = {
+        system: this.extractSettingValues(this.systemSettings),
+        security: this.extractSettingValues(this.securitySettings),
+        content: this.extractSettingValues(this.contentSettings),
+        notifications: this.extractSettingValues(this.notificationSettings)
       };
 
-      await this.apiService.put('admin/settings', payload).toPromise();
+      await firstValueFrom(this.apiService.put('admin/settings', payload));
       this.notificationService.success('ADMIN.SETTINGS.SUCCESS.SAVED');
     } catch {
       this.notificationService.error('ADMIN.SETTINGS.ERROR.SAVE_FAILED');
@@ -156,40 +215,51 @@ export class AdminSettingsComponent implements OnInit {
     }
   }
 
+  private extractSettingValues<T extends Record<string, SettingConfig>>(settings: T): Record<string, SettingValue> {
+    const result: Record<string, SettingValue> = {};
+    for (const key in settings) {
+      if (key in settings) {
+        result[key] = settings[key].value;
+      }
+    }
+    return result;
+  }
+
   async resetToDefaults(): Promise<void> {
     const confirm: boolean = await this.showConfirmDialog('ADMIN.SETTINGS.CONFIRM.RESET_DEFAULTS');
-    if (!confirm) return;
+    if (!confirm) {
+      return;
+    }
 
     this.systemSettings = {
-      maintenanceMode: false,
-      allowNewRegistrations: true,
-      requireEmailVerification: true,
-      maxUploadSizeMb: 10,
-      sessionTimeoutMinutes: 120,
-      defaultLanguage: 'ca',
-      emailNotifications: true,
-      pushNotifications: true,
-      autoModeration: false,
-      maxImagesPerPost: 10
+      maintenanceMode: { value: false, isBeta: false },
+      allowNewRegistrations: { value: true, isBeta: false },
+      requireEmailVerification: { value: true, isBeta: false },
+      maxUploadSizeMb: { value: 10, isBeta: false },
+      sessionTimeoutMinutes: { value: 120, isBeta: false },
+      defaultLanguage: { value: 'ca', isBeta: false },
+      emailNotifications: { value: true, isBeta: false },
+      pushNotifications: { value: true, isBeta: true },
+      autoModeration: { value: false, isBeta: true },
+      maxImagesPerPost: { value: 10, isBeta: false }
     };
 
     this.securitySettings = {
-      passwordMinLength: 8,
-      passwordRequireUppercase: true,
-      passwordRequireNumbers: true,
-      passwordRequireSpecialChars: false,
-      maxLoginAttempts: 5,
-      accountLockoutMinutes: 30,
-      twoFactorAuthEnabled: false
+      passwordMinLength: { value: 8, isBeta: false },
+      passwordRequireUppercase: { value: true, isBeta: false },
+      passwordRequireNumbers: { value: true, isBeta: false },
+      passwordRequireSpecialChars: { value: false, isBeta: false },
+      maxLoginAttempts: { value: 5, isBeta: false },
+      accountLockoutMinutes: { value: 30, isBeta: false },
+      twoFactorAuthEnabled: { value: false, isBeta: true }
     };
 
     this.contentSettings = {
-      allowAnonymousPosts: false,
-      requirePostApproval: false,
-      maxPostLength: 5000,
-      allowExternalLinks: true,
-      profanityFilterEnabled: true,
-      minReportThreshold: 3
+      requirePostApproval: { value: false, isBeta: true },
+      maxPostLength: { value: 5000, isBeta: false },
+      allowExternalLinks: { value: true, isBeta: false },
+      profanityFilterEnabled: { value: true, isBeta: true },
+      minReportThreshold: { value: 3, isBeta: false }
     };
 
     this.notificationService.success('ADMIN.SETTINGS.SUCCESS.RESET');
@@ -197,12 +267,12 @@ export class AdminSettingsComponent implements OnInit {
 
   async testEmailSettings(): Promise<void> {
     try {
-      const currentUser = await firstValueFrom(this.authService.currentUser$);
-      await this.apiService
-        .post('admin/settings/test-email', {
+      const currentUser: User | null = await firstValueFrom(this.authService.currentUser$);
+      await firstValueFrom(
+        this.apiService.post('admin/settings/test-email', {
           email: currentUser?.email
         })
-        .toPromise();
+      );
       this.notificationService.success('ADMIN.SETTINGS.SUCCESS.EMAIL_TEST_SENT');
     } catch {
       this.notificationService.error('ADMIN.SETTINGS.ERROR.EMAIL_TEST_FAILED');
@@ -211,7 +281,9 @@ export class AdminSettingsComponent implements OnInit {
 
   async clearCache(): Promise<void> {
     const confirm: boolean = await this.showConfirmDialog('ADMIN.SETTINGS.CONFIRM.CLEAR_CACHE');
-    if (!confirm) return;
+    if (!confirm) {
+      return;
+    }
 
     try {
       await lastValueFrom(this.apiService.post('admin/cache/clear', {}));
@@ -223,7 +295,15 @@ export class AdminSettingsComponent implements OnInit {
 
   async exportSettings(): Promise<void> {
     try {
-      const settings: any = {
+      interface ExportedSettings {
+        system: SystemSettings;
+        security: SecuritySettings;
+        content: ContentSettings;
+        notifications: NotificationSettings;
+        exportDate: string;
+      }
+
+      const settings: ExportedSettings = {
         system: this.systemSettings,
         security: this.securitySettings,
         content: this.contentSettings,
@@ -247,19 +327,34 @@ export class AdminSettingsComponent implements OnInit {
 
   async importSettings(event: Event): Promise<void> {
     const input: HTMLInputElement = event.target as HTMLInputElement;
-    if (!input.files || input.files.length === 0) return;
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
 
     const file: File = input.files[0];
 
     try {
       const content: string = await file.text();
-      const settings: any = JSON.parse(content);
+      interface ImportedSettings {
+        system?: Partial<SystemSettings>;
+        security?: Partial<SecuritySettings>;
+        content?: Partial<ContentSettings>;
+        notifications?: Partial<NotificationSettings>;
+      }
+      const settings: ImportedSettings = JSON.parse(content);
 
-      if (settings.system) this.systemSettings = { ...this.systemSettings, ...settings.system };
-      if (settings.security) this.securitySettings = { ...this.securitySettings, ...settings.security };
-      if (settings.content) this.contentSettings = { ...this.contentSettings, ...settings.content };
-      if (settings.notifications)
-        this.notificationSettings = { ...this.notificationSettings, ...settings.notifications };
+      if (settings.system) {
+        Object.assign(this.systemSettings, settings.system);
+      }
+      if (settings.security) {
+        Object.assign(this.securitySettings, settings.security);
+      }
+      if (settings.content) {
+        Object.assign(this.contentSettings, settings.content);
+      }
+      if (settings.notifications) {
+        Object.assign(this.notificationSettings, settings.notifications);
+      }
 
       this.notificationService.success('ADMIN.SETTINGS.SUCCESS.IMPORTED');
     } catch {

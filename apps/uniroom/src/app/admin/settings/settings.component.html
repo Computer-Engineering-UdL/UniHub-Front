@@ -41,7 +41,7 @@
                   <p>{{ 'ADMIN.SETTINGS.SYSTEM.MAINTENANCE_MODE_DESC' | translate }}</p>
                 </div>
               </div>
-              <ion-toggle [(ngModel)]="systemSettings.maintenanceMode"></ion-toggle>
+              <ion-toggle [(ngModel)]="systemSettings.maintenanceMode.value"></ion-toggle>
             </div>
 
             <div class="setting-item">
@@ -52,7 +52,7 @@
                   <p>{{ 'ADMIN.SETTINGS.SYSTEM.ALLOW_REGISTRATIONS_DESC' | translate }}</p>
                 </div>
               </div>
-              <ion-toggle [(ngModel)]="systemSettings.allowNewRegistrations"></ion-toggle>
+              <ion-toggle [(ngModel)]="systemSettings.allowNewRegistrations.value"></ion-toggle>
             </div>
 
             <div class="setting-item">
@@ -63,7 +63,7 @@
                   <p>{{ 'ADMIN.SETTINGS.SYSTEM.REQUIRE_EMAIL_VERIFICATION_DESC' | translate }}</p>
                 </div>
               </div>
-              <ion-toggle [(ngModel)]="systemSettings.requireEmailVerification"></ion-toggle>
+              <ion-toggle [(ngModel)]="systemSettings.requireEmailVerification.value"></ion-toggle>
             </div>
 
             <div class="setting-item">
@@ -76,7 +76,7 @@
               </div>
               <ion-input
                 type="number"
-                [(ngModel)]="systemSettings.sessionTimeoutMinutes"
+                [(ngModel)]="systemSettings.sessionTimeoutMinutes.value"
                 min="5"
                 max="1440"></ion-input>
             </div>
@@ -91,7 +91,7 @@
               </div>
               <ion-input
                 type="number"
-                [(ngModel)]="systemSettings.maxUploadSizeMb"
+                [(ngModel)]="systemSettings.maxUploadSizeMb.value"
                 min="1"
                 max="100"></ion-input>
             </div>
@@ -106,7 +106,7 @@
               </div>
               <ion-input
                 type="number"
-                [(ngModel)]="systemSettings.maxImagesPerPost"
+                [(ngModel)]="systemSettings.maxImagesPerPost.value"
                 min="1"
                 max="20"></ion-input>
             </div>
@@ -119,7 +119,7 @@
                   <p>{{ 'ADMIN.SETTINGS.SYSTEM.DEFAULT_LANGUAGE_DESC' | translate }}</p>
                 </div>
               </div>
-              <ion-select [(ngModel)]="systemSettings.defaultLanguage" interface="popover">
+              <ion-select [(ngModel)]="systemSettings.defaultLanguage.value" interface="popover">
                 <ion-select-option *ngFor="let lang of availableLanguages" [value]="lang.code">
                   {{ lang.name }}
                 </ion-select-option>
@@ -141,29 +141,45 @@
                   <p>{{ 'ADMIN.SETTINGS.SYSTEM.EMAIL_NOTIFICATIONS_DESC' | translate }}</p>
                 </div>
               </div>
-              <ion-toggle [(ngModel)]="systemSettings.emailNotifications"></ion-toggle>
+              <ion-toggle [(ngModel)]="systemSettings.emailNotifications.value"></ion-toggle>
             </div>
 
             <div class="setting-item">
               <div class="setting-label">
                 <ion-icon name="notifications-outline"></ion-icon>
                 <div>
-                  <h3>{{ 'ADMIN.SETTINGS.SYSTEM.PUSH_NOTIFICATIONS' | translate }}</h3>
+                  <h3>
+                    {{ 'ADMIN.SETTINGS.SYSTEM.PUSH_NOTIFICATIONS' | translate }}
+                    <ion-badge
+                      *ngIf="systemSettings.pushNotifications.isBeta"
+                      color="warning"
+                      class="beta-badge"
+                      >BETA</ion-badge
+                    >
+                  </h3>
                   <p>{{ 'ADMIN.SETTINGS.SYSTEM.PUSH_NOTIFICATIONS_DESC' | translate }}</p>
                 </div>
               </div>
-              <ion-toggle [(ngModel)]="systemSettings.pushNotifications"></ion-toggle>
+              <ion-toggle [(ngModel)]="systemSettings.pushNotifications.value"></ion-toggle>
             </div>
 
             <div class="setting-item">
               <div class="setting-label">
                 <ion-icon name="shield-outline"></ion-icon>
                 <div>
-                  <h3>{{ 'ADMIN.SETTINGS.SYSTEM.AUTO_MODERATION' | translate }}</h3>
+                  <h3>
+                    {{ 'ADMIN.SETTINGS.SYSTEM.AUTO_MODERATION' | translate }}
+                    <ion-badge
+                      *ngIf="systemSettings.autoModeration.isBeta"
+                      color="warning"
+                      class="beta-badge"
+                      >BETA</ion-badge
+                    >
+                  </h3>
                   <p>{{ 'ADMIN.SETTINGS.SYSTEM.AUTO_MODERATION_DESC' | translate }}</p>
                 </div>
               </div>
-              <ion-toggle [(ngModel)]="systemSettings.autoModeration"></ion-toggle>
+              <ion-toggle [(ngModel)]="systemSettings.autoModeration.value"></ion-toggle>
             </div>
           </ion-card-content>
         </ion-card>
@@ -187,7 +203,7 @@
               </div>
               <ion-input
                 type="number"
-                [(ngModel)]="securitySettings.passwordMinLength"
+                [(ngModel)]="securitySettings.passwordMinLength.value"
                 min="6"
                 max="20"></ion-input>
             </div>
@@ -200,7 +216,8 @@
                   <p>{{ 'ADMIN.SETTINGS.SECURITY.REQUIRE_UPPERCASE_DESC' | translate }}</p>
                 </div>
               </div>
-              <ion-toggle [(ngModel)]="securitySettings.passwordRequireUppercase"></ion-toggle>
+              <ion-toggle
+                [(ngModel)]="securitySettings.passwordRequireUppercase.value"></ion-toggle>
             </div>
 
             <div class="setting-item">
@@ -211,7 +228,7 @@
                   <p>{{ 'ADMIN.SETTINGS.SECURITY.REQUIRE_NUMBERS_DESC' | translate }}</p>
                 </div>
               </div>
-              <ion-toggle [(ngModel)]="securitySettings.passwordRequireNumbers"></ion-toggle>
+              <ion-toggle [(ngModel)]="securitySettings.passwordRequireNumbers.value"></ion-toggle>
             </div>
 
             <div class="setting-item">
@@ -222,7 +239,8 @@
                   <p>{{ 'ADMIN.SETTINGS.SECURITY.REQUIRE_SPECIAL_CHARS_DESC' | translate }}</p>
                 </div>
               </div>
-              <ion-toggle [(ngModel)]="securitySettings.passwordRequireSpecialChars"></ion-toggle>
+              <ion-toggle
+                [(ngModel)]="securitySettings.passwordRequireSpecialChars.value"></ion-toggle>
             </div>
           </ion-card-content>
         </ion-card>
@@ -244,7 +262,7 @@
               </div>
               <ion-input
                 type="number"
-                [(ngModel)]="securitySettings.maxLoginAttempts"
+                [(ngModel)]="securitySettings.maxLoginAttempts.value"
                 min="3"
                 max="10"></ion-input>
             </div>
@@ -259,7 +277,7 @@
               </div>
               <ion-input
                 type="number"
-                [(ngModel)]="securitySettings.accountLockoutMinutes"
+                [(ngModel)]="securitySettings.accountLockoutMinutes.value"
                 min="5"
                 max="1440"></ion-input>
             </div>
@@ -268,11 +286,19 @@
               <div class="setting-label">
                 <ion-icon name="phone-portrait-outline"></ion-icon>
                 <div>
-                  <h3>{{ 'ADMIN.SETTINGS.SECURITY.TWO_FACTOR_AUTH' | translate }}</h3>
+                  <h3>
+                    {{ 'ADMIN.SETTINGS.SECURITY.TWO_FACTOR_AUTH' | translate }}
+                    <ion-badge
+                      *ngIf="securitySettings.twoFactorAuthEnabled.isBeta"
+                      color="warning"
+                      class="beta-badge"
+                      >BETA</ion-badge
+                    >
+                  </h3>
                   <p>{{ 'ADMIN.SETTINGS.SECURITY.TWO_FACTOR_AUTH_DESC' | translate }}</p>
                 </div>
               </div>
-              <ion-toggle [(ngModel)]="securitySettings.twoFactorAuthEnabled"></ion-toggle>
+              <ion-toggle [(ngModel)]="securitySettings.twoFactorAuthEnabled.value"></ion-toggle>
             </div>
           </ion-card-content>
         </ion-card>
@@ -286,35 +312,40 @@
           <ion-card-content>
             <div class="setting-item">
               <div class="setting-label">
-                <ion-icon name="eye-off-outline"></ion-icon>
-                <div>
-                  <h3>{{ 'ADMIN.SETTINGS.CONTENT.ALLOW_ANONYMOUS' | translate }}</h3>
-                  <p>{{ 'ADMIN.SETTINGS.CONTENT.ALLOW_ANONYMOUS_DESC' | translate }}</p>
-                </div>
-              </div>
-              <ion-toggle [(ngModel)]="contentSettings.allowAnonymousPosts"></ion-toggle>
-            </div>
-
-            <div class="setting-item">
-              <div class="setting-label">
                 <ion-icon name="checkmark-circle-outline"></ion-icon>
                 <div>
-                  <h3>{{ 'ADMIN.SETTINGS.CONTENT.REQUIRE_APPROVAL' | translate }}</h3>
+                  <h3>
+                    {{ 'ADMIN.SETTINGS.CONTENT.REQUIRE_APPROVAL' | translate }}
+                    <ion-badge
+                      *ngIf="contentSettings.requirePostApproval.isBeta"
+                      color="warning"
+                      class="beta-badge"
+                      >BETA</ion-badge
+                    >
+                  </h3>
                   <p>{{ 'ADMIN.SETTINGS.CONTENT.REQUIRE_APPROVAL_DESC' | translate }}</p>
                 </div>
               </div>
-              <ion-toggle [(ngModel)]="contentSettings.requirePostApproval"></ion-toggle>
+              <ion-toggle [(ngModel)]="contentSettings.requirePostApproval.value"></ion-toggle>
             </div>
 
             <div class="setting-item">
               <div class="setting-label">
                 <ion-icon name="filter-outline"></ion-icon>
                 <div>
-                  <h3>{{ 'ADMIN.SETTINGS.CONTENT.PROFANITY_FILTER' | translate }}</h3>
+                  <h3>
+                    {{ 'ADMIN.SETTINGS.CONTENT.PROFANITY_FILTER' | translate }}
+                    <ion-badge
+                      *ngIf="contentSettings.profanityFilterEnabled.isBeta"
+                      color="warning"
+                      class="beta-badge"
+                      >BETA</ion-badge
+                    >
+                  </h3>
                   <p>{{ 'ADMIN.SETTINGS.CONTENT.PROFANITY_FILTER_DESC' | translate }}</p>
                 </div>
               </div>
-              <ion-toggle [(ngModel)]="contentSettings.profanityFilterEnabled"></ion-toggle>
+              <ion-toggle [(ngModel)]="contentSettings.profanityFilterEnabled.value"></ion-toggle>
             </div>
 
             <div class="setting-item">
@@ -327,7 +358,7 @@
               </div>
               <ion-input
                 type="number"
-                [(ngModel)]="contentSettings.minReportThreshold"
+                [(ngModel)]="contentSettings.minReportThreshold.value"
                 min="1"
                 max="10"></ion-input>
             </div>
@@ -351,7 +382,7 @@
               </div>
               <ion-input
                 type="number"
-                [(ngModel)]="contentSettings.maxPostLength"
+                [(ngModel)]="contentSettings.maxPostLength.value"
                 min="100"
                 max="10000"></ion-input>
             </div>
@@ -364,7 +395,7 @@
                   <p>{{ 'ADMIN.SETTINGS.CONTENT.ALLOW_EXTERNAL_LINKS_DESC' | translate }}</p>
                 </div>
               </div>
-              <ion-toggle [(ngModel)]="contentSettings.allowExternalLinks"></ion-toggle>
+              <ion-toggle [(ngModel)]="contentSettings.allowExternalLinks.value"></ion-toggle>
             </div>
           </ion-card-content>
         </ion-card>
@@ -388,8 +419,8 @@
               </div>
               <ion-input
                 type="email"
-                [(ngModel)]="notificationSettings.emailFrom"
-                placeholder="noreply@unihub.smuks.dev"></ion-input>
+                [(ngModel)]="notificationSettings.emailFrom.value"
+                placeholder="{{ DEFAULT_NO_REPLY_EMAIL }}"></ion-input>
             </div>
 
             <div class="setting-item vertical">
@@ -402,8 +433,8 @@
               </div>
               <ion-input
                 type="email"
-                [(ngModel)]="notificationSettings.emailReplyTo"
-                placeholder="support@unihub.smuks.dev"></ion-input>
+                [(ngModel)]="notificationSettings.emailReplyTo.value"
+                placeholder="{{ DEFAULT_SUPPORT_EMAIL }}"></ion-input>
             </div>
           </ion-card-content>
         </ion-card>
@@ -424,7 +455,7 @@
                 </div>
               </div>
               <ion-input
-                [(ngModel)]="notificationSettings.smtpServer"
+                [(ngModel)]="notificationSettings.smtpServer.value"
                 placeholder="smtp.gmail.com"></ion-input>
             </div>
 
@@ -438,7 +469,7 @@
               </div>
               <ion-input
                 type="number"
-                [(ngModel)]="notificationSettings.smtpPort"
+                [(ngModel)]="notificationSettings.smtpPort.value"
                 min="1"
                 max="65535"></ion-input>
             </div>
@@ -452,7 +483,7 @@
                 </div>
               </div>
               <ion-input
-                [(ngModel)]="notificationSettings.smtpUsername"
+                [(ngModel)]="notificationSettings.smtpUsername.value"
                 placeholder="username@gmail.com"></ion-input>
             </div>
 
@@ -466,7 +497,7 @@
               </div>
               <ion-input
                 type="password"
-                [(ngModel)]="notificationSettings.smtpPassword"
+                [(ngModel)]="notificationSettings.smtpPassword.value"
                 placeholder="••••••••"></ion-input>
             </div>
 
