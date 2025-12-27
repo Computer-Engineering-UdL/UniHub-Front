@@ -16,6 +16,17 @@ interface PhotoPreview {
   preview: string;
 }
 
+interface Faculty {
+  id: string;
+  name: string;
+}
+
+interface University {
+  id: string;
+  name: string;
+  faculties: Faculty[];
+}
+
 @Component({
   selector: 'app-profile-edit-modal',
   templateUrl: './profile-edit.modal.html',
@@ -30,6 +41,12 @@ export class ProfileEditModal implements OnInit {
   avatarSrc: string = DEFAULT_USER_URL;
   photoPreview: PhotoPreview | null = null;
   photoUploadError: string | null = null;
+
+  universities: University[] = [];
+  filteredFaculties: Faculty[] = [];
+  selectedUniversityId: string | null = null;
+  selectedFacultyId: string | null = null;
+  loadingUniversities: boolean = false;
 
   readonly allowedPhotoMimeTypes: Set<string> = new Set(['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
   readonly maxPhotoSizeBytes: number = 5 * 1024 * 1024;
@@ -46,6 +63,54 @@ export class ProfileEditModal implements OnInit {
       return;
     }
     this.avatarSrc = this.computeAvatarSrc();
+    this.selectedFacultyId = this.user.faculty_id ?? null;
+    void this.loadUniversitiesAndFaculties();
+  }
+
+  private async loadUniversitiesAndFaculties(): Promise<void> {
+    this.loadingUniversities = true;
+
+    try {
+      const universitiesResponse: University[] = await firstValueFrom(
+        this.apiService.get<University[]>('universities')
+      );
+
+      this.universities = universitiesResponse || [];
+
+      if (this.selectedFacultyId) {
+        for (const university of this.universities) {
+          const faculty = university.faculties.find((f) => f.id === this.selectedFacultyId);
+          if (faculty) {
+            this.selectedUniversityId = university.id;
+            this.filteredFaculties = university.faculties;
+            break;
+          }
+        }
+      }
+    } catch {
+      this.notificationService.error('PROFILE.ERROR_LOADING_DATA');
+    } finally {
+      this.loadingUniversities = false;
+    }
+  }
+
+  onUniversityChange(universityId: string): void {
+    this.selectedUniversityId = universityId;
+    this.selectedFacultyId = null;
+    this.filterFacultiesByUniversity(universityId);
+  }
+
+  onFacultyChange(facultyId: string): void {
+    this.selectedFacultyId = facultyId;
+  }
+
+  private filterFacultiesByUniversity(universityId: string | null): void {
+    if (!universityId) {
+      this.filteredFaculties = [];
+      return;
+    }
+    const university = this.universities.find((u) => u.id === universityId);
+    this.filteredFaculties = university?.faculties || [];
   }
 
   onPhotoSelected(event: Event): void {
@@ -187,7 +252,7 @@ export class ProfileEditModal implements OnInit {
         firstName: this.user.firstName,
         lastName: this.user.lastName,
         phone: this.user.phone,
-        university: this.user.university,
+        faculty_id: this.selectedFacultyId || undefined,
         yearOfStudy: this.user.yearOfStudy
       };
 

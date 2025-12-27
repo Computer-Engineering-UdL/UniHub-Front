@@ -68,10 +68,30 @@
 
       <label>
         <div class="label">{{ 'PROFILE.UNIVERSITY' | translate }}</div>
-        <input
-          type="text"
-          [value]="user.university || ''"
-          (input)="user.university = $any($event.target).value" />
+        <ion-select
+          [value]="selectedUniversityId"
+          (ionChange)="onUniversityChange($any($event.detail.value))"
+          [disabled]="loadingUniversities"
+          interface="action-sheet"
+          [placeholder]="'PROFILE.SELECT_UNIVERSITY' | translate">
+          <ion-select-option *ngFor="let uni of universities" [value]="uni.id">
+            {{ uni.name }}
+          </ion-select-option>
+        </ion-select>
+      </label>
+
+      <label *ngIf="selectedUniversityId">
+        <div class="label">{{ 'PROFILE.FACULTY' | translate }}</div>
+        <ion-select
+          [value]="selectedFacultyId"
+          (ionChange)="onFacultyChange($any($event.detail.value))"
+          [disabled]="!selectedUniversityId || filteredFaculties.length === 0"
+          interface="action-sheet"
+          [placeholder]="'PROFILE.SELECT_FACULTY' | translate">
+          <ion-select-option *ngFor="let faculty of filteredFaculties" [value]="faculty.id">
+            {{ faculty.name }}
+          </ion-select-option>
+        </ion-select>
       </label>
 
       <label>

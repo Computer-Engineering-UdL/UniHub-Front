@@ -56,6 +56,16 @@ export class AuthService {
     }
     const createdRaw = apiUser.created_at || apiUser.joinedDate;
     const joinedDate: string | undefined = createdRaw ? this.localization.formatDate(createdRaw) : undefined;
+
+    let university: string | undefined;
+    if (typeof apiUser.university === 'string') {
+      university = apiUser.university;
+    } else if (apiUser.faculty?.university?.name) {
+      university = apiUser.faculty.university.name;
+    } else if (apiUser.university?.name) {
+      university = apiUser.university.name;
+    }
+
     return {
       id: apiUser.id,
       username: apiUser.username,
@@ -70,7 +80,8 @@ export class AuthService {
         return full || apiUser.username;
       })(),
       phone: apiUser.phone,
-      university: apiUser.university,
+      university,
+      faculty_id: apiUser.faculty_id || apiUser.faculty?.id,
       provider: apiUser.provider,
       role: apiUser.role,
       imgUrl: apiUser.avatar_url || apiUser.imgUrl,
@@ -94,8 +105,8 @@ export class AuthService {
     if (data.phone !== undefined) {
       payload.phone = data.phone;
     }
-    if (data.university !== undefined) {
-      payload.university = data.university;
+    if (data.faculty_id !== undefined) {
+      payload.faculty_id = data.faculty_id;
     }
     if (data.imgUrl !== undefined) {
       payload.avatar_url = data.imgUrl;
