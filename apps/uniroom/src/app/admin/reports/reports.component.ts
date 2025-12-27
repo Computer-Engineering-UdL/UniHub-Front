@@ -326,7 +326,9 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
   }
 
   async bulkUpdateStatus(status: ReportStatus): Promise<void> {
-    if (this.selectedReports.size === 0) return;
+    if (this.selectedReports.size === 0) {
+      return;
+    }
 
     const alert = await this.alertController.create({
       header: this.translateService.instant('ADMIN.REPORTS.BULK_ACTION_MODAL.TITLE'),

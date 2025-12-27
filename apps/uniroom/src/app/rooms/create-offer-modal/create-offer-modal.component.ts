@@ -577,7 +577,9 @@ export class CreateOfferModalComponent implements OnInit, OnDestroy {
 
   getSelectedCategoryLabel(): string {
     const catId = this.offerForm?.get('category_id')?.value;
-    if (!catId) return '';
+    if (!catId) {
+      return '';
+    }
     const category = this.categories.find((c) => c.id === catId);
     return this.getCategoryLabel(category);
   }

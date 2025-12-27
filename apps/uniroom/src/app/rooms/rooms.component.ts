@@ -164,7 +164,9 @@ export class RoomsComponent implements OnInit {
     }
 
     const offerId: string = offer.id;
-    if (this.isLikeLoading(offerId)) return;
+    if (this.isLikeLoading(offerId)) {
+      return;
+    }
     this.likeLoadingMap.set(offerId, true);
 
     try {

@@ -113,19 +113,25 @@ export class AdminDashboardComponent implements OnInit {
     let max: number = 0;
     data.datasets.forEach((dataset: { label: string; data: number[] }) => {
       dataset.data.forEach((value: number) => {
-        if (value > max) max = value;
+        if (value > max) {
+          max = value;
+        }
       });
     });
     return max > 0 ? max : 1;
   }
 
   formatNumber(num: number | undefined): string {
-    if (num === undefined) return '0';
+    if (num === undefined) {
+      return '0';
+    }
     return this.localizationService.formatNumber(num);
   }
 
   formatPercentage(value: number | undefined): string {
-    if (value === undefined) return '0%';
+    if (value === undefined) {
+      return '0%';
+    }
     return `${value > 0 ? '+' : ''}${value.toFixed(1)}%`;
   }
 
@@ -165,7 +171,9 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   getDistributionMax(): number {
-    if (!this.distributionData?.datasets[0]?.data) return 1;
+    if (!this.distributionData?.datasets[0]?.data) {
+      return 1;
+    }
     return Math.max(...this.distributionData.datasets[0].data, 1);
   }
 

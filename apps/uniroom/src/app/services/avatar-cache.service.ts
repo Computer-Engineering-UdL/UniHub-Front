@@ -18,7 +18,9 @@ export class AvatarCacheService {
   private readonly pendingRequests = new Map<string, Promise<string | null>>();
 
   async init(): Promise<void> {
-    if (this.db) return;
+    if (this.db) {
+      return;
+    }
 
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this.DB_NAME, this.DB_VERSION);
@@ -39,7 +41,9 @@ export class AvatarCacheService {
   }
 
   async getAvatar(url: string): Promise<string | null> {
-    if (!url) return null;
+    if (!url) {
+      return null;
+    }
 
     if (this.pendingRequests.has(url)) {
       return this.pendingRequests.get(url)!;
@@ -65,7 +69,9 @@ export class AvatarCacheService {
 
     try {
       const response = await fetch(url);
-      if (!response.ok) return url;
+      if (!response.ok) {
+        return url;
+      }
 
       const blob = await response.blob();
       await this.setCachedAvatar(url, blob);
@@ -76,7 +82,9 @@ export class AvatarCacheService {
   }
 
   private async getCachedAvatar(url: string): Promise<CachedAvatar | null> {
-    if (!this.db) return null;
+    if (!this.db) {
+      return null;
+    }
 
     return new Promise((resolve, reject) => {
       const transaction = this.db!.transaction([this.STORE_NAME], 'readonly');
@@ -89,7 +97,9 @@ export class AvatarCacheService {
   }
 
   private async setCachedAvatar(url: string, blob: Blob): Promise<void> {
-    if (!this.db) return;
+    if (!this.db) {
+      return;
+    }
 
     return new Promise((resolve, reject) => {
       const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
@@ -108,7 +118,9 @@ export class AvatarCacheService {
 
   async clearExpiredCache(): Promise<void> {
     await this.init();
-    if (!this.db) return;
+    if (!this.db) {
+      return;
+    }
 
     return new Promise((resolve, reject) => {
       const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');
@@ -133,7 +145,9 @@ export class AvatarCacheService {
 
   async clearCache(): Promise<void> {
     await this.init();
-    if (!this.db) return;
+    if (!this.db) {
+      return;
+    }
 
     return new Promise((resolve, reject) => {
       const transaction = this.db!.transaction([this.STORE_NAME], 'readwrite');

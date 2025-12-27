@@ -125,7 +125,7 @@ export class ItemDetailPage implements OnInit, OnDestroy {
       return null;
     }
 
-    let resolvedUrls: string[] = [];
+    const resolvedUrls: string[] = [];
     for (const img of baseImage) {
       resolvedUrls.push(this.getFullImageUrl(img));
     }
