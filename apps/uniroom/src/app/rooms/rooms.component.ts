@@ -15,8 +15,8 @@ import { LikesService } from '../services/likes.service';
 
 interface Filters {
   search: string;
-  minPrice: number | null;
-  maxPrice: number | null;
+  minPrice: number;
+  maxPrice: number;
   priceRange: { lower: number; upper: number };
   city: string;
   areaRange: { lower: number; upper: number };
@@ -72,8 +72,8 @@ export class RoomsComponent implements OnInit {
   public maxAvailableArea: number = 200;
   public filters: Filters = {
     search: '',
-    minPrice: null,
-    maxPrice: null,
+    minPrice: 0,
+    maxPrice: 2000,
     priceRange: { lower: 0, upper: 2000 },
     city: '',
     areaRange: { lower: 0, upper: 200 },
@@ -507,8 +507,8 @@ export class RoomsComponent implements OnInit {
   public clearFilters(): void {
     this.filters = {
       search: '',
-      minPrice: null,
-      maxPrice: null,
+      minPrice: 0,
+      maxPrice: this.maxAvailablePrice,
       priceRange: { lower: 0, upper: this.maxAvailablePrice },
       city: '',
       areaRange: { lower: 0, upper: this.maxAvailableArea },
@@ -552,7 +552,7 @@ export class RoomsComponent implements OnInit {
   }
 
   public onMinPriceChange(): void {
-    const minValue: number = this.filters.minPrice ?? 0;
+    const minValue: number = this.filters.minPrice;
     this.filters.priceRange = {
       lower: Math.max(0, Math.min(minValue, this.maxAvailablePrice)),
       upper: this.filters.priceRange.upper
