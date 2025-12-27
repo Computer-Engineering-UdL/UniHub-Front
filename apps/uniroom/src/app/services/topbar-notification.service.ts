@@ -133,8 +133,7 @@ export class TopBarNotificationService {
       await LocalNotifications.schedule({
         notifications: [localNotification]
       });
-    } catch {
-    }
+    } catch {}
   }
 
   private getNotificationIcon(icon: NotificationIcon): string {
