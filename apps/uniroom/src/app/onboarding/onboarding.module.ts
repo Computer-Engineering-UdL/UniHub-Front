@@ -9,16 +9,15 @@ import { RoleSelectionPage } from './role-selection/role-selection.page';
 import { StudentOnboardingPage } from './student/student-onboarding.page';
 import { LandlordOnboardingPage } from './landlord/landlord-onboarding.page';
 import { CompanyOnboardingPage } from './company/company-onboarding.page';
-import { InterestTranslatePipe } from '../shared/pipes/interest-translate.pipe';
+import { SharedModule } from '../shared/shared-module';
 
 @NgModule({
   declarations: [
     RoleSelectionPage,
     StudentOnboardingPage,
     LandlordOnboardingPage,
-    CompanyOnboardingPage,
-    InterestTranslatePipe
+    CompanyOnboardingPage
   ],
-  imports: [CommonModule, FormsModule, IonicModule, TranslateModule, OnboardingRoutingModule]
+  imports: [CommonModule, FormsModule, IonicModule, TranslateModule, OnboardingRoutingModule, SharedModule]
 })
 export class OnboardingModule {}

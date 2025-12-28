@@ -11,6 +11,7 @@ import { ReportModalComponent } from './reports/report-modal.component';
 import { LocationPickerComponent } from './location-picker/location-picker.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CachedAvatarDirective } from './directives/cached-avatar.directive';
+import { InterestTranslatePipe } from './pipes/interest-translate.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { CachedAvatarDirective } from './directives/cached-avatar.directive';
     NotificationContainerComponent,
     ReportModalComponent,
     LocationPickerComponent,
-    CachedAvatarDirective
+    CachedAvatarDirective,
+    InterestTranslatePipe
   ],
   imports: [CommonModule, IonicModule, RouterModule, FormsModule, TranslateModule, NgOptimizedImage],
   exports: [
@@ -30,7 +32,8 @@ import { CachedAvatarDirective } from './directives/cached-avatar.directive';
     NotificationContainerComponent,
     ReportModalComponent,
     LocationPickerComponent,
-    CachedAvatarDirective
+    CachedAvatarDirective,
+    InterestTranslatePipe
   ]
 })
 export class SharedModule {}
