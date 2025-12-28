@@ -1,5 +1,5 @@
-<ion-content>
-  <div class="auth-container onboarding-wrapper">
+<ion-content [fullscreen]="true">
+  <div class="onboarding-wrapper">
     <div class="onboarding-header">
       <h1>{{ 'ONBOARDING.ROLE_SELECTION.TITLE' | translate }}</h1>
       <p>{{ 'ONBOARDING.ROLE_SELECTION.SUBTITLE' | translate }}</p>
@@ -14,20 +14,16 @@
             [class.selected]="selectedRole === option.id"
             *ngFor="let option of roleOptions"
             (click)="selectRole(option.id)">
-            <ion-icon [name]="option.icon" size="large" color="primary"></ion-icon>
+            <ion-icon [name]="option.icon" size="large"></ion-icon>
             <h3>{{ option.titleKey | translate }}</h3>
             <p>{{ option.descriptionKey | translate }}</p>
           </button>
         </div>
         <div class="onboarding-actions">
           <ion-button fill="clear" routerLink="/login">{{ 'COMMON.BACK' | translate }}</ion-button>
-          <ion-button
-            color="primary"
-            (click)="continue()"
-            [disabled]="!selectedRole || isSaving"
-            expand="block">
+          <ion-button color="primary" (click)="continue()" [disabled]="!selectedRole || isSaving">
             <ion-spinner *ngIf="isSaving" name="crescent"></ion-spinner>
-            <span *ngIf="!isSaving">{{ 'COMMON.CONTINUE' | translate }}</span>
+            <span *ngIf="!isSaving">{{ 'COMMON.NEXT' | translate }}</span>
           </ion-button>
         </div>
       </ion-card-content>

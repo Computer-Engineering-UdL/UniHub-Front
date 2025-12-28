@@ -30,7 +30,6 @@ export class RoleUtils {
       Basic: 'Basic User',
       Seller: 'Seller',
       Recruiter: 'Recruiter',
-      Company: 'Company',
       Admin: 'Admin'
     };
     return labels[role];
@@ -41,8 +40,7 @@ export class RoleUtils {
       Basic: 1,
       Seller: 2,
       Recruiter: 2,
-      Company: 3,
-      Admin: 4
+      Admin: 3
     };
     return priorities[role];
   }

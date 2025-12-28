@@ -210,23 +210,9 @@ export class SignupPage implements OnInit {
     try {
       const payload: SignupData = this.buildSignupPayload();
       await this.authService.signup(payload);
-      await this.router.navigate(['/onboarding']);
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : this.translate.instant('SIGNUP.ERROR.SIGNUP_FAILED');
-      this.notificationService.error(message);
-    } finally {
-      this.isLoading = false;
-    }
-  }
-
-  async signupWithGithub(): Promise<void> {
-    this.isLoading = true;
-    try {
-      await this.authService.loginWithGithub();
-      await this.router.navigate(['/onboarding']);
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : this.translate.instant('LOGIN.ERROR.GITHUB_FAILED');
-      this.notificationService.error(message);
+      await this.goToOnboarding();
+    } catch {
+      this.notificationService.error(this.translate.instant('SIGNUP.ERROR.SIGNUP_FAILED'));
     } finally {
       this.isLoading = false;
     }
@@ -236,13 +222,17 @@ export class SignupPage implements OnInit {
     this.isLoading = true;
     try {
       await this.authService.loginWithGoogle();
-      await this.router.navigate(['/onboarding']);
+      await this.goToOnboarding();
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : this.translate.instant('LOGIN.ERROR.GOOGLE_FAILED');
       this.notificationService.error(message);
     } finally {
       this.isLoading = false;
     }
+  }
+
+  private async goToOnboarding(): Promise<void> {
+    await this.router.navigate(['/onboarding/role']);
   }
 
   onPhoneInput(ev: CustomEvent): void {

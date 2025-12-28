@@ -1,4 +1,4 @@
-export type Role = 'Basic' | 'Seller' | 'Recruiter' | 'Company' | 'Admin';
+export type Role = 'Basic' | 'Seller' | 'Recruiter' | 'Admin';
 
 export interface Interest {
   id: string;

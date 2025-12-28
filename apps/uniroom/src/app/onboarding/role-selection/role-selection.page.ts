@@ -39,7 +39,7 @@ export class RoleSelectionPage {
       descriptionKey: 'ONBOARDING.ROLE_SELECTION.LANDLORD.DESCRIPTION'
     },
     {
-      id: 'Company',
+      id: 'Recruiter',
       icon: 'briefcase-outline',
       titleKey: 'ONBOARDING.ROLE_SELECTION.COMPANY.TITLE',
       descriptionKey: 'ONBOARDING.ROLE_SELECTION.COMPANY.DESCRIPTION'
@@ -61,11 +61,10 @@ export class RoleSelectionPage {
     }
     this.isSaving = true;
     try {
-      await this.authService.updateCurrentUser({ role: this.selectedRole, onboardingCompleted: false });
+      await this.authService.updateCurrentUser({ role: this.selectedRole });
       const redirect = this.authService.getOnboardingRedirectRoute();
       await this.router.navigate([redirect ?? '/home']);
-    } catch (error) {
-      console.error(error);
+    } catch {
       this.notificationService.error('ONBOARDING.ERROR.GENERIC');
     } finally {
       this.isSaving = false;

@@ -1,10 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
-import { User, Interest, InterestCategory } from '../models/auth.types';
+import { Interest, InterestCategory, OAuth2TokenResponse, User } from '../models/auth.types';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from './api.service';
 import { HttpHeaders } from '@angular/common/http';
-import { OAuth2TokenResponse } from '../models/auth.types';
 import { LocalizationService } from './localization.service';
 import { StorageService } from './storage.service';
 
@@ -14,13 +13,13 @@ export class AuthService {
   private readonly REFRESH_TOKEN_KEY = 'refresh_token';
   private readonly USER_KEY = 'user_data';
 
-  private currentUserSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+  private readonly currentUserSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   public currentUser$: Observable<User | null> = this.currentUserSubject.asObservable();
 
-  private apiService: ApiService = inject(ApiService);
-  private translate: TranslateService = inject(TranslateService);
-  private localization: LocalizationService = inject(LocalizationService);
-  private storage: StorageService = inject(StorageService);
+  private readonly apiService: ApiService = inject(ApiService);
+  private readonly translate: TranslateService = inject(TranslateService);
+  private readonly localization: LocalizationService = inject(LocalizationService);
+  private readonly storage: StorageService = inject(StorageService);
 
   private initializationPromise: Promise<void> | null = null;
 
@@ -89,6 +88,7 @@ export class AuthService {
       yearOfStudy: apiUser.year_of_study || apiUser.yearOfStudy,
       isVerified: apiUser.is_verified ?? apiUser.isVerified,
       isActive: apiUser.is_active ?? apiUser.isActive,
+      onboardingCompleted: apiUser.onboarding_completed ?? apiUser.onboardingCompleted,
       interests: apiUser.interests?.map((i: any) => ({ id: i.id, name: i.name })) || apiUser.interests
     } as User;
   }
@@ -113,6 +113,12 @@ export class AuthService {
     }
     if (data.yearOfStudy !== undefined) {
       payload.year_of_study = data.yearOfStudy;
+    }
+    if (data.role !== undefined) {
+      payload.role = data.role;
+    }
+    if (data.onboardingCompleted !== undefined) {
+      payload.onboarding_completed = data.onboardingCompleted;
     }
     // do not include interests here (as they have separate endpoints)
     return payload;
@@ -297,7 +303,11 @@ export class AuthService {
       throw new Error('No current user');
     }
     const payload = this.prepareUserPayloadForApi(data);
-    const apiUser = await firstValueFrom(this.apiService.patch<any>(`user/${this.currentUser.id}`, payload));
+
+    const isAdmin: boolean = this.currentUser.role === 'Admin';
+    const endpoint: string = isAdmin ? `user/${this.currentUser.id}` : 'user/me';
+
+    const apiUser = await firstValueFrom(this.apiService.patch<any>(endpoint, payload));
     const updated = this.mapUserFromApi(apiUser);
     await this.storeUserOnly(updated);
     return updated;
@@ -332,7 +342,7 @@ export class AuthService {
 
   async addInterestToUser(userId: string, interestId: string): Promise<void> {
     await firstValueFrom(this.apiService.post(`interest/user/${userId}`, { interest_id: interestId }));
-    if (this.currentUser && this.currentUser.id === userId) {
+    if (this.currentUser?.id === userId) {
       const interests: Interest[] = await this.getUserInterests(userId);
       const updated = { ...this.currentUser, interests } as User;
       await this.storeUserOnly(updated);
@@ -341,7 +351,7 @@ export class AuthService {
 
   async removeInterestFromUser(userId: string, interestId: string): Promise<void> {
     await firstValueFrom(this.apiService.delete(`interest/user/${userId}/${interestId}`));
-    if (this.currentUser && this.currentUser.id === userId) {
+    if (this.currentUser?.id === userId) {
       const interests: Interest[] = await this.getUserInterests(userId);
       const updated = { ...this.currentUser, interests } as User;
       await this.storeUserOnly(updated);
@@ -368,7 +378,7 @@ export class AuthService {
         return '/onboarding/student';
       case 'Seller':
         return '/onboarding/landlord';
-      case 'Company':
+      case 'Recruiter':
         return '/onboarding/company';
       default:
         return '/onboarding/role';
