@@ -81,12 +81,14 @@ export interface AuthResponse {
 }
 
 export interface SignupData {
-  firstName: string;
-  lastName: string;
+  username: string;
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
   phone?: string;
-  university?: string;
+  faculty_id?: string;
+  accepted_terms_version: string;
 }
 
 export interface LoginCredentials {
