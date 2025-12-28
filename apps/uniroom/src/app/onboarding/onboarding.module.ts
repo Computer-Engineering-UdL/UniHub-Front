@@ -12,12 +12,7 @@ import { CompanyOnboardingPage } from './company/company-onboarding.page';
 import { SharedModule } from '../shared/shared-module';
 
 @NgModule({
-  declarations: [
-    RoleSelectionPage,
-    StudentOnboardingPage,
-    LandlordOnboardingPage,
-    CompanyOnboardingPage
-  ],
+  declarations: [RoleSelectionPage, StudentOnboardingPage, LandlordOnboardingPage, CompanyOnboardingPage],
   imports: [CommonModule, FormsModule, IonicModule, TranslateModule, OnboardingRoutingModule, SharedModule]
 })
 export class OnboardingModule {}
