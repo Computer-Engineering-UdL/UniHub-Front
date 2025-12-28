@@ -1,13 +1,26 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import NotificationService from '../../services/notification.service';
-import { InterestCategory, Role, User } from '../../models/auth.types';
+import { InterestCategory, User } from '../../models/auth.types';
+import { ApiService } from '../../services/api.service';
+import { firstValueFrom } from 'rxjs';
+
+interface Faculty {
+  id: string;
+  name: string;
+}
+
+interface University {
+  id: string;
+  name: string;
+  faculties: Faculty[];
+}
 
 interface StudentData {
-  university?: string;
+  selectedUniversityId?: string | null;
+  selectedFacultyId?: string | null;
   campus?: string;
-  faculty?: string;
   degree?: string;
   yearOfStudy?: number;
   studyMode: 'full-time' | 'part-time';
@@ -21,10 +34,11 @@ interface StudentData {
   styleUrls: ['./student-onboarding.page.scss'],
   standalone: false
 })
-export class StudentOnboardingPage {
-  private authService: AuthService = inject(AuthService);
-  private router: Router = inject(Router);
-  private notificationService: NotificationService = inject(NotificationService);
+export class StudentOnboardingPage implements OnInit {
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly router: Router = inject(Router);
+  private readonly notificationService: NotificationService = inject(NotificationService);
+  private readonly apiService: ApiService = inject(ApiService);
 
   currentStep: number = 1;
   readonly totalSteps: number = 4;
@@ -33,6 +47,9 @@ export class StudentOnboardingPage {
     studyMode: 'full-time'
   };
 
+  universities: University[] = [];
+  filteredFaculties: Faculty[] = [];
+  loadingUniversities: boolean = false;
   interestCategories: InterestCategory[] = [];
   isLoadingInterests: boolean = false;
   isSaving: boolean = false;
@@ -40,13 +57,19 @@ export class StudentOnboardingPage {
 
   readonly yearOptions: number[] = [1, 2, 3, 4, 5, 6];
 
-  constructor() {
+  ngOnInit(): void {
+    void this.loadUniversitiesAndFaculties();
+    this.loadUserData();
+    void this.loadInterestCategories();
+  }
+
+  private loadUserData(): void {
     const user: User | null = this.authService.currentUser;
     if (user) {
       this.studentData = {
-        university: user.university,
+        selectedUniversityId: null,
+        selectedFacultyId: user.faculty_id,
         campus: user.campus,
-        faculty: user.faculty,
         degree: user.degree,
         yearOfStudy: user.yearOfStudy,
         studyMode: (user.studyMode as 'full-time' | 'part-time') || 'full-time',
@@ -59,7 +82,52 @@ export class StudentOnboardingPage {
         }
       });
     }
-    void this.loadInterestCategories();
+  }
+
+  private async loadUniversitiesAndFaculties(): Promise<void> {
+    this.loadingUniversities = true;
+
+    try {
+      const universitiesResponse: University[] = await firstValueFrom(
+        this.apiService.get<University[]>('universities')
+      );
+
+      this.universities = universitiesResponse || [];
+
+      if (this.studentData.selectedFacultyId) {
+        for (const university of this.universities) {
+          const faculty = university.faculties.find((f) => f.id === this.studentData.selectedFacultyId);
+          if (faculty) {
+            this.studentData.selectedUniversityId = university.id;
+            this.filteredFaculties = university.faculties;
+            break;
+          }
+        }
+      }
+    } catch {
+      this.notificationService.error('PROFILE.ERROR_LOADING_DATA');
+    } finally {
+      this.loadingUniversities = false;
+    }
+  }
+
+  onUniversityChange(universityId: string): void {
+    this.studentData.selectedUniversityId = universityId;
+    this.studentData.selectedFacultyId = null;
+    this.filterFacultiesByUniversity(universityId);
+  }
+
+  onFacultyChange(facultyId: string): void {
+    this.studentData.selectedFacultyId = facultyId;
+  }
+
+  private filterFacultiesByUniversity(universityId: string | null): void {
+    if (!universityId) {
+      this.filteredFaculties = [];
+      return;
+    }
+    const university: University | undefined = this.universities.find((u: University) => u.id === universityId);
+    this.filteredFaculties = university?.faculties || [];
   }
 
   private async loadInterestCategories(): Promise<void> {
@@ -74,7 +142,9 @@ export class StudentOnboardingPage {
   canContinueCurrentStep(): boolean {
     switch (this.currentStep) {
       case 1:
-        return !!this.studentData.university && !!this.studentData.faculty && !!this.studentData.degree;
+        return (
+          !!this.studentData.selectedUniversityId && !!this.studentData.selectedFacultyId && !!this.studentData.degree
+        );
       case 2:
         return !!this.studentData.yearOfStudy && !!this.studentData.studyMode;
       case 3:
@@ -93,8 +163,7 @@ export class StudentOnboardingPage {
     try {
       await this.persistCurrentStep();
       this.currentStep = Math.min(this.totalSteps, this.currentStep + 1);
-    } catch (error) {
-      console.error(error);
+    } catch {
       this.notificationService.error('ONBOARDING.ERROR.GENERIC');
     } finally {
       this.isSaving = false;
@@ -113,9 +182,13 @@ export class StudentOnboardingPage {
     switch (this.currentStep) {
       case 1:
         await this.authService.updateCurrentUser({
-          university: this.studentData.university,
+          faculty: {
+            id: this.studentData.selectedFacultyId || '',
+            university: {
+              id: this.studentData.selectedUniversityId || ''
+            }
+          },
           campus: this.studentData.campus,
-          faculty: this.studentData.faculty,
           degree: this.studentData.degree
         });
         break;
@@ -169,8 +242,7 @@ export class StudentOnboardingPage {
         onboardingCompleted: true
       });
       await this.router.navigate(['/home']);
-    } catch (error) {
-      console.error(error);
+    } catch {
       this.notificationService.error('ONBOARDING.ERROR.GENERIC');
     } finally {
       this.isSaving = false;

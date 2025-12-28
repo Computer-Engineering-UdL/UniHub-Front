@@ -114,7 +114,7 @@ export class ChannelsPage implements OnInit, OnDestroy {
       } else {
         channel.is_member = false;
       }
-    } catch (_) {
+    } catch {
       channel.member_count = channel.member_count || 0;
       channel.is_member = false;
     }

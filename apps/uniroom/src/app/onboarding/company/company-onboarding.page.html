@@ -1,134 +1,193 @@
-<ion-content>
-  <div class="auth-container onboarding-wrapper">
+<ion-content [fullscreen]="true">
+  <div class="onboarding-wrapper">
+    <div class="onboarding-role-badge">
+      <ion-icon name="briefcase-outline"></ion-icon>
+      <span>{{ 'ONBOARDING.ROLE_SELECTION.COMPANY.TITLE' | translate }}</span>
+    </div>
+
     <div class="onboarding-progress">
-      <div>
+      <div class="progress-text">
         {{ 'ONBOARDING.STEP_INDICATOR' | translate: { current: currentStep, total: totalSteps } }}
       </div>
-      <ion-progress-bar [value]="currentStep / totalSteps"></ion-progress-bar>
+      <ion-progress-bar [value]="currentStep / totalSteps" color="primary"></ion-progress-bar>
     </div>
 
     <ion-card class="onboarding-card">
       <ion-card-content>
         <ng-container [ngSwitch]="currentStep">
           <div *ngSwitchCase="1" class="step-section">
-            <h2>{{ 'ONBOARDING.COMPANY.STEPS.INFO.TITLE' | translate }}</h2>
-            <p>{{ 'ONBOARDING.COMPANY.STEPS.INFO.DESCRIPTION' | translate }}</p>
+            <div class="step-header">
+              <ion-icon name="business" class="step-icon"></ion-icon>
+              <h2>{{ 'ONBOARDING.COMPANY.STEPS.INFO.TITLE' | translate }}</h2>
+              <p>{{ 'ONBOARDING.COMPANY.STEPS.INFO.DESCRIPTION' | translate }}</p>
+            </div>
 
-            <ion-item lines="full">
-              <ion-label position="stacked">{{ 'ONBOARDING.COMPANY.NAME' | translate }}</ion-label>
-              <ion-input [(ngModel)]="companyData.companyName"></ion-input>
-            </ion-item>
-            <ion-item lines="full">
-              <ion-label position="stacked"
-                >{{ 'ONBOARDING.COMPANY.WEBSITE' | translate }}</ion-label
-              >
-              <ion-input [(ngModel)]="companyData.website"></ion-input>
-            </ion-item>
-            <ion-item lines="full">
-              <ion-label position="stacked"
-                >{{ 'ONBOARDING.COMPANY.INDUSTRY' | translate }}</ion-label
-              >
-              <ion-input [(ngModel)]="companyData.industry"></ion-input>
-            </ion-item>
-            <ion-item lines="full">
-              <ion-label position="stacked"
-                >{{ 'ONBOARDING.COMPANY.COUNTRY' | translate }}</ion-label
-              >
-              <ion-input [(ngModel)]="companyData.country"></ion-input>
-            </ion-item>
-            <ion-item lines="full">
-              <ion-label position="stacked">{{ 'ONBOARDING.COMPANY.CITY' | translate }}</ion-label>
-              <ion-input [(ngModel)]="companyData.city"></ion-input>
-            </ion-item>
+            <div class="form-content">
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.COMPANY.NAME' | translate }}</ion-label
+                >
+                <ion-input
+                  [(ngModel)]="companyData.companyName"
+                  placeholder="{{ 'ONBOARDING.COMPANY.NAME' | translate }}"></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.COMPANY.WEBSITE' | translate }}</ion-label
+                >
+                <ion-input
+                  [(ngModel)]="companyData.website"
+                  placeholder="{{ 'ONBOARDING.COMPANY.WEBSITE' | translate }}"></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.COMPANY.INDUSTRY' | translate }}</ion-label
+                >
+                <ion-input
+                  [(ngModel)]="companyData.industry"
+                  placeholder="{{ 'ONBOARDING.COMPANY.INDUSTRY' | translate }}"></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.COMPANY.COUNTRY' | translate }}</ion-label
+                >
+                <ion-input
+                  [(ngModel)]="companyData.country"
+                  placeholder="{{ 'ONBOARDING.COMPANY.COUNTRY' | translate }}"></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.COMPANY.CITY' | translate }}</ion-label
+                >
+                <ion-input
+                  [(ngModel)]="companyData.city"
+                  placeholder="{{ 'ONBOARDING.COMPANY.CITY' | translate }}"></ion-input>
+              </ion-item>
+            </div>
           </div>
 
           <div *ngSwitchCase="2" class="step-section">
-            <h2>{{ 'ONBOARDING.COMPANY.STEPS.CONTACT.TITLE' | translate }}</h2>
-            <p>{{ 'ONBOARDING.COMPANY.STEPS.CONTACT.DESCRIPTION' | translate }}</p>
+            <div class="step-header">
+              <ion-icon name="mail" class="step-icon"></ion-icon>
+              <h2>{{ 'ONBOARDING.COMPANY.STEPS.CONTACT.TITLE' | translate }}</h2>
+              <p>{{ 'ONBOARDING.COMPANY.STEPS.CONTACT.DESCRIPTION' | translate }}</p>
+            </div>
 
-            <ion-item lines="full">
-              <ion-label position="stacked"
-                >{{ 'ONBOARDING.COMPANY.CONTACT_PERSON' | translate }}</ion-label
-              >
-              <ion-input [(ngModel)]="companyData.contactPerson"></ion-input>
-            </ion-item>
-            <ion-item lines="full">
-              <ion-label position="stacked"
-                >{{ 'ONBOARDING.COMPANY.CONTACT_ROLE' | translate }}</ion-label
-              >
-              <ion-input [(ngModel)]="companyData.contactRole"></ion-input>
-            </ion-item>
-            <ion-item lines="full">
-              <ion-label position="stacked"
-                >{{ 'ONBOARDING.COMPANY.WORK_EMAIL' | translate }}</ion-label
-              >
-              <ion-input [(ngModel)]="companyData.workEmail"></ion-input>
-            </ion-item>
+            <div class="form-content">
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.COMPANY.CONTACT_PERSON' | translate }}</ion-label
+                >
+                <ion-input
+                  [(ngModel)]="companyData.contactPerson"
+                  placeholder="{{ 'ONBOARDING.COMPANY.CONTACT_PERSON' | translate }}"></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.COMPANY.CONTACT_ROLE' | translate }}</ion-label
+                >
+                <ion-input
+                  [(ngModel)]="companyData.contactRole"
+                  placeholder="{{ 'ONBOARDING.COMPANY.CONTACT_ROLE' | translate }}"></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.COMPANY.WORK_EMAIL' | translate }}</ion-label
+                >
+                <ion-input
+                  [(ngModel)]="companyData.workEmail"
+                  placeholder="{{ 'ONBOARDING.COMPANY.WORK_EMAIL' | translate }}"></ion-input>
+              </ion-item>
+            </div>
           </div>
 
           <div *ngSwitchCase="3" class="step-section">
-            <h2>{{ 'ONBOARDING.COMPANY.STEPS.TALENT.TITLE' | translate }}</h2>
-            <p>{{ 'ONBOARDING.COMPANY.STEPS.TALENT.DESCRIPTION' | translate }}</p>
-
-            <div>
-              <h3>{{ 'ONBOARDING.COMPANY.TARGET_FACULTIES' | translate }}</h3>
-              <div class="chip-group">
-                <button
-                  type="button"
-                  class="chip"
-                  *ngFor="let option of facultyOptions"
-                  [class.selected]="companyData.targetFaculties.includes(option)"
-                  (click)="toggleFaculty(option)">
-                  {{ option }}
-                </button>
-              </div>
+            <div class="step-header">
+              <ion-icon name="people" class="step-icon"></ion-icon>
+              <h2>{{ 'ONBOARDING.COMPANY.STEPS.TALENT.TITLE' | translate }}</h2>
+              <p>{{ 'ONBOARDING.COMPANY.STEPS.TALENT.DESCRIPTION' | translate }}</p>
             </div>
 
-            <div>
-              <h3>{{ 'ONBOARDING.COMPANY.TARGET_SKILLS' | translate }}</h3>
-              <div class="chip-group">
-                <button
-                  type="button"
-                  class="chip"
-                  *ngFor="let option of skillOptions"
-                  [class.selected]="companyData.targetSkills.includes(option)"
-                  (click)="toggleSkill(option)">
-                  {{ option }}
-                </button>
+            <div class="form-content">
+              <div class="chips-section">
+                <h3 class="section-title">
+                  {{ 'ONBOARDING.COMPANY.TARGET_FACULTIES' | translate }}
+                </h3>
+                <div class="chip-group">
+                  <button
+                    type="button"
+                    class="chip"
+                    *ngFor="let option of facultyOptions"
+                    [class.selected]="companyData.targetFaculties.includes(option)"
+                    (click)="toggleFaculty(option)">
+                    {{ option }}
+                  </button>
+                </div>
               </div>
-            </div>
 
-            <div>
-              <h3>{{ 'ONBOARDING.COMPANY.HIRING_FOCUS' | translate }}</h3>
-              <div class="chip-group">
-                <button
-                  type="button"
-                  class="chip"
-                  *ngFor="let option of focusOptions"
-                  [class.selected]="companyData.hiringFocus.includes(option)"
-                  (click)="toggleFocus(option)">
-                  {{ option }}
-                </button>
+              <div class="chips-section">
+                <h3 class="section-title">{{ 'ONBOARDING.COMPANY.TARGET_SKILLS' | translate }}</h3>
+                <div class="chip-group">
+                  <button
+                    type="button"
+                    class="chip"
+                    *ngFor="let option of skillOptions"
+                    [class.selected]="companyData.targetSkills.includes(option)"
+                    (click)="toggleSkill(option)">
+                    {{ option }}
+                  </button>
+                </div>
+              </div>
+
+              <div class="chips-section">
+                <h3 class="section-title">{{ 'ONBOARDING.COMPANY.HIRING_FOCUS' | translate }}</h3>
+                <div class="chip-group">
+                  <button
+                    type="button"
+                    class="chip"
+                    *ngFor="let option of focusOptions"
+                    [class.selected]="companyData.hiringFocus.includes(option)"
+                    (click)="toggleFocus(option)">
+                    {{ option }}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
 
           <div *ngSwitchDefault class="step-section">
-            <h2>{{ 'ONBOARDING.COMPANY.STEPS.BRAND.TITLE' | translate }}</h2>
-            <p>{{ 'ONBOARDING.COMPANY.STEPS.BRAND.DESCRIPTION' | translate }}</p>
+            <div class="step-header">
+              <ion-icon name="document-text" class="step-icon"></ion-icon>
+              <h2>{{ 'ONBOARDING.COMPANY.STEPS.BRAND.TITLE' | translate }}</h2>
+              <p>{{ 'ONBOARDING.COMPANY.STEPS.BRAND.DESCRIPTION' | translate }}</p>
+            </div>
 
-            <ion-item lines="full">
-              <ion-label position="stacked"
-                >{{ 'ONBOARDING.COMPANY.DESCRIPTION' | translate }}</ion-label
-              >
-              <ion-textarea [(ngModel)]="companyData.description" rows="4"></ion-textarea>
-            </ion-item>
-            <ion-item lines="full">
-              <ion-label position="stacked"
-                >{{ 'ONBOARDING.COMPANY.LINKEDIN' | translate }}</ion-label
-              >
-              <ion-input [(ngModel)]="companyData.linkedinUrl"></ion-input>
-            </ion-item>
+            <div class="form-content">
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.COMPANY.DESCRIPTION' | translate }}</ion-label
+                >
+                <ion-textarea
+                  [(ngModel)]="companyData.description"
+                  rows="4"
+                  placeholder="{{ 'ONBOARDING.COMPANY.DESCRIPTION' | translate }}"></ion-textarea>
+              </ion-item>
+
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.COMPANY.LINKEDIN' | translate }}</ion-label
+                >
+                <ion-input
+                  [(ngModel)]="companyData.linkedinUrl"
+                  placeholder="{{ 'ONBOARDING.COMPANY.LINKEDIN' | translate }}"></ion-input>
+              </ion-item>
+            </div>
           </div>
         </ng-container>
 

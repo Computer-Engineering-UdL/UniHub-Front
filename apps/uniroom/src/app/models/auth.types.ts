@@ -68,7 +68,7 @@ export interface User {
   bio?: string;
   languages?: string[];
   studyMode?: 'full-time' | 'part-time';
-  faculty?: string;
+  faculty?: { id: string; name?: string; university: { id: string; name?: string }; address?: string };
   degree?: string;
   campus?: string;
 }
@@ -87,7 +87,6 @@ export interface SignupData {
   email: string;
   password: string;
   phone?: string;
-  faculty_id?: string;
   accepted_terms_version: string;
 }
 

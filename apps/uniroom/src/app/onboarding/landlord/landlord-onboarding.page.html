@@ -1,114 +1,171 @@
-<ion-content>
-  <div class="auth-container onboarding-wrapper">
+<ion-content [fullscreen]="true">
+  <div class="onboarding-wrapper">
+    <div class="onboarding-role-badge">
+      <ion-icon name="home-outline"></ion-icon>
+      <span>{{ 'ONBOARDING.ROLE_SELECTION.LANDLORD.TITLE' | translate }}</span>
+    </div>
+
     <div class="onboarding-progress">
-      <div>
+      <div class="progress-text">
         {{ 'ONBOARDING.STEP_INDICATOR' | translate: { current: currentStep, total: totalSteps } }}
       </div>
-      <ion-progress-bar [value]="currentStep / totalSteps"></ion-progress-bar>
+      <ion-progress-bar [value]="currentStep / totalSteps" color="primary"></ion-progress-bar>
     </div>
 
     <ion-card class="onboarding-card">
       <ion-card-content>
         <ng-container [ngSwitch]="currentStep">
           <div *ngSwitchCase="1" class="step-section">
-            <h2>{{ 'ONBOARDING.LANDLORD.STEPS.CONTACT.TITLE' | translate }}</h2>
-            <p>{{ 'ONBOARDING.LANDLORD.STEPS.CONTACT.DESCRIPTION' | translate }}</p>
+            <div class="step-header">
+              <ion-icon name="call" class="step-icon"></ion-icon>
+              <h2>{{ 'ONBOARDING.LANDLORD.STEPS.CONTACT.TITLE' | translate }}</h2>
+              <p>{{ 'ONBOARDING.LANDLORD.STEPS.CONTACT.DESCRIPTION' | translate }}</p>
+            </div>
 
-            <ion-item lines="full">
-              <ion-label position="stacked"
-                >{{ 'ONBOARDING.LANDLORD.FULL_NAME' | translate }}</ion-label
-              >
-              <ion-input [(ngModel)]="landlordData.fullName"></ion-input>
-            </ion-item>
-            <ion-item lines="full">
-              <ion-label position="stacked">{{ 'SIGNUP.PHONE' | translate }}</ion-label>
-              <ion-input [(ngModel)]="landlordData.phone"></ion-input>
-            </ion-item>
-            <ion-item lines="full">
-              <ion-label position="stacked">{{ 'ONBOARDING.LANDLORD.CITY' | translate }}</ion-label>
-              <ion-input [(ngModel)]="landlordData.city"></ion-input>
-            </ion-item>
-            <ion-item lines="full">
-              <ion-label position="stacked"
-                >{{ 'ONBOARDING.LANDLORD.COUNTRY' | translate }}</ion-label
-              >
-              <ion-input [(ngModel)]="landlordData.country"></ion-input>
-            </ion-item>
+            <div class="form-content">
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.LANDLORD.FULL_NAME' | translate }}</ion-label
+                >
+                <ion-input
+                  [(ngModel)]="landlordData.fullName"
+                  placeholder="{{ 'ONBOARDING.LANDLORD.FULL_NAME' | translate }}"></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked">{{ 'SIGNUP.PHONE' | translate }}</ion-label>
+                <ion-input
+                  [(ngModel)]="landlordData.phone"
+                  placeholder="{{ 'SIGNUP.PHONE' | translate }}"></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.LANDLORD.CITY' | translate }}</ion-label
+                >
+                <ion-input
+                  [(ngModel)]="landlordData.city"
+                  placeholder="{{ 'ONBOARDING.LANDLORD.CITY' | translate }}"></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.LANDLORD.COUNTRY' | translate }}</ion-label
+                >
+                <ion-input
+                  [(ngModel)]="landlordData.country"
+                  placeholder="{{ 'ONBOARDING.LANDLORD.COUNTRY' | translate }}"></ion-input>
+              </ion-item>
+            </div>
           </div>
 
           <div *ngSwitchCase="2" class="step-section">
-            <h2>{{ 'ONBOARDING.LANDLORD.STEPS.TYPE.TITLE' | translate }}</h2>
-            <p>{{ 'ONBOARDING.LANDLORD.STEPS.TYPE.DESCRIPTION' | translate }}</p>
+            <div class="step-header">
+              <ion-icon name="business" class="step-icon"></ion-icon>
+              <h2>{{ 'ONBOARDING.LANDLORD.STEPS.TYPE.TITLE' | translate }}</h2>
+              <p>{{ 'ONBOARDING.LANDLORD.STEPS.TYPE.DESCRIPTION' | translate }}</p>
+            </div>
 
-            <ion-item lines="full">
-              <ion-label position="stacked">{{ 'ONBOARDING.LANDLORD.TYPE' | translate }}</ion-label>
-              <ion-select [(ngModel)]="landlordData.landlordType">
-                <ion-select-option value="individual"
-                  >{{ 'ONBOARDING.LANDLORD.TYPES.INDIVIDUAL' | translate }}</ion-select-option
+            <div class="form-content">
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.LANDLORD.TYPE' | translate }}</ion-label
                 >
-                <ion-select-option value="property_manager"
-                  >{{ 'ONBOARDING.LANDLORD.TYPES.MANAGER' | translate }}</ion-select-option
+                <ion-select
+                  [(ngModel)]="landlordData.landlordType"
+                  interface="popover"
+                  placeholder="{{ 'ONBOARDING.LANDLORD.TYPE' | translate }}">
+                  <ion-select-option value="individual">
+                    {{ 'ONBOARDING.LANDLORD.TYPES.INDIVIDUAL' | translate }}
+                  </ion-select-option>
+                  <ion-select-option value="property_manager">
+                    {{ 'ONBOARDING.LANDLORD.TYPES.MANAGER' | translate }}
+                  </ion-select-option>
+                  <ion-select-option value="agency">
+                    {{ 'ONBOARDING.LANDLORD.TYPES.AGENCY' | translate }}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.LANDLORD.COMPANY_NAME' | translate }}</ion-label
                 >
-                <ion-select-option value="agency"
-                  >{{ 'ONBOARDING.LANDLORD.TYPES.AGENCY' | translate }}</ion-select-option
+                <ion-input
+                  [(ngModel)]="landlordData.companyName"
+                  placeholder="{{ 'ONBOARDING.LANDLORD.COMPANY_NAME' | translate }}"></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.LANDLORD.TAX_ID' | translate }}</ion-label
                 >
-              </ion-select>
-            </ion-item>
-            <ion-item lines="full">
-              <ion-label position="stacked"
-                >{{ 'ONBOARDING.LANDLORD.COMPANY_NAME' | translate }}</ion-label
-              >
-              <ion-input [(ngModel)]="landlordData.companyName"></ion-input>
-            </ion-item>
-            <ion-item lines="full">
-              <ion-label position="stacked"
-                >{{ 'ONBOARDING.LANDLORD.TAX_ID' | translate }}</ion-label
-              >
-              <ion-input [(ngModel)]="landlordData.taxId"></ion-input>
-            </ion-item>
+                <ion-input
+                  [(ngModel)]="landlordData.taxId"
+                  placeholder="{{ 'ONBOARDING.LANDLORD.TAX_ID' | translate }}"></ion-input>
+              </ion-item>
+            </div>
           </div>
 
           <div *ngSwitchDefault class="step-section">
-            <h2>{{ 'ONBOARDING.LANDLORD.STEPS.PREFERENCES.TITLE' | translate }}</h2>
-            <p>{{ 'ONBOARDING.LANDLORD.STEPS.PREFERENCES.DESCRIPTION' | translate }}</p>
-
-            <ion-item lines="full">
-              <ion-label position="stacked"
-                >{{ 'ONBOARDING.LANDLORD.AREAS' | translate }}</ion-label
-              >
-              <ion-input [(ngModel)]="landlordData.operatingLocationsText"></ion-input>
-              <ion-note slot="helper"
-                >{{ 'ONBOARDING.LANDLORD.AREAS_HELPER' | translate }}</ion-note
-              >
-            </ion-item>
-
-            <div>
-              <h3>{{ 'ONBOARDING.LANDLORD.PROPERTY_TYPES' | translate }}</h3>
-              <div class="chip-group">
-                <button
-                  type="button"
-                  class="chip"
-                  *ngFor="let option of propertyOptions"
-                  [class.selected]="landlordData.propertyTypes.includes(option)"
-                  (click)="togglePropertyType(option)">
-                  {{ option }}
-                </button>
-              </div>
+            <div class="step-header">
+              <ion-icon name="settings" class="step-icon"></ion-icon>
+              <h2>{{ 'ONBOARDING.LANDLORD.STEPS.PREFERENCES.TITLE' | translate }}</h2>
+              <p>{{ 'ONBOARDING.LANDLORD.STEPS.PREFERENCES.DESCRIPTION' | translate }}</p>
             </div>
 
-            <div class="price-range">
-              <ion-item lines="full">
+            <div class="form-content">
+              <ion-item lines="none" class="input-item">
                 <ion-label position="stacked"
-                  >{{ 'ONBOARDING.LANDLORD.PRICE_MIN' | translate }}</ion-label
+                  >{{ 'ONBOARDING.LANDLORD.AREAS' | translate }}</ion-label
                 >
-                <ion-input type="number" [(ngModel)]="landlordData.priceMin"></ion-input>
-              </ion-item>
-              <ion-item lines="full">
-                <ion-label position="stacked"
-                  >{{ 'ONBOARDING.LANDLORD.PRICE_MAX' | translate }}</ion-label
+                <ion-input
+                  [(ngModel)]="landlordData.operatingLocationsText"
+                  placeholder="{{ 'ONBOARDING.LANDLORD.AREAS' | translate }}"></ion-input>
+                <ion-note slot="helper"
+                  >{{ 'ONBOARDING.LANDLORD.AREAS_HELPER' | translate }}</ion-note
                 >
-                <ion-input type="number" [(ngModel)]="landlordData.priceMax"></ion-input>
               </ion-item>
+
+              <div class="chips-section">
+                <h3 class="section-title">
+                  {{ 'ONBOARDING.LANDLORD.PROPERTY_TYPES' | translate }}
+                </h3>
+                <div class="chip-group">
+                  <button
+                    type="button"
+                    class="chip"
+                    *ngFor="let option of propertyOptions"
+                    [class.selected]="landlordData.propertyTypes.includes(option)"
+                    (click)="togglePropertyType(option)">
+                    {{ option }}
+                  </button>
+                </div>
+              </div>
+
+              <div class="price-range-section">
+                <h3 class="section-title">{{ 'ONBOARDING.LANDLORD.PRICE_RANGE' | translate }}</h3>
+                <div class="price-range">
+                  <ion-item lines="none" class="input-item">
+                    <ion-label position="stacked"
+                      >{{ 'ONBOARDING.LANDLORD.PRICE_MIN' | translate }}</ion-label
+                    >
+                    <ion-input
+                      type="number"
+                      [(ngModel)]="landlordData.priceMin"
+                      placeholder="0"></ion-input>
+                  </ion-item>
+                  <ion-item lines="none" class="input-item">
+                    <ion-label position="stacked"
+                      >{{ 'ONBOARDING.LANDLORD.PRICE_MAX' | translate }}</ion-label
+                    >
+                    <ion-input
+                      type="number"
+                      [(ngModel)]="landlordData.priceMax"
+                      placeholder="0"></ion-input>
+                  </ion-item>
+                </div>
+              </div>
             </div>
           </div>
         </ng-container>

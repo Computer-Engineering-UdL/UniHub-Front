@@ -5,19 +5,6 @@ import { AuthService } from '../services/auth.service';
 import NotificationService from '../services/notification.service';
 import { SignupData } from '../models/auth.types';
 import { LangCode, LocalizationService } from '../services/localization.service';
-import { ApiService } from '../services/api.service';
-import { firstValueFrom } from 'rxjs';
-
-interface Faculty {
-  id: string;
-  name: string;
-}
-
-interface University {
-  id: string;
-  name: string;
-  faculties: Faculty[];
-}
 
 @Component({
   selector: 'app-signup',
@@ -25,7 +12,7 @@ interface University {
   styleUrls: ['signup.page.scss'],
   standalone: false
 })
-export class SignupPage implements OnInit {
+export class SignupPage {
   username: string = '';
   firstName: string = '';
   lastName: string = '';
@@ -45,59 +32,13 @@ export class SignupPage implements OnInit {
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
 
-  universities: University[] = [];
-  filteredFaculties: Faculty[] = [];
-  selectedUniversityId: string | null = null;
-  selectedFacultyId: string | null = null;
-  loadingUniversities: boolean = false;
-
   private readonly authService: AuthService = inject(AuthService);
   private readonly router: Router = inject(Router);
   private readonly translate: TranslateService = inject(TranslateService);
   private readonly notificationService: NotificationService = inject(NotificationService);
   private readonly localizationService: LocalizationService = inject(LocalizationService);
-  private readonly apiService: ApiService = inject(ApiService);
 
   private readonly emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  ngOnInit(): void {
-    void this.loadUniversitiesAndFaculties();
-  }
-
-  private async loadUniversitiesAndFaculties(): Promise<void> {
-    this.loadingUniversities = true;
-
-    try {
-      const universitiesResponse: University[] = await firstValueFrom(
-        this.apiService.get<University[]>('universities')
-      );
-
-      this.universities = universitiesResponse || [];
-    } catch {
-      this.notificationService.error('PROFILE.ERROR_LOADING_DATA');
-    } finally {
-      this.loadingUniversities = false;
-    }
-  }
-
-  onUniversityChange(universityId: string): void {
-    this.selectedUniversityId = universityId;
-    this.selectedFacultyId = null;
-    this.filterFacultiesByUniversity(universityId);
-  }
-
-  onFacultyChange(facultyId: string): void {
-    this.selectedFacultyId = facultyId;
-  }
-
-  private filterFacultiesByUniversity(universityId: string | null): void {
-    if (!universityId) {
-      this.filteredFaculties = [];
-      return;
-    }
-    const university: University | undefined = this.universities.find((u: University) => u.id === universityId);
-    this.filteredFaculties = university?.faculties || [];
-  }
 
   validateEmail(email: string): boolean {
     return this.emailRegex.test(email);
@@ -119,8 +60,7 @@ export class SignupPage implements OnInit {
       email: this.email.trim(),
       password: this.password,
       phone: this.phone.trim() || undefined,
-      faculty_id: this.selectedFacultyId || undefined,
-      accepted_terms_version: '1.0.0'
+      accepted_terms_version: '-1'
     };
   }
 

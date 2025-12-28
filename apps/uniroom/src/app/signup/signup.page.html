@@ -108,38 +108,6 @@
             {{ 'SIGNUP.ERROR.INVALID_PHONE' | translate }}
           </div>
 
-          <ion-item lines="none" class="input-item">
-            <ion-icon name="business-outline" slot="start"></ion-icon>
-            <ion-select
-              [placeholder]="'SIGNUP.UNIVERSITY' | translate"
-              [(ngModel)]="selectedUniversityId"
-              name="university"
-              (ionChange)="onUniversityChange($event.detail.value)"
-              [disabled]="loadingUniversities"
-              interface="popover">
-              <ion-select-option *ngFor="let university of universities" [value]="university.id">
-                {{ university.name }}
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
-
-          <ion-item
-            lines="none"
-            class="input-item"
-            *ngIf="selectedUniversityId && filteredFaculties.length > 0">
-            <ion-icon name="school-outline" slot="start"></ion-icon>
-            <ion-select
-              [placeholder]="'SIGNUP.FACULTY' | translate"
-              [(ngModel)]="selectedFacultyId"
-              name="faculty"
-              (ionChange)="onFacultyChange($event.detail.value)"
-              interface="popover">
-              <ion-select-option *ngFor="let faculty of filteredFaculties" [value]="faculty.id">
-                {{ faculty.name }}
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
-
           <ion-item
             lines="none"
             class="input-item password-item"
