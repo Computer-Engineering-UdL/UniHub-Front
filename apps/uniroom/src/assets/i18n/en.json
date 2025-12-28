@@ -1297,7 +1297,8 @@
   "ROLE": {
     "ADMIN": "Administrator",
     "BASIC": "User",
-    "SELLER": "Seller"
+    "SELLER": "Seller",
+    "RECRUITER": "Company"
   },
   "TIME_AGO": {
     "TODAY": "today",
