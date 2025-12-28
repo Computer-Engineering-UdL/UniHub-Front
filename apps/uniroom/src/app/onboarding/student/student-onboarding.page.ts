@@ -237,6 +237,10 @@ export class StudentOnboardingPage implements OnInit {
     if (this.selectedInterestIds.has(interestId)) {
       this.selectedInterestIds.delete(interestId);
     } else {
+      if (this.selectedInterestIds.size >= 10) {
+        this.notificationService.error('ONBOARDING.ERROR.MAX_INTERESTS');
+        return;
+      }
       this.selectedInterestIds.add(interestId);
     }
   }

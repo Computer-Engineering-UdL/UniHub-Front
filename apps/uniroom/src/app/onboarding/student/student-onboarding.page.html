@@ -121,6 +121,11 @@
               <ion-icon name="heart" class="step-icon"></ion-icon>
               <h2>{{ 'ONBOARDING.STUDENT.STEPS.INTERESTS.TITLE' | translate }}</h2>
               <p>{{ 'ONBOARDING.STUDENT.STEPS.INTERESTS.DESCRIPTION' | translate }}</p>
+              <div class="interests-counter">
+                <ion-badge [color]="selectedInterestIds.size >= 10 ? 'warning' : 'primary'">
+                  {{ selectedInterestIds.size }} / 10
+                </ion-badge>
+              </div>
             </div>
 
             <div class="form-content">

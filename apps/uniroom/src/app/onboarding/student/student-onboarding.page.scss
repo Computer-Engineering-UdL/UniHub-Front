@@ -151,6 +151,25 @@
         font-size: 16px;
       }
     }
+
+    .interests-counter {
+      margin-top: 12px;
+
+      @media (min-width: 768px) {
+        margin-top: 16px;
+      }
+
+      ion-badge {
+        font-size: 14px;
+        padding: 8px 16px;
+        font-weight: 600;
+
+        @media (min-width: 768px) {
+          font-size: 15px;
+          padding: 10px 18px;
+        }
+      }
+    }
   }
 
   .form-content {

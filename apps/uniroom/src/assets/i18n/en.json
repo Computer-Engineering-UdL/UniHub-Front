@@ -18,7 +18,7 @@
     "DESCRIPTION_TITLE": "Report Description",
     "DESCRIPTION_MESSAGE": "Please provide more details about your report (optional):",
     "DESCRIPTION_PLACEHOLDER": "Describe the issue...",
-    "OPTIONAL_HINT": "This field is optional, but it helps us better understand the issue.",
+    "OPTIONAL_HINT": "This field is optional, but it helps us better understand the issue",
     "SUBMIT": "Submit Report",
     "SUCCESS": "Report submitted successfully",
     "ERROR": "Error submitting report",
@@ -50,10 +50,10 @@
     "ERROR": {
       "EMPTY_CREDENTIALS": "Please enter email and password",
       "INVALID_EMAIL": "Please enter a valid email address",
-      "LOGIN_FAILED": "Login failed. Please try again.",
-      "GITHUB_FAILED": "GitHub login failed. Please try again.",
-      "GOOGLE_FAILED": "Google login failed. Please try again.",
-      "OAUTH_WINDOW_CLOSED": "The authentication window was closed before the process was completed."
+      "LOGIN_FAILED": "Login failed. Please try again",
+      "GITHUB_FAILED": "GitHub login failed. Please try again",
+      "GOOGLE_FAILED": "Google login failed. Please try again",
+      "OAUTH_WINDOW_CLOSED": "The authentication window was closed before the process was completed"
     }
   },
   "SIGNUP": {
@@ -77,30 +77,31 @@
       "INVALID_EMAIL": "Please enter a valid email address",
       "PASSWORD_MISMATCH": "Passwords do not match",
       "PASSWORD_TOO_SHORT": "Password must be at least 8 characters",
-      "SIGNUP_FAILED": "Sign up failed. Please try again.",
+      "SIGNUP_FAILED": "Sign up failed. Please try again",
       "INVALID_PHONE": "Phone must be valid (numbers only, may start with +)"
     }
   },
   "ONBOARDING": {
     "STEP_INDICATOR": "Step {{current}} of {{total}}",
     "ERROR": {
-      "GENERIC": "Something went wrong. Please try again.",
-      "VALIDATION": "Please complete the required fields before continuing."
+      "GENERIC": "Something went wrong. Please try again",
+      "VALIDATION": "Please complete the required fields before continuing",
+      "MAX_INTERESTS": "You can select a maximum of 10 interests"
     },
     "ROLE_SELECTION": {
       "TITLE": "Tell us who you are",
-      "SUBTITLE": "Choose the option that best describes how you plan to use UniHub.",
+      "SUBTITLE": "Choose the option that best describes how you plan to use UniHub",
       "STUDENT": {
         "TITLE": "Student",
-        "DESCRIPTION": "Discover housing, communities and opportunities tailored to your studies."
+        "DESCRIPTION": "Discover housing, communities and opportunities tailored to your studies"
       },
       "LANDLORD": {
         "TITLE": "Landlord",
-        "DESCRIPTION": "Publish listings and connect with verified students in minutes."
+        "DESCRIPTION": "Publish listings and connect with verified students in minutes"
       },
       "COMPANY": {
         "TITLE": "Company",
-        "DESCRIPTION": "Reach students for internships, part-time roles and employer branding."
+        "DESCRIPTION": "Reach students for internships, part-time roles and employer branding"
       }
     },
     "STUDENT": {
@@ -117,19 +118,19 @@
       "STEPS": {
         "EDUCATION": {
           "TITLE": "University details",
-          "DESCRIPTION": "Help us personalize your experience with accurate academic information."
+          "DESCRIPTION": "Help us personalize your experience with accurate academic information"
         },
         "ACADEMICS": {
           "TITLE": "Academic status",
-          "DESCRIPTION": "Tell us how far along you are and how you study."
+          "DESCRIPTION": "Tell us how far along you are and how you study"
         },
         "INTERESTS": {
           "TITLE": "Interests",
-          "DESCRIPTION": "Pick at least one interest so we can recommend relevant channels and events."
+          "DESCRIPTION": "Pick at least one interest so we can recommend relevant channels and events"
         },
         "PROFILE": {
           "TITLE": "Finish your profile",
-          "DESCRIPTION": "A short bio and languages help other students connect with you."
+          "DESCRIPTION": "A short bio and languages help other students connect with you"
         }
       }
     },
@@ -153,15 +154,15 @@
       "STEPS": {
         "CONTACT": {
           "TITLE": "Contact details",
-          "DESCRIPTION": "Students will use this information to reach out to you."
+          "DESCRIPTION": "Students will use this information to reach out to you"
         },
         "TYPE": {
           "TITLE": "Landlord type",
-          "DESCRIPTION": "Tell us how you manage your properties."
+          "DESCRIPTION": "Tell us how you manage your properties"
         },
         "PREFERENCES": {
           "TITLE": "Listing preferences",
-          "DESCRIPTION": "Share the kind of listings you typically manage."
+          "DESCRIPTION": "Share the kind of listings you typically manage"
         }
       }
     },
@@ -182,7 +183,7 @@
       "STEPS": {
         "INFO": {
           "TITLE": "Company information",
-          "DESCRIPTION": "Introduce your organization to the UniHub community."
+          "DESCRIPTION": "Introduce your organization to the UniHub community"
         },
         "CONTACT": {
           "TITLE": "Contact person",
@@ -190,11 +191,11 @@
         },
         "TALENT": {
           "TITLE": "Talent preferences",
-          "DESCRIPTION": "Tell us who you are looking for so we can match you with the right students."
+          "DESCRIPTION": "Tell us who you are looking for so we can match you with the right students"
         },
         "BRAND": {
           "TITLE": "Brand presence",
-          "DESCRIPTION": "Add final touches to help students recognize your company."
+          "DESCRIPTION": "Add final touches to help students recognize your company"
         }
       }
     }
@@ -516,7 +517,7 @@
   },
   "UNAUTHORIZED": {
     "TITLE": "Access denied",
-    "MESSAGE": "You don't have permission to view this page or does not exist.",
+    "MESSAGE": "You don't have permission to view this page or does not exist",
     "GO_HOME": "Go Home",
     "GO_LOGIN": "Go to Login"
   },
@@ -561,14 +562,14 @@
     "NO_OFFERS": "No offers available",
     "NO_OFFERS_DESCRIPTION": "There are no housing offers available at the moment. Check back later!",
     "NO_RESULTS": "No results found",
-    "NO_RESULTS_DESCRIPTION": "Try adjusting the filters to see more offers.",
+    "NO_RESULTS_DESCRIPTION": "Try adjusting the filters to see more offers",
     "VIEW_DETAILS": "View Details",
     "PER_MONTH": "/month",
     "DELETE": "Delete",
     "DELETE_CONFIRM_TITLE": "Delete Offer",
-    "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this offer? This action cannot be undone.",
-    "DELETE_SUCCESS": "Offer deleted successfully.",
-    "DELETE_FAILED": "Failed to delete the offer. Please try again.",
+    "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this offer? This action cannot be undone",
+    "DELETE_SUCCESS": "Offer deleted successfully",
+    "DELETE_FAILED": "Failed to delete the offer. Please try again",
     "LIKE": "Like",
     "UNLIKE": "Unlike",
     "LIKE_SUCCESS": "Added to favorites",
@@ -600,14 +601,14 @@
     "COMPARISON": {
       "CTA": "Compare apartments",
       "TITLE": "Apartment comparison",
-      "SUBTITLE": "Choose two active listings to see their key differences.",
+      "SUBTITLE": "Choose two active listings to see their key differences",
       "RESET": "Reset selection",
       "SELECT_A": "Apartment A",
       "SELECT_B": "Apartment B",
       "SELECT_PLACEHOLDER": "Choose an apartment",
       "NONE": "None",
       "LOADING": "Loading comparison...",
-      "PLACEHOLDER": "Pick two apartments from the list above to compare their highlights.",
+      "PLACEHOLDER": "Pick two apartments from the list above to compare their highlights",
       "FEATURE": "Feature",
       "EMPTY_COLUMN": "Select an apartment",
       "IMAGE": "Image",
@@ -628,7 +629,7 @@
       "YES": "Yes",
       "NO": "No",
       "NOT_PROVIDED": "Not provided",
-      "LOAD_ERROR": "We couldn't load this apartment. Please try again.",
+      "LOAD_ERROR": "We couldn't load this apartment. Please try again",
       "ALREADY_SELECTED": "This room is already selected for comparison"
     },
     "ADD_TO_COMPARE": "Add to comparison",
@@ -707,17 +708,17 @@
       "FULL_ADDRESS_PREVIEW": "Full address",
       "ADDRESS_PREVIEW_EMPTY": "Complete the fields above to generate it",
       "DISCARD_TITLE": "Discard this offer?",
-      "DISCARD_MESSAGE": "If you leave now, all the information you have entered will be lost.",
+      "DISCARD_MESSAGE": "If you leave now, all the information you have entered will be lost",
       "CONTINUE_EDITING": "Continue editing",
       "DISCARD_CONFIRM": "Discard offer",
       "LONGITUDE": "Longitude",
       "COORDINATES_HELPER": "Used to display the map location",
       "UPLOAD_BUTTON": "Choose photos",
-      "UPLOAD_PHOTOS_HELPER": "Add up to {{max}} images to showcase your offer.",
-      "PHOTO_TYPE_NOT_ALLOWED": "Only JPEG, PNG, GIF or WebP images are supported.",
-      "PHOTO_SIZE_EXCEEDED": "Each photo must be smaller than {{maxSize}} MB.",
-      "PHOTOS_LIMIT": "You can upload up to {{max}} photos.",
-      "PHOTO_REQUIRED": "Add at least one photo to publish your offer.",
+      "UPLOAD_PHOTOS_HELPER": "Add up to {{max}} images to showcase your offer",
+      "PHOTO_TYPE_NOT_ALLOWED": "Only JPEG, PNG, GIF or WebP images are supported",
+      "PHOTO_SIZE_EXCEEDED": "Each photo must be smaller than {{maxSize}} MB",
+      "PHOTOS_LIMIT": "You can upload up to {{max}} photos",
+      "PHOTO_REQUIRED": "Add at least one photo to publish your offer",
       "NO_PHOTOS": "No photos selected yet",
       "PRIMARY_BADGE": "Cover",
       "MAKE_PRIMARY": "Set as cover",
@@ -732,9 +733,9 @@
         "FEMALE": "Female",
         "OTHER": "Other"
       },
-      "CREATE_ERROR": "We couldn't create the offer. Please review the form and try again.",
-      "PHOTO_UPLOAD_FAILED": "We couldn't upload the photos. You can edit the offer later to try again.",
-      "PHOTO_UPLOAD_PARTIAL": "Some photos couldn't be uploaded. The offer was created without them."
+      "CREATE_ERROR": "We couldn't create the offer. Please review the form and try again",
+      "PHOTO_UPLOAD_FAILED": "We couldn't upload the photos. You can edit the offer later to try again",
+      "PHOTO_UPLOAD_PARTIAL": "Some photos couldn't be uploaded. The offer was created without them"
     },
     "CITIES": {
       "LLEIDA": "Lleida",
@@ -760,7 +761,7 @@
       "BACK_TO_LIST": "Back to listings",
       "LOADING": "Loading room information...",
       "ERROR_TITLE": "Something went wrong",
-      "ERROR_MESSAGE": "We couldn't load this room right now. Please try again later.",
+      "ERROR_MESSAGE": "We couldn't load this room right now. Please try again later",
       "GO_BACK": "Go back",
       "STATUS": {
         "AVAILABLE": "Available",
@@ -769,7 +770,7 @@
       "AVAILABLE_FROM": "Available from {{date}}",
       "POSTED_ON": "Posted on {{date}}",
       "DESCRIPTION_TITLE": "Description",
-      "PLACEHOLDER_DESCRIPTION": "The landlord has not provided a description for this listing yet.",
+      "PLACEHOLDER_DESCRIPTION": "The landlord has not provided a description for this listing yet",
       "AMENITIES_TITLE": "Amenities",
       "AMENITIES": {
         "WIFI": "High-speed Wi-Fi",
@@ -815,7 +816,7 @@
         "UTILITIES": "Utilities"
       },
       "MAP": {
-        "UNAVAILABLE": "Map information is not available for this listing."
+        "UNAVAILABLE": "Map information is not available for this listing"
       },
       "LOCATION_TITLE": "Location",
       "LOCATION": {
@@ -862,7 +863,7 @@
       "DESCRIPTION_TITLE": "Report Description",
       "DESCRIPTION_MESSAGE": "Please provide more details about your report (optional):",
       "DESCRIPTION_PLACEHOLDER": "Describe the issue...",
-      "OPTIONAL_HINT": "This field is optional, but it helps us better understand the issue.",
+      "OPTIONAL_HINT": "This field is optional, but it helps us better understand the issue",
       "SUBMIT": "Submit Report",
       "SUCCESS": "Report submitted successfully",
       "ERROR": "Error submitting report"
@@ -953,9 +954,9 @@
       "DELETE_BULK_SUCCESS": "Users deleted successfully",
       "DELETE_BULK_ERROR": "Error deleting users",
       "DELETE_CONFIRM_TITLE": "Delete user",
-      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete user {{username}}? This action cannot be undone.",
+      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete user {{username}}? This action cannot be undone",
       "DELETE_BULK_TITLE": "Delete users",
-      "DELETE_BULK_MESSAGE": "Are you sure you want to delete {{count}} users? This action cannot be undone.",
+      "DELETE_BULK_MESSAGE": "Are you sure you want to delete {{count}} users? This action cannot be undone",
       "VIEW_DETAILS": "View details",
       "PER_PAGE": "per page",
       "TABLE": {
@@ -1096,7 +1097,7 @@
       },
       "DELETE_MODAL": {
         "TITLE": "Delete Report",
-        "MESSAGE": "Are you sure you want to delete this report? This action cannot be undone.",
+        "MESSAGE": "Are you sure you want to delete this report? This action cannot be undone",
         "CANCEL": "Cancel",
         "CONFIRM": "Delete"
       },
@@ -1284,14 +1285,14 @@
   },
   "ERROR": {
     "LOAD_USERS": "Failed to load users",
-    "LOAD_JOBS": "Unable to load jobs right now.",
-    "SAVE_FAILED": "Could not update saved jobs.",
-    "LOAD_JOB_DETAIL": "Unable to load job details.",
-    "LOAD_APPLICATIONS": "Unable to load applications.",
-    "SALARY_RANGE": "Minimum salary must be less than or equal to maximum salary.",
-    "CREATE_FAILED": "We could not create this job offer. Please try again.",
-    "APPLY_ROLE": "Only Basic users can apply to job offers.",
-    "FORM_INVALID": "Please review the required fields before continuing."
+    "LOAD_JOBS": "Unable to load jobs right now",
+    "SAVE_FAILED": "Could not update saved jobs",
+    "LOAD_JOB_DETAIL": "Unable to load job details",
+    "LOAD_APPLICATIONS": "Unable to load applications",
+    "SALARY_RANGE": "Minimum salary must be less than or equal to maximum salary",
+    "CREATE_FAILED": "We could not create this job offer. Please try again",
+    "APPLY_ROLE": "Only Basic users can apply to job offers",
+    "FORM_INVALID": "Please review the required fields before continuing"
   },
   "ROLE": {
     "ADMIN": "Administrator",
@@ -1360,7 +1361,7 @@
       }
     },
     "DELETE_CONFIRM_TITLE": "Delete Channel",
-    "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete the channel {{name}}? This action cannot be undone.",
+    "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete the channel {{name}}? This action cannot be undone",
     "LEAVE_CONFIRM_TITLE": "Leave channel",
     "LEAVE_CONFIRM_MESSAGE": "Are you sure you want to leave the channel {{name}}?",
     "DETAIL": {
@@ -1425,18 +1426,18 @@
       "UNBAN_CONFIRM_MESSAGE": "Are you sure you want to unban {{user}}?",
       "START_PRIVATE_CONVERSATION": "Send a message",
       "SUCCESS": {
-        "SET_ROLE": "Role updated successfully.",
-        "KICK": "Member kicked successfully.",
-        "BAN": "Member banned successfully.",
-        "UNBAN": "Member unbanned successfully."
+        "SET_ROLE": "Role updated successfully",
+        "KICK": "Member kicked successfully",
+        "BAN": "Member banned successfully",
+        "UNBAN": "Member unbanned successfully"
       },
       "ERROR": {
-        "SET_ROLE": "Could not update role.",
-        "KICK": "Could not kick member.",
-        "BAN": "Could not ban member.",
-        "UNBAN": "Could not unban member.",
-        "BAN_MOTIVE_REQUIRED": "Ban reason is required (minimum 3 characters).",
-        "BAN_DURATION_REQUIRED": "Ban duration is required (minimum 1 day)."
+        "SET_ROLE": "Could not update role",
+        "KICK": "Could not kick member",
+        "BAN": "Could not ban member",
+        "UNBAN": "Could not unban member",
+        "BAN_MOTIVE_REQUIRED": "Ban reason is required (minimum 3 characters)",
+        "BAN_DURATION_REQUIRED": "Ban duration is required (minimum 1 day)"
       },
       "VIEW_PROFILE": "View Profile",
       "BAN_DURATION_PLACEHOLDER": "Duration in days (1-365)"
@@ -1444,14 +1445,14 @@
     "ADD_MEMBER": {
       "TITLE": "Add Member",
       "SEARCH_PLACEHOLDER": "Search users by name or email...",
-      "NO_RESULTS": "No users found.",
+      "NO_RESULTS": "No users found",
       "ADD_BUTTON": "Add",
       "SUCCESS": {
-        "ADD": "Member added successfully."
+        "ADD": "Member added successfully"
       },
       "ERROR": {
-        "SEARCH": "Could not search for users.",
-        "ADD": "Could not add member."
+        "SEARCH": "Could not search for users",
+        "ADD": "Could not add member"
       }
     }
   },
@@ -1479,7 +1480,7 @@
     "VIEW_OFFER": "View offer",
     "DELETE_CONVERSATION": "Delete conversation",
     "DELETE_CONVERSATION_CONFIRM_TITLE": "Delete conversation",
-    "DELETE_CONVERSATION_CONFIRM_MESSAGE": "Are you sure you want to delete this conversation? This action cannot be undone.",
+    "DELETE_CONVERSATION_CONFIRM_MESSAGE": "Are you sure you want to delete this conversation? This action cannot be undone",
     "DELETE_CONVERSATION_SUCCESS": "Conversation deleted successfully",
     "DELETE_CONVERSATION_ERROR": "Error deleting conversation",
     "LOADING": "Loading messages...",
@@ -1505,7 +1506,7 @@
     "LIST": {
       "COUNT": "items",
       "NEW_LISTING": "New listing",
-      "EMPTY": "No items found. Try adjusting your filters.",
+      "EMPTY": "No items found. Try adjusting your filters",
       "ERROR": "There was a problem loading items"
     },
     "FILTERS": {
@@ -1580,7 +1581,7 @@
       "LOCATION_HELPER": "Click to choose location on map",
       "IMAGES": "Images",
       "ADD_IMAGE": "Add image",
-      "NO_PHOTOS": "No photos. Click to add some.",
+      "NO_PHOTOS": "No photos. Click to add some",
       "PHOTO_REQUIRED": "You must add at least one photo",
       "PHOTO_UPLOAD_FAILED": "Failed to upload photos",
       "PHOTO_TYPE_ERROR": "Unsupported file type",
@@ -1641,9 +1642,9 @@
       },
       "APPLY": "Apply",
       "APPLIED": "Applied",
-      "EMPTY": "No jobs match your filters yet.",
+      "EMPTY": "No jobs match your filters yet",
       "EMPTY_STATE_TITLE": "No job offers found",
-      "EMPTY_STATE_SUBTITLE": "Try adjusting the filters or come back soon for new roles.",
+      "EMPTY_STATE_SUBTITLE": "Try adjusting the filters or come back soon for new roles",
       "LOADING_MORE": "Loading more jobs...",
       "SALARY": {
         "NA": "Salary not disclosed",
@@ -1698,7 +1699,7 @@
       "SAVED": "Saved",
       "DESCRIPTION": "Job Description",
       "REQUIREMENTS": "Requirements",
-      "NO_REQUIREMENTS": "No specific requirements listed.",
+      "NO_REQUIREMENTS": "No specific requirements listed",
       "NICE_TO_HAVE": "Nice to Have",
       "COMPANY": "About Company",
       "POSTED_ON": "Posted",
@@ -1707,9 +1708,9 @@
       "SALARY": "Salary",
       "JOB_TYPE": "Job type",
       "APPLICATIONS": "Applications",
-      "NO_COMPANY_DESC": "No company description provided.",
+      "NO_COMPANY_DESC": "No company description provided",
       "DELETE_TITLE": "Delete job offer",
-      "DELETE_CONFIRM": "Are you sure you want to delete this job offer? This action cannot be undone.",
+      "DELETE_CONFIRM": "Are you sure you want to delete this job offer? This action cannot be undone",
       "DELETE_ACTION": "Delete",
       "DELETE_SUCCESS": "Job offer deleted"
     },
@@ -1720,26 +1721,26 @@
       "FULL_NAME_PLACEHOLDER": "Enter your full name",
       "EMAIL": "Email",
       "EMAIL_PLACEHOLDER": "name@example.com",
-      "EMAIL_INVALID": "Enter a valid email.",
+      "EMAIL_INVALID": "Enter a valid email",
       "PHONE": "Phone Number",
       "PHONE_PLACEHOLDER": "+34 123 456 789",
       "RESUME": "Resume/CV",
       "UPLOAD_HINT": "Click to upload or drag and drop",
       "UPLOAD_SUBTITLE": "PDF, DOC or DOCX (max 5MB)",
-      "FILE_TYPE_ERROR": "Please upload a PDF, DOC or DOCX file.",
-      "FILE_SIZE_ERROR": "File size must be under 5MB.",
+      "FILE_TYPE_ERROR": "Please upload a PDF, DOC or DOCX file",
+      "FILE_SIZE_ERROR": "File size must be under 5MB",
       "COVER_LETTER": "Cover Letter",
       "COVER_LETTER_PLACEHOLDER": "Tell us why you are a great fit for this role",
-      "COVER_LETTER_MAX": "Cover letter must be under 1000 characters.",
+      "COVER_LETTER_MAX": "Cover letter must be under 1000 characters",
       "CANCEL": "Cancel",
       "SUBMIT": "Submit Application",
       "SUBMITTING": "Submitting...",
       "SUBMIT_SUCCESS": "Application sent successfully!",
-      "ERROR": "Could not submit the application.",
-      "REQUIRED": "This field is required.",
-      "LOGIN_REQUIRED": "Please login to apply for this job.",
-      "VERIFICATION_REQUIRED": "Verify your account to apply for jobs.",
-      "ROLE_REQUIRED": "Only Basic users can apply to jobs."
+      "ERROR": "Could not submit the application",
+      "REQUIRED": "This field is required",
+      "LOGIN_REQUIRED": "Please login to apply for this job",
+      "VERIFICATION_REQUIRED": "Verify your account to apply for jobs",
+      "ROLE_REQUIRED": "Only Basic users can apply to jobs"
     },
     "APPLICATIONS": {
       "EYEBROW": "Track your progress",
@@ -1769,11 +1770,11 @@
       "COVER_LETTER": "Cover Letter",
       "RESUME": "Resume",
       "VIEW_JOB": "View Job Posting",
-      "EMPTY": "You have not submitted any applications yet.",
+      "EMPTY": "You have not submitted any applications yet",
       "EMPTY_STATE_TITLE": "No applications yet",
-      "EMPTY_STATE_SUBTITLE": "Apply to job offers to track them here.",
-      "LOGIN_REQUIRED": "Please log in to view your applications.",
-      "VERIFICATION_REQUIRED": "You must verify your account to view applications."
+      "EMPTY_STATE_SUBTITLE": "Apply to job offers to track them here",
+      "LOGIN_REQUIRED": "Please log in to view your applications",
+      "VERIFICATION_REQUIRED": "You must verify your account to view applications"
     },
     "CREATE": {
       "TITLE": "Create Job Offer",
@@ -1790,11 +1791,11 @@
         "REVIEW_DESC": "Review and publish"
       },
       "STEP_BASIC_TITLE": "Basic Information",
-      "STEP_BASIC_SUBTITLE": "Let's start with the core details of the job.",
+      "STEP_BASIC_SUBTITLE": "Let's start with the core details of the job",
       "TITLE_LABEL": "Job Title",
       "TITLE_PLACEHOLDER": "e.g. Senior Frontend Developer",
       "COMPANY_NAME": "Company Name",
-      "COMPANY_PLACEHOLDER": "e.g. Tech Solutions Inc.",
+      "COMPANY_PLACEHOLDER": "e.g. Tech Solutions Inc",
       "CATEGORY_PLACEHOLDER": "Select a category",
       "JOB_TYPE_LABEL": "Job Type",
       "JOB_TYPE_PLACEHOLDER": "Select job type",
@@ -1806,14 +1807,14 @@
         "REMOTE": "Remote"
       },
       "STEP_DETAILS_TITLE": "Job Details",
-      "STEP_DETAILS_SUBTITLE": "Describe the role and compensation.",
+      "STEP_DETAILS_SUBTITLE": "Describe the role and compensation",
       "DESCRIPTION": "Description",
       "DESCRIPTION_PLACEHOLDER": "Describe the responsibilities, requirements, and benefits...",
       "SALARY_PERIOD": "Salary Period",
       "SALARY_MIN": "Min Salary",
       "SALARY_MAX": "Max Salary",
       "STEP_COMPANY_TITLE": "Company Details",
-      "STEP_COMPANY_SUBTITLE": "Tell candidates more about your company.",
+      "STEP_COMPANY_SUBTITLE": "Tell candidates more about your company",
       "COMPANY_DESCRIPTION": "Company Description",
       "COMPANY_DESCRIPTION_PLACEHOLDER": "Briefly describe what your company does...",
       "COMPANY_WEBSITE": "Company Website",
@@ -1846,14 +1847,14 @@
       "ERROR_GLOBAL": "Please fix the errors before continuing"
     },
     "ADMIN": {
-      "ONLY": "Only admins or recruiters can perform this action."
+      "ONLY": "Only admins or recruiters can perform this action"
     },
     "ERROR": {
-      "LOAD_JOBS": "Unable to load jobs right now.",
-      "SAVE_FAILED": "Could not update saved state.",
-      "LOAD_JOB_DETAIL": "Unable to load the job detail.",
-      "LOAD_APPLICATIONS": "Could not load applications.",
-      "DELETE_JOB": "Could not delete the job offer."
+      "LOAD_JOBS": "Unable to load jobs right now",
+      "SAVE_FAILED": "Could not update saved state",
+      "LOAD_JOB_DETAIL": "Unable to load the job detail",
+      "LOAD_APPLICATIONS": "Could not load applications",
+      "DELETE_JOB": "Could not delete the job offer"
     }
   },
   "TERMS": {
