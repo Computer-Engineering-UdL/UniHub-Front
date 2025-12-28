@@ -83,19 +83,24 @@
             </div>
 
             <div class="form-content">
-              <ion-item lines="none" class="input-item">
-                <ion-label position="stacked"
-                  >{{ 'PROFILE.YEAR_OF_STUDY' | translate }} *</ion-label
-                >
-                <ion-select
+              <div class="range-container">
+                <ion-label>{{ 'PROFILE.YEAR_OF_STUDY' | translate }} *</ion-label>
+                <div class="range-value">
+                  {{ 'ONBOARDING.STUDENT.YEAR_OPTION' | translate:{ year: studentData.yearOfStudy ||
+                  1 } }}
+                </div>
+                <ion-range
                   [(ngModel)]="studentData.yearOfStudy"
-                  interface="popover"
-                  placeholder="{{ 'PROFILE.YEAR_OF_STUDY' | translate }}">
-                  <ion-select-option *ngFor="let year of yearOptions" [value]="year">
-                    {{ 'ONBOARDING.STUDENT.YEAR_OPTION' | translate:{ year: year } }}
-                  </ion-select-option>
-                </ion-select>
-              </ion-item>
+                  [min]="1"
+                  [max]="12"
+                  [pin]="true"
+                  [ticks]="true"
+                  [snaps]="true"
+                  color="primary">
+                  <ion-label slot="start">1</ion-label>
+                  <ion-label slot="end">12</ion-label>
+                </ion-range>
+              </div>
 
               <div class="segment-container">
                 <ion-label>{{ 'ONBOARDING.STUDENT.STUDY_MODE' | translate }} *</ion-label>
@@ -121,7 +126,7 @@
             <div class="form-content">
               <ng-container *ngIf="!isLoadingInterests; else loadingInterests">
                 <div *ngFor="let category of interestCategories" class="interest-category">
-                  <h3 class="category-title">{{ category.name }}</h3>
+                  <h3 class="category-title">{{ category.name | interestTranslate:'category' }}</h3>
                   <div class="chip-group">
                     <button
                       type="button"
@@ -129,7 +134,7 @@
                       *ngFor="let interest of category.interests"
                       [class.selected]="selectedInterestIds.has(interest.id)"
                       (click)="toggleInterest(interest.id)">
-                      {{ interest.name }}
+                      {{ interest.name | interestTranslate:'interest' }}
                     </button>
                   </div>
                 </div>
@@ -182,7 +187,7 @@
             expand="block">
             <ion-spinner *ngIf="isSaving" name="crescent"></ion-spinner>
             <span *ngIf="!isSaving">
-              {{ currentStep === totalSteps ? ('COMMON.FINISH' | translate) : ('COMMON.NEXT' |
+              {{ currentStep === totalSteps ? ('COMMON.SAVE' | translate) : ('COMMON.NEXT' |
               translate) }}
             </span>
           </ion-button>

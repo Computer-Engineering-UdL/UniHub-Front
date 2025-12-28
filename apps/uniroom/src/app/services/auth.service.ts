@@ -120,6 +120,9 @@ export class AuthService {
     if (data.onboardingCompleted !== undefined) {
       payload.onboarding_completed = data.onboardingCompleted;
     }
+    if (data.faculty !== undefined) {
+      payload.faculty = data.faculty;
+    }
     // do not include interests here (as they have separate endpoints)
     return payload;
   }

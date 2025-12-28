@@ -60,7 +60,7 @@ export class SignupPage {
       email: this.email.trim(),
       password: this.password,
       phone: this.phone.trim() || undefined,
-      accepted_terms_version: '-1'
+      accepted_terms_version: '1.0.0'
     };
   }
 

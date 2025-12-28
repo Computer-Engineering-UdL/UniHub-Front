@@ -68,9 +68,19 @@ export interface User {
   bio?: string;
   languages?: string[];
   studyMode?: 'full-time' | 'part-time';
-  faculty?: { id: string; name?: string; university: { id: string; name?: string }; address?: string };
+  faculty?: FacultyUpdate;
   degree?: string;
   campus?: string;
+}
+
+export interface FacultyUpdate {
+  id: string;
+  name: string;
+  university: {
+    id: string;
+    name: string;
+  };
+  address: string;
 }
 
 export const DEFAULT_USER_URL = 'assets/img/default-profile.png';

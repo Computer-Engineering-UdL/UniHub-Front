@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import NotificationService from '../../services/notification.service';
-import { InterestCategory, User } from '../../models/auth.types';
+import { FacultyUpdate, InterestCategory, User } from '../../models/auth.types';
 import { ApiService } from '../../services/api.service';
 import { firstValueFrom } from 'rxjs';
 
@@ -44,7 +44,8 @@ export class StudentOnboardingPage implements OnInit {
   readonly totalSteps: number = 4;
 
   studentData: StudentData = {
-    studyMode: 'full-time'
+    studyMode: 'full-time',
+    yearOfStudy: 1
   };
 
   universities: University[] = [];
@@ -54,8 +55,6 @@ export class StudentOnboardingPage implements OnInit {
   isLoadingInterests: boolean = false;
   isSaving: boolean = false;
   selectedInterestIds: Set<string> = new Set<string>();
-
-  readonly yearOptions: number[] = [1, 2, 3, 4, 5, 6];
 
   ngOnInit(): void {
     void this.loadUniversitiesAndFaculties();
@@ -180,18 +179,32 @@ export class StudentOnboardingPage implements OnInit {
 
   private async persistCurrentStep(): Promise<void> {
     switch (this.currentStep) {
-      case 1:
-        await this.authService.updateCurrentUser({
-          faculty: {
-            id: this.studentData.selectedFacultyId || '',
-            university: {
-              id: this.studentData.selectedUniversityId || ''
-            }
+      case 1: {
+        const selectedUniversity: University | undefined = this.universities.find(
+          (u: University) => u.id === this.studentData.selectedUniversityId
+        );
+        const selectedFaculty: Faculty | undefined = this.filteredFaculties.find(
+          (f: Faculty) => f.id === this.studentData.selectedFacultyId
+        );
+
+        const faculty: FacultyUpdate = {
+          id: selectedFaculty?.id || '',
+          name: selectedFaculty?.name || '',
+          university: {
+            id: selectedUniversity?.id || '',
+            name: selectedUniversity?.name || ''
           },
+          address: this.studentData.campus || ''
+        };
+
+        await this.authService.updateCurrentUser({
+          faculty_id: selectedFaculty?.id,
+          faculty: faculty,
           campus: this.studentData.campus,
           degree: this.studentData.degree
         });
         break;
+      }
       case 2:
         await this.authService.updateCurrentUser({
           yearOfStudy: this.studentData.yearOfStudy,
