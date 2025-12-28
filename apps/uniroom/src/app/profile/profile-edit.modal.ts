@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
-import { DEFAULT_USER_URL, User } from '../models/auth.types';
+import { DEFAULT_USER_URL, FacultyUpdate, User } from '../models/auth.types';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -251,11 +251,23 @@ export class ProfileEditModal implements OnInit {
         uploadedPhotoUrl = await this.uploadPhoto();
       }
 
+      // Depending on the endpoint this is used or not, I know this is a crap but not my fault
+      const faculty: FacultyUpdate = {
+        id: this.selectedFacultyId || '',
+        name: '',
+        university: {
+          id: this.selectedUniversityId || '',
+          name: ''
+        },
+        address: ''
+      };
+
       const payload: Partial<User> = {
         firstName: this.user.firstName,
         lastName: this.user.lastName,
         phone: this.user.phone,
         faculty_id: this.selectedFacultyId || undefined,
+        faculty: faculty,
         yearOfStudy: this.user.yearOfStudy
       };
 

@@ -20,6 +20,12 @@ const routes: Routes = [
     data: { public: true, guestOnly: true, topBar: false }
   },
   {
+    path: 'onboarding',
+    loadChildren: () => import('./onboarding/onboarding.module').then((m) => m.OnboardingModule),
+    canActivate: [AuthGuard],
+    data: { topBar: true }
+  },
+  {
     path: 'home',
     loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
     canActivate: [termsGuard],

@@ -42,6 +42,45 @@ export interface User {
   housing_offer_count?: number;
   housing_search_count?: number;
   listings_active?: number;
+  onboardingCompleted?: boolean;
+  housingOfferCount?: number;
+  housingSearchCount?: number;
+  listingsActive?: number;
+  city?: string;
+  country?: string;
+  landlordType?: string;
+  companyName?: string;
+  taxId?: string;
+  companyWebsite?: string;
+  industry?: string;
+  contactPerson?: string;
+  contactRole?: string;
+  workEmail?: string;
+  operatingLocations?: string[];
+  propertyTypes?: string[];
+  priceRangeMin?: number;
+  priceRangeMax?: number;
+  hiringFocus?: string[];
+  targetFaculties?: string[];
+  targetSkills?: string[];
+  description?: string;
+  linkedinUrl?: string;
+  bio?: string;
+  languages?: string[];
+  studyMode?: 'full-time' | 'part-time';
+  faculty?: FacultyUpdate;
+  degree?: string;
+  campus?: string;
+}
+
+export interface FacultyUpdate {
+  id: string;
+  name: string;
+  university: {
+    id: string;
+    name: string;
+  };
+  address: string;
 }
 
 export const DEFAULT_USER_URL = 'assets/img/default-profile.png';
@@ -52,12 +91,13 @@ export interface AuthResponse {
 }
 
 export interface SignupData {
-  firstName: string;
-  lastName: string;
+  username: string;
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
   phone?: string;
-  university?: string;
+  accepted_terms_version: string;
 }
 
 export interface LoginCredentials {

@@ -1,0 +1,203 @@
+<ion-content [fullscreen]="true">
+  <div class="onboarding-wrapper">
+    <div class="onboarding-role-badge">
+      <ion-icon name="school-outline"></ion-icon>
+      <span>{{ 'ONBOARDING.ROLE_SELECTION.STUDENT.TITLE' | translate }}</span>
+    </div>
+
+    <div class="onboarding-progress">
+      <div class="progress-text">
+        {{ 'ONBOARDING.STEP_INDICATOR' | translate: { current: currentStep, total: totalSteps } }}
+      </div>
+      <ion-progress-bar [value]="currentStep / totalSteps" color="primary"></ion-progress-bar>
+    </div>
+
+    <ion-card class="onboarding-card">
+      <ion-card-content>
+        <ng-container [ngSwitch]="currentStep">
+          <div *ngSwitchCase="1" class="step-section">
+            <div class="step-header">
+              <ion-icon name="school" class="step-icon"></ion-icon>
+              <h2>{{ 'ONBOARDING.STUDENT.STEPS.EDUCATION.TITLE' | translate }}</h2>
+              <p>{{ 'ONBOARDING.STUDENT.STEPS.EDUCATION.DESCRIPTION' | translate }}</p>
+            </div>
+
+            <div class="form-content">
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked">{{ 'SIGNUP.UNIVERSITY' | translate }} *</ion-label>
+                <ion-select
+                  [(ngModel)]="studentData.selectedUniversityId"
+                  (ionChange)="onUniversityChange($event.detail.value)"
+                  [disabled]="loadingUniversities"
+                  interface="popover"
+                  placeholder="{{ 'SIGNUP.UNIVERSITY' | translate }}">
+                  <ion-select-option
+                    *ngFor="let university of universities"
+                    [value]="university.id">
+                    {{ university.name }}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <ion-item
+                lines="none"
+                class="input-item"
+                *ngIf="studentData.selectedUniversityId && filteredFaculties.length > 0">
+                <ion-label position="stacked">{{ 'SIGNUP.FACULTY' | translate }} *</ion-label>
+                <ion-select
+                  [(ngModel)]="studentData.selectedFacultyId"
+                  (ionChange)="onFacultyChange($event.detail.value)"
+                  interface="popover"
+                  placeholder="{{ 'SIGNUP.FACULTY' | translate }}">
+                  <ion-select-option *ngFor="let faculty of filteredFaculties" [value]="faculty.id">
+                    {{ faculty.name }}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.STUDENT.DEGREE' | translate }} *</ion-label
+                >
+                <ion-input
+                  [(ngModel)]="studentData.degree"
+                  placeholder="{{ 'ONBOARDING.STUDENT.DEGREE' | translate }}"></ion-input>
+              </ion-item>
+
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.STUDENT.CAMPUS' | translate }}</ion-label
+                >
+                <ion-input
+                  [(ngModel)]="studentData.campus"
+                  placeholder="{{ 'ONBOARDING.STUDENT.CAMPUS' | translate }}"></ion-input>
+              </ion-item>
+            </div>
+          </div>
+
+          <div *ngSwitchCase="2" class="step-section">
+            <div class="step-header">
+              <ion-icon name="book" class="step-icon"></ion-icon>
+              <h2>{{ 'ONBOARDING.STUDENT.STEPS.ACADEMICS.TITLE' | translate }}</h2>
+              <p>{{ 'ONBOARDING.STUDENT.STEPS.ACADEMICS.DESCRIPTION' | translate }}</p>
+            </div>
+
+            <div class="form-content">
+              <div class="range-container">
+                <ion-label>{{ 'PROFILE.YEAR_OF_STUDY' | translate }} *</ion-label>
+                <div class="range-value">
+                  {{ 'ONBOARDING.STUDENT.YEAR_OPTION' | translate:{ year: studentData.yearOfStudy ||
+                  1 } }}
+                </div>
+                <ion-range
+                  [(ngModel)]="studentData.yearOfStudy"
+                  [min]="1"
+                  [max]="12"
+                  [pin]="true"
+                  [ticks]="true"
+                  [snaps]="true"
+                  color="primary">
+                  <ion-label slot="start">1</ion-label>
+                  <ion-label slot="end">12</ion-label>
+                </ion-range>
+              </div>
+
+              <div class="segment-container">
+                <ion-label>{{ 'ONBOARDING.STUDENT.STUDY_MODE' | translate }} *</ion-label>
+                <ion-segment [(ngModel)]="studentData.studyMode" mode="ios">
+                  <ion-segment-button value="full-time">
+                    <ion-label>{{ 'ONBOARDING.STUDENT.FULL_TIME' | translate }}</ion-label>
+                  </ion-segment-button>
+                  <ion-segment-button value="part-time">
+                    <ion-label>{{ 'ONBOARDING.STUDENT.PART_TIME' | translate }}</ion-label>
+                  </ion-segment-button>
+                </ion-segment>
+              </div>
+            </div>
+          </div>
+
+          <div *ngSwitchCase="3" class="step-section">
+            <div class="step-header">
+              <ion-icon name="heart" class="step-icon"></ion-icon>
+              <h2>{{ 'ONBOARDING.STUDENT.STEPS.INTERESTS.TITLE' | translate }}</h2>
+              <p>{{ 'ONBOARDING.STUDENT.STEPS.INTERESTS.DESCRIPTION' | translate }}</p>
+              <div class="interests-counter">
+                <ion-badge [color]="selectedInterestIds.size >= 10 ? 'warning' : 'primary'">
+                  {{ selectedInterestIds.size }} / 10
+                </ion-badge>
+              </div>
+            </div>
+
+            <div class="form-content">
+              <ng-container *ngIf="!isLoadingInterests; else loadingInterests">
+                <div *ngFor="let category of interestCategories" class="interest-category">
+                  <h3 class="category-title">{{ category.name | interestTranslate:'category' }}</h3>
+                  <div class="chip-group">
+                    <button
+                      type="button"
+                      class="chip"
+                      *ngFor="let interest of category.interests"
+                      [class.selected]="selectedInterestIds.has(interest.id)"
+                      (click)="toggleInterest(interest.id)">
+                      {{ interest.name | interestTranslate:'interest' }}
+                    </button>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #loadingInterests>
+                <div class="loading-container">
+                  <ion-spinner color="primary"></ion-spinner>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+
+          <div *ngSwitchDefault class="step-section">
+            <div class="step-header">
+              <ion-icon name="person" class="step-icon"></ion-icon>
+              <h2>{{ 'ONBOARDING.STUDENT.STEPS.PROFILE.TITLE' | translate }}</h2>
+              <p>{{ 'ONBOARDING.STUDENT.STEPS.PROFILE.DESCRIPTION' | translate }}</p>
+            </div>
+
+            <div class="form-content">
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked">{{ 'ONBOARDING.STUDENT.BIO' | translate }}</ion-label>
+                <ion-textarea
+                  [(ngModel)]="studentData.bio"
+                  rows="4"
+                  placeholder="{{ 'ONBOARDING.STUDENT.BIO' | translate }}"></ion-textarea>
+              </ion-item>
+
+              <ion-item lines="none" class="input-item">
+                <ion-label position="stacked"
+                  >{{ 'ONBOARDING.STUDENT.LANGUAGES' | translate }}</ion-label
+                >
+                <ion-input
+                  [(ngModel)]="studentData.languagesText"
+                  placeholder="{{ 'ONBOARDING.STUDENT.LANGUAGES' | translate }}"></ion-input>
+                <ion-note slot="helper"
+                  >{{ 'ONBOARDING.STUDENT.LANGUAGES_HELPER' | translate }}</ion-note
+                >
+              </ion-item>
+            </div>
+          </div>
+        </ng-container>
+
+        <div class="onboarding-actions">
+          <ion-button fill="clear" (click)="prevStep()">{{ 'COMMON.BACK' | translate }}</ion-button>
+          <ion-button
+            color="primary"
+            (click)="currentStep === totalSteps ? finish() : nextStep()"
+            [disabled]="isSaving || !canContinueCurrentStep()"
+            expand="block">
+            <ion-spinner *ngIf="isSaving" name="crescent"></ion-spinner>
+            <span *ngIf="!isSaving">
+              {{ currentStep === totalSteps ? ('COMMON.SAVE' | translate) : ('COMMON.NEXT' |
+              translate) }}
+            </span>
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

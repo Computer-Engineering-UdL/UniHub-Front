@@ -12,30 +12,20 @@
     margin-bottom: 6px;
   }
 
-  .logo-icon {
-    font-size: 50px;
-
+  img {
     @media (min-width: 768px) {
-      font-size: 80px;
+      height: 160px !important;
+      width: 160px !important;
+    }
+
+    @media (min-width: 1024px) {
+      height: 170px !important;
+      width: 170px !important;
     }
 
     @media (max-height: 700px) {
-      font-size: 40px;
-    }
-  }
-
-  h1 {
-    font-size: 24px;
-    margin: 6px 0;
-
-    @media (min-width: 768px) {
-      font-size: 36px;
-      margin: 12px 0;
-    }
-
-    @media (max-height: 700px) {
-      font-size: 20px;
-      margin: 4px 0;
+      height: 100px !important;
+      width: 100px !important;
     }
   }
 
@@ -84,6 +74,61 @@
 
   @media (max-height: 700px) {
     margin-bottom: 4px;
+  }
+
+  ion-select {
+    padding-left: 8px;
+    width: 100%;
+
+    @media (min-width: 768px) {
+      padding-left: 10px;
+    }
+  }
+}
+
+.password-item {
+  --padding-end: 0;
+  display: flex;
+  align-items: center;
+}
+
+.password-toggle {
+  --padding-start: 8px;
+  --padding-end: 12px;
+  height: 100%;
+  margin: 0;
+
+  @media (min-width: 768px) {
+    --padding-start: 10px;
+    --padding-end: 14px;
+  }
+
+  @media (min-width: 1024px) {
+    --padding-start: 12px;
+    --padding-end: 16px;
+  }
+
+  ion-icon {
+    font-size: 20px;
+    color: var(--ion-color-medium);
+    display: block;
+    line-height: 1;
+
+    @media (min-width: 768px) {
+      font-size: 22px;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 24px;
+    }
+
+    @media (max-height: 700px) {
+      font-size: 18px;
+    }
+  }
+
+  &:hover ion-icon {
+    color: var(--ion-color-primary);
   }
 }
 

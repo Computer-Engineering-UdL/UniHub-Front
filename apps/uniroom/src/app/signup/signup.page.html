@@ -7,10 +7,8 @@
       <ion-button fill="clear" size="small" (click)="changeLanguage('ca')"> CA </ion-button>
     </div>
 
-    <!-- Logo/Header Section -->
     <div class="auth-header">
-      <ion-icon name="person-add-outline" class="logo-icon"></ion-icon>
-      <h1>{{ 'SIGNUP.TITLE' | translate }}</h1>
+      <img src="assets/icon/unihub.png" alt="Logo" height="150" width="150" />
       <p class="subtitle">{{ 'SIGNUP.SUBTITLE' | translate }}</p>
     </div>
 
@@ -57,6 +55,24 @@
           <ion-item
             lines="none"
             class="input-item"
+            [class.input-error]="usernameTouched && !username">
+            <ion-icon name="at-outline" slot="start"></ion-icon>
+            <ion-input
+              type="text"
+              [placeholder]="'SIGNUP.USERNAME' | translate"
+              [(ngModel)]="username"
+              name="username"
+              [required]="true"
+              (ionBlur)="usernameTouched = true"
+              (ionInput)="onUsernameInput()"></ion-input>
+          </ion-item>
+          <div *ngIf="usernameTouched && !username" class="input-error-message">
+            {{ 'SIGNUP.ERROR.EMPTY_FIELDS' | translate }}
+          </div>
+
+          <ion-item
+            lines="none"
+            class="input-item"
             [class.input-error]="emailTouched && !validateEmail(email)">
             <ion-icon name="mail-outline" slot="start"></ion-icon>
             <ion-input
@@ -92,28 +108,28 @@
             {{ 'SIGNUP.ERROR.INVALID_PHONE' | translate }}
           </div>
 
-          <ion-item lines="none" class="input-item">
-            <ion-icon name="school-outline" slot="start"></ion-icon>
-            <ion-input
-              type="text"
-              [placeholder]="'SIGNUP.UNIVERSITY' | translate"
-              [(ngModel)]="university"
-              name="university"></ion-input>
-          </ion-item>
-
           <ion-item
             lines="none"
-            class="input-item"
+            class="input-item password-item"
             [class.input-error]="passwordTouched && password.length < 8">
             <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
             <ion-input
-              type="password"
+              [type]="showPassword ? 'text' : 'password'"
               [placeholder]="'SIGNUP.PASSWORD' | translate"
               [(ngModel)]="password"
               name="password"
               [required]="true"
               (ionBlur)="passwordTouched = true"
               (ionInput)="onPasswordInput()"></ion-input>
+            <ion-button
+              fill="clear"
+              slot="end"
+              (click)="togglePasswordVisibility()"
+              class="password-toggle">
+              <ion-icon
+                [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+                slot="icon-only"></ion-icon>
+            </ion-button>
           </ion-item>
           <div *ngIf="passwordTouched && password.length < 8" class="input-error-message">
             {{ 'SIGNUP.ERROR.PASSWORD_TOO_SHORT' | translate }}
@@ -121,17 +137,26 @@
 
           <ion-item
             lines="none"
-            class="input-item"
+            class="input-item password-item"
             [class.input-error]="confirmPasswordTouched && password !== confirmPassword">
             <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
             <ion-input
-              type="password"
+              [type]="showConfirmPassword ? 'text' : 'password'"
               [placeholder]="'SIGNUP.CONFIRM_PASSWORD' | translate"
               [(ngModel)]="confirmPassword"
               name="confirmPassword"
               [required]="true"
               (ionBlur)="confirmPasswordTouched = true"
               (ionInput)="onConfirmPasswordInput()"></ion-input>
+            <ion-button
+              fill="clear"
+              slot="end"
+              (click)="toggleConfirmPasswordVisibility()"
+              class="password-toggle">
+              <ion-icon
+                [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'"
+                slot="icon-only"></ion-icon>
+            </ion-button>
           </ion-item>
           <div
             *ngIf="confirmPasswordTouched && password !== confirmPassword"
@@ -143,7 +168,7 @@
             expand="block"
             type="submit"
             class="auth-button"
-            [disabled]="isLoading || !firstName || !lastName || !validateEmail(email) || password.length < 8 || password !== confirmPassword || (!!phone && !validatePhone(phone))">
+            [disabled]="isLoading || !username || !firstName || !lastName || !validateEmail(email) || password.length < 8 || password !== confirmPassword || (!!phone && !validatePhone(phone))">
             <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
             <span *ngIf="!isLoading">{{ 'SIGNUP.SIGN_UP' | translate }}</span>
           </ion-button>
@@ -156,16 +181,6 @@
 
         <!-- Social Signup Buttons -->
         <div class="social-buttons">
-          <ion-button
-            expand="block"
-            fill="outline"
-            class="social-button github-button"
-            (click)="signupWithGithub()"
-            [disabled]="isLoading">
-            <ion-icon name="logo-github" slot="start"></ion-icon>
-            {{ 'COMMON.GITHUB' | translate }}
-          </ion-button>
-
           <ion-button
             expand="block"
             fill="outline"

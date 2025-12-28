@@ -9,11 +9,10 @@ import { PublicProfilePage } from './public-profile/public-profile.page';
 import { FormsModule } from '@angular/forms';
 import { ProfileEditModal } from './profile-edit.modal';
 import { AddInterestModalComponent } from './add-interest-modal/add-interest-modal.component';
-import { InterestTranslatePipe } from '../shared/pipes/interest-translate.pipe';
 import { SharedModule } from '../shared/shared-module';
 
 @NgModule({
-  declarations: [ProfilePage, PublicProfilePage, AddInterestModalComponent, InterestTranslatePipe],
+  declarations: [ProfilePage, PublicProfilePage, AddInterestModalComponent],
   imports: [
     CommonModule,
     IonicModule,

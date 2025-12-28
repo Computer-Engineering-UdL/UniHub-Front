@@ -13,27 +13,30 @@ import { LangCode, LocalizationService } from '../services/localization.service'
   standalone: false
 })
 export class SignupPage {
+  username: string = '';
   firstName: string = '';
   lastName: string = '';
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
   phone: string = '';
-  university: string = '';
   isLoading: boolean = false;
 
+  usernameTouched: boolean = false;
   firstNameTouched: boolean = false;
   lastNameTouched: boolean = false;
   emailTouched: boolean = false;
   phoneTouched: boolean = false;
   passwordTouched: boolean = false;
   confirmPasswordTouched: boolean = false;
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
 
-  private authService: AuthService = inject(AuthService);
-  private router: Router = inject(Router);
-  private translate: TranslateService = inject(TranslateService);
-  private notificationService: NotificationService = inject(NotificationService);
-  private localizationService: LocalizationService = inject(LocalizationService);
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly router: Router = inject(Router);
+  private readonly translate: TranslateService = inject(TranslateService);
+  private readonly notificationService: NotificationService = inject(NotificationService);
+  private readonly localizationService: LocalizationService = inject(LocalizationService);
 
   private readonly emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -41,20 +44,35 @@ export class SignupPage {
     return this.emailRegex.test(email);
   }
 
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
   private buildSignupPayload(): SignupData {
     return {
-      firstName: this.firstName.trim(),
-      lastName: this.lastName.trim(),
+      username: this.username.trim(),
+      first_name: this.firstName.trim(),
+      last_name: this.lastName.trim(),
       email: this.email.trim(),
       password: this.password,
       phone: this.phone.trim() || undefined,
-      university: this.university.trim() || undefined
+      accepted_terms_version: '1.0.0'
     };
   }
 
   onFirstNameInput(): void {
     if (!this.firstNameTouched) {
       this.firstNameTouched = true;
+    }
+  }
+
+  onUsernameInput(): void {
+    if (!this.usernameTouched) {
+      this.usernameTouched = true;
     }
   }
 
@@ -96,7 +114,8 @@ export class SignupPage {
   }
 
   async signup(): Promise<void> {
-    if (!this.firstName || !this.lastName || !this.email || !this.password || !this.confirmPassword) {
+    if (!this.username || !this.firstName || !this.lastName || !this.email || !this.password || !this.confirmPassword) {
+      this.usernameTouched = true;
       this.firstNameTouched = true;
       this.lastNameTouched = true;
       this.emailTouched = true;
@@ -131,23 +150,9 @@ export class SignupPage {
     try {
       const payload: SignupData = this.buildSignupPayload();
       await this.authService.signup(payload);
-      await this.router.navigate(['/home']);
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : this.translate.instant('SIGNUP.ERROR.SIGNUP_FAILED');
-      this.notificationService.error(message);
-    } finally {
-      this.isLoading = false;
-    }
-  }
-
-  async signupWithGithub(): Promise<void> {
-    this.isLoading = true;
-    try {
-      await this.authService.loginWithGithub();
-      await this.router.navigate(['/home']);
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : this.translate.instant('LOGIN.ERROR.GITHUB_FAILED');
-      this.notificationService.error(message);
+      await this.goToOnboarding();
+    } catch {
+      this.notificationService.error(this.translate.instant('SIGNUP.ERROR.SIGNUP_FAILED'));
     } finally {
       this.isLoading = false;
     }
@@ -157,13 +162,17 @@ export class SignupPage {
     this.isLoading = true;
     try {
       await this.authService.loginWithGoogle();
-      await this.router.navigate(['/home']);
+      await this.goToOnboarding();
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : this.translate.instant('LOGIN.ERROR.GOOGLE_FAILED');
       this.notificationService.error(message);
     } finally {
       this.isLoading = false;
     }
+  }
+
+  private async goToOnboarding(): Promise<void> {
+    await this.router.navigate(['/onboarding/role']);
   }
 
   onPhoneInput(ev: CustomEvent): void {

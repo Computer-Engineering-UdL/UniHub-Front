@@ -18,7 +18,7 @@
     "DESCRIPTION_TITLE": "Descripción del Reporte",
     "DESCRIPTION_MESSAGE": "Por favor, proporciona más detalles sobre tu reporte (opcional):",
     "DESCRIPTION_PLACEHOLDER": "Describe el problema...",
-    "OPTIONAL_HINT": "Este campo es opcional, pero ayuda a entender mejor el problema.",
+    "OPTIONAL_HINT": "Este campo es opcional, pero ayuda a entender mejor el problema",
     "SUBMIT": "Enviar Reporte",
     "SUCCESS": "Reporte enviado correctamente",
     "ERROR": "Error al enviar el reporte",
@@ -50,10 +50,10 @@
     "ERROR": {
       "EMPTY_CREDENTIALS": "Por favor ingresa correo y contraseña",
       "INVALID_EMAIL": "Por favor ingresa un correo electrónico válido",
-      "LOGIN_FAILED": "Error al iniciar sesión. Por favor intenta de nuevo.",
-      "GITHUB_FAILED": "Error al iniciar sesión con GitHub. Por favor intenta de nuevo.",
-      "GOOGLE_FAILED": "Error al iniciar sesión con Google. Por favor intenta de nuevo.",
-      "OAUTH_WINDOW_CLOSED": "La ventana de autenticación se ha cerrado antes de completar el proceso."
+      "LOGIN_FAILED": "Error al iniciar sesión. Por favor intenta de nuevo",
+      "GITHUB_FAILED": "Error al iniciar sesión con GitHub. Por favor intenta de nuevo",
+      "GOOGLE_FAILED": "Error al iniciar sesión con Google. Por favor intenta de nuevo",
+      "OAUTH_WINDOW_CLOSED": "La ventana de autenticación se ha cerrado antes de completar el proceso"
     }
   },
   "SIGNUP": {
@@ -61,11 +61,13 @@
     "SUBTITLE": "Únete a la comunidad UniHub",
     "FIRST_NAME": "Nombre",
     "LAST_NAME": "Apellidos",
+    "USERNAME": "Nombre de usuario",
     "EMAIL": "Correo electrónico",
     "PASSWORD": "Contraseña",
     "CONFIRM_PASSWORD": "Confirmar Contraseña",
     "PHONE": "Número de teléfono",
     "UNIVERSITY": "Universidad",
+    "FACULTY": "Facultad",
     "SIGN_UP": "Registrarse",
     "OR_CONTINUE_WITH": "o continuar con",
     "HAVE_ACCOUNT": "¿Ya tienes una cuenta?",
@@ -75,8 +77,127 @@
       "INVALID_EMAIL": "Por favor ingresa un correo electrónico válido",
       "PASSWORD_MISMATCH": "Las contraseñas no coinciden",
       "PASSWORD_TOO_SHORT": "La contraseña debe tener al menos 8 caracteres",
-      "SIGNUP_FAILED": "Error al registrarse. Por favor intenta de nuevo.",
+      "SIGNUP_FAILED": "Error al registrarse. Por favor intenta de nuevo",
       "INVALID_PHONE": "El teléfono debe ser válido (solo números y puede empezar por +)"
+    }
+  },
+  "ONBOARDING": {
+    "STEP_INDICATOR": "Paso {{current}} de {{total}}",
+    "ERROR": {
+      "GENERIC": "Ha ocurrido un error. Inténtalo de nuevo",
+      "VALIDATION": "Completa los campos obligatorios antes de continuar",
+      "MAX_INTERESTS": "Puedes seleccionar un máximo de 10 intereses"
+    },
+    "ROLE_SELECTION": {
+      "TITLE": "Cuéntanos quién eres",
+      "SUBTITLE": "Elige la opción que mejor describe cómo utilizarás UniHub",
+      "STUDENT": {
+        "TITLE": "Estudiante",
+        "DESCRIPTION": "Descubre vivienda, comunidades y oportunidades adaptadas a tus estudios"
+      },
+      "LANDLORD": {
+        "TITLE": "Propietario",
+        "DESCRIPTION": "Publica anuncios y conecta con estudiantes verificados en minutos"
+      },
+      "COMPANY": {
+        "TITLE": "Empresa",
+        "DESCRIPTION": "Llega a estudiantes para prácticas, empleos y acciones de marca empleadora"
+      }
+    },
+    "STUDENT": {
+      "CAMPUS": "Campus",
+      "FACULTY": "Facultad",
+      "DEGREE": "Carrera o programa",
+      "STUDY_MODE": "Modalidad de estudio",
+      "FULL_TIME": "Tiempo completo",
+      "PART_TIME": "Tiempo parcial",
+      "YEAR_OPTION": "Año {{year}}",
+      "BIO": "Breve biografía",
+      "LANGUAGES": "Idiomas",
+      "LANGUAGES_HELPER": "Separa cada idioma con una coma",
+      "STEPS": {
+        "EDUCATION": {
+          "TITLE": "Datos académicos",
+          "DESCRIPTION": "Personalizaremos tu experiencia con información universitaria precisa"
+        },
+        "ACADEMICS": {
+          "TITLE": "Situación académica",
+          "DESCRIPTION": "Cuéntanos en qué año estás y cómo estudias"
+        },
+        "INTERESTS": {
+          "TITLE": "Intereses",
+          "DESCRIPTION": "Elige al menos un interés para recomendarte canales y eventos relevantes"
+        },
+        "PROFILE": {
+          "TITLE": "Completa tu perfil",
+          "DESCRIPTION": "Una bio corta y tus idiomas ayudan a que otros estudiantes te encuentren"
+        }
+      }
+    },
+    "LANDLORD": {
+      "FULL_NAME": "Nombre completo",
+      "CITY": "Ciudad",
+      "COUNTRY": "País",
+      "TYPE": "¿Qué te describe mejor?",
+      "TYPES": {
+        "INDIVIDUAL": "Propietario particular",
+        "MANAGER": "Administrador de propiedades",
+        "AGENCY": "Agencia"
+      },
+      "COMPANY_NAME": "Nombre de la empresa",
+      "TAX_ID": "NIF / Registro",
+      "AREAS": "Zonas donde operas",
+      "AREAS_HELPER": "Separa varias zonas con comas",
+      "PROPERTY_TYPES": "Tipos de vivienda que ofreces",
+      "PRICE_MIN": "Precio mensual mínimo habitual",
+      "PRICE_MAX": "Precio mensual máximo habitual",
+      "STEPS": {
+        "CONTACT": {
+          "TITLE": "Datos de contacto",
+          "DESCRIPTION": "Los estudiantes utilizarán esta información para comunicarse contigo"
+        },
+        "TYPE": {
+          "TITLE": "Tipo de propietario",
+          "DESCRIPTION": "Indica cómo gestionas tus propiedades"
+        },
+        "PREFERENCES": {
+          "TITLE": "Preferencias de anuncios",
+          "DESCRIPTION": "Comparte el tipo de alojamientos que sueles gestionar"
+        }
+      }
+    },
+    "COMPANY": {
+      "NAME": "Nombre de la empresa",
+      "WEBSITE": "Sitio web",
+      "INDUSTRY": "Industria",
+      "COUNTRY": "País",
+      "CITY": "Ciudad",
+      "CONTACT_PERSON": "Persona de contacto",
+      "CONTACT_ROLE": "Cargo",
+      "WORK_EMAIL": "Correo de trabajo",
+      "TARGET_FACULTIES": "Facultades objetivo",
+      "TARGET_SKILLS": "Competencias clave",
+      "HIRING_FOCUS": "Foco de contratación",
+      "DESCRIPTION": "Descripción de la empresa",
+      "LINKEDIN": "LinkedIn",
+      "STEPS": {
+        "INFO": {
+          "TITLE": "Información de la empresa",
+          "DESCRIPTION": "Presenta tu organización a la comunidad de UniHub"
+        },
+        "CONTACT": {
+          "TITLE": "Persona de contacto",
+          "DESCRIPTION": "¿Con quién deben hablar los estudiantes cuando te escriban?"
+        },
+        "TALENT": {
+          "TITLE": "Perfil de talento",
+          "DESCRIPTION": "Indícanos a quién buscas para conectar con los estudiantes adecuados"
+        },
+        "BRAND": {
+          "TITLE": "Presencia de marca",
+          "DESCRIPTION": "Añade los últimos detalles para destacar ante los estudiantes"
+        }
+      }
     }
   },
   "HOME": {
@@ -343,7 +464,8 @@
     "ROLE": {
       "ADMIN": "Administrador",
       "BASIC": "Usuario",
-      "SELLER": "Vendedor"
+      "SELLER": "Vendedor",
+      "RECRUITER": "Empresa"
     },
     "VERIFIED": "Verificado",
     "JOINED": "Registrado",
@@ -396,7 +518,7 @@
   },
   "UNAUTHORIZED": {
     "TITLE": "Acceso denegado",
-    "MESSAGE": "No tienes permiso para ver esta página o no existe.",
+    "MESSAGE": "No tienes permiso para ver esta página o no existe",
     "GO_HOME": "Ir al inicio",
     "GO_LOGIN": "Ir a iniciar sesión"
   },
@@ -441,14 +563,14 @@
     "NO_OFFERS": "No hay ofertas disponibles",
     "NO_OFFERS_DESCRIPTION": "No hay ofertas de alojamiento disponibles en este momento. ¡Vuelve más tarde!",
     "NO_RESULTS": "No se encontraron resultados",
-    "NO_RESULTS_DESCRIPTION": "Intenta ajustar los filtros para ver más ofertas.",
+    "NO_RESULTS_DESCRIPTION": "Intenta ajustar los filtros para ver más ofertas",
     "VIEW_DETAILS": "Ver Detalles",
     "PER_MONTH": "/mes",
     "DELETE": "Eliminar",
     "DELETE_CONFIRM_TITLE": "Eliminar oferta",
-    "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar esta oferta? Esta acción no se puede deshacer.",
-    "DELETE_SUCCESS": "Oferta eliminada correctamente.",
-    "DELETE_FAILED": "No se pudo eliminar la oferta. Por favor, inténtalo de nuevo.",
+    "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar esta oferta? Esta acción no se puede deshacer",
+    "DELETE_SUCCESS": "Oferta eliminada correctamente",
+    "DELETE_FAILED": "No se pudo eliminar la oferta. Por favor, inténtalo de nuevo",
     "LIKE": "Me gusta",
     "UNLIKE": "Ya no me gusta",
     "LIKE_SUCCESS": "Añadido a favoritos",
@@ -480,14 +602,14 @@
     "COMPARISON": {
       "CTA": "Comparar apartamentos",
       "TITLE": "Comparador de apartamentos",
-      "SUBTITLE": "Elige dos anuncios activos para ver sus diferencias clave.",
+      "SUBTITLE": "Elige dos anuncios activos para ver sus diferencias clave",
       "RESET": "Reiniciar selección",
       "SELECT_A": "Apartamento A",
       "SELECT_B": "Apartamento B",
       "SELECT_PLACEHOLDER": "Elige un apartamento",
       "NONE": "Ninguno",
       "LOADING": "Cargando comparativa...",
-      "PLACEHOLDER": "Selecciona dos apartamentos de la lista para compararlos.",
+      "PLACEHOLDER": "Selecciona dos apartamentos de la lista para compararlos",
       "FEATURE": "Característica",
       "EMPTY_COLUMN": "Selecciona un apartamento",
       "IMAGE": "Imagen",
@@ -508,7 +630,7 @@
       "YES": "Sí",
       "NO": "No",
       "NOT_PROVIDED": "No indicado",
-      "LOAD_ERROR": "No hemos podido cargar este apartamento. Inténtalo de nuevo.",
+      "LOAD_ERROR": "No hemos podido cargar este apartamento. Inténtalo de nuevo",
       "ALREADY_SELECTED": "Esta habitación ya está seleccionada para comparar"
     },
     "ADD_TO_COMPARE": "Añadir a comparativa",
@@ -585,16 +707,16 @@
       "FULL_ADDRESS_PREVIEW": "Dirección completa",
       "ADDRESS_PREVIEW_EMPTY": "Completa los campos para generarla",
       "DISCARD_TITLE": "¿Descartar esta oferta?",
-      "DISCARD_MESSAGE": "Si sales ahora, toda la información que has introducido se perderá.",
+      "DISCARD_MESSAGE": "Si sales ahora, toda la información que has introducido se perderá",
       "CONTINUE_EDITING": "Seguir editando",
       "DISCARD_CONFIRM": "Descartar oferta",
       "COORDINATES_HELPER": "Se utiliza para mostrar la ubicación en el mapa",
       "UPLOAD_BUTTON": "Elegir fotos",
-      "UPLOAD_PHOTOS_HELPER": "Añade hasta {{max}} imágenes para mostrar tu oferta.",
-      "PHOTO_TYPE_NOT_ALLOWED": "Solo se admiten imágenes JPEG, PNG, GIF o WebP.",
-      "PHOTO_SIZE_EXCEEDED": "Cada foto debe tener menos de {{maxSize}} MB.",
-      "PHOTOS_LIMIT": "Puedes subir hasta {{max}} fotos.",
-      "PHOTO_REQUIRED": "Añade al menos una foto para publicar tu oferta.",
+      "UPLOAD_PHOTOS_HELPER": "Añade hasta {{max}} imágenes para mostrar tu oferta",
+      "PHOTO_TYPE_NOT_ALLOWED": "Solo se admiten imágenes JPEG, PNG, GIF o WebP",
+      "PHOTO_SIZE_EXCEEDED": "Cada foto debe tener menos de {{maxSize}} MB",
+      "PHOTOS_LIMIT": "Puedes subir hasta {{max}} fotos",
+      "PHOTO_REQUIRED": "Añade al menos una foto para publicar tu oferta",
       "NO_PHOTOS": "Aún no hay fotos seleccionadas",
       "PRIMARY_BADGE": "Portada",
       "MAKE_PRIMARY": "Establecer como portada",
@@ -609,9 +731,9 @@
         "FEMALE": "Femenino",
         "OTHER": "Otro"
       },
-      "CREATE_ERROR": "No hemos podido crear la oferta. Revisa el formulario e inténtalo de nuevo.",
-      "PHOTO_UPLOAD_FAILED": "No se pudieron subir las fotos. Podrás editarlas más tarde desde la oferta.",
-      "PHOTO_UPLOAD_PARTIAL": "Algunas fotos no se subieron. La oferta se creó sin ellas.",
+      "CREATE_ERROR": "No hemos podido crear la oferta. Revisa el formulario e inténtalo de nuevo",
+      "PHOTO_UPLOAD_FAILED": "No se pudieron subir las fotos. Podrás editarlas más tarde desde la oferta",
+      "PHOTO_UPLOAD_PARTIAL": "Algunas fotos no se subieron. La oferta se creó sin ellas",
       "REVIEW": "Revisar y publicar",
       "REVIEW_SUMMARY": "Revisar y publicar",
       "REVIEW_SUBTITLE": "Asegúrate de que todo esté correcto antes de enviar"
@@ -640,7 +762,7 @@
       "BACK_TO_LIST": "Volver a los anuncios",
       "LOADING": "Cargando información del piso...",
       "ERROR_TITLE": "Algo ha salido mal",
-      "ERROR_MESSAGE": "No hemos podido cargar este anuncio ahora mismo. Inténtalo de nuevo más tarde.",
+      "ERROR_MESSAGE": "No hemos podido cargar este anuncio ahora mismo. Inténtalo de nuevo más tarde",
       "GO_BACK": "Volver",
       "STATUS": {
         "AVAILABLE": "Disponible",
@@ -649,7 +771,7 @@
       "AVAILABLE_FROM": "Disponible a partir del {{date}}",
       "POSTED_ON": "Publicado el {{date}}",
       "DESCRIPTION_TITLE": "Descripción",
-      "PLACEHOLDER_DESCRIPTION": "El propietario aún no ha proporcionado una descripción para este anuncio.",
+      "PLACEHOLDER_DESCRIPTION": "El propietario aún no ha proporcionado una descripción para este anuncio",
       "AMENITIES_TITLE": "Servicios",
       "AMENITIES": {
         "WIFI": "Wi-Fi de alta velocidad",
@@ -695,7 +817,7 @@
         "UTILITIES": "Suministros"
       },
       "MAP": {
-        "UNAVAILABLE": "No hay información de mapa disponible para este anuncio."
+        "UNAVAILABLE": "No hay información de mapa disponible para este anuncio"
       },
       "LOCATION_TITLE": "Ubicación",
       "LOCATION": {
@@ -742,7 +864,7 @@
       "DESCRIPTION_TITLE": "Descripción del Reporte",
       "DESCRIPTION_MESSAGE": "Por favor, proporciona más detalles sobre tu reporte (opcional):",
       "DESCRIPTION_PLACEHOLDER": "Describe el problema...",
-      "OPTIONAL_HINT": "Este campo es opcional, pero ayuda a entender mejor el problema.",
+      "OPTIONAL_HINT": "Este campo es opcional, pero ayuda a entender mejor el problema",
       "SUBMIT": "Enviar Reporte",
       "SUCCESS": "Reporte enviado correctamente",
       "ERROR": "Error al enviar el reporte"
@@ -833,9 +955,9 @@
       "DELETE_BULK_SUCCESS": "Usuarios eliminados correctamente",
       "DELETE_BULK_ERROR": "Error al eliminar los usuarios",
       "DELETE_CONFIRM_TITLE": "Eliminar usuario",
-      "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar el usuario {{username}}? Esta acción no se puede deshacer.",
+      "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar el usuario {{username}}? Esta acción no se puede deshacer",
       "DELETE_BULK_TITLE": "Eliminar usuarios",
-      "DELETE_BULK_MESSAGE": "¿Estás seguro de que quieres eliminar {{count}} usuarios? Esta acción no se puede deshacer.",
+      "DELETE_BULK_MESSAGE": "¿Estás seguro de que quieres eliminar {{count}} usuarios? Esta acción no se puede deshacer",
       "VIEW_DETAILS": "Ver detalles",
       "PER_PAGE": "por página",
       "TABLE": {
@@ -976,7 +1098,7 @@
       },
       "DELETE_MODAL": {
         "TITLE": "Eliminar Informe",
-        "MESSAGE": "¿Estás seguro que quieres eliminar este informe? Esta acción no se puede deshacer.",
+        "MESSAGE": "¿Estás seguro que quieres eliminar este informe? Esta acción no se puede deshacer",
         "CANCEL": "Cancelar",
         "CONFIRM": "Eliminar"
       },
@@ -1164,14 +1286,14 @@
   },
   "ERROR": {
     "LOAD_USERS": "Error al cargar los usuarios",
-    "LOAD_JOBS": "No se pudieron cargar las ofertas.",
-    "SAVE_FAILED": "No se pudo actualizar el guardado.",
-    "LOAD_JOB_DETAIL": "No se pudo cargar el detalle.",
-    "LOAD_APPLICATIONS": "No se pudieron cargar las solicitudes.",
-    "SALARY_RANGE": "El salario mínimo debe ser menor o igual que el máximo.",
-    "CREATE_FAILED": "No pudimos crear la oferta. Inténtalo de nuevo.",
-    "APPLY_ROLE": "Solo los usuarios Basic pueden aplicar a ofertas.",
-    "FORM_INVALID": "Revisa los campos obligatorios antes de continuar."
+    "LOAD_JOBS": "No se pudieron cargar las ofertas",
+    "SAVE_FAILED": "No se pudo actualizar el guardado",
+    "LOAD_JOB_DETAIL": "No se pudo cargar el detalle",
+    "LOAD_APPLICATIONS": "No se pudieron cargar las solicitudes",
+    "SALARY_RANGE": "El salario mínimo debe ser menor o igual que el máximo",
+    "CREATE_FAILED": "No pudimos crear la oferta. Inténtalo de nuevo",
+    "APPLY_ROLE": "Solo los usuarios Basic pueden aplicar a ofertas",
+    "FORM_INVALID": "Revisa los campos obligatorios antes de continuar"
   },
   "ROLE": {
     "ADMIN": "Administrador",
@@ -1240,7 +1362,7 @@
       }
     },
     "DELETE_CONFIRM_TITLE": "Eliminar Canal",
-    "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar el canal {{name}}? Esta acción no se puede deshacer.",
+    "DELETE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar el canal {{name}}? Esta acción no se puede deshacer",
     "LEAVE_CONFIRM_TITLE": "Salir del canal",
     "LEAVE_CONFIRM_MESSAGE": "¿Estás seguro de que quieres salir del canal {{name}}?",
     "DETAIL": {
@@ -1306,32 +1428,32 @@
       "UNBAN_CONFIRM_MESSAGE": "¿Estás seguro de que quieres desbanear a {{user}}?",
       "START_PRIVATE_CONVERSATION": "Enviar un mensaje",
       "SUCCESS": {
-        "SET_ROLE": "Rol actualizado correctamente.",
-        "KICK": "Miembro expulsado correctamente.",
-        "BAN": "Miembro baneado correctamente.",
-        "UNBAN": "Miembro desbaneado correctamente."
+        "SET_ROLE": "Rol actualizado correctamente",
+        "KICK": "Miembro expulsado correctamente",
+        "BAN": "Miembro baneado correctamente",
+        "UNBAN": "Miembro desbaneado correctamente"
       },
       "ERROR": {
-        "SET_ROLE": "No se pudo actualizar el rol.",
-        "KICK": "No se pudo expulsar al miembro.",
-        "BAN": "No se pudo banear al miembro.",
-        "UNBAN": "No se pudo desbanear al miembro.",
-        "BAN_MOTIVE_REQUIRED": "El motivo del ban es obligatorio (mínimo 3 caracteres).",
-        "BAN_DURATION_REQUIRED": "La duración del ban es obligatoria (mínimo 1 día)."
+        "SET_ROLE": "No se pudo actualizar el rol",
+        "KICK": "No se pudo expulsar al miembro",
+        "BAN": "No se pudo banear al miembro",
+        "UNBAN": "No se pudo desbanear al miembro",
+        "BAN_MOTIVE_REQUIRED": "El motivo del ban es obligatorio (mínimo 3 caracteres)",
+        "BAN_DURATION_REQUIRED": "La duración del ban es obligatoria (mínimo 1 día)"
       },
       "VIEW_PROFILE": "Ver perfil"
     },
     "ADD_MEMBER": {
       "TITLE": "Añadir Miembro",
       "SEARCH_PLACEHOLDER": "Buscar usuarios por nombre o email...",
-      "NO_RESULTS": "No se encontraron usuarios.",
+      "NO_RESULTS": "No se encontraron usuarios",
       "ADD_BUTTON": "Añadir",
       "SUCCESS": {
-        "ADD": "Miembro añadido correctamente."
+        "ADD": "Miembro añadido correctamente"
       },
       "ERROR": {
-        "SEARCH": "No se pudieron buscar usuarios.",
-        "ADD": "No se pudo añadir el miembro."
+        "SEARCH": "No se pudieron buscar usuarios",
+        "ADD": "No se pudo añadir el miembro"
       }
     }
   },
@@ -1359,7 +1481,7 @@
     "VIEW_OFFER": "Ver oferta",
     "DELETE_CONVERSATION": "Eliminar conversación",
     "DELETE_CONVERSATION_CONFIRM_TITLE": "Eliminar conversación",
-    "DELETE_CONVERSATION_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar esta conversación? Esta acción no se puede deshacer.",
+    "DELETE_CONVERSATION_CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar esta conversación? Esta acción no se puede deshacer",
     "DELETE_CONVERSATION_SUCCESS": "Conversación eliminada correctamente",
     "DELETE_CONVERSATION_ERROR": "Error al eliminar la conversación",
     "LOADING": "Cargando mensajes...",
@@ -1385,7 +1507,7 @@
     "LIST": {
       "COUNT": "artículos",
       "NEW_LISTING": "Nueva publicación",
-      "EMPTY": "No se han encontrado artículos. Ajusta los filtros.",
+      "EMPTY": "No se han encontrado artículos. Ajusta los filtros",
       "ERROR": "Hubo un problema al cargar los artículos"
     },
     "FILTERS": {
@@ -1460,7 +1582,7 @@
       "LOCATION_HELPER": "Haz clic para elegir la ubicación en el mapa",
       "IMAGES": "Imágenes",
       "ADD_IMAGE": "Añadir imagen",
-      "NO_PHOTOS": "No hay fotos. Haz clic para añadir.",
+      "NO_PHOTOS": "No hay fotos. Haz clic para añadir",
       "PHOTO_REQUIRED": "Debes añadir al menos una foto",
       "PHOTO_UPLOAD_FAILED": "Error al subir las fotos",
       "PHOTO_TYPE_ERROR": "Tipo de archivo no permitido",
@@ -1521,9 +1643,9 @@
       },
       "APPLY": "Aplicar",
       "APPLIED": "Aplicada",
-      "EMPTY": "No hay ofertas que coincidan con tus filtros aún.",
+      "EMPTY": "No hay ofertas que coincidan con tus filtros aún",
       "EMPTY_STATE_TITLE": "No se han encontrado ofertas",
-      "EMPTY_STATE_SUBTITLE": "Prueba a ajustar los filtros o vuelve pronto para ver nuevas vacantes.",
+      "EMPTY_STATE_SUBTITLE": "Prueba a ajustar los filtros o vuelve pronto para ver nuevas vacantes",
       "LOADING_MORE": "Cargando más ofertas...",
       "SALARY": {
         "NA": "Salario no indicado",
@@ -1578,7 +1700,7 @@
       "SAVED": "Guardado",
       "DESCRIPTION": "Descripción del puesto",
       "REQUIREMENTS": "Requisitos",
-      "NO_REQUIREMENTS": "No se indicaron requisitos específicos.",
+      "NO_REQUIREMENTS": "No se indicaron requisitos específicos",
       "NICE_TO_HAVE": "Deseable",
       "COMPANY": "Sobre la empresa",
       "POSTED_ON": "Publicada",
@@ -1587,9 +1709,9 @@
       "SALARY": "Salario",
       "JOB_TYPE": "Tipo de trabajo",
       "APPLICATIONS": "Solicitudes",
-      "NO_COMPANY_DESC": "Sin descripción de la empresa.",
+      "NO_COMPANY_DESC": "Sin descripción de la empresa",
       "DELETE_TITLE": "Eliminar oferta",
-      "DELETE_CONFIRM": "¿Seguro que quieres eliminar esta oferta de trabajo? Esta acción no se puede deshacer.",
+      "DELETE_CONFIRM": "¿Seguro que quieres eliminar esta oferta de trabajo? Esta acción no se puede deshacer",
       "DELETE_ACTION": "Eliminar",
       "DELETE_SUCCESS": "Oferta eliminada"
     },
@@ -1600,26 +1722,26 @@
       "FULL_NAME_PLACEHOLDER": "Introduce tu nombre completo",
       "EMAIL": "Correo electrónico",
       "EMAIL_PLACEHOLDER": "nombre@ejemplo.com",
-      "EMAIL_INVALID": "Introduce un correo válido.",
+      "EMAIL_INVALID": "Introduce un correo válido",
       "PHONE": "Teléfono",
       "PHONE_PLACEHOLDER": "+34 123 456 789",
       "RESUME": "Currículum",
       "UPLOAD_HINT": "Haz clic para subir o arrastra el archivo",
       "UPLOAD_SUBTITLE": "PDF, DOC o DOCX (máx. 5MB)",
-      "FILE_TYPE_ERROR": "Sube un archivo PDF, DOC o DOCX.",
-      "FILE_SIZE_ERROR": "El archivo debe pesar menos de 5MB.",
+      "FILE_TYPE_ERROR": "Sube un archivo PDF, DOC o DOCX",
+      "FILE_SIZE_ERROR": "El archivo debe pesar menos de 5MB",
       "COVER_LETTER": "Carta de presentación",
       "COVER_LETTER_PLACEHOLDER": "Cuéntanos por qué encajas en el puesto",
-      "COVER_LETTER_MAX": "La carta debe tener menos de 1000 caracteres.",
+      "COVER_LETTER_MAX": "La carta debe tener menos de 1000 caracteres",
       "CANCEL": "Cancelar",
       "SUBMIT": "Enviar solicitud",
       "SUBMITTING": "Enviando...",
       "SUBMIT_SUCCESS": "¡Solicitud enviada con éxito!",
-      "ERROR": "No se pudo enviar la solicitud.",
-      "REQUIRED": "Este campo es obligatorio.",
-      "LOGIN_REQUIRED": "Inicia sesión para aplicar a esta oferta.",
-      "VERIFICATION_REQUIRED": "Verifica tu cuenta para aplicar a ofertas.",
-      "ROLE_REQUIRED": "Solo los usuarios Básicos pueden aplicar a ofertas."
+      "ERROR": "No se pudo enviar la solicitud",
+      "REQUIRED": "Este campo es obligatorio",
+      "LOGIN_REQUIRED": "Inicia sesión para aplicar a esta oferta",
+      "VERIFICATION_REQUIRED": "Verifica tu cuenta para aplicar a ofertas",
+      "ROLE_REQUIRED": "Solo los usuarios Básicos pueden aplicar a ofertas"
     },
     "APPLICATIONS": {
       "EYEBROW": "Sigue tu progreso",
@@ -1649,11 +1771,11 @@
       "COVER_LETTER": "Carta de presentación",
       "RESUME": "Currículum",
       "VIEW_JOB": "Ver oferta",
-      "EMPTY": "Aún no has enviado solicitudes.",
+      "EMPTY": "Aún no has enviado solicitudes",
       "EMPTY_STATE_TITLE": "Aún sin solicitudes",
-      "EMPTY_STATE_SUBTITLE": "Cuando apliques a ofertas aparecerán aquí.",
-      "LOGIN_REQUIRED": "Inicia sesión para ver tus solicitudes.",
-      "VERIFICATION_REQUIRED": "Debes verificar tu cuenta para ver las solicitudes."
+      "EMPTY_STATE_SUBTITLE": "Cuando apliques a ofertas aparecerán aquí",
+      "LOGIN_REQUIRED": "Inicia sesión para ver tus solicitudes",
+      "VERIFICATION_REQUIRED": "Debes verificar tu cuenta para ver las solicitudes"
     },
     "CREATE": {
       "TITLE": "Crear oferta de trabajo",
@@ -1670,11 +1792,11 @@
         "REVIEW_DESC": "Revisar y publicar"
       },
       "STEP_BASIC_TITLE": "Información básica",
-      "STEP_BASIC_SUBTITLE": "Empecemos por los datos principales del puesto.",
+      "STEP_BASIC_SUBTITLE": "Empecemos por los datos principales del puesto",
       "TITLE_LABEL": "Título del puesto",
       "TITLE_PLACEHOLDER": "ej. Desarrollador Frontend Senior",
       "COMPANY_NAME": "Nombre de la empresa",
-      "COMPANY_PLACEHOLDER": "ej. Tech Solutions Inc.",
+      "COMPANY_PLACEHOLDER": "ej. Tech Solutions Inc",
       "CATEGORY_PLACEHOLDER": "Selecciona una categoría",
       "JOB_TYPE_LABEL": "Tipo de trabajo",
       "JOB_TYPE_PLACEHOLDER": "Selecciona tipo de trabajo",
@@ -1686,14 +1808,14 @@
         "REMOTE": "Remoto"
       },
       "STEP_DETAILS_TITLE": "Detalles del puesto",
-      "STEP_DETAILS_SUBTITLE": "Describe el rol y la compensación.",
+      "STEP_DETAILS_SUBTITLE": "Describe el rol y la compensación",
       "DESCRIPTION": "Descripción",
       "DESCRIPTION_PLACEHOLDER": "Describe responsabilidades, requisitos y beneficios...",
       "SALARY_PERIOD": "Periodo salarial",
       "SALARY_MIN": "Salario mínimo",
       "SALARY_MAX": "Salario máximo",
       "STEP_COMPANY_TITLE": "Detalles de la empresa",
-      "STEP_COMPANY_SUBTITLE": "Cuenta a los candidatos más sobre tu empresa.",
+      "STEP_COMPANY_SUBTITLE": "Cuenta a los candidatos más sobre tu empresa",
       "COMPANY_DESCRIPTION": "Descripción de la empresa",
       "COMPANY_DESCRIPTION_PLACEHOLDER": "Describe brevemente qué hace tu empresa...",
       "COMPANY_WEBSITE": "Sitio web de la empresa",
@@ -1728,14 +1850,14 @@
       "ERROR_GLOBAL": "Corrige los errores antes de continuar"
     },
     "ADMIN": {
-      "ONLY": "Solo administradores o reclutadores pueden realizar esta acción."
+      "ONLY": "Solo administradores o reclutadores pueden realizar esta acción"
     },
     "ERROR": {
-      "LOAD_JOBS": "No se pueden cargar las ofertas ahora.",
-      "SAVE_FAILED": "No se pudo actualizar el guardado.",
-      "LOAD_JOB_DETAIL": "No se pudo cargar la oferta.",
-      "LOAD_APPLICATIONS": "No se pudieron cargar las solicitudes.",
-      "DELETE_JOB": "No se pudo eliminar la oferta."
+      "LOAD_JOBS": "No se pueden cargar las ofertas ahora",
+      "SAVE_FAILED": "No se pudo actualizar el guardado",
+      "LOAD_JOB_DETAIL": "No se pudo cargar la oferta",
+      "LOAD_APPLICATIONS": "No se pudieron cargar las solicitudes",
+      "DELETE_JOB": "No se pudo eliminar la oferta"
     }
   },
   "TERMS": {

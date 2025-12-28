@@ -57,11 +57,13 @@
     "SUBTITLE": "Uneix-te a la comunitat UniHub",
     "FIRST_NAME": "Nom",
     "LAST_NAME": "Cognoms",
+    "USERNAME": "Nom d'usuari",
     "EMAIL": "Correu electrònic",
     "PASSWORD": "Contrasenya",
     "CONFIRM_PASSWORD": "Confirmar Contrasenya",
     "PHONE": "Número de telèfon",
     "UNIVERSITY": "Universitat",
+    "FACULTY": "Facultat",
     "SIGN_UP": "Registrar-se",
     "OR_CONTINUE_WITH": "o continua amb",
     "HAVE_ACCOUNT": "Ja tens un compte?",
@@ -73,6 +75,125 @@
       "PASSWORD_TOO_SHORT": "La contrasenya ha de tenir almenys 8 caràcters",
       "SIGNUP_FAILED": "Error al registrar-se. Si us plau torna-ho a provar.",
       "INVALID_PHONE": "El telèfon ha de ser vàlid (només números i pot començar per +)"
+    }
+  },
+  "ONBOARDING": {
+    "STEP_INDICATOR": "Pas {{current}} de {{total}}",
+    "ERROR": {
+      "GENERIC": "S'ha produït un error. Torna-ho a provar",
+      "VALIDATION": "Completa els camps obligatoris abans de continuar",
+      "MAX_INTERESTS": "Pots seleccionar un màxim de 10 interessos"
+    },
+    "ROLE_SELECTION": {
+      "TITLE": "Explica'ns qui ets",
+      "SUBTITLE": "Tria l'opció que descriu millor com faràs servir UniHub",
+      "STUDENT": {
+        "TITLE": "Estudiant",
+        "DESCRIPTION": "Descobreix allotjament, comunitats i oportunitats adaptades als teus estudis"
+      },
+      "LANDLORD": {
+        "TITLE": "Propietari",
+        "DESCRIPTION": "Publica anuncis i connecta amb estudiants verificats en pocs minuts"
+      },
+      "COMPANY": {
+        "TITLE": "Empresa",
+        "DESCRIPTION": "Arriba a estudiants per a pràctiques, feines i accions de marca empleadora"
+      }
+    },
+    "STUDENT": {
+      "CAMPUS": "Campus",
+      "FACULTY": "Facultat",
+      "DEGREE": "Grau o programa",
+      "STUDY_MODE": "Modalitat d'estudi",
+      "FULL_TIME": "Temps complet",
+      "PART_TIME": "Temps parcial",
+      "YEAR_OPTION": "Any {{year}}",
+      "BIO": "Breu biografia",
+      "LANGUAGES": "Idiomes",
+      "LANGUAGES_HELPER": "Separa cada idioma amb una coma",
+      "STEPS": {
+        "EDUCATION": {
+          "TITLE": "Dades acadèmiques",
+          "DESCRIPTION": "Personalitzarem l'experiència amb la informació de la teva universitat"
+        },
+        "ACADEMICS": {
+          "TITLE": "Situació acadèmica",
+          "DESCRIPTION": "Explica'ns en quin curs ets i com estudies."
+        },
+        "INTERESTS": {
+          "TITLE": "Interessos",
+          "DESCRIPTION": "Escull almenys un interès perquè et recomanem canals i esdeveniments"
+        },
+        "PROFILE": {
+          "TITLE": "Completa el perfil",
+          "DESCRIPTION": "Una bio i els teus idiomes ajuden altres estudiants a trobar-te"
+        }
+      }
+    },
+    "LANDLORD": {
+      "FULL_NAME": "Nom complet",
+      "CITY": "Ciutat",
+      "COUNTRY": "País",
+      "TYPE": "Què et descriu millor?",
+      "TYPES": {
+        "INDIVIDUAL": "Propietari particular",
+        "MANAGER": "Administrador de propietats",
+        "AGENCY": "Agència"
+      },
+      "COMPANY_NAME": "Nom de l'empresa",
+      "TAX_ID": "NIF / Registre",
+      "AREAS": "Zones on operes",
+      "AREAS_HELPER": "Separa diverses zones amb comes",
+      "PROPERTY_TYPES": "Tipus d'allotjaments que ofereixes",
+      "PRICE_MIN": "Preu mensual mínim habitual",
+      "PRICE_MAX": "Preu mensual màxim habitual",
+      "STEPS": {
+        "CONTACT": {
+          "TITLE": "Dades de contacte",
+          "DESCRIPTION": "Els estudiants utilitzaran aquesta informació per contactar amb tu"
+        },
+        "TYPE": {
+          "TITLE": "Tipus de propietari",
+          "DESCRIPTION": "Indica com gestiones les teves propietats"
+        },
+        "PREFERENCES": {
+          "TITLE": "Preferències d'anuncis",
+          "DESCRIPTION": "Comparteix el tipus d'allotjaments que acostumes a gestionar"
+        }
+      }
+    },
+    "COMPANY": {
+      "NAME": "Nom de l'empresa",
+      "WEBSITE": "Lloc web",
+      "INDUSTRY": "Indústria",
+      "COUNTRY": "País",
+      "CITY": "Ciutat",
+      "CONTACT_PERSON": "Persona de contacte",
+      "CONTACT_ROLE": "Càrrec",
+      "WORK_EMAIL": "Correu corporatiu",
+      "TARGET_FACULTIES": "Facultats d'interès",
+      "TARGET_SKILLS": "Competències clau",
+      "HIRING_FOCUS": "Focus de contractació",
+      "DESCRIPTION": "Descripció de l'empresa",
+      "LINKEDIN": "LinkedIn",
+      "STEPS": {
+        "INFO": {
+          "TITLE": "Informació de l'empresa",
+          "DESCRIPTION": "Presenta la teva organització a la comunitat d'UniHub"
+        },
+        "CONTACT": {
+          "TITLE": "Persona de contacte",
+          "DESCRIPTION": "Amb qui han de parlar els estudiants quan et contactin?"
+        },
+        "TALENT": {
+          "TITLE": "Perfil de talent",
+          "DESCRIPTION": "Indica quin tipus d'estudiant busques per fer la millor connexió"
+        },
+        "BRAND": {
+          "TITLE": "Presència de marca",
+          "DESCRIPTION": "Afegeix els últims detalls per destacar davant dels estudiants"
+        }
+      }
     }
   },
   "USER": {
@@ -339,7 +460,8 @@
     "ROLE": {
       "ADMIN": "Administrador",
       "BASIC": "Usuari",
-      "SELLER": "Venedor"
+      "SELLER": "Venedor",
+      "RECRUITER": "Empresa"
     },
     "VERIFIED": "Verificat",
     "JOINED": "Registrat",
@@ -392,7 +514,7 @@
   },
   "UNAUTHORIZED": {
     "TITLE": "Accés denegat",
-    "MESSAGE": "No tens permís per veure aquesta pàgina o no existeix.",
+    "MESSAGE": "No tens permís per veure aquesta pàgina o no existeix",
     "GO_HOME": "Anar a l'inici",
     "GO_LOGIN": "Anar a iniciar sessió"
   },
@@ -437,14 +559,14 @@
     "NO_OFFERS": "No hi ha ofertes disponibles",
     "NO_OFFERS_DESCRIPTION": "No hi ha ofertes d'habitatge disponibles en aquest moment. Torna més tard!",
     "NO_RESULTS": "No s'han trobat resultats",
-    "NO_RESULTS_DESCRIPTION": "Prova d'ajustar els filtres per veure més ofertes.",
+    "NO_RESULTS_DESCRIPTION": "Prova d'ajustar els filtres per veure més ofertes",
     "VIEW_DETAILS": "Veure Detalls",
     "PER_MONTH": "/mes",
     "DELETE": "Eliminar",
     "DELETE_CONFIRM_TITLE": "Eliminar oferta",
-    "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar aquesta oferta? Aquesta acció no es pot desfer.",
-    "DELETE_SUCCESS": "Oferta eliminada correctament.",
-    "DELETE_FAILED": "No s'ha pogut eliminar l'oferta. Si us plau, torna-ho a intentar.",
+    "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar aquesta oferta? Aquesta acció no es pot desfer",
+    "DELETE_SUCCESS": "Oferta eliminada correctament",
+    "DELETE_FAILED": "No s'ha pogut eliminar l'oferta. Si us plau, torna-ho a intentar",
     "LIKE": "M'agrada",
     "UNLIKE": "Ja no m'agrada",
     "LIKE_SUCCESS": "Afegit als favorits",
@@ -476,14 +598,14 @@
     "COMPARISON": {
       "CTA": "Compara apartaments",
       "TITLE": "Comparativa d'apartaments",
-      "SUBTITLE": "Tria dos anuncis actius per veure'n les diferències principals.",
+      "SUBTITLE": "Tria dos anuncis actius per veure'n les diferències principals",
       "RESET": "Reinicia la selecció",
       "SELECT_A": "Apartament A",
       "SELECT_B": "Apartament B",
       "SELECT_PLACEHOLDER": "Tria un apartament",
       "NONE": "Cap",
       "LOADING": "Carregant comparativa...",
-      "PLACEHOLDER": "Selecciona dos apartaments de la llista per comparar-los.",
+      "PLACEHOLDER": "Selecciona dos apartaments de la llista per comparar-los",
       "FEATURE": "Característica",
       "EMPTY_COLUMN": "Selecciona un apartament",
       "IMAGE": "Imatge",
@@ -504,7 +626,7 @@
       "YES": "Sí",
       "NO": "No",
       "NOT_PROVIDED": "No especificat",
-      "LOAD_ERROR": "No hem pogut carregar aquest apartament. Torna-ho a provar.",
+      "LOAD_ERROR": "No hem pogut carregar aquest apartament. Torna-ho a provar",
       "ALREADY_SELECTED": "Aquesta habitació ja està seleccionada per comparar"
     },
     "ADD_TO_COMPARE": "Afegir a comparativa",
@@ -559,7 +681,7 @@
       "FULL_ADDRESS_PREVIEW": "Adreça completa",
       "ADDRESS_PREVIEW_EMPTY": "Omple els camps per generar-la",
       "DISCARD_TITLE": "Vols descartar aquesta oferta?",
-      "DISCARD_MESSAGE": "Si surts ara, es perdrà tota la informació que has introduït.",
+      "DISCARD_MESSAGE": "Si surts ara, es perdrà tota la informació que has introduït",
       "CONTINUE_EDITING": "Continuar editant",
       "DISCARD_CONFIRM": "Descartar oferta",
       "GENDER_PREFERENCE": "Preferència de Gènere",
@@ -585,11 +707,11 @@
       "LONGITUDE": "Longitud",
       "COORDINATES_HELPER": "S'utilitza per mostrar la ubicació al mapa",
       "UPLOAD_BUTTON": "Tria fotos",
-      "UPLOAD_PHOTOS_HELPER": "Afegeix fins a {{max}} imatges per mostrar la teva oferta.",
-      "PHOTO_TYPE_NOT_ALLOWED": "Només s'admeten imatges JPEG, PNG, GIF o WebP.",
-      "PHOTO_SIZE_EXCEEDED": "Cada foto ha de ser més petita de {{maxSize}} MB.",
-      "PHOTOS_LIMIT": "Pots pujar fins a {{max}} fotos.",
-      "PHOTO_REQUIRED": "Afegeix almenys una foto per publicar la teva oferta.",
+      "UPLOAD_PHOTOS_HELPER": "Afegeix fins a {{max}} imatges per mostrar la teva oferta",
+      "PHOTO_TYPE_NOT_ALLOWED": "Només s'admeten imatges JPEG, PNG, GIF o WebP",
+      "PHOTO_SIZE_EXCEEDED": "Cada foto ha de ser més petita de {{maxSize}} MB",
+      "PHOTOS_LIMIT": "Pots pujar fins a {{max}} fotos",
+      "PHOTO_REQUIRED": "Afegeix almenys una foto per publicar la teva oferta",
       "NO_PHOTOS": "Encara no hi ha fotos seleccionades",
       "PRIMARY_BADGE": "Portada",
       "MAKE_PRIMARY": "Estableix com a portada",
@@ -604,9 +726,9 @@
         "FEMALE": "Femení",
         "OTHER": "Altre"
       },
-      "CREATE_ERROR": "No s'ha pogut crear l'anunci. Revisa el formulari i torna-ho a provar.",
-      "PHOTO_UPLOAD_FAILED": "No s'han pogut pujar les fotos. Podràs afegir-les més endavant des de l'anunci.",
-      "PHOTO_UPLOAD_PARTIAL": "Algunes fotos no s'han pujat. L'anunci s'ha creat sense elles.",
+      "CREATE_ERROR": "No s'ha pogut crear l'anunci. Revisa el formulari i torna-ho a provar",
+      "PHOTO_UPLOAD_FAILED": "No s'han pogut pujar les fotos. Podràs afegir-les més endavant des de l'anunci",
+      "PHOTO_UPLOAD_PARTIAL": "Algunes fotos no s'han pujat. L'anunci s'ha creat sense elles",
       "AMENITIES": "Comoditats",
       "REVIEW": "Revisar i publicar",
       "REVIEW_SUMMARY": "Revisar i publicar",
@@ -637,7 +759,7 @@
       "BACK_TO_LIST": "Torna als anuncis",
       "LOADING": "Carregant la informació de l'habitatge...",
       "ERROR_TITLE": "Hi ha hagut un error",
-      "ERROR_MESSAGE": "No hem pogut carregar aquest anunci ara mateix. Torna-ho a provar més tard.",
+      "ERROR_MESSAGE": "No hem pogut carregar aquest anunci ara mateix. Torna-ho a provar més tard",
       "GO_BACK": "Torna enrere",
       "STATUS": {
         "AVAILABLE": "Disponible",
@@ -646,7 +768,7 @@
       "AVAILABLE_FROM": "Disponible a partir del {{date}}",
       "POSTED_ON": "Publicat el {{date}}",
       "DESCRIPTION_TITLE": "Descripció",
-      "PLACEHOLDER_DESCRIPTION": "El propietari encara no ha facilitat cap descripció per a aquest anunci.",
+      "PLACEHOLDER_DESCRIPTION": "El propietari encara no ha facilitat cap descripció per a aquest anunci",
       "AMENITIES_TITLE": "Serveis",
       "AMENITIES": {
         "WIFI": "Wi-Fi d'alta velocitat",
@@ -692,7 +814,7 @@
         "UTILITIES": "Subministraments"
       },
       "MAP": {
-        "UNAVAILABLE": "No hi ha informació del mapa disponible per a aquest anunci."
+        "UNAVAILABLE": "No hi ha informació del mapa disponible per a aquest anunci"
       },
       "LOCATION_TITLE": "Ubicació",
       "LOCATION": {
@@ -738,7 +860,7 @@
       "DESCRIPTION_TITLE": "Descripció del Reportatge",
       "DESCRIPTION_MESSAGE": "Si us plau, proporciona més detalls sobre el teu reportatge (opcional):",
       "DESCRIPTION_PLACEHOLDER": "Descriu el problema...",
-      "OPTIONAL_HINT": "Aquest camp és opcional, però ajuda a entendre millor el problema.",
+      "OPTIONAL_HINT": "Aquest camp és opcional, però ajuda a entendre millor el problema",
       "SUBMIT": "Enviar Reportatge",
       "SUCCESS": "Reportatge enviat correctament",
       "ERROR": "Error en enviar el reportatge"
@@ -829,9 +951,9 @@
       "DELETE_BULK_SUCCESS": "Usuaris eliminats correctament",
       "DELETE_BULK_ERROR": "Error en eliminar els usuaris",
       "DELETE_CONFIRM_TITLE": "Eliminar usuari",
-      "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar l'usuari {{username}}? Aquesta acció no es pot desfer.",
+      "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar l'usuari {{username}}? Aquesta acció no es pot desfer",
       "DELETE_BULK_TITLE": "Eliminar usuaris",
-      "DELETE_BULK_MESSAGE": "Estàs segur que vols eliminar {{count}} usuaris? Aquesta acció no es pot desfer.",
+      "DELETE_BULK_MESSAGE": "Estàs segur que vols eliminar {{count}} usuaris? Aquesta acció no es pot desfer",
       "VIEW_DETAILS": "Veure detalls",
       "PER_PAGE": "per pàgina",
       "TABLE": {
@@ -972,7 +1094,7 @@
       },
       "DELETE_MODAL": {
         "TITLE": "Eliminar Informe",
-        "MESSAGE": "Estàs segur que vols eliminar aquest informe? Aquesta acció no es pot desfer.",
+        "MESSAGE": "Estàs segur que vols eliminar aquest informe? Aquesta acció no es pot desfer",
         "CANCEL": "Cancel·lar",
         "CONFIRM": "Eliminar"
       },
@@ -1041,7 +1163,7 @@
       "DELETE_SUCCESS": "Termes eliminats correctament",
       "DELETE_ERROR": "Error en eliminar els termes",
       "DELETE_CONFIRM_TITLE": "Confirmar eliminació",
-      "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar aquests termes? Aquesta acció no es pot desfer.",
+      "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar aquests termes? Aquesta acció no es pot desfer",
       "VALIDATION_ERROR": "Si us plau omple tots els camps requerits",
       "ERROR_LOADING": "Error en carregar els termes"
     },
@@ -1160,14 +1282,14 @@
   },
   "ERROR": {
     "LOAD_USERS": "Error al carregar els usuaris",
-    "LOAD_JOBS": "No s'han pogut carregar les ofertes.",
-    "SAVE_FAILED": "No s'ha pogut actualitzar el desat.",
-    "LOAD_JOB_DETAIL": "No s'ha pogut carregar el detall de l'oferta.",
-    "LOAD_APPLICATIONS": "No s'han pogut carregar les sol·licituds.",
-    "SALARY_RANGE": "El salari mínim ha de ser menor o igual que el màxim.",
-    "CREATE_FAILED": "No s'ha pogut crear l'oferta. Torna-ho a intentar.",
-    "APPLY_ROLE": "Només els usuaris bàsics poden aplicar a ofertes.",
-    "FORM_INVALID": "Revisa els camps obligatoris abans de continuar."
+    "LOAD_JOBS": "No s'han pogut carregar les ofertes",
+    "SAVE_FAILED": "No s'ha pogut actualitzar el desat",
+    "LOAD_JOB_DETAIL": "No s'ha pogut carregar el detall de l'oferta",
+    "LOAD_APPLICATIONS": "No s'han pogut carregar les sol·licituds",
+    "SALARY_RANGE": "El salari mínim ha de ser menor o igual que el màxim",
+    "CREATE_FAILED": "No s'ha pogut crear l'oferta. Torna-ho a intentar",
+    "APPLY_ROLE": "Només els usuaris bàsics poden aplicar a ofertes",
+    "FORM_INVALID": "Revisa els camps obligatoris abans de continuar"
   },
   "ROLE": {
     "ADMIN": "Administrador",
@@ -1236,7 +1358,7 @@
       }
     },
     "DELETE_CONFIRM_TITLE": "Eliminar Canal",
-    "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar el canal {{name}}? Aquesta acció no es pot desfer.",
+    "DELETE_CONFIRM_MESSAGE": "Estàs segur que vols eliminar el canal {{name}}? Aquesta acció no es pot desfer",
     "LEAVE_CONFIRM_TITLE": "Sortir del canal",
     "LEAVE_CONFIRM_MESSAGE": "Estàs segur que vols sortir del canal {{name}}?",
     "DETAIL": {
@@ -1302,32 +1424,32 @@
       "UNBAN_CONFIRM_MESSAGE": "Estàs segur que vols desbanejar a {{user}}?",
       "START_PRIVATE_CONVERSATION": "Enviar un missatge",
       "SUCCESS": {
-        "SET_ROLE": "Rol actualitzat correctament.",
-        "KICK": "Membre expulsat correctament.",
-        "BAN": "Membre banejat correctament.",
-        "UNBAN": "Membre desbanejat correctament."
+        "SET_ROLE": "Rol actualitzat correctament",
+        "KICK": "Membre expulsat correctament",
+        "BAN": "Membre banejat correctament",
+        "UNBAN": "Membre desbanejat correctament"
       },
       "ERROR": {
-        "SET_ROLE": "No s'ha pogut actualitzar el rol.",
-        "KICK": "No s'ha pogut expulsar al membre.",
-        "BAN": "No s'ha pogut banejar al membre.",
-        "UNBAN": "No s'ha pogut desbanejar al membre.",
-        "BAN_MOTIVE_REQUIRED": "El motiu del ban és obligatori (mínim 3 caràcters).",
-        "BAN_DURATION_REQUIRED": "La durada del ban és obligatòria (mínim 1 dia)."
+        "SET_ROLE": "No s'ha pogut actualitzar el rol",
+        "KICK": "No s'ha pogut expulsar al membre",
+        "BAN": "No s'ha pogut banejar al membre",
+        "UNBAN": "No s'ha pogut desbanejar al membre",
+        "BAN_MOTIVE_REQUIRED": "El motiu del ban és obligatori (mínim 3 caràcters)",
+        "BAN_DURATION_REQUIRED": "La durada del ban és obligatòria (mínim 1 dia)"
       },
       "VIEW_PROFILE": "Veure perfil"
     },
     "ADD_MEMBER": {
       "TITLE": "Afegir Membre",
       "SEARCH_PLACEHOLDER": "Buscar usuaris per nom o email...",
-      "NO_RESULTS": "No s'han trobat usuaris.",
+      "NO_RESULTS": "No s'han trobat usuaris",
       "ADD_BUTTON": "Afegir",
       "SUCCESS": {
-        "ADD": "Membre afegit correctament."
+        "ADD": "Membre afegit correctament"
       },
       "ERROR": {
-        "SEARCH": "No s'han pogut buscar usuaris.",
-        "ADD": "No s'ha pogut afegir el membre."
+        "SEARCH": "No s'han pogut buscar usuaris",
+        "ADD": "No s'ha pogut afegir el membre"
       }
     }
   },
@@ -1347,7 +1469,7 @@
     "VIEW_OFFER": "Veure oferta",
     "DELETE_CONVERSATION": "Eliminar conversa",
     "DELETE_CONVERSATION_CONFIRM_TITLE": "Eliminar conversa",
-    "DELETE_CONVERSATION_CONFIRM_MESSAGE": "Estàs segur que vols eliminar aquesta conversa? Aquesta acció no es pot desfer.",
+    "DELETE_CONVERSATION_CONFIRM_MESSAGE": "Estàs segur que vols eliminar aquesta conversa? Aquesta acció no es pot desfer",
     "DELETE_CONVERSATION_SUCCESS": "Conversa eliminada correctament",
     "DELETE_CONVERSATION_ERROR": "Error en eliminar la conversa",
     "LOADING": "Carregant missatges...",
@@ -1381,7 +1503,7 @@
     "LIST": {
       "COUNT": "articles",
       "NEW_LISTING": "Nou anunci",
-      "EMPTY": "No s'han trobat articles. Ajusta els filtres.",
+      "EMPTY": "No s'han trobat articles. Ajusta els filtres",
       "ERROR": "Hi ha hagut un problema en carregar els articles"
     },
     "FILTERS": {
@@ -1456,7 +1578,7 @@
       "LOCATION_HELPER": "Fes clic per triar la ubicació al mapa",
       "IMAGES": "Imatges",
       "ADD_IMAGE": "Afegir imatge",
-      "NO_PHOTOS": "No hi ha fotos. Fes clic per afegir-ne.",
+      "NO_PHOTOS": "No hi ha fotos. Fes clic per afegir-ne",
       "PHOTO_REQUIRED": "Has d'afegir almenys una foto",
       "PHOTO_UPLOAD_FAILED": "Error en pujar les fotos",
       "PHOTO_TYPE_ERROR": "Tipus d'arxiu no permès",
@@ -1517,9 +1639,9 @@
       },
       "APPLY": "Aplica",
       "APPLIED": "Aplicada",
-      "EMPTY": "Encara no hi ha ofertes que coincideixin amb els filtres.",
+      "EMPTY": "Encara no hi ha ofertes que coincideixin amb els filtres",
       "EMPTY_STATE_TITLE": "No hem trobat ofertes",
-      "EMPTY_STATE_SUBTITLE": "Prova d’ajustar els filtres o torna més tard.",
+      "EMPTY_STATE_SUBTITLE": "Prova d’ajustar els filtres o torna més tard",
       "LOADING_MORE": "Carregant més ofertes...",
       "SALARY": {
         "NA": "Salari no indicat",
@@ -1574,7 +1696,7 @@
       "SAVED": "Guardat",
       "DESCRIPTION": "Descripció de la feina",
       "REQUIREMENTS": "Requisits",
-      "NO_REQUIREMENTS": "Sense requisits específics.",
+      "NO_REQUIREMENTS": "Sense requisits específics",
       "NICE_TO_HAVE": "Valorable",
       "COMPANY": "Sobre l'empresa",
       "POSTED_ON": "Publicada",
@@ -1583,9 +1705,9 @@
       "SALARY": "Salari",
       "JOB_TYPE": "Tipus de feina",
       "APPLICATIONS": "Sol·licituds",
-      "NO_COMPANY_DESC": "Sense descripció de l'empresa.",
+      "NO_COMPANY_DESC": "Sense descripció de l'empresa",
       "DELETE_TITLE": "Eliminar oferta",
-      "DELETE_CONFIRM": "Segur que vols eliminar aquesta oferta? Aquesta acció no es pot desfer.",
+      "DELETE_CONFIRM": "Segur que vols eliminar aquesta oferta? Aquesta acció no es pot desfer",
       "DELETE_ACTION": "Eliminar",
       "DELETE_SUCCESS": "Oferta eliminada"
     },
@@ -1596,26 +1718,26 @@
       "FULL_NAME_PLACEHOLDER": "Escriu el teu nom complet",
       "EMAIL": "Correu electrònic",
       "EMAIL_PLACEHOLDER": "nom@exemple.com",
-      "EMAIL_INVALID": "Introdueix un correu vàlid.",
+      "EMAIL_INVALID": "Introdueix un correu vàlid",
       "PHONE": "Telèfon",
       "PHONE_PLACEHOLDER": "+34 123 456 789",
       "RESUME": "Currículum",
       "UPLOAD_HINT": "Fes clic per pujar o arrossega el fitxer",
       "UPLOAD_SUBTITLE": "PDF, DOC o DOCX (màx 5MB)",
-      "FILE_TYPE_ERROR": "Puja un fitxer PDF, DOC o DOCX.",
-      "FILE_SIZE_ERROR": "El fitxer ha de pesar menys de 5MB.",
+      "FILE_TYPE_ERROR": "Puja un fitxer PDF, DOC o DOCX",
+      "FILE_SIZE_ERROR": "El fitxer ha de pesar menys de 5MB",
       "COVER_LETTER": "Carta de presentació",
       "COVER_LETTER_PLACEHOLDER": "Explica per què encaixes amb el rol",
-      "COVER_LETTER_MAX": "Màxim 1000 caràcters.",
+      "COVER_LETTER_MAX": "Màxim 1000 caràcters",
       "CANCEL": "Cancel·la",
       "SUBMIT": "Enviar sol·licitud",
       "SUBMITTING": "Enviant...",
       "SUBMIT_SUCCESS": "Sol·licitud enviada correctament!",
-      "ERROR": "No s’ha pogut enviar la sol·licitud.",
-      "REQUIRED": "Aquest camp és obligatori.",
-      "LOGIN_REQUIRED": "Inicia sessió per aplicar a aquesta oferta.",
-      "VERIFICATION_REQUIRED": "Verifica el teu compte per aplicar a ofertes.",
-      "ROLE_REQUIRED": "Només els usuaris Basic poden aplicar a ofertes."
+      "ERROR": "No s’ha pogut enviar la sol·licitud",
+      "REQUIRED": "Aquest camp és obligatori",
+      "LOGIN_REQUIRED": "Inicia sessió per aplicar a aquesta oferta",
+      "VERIFICATION_REQUIRED": "Verifica el teu compte per aplicar a ofertes",
+      "ROLE_REQUIRED": "Només els usuaris Basic poden aplicar a ofertes"
     },
     "APPLICATIONS": {
       "BACK": "Tornar a ofertes",
@@ -1645,11 +1767,11 @@
       "COVER_LETTER": "Carta de presentació",
       "RESUME": "Currículum",
       "VIEW_JOB": "Veure l'oferta",
-      "EMPTY": "Encara no has enviat cap sol·licitud.",
+      "EMPTY": "Encara no has enviat cap sol·licitud",
       "EMPTY_STATE_TITLE": "Encara sense sol·licituds",
-      "EMPTY_STATE_SUBTITLE": "Quan apliquis a ofertes apareixeran aquí.",
-      "LOGIN_REQUIRED": "Inicia sessió per veure les sol·licituds.",
-      "VERIFICATION_REQUIRED": "Has de verificar el compte per veure les sol·licituds."
+      "EMPTY_STATE_SUBTITLE": "Quan apliquis a ofertes apareixeran aquí",
+      "LOGIN_REQUIRED": "Inicia sessió per veure les sol·licituds",
+      "VERIFICATION_REQUIRED": "Has de verificar el compte per veure les sol·licituds"
     },
     "CREATE": {
       "TITLE": "Crear oferta de feina",
@@ -1666,11 +1788,11 @@
         "REVIEW_DESC": "Revisar i publicar"
       },
       "STEP_BASIC_TITLE": "Informació bàsica",
-      "STEP_BASIC_SUBTITLE": "Comencem amb els detalls principals del lloc.",
+      "STEP_BASIC_SUBTITLE": "Comencem amb els detalls principals del lloc",
       "TITLE_LABEL": "Títol de la feina",
       "TITLE_PLACEHOLDER": "Ex. Desenvolupador Frontend",
       "COMPANY_NAME": "Nom de l'empresa",
-      "COMPANY_PLACEHOLDER": "Ex. Tech Solutions Inc.",
+      "COMPANY_PLACEHOLDER": "Ex. Tech Solutions Inc",
       "CATEGORY_PLACEHOLDER": "Selecciona una categoria",
       "JOB_TYPE_LABEL": "Tipus de feina",
       "JOB_TYPE_PLACEHOLDER": "Selecciona tipus de feina",
@@ -1682,14 +1804,14 @@
         "REMOTE": "Remot"
       },
       "STEP_DETAILS_TITLE": "Detalls del lloc",
-      "STEP_DETAILS_SUBTITLE": "Descriu el rol i la compensació.",
+      "STEP_DETAILS_SUBTITLE": "Descriu el rol i la compensació",
       "DESCRIPTION": "Descripció",
       "DESCRIPTION_PLACEHOLDER": "Descriu responsabilitats, requisits i beneficis...",
       "SALARY_PERIOD": "Període salarial",
       "SALARY_MIN": "Salari mínim",
       "SALARY_MAX": "Salari màxim",
       "STEP_COMPANY_TITLE": "Detalls de l'empresa",
-      "STEP_COMPANY_SUBTITLE": "Explica als candidats més sobre la teva empresa.",
+      "STEP_COMPANY_SUBTITLE": "Explica als candidats més sobre la teva empresa",
       "COMPANY_DESCRIPTION": "Descripció de l'empresa",
       "COMPANY_DESCRIPTION_PLACEHOLDER": "Descriu breument què fa la teva empresa...",
       "COMPANY_WEBSITE": "Web de l'empresa",
@@ -1724,14 +1846,14 @@
       "ERROR_GLOBAL": "Corregeix els errors abans de continuar"
     },
     "ADMIN": {
-      "ONLY": "Només administradors o recruiters poden fer aquesta acció."
+      "ONLY": "Només administradors o recruiters poden fer aquesta acció"
     },
     "ERROR": {
-      "LOAD_JOBS": "No es poden carregar les ofertes ara mateix.",
-      "SAVE_FAILED": "No s'ha pogut actualitzar el desat.",
-      "LOAD_JOB_DETAIL": "No s'ha pogut carregar el detall de l'oferta.",
-      "LOAD_APPLICATIONS": "No s'han pogut carregar les sol·licituds.",
-      "DELETE_JOB": "No s'ha pogut eliminar l'oferta."
+      "LOAD_JOBS": "No es poden carregar les ofertes ara mateix",
+      "SAVE_FAILED": "No s'ha pogut actualitzar el desat",
+      "LOAD_JOB_DETAIL": "No s'ha pogut carregar el detall de l'oferta",
+      "LOAD_APPLICATIONS": "No s'han pogut carregar les sol·licituds",
+      "DELETE_JOB": "No s'ha pogut eliminar l'oferta"
     }
   },
   "TERMS": {

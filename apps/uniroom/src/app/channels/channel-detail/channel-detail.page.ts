@@ -320,7 +320,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
   }
 
   private hasRequiredRole(userRole: Role, requiredRole: ChannelRole): boolean {
-    const roleHierarchy: Record<Role, number> = { Basic: 1, Seller: 2, Recruiter: 2, Admin: 3 };
+    const roleHierarchy: Record<Role, number> = { Basic: 1, Seller: 2, Recruiter: 2, Admin: 4 };
     const requiredRoleMapping: Record<ChannelRole, Role> = { Basic: 'Basic', Seller: 'Seller', Admin: 'Admin' };
     return roleHierarchy[userRole] >= roleHierarchy[requiredRoleMapping[requiredRole]];
   }
