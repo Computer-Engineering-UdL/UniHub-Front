@@ -306,7 +306,7 @@ export class AuthService {
   async getUserInterests(userId: string): Promise<Interest[]> {
     try {
       return await firstValueFrom(this.apiService.get<Interest[]>(`interest/user/${userId}`));
-    } catch (_) {
+    } catch {
       return [];
     }
   }
@@ -317,7 +317,7 @@ export class AuthService {
       return categories.reduce((acc: Interest[], category: InterestCategory): Interest[] => {
         return [...acc, ...category.interests];
       }, []);
-    } catch (_) {
+    } catch {
       return [];
     }
   }
@@ -325,7 +325,7 @@ export class AuthService {
   async getAllInterestCategories(): Promise<InterestCategory[]> {
     try {
       return await firstValueFrom(this.apiService.get<InterestCategory[]>(`interest/`));
-    } catch (_) {
+    } catch {
       return [];
     }
   }
@@ -345,6 +345,33 @@ export class AuthService {
       const interests: Interest[] = await this.getUserInterests(userId);
       const updated = { ...this.currentUser, interests } as User;
       await this.storeUserOnly(updated);
+    }
+  }
+
+  getOnboardingRedirectRoute(user: User | null = this.currentUser): string | null {
+    if (!user) {
+      return null;
+    }
+    if (user.role === 'Admin') {
+      return null;
+    }
+    if (user.onboardingCompleted === true) {
+      return null;
+    }
+
+    if (!user.role) {
+      return '/onboarding/role';
+    }
+
+    switch (user.role) {
+      case 'Basic':
+        return '/onboarding/student';
+      case 'Seller':
+        return '/onboarding/landlord';
+      case 'Company':
+        return '/onboarding/company';
+      default:
+        return '/onboarding/role';
     }
   }
 }

@@ -1,0 +1,14 @@
+:host {
+  ion-content {
+    --background: var(--ion-background-color);
+  }
+
+  .price-range {
+    display: grid;
+    gap: 12px;
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}

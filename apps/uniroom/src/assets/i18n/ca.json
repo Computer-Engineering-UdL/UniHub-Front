@@ -75,6 +75,124 @@
       "INVALID_PHONE": "El telèfon ha de ser vàlid (només números i pot començar per +)"
     }
   },
+  "ONBOARDING": {
+    "STEP_INDICATOR": "Pas {{current}} de {{total}}",
+    "ERROR": {
+      "GENERIC": "S'ha produït un error. Torna-ho a provar.",
+      "VALIDATION": "Completa els camps obligatoris abans de continuar."
+    },
+    "ROLE_SELECTION": {
+      "TITLE": "Explica'ns qui ets",
+      "SUBTITLE": "Tria l'opció que descriu millor com faràs servir UniHub.",
+      "STUDENT": {
+        "TITLE": "Estudiant",
+        "DESCRIPTION": "Descobreix allotjament, comunitats i oportunitats adaptades als teus estudis."
+      },
+      "LANDLORD": {
+        "TITLE": "Propietari",
+        "DESCRIPTION": "Publica anuncis i connecta amb estudiants verificats en pocs minuts."
+      },
+      "COMPANY": {
+        "TITLE": "Empresa",
+        "DESCRIPTION": "Arriba a estudiants per a pràctiques, feines i accions de marca empleadora."
+      }
+    },
+    "STUDENT": {
+      "CAMPUS": "Campus",
+      "FACULTY": "Facultat",
+      "DEGREE": "Grau o programa",
+      "STUDY_MODE": "Modalitat d'estudi",
+      "FULL_TIME": "Temps complet",
+      "PART_TIME": "Temps parcial",
+      "YEAR_OPTION": "Any {{year}}",
+      "BIO": "Breu biografia",
+      "LANGUAGES": "Idiomes",
+      "LANGUAGES_HELPER": "Separa cada idioma amb una coma",
+      "STEPS": {
+        "EDUCATION": {
+          "TITLE": "Dades acadèmiques",
+          "DESCRIPTION": "Personalitzarem l'experiència amb la informació de la teva universitat."
+        },
+        "ACADEMICS": {
+          "TITLE": "Situació acadèmica",
+          "DESCRIPTION": "Explica'ns en quin curs ets i com estudies."
+        },
+        "INTERESTS": {
+          "TITLE": "Interessos",
+          "DESCRIPTION": "Escull almenys un interès perquè et recomanem canals i esdeveniments."
+        },
+        "PROFILE": {
+          "TITLE": "Completa el perfil",
+          "DESCRIPTION": "Una bio i els teus idiomes ajuden altres estudiants a trobar-te."
+        }
+      }
+    },
+    "LANDLORD": {
+      "FULL_NAME": "Nom complet",
+      "CITY": "Ciutat",
+      "COUNTRY": "País",
+      "TYPE": "Què et descriu millor?",
+      "TYPES": {
+        "INDIVIDUAL": "Propietari particular",
+        "MANAGER": "Administrador de propietats",
+        "AGENCY": "Agència"
+      },
+      "COMPANY_NAME": "Nom de l'empresa",
+      "TAX_ID": "NIF / Registre",
+      "AREAS": "Zones on operes",
+      "AREAS_HELPER": "Separa diverses zones amb comes",
+      "PROPERTY_TYPES": "Tipus d'allotjaments que ofereixes",
+      "PRICE_MIN": "Preu mensual mínim habitual",
+      "PRICE_MAX": "Preu mensual màxim habitual",
+      "STEPS": {
+        "CONTACT": {
+          "TITLE": "Dades de contacte",
+          "DESCRIPTION": "Els estudiants utilitzaran aquesta informació per contactar amb tu."
+        },
+        "TYPE": {
+          "TITLE": "Tipus de propietari",
+          "DESCRIPTION": "Indica com gestiones les teves propietats."
+        },
+        "PREFERENCES": {
+          "TITLE": "Preferències d'anuncis",
+          "DESCRIPTION": "Comparteix el tipus d'allotjaments que acostumes a gestionar."
+        }
+      }
+    },
+    "COMPANY": {
+      "NAME": "Nom de l'empresa",
+      "WEBSITE": "Lloc web",
+      "INDUSTRY": "Indústria",
+      "COUNTRY": "País",
+      "CITY": "Ciutat",
+      "CONTACT_PERSON": "Persona de contacte",
+      "CONTACT_ROLE": "Càrrec",
+      "WORK_EMAIL": "Correu corporatiu",
+      "TARGET_FACULTIES": "Facultats d'interès",
+      "TARGET_SKILLS": "Competències clau",
+      "HIRING_FOCUS": "Focus de contractació",
+      "DESCRIPTION": "Descripció de l'empresa",
+      "LINKEDIN": "LinkedIn",
+      "STEPS": {
+        "INFO": {
+          "TITLE": "Informació de l'empresa",
+          "DESCRIPTION": "Presenta la teva organització a la comunitat d'UniHub."
+        },
+        "CONTACT": {
+          "TITLE": "Persona de contacte",
+          "DESCRIPTION": "Amb qui han de parlar els estudiants quan et contactin?"
+        },
+        "TALENT": {
+          "TITLE": "Perfil de talent",
+          "DESCRIPTION": "Indica quin tipus d'estudiant busques per fer la millor connexió."
+        },
+        "BRAND": {
+          "TITLE": "Presència de marca",
+          "DESCRIPTION": "Afegeix els últims detalls per destacar davant dels estudiants."
+        }
+      }
+    }
+  },
   "USER": {
     "STATUS_ACTIVE": "Actiu",
     "STATUS_PENDING": "Pendent",

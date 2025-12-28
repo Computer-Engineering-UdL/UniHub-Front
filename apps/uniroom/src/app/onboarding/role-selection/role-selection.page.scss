@@ -1,0 +1,11 @@
+:host {
+  ion-content {
+    --background: var(--ion-background-color);
+  }
+
+  .role-card {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+  }
+}

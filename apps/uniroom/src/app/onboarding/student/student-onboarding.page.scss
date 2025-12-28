@@ -1,0 +1,13 @@
+:host {
+  ion-content {
+    --background: var(--ion-background-color);
+  }
+
+  ion-card {
+    margin-top: 12px;
+  }
+
+  ion-item {
+    --inner-padding-end: 0;
+  }
+}

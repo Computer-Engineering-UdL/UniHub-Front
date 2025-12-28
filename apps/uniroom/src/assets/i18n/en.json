@@ -79,6 +79,124 @@
       "INVALID_PHONE": "Phone must be valid (numbers only, may start with +)"
     }
   },
+  "ONBOARDING": {
+    "STEP_INDICATOR": "Step {{current}} of {{total}}",
+    "ERROR": {
+      "GENERIC": "Something went wrong. Please try again.",
+      "VALIDATION": "Please complete the required fields before continuing."
+    },
+    "ROLE_SELECTION": {
+      "TITLE": "Tell us who you are",
+      "SUBTITLE": "Choose the option that best describes how you plan to use UniHub.",
+      "STUDENT": {
+        "TITLE": "Student",
+        "DESCRIPTION": "Discover housing, communities and opportunities tailored to your studies."
+      },
+      "LANDLORD": {
+        "TITLE": "Landlord",
+        "DESCRIPTION": "Publish listings and connect with verified students in minutes."
+      },
+      "COMPANY": {
+        "TITLE": "Company",
+        "DESCRIPTION": "Reach students for internships, part-time roles and employer branding."
+      }
+    },
+    "STUDENT": {
+      "CAMPUS": "Campus",
+      "FACULTY": "Faculty",
+      "DEGREE": "Degree or program",
+      "STUDY_MODE": "Study mode",
+      "FULL_TIME": "Full-time",
+      "PART_TIME": "Part-time",
+      "YEAR_OPTION": "Year {{year}}",
+      "BIO": "Short bio",
+      "LANGUAGES": "Languages",
+      "LANGUAGES_HELPER": "Separate each language with a comma",
+      "STEPS": {
+        "EDUCATION": {
+          "TITLE": "University details",
+          "DESCRIPTION": "Help us personalize your experience with accurate academic information."
+        },
+        "ACADEMICS": {
+          "TITLE": "Academic status",
+          "DESCRIPTION": "Tell us how far along you are and how you study."
+        },
+        "INTERESTS": {
+          "TITLE": "Interests",
+          "DESCRIPTION": "Pick at least one interest so we can recommend relevant channels and events."
+        },
+        "PROFILE": {
+          "TITLE": "Finish your profile",
+          "DESCRIPTION": "A short bio and languages help other students connect with you."
+        }
+      }
+    },
+    "LANDLORD": {
+      "FULL_NAME": "Full name",
+      "CITY": "City",
+      "COUNTRY": "Country",
+      "TYPE": "What best describes you?",
+      "TYPES": {
+        "INDIVIDUAL": "Individual owner",
+        "MANAGER": "Property manager",
+        "AGENCY": "Agency"
+      },
+      "COMPANY_NAME": "Company name",
+      "TAX_ID": "Tax ID / Registration",
+      "AREAS": "Operating areas",
+      "AREAS_HELPER": "Separate multiple areas with commas",
+      "PROPERTY_TYPES": "Property types you offer",
+      "PRICE_MIN": "Typical minimum monthly price",
+      "PRICE_MAX": "Typical maximum monthly price",
+      "STEPS": {
+        "CONTACT": {
+          "TITLE": "Contact details",
+          "DESCRIPTION": "Students will use this information to reach out to you."
+        },
+        "TYPE": {
+          "TITLE": "Landlord type",
+          "DESCRIPTION": "Tell us how you manage your properties."
+        },
+        "PREFERENCES": {
+          "TITLE": "Listing preferences",
+          "DESCRIPTION": "Share the kind of listings you typically manage."
+        }
+      }
+    },
+    "COMPANY": {
+      "NAME": "Company name",
+      "WEBSITE": "Website",
+      "INDUSTRY": "Industry",
+      "COUNTRY": "Country",
+      "CITY": "City",
+      "CONTACT_PERSON": "Contact person",
+      "CONTACT_ROLE": "Role",
+      "WORK_EMAIL": "Work email",
+      "TARGET_FACULTIES": "Target faculties",
+      "TARGET_SKILLS": "Key skills",
+      "HIRING_FOCUS": "Hiring focus",
+      "DESCRIPTION": "Company description",
+      "LINKEDIN": "LinkedIn",
+      "STEPS": {
+        "INFO": {
+          "TITLE": "Company information",
+          "DESCRIPTION": "Introduce your organization to the UniHub community."
+        },
+        "CONTACT": {
+          "TITLE": "Contact person",
+          "DESCRIPTION": "Who should students talk to when they reach out?"
+        },
+        "TALENT": {
+          "TITLE": "Talent preferences",
+          "DESCRIPTION": "Tell us who you are looking for so we can match you with the right students."
+        },
+        "BRAND": {
+          "TITLE": "Brand presence",
+          "DESCRIPTION": "Add final touches to help students recognize your company."
+        }
+      }
+    }
+  },
   "USER": {
     "STATUS_ACTIVE": "Active",
     "STATUS_PENDING": "Pending",

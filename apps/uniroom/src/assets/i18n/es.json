@@ -79,6 +79,124 @@
       "INVALID_PHONE": "El teléfono debe ser válido (solo números y puede empezar por +)"
     }
   },
+  "ONBOARDING": {
+    "STEP_INDICATOR": "Paso {{current}} de {{total}}",
+    "ERROR": {
+      "GENERIC": "Ha ocurrido un error. Inténtalo de nuevo.",
+      "VALIDATION": "Completa los campos obligatorios antes de continuar."
+    },
+    "ROLE_SELECTION": {
+      "TITLE": "Cuéntanos quién eres",
+      "SUBTITLE": "Elige la opción que mejor describe cómo utilizarás UniHub.",
+      "STUDENT": {
+        "TITLE": "Estudiante",
+        "DESCRIPTION": "Descubre vivienda, comunidades y oportunidades adaptadas a tus estudios."
+      },
+      "LANDLORD": {
+        "TITLE": "Propietario",
+        "DESCRIPTION": "Publica anuncios y conecta con estudiantes verificados en minutos."
+      },
+      "COMPANY": {
+        "TITLE": "Empresa",
+        "DESCRIPTION": "Llega a estudiantes para prácticas, empleos y acciones de marca empleadora."
+      }
+    },
+    "STUDENT": {
+      "CAMPUS": "Campus",
+      "FACULTY": "Facultad",
+      "DEGREE": "Carrera o programa",
+      "STUDY_MODE": "Modalidad de estudio",
+      "FULL_TIME": "Tiempo completo",
+      "PART_TIME": "Tiempo parcial",
+      "YEAR_OPTION": "Año {{year}}",
+      "BIO": "Breve biografía",
+      "LANGUAGES": "Idiomas",
+      "LANGUAGES_HELPER": "Separa cada idioma con una coma",
+      "STEPS": {
+        "EDUCATION": {
+          "TITLE": "Datos académicos",
+          "DESCRIPTION": "Personalizaremos tu experiencia con información universitaria precisa."
+        },
+        "ACADEMICS": {
+          "TITLE": "Situación académica",
+          "DESCRIPTION": "Cuéntanos en qué año estás y cómo estudias."
+        },
+        "INTERESTS": {
+          "TITLE": "Intereses",
+          "DESCRIPTION": "Elige al menos un interés para recomendarte canales y eventos relevantes."
+        },
+        "PROFILE": {
+          "TITLE": "Completa tu perfil",
+          "DESCRIPTION": "Una bio corta y tus idiomas ayudan a que otros estudiantes te encuentren."
+        }
+      }
+    },
+    "LANDLORD": {
+      "FULL_NAME": "Nombre completo",
+      "CITY": "Ciudad",
+      "COUNTRY": "País",
+      "TYPE": "¿Qué te describe mejor?",
+      "TYPES": {
+        "INDIVIDUAL": "Propietario particular",
+        "MANAGER": "Administrador de propiedades",
+        "AGENCY": "Agencia"
+      },
+      "COMPANY_NAME": "Nombre de la empresa",
+      "TAX_ID": "NIF / Registro",
+      "AREAS": "Zonas donde operas",
+      "AREAS_HELPER": "Separa varias zonas con comas",
+      "PROPERTY_TYPES": "Tipos de vivienda que ofreces",
+      "PRICE_MIN": "Precio mensual mínimo habitual",
+      "PRICE_MAX": "Precio mensual máximo habitual",
+      "STEPS": {
+        "CONTACT": {
+          "TITLE": "Datos de contacto",
+          "DESCRIPTION": "Los estudiantes utilizarán esta información para comunicarse contigo."
+        },
+        "TYPE": {
+          "TITLE": "Tipo de propietario",
+          "DESCRIPTION": "Indica cómo gestionas tus propiedades."
+        },
+        "PREFERENCES": {
+          "TITLE": "Preferencias de anuncios",
+          "DESCRIPTION": "Comparte el tipo de alojamientos que sueles gestionar."
+        }
+      }
+    },
+    "COMPANY": {
+      "NAME": "Nombre de la empresa",
+      "WEBSITE": "Sitio web",
+      "INDUSTRY": "Industria",
+      "COUNTRY": "País",
+      "CITY": "Ciudad",
+      "CONTACT_PERSON": "Persona de contacto",
+      "CONTACT_ROLE": "Cargo",
+      "WORK_EMAIL": "Correo de trabajo",
+      "TARGET_FACULTIES": "Facultades objetivo",
+      "TARGET_SKILLS": "Competencias clave",
+      "HIRING_FOCUS": "Foco de contratación",
+      "DESCRIPTION": "Descripción de la empresa",
+      "LINKEDIN": "LinkedIn",
+      "STEPS": {
+        "INFO": {
+          "TITLE": "Información de la empresa",
+          "DESCRIPTION": "Presenta tu organización a la comunidad de UniHub."
+        },
+        "CONTACT": {
+          "TITLE": "Persona de contacto",
+          "DESCRIPTION": "¿Con quién deben hablar los estudiantes cuando te escriban?"
+        },
+        "TALENT": {
+          "TITLE": "Perfil de talento",
+          "DESCRIPTION": "Indícanos a quién buscas para conectar con los estudiantes adecuados."
+        },
+        "BRAND": {
+          "TITLE": "Presencia de marca",
+          "DESCRIPTION": "Añade los últimos detalles para destacar ante los estudiantes."
+        }
+      }
+    }
+  },
   "HOME": {
     "WELCOME": "¡Bienvenido!",
     "WELCOME_BACK": "¡Bienvenido de nuevo",
