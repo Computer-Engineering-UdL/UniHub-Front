@@ -66,7 +66,7 @@
           (input)="user.phone = $any($event.target).value" />
       </label>
 
-      <label>
+      <label *ngIf="user.role === 'Basic' || user.role === 'Admin'">
         <div class="label">{{ 'PROFILE.UNIVERSITY' | translate }}</div>
         <ion-select
           [value]="selectedUniversityId"
@@ -80,7 +80,7 @@
         </ion-select>
       </label>
 
-      <label *ngIf="selectedUniversityId">
+      <label *ngIf="selectedUniversityId && (user.role === 'Basic' || user.role === 'Admin')">
         <div class="label">{{ 'PROFILE.FACULTY' | translate }}</div>
         <ion-select
           [value]="selectedFacultyId"
