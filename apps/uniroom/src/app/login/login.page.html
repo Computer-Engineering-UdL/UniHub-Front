@@ -63,6 +63,10 @@
             {{ 'SIGNUP.ERROR.PASSWORD_TOO_SHORT' | translate }}
           </div>
 
+          <div class="forgot-password-link">
+            <a (click)="openForgotPasswordModal()">{{ 'PASSWORD.FORGOT.LINK' | translate }}</a>
+          </div>
+
           <ion-button
             expand="block"
             type="submit"

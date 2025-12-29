@@ -56,6 +56,54 @@
       "OAUTH_WINDOW_CLOSED": "The authentication window was closed before the process was completed"
     }
   },
+  "PASSWORD": {
+    "FORGOT": {
+      "TITLE": "Forgot Password",
+      "DESCRIPTION": "Enter your email address and we'll send you a link to reset your password.",
+      "LINK": "Forgot password?",
+      "SEND": "Send reset link",
+      "SUCCESS": "Password reset email sent successfully. Please check your inbox.",
+      "ERROR": "Failed to send reset email. Please try again."
+    },
+    "RESET": {
+      "TITLE": "Reset Password",
+      "DESCRIPTION": "Please enter your new password.",
+      "NEW_PASSWORD": "New password",
+      "CONFIRM_PASSWORD": "Confirm password",
+      "INVALID_FORMAT": "Password must meet all requirements",
+      "PASSWORDS_NOT_MATCH": "Passwords do not match",
+      "INVALID_TOKEN": "Invalid or expired reset token",
+      "SUCCESS": "Password reset successfully. You can now log in with your new password.",
+      "ERROR": "Failed to reset password. Please try again or request a new reset link.",
+      "SUBMIT": "Reset password",
+      "BACK_TO_LOGIN": "Back to login",
+      "REQUIREMENTS_TITLE": "Password requirements:",
+      "REQUIREMENT_LENGTH": "Minimum 8 characters",
+      "REQUIREMENT_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENT_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENT_DIGIT": "At least one digit",
+      "REQUIREMENT_SPECIAL": "At least one special character (@$!%*?&#)"
+    },
+    "CHANGE": {
+      "TITLE": "Change Password",
+      "DESCRIPTION": "Enter your current password and choose a new one.",
+      "CURRENT_PASSWORD": "Current password",
+      "NEW_PASSWORD": "New password",
+      "CONFIRM_PASSWORD": "Confirm password",
+      "CURRENT_REQUIRED": "Current password is required",
+      "INVALID_FORMAT": "Password must meet all requirements",
+      "PASSWORDS_NOT_MATCH": "Passwords do not match",
+      "SUCCESS": "Password changed successfully",
+      "ERROR": "Failed to change password. Please check your current password and try again.",
+      "SUBMIT": "Change password",
+      "REQUIREMENTS_TITLE": "Password requirements:",
+      "REQUIREMENT_LENGTH": "Minimum 8 characters",
+      "REQUIREMENT_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENT_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENT_DIGIT": "At least one digit",
+      "REQUIREMENT_SPECIAL": "At least one special character (@$!%*?&#)"
+    }
+  },
   "SIGNUP": {
     "TITLE": "Create Account",
     "SUBTITLE": "Join UniHub community",

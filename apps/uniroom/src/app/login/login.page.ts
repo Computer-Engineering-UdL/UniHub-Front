@@ -1,8 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import NotificationService from '../services/notification.service';
 import { LangCode, LocalizationService } from '../services/localization.service';
+import { ForgotPasswordModalComponent } from './forgot-password-modal/forgot-password-modal.component';
 
 @Component({
   selector: 'app-login',
@@ -18,10 +20,11 @@ export class LoginPage {
   passwordTouched: boolean = false;
   showPassword: boolean = false;
 
-  private authService: AuthService = inject(AuthService);
-  private router: Router = inject(Router);
-  private notificationService: NotificationService = inject(NotificationService);
-  private localizationService: LocalizationService = inject(LocalizationService);
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly router: Router = inject(Router);
+  private readonly modalController: ModalController = inject(ModalController);
+  private readonly notificationService: NotificationService = inject(NotificationService);
+  private readonly localizationService: LocalizationService = inject(LocalizationService);
 
   private readonly emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -75,17 +78,15 @@ export class LoginPage {
     }
   }
 
-  async loginWithGithub(): Promise<void> {
-    this.isLoading = true;
-    try {
-      await this.authService.loginWithGithub();
-      await this.router.navigate(['/home']);
-    } catch (error: unknown) {
-      const message: string = error instanceof Error ? error.message : 'LOGIN.ERROR.GITHUB_FAILED';
-      this.notificationService.error(message);
-    } finally {
-      this.isLoading = false;
-    }
+  public async changeLanguage(lang: LangCode): Promise<void> {
+    await this.localizationService.changeLanguage(lang);
+  }
+
+  public async openForgotPasswordModal(): Promise<void> {
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: ForgotPasswordModalComponent
+    });
+    await modal.present();
   }
 
   async loginWithGoogle(): Promise<void> {
@@ -93,15 +94,10 @@ export class LoginPage {
     try {
       await this.authService.loginWithGoogle();
       await this.router.navigate(['/home']);
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'LOGIN.ERROR.GOOGLE_FAILED';
-      this.notificationService.error(message);
+    } catch {
+      this.notificationService.error('LOGIN.ERROR.GOOGLE_FAILED');
     } finally {
       this.isLoading = false;
     }
-  }
-
-  async changeLanguage(lang: LangCode): Promise<void> {
-    await this.localizationService.changeLanguage(lang);
   }
 }

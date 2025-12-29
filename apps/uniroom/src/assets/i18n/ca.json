@@ -52,6 +52,54 @@
       "OAUTH_WINDOW_CLOSED": "La finestra d'autenticació s'ha tancat abans de completar el procés."
     }
   },
+  "PASSWORD": {
+    "FORGOT": {
+      "TITLE": "He oblidat la contrasenya",
+      "DESCRIPTION": "Introdueix el teu correu electrònic i t'enviarem un enllaç per restablir la teva contrasenya.",
+      "LINK": "Has oblidat la contrasenya?",
+      "SEND": "Enviar enllaç de restabliment",
+      "SUCCESS": "Correu de restabliment enviat correctament. Si us plau revisa la teva safata d'entrada.",
+      "ERROR": "Error en enviar el correu de restabliment. Si us plau torna-ho a provar."
+    },
+    "RESET": {
+      "TITLE": "Restablir contrasenya",
+      "DESCRIPTION": "Si us plau introdueix la teva nova contrasenya.",
+      "NEW_PASSWORD": "Nova contrasenya",
+      "CONFIRM_PASSWORD": "Confirmar contrasenya",
+      "INVALID_FORMAT": "La contrasenya ha de complir tots els requisits",
+      "PASSWORDS_NOT_MATCH": "Les contrasenyes no coincideixen",
+      "INVALID_TOKEN": "Token de restabliment invàlid o caducat",
+      "SUCCESS": "Contrasenya restablerta correctament. Ara pots iniciar sessió amb la teva nova contrasenya.",
+      "ERROR": "Error en restablir la contrasenya. Si us plau torna-ho a provar o sol·licita un nou enllaç.",
+      "SUBMIT": "Restablir contrasenya",
+      "BACK_TO_LOGIN": "Tornar a l'inici de sessió",
+      "REQUIREMENTS_TITLE": "Requisits de la contrasenya:",
+      "REQUIREMENT_LENGTH": "Mínim 8 caràcters",
+      "REQUIREMENT_UPPERCASE": "Almenys una lletra majúscula",
+      "REQUIREMENT_LOWERCASE": "Almenys una lletra minúscula",
+      "REQUIREMENT_DIGIT": "Almenys un dígit",
+      "REQUIREMENT_SPECIAL": "Almenys un caràcter especial (@$!%*?&#)"
+    },
+    "CHANGE": {
+      "TITLE": "Canviar contrasenya",
+      "DESCRIPTION": "Introdueix la teva contrasenya actual i escull-ne una de nova.",
+      "CURRENT_PASSWORD": "Contrasenya actual",
+      "NEW_PASSWORD": "Nova contrasenya",
+      "CONFIRM_PASSWORD": "Confirmar contrasenya",
+      "CURRENT_REQUIRED": "La contrasenya actual és requerida",
+      "INVALID_FORMAT": "La contrasenya ha de complir tots els requisits",
+      "PASSWORDS_NOT_MATCH": "Les contrasenyes no coincideixen",
+      "SUCCESS": "Contrasenya canviada correctament",
+      "ERROR": "Error en canviar la contrasenya. Si us plau verifica la teva contrasenya actual i torna-ho a provar.",
+      "SUBMIT": "Canviar contrasenya",
+      "REQUIREMENTS_TITLE": "Requisits de la contrasenya:",
+      "REQUIREMENT_LENGTH": "Mínim 8 caràcters",
+      "REQUIREMENT_UPPERCASE": "Almenys una lletra majúscula",
+      "REQUIREMENT_LOWERCASE": "Almenys una lletra minúscula",
+      "REQUIREMENT_DIGIT": "Almenys un dígit",
+      "REQUIREMENT_SPECIAL": "Almenys un caràcter especial (@$!%*?&#)"
+    }
+  },
   "SIGNUP": {
     "TITLE": "Crear Compte",
     "SUBTITLE": "Uneix-te a la comunitat UniHub",
