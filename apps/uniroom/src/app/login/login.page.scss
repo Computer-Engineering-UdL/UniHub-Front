@@ -101,3 +101,27 @@
     margin-bottom: 4px;
   }
 }
+
+.forgot-password-link {
+  text-align: right;
+  margin: 0.5rem 0 1rem 0;
+
+  a {
+    color: var(--ion-color-primary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  @media (min-width: 768px) {
+    margin: 0.75rem 0 1.25rem 0;
+
+    a {
+      font-size: 0.9375rem;
+    }
+  }
+}

@@ -56,6 +56,54 @@
       "OAUTH_WINDOW_CLOSED": "La ventana de autenticación se ha cerrado antes de completar el proceso"
     }
   },
+  "PASSWORD": {
+    "FORGOT": {
+      "TITLE": "Olvidé mi contraseña",
+      "DESCRIPTION": "Introduce tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.",
+      "LINK": "¿Olvidaste tu contraseña?",
+      "SEND": "Enviar enlace de restablecimiento",
+      "SUCCESS": "Correo de restablecimiento enviado exitosamente. Por favor revisa tu bandeja de entrada.",
+      "ERROR": "Error al enviar el correo de restablecimiento. Por favor intenta de nuevo."
+    },
+    "RESET": {
+      "TITLE": "Restablecer contraseña",
+      "DESCRIPTION": "Por favor introduce tu nueva contraseña.",
+      "NEW_PASSWORD": "Nueva contraseña",
+      "CONFIRM_PASSWORD": "Confirmar contraseña",
+      "INVALID_FORMAT": "La contraseña debe cumplir todos los requisitos",
+      "PASSWORDS_NOT_MATCH": "Las contraseñas no coinciden",
+      "INVALID_TOKEN": "Token de restablecimiento inválido o expirado",
+      "SUCCESS": "Contraseña restablecida exitosamente. Ahora puedes iniciar sesión con tu nueva contraseña.",
+      "ERROR": "Error al restablecer la contraseña. Por favor intenta de nuevo o solicita un nuevo enlace.",
+      "SUBMIT": "Restablecer contraseña",
+      "BACK_TO_LOGIN": "Volver al inicio de sesión",
+      "REQUIREMENTS_TITLE": "Requisitos de la contraseña:",
+      "REQUIREMENT_LENGTH": "Mínimo 8 caracteres",
+      "REQUIREMENT_UPPERCASE": "Al menos una letra mayúscula",
+      "REQUIREMENT_LOWERCASE": "Al menos una letra minúscula",
+      "REQUIREMENT_DIGIT": "Al menos un dígito",
+      "REQUIREMENT_SPECIAL": "Al menos un carácter especial (@$!%*?&#)"
+    },
+    "CHANGE": {
+      "TITLE": "Cambiar contraseña",
+      "DESCRIPTION": "Introduce tu contraseña actual y elige una nueva.",
+      "CURRENT_PASSWORD": "Contraseña actual",
+      "NEW_PASSWORD": "Nueva contraseña",
+      "CONFIRM_PASSWORD": "Confirmar contraseña",
+      "CURRENT_REQUIRED": "La contraseña actual es requerida",
+      "INVALID_FORMAT": "La contraseña debe cumplir todos los requisitos",
+      "PASSWORDS_NOT_MATCH": "Las contraseñas no coinciden",
+      "SUCCESS": "Contraseña cambiada exitosamente",
+      "ERROR": "Error al cambiar la contraseña. Por favor verifica tu contraseña actual e intenta de nuevo.",
+      "SUBMIT": "Cambiar contraseña",
+      "REQUIREMENTS_TITLE": "Requisitos de la contraseña:",
+      "REQUIREMENT_LENGTH": "Mínimo 8 caracteres",
+      "REQUIREMENT_UPPERCASE": "Al menos una letra mayúscula",
+      "REQUIREMENT_LOWERCASE": "Al menos una letra minúscula",
+      "REQUIREMENT_DIGIT": "Al menos un dígito",
+      "REQUIREMENT_SPECIAL": "Al menos un carácter especial (@$!%*?&#)"
+    }
+  },
   "SIGNUP": {
     "TITLE": "Crear Cuenta",
     "SUBTITLE": "Únete a la comunidad UniHub",

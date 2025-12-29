@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { firstValueFrom, Subscription } from 'rxjs';
+import { AlertController, ModalController } from '@ionic/angular';
 import { ApiService } from '../../services/api.service';
 import { LocalizationService } from '../../services/localization.service';
 import { Offer, OfferAmenity, OfferHouseRules, OfferPhoto } from '../../models/offer.types';
@@ -18,11 +19,9 @@ import { MessageService } from '../../services/message.service';
 import NotificationService from '../../services/notification.service';
 import { Conversation } from '../../models/message.types';
 import { LikesService } from '../../services/likes.service';
-import { ModalController } from '@ionic/angular';
 import { ReportCategory, ReportReason } from '../../models/report.types';
 import { ReportModalComponent } from '../../shared/reports/report-modal.component';
 import { ReportService } from '../../services/report.service';
-import { AlertController } from '@ionic/angular';
 
 interface AmenityItem {
   icon: string;
@@ -143,6 +142,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   public likeLoading: boolean = false;
 
   private paramSub?: Subscription;
+  private likeChangeSubscription?: Subscription;
 
   ngOnInit(): void {
     this.paramSub = this.route.paramMap.subscribe((params: ParamMap): void => {
@@ -153,10 +153,17 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       }
       void this.loadOfferDetails(offerId);
     });
+
+    this.likeChangeSubscription = this.likesService.likeChange$.subscribe((event) => {
+      if (this.offer && this.offer.id === event.targetId) {
+        this.isLiked = event.liked;
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.paramSub?.unsubscribe();
+    this.likeChangeSubscription?.unsubscribe();
   }
 
   async loadOfferDetails(offerId: string): Promise<void> {
@@ -220,8 +227,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
         this.isLiked = true;
         this.notificationService.success('ROOM.LIKE_SUCCESS');
       }
-    } catch (err) {
-      console.error('Error toggling like:', err);
+    } catch {
       this.notificationService.error('ROOM.LIKE_FAILED');
     } finally {
       this.likeLoading = false;

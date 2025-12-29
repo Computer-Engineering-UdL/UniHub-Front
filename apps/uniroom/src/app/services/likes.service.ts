@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { map, catchError, tap } from 'rxjs/operators';
 import { ApiService } from './api.service';
 
 interface LikeItem {
@@ -14,11 +14,18 @@ interface LikeStatusResponse {
   status?: boolean;
 }
 
+interface LikeChangeEvent {
+  targetId: string;
+  liked: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class LikesService {
   private readonly apiService: ApiService = inject(ApiService);
+  private readonly likeChangeSubject: Subject<LikeChangeEvent> = new Subject<LikeChangeEvent>();
+  public readonly likeChange$: Observable<LikeChangeEvent> = this.likeChangeSubject.asObservable();
 
   getMyLikes(): Observable<string[]> {
     return this.apiService.get<string[] | LikeItem[]>('likes/me').pipe(
@@ -57,10 +64,18 @@ export class LikesService {
   }
 
   like(targetId: string): Observable<unknown> {
-    return this.apiService.post<unknown>(`likes/${targetId}`, {});
+    return this.apiService.post<unknown>(`likes/${targetId}`, {}).pipe(
+      tap(() => {
+        this.likeChangeSubject.next({ targetId, liked: true });
+      })
+    );
   }
 
   unlike(targetId: string): Observable<unknown> {
-    return this.apiService.delete<unknown>(`likes/${targetId}`);
+    return this.apiService.delete<unknown>(`likes/${targetId}`).pipe(
+      tap(() => {
+        this.likeChangeSubject.next({ targetId, liked: false });
+      })
+    );
   }
 }

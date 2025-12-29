@@ -9,6 +9,7 @@ import { NotificationToastComponent } from './notification-toast/notification-to
 import { NotificationContainerComponent } from './notification-container/notification-container.component';
 import { ReportModalComponent } from './reports/report-modal.component';
 import { LocationPickerComponent } from './location-picker/location-picker.component';
+import { ChangePasswordModalComponent } from './change-password-modal/change-password-modal.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CachedAvatarDirective } from './directives/cached-avatar.directive';
 import { InterestTranslatePipe } from './pipes/interest-translate.pipe';
@@ -21,6 +22,7 @@ import { InterestTranslatePipe } from './pipes/interest-translate.pipe';
     NotificationContainerComponent,
     ReportModalComponent,
     LocationPickerComponent,
+    ChangePasswordModalComponent,
     CachedAvatarDirective,
     InterestTranslatePipe
   ],
@@ -32,6 +34,7 @@ import { InterestTranslatePipe } from './pipes/interest-translate.pipe';
     NotificationContainerComponent,
     ReportModalComponent,
     LocationPickerComponent,
+    ChangePasswordModalComponent,
     CachedAvatarDirective,
     InterestTranslatePipe
   ]

@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
 import { ModalController, AlertController } from '@ionic/angular';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { Offer, OfferListItem, OfferPhoto } from '../models/offer.types';
 import { User } from '../models/auth.types';
 import { CreateOfferModalComponent } from './create-offer-modal/create-offer-modal.component';
@@ -104,6 +104,7 @@ export class RoomsComponent implements OnInit {
 
   public likedIds: Set<string> = new Set<string>();
   private readonly likeLoadingMap: Map<string, boolean> = new Map();
+  private likeChangeSubscription?: Subscription;
 
   ngOnInit(): void {
     this.authService.currentUser$.subscribe((user: User | null): void => {
@@ -115,7 +116,24 @@ export class RoomsComponent implements OnInit {
     this.decimalSeparator = seps.decimal;
     this.thousandSeparator = seps.thousand;
 
+    this.likeChangeSubscription = this.likesService.likeChange$.subscribe((event) => {
+      const offer: OfferListItem | undefined = this.offers.find((o: OfferListItem): boolean => o.id === event.targetId);
+      if (offer) {
+        offer.isLiked = event.liked;
+        if (event.liked) {
+          this.likedIds.add(event.targetId);
+        } else {
+          this.likedIds.delete(event.targetId);
+        }
+        this.applyFilters();
+      }
+    });
+
     void this.init();
+  }
+
+  ngOnDestroy(): void {
+    this.likeChangeSubscription?.unsubscribe();
   }
 
   private async init(): Promise<void> {
