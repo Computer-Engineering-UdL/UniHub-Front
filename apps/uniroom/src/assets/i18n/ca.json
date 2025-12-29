@@ -900,7 +900,19 @@
         },
         "ERROR": {
           "NO_USER_ID": "No es pot iniciar la conversa: informació del propietari no disponible",
-          "CANNOT_MESSAGE_YOURSELF": "No pots enviar-te un missatge a tu mateix"
+          "CANNOT_MESSAGE_YOURSELF": "No pots enviar-te un missatge a tu mateix",
+          "NO_PHONE": "No hi ha número de telèfon disponible"
+        },
+        "SCHEDULE_VISIT": {
+          "TITLE": "Programa una visita",
+          "MESSAGE": "Selecciona la data per a la visita",
+          "DATE_PLACEHOLDER": "Data de la visita",
+          "SEND": "Enviar sol·licitud",
+          "SUCCESS": "Sol·licitud de visita enviada correctament",
+          "MESSAGE_TEMPLATE": "Bones, volia concertar una visita per l'anunci {{announcementLink}} per a la data del {{appointmentDate}}. Gràcies.",
+          "ERROR": {
+            "NO_DATE": "Si us plau selecciona una data"
+          }
         }
       },
       "AVAILABILITY_TITLE": "Disponibilitat",

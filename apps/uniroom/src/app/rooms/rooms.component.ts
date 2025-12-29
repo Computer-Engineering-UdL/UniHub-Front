@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
 import { ModalController, AlertController } from '@ionic/angular';
@@ -60,7 +60,7 @@ type OfferDetailsResponse = Offer & {
   styleUrls: ['./rooms.component.scss'],
   standalone: false
 })
-export class RoomsComponent implements OnInit {
+export class RoomsComponent implements OnInit, OnDestroy {
   public offers: OfferListItem[] = [];
   public filteredOffers: OfferListItem[] = [];
   public user: User | null = null;

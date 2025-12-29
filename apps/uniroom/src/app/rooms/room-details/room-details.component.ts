@@ -708,6 +708,93 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  callLandlord(): void {
+    if (!this.offer?.landlord.phone) {
+      this.notificationService.error('ROOM.DETAILS.LANDLORD.ERROR.NO_PHONE');
+      return;
+    }
+
+    const phoneNumber: string = this.offer.landlord.phone.replace(/\s+/g, '');
+    globalThis.location.href = `tel:${phoneNumber}`;
+  }
+
+  async scheduleVisit(): Promise<void> {
+    if (!this.offer?.landlord.userId) {
+      this.notificationService.error('ROOM.DETAILS.LANDLORD.ERROR.NO_USER_ID');
+      return;
+    }
+
+    const currentUser: User | null = this.authService.currentUser;
+    if (!currentUser) {
+      this.notificationService.error('ERROR.NOT_AUTHENTICATED');
+      return;
+    }
+
+    if (this.offer.landlord.userId === currentUser.id) {
+      this.notificationService.error('ROOM.DETAILS.LANDLORD.ERROR.CANNOT_MESSAGE_YOURSELF');
+      return;
+    }
+
+    const alert = await this.alertController.create({
+      cssClass: 'schedule-visit-alert',
+      header: this.translate.instant('ROOM.DETAILS.LANDLORD.SCHEDULE_VISIT.TITLE'),
+      message: this.translate.instant('ROOM.DETAILS.LANDLORD.SCHEDULE_VISIT.MESSAGE'),
+      inputs: [
+        {
+          name: 'visitDate',
+          type: 'date',
+          min: new Date().toISOString().split('T')[0],
+          placeholder: this.translate.instant('ROOM.DETAILS.LANDLORD.SCHEDULE_VISIT.DATE_PLACEHOLDER')
+        }
+      ],
+      buttons: [
+        {
+          text: this.translate.instant('COMMON.CANCEL'),
+          role: 'cancel'
+        },
+        {
+          text: this.translate.instant('ROOM.DETAILS.LANDLORD.SCHEDULE_VISIT.SEND'),
+          handler: async (data): Promise<boolean> => {
+            if (!data.visitDate) {
+              this.notificationService.error('ROOM.DETAILS.LANDLORD.SCHEDULE_VISIT.ERROR.NO_DATE');
+              return false;
+            }
+
+            try {
+              const conversation: Conversation = await firstValueFrom(
+                this.messageService.getOrCreateConversation(this.offer!.landlord.userId!, this.offer!.id)
+              );
+
+              const formattedDate: string = this.localization.formatDate(data.visitDate, {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              });
+
+              const announcementUrl = `${window.location.origin}/rooms/${this.offer!.id}`;
+              const messageKey: string = 'ROOM.DETAILS.LANDLORD.SCHEDULE_VISIT.MESSAGE_TEMPLATE';
+              const messageContent: string = this.translate.instant(messageKey, {
+                announcementLink: announcementUrl,
+                appointmentDate: formattedDate
+              });
+
+              await firstValueFrom(this.messageService.sendMessage(conversation.id, messageContent));
+
+              await this.router.navigate(['/messages'], { queryParams: { id: conversation.id } });
+              this.notificationService.success('ROOM.DETAILS.LANDLORD.SCHEDULE_VISIT.SUCCESS');
+              return true;
+            } catch {
+              this.notificationService.error('MESSAGES.CREATE_ERROR');
+              return false;
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
   async reportListing(): Promise<void> {
     if (!this.offer) {
       return;

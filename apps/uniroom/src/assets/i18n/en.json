@@ -902,7 +902,19 @@
         },
         "ERROR": {
           "NO_USER_ID": "Unable to start conversation: landlord information not available",
-          "CANNOT_MESSAGE_YOURSELF": "You cannot send a message to yourself"
+          "CANNOT_MESSAGE_YOURSELF": "You cannot send a message to yourself",
+          "NO_PHONE": "No phone number available"
+        },
+        "SCHEDULE_VISIT": {
+          "TITLE": "Schedule Viewing",
+          "MESSAGE": "Select the date for the viewing",
+          "DATE_PLACEHOLDER": "Viewing date",
+          "SEND": "Send Request",
+          "SUCCESS": "Viewing request sent successfully",
+          "MESSAGE_TEMPLATE": "Hello, I would like to schedule a viewing for the listing {{announcementLink}} on {{appointmentDate}}. Thank you.",
+          "ERROR": {
+            "NO_DATE": "Please select a date"
+          }
         }
       },
       "AVAILABILITY_TITLE": "Availability",
@@ -1935,11 +1947,13 @@
     "ERROR_LOADING": "Error loading terms",
     "NO_TERMS_AVAILABLE": "No terms available"
   },
-  "UNIVERSITY": {
-    "UNIVERSITIES": {
+  "UNIVERSITIES": {
+    "ITEMS": {
       "UNIVERSITY_OF_LLEIDA": "University of Lleida"
-    },
-    "FACULTIES": {
+    }
+  },
+  "FACULTIES": {
+    "ITEMS": {
       "FACULTY_OF_ARTS": "Faculty of Arts",
       "FACULTY_OF_LAW_ECONOMICS_AND_TOURISM": "Faculty of Law, Economics and Tourism",
       "HIGHER_POLYTECHNIC_SCHOOL": "Higher Polytechnic School",

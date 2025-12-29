@@ -388,11 +388,20 @@
                   <ion-icon slot="start" name="chatbubble-ellipses-outline"></ion-icon>
                   {{ 'ROOM.DETAILS.LANDLORD.ACTIONS.MESSAGE' | translate }}
                 </ion-button>
-                <ion-button expand="block" color="secondary" fill="outline">
+                <ion-button
+                  expand="block"
+                  color="secondary"
+                  fill="outline"
+                  (click)="scheduleVisit()">
                   <ion-icon slot="start" name="calendar-clear-outline"></ion-icon>
                   {{ 'ROOM.DETAILS.LANDLORD.ACTIONS.SCHEDULE' | translate }}
                 </ion-button>
-                <ion-button expand="block" color="medium" fill="outline">
+                <ion-button
+                  expand="block"
+                  color="medium"
+                  fill="outline"
+                  (click)="callLandlord()"
+                  [disabled]="!room.landlord.phone">
                   <ion-icon slot="start" name="call-outline"></ion-icon>
                   {{ 'ROOM.DETAILS.LANDLORD.ACTIONS.CALL' | translate }}
                 </ion-button>

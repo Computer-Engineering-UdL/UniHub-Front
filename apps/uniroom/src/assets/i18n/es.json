@@ -903,7 +903,19 @@
         },
         "ERROR": {
           "NO_USER_ID": "No se puede iniciar la conversación: información del propietario no disponible",
-          "CANNOT_MESSAGE_YOURSELF": "No puedes enviarte un mensaje a ti mismo"
+          "CANNOT_MESSAGE_YOURSELF": "No puedes enviarte un mensaje a ti mismo",
+          "NO_PHONE": "No hay número de teléfono disponible"
+        },
+        "SCHEDULE_VISIT": {
+          "TITLE": "Concertar visita",
+          "MESSAGE": "Selecciona la fecha para la visita",
+          "DATE_PLACEHOLDER": "Fecha de la visita",
+          "SEND": "Enviar solicitud",
+          "SUCCESS": "Solicitud de visita enviada correctamente",
+          "MESSAGE_TEMPLATE": "Hola, quería concertar una visita para el anuncio {{announcementLink}} para la fecha del {{appointmentDate}}. Gracias.",
+          "ERROR": {
+            "NO_DATE": "Por favor selecciona una fecha"
+          }
         }
       },
       "AVAILABILITY_TITLE": "Disponibilidad",
@@ -1937,11 +1949,13 @@
     "ERROR_LOADING": "Error al cargar los términos",
     "NO_TERMS_AVAILABLE": "No hay términos disponibles"
   },
-  "UNIVERSITY": {
-    "UNIVERSITIES": {
+  "UNIVERSITIES": {
+    "ITEMS": {
       "UNIVERSITY_OF_LLEIDA": "Universidad de Lleida"
-    },
-    "FACULTIES": {
+    }
+  },
+  "FACULTIES": {
+    "ITEMS": {
       "FACULTY_OF_ARTS": "Facultad de Letras",
       "FACULTY_OF_LAW_ECONOMICS_AND_TOURISM": "Facultad de Derecho, Economía y Turismo",
       "HIGHER_POLYTECHNIC_SCHOOL": "Escuela Politécnica Superior",
