@@ -7,8 +7,8 @@ import { RouteAccessData, Role, User } from '../models/auth.types';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  private authService: AuthService = inject(AuthService);
-  private router: Router = inject(Router);
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly router: Router = inject(Router);
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
     const data: RouteAccessData = (route.data || {}) as RouteAccessData;

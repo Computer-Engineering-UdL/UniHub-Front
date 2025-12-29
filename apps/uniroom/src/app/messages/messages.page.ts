@@ -113,7 +113,7 @@ export class MessagesPage implements OnInit, OnDestroy {
             this.selectedConversationId = this.filteredConversations[0].id;
           }
         },
-        error: (_): void => {
+        error: (): void => {
           this.loading = false;
         }
       });

@@ -150,7 +150,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
           this.conversation = conversation;
           this.otherUser = null;
         },
-        error: (_): void => {
+        error: (): void => {
           this.loading = false;
         }
       });
@@ -170,7 +170,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
             this.markConversationAsRead();
           }, 300);
         },
-        error: (_): void => {
+        error: (): void => {
           this.loading = false;
         }
       });
@@ -195,7 +195,7 @@ export class ConversationComponent implements OnInit, OnDestroy, OnChanges {
             void this.scrollToBottom();
           }, 100);
         },
-        error: (_): void => {
+        error: (): void => {
           this.newMessage = messageContent;
           this.sending = false;
         }

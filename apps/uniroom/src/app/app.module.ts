@@ -4,14 +4,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { TranslateModule, TranslateLoader, TranslateStore } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateStore } from '@ngx-translate/core';
 import { TRANSLATE_HTTP_LOADER_CONFIG, TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LocalizationService } from './services/localization.service';
 import { SharedModule } from './shared/shared-module';
 import { authInterceptor } from './interceptors/auth.interceptor';
-import { AddMemberModalComponent } from './channels/channel-detail/add-member-modal/add-member-modal.component';
 
 export function initLocales(loc: LocalizationService): () => Promise<void> {
   return (): Promise<void> => loc.init();

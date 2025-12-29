@@ -108,8 +108,8 @@ describe('ProfilePage', () => {
 
   it('should initialize stats with default values', () => {
     expect(component.stats.posts).toBe(0);
-    expect(component.stats.listings).toBe(0);
-    expect(component.stats.helpful).toBe(0);
+    expect(component.stats.housingOffers).toBe(0);
+    expect(component.stats.activeListings).toBe(0);
     expect(component.stats.channels).toBe(0);
   });
 
