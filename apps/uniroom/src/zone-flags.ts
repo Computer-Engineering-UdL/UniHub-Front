@@ -4,4 +4,4 @@
  */
 // eslint-disable-next-line no-underscore-dangle
 // @ts-ignore
-(globalThis).__Zone_disable_customElements = true;
+globalThis.__Zone_disable_customElements = true;
