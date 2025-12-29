@@ -7,17 +7,19 @@ import NotificationService from '../services/notification.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { Channel, ChannelCategory } from '../models/channel.types';
+import { User } from '../models/auth.types';
 
 describe('ChannelsPage', () => {
   let component: ChannelsPage;
   let fixture: ComponentFixture<ChannelsPage>;
 
-  const mockChannels = [
+  const mockChannels: Partial<Channel>[] = [
     {
       id: '1',
       name: 'General',
       description: 'desc1',
-      category: 'General',
+      category: 'General' as ChannelCategory,
       member_count: 5,
       is_member: true,
       emoji: '💬'
@@ -26,7 +28,7 @@ describe('ChannelsPage', () => {
       id: '2',
       name: 'Eng',
       description: 'desc2',
-      category: 'Engineering',
+      category: 'Engineering' as ChannelCategory,
       member_count: 2,
       is_member: false,
       emoji: '🔧'
@@ -41,7 +43,7 @@ describe('ChannelsPage', () => {
     deleteChannel: jasmine.createSpy('deleteChannel').and.returnValue(Promise.resolve())
   };
 
-  const currentUserSubject = new Subject<any>();
+  const currentUserSubject = new Subject<User | null>();
   const authServiceStub = {
     currentUser$: currentUserSubject.asObservable(),
     currentUser: { id: 'u1', role: 'Basic' }
@@ -59,7 +61,7 @@ describe('ChannelsPage', () => {
   };
   const notificationServiceStub = { success: jasmine.createSpy('success'), error: jasmine.createSpy('error') };
   const translateServiceStub = { instant: (k: string) => k };
-  const routerStub = { navigate: jasmine.createSpy('navigate').and.returnValue(Promise.resolve()) as any };
+  const routerStub = { navigate: jasmine.createSpy('navigate').and.returnValue(Promise.resolve()) };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -89,7 +91,7 @@ describe('ChannelsPage', () => {
   });
 
   it('should filter channels by search query', async () => {
-    component.channels = mockChannels as any;
+    component.channels = mockChannels as Channel[];
     component.searchQuery = 'general';
     component.filterChannels();
     expect(component.filteredChannels.length).toBe(1);
@@ -97,33 +99,33 @@ describe('ChannelsPage', () => {
   });
 
   it('getCategoryIcon and emoji fallbacks', () => {
-    expect(component.getCategoryIcon('Engineering' as any)).toContain('construct');
-    expect(component.getCategoryEmoji('Arts' as any)).toBe('🎨');
-    expect(component.getChannelEmoji({} as any)).toBe('💬');
+    expect(component.getCategoryIcon('Engineering' as ChannelCategory)).toContain('construct');
+    expect(component.getCategoryEmoji('Arts' as ChannelCategory)).toBe('🎨');
+    expect(component.getChannelEmoji({} as Channel)).toBe('💬');
   });
 
   it('navigateToChannelDetail requires membership', () => {
-    const ch: any = { is_member: false, id: '2' };
+    const ch: Partial<Channel> = { is_member: false, id: '2' };
     component.currentUser = null;
-    component.navigateToChannelDetail(ch);
+    component.navigateToChannelDetail(ch as Channel);
     expect(routerStub.navigate).not.toHaveBeenCalledWith(['/channels', '2']);
 
     ch.is_member = true;
-    component.currentUser = { id: 'u1' } as any;
-    component.navigateToChannelDetail(ch);
+    component.currentUser = { id: 'u1' } as User;
+    component.navigateToChannelDetail(ch as Channel);
     expect(routerStub.navigate).toHaveBeenCalled();
   });
 
   it('should join channel successfully', async () => {
-    const channel = { id: '2', name: 'Eng', is_member: false } as any;
-    await component.joinChannel(channel);
+    const channel: Partial<Channel> = { id: '2', name: 'Eng', is_member: false };
+    await component.joinChannel(channel as Channel);
     expect(channelServiceStub.joinChannel).toHaveBeenCalledWith('2');
     expect(notificationServiceStub.success).toHaveBeenCalled();
   });
 
   it('should leave channel successfully', async () => {
-    const channel = { id: '1', name: 'General', is_member: true } as any;
-    await component.leaveChannel(channel);
+    const channel: Partial<Channel> = { id: '1', name: 'General', is_member: true };
+    await component.leaveChannel(channel as Channel);
     expect(channelServiceStub.leaveChannel).toHaveBeenCalledWith('1');
     expect(notificationServiceStub.success).toHaveBeenCalled();
   });
@@ -134,25 +136,25 @@ describe('ChannelsPage', () => {
   });
 
   it('should open edit channel modal with channel data', async () => {
-    const channel = { id: '1', name: 'General' } as any;
-    await component.editChannel(channel);
+    const channel: Partial<Channel> = { id: '1', name: 'General' };
+    await component.editChannel(channel as Channel);
     expect(modalControllerStub.create).toHaveBeenCalled();
   });
 
   it('should delete channel after confirmation', async () => {
-    const channel = { id: '1', name: 'General' } as any;
-    await component.deleteChannel(channel);
+    const channel: Partial<Channel> = { id: '1', name: 'General' };
+    await component.deleteChannel(channel as Channel);
     expect(alertControllerStub.create).toHaveBeenCalled();
   });
 
   it('should filter by category using onCategoryChange', () => {
-    component.channels = mockChannels as any;
+    component.channels = mockChannels as Channel[];
     component.onCategoryChange('Engineering');
     expect(component.selectedCategory).toBe('Engineering');
   });
 
   it('should clear search when search query is empty', () => {
-    component.channels = mockChannels as any;
+    component.channels = mockChannels as Channel[];
     component.searchQuery = '';
     component.filterChannels();
     expect(component.filteredChannels.length).toBe(component.channels.length);

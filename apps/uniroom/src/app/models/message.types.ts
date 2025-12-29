@@ -49,7 +49,7 @@ export interface HousingOfferInfo {
   price?: number;
   currency?: string;
   city?: string;
-  photos?: Array<{ url: string; is_primary: boolean }>;
+  photos?: Array<{ url: string | null; is_primary: boolean }>;
 }
 
 export interface ConversationWithOtherUser extends Conversation {

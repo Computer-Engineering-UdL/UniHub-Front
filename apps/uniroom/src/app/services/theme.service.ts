@@ -7,17 +7,17 @@ export type Theme = 'light' | 'dark' | 'system';
 export class ThemeService {
   private readonly THEME_KEY = 'theme_preference';
   private currentTheme: Theme = 'system';
-  private mediaQuery: MediaQueryList;
+  private readonly mediaQuery: MediaQueryList;
 
   constructor() {
-    this.mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    this.mediaQuery = globalThis.matchMedia('(prefers-color-scheme: dark)');
     this.initializeTheme();
     this.setupSystemThemeListener();
   }
 
   private async initializeTheme(): Promise<void> {
-    const savedTheme = await this.getSavedTheme();
-    this.setTheme(savedTheme);
+    const savedTheme: Theme = await this.getSavedTheme();
+    await this.setTheme(savedTheme);
   }
 
   private async getSavedTheme(): Promise<Theme> {
@@ -32,14 +32,14 @@ export class ThemeService {
   }
 
   private applyTheme(theme: Theme): void {
-    const isDark = theme === 'dark' || (theme === 'system' && this.mediaQuery.matches);
+    const isDark: boolean = theme === 'dark' || (theme === 'system' && this.mediaQuery.matches);
 
     document.body.classList.remove('theme-light', 'theme-dark');
     document.body.classList.add(isDark ? 'theme-dark' : 'theme-light');
   }
 
   private setupSystemThemeListener(): void {
-    this.mediaQuery.addEventListener('change', (e) => {
+    this.mediaQuery.addEventListener('change', (): void => {
       if (this.currentTheme === 'system') {
         this.applyTheme('system');
       }

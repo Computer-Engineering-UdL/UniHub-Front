@@ -1,12 +1,13 @@
 import { Injectable, inject, OnDestroy, NgZone } from '@angular/core';
 import { Observable, BehaviorSubject, tap, map, Subject, takeUntil, switchMap, forkJoin, of, catchError } from 'rxjs';
 import { ApiService } from './api.service';
-import { Conversation, Message, ConversationWithOtherUser } from '../models/message.types';
+import { Conversation, Message, ConversationWithOtherUser, HousingOfferInfo } from '../models/message.types';
 import { AuthService } from './auth.service';
 import { User } from '../models/auth.types';
 import { WebSocketService, WebSocketMessage } from './websocket.service';
 import { resolveFileUrl } from '../utils/file-url.util';
 import { TopBarNotificationService } from './topbar-notification.service';
+import { Offer, OfferPhoto } from '../models/offer.types';
 
 @Injectable({
   providedIn: 'root'
@@ -266,18 +267,27 @@ export class MessageService implements OnDestroy {
             );
 
             const offerObservable = conv.housing_offer_id
-              ? this.apiService.get<any>(`offers/${conv.housing_offer_id}`).pipe(
-                  map((offer: any) => ({
-                    id: offer.id,
-                    title: offer.title,
-                    price: offer.price,
-                    currency: offer.currency,
-                    city: offer.city,
-                    photos: (offer.photos || []).map((photo: any) => ({
-                      url: resolveFileUrl(photo.url) ?? resolveFileUrl(photo.file_metadata?.public_url) ?? photo.url,
-                      is_primary: photo.is_primary || false
-                    }))
-                  })),
+              ? this.apiService.get<Offer>(`offers/${conv.housing_offer_id}`).pipe(
+                  map(
+                    (offer: Offer): HousingOfferInfo => ({
+                      id: offer.id,
+                      title: offer.title,
+                      price: offer.price,
+                      currency: offer.currency,
+                      city: offer.city,
+                      photos: (offer.photos || []).map((photo: OfferPhoto) => {
+                        const resolvedUrl =
+                          resolveFileUrl(photo.url) ??
+                          (photo.file_metadata ? resolveFileUrl(photo.file_metadata.public_url) : null) ??
+                          photo.url ??
+                          null;
+                        return {
+                          url: resolvedUrl,
+                          is_primary: photo.is_primary || false
+                        };
+                      })
+                    })
+                  ),
                   catchError((): Observable<null> => of(null))
                 )
               : of(null);
@@ -287,7 +297,7 @@ export class MessageService implements OnDestroy {
               offer: offerObservable
             }).pipe(
               map(
-                (result: { user: User | null; offer: any }): ConversationWithOtherUser => ({
+                (result: { user: User | null; offer: HousingOfferInfo | null }): ConversationWithOtherUser => ({
                   ...conv,
                   other_user: result.user,
                   housing_offer: result.offer
@@ -362,7 +372,9 @@ export class MessageService implements OnDestroy {
   }
 
   createConversation(otherUserId: string, housingOfferId?: string, itemId?: string): Observable<Conversation> {
-    const body: any = { other_user_id: otherUserId };
+    const body: { other_user_id: string; housing_offer_id?: string; marketplace_item_id?: string } = {
+      other_user_id: otherUserId
+    };
     if (housingOfferId) {
       body.housing_offer_id = housingOfferId;
     }
@@ -378,18 +390,27 @@ export class MessageService implements OnDestroy {
         );
 
         const offerObservable = housingOfferId
-          ? this.apiService.get<any>(`offers/${housingOfferId}`).pipe(
-              map((offer: any) => ({
-                id: offer.id,
-                title: offer.title,
-                price: offer.price,
-                currency: offer.currency,
-                city: offer.city,
-                photos: (offer.photos || []).map((photo: any) => ({
-                  url: resolveFileUrl(photo.url) ?? resolveFileUrl(photo.file_metadata?.public_url) ?? photo.url,
-                  is_primary: photo.is_primary || false
-                }))
-              })),
+          ? this.apiService.get<Offer>(`offers/${housingOfferId}`).pipe(
+              map(
+                (offer: Offer): HousingOfferInfo => ({
+                  id: offer.id,
+                  title: offer.title,
+                  price: offer.price,
+                  currency: offer.currency,
+                  city: offer.city,
+                  photos: (offer.photos || []).map((photo: OfferPhoto) => {
+                    const resolvedUrl =
+                      resolveFileUrl(photo.url) ??
+                      (photo.file_metadata ? resolveFileUrl(photo.file_metadata.public_url) : null) ??
+                      photo.url ??
+                      null;
+                    return {
+                      url: resolvedUrl,
+                      is_primary: photo.is_primary || false
+                    };
+                  })
+                })
+              ),
               catchError((): Observable<null> => of(null))
             )
           : of(null);
@@ -398,7 +419,7 @@ export class MessageService implements OnDestroy {
           user: userObservable,
           offer: offerObservable
         }).pipe(
-          map((result: { user: User | null; offer: any }): Conversation => {
+          map((result: { user: User | null; offer: HousingOfferInfo | null }): Conversation => {
             const convWithOtherUser: ConversationWithOtherUser = {
               ...conversation,
               other_user: result.user,

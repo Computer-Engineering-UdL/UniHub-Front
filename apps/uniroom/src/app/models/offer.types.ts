@@ -58,6 +58,7 @@ export interface Offer {
   latitude?: number | null;
   longitude?: number | null;
   category?: string | null;
+  currency?: string;
 }
 
 export type OfferAmenity =

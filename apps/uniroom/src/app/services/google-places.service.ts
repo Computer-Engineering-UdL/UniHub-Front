@@ -25,7 +25,10 @@ export class LocationService {
         throw new Error('Geocoding failed');
       }
 
-      const data: any = await response.json();
+      const data: {
+        address?: { city?: string; town?: string; village?: string; country?: string };
+        display_name?: string;
+      } = await response.json();
 
       const city: string = data.address?.city || data.address?.town || data.address?.village || '';
       const country: string = data.address?.country || '';

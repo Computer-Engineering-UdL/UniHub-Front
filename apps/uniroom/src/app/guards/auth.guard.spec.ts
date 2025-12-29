@@ -3,18 +3,20 @@ import { AuthGuard } from './auth.guard';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Role } from '../models/auth.types';
+import { Role, User } from '../models/auth.types';
+
+interface MockAuthService {
+  isAuthenticated: jasmine.Spy;
+  _user: User | null;
+  readonly currentUser: User | null;
+}
 
 describe('AuthGuard', () => {
   let guard: AuthGuard;
-  let authServiceMock: {
-    isAuthenticated: jasmine.Spy;
-    _user: any;
-    readonly currentUser: any;
-  };
+  let authServiceMock: MockAuthService;
   let routerMock: { parseUrl: jasmine.Spy };
 
-  const createRoute = (data: any): ActivatedRouteSnapshot => ({ data }) as ActivatedRouteSnapshot;
+  const createRoute = (data: Record<string, unknown>): ActivatedRouteSnapshot => ({ data }) as ActivatedRouteSnapshot;
 
   beforeEach(() => {
     authServiceMock = {
@@ -23,7 +25,7 @@ describe('AuthGuard', () => {
       get currentUser() {
         return this._user;
       }
-    } as any;
+    };
 
     routerMock = {
       parseUrl: jasmine.createSpy('parseUrl').and.callFake((url: string): UrlTree => ({ url }) as unknown as UrlTree)
@@ -51,7 +53,7 @@ describe('AuthGuard', () => {
     const route = createRoute({ public: true, guestOnly: true });
     const result = (await guard.canActivate(route, {} as RouterStateSnapshot)) as UrlTree | boolean;
     expect(routerMock.parseUrl).toHaveBeenCalledWith('/home');
-    expect((result as any).url).toBe('/home');
+    expect((result as UrlTree & { url: string }).url).toBe('/home');
   });
 
   it('permite acceso a ruta guestOnly si NO autenticado', async () => {
@@ -73,7 +75,7 @@ describe('AuthGuard', () => {
     const route = createRoute({});
     const result = (await guard.canActivate(route, {} as RouterStateSnapshot)) as UrlTree | boolean;
     expect(routerMock.parseUrl).toHaveBeenCalledWith('/login');
-    expect((result as any).url).toBe('/login');
+    expect((result as UrlTree & { url: string }).url).toBe('/login');
   });
 
   it("permite acceso quan l'usuari té un dels rols requerits", async () => {
@@ -95,11 +97,11 @@ describe('AuthGuard', () => {
       id: '1',
       email: 'a@b.com',
       role: 'Basic' as Role
-    };
+    } as User;
     const route = createRoute({ roles: ['Admin'] });
     const result = (await guard.canActivate(route, {} as RouterStateSnapshot)) as UrlTree | boolean;
     expect(routerMock.parseUrl).toHaveBeenCalledWith('/unauthorized');
-    expect((result as any).url).toBe('/unauthorized');
+    expect((result as UrlTree & { url: string }).url).toBe('/unauthorized');
   });
 
   it('should allow access when user has one of multiple required roles', async () => {
@@ -145,6 +147,6 @@ describe('AuthGuard', () => {
     const route = createRoute({ roles: ['Admin'] });
     const result = (await guard.canActivate(route, {} as RouterStateSnapshot)) as UrlTree | boolean;
     expect(routerMock.parseUrl).toHaveBeenCalledWith('/unauthorized');
-    expect((result as any).url).toBe('/unauthorized');
+    expect((result as UrlTree & { url: string }).url).toBe('/unauthorized');
   });
 });

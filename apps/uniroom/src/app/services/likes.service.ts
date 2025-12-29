@@ -3,6 +3,17 @@ import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { ApiService } from './api.service';
 
+interface LikeItem {
+  target_id?: string;
+  id?: string;
+}
+
+interface LikeStatusResponse {
+  liked?: boolean;
+  is_liked?: boolean;
+  status?: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,8 +21,8 @@ export class LikesService {
   private readonly apiService: ApiService = inject(ApiService);
 
   getMyLikes(): Observable<string[]> {
-    return this.apiService.get<any>('likes/me').pipe(
-      map((resp: any) => {
+    return this.apiService.get<string[] | LikeItem[]>('likes/me').pipe(
+      map((resp: string[] | LikeItem[] | null) => {
         if (!resp) {
           return [];
         }
@@ -19,7 +30,7 @@ export class LikesService {
           if (resp.length > 0 && typeof resp[0] === 'string') {
             return resp as string[];
           }
-          return resp.map((r: any) => r.target_id || r.id).filter(Boolean);
+          return (resp as LikeItem[]).map((r: LikeItem) => r.target_id || r.id).filter(Boolean) as string[];
         }
         return [];
       }),
@@ -28,8 +39,8 @@ export class LikesService {
   }
 
   getLikeStatus(targetId: string): Observable<{ liked: boolean }> {
-    return this.apiService.get<any>(`likes/${targetId}/status`).pipe(
-      map((resp: any) => {
+    return this.apiService.get<boolean | LikeStatusResponse>(`likes/${targetId}/status`).pipe(
+      map((resp: boolean | LikeStatusResponse | null) => {
         if (resp == null) {
           return { liked: false };
         }
@@ -45,11 +56,11 @@ export class LikesService {
     );
   }
 
-  like(targetId: string): Observable<any> {
-    return this.apiService.post<any>(`likes/${targetId}`, {} as any);
+  like(targetId: string): Observable<unknown> {
+    return this.apiService.post<unknown>(`likes/${targetId}`, {});
   }
 
-  unlike(targetId: string): Observable<any> {
-    return this.apiService.delete<any>(`likes/${targetId}`);
+  unlike(targetId: string): Observable<unknown> {
+    return this.apiService.delete<unknown>(`likes/${targetId}`);
   }
 }

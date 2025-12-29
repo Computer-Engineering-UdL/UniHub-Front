@@ -56,12 +56,12 @@ export class ChannelService {
     await this.fetchChannels();
   }
 
-  async joinChannel(channelId: string, memberId: string): Promise<void> {
+  async joinChannel(channelId: string): Promise<void> {
     await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/join`, {}));
     await this.fetchChannels();
   }
 
-  async leaveChannel(channelId: string, memberId: string): Promise<void> {
+  async leaveChannel(channelId: string): Promise<void> {
     await firstValueFrom(this.apiService.post<void>(`channel/${channelId}/leave`, {}));
     await this.fetchChannels();
   }
@@ -83,10 +83,12 @@ export class ChannelService {
   }
 
   async getChannelMessages(channelId: string): Promise<ChannelMessage[]> {
-    const messages: any[] = await firstValueFrom(this.apiService.get<any[]>(`channel/${channelId}/messages`));
+    const messages: ChannelMessage[] = await firstValueFrom(
+      this.apiService.get<ChannelMessage[]>(`channel/${channelId}/messages`)
+    );
 
     return await Promise.all(
-      messages.map(async (msg: any): Promise<ChannelMessage> => {
+      messages.map(async (msg: ChannelMessage): Promise<ChannelMessage> => {
         try {
           const sender: User = this.authService.mapUserFromApi(
             await firstValueFrom(this.apiService.get<User>(`user/public/${msg.user_id}`))
@@ -95,8 +97,8 @@ export class ChannelService {
           let parentMessage: ChannelMessage | undefined;
           if (msg.parent_message_id) {
             try {
-              const parentMsgData = await firstValueFrom(
-                this.apiService.get<any>(`channel/${channelId}/messages/${msg.parent_message_id}`)
+              const parentMsgData: ChannelMessage = await firstValueFrom(
+                this.apiService.get<ChannelMessage>(`channel/${channelId}/messages/${msg.parent_message_id}`)
               );
               const parentSender: User = this.authService.mapUserFromApi(
                 await firstValueFrom(this.apiService.get<User>(`user/public/${parentMsgData.user_id}`))
@@ -104,10 +106,10 @@ export class ChannelService {
               parentMessage = {
                 ...parentMsgData,
                 sender_id: parentMsgData.user_id,
-                reply_to: parentMsgData.parent_message_id,
+                reply_to: parentMsgData.parent_message_id ?? undefined,
                 sender: parentSender
               };
-            } catch (e) {
+            } catch {
               // Parent message not found or error fetching it
             }
           }
@@ -115,24 +117,24 @@ export class ChannelService {
           return {
             ...msg,
             sender_id: msg.user_id,
-            reply_to: msg.parent_message_id,
+            reply_to: msg.parent_message_id ?? undefined,
             sender,
             parent_message: parentMessage
           };
-        } catch (_) {
+        } catch {
           return {
             ...msg,
             sender_id: msg.user_id,
-            reply_to: msg.parent_message_id
+            reply_to: msg.parent_message_id ?? undefined
           };
         }
       })
     );
   }
 
-  async sendChannelMessage(channelId: string, userId: string, content: string): Promise<any> {
+  async sendChannelMessage(channelId: string, userId: string, content: string): Promise<ChannelMessage> {
     return await firstValueFrom(
-      this.apiService.post<any>(`channel/${channelId}/messages`, {
+      this.apiService.post<ChannelMessage>(`channel/${channelId}/messages`, {
         channel_id: channelId,
         user_id: userId,
         content
@@ -144,13 +146,20 @@ export class ChannelService {
     await firstValueFrom(this.apiService.delete<void>(`channel/${channelId}/messages/${messageId}`));
   }
 
-  async updateChannelMessage(channelId: string, messageId: string, content: string): Promise<any> {
-    return await firstValueFrom(this.apiService.put<any>(`channel/${channelId}/messages/${messageId}`, { content }));
+  async updateChannelMessage(channelId: string, messageId: string, content: string): Promise<ChannelMessage> {
+    return await firstValueFrom(
+      this.apiService.put<ChannelMessage>(`channel/${channelId}/messages/${messageId}`, { content })
+    );
   }
 
-  async replyToChannelMessage(channelId: string, messageId: string, userId: string, content: string): Promise<any> {
+  async replyToChannelMessage(
+    channelId: string,
+    messageId: string,
+    userId: string,
+    content: string
+  ): Promise<ChannelMessage> {
     return await firstValueFrom(
-      this.apiService.post<any>(`channel/${channelId}/messages/${messageId}/reply`, {
+      this.apiService.post<ChannelMessage>(`channel/${channelId}/messages/${messageId}/reply`, {
         channel_id: channelId,
         user_id: userId,
         content

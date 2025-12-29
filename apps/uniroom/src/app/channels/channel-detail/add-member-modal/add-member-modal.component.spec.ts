@@ -6,12 +6,15 @@ import NotificationService from '../../../services/notification.service';
 import { ModalController } from '@ionic/angular';
 import { AuthService } from '../../../services/auth.service';
 import { of, Subject } from 'rxjs';
+import { User } from '../../../models/auth.types';
+import { ChannelMember } from '../../../models/channel.types';
+import { Type } from '@angular/core';
 
 describe('AddMemberModalComponent', () => {
   let component: AddMemberModalComponent;
   let fixture: ComponentFixture<AddMemberModalComponent>;
 
-  const users = [
+  const users: Partial<User>[] = [
     { id: 'u1', isActive: true, name: 'Alice' },
     { id: 'u2', isActive: true, name: 'Bob' },
     { id: 'u3', isActive: false, name: 'Charlie' }
@@ -24,7 +27,7 @@ describe('AddMemberModalComponent', () => {
   const channelServiceStub = { addMember: jasmine.createSpy('addMember').and.returnValue(Promise.resolve()) };
   const notificationServiceStub = { success: jasmine.createSpy('success'), error: jasmine.createSpy('error') };
   const modalControllerStub = { dismiss: jasmine.createSpy('dismiss') };
-  const currentUserSubject = new Subject<any>();
+  const currentUserSubject = new Subject<User | null>();
   const authServiceStub = { currentUser$: currentUserSubject.asObservable() };
 
   beforeEach(async () => {
@@ -39,10 +42,10 @@ describe('AddMemberModalComponent', () => {
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AddMemberModalComponent as any);
+    fixture = TestBed.createComponent(AddMemberModalComponent as Type<AddMemberModalComponent>);
     component = fixture.componentInstance;
     // trigger ngOnInit subscription
-    currentUserSubject.next({ id: 'u1' });
+    currentUserSubject.next({ id: 'u1' } as User);
   });
 
   it('loadInitialUsers filters out inactive and current user', () => {
@@ -54,16 +57,18 @@ describe('AddMemberModalComponent', () => {
   });
 
   it('filterUsers excludes existing and banned', () => {
-    component.existingMembers = [{ id: 'u2' } as any];
+    component.existingMembers = [{ id: 'u2' } as ChannelMember];
     component.bannedMemberIds = ['u3'];
-    const filtered = (component as any).filterUsers(users as any);
-    expect(filtered.some((u: any) => u.id === 'u2')).toBeFalse();
-    expect(filtered.some((u: any) => u.id === 'u3')).toBeFalse();
+    const filtered = (component as AddMemberModalComponent & { filterUsers: (users: User[]) => User[] }).filterUsers(
+      users as User[]
+    );
+    expect(filtered.some((u: User) => u.id === 'u2')).toBeFalse();
+    expect(filtered.some((u: User) => u.id === 'u3')).toBeFalse();
   });
 
   it('addMember calls channelService and dismiss', async () => {
     component.channelId = 'c1';
-    await component.addMember(users[0] as any);
+    await component.addMember(users[0] as User);
     expect(channelServiceStub.addMember).toHaveBeenCalledWith('c1', 'u1');
     expect(notificationServiceStub.success).toHaveBeenCalled();
     expect(modalControllerStub.dismiss).toHaveBeenCalledWith(true);
@@ -89,16 +94,18 @@ describe('AddMemberModalComponent', () => {
   it('should handle error when adding member fails', async () => {
     channelServiceStub.addMember.and.returnValue(Promise.reject(new Error('Add failed')));
     component.channelId = 'c1';
-    await component.addMember(users[0] as any);
+    await component.addMember(users[0] as User);
     expect(notificationServiceStub.error).toHaveBeenCalled();
   });
 
   it('should filter out current user from search results', () => {
     component.existingMembers = [];
     component.bannedMemberIds = [];
-    currentUserSubject.next({ id: 'u2' });
-    const filtered = (component as any).filterUsers(users as any);
-    expect(filtered.some((u: any) => u.id === 'u2')).toBeFalse();
+    currentUserSubject.next({ id: 'u2' } as User);
+    const filtered = (component as AddMemberModalComponent & { filterUsers: (users: User[]) => User[] }).filterUsers(
+      users as User[]
+    );
+    expect(filtered.some((u: User) => u.id === 'u2')).toBeFalse();
   });
 
   it('should show empty state when no users available', () => {
@@ -109,9 +116,11 @@ describe('AddMemberModalComponent', () => {
   it('should handle multiple banned members', () => {
     component.bannedMemberIds = ['u1', 'u3'];
     component.existingMembers = [];
-    const filtered = (component as any).filterUsers(users as any);
-    expect(filtered.some((u: any) => u.id === 'u1')).toBeFalse();
-    expect(filtered.some((u: any) => u.id === 'u3')).toBeFalse();
+    const filtered = (component as AddMemberModalComponent & { filterUsers: (users: User[]) => User[] }).filterUsers(
+      users as User[]
+    );
+    expect(filtered.some((u: User) => u.id === 'u1')).toBeFalse();
+    expect(filtered.some((u: User) => u.id === 'u3')).toBeFalse();
   });
 
   it('should handle search term changes via onSearchChange', () => {

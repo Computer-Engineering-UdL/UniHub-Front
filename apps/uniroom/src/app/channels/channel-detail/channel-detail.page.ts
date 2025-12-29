@@ -438,7 +438,7 @@ export class ChannelDetailPage implements OnInit, OnDestroy {
       return;
     }
     try {
-      await this.channelService.leaveChannel(this.channelId, this.currentUser.id);
+      await this.channelService.leaveChannel(this.channelId);
       this.notificationService.success('CHANNELS.SUCCESS.LEAVE_CHANNEL');
       await this.loadMembers();
       this.channel.is_member = false;

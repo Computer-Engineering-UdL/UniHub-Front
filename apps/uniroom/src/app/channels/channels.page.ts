@@ -199,7 +199,7 @@ export class ChannelsPage implements OnInit, OnDestroy {
 
     try {
       channel.is_member = true;
-      await this.channelService.joinChannel(channel.id, this.currentUser.id);
+      await this.channelService.joinChannel(channel.id);
       await this.reloadChannelMembers(channel);
       this.updateChannelCounts();
       this.notificationService.success('CHANNELS.SUCCESS.JOIN_CHANNEL');
@@ -230,7 +230,7 @@ export class ChannelsPage implements OnInit, OnDestroy {
               if (this.selectedTab !== 'myChannels') {
                 channel.is_member = false;
               }
-              await this.channelService.leaveChannel(channel.id, this.currentUser!.id);
+              await this.channelService.leaveChannel(channel.id);
               await this.reloadChannelMembers(channel);
               this.updateChannelCounts();
               this.notificationService.success('CHANNELS.SUCCESS.LEAVE_CHANNEL');
