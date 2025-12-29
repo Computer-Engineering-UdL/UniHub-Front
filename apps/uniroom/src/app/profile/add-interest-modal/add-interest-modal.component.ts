@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { ModalController, ToastController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Interest, InterestCategory } from '../../models/auth.types';
@@ -16,6 +16,10 @@ interface FilteredCategory {
   standalone: false
 })
 export class AddInterestModalComponent implements OnInit {
+  private modalCtrl = inject(ModalController);
+  private translate = inject(TranslateService);
+  private toastCtrl = inject(ToastController);
+
   @Input() availableCategories: InterestCategory[] = [];
   @Input() userInterestIds: string[] = [];
   @Input() onToggle!: (interest: Interest, isSelected: boolean) => Promise<void>;
@@ -23,12 +27,6 @@ export class AddInterestModalComponent implements OnInit {
   searchTerm: string = '';
   filteredCategories: FilteredCategory[] = [];
   readonly MAX_INTERESTS = 10;
-
-  constructor(
-    private modalCtrl: ModalController,
-    private translate: TranslateService,
-    private toastCtrl: ToastController
-  ) {}
 
   async ngOnInit(): Promise<void> {
     // Check if user has more than maximum interests and remove excess

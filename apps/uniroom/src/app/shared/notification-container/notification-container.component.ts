@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import NotificationService, { ToastNotification } from '../../services/notification.service';
 
 @Component({
@@ -8,9 +8,11 @@ import NotificationService, { ToastNotification } from '../../services/notificat
   standalone: false
 })
 export class NotificationContainerComponent {
+  private notificationService = inject(NotificationService);
+
   notifications: ToastNotification[] = [];
 
-  constructor(private notificationService: NotificationService) {
+  constructor() {
     this.notificationService.notifications$.subscribe((notifications: ToastNotification[]) => {
       this.notifications = notifications;
     });

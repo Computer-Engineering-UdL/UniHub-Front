@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { getInterestTranslationPath, getCategoryTranslationPath } from '../../utils/interest-translation.util';
 
@@ -8,7 +8,8 @@ import { getInterestTranslationPath, getCategoryTranslationPath } from '../../ut
   pure: false
 })
 export class InterestTranslatePipe implements PipeTransform {
-  constructor(private translate: TranslateService) {}
+  private translate = inject(TranslateService);
+
 
   transform(value: string, type: 'interest' | 'category' = 'interest'): string {
     if (!value) {

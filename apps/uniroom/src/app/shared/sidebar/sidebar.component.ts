@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Role, User } from '../../models/auth.types';
@@ -20,6 +20,9 @@ interface NavItem {
   standalone: false
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+  router = inject(Router);
+  private readonly authService = inject(AuthService);
+
   navItems: NavItem[] = [
     { translationKey: 'SIDEBAR.HOME', route: '/home', icon: 'home-outline' },
     { translationKey: 'SIDEBAR.CHANNELS', route: '/channels', icon: 'chatbubbles-outline' },
@@ -96,10 +99,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   filteredMobileNavItems: NavItem[] = [];
   showBurgerMenu: boolean = false;
 
-  constructor(
-    public router: Router,
-    private readonly authService: AuthService
-  ) {
+  constructor() {
     this.authService.currentUser$.subscribe((user: User | null): void => {
       this.filteredNavItems = this.navItems.filter((item: NavItem): boolean => {
         // If the item requires authentication, only show if user is authenticated
