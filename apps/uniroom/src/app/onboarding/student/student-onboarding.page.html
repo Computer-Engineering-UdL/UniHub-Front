@@ -34,7 +34,7 @@
                   <ion-select-option
                     *ngFor="let university of universities"
                     [value]="university.id">
-                    {{ university.name }}
+                    {{ university.name | universityTranslate:'university' }}
                   </ion-select-option>
                 </ion-select>
               </ion-item>
@@ -50,7 +50,7 @@
                   interface="popover"
                   placeholder="{{ 'SIGNUP.FACULTY' | translate }}">
                   <ion-select-option *ngFor="let faculty of filteredFaculties" [value]="faculty.id">
-                    {{ faculty.name }}
+                    {{ faculty.name | universityTranslate:'faculty' }}
                   </ion-select-option>
                 </ion-select>
               </ion-item>

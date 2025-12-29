@@ -8,7 +8,7 @@ import { getInterestTranslationPath, getCategoryTranslationPath } from '../../ut
   pure: false
 })
 export class InterestTranslatePipe implements PipeTransform {
-  private translate = inject(TranslateService);
+  private readonly translate: TranslateService = inject(TranslateService);
 
   transform(value: string, type: 'interest' | 'category' = 'interest'): string {
     if (!value) {

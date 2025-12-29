@@ -10,6 +10,7 @@ import { FileMetadata } from '../models/offer.types';
 import { firstValueFrom } from 'rxjs';
 import NotificationService from '../services/notification.service';
 import { resolveFileUrl } from '../utils/file-url.util';
+import { SharedModule } from '../shared/shared-module';
 
 interface PhotoPreview {
   file: File;
@@ -32,7 +33,7 @@ interface University {
   templateUrl: './profile-edit.modal.html',
   styleUrls: ['./profile-edit.modal.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, TranslateModule]
+  imports: [IonicModule, CommonModule, FormsModule, TranslateModule, SharedModule]
 })
 export class ProfileEditModal implements OnInit {
   @Input() user!: User;

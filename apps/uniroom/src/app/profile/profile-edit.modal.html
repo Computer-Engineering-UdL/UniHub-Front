@@ -75,7 +75,7 @@
           interface="popover"
           [placeholder]="'PROFILE.SELECT_UNIVERSITY' | translate">
           <ion-select-option *ngFor="let uni of universities" [value]="uni.id">
-            {{ uni.name }}
+            {{ uni.name | universityTranslate:'university' }}
           </ion-select-option>
         </ion-select>
       </label>
@@ -89,7 +89,7 @@
           interface="popover"
           [placeholder]="'PROFILE.SELECT_FACULTY' | translate">
           <ion-select-option *ngFor="let faculty of filteredFaculties" [value]="faculty.id">
-            {{ faculty.name }}
+            {{ faculty.name | universityTranslate:'faculty' }}
           </ion-select-option>
         </ion-select>
       </label>

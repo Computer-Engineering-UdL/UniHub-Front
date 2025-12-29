@@ -83,7 +83,7 @@
             </span>
             <span class="meta-item" *ngIf="facultyInfo">
               <ion-icon name="school-outline"></ion-icon>
-              <span>{{ facultyInfo.facultyName }} • {{ facultyInfo.universityName }}</span>
+              <span>{{ facultyInfo.facultyName | universityTranslate:'faculty' }} • {{ facultyInfo.universityName | universityTranslate:'university' }}</span>
             </span>
             <span class="meta-item" *ngIf="user.yearOfStudy">
               <ion-icon name="book-outline"></ion-icon>

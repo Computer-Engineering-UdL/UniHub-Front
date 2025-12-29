@@ -13,6 +13,7 @@ import { ChangePasswordModalComponent } from './change-password-modal/change-pas
 import { TranslateModule } from '@ngx-translate/core';
 import { CachedAvatarDirective } from './directives/cached-avatar.directive';
 import { InterestTranslatePipe } from './pipes/interest-translate.pipe';
+import { UniversityTranslatePipe } from './pipes/university-translate.pipe';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { InterestTranslatePipe } from './pipes/interest-translate.pipe';
     LocationPickerComponent,
     ChangePasswordModalComponent,
     CachedAvatarDirective,
-    InterestTranslatePipe
+    InterestTranslatePipe,
+    UniversityTranslatePipe
   ],
   imports: [CommonModule, IonicModule, RouterModule, FormsModule, TranslateModule, NgOptimizedImage],
   exports: [
@@ -36,7 +38,8 @@ import { InterestTranslatePipe } from './pipes/interest-translate.pipe';
     LocationPickerComponent,
     ChangePasswordModalComponent,
     CachedAvatarDirective,
-    InterestTranslatePipe
+    InterestTranslatePipe,
+    UniversityTranslatePipe
   ]
 })
 export class SharedModule {}

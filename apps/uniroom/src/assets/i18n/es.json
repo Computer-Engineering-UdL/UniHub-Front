@@ -1936,5 +1936,19 @@
     "ACCEPT_ERROR": "Error al aceptar los términos",
     "ERROR_LOADING": "Error al cargar los términos",
     "NO_TERMS_AVAILABLE": "No hay términos disponibles"
+  },
+  "UNIVERSITY": {
+    "UNIVERSITIES": {
+      "UNIVERSITY_OF_LLEIDA": "Universidad de Lleida"
+    },
+    "FACULTIES": {
+      "FACULTY_OF_ARTS": "Facultad de Letras",
+      "FACULTY_OF_LAW_ECONOMICS_AND_TOURISM": "Facultad de Derecho, Economía y Turismo",
+      "HIGHER_POLYTECHNIC_SCHOOL": "Escuela Politécnica Superior",
+      "FACULTY_OF_EDUCATION_PSYCHOLOGY_AND_SOCIAL_WORK": "Facultad de Educación, Psicología y Trabajo Social",
+      "FACULTY_OF_MEDICINE": "Facultad de Medicina",
+      "FACULTY_OF_NURSING_AND_PHYSIOTHERAPY": "Facultad de Enfermería y Fisioterapia",
+      "HIGHER_TECHNICAL_SCHOOL_OF_AGRI-FOOD_AND_FORESTRY_ENGINEERING_AND_VETERINARY_MEDICINE": "Escuela Técnica Superior de Ingeniería Agroalimentaria y Forestal y de Veterinaria"
+    }
   }
 }
