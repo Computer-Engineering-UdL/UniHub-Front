@@ -77,6 +77,19 @@
       "INVALID_PHONE": "El telèfon ha de ser vàlid (només números i pot començar per +)"
     }
   },
+  "VERIFY_EMAIL": {
+    "VERIFYING": "Verificant el teu correu",
+    "PLEASE_WAIT": "Si us plau, espera mentre verifiquem la teva adreça de correu electrònic...",
+    "SUCCESS": "Email verificat correctament",
+    "SUCCESS_MESSAGE": "El teu correu electrònic ha estat verificat amb èxit. Ara tens accés complet a totes les funcionalitats.",
+    "GO_TO_PROFILE": "Anar al perfil",
+    "GO_TO_HOME": "Anar a l'inici",
+    "ERROR": {
+      "TITLE": "Error en la verificació",
+      "NO_TOKEN": "No s'ha proporcionat un token de verificació vàlid",
+      "VERIFICATION_FAILED": "No s'ha pogut verificar el correu. Pot ser que l'enllaç hagi caducat o sigui invàlid."
+    }
+  },
   "ONBOARDING": {
     "STEP_INDICATOR": "Pas {{current}} de {{total}}",
     "ERROR": {
@@ -253,6 +266,11 @@
     "ROLE_LABEL": "Rol",
     "NAME": "Nom",
     "USERNAME": "Nom d'usuari",
+    "ALREADY_VERIFIED": "Ja verificat",
+    "NOT_VERIFIED": "No verificat",
+    "VERIFY_EMAIL": "Verificar correu",
+    "VERIFICATION_SENT": "Correu de verificació enviat",
+    "CHECK_EMAIL": "Revisa el teu correu per verificar el compte",
     "EDIT_PROFILE": "Editar Perfil",
     "EDIT_MODAL": {
       "TITLE": "Editar Perfil"

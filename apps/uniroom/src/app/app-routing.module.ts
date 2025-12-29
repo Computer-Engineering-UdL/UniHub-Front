@@ -20,6 +20,11 @@ const routes: Routes = [
     data: { public: true, guestOnly: true, topBar: false }
   },
   {
+    path: 'verify-email',
+    loadChildren: () => import('./verify-email/verify-email.module').then((m) => m.VerifyEmailModule),
+    data: { public: true, topBar: false }
+  },
+  {
     path: 'onboarding',
     loadChildren: () => import('./onboarding/onboarding.module').then((m) => m.OnboardingModule),
     canActivate: [AuthGuard],

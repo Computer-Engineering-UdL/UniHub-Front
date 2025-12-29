@@ -1,0 +1,86 @@
+.verify-email-container {
+  --background: var(--ion-background-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.verify-content {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.verify-card {
+  background: var(--ion-card-background);
+  border-radius: 16px;
+  padding: 40px 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border: 1px solid var(--ion-color-light);
+
+  @media (min-width: 768px) {
+    padding: 50px 40px;
+  }
+
+  ion-spinner {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+  }
+
+  ion-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    color: var(--ion-text-color);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  p {
+    color: var(--ion-color-medium);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+
+  ion-button {
+    margin-top: 10px;
+    --border-radius: 12px;
+    font-weight: 600;
+  }
+
+  &.success {
+    ion-icon {
+      color: var(--ion-color-success);
+    }
+  }
+
+  &.error {
+    ion-icon {
+      color: var(--ion-color-danger);
+    }
+  }
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+
+    ion-button {
+      flex: 1;
+    }
+  }
+}

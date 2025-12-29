@@ -1,0 +1,32 @@
+<ion-content [fullscreen]="true" class="verify-email-container">
+  <div class="verify-content">
+    <div class="verify-card" *ngIf="isVerifying">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <h2>{{ 'VERIFY_EMAIL.VERIFYING' | translate }}</h2>
+      <p>{{ 'VERIFY_EMAIL.PLEASE_WAIT' | translate }}</p>
+    </div>
+
+    <div class="verify-card success" *ngIf="!isVerifying && isSuccess">
+      <ion-icon name="checkmark-circle" color="success"></ion-icon>
+      <h2>{{ 'VERIFY_EMAIL.SUCCESS' | translate }}</h2>
+      <p>{{ 'VERIFY_EMAIL.SUCCESS_MESSAGE' | translate }}</p>
+      <ion-button expand="block" (click)="goToProfile()">
+        {{ 'VERIFY_EMAIL.GO_TO_PROFILE' | translate }}
+      </ion-button>
+    </div>
+
+    <div class="verify-card error" *ngIf="!isVerifying && !isSuccess">
+      <ion-icon name="close-circle" color="danger"></ion-icon>
+      <h2>{{ 'VERIFY_EMAIL.ERROR.TITLE' | translate }}</h2>
+      <p>{{ errorMessage | translate }}</p>
+      <div class="button-group">
+        <ion-button expand="block" fill="outline" (click)="goToHome()">
+          {{ 'VERIFY_EMAIL.GO_TO_HOME' | translate }}
+        </ion-button>
+        <ion-button expand="block" (click)="goToProfile()">
+          {{ 'VERIFY_EMAIL.GO_TO_PROFILE' | translate }}
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

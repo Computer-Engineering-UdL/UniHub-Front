@@ -387,4 +387,18 @@ export class AuthService {
         return '/onboarding/role';
     }
   }
+
+  async sendVerificationEmail(email: string): Promise<{ message: string }> {
+    return await firstValueFrom(
+      this.apiService.post<{ message: string }>('auth/verify/send', { email }, undefined, false)
+    );
+  }
+
+  async confirmEmailVerification(token: string): Promise<{ message: string }> {
+    const response: { message: string } = await firstValueFrom(
+      this.apiService.post<{ message: string }>('auth/verify/confirm', { token }, undefined, false)
+    );
+    await this.reloadCurrentUserFromServer();
+    return response;
+  }
 }

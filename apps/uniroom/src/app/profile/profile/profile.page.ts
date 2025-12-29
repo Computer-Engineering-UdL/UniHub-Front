@@ -13,6 +13,7 @@ import { Channel, ChannelMember } from '../../models/channel.types';
 import { OfferListItem } from '../../models/offer.types';
 import { environment } from '../../../environments/environment';
 import { API_VERSION_PATH } from '../../../environments/environment.model';
+import NotificationService from '../../services/notification.service';
 
 interface ProfileStats {
   posts: number;
@@ -87,6 +88,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private userSub?: Subscription;
   private readonly localization: LocalizationService = inject(LocalizationService);
+  private readonly notificationService: NotificationService = inject(NotificationService);
 
   ngOnInit(): void {
     const tab: string | null = this.route.snapshot.queryParamMap.get('tab');
@@ -298,6 +300,24 @@ export class ProfilePage implements OnInit, OnDestroy {
   async logout(): Promise<void> {
     await this.authService.logout();
     await this.router.navigate(['/login']);
+  }
+
+  async sendVerificationEmail(): Promise<void> {
+    if (!this.user?.email) {
+      return;
+    }
+
+    if (this.user.isVerified) {
+      this.notificationService.info('PROFILE.ALREADY_VERIFIED');
+      return;
+    }
+
+    try {
+      await this.authService.sendVerificationEmail(this.user.email);
+      this.notificationService.success('PROFILE.VERIFICATION_SENT');
+    } catch {
+      this.notificationService.error('PROFILE.ERROR_LOADING_DATA');
+    }
   }
 
   private async loadAvailableInterests(): Promise<void> {

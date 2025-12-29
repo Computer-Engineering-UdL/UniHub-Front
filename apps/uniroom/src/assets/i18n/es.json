@@ -81,6 +81,19 @@
       "INVALID_PHONE": "El teléfono debe ser válido (solo números y puede empezar por +)"
     }
   },
+  "VERIFY_EMAIL": {
+    "VERIFYING": "Verificando tu correo",
+    "PLEASE_WAIT": "Por favor, espera mientras verificamos tu dirección de correo electrónico...",
+    "SUCCESS": "Email verificado correctamente",
+    "SUCCESS_MESSAGE": "Tu correo electrónico ha sido verificado con éxito. Ahora tienes acceso completo a todas las funcionalidades.",
+    "GO_TO_PROFILE": "Ir al perfil",
+    "GO_TO_HOME": "Ir al inicio",
+    "ERROR": {
+      "TITLE": "Error en la verificación",
+      "NO_TOKEN": "No se ha proporcionado un token de verificación válido",
+      "VERIFICATION_FAILED": "No se pudo verificar el correo. Es posible que el enlace haya caducado o sea inválido."
+    }
+  },
   "ONBOARDING": {
     "STEP_INDICATOR": "Paso {{current}} de {{total}}",
     "ERROR": {
@@ -257,6 +270,11 @@
     "ROLE_LABEL": "Rol",
     "NAME": "Nombre",
     "USERNAME": "Nombre de usuario",
+    "ALREADY_VERIFIED": "Ya verificado",
+    "NOT_VERIFIED": "No verificado",
+    "VERIFY_EMAIL": "Verificar correo",
+    "VERIFICATION_SENT": "Correo de verificación enviado",
+    "CHECK_EMAIL": "Revisa tu correo para verificar la cuenta",
     "EDIT_PROFILE": "Editar Perfil",
     "EDIT_MODAL": {
       "TITLE": "Editar Perfil"
