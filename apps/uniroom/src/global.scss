@@ -817,6 +817,38 @@ ion-input {
 }
 
 /**
+ * Date Input Calendar Icon Styles
+ * -----------------------------------------------------
+ */
+input[type='date'],
+input[type='datetime-local'],
+input[type='time'] {
+  color: var(--ion-text-color);
+
+  &::-webkit-calendar-picker-indicator {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23666666' d='M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z'/%3E%3C/svg%3E");
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+    width: 1rem;
+    height: 1rem;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.ion-palette-dark input[type='date'],
+.ion-palette-dark input[type='datetime-local'],
+.ion-palette-dark input[type='time'] {
+  &::-webkit-calendar-picker-indicator {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23e0e0e0' d='M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z'/%3E%3C/svg%3E");
+    opacity: 0.8;
+  }
+}
+
+/**
  * Ion Textarea Styles
  * -----------------------------------------------------
  */
