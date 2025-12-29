@@ -13,10 +13,23 @@
               <ion-icon name="checkmark-circle"></ion-icon>
               {{ 'PROFILE.VERIFIED' | translate }}
             </ion-badge>
+            <ion-badge *ngIf="!user.isVerified" color="warning" class="not-verified-badge">
+              <ion-icon name="alert-circle"></ion-icon>
+              {{ 'PROFILE.NOT_VERIFIED' | translate }}
+            </ion-badge>
           </div>
 
           <div class="profile-actions">
             <!-- EDIT MODAL -->
+            <ion-button
+              *ngIf="!user.isVerified"
+              expand="block"
+              color="warning"
+              class="verify-email-btn"
+              (click)="sendVerificationEmail()">
+              <ion-icon name="mail-outline" slot="start"></ion-icon>
+              {{ 'PROFILE.VERIFY_EMAIL' | translate }}
+            </ion-button>
             <ion-button
               expand="block"
               color="primary"

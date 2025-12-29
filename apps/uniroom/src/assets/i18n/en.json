@@ -81,6 +81,19 @@
       "INVALID_PHONE": "Phone must be valid (numbers only, may start with +)"
     }
   },
+  "VERIFY_EMAIL": {
+    "VERIFYING": "Verifying your email",
+    "PLEASE_WAIT": "Please wait while we verify your email address...",
+    "SUCCESS": "Email verified successfully",
+    "SUCCESS_MESSAGE": "Your email has been successfully verified. You now have full access to all features.",
+    "GO_TO_PROFILE": "Go to profile",
+    "GO_TO_HOME": "Go to home",
+    "ERROR": {
+      "TITLE": "Verification error",
+      "NO_TOKEN": "No valid verification token provided",
+      "VERIFICATION_FAILED": "Could not verify email. The link may have expired or be invalid."
+    }
+  },
   "ONBOARDING": {
     "STEP_INDICATOR": "Step {{current}} of {{total}}",
     "ERROR": {
@@ -257,6 +270,11 @@
     "ROLE_LABEL": "Role",
     "NAME": "Name",
     "USERNAME": "Username",
+    "ALREADY_VERIFIED": "Already verified",
+    "NOT_VERIFIED": "Not verified",
+    "VERIFY_EMAIL": "Verify email",
+    "VERIFICATION_SENT": "Verification email sent",
+    "CHECK_EMAIL": "Check your email to verify your account",
     "EDIT_PROFILE": "Edit Profile",
     "EDIT_MODAL": {
       "TITLE": "Edit Profile"

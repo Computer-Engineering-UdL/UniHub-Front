@@ -154,6 +154,40 @@
       }
     }
   }
+
+  .not-verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 3px 8px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(var(--ion-color-warning-rgb), 0.3);
+    border: 1px solid rgba(var(--ion-color-warning-rgb), 0.2);
+
+    ion-icon {
+      font-size: 0.85rem;
+    }
+
+    @media (min-width: 768px) {
+      gap: 4px;
+      padding: 4px 10px;
+      font-size: 0.7rem;
+
+      ion-icon {
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 0.75rem;
+      padding: 4px 12px;
+
+      ion-icon {
+        font-size: 1rem;
+      }
+    }
+  }
 }
 
 .profile-actions {
@@ -347,6 +381,33 @@
 
   &:active {
     transform: translateY(0);
+  }
+}
+
+.verify-email-btn {
+  width: 100%;
+  --border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(var(--ion-color-warning-rgb), 0.3);
+  letter-spacing: 0.3px;
+  height: 38px;
+
+  @media (min-width: 768px) {
+    width: auto;
+    font-size: 0.95rem;
+    --border-radius: 12px;
+    height: 42px;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 1rem;
+    height: 44px;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(var(--ion-color-warning-rgb), 0.4);
   }
 }
 
