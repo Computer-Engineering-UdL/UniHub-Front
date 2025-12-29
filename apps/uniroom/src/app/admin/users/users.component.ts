@@ -37,7 +37,7 @@ export class AdminUsersComponent implements OnInit {
   loading: boolean = false;
   searchTerm: string = '';
   currentPage: number = 0;
-  pageSize: number = 10;
+  pageSize: number = 100;
   totalUsers: number = 0;
   selectedStatus: string = 'all';
   selectedRole: string = 'all';
