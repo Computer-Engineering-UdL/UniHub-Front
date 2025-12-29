@@ -10,7 +10,6 @@ import { getInterestTranslationPath, getCategoryTranslationPath } from '../../ut
 export class InterestTranslatePipe implements PipeTransform {
   private translate = inject(TranslateService);
 
-
   transform(value: string, type: 'interest' | 'category' = 'interest'): string {
     if (!value) {
       return '';
