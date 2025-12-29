@@ -103,7 +103,7 @@ export class AddMemberModalComponent implements OnInit {
       await this.channelService.addMember(this.channelId, user.id);
       this.notificationService.success('CHANNELS.ADD_MEMBER.SUCCESS.ADD');
       this.dismiss(true);
-    } catch (_) {
+    } catch {
       this.notificationService.error('CHANNELS.ADD_MEMBER.ERROR.ADD');
     }
   }

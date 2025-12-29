@@ -123,6 +123,7 @@ describe('AuthGuard', () => {
     };
     const route = createRoute({ roles: ['Admin', 'Seller'] });
     const result = (await guard.canActivate(route, {} as RouterStateSnapshot)) as UrlTree | boolean;
+    expect(result).not.toBeTrue();
     expect(routerMock.parseUrl).toHaveBeenCalledWith('/unauthorized');
   });
 

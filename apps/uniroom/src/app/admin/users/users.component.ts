@@ -64,7 +64,7 @@ export class AdminUsersComponent implements OnInit {
   async loadUsers(): Promise<void> {
     this.loading = true;
     try {
-      const params: Record<string, any> = {
+      const params: Record<string, string | number> = {
         skip: this.currentPage * this.pageSize,
         limit: this.pageSize
       };
@@ -73,17 +73,17 @@ export class AdminUsersComponent implements OnInit {
         params['search'] = this.searchTerm;
       }
 
-      const response: any = await lastValueFrom(this.apiService.get<any>('user/', params));
+      const response: User[] = await lastValueFrom(this.apiService.get<User[]>('user/', params));
 
       if (response && Array.isArray(response)) {
-        let filteredUsers = response.map((user: any) => ({
+        let filteredUsers = response.map((user: User) => ({
           ...user,
           firstName: user.first_name,
           lastName: user.last_name,
           imgUrl: user.avatar_url,
           avatar_url: user.avatar_url,
           isVerified: user.is_verified ?? false,
-          joinedDate: user.joined_date || user.created_at
+          joinedDate: user.joinedDate || user.created_at
         }));
 
         if (this.selectedStatus !== 'all') {
@@ -107,7 +107,7 @@ export class AdminUsersComponent implements OnInit {
         this.totalUsers = this.users.length;
         this.calculateStats();
       }
-    } catch (error) {
+    } catch {
       this.notificationService.error('ERROR.LOAD_USERS');
     } finally {
       this.loading = false;
@@ -116,8 +116,8 @@ export class AdminUsersComponent implements OnInit {
 
   sortUsers(users: User[]): void {
     users.sort((a: User, b: User) => {
-      let aValue: any;
-      let bValue: any;
+      let aValue: string | number;
+      let bValue: string | number;
 
       switch (this.sortField) {
         case 'name':
@@ -157,11 +157,12 @@ export class AdminUsersComponent implements OnInit {
     this.stats.suspended = 0;
   }
 
-  onSearchInput(event: any): void {
-    this.searchSubject.next(event.target.value);
+  onSearchInput(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.searchSubject.next(target.value);
   }
 
-  onStatusChange(event: any): void {
+  onStatusChange(event: CustomEvent): void {
     this.selectedStatus = event.detail.value;
     this.currentPage = 0;
     void this.loadUsers();
@@ -173,13 +174,13 @@ export class AdminUsersComponent implements OnInit {
     void this.loadUsers();
   }
 
-  onRoleChange(event: any): void {
+  onRoleChange(event: CustomEvent): void {
     this.selectedRole = event.detail.value;
     this.currentPage = 0;
     void this.loadUsers();
   }
 
-  onPageSizeChange(event: any): void {
+  onPageSizeChange(event: CustomEvent): void {
     this.pageSize = event.detail.value;
     this.currentPage = 0;
     void this.loadUsers();
@@ -229,7 +230,7 @@ export class AdminUsersComponent implements OnInit {
       document.body.removeChild(link);
 
       this.notificationService.success('ADMIN.USERS.EXPORT_SUCCESS');
-    } catch (error) {
+    } catch {
       this.notificationService.error('ADMIN.USERS.EXPORT_ERROR');
     }
   }
@@ -300,7 +301,7 @@ export class AdminUsersComponent implements OnInit {
       this.notificationService.success('ADMIN.USERS.DELETE_SUCCESS');
       this.selectedUsers.delete(user.username);
       await this.loadUsers();
-    } catch (error) {
+    } catch {
       this.notificationService.error('ADMIN.USERS.DELETE_ERROR');
     }
   }
@@ -362,7 +363,7 @@ export class AdminUsersComponent implements OnInit {
       this.notificationService.success('ADMIN.USERS.DELETE_BULK_SUCCESS');
       this.selectedUsers.clear();
       await this.loadUsers();
-    } catch (error) {
+    } catch {
       this.notificationService.error('ADMIN.USERS.DELETE_BULK_ERROR');
     }
   }
@@ -382,7 +383,7 @@ export class AdminUsersComponent implements OnInit {
       this.notificationService.success('ADMIN.USERS.ACTIVATE_SUCCESS');
       this.selectedUsers.clear();
       await this.loadUsers();
-    } catch (_) {
+    } catch {
       this.notificationService.error('ADMIN.USERS.ACTIVATE_ERROR');
     }
   }
@@ -427,7 +428,7 @@ export class AdminUsersComponent implements OnInit {
       this.notificationService.success('ADMIN.USERS.SUSPEND_SUCCESS');
       this.selectedUsers.clear();
       await this.loadUsers();
-    } catch (_) {
+    } catch {
       this.notificationService.error('ADMIN.USERS.SUSPEND_ERROR');
     }
   }
@@ -513,7 +514,7 @@ export class AdminUsersComponent implements OnInit {
       this.notificationService.success('ADMIN.USERS.CHANGE_ROLE_SUCCESS');
       this.selectedUsers.clear();
       await this.loadUsers();
-    } catch (_) {
+    } catch {
       this.notificationService.error('ADMIN.USERS.CHANGE_ROLE_ERROR');
     }
   }

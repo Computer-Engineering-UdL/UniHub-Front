@@ -238,7 +238,7 @@ export class ChannelsPage implements OnInit, OnDestroy {
                 channel.is_member = false;
               }
               this.filterChannels();
-            } catch (_) {
+            } catch {
               channel.is_member = true;
               this.notificationService.error('CHANNELS.ERROR.LEAVE_CHANNEL');
             }

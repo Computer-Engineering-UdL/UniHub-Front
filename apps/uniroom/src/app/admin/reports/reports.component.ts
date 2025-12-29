@@ -572,8 +572,8 @@ export class AdminReportsComponent implements OnInit, OnDestroy {
     return this.translateService.instant(translationKey, params);
   }
 
-  private getContentTitleParams(report: Report): Record<string, any> {
-    const baseParams: Record<string, any> = {};
+  private getContentTitleParams(report: Report): Record<string, string> {
+    const baseParams: Record<string, string> = {};
 
     switch (report.contentType) {
       case ReportCategory.HOUSING:
