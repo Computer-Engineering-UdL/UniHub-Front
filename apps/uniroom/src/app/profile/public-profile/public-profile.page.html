@@ -46,7 +46,10 @@
             </span>
             <span class="meta-item" *ngIf="user.faculty">
               <ion-icon name="school-outline"></ion-icon>
-              <span>{{ user.faculty.university.name | universityTranslate:'university' }} • {{ user.faculty.name | universityTranslate:'faculty' }}</span>
+              <span
+                >{{ user.faculty.university.name | universityTranslate:'university' }} • {{
+                user.faculty.name | universityTranslate:'faculty' }}</span
+              >
             </span>
           </div>
         </div>

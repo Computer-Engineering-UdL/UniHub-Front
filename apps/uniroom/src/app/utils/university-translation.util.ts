@@ -8,12 +8,7 @@
  * Example: "Faculty of Law, Economics and Tourism" -> "FACULTY_OF_LAW_ECONOMICS_AND_TOURISM"
  */
 export function getTranslationKey(name: string): string {
-  return name
-    .toUpperCase()
-    .replace(/,/g, '')
-    .replace(/\./g, '')
-    .trim()
-    .replace(/\s+/g, '_');
+  return name.toUpperCase().replace(/,/g, '').replace(/\./g, '').trim().replace(/\s+/g, '_');
 }
 
 /**
@@ -33,4 +28,3 @@ export function getFacultyTranslationPath(facultyName: string): string {
   const key: string = getTranslationKey(facultyName);
   return `UNIVERSITY.FACULTIES.${key}`;
 }
-

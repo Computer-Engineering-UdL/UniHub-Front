@@ -22,4 +22,3 @@ export class UniversityTranslatePipe implements PipeTransform {
     return this.translate.instant(key);
   }
 }
-
