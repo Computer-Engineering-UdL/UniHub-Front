@@ -337,18 +337,18 @@
 .jobs-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 1.5rem;
+  padding-bottom: 2rem;
 }
 
 .job-card {
-  background: var(--ion-card-background);
-  border: 1px solid var(--ion-border-color);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--ion-box-shadow, 0 2px 8px rgba(0, 0, 0, 0.04));
   border-radius: 16px;
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  box-shadow: var(--card-shadow);
 }
 
 .job-card .card-header {
@@ -563,6 +563,18 @@
   .header-actions {
     width: 100%;
     justify-content: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .job-card {
+    margin-bottom: 1.2rem;
+  }
+  .jobs-list {
+    gap: 1.2rem;
+  }
+  .skeletons {
+    gap: 1.2rem;
   }
 }
 
