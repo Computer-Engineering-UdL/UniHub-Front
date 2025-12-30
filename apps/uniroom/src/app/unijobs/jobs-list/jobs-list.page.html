@@ -87,6 +87,7 @@
             {{ 'UNIJOBS.CREATE.TITLE' | translate }}
           </ion-button>
           <ion-button
+            *ngIf="isAuthenticated"
             fill="outline"
             color="primary"
             (click)="openApplications()"

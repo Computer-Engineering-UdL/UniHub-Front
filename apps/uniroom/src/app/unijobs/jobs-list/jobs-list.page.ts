@@ -55,6 +55,7 @@ export class JobsListPage implements OnInit, OnDestroy {
   protected hasMore: boolean = true;
   protected showMobileFilters: boolean = false;
   protected canCreate: boolean = false;
+  protected isAuthenticated: boolean = false;
 
   Array = Array;
 
@@ -102,9 +103,11 @@ export class JobsListPage implements OnInit, OnDestroy {
   private readonly creatorAvatarCache: Map<string, string | null> = new Map<string, string | null>();
 
   ngOnInit(): void {
+    this.authService.isAuthenticated().then((auth) => (this.isAuthenticated = auth));
     this.userSubscription = this.authService.currentUser$.subscribe((user: User | null) => {
       const role: Role | undefined = user?.role;
       this.canCreate = role ? JOB_CREATOR_ROLES.includes(role) : false;
+      this.isAuthenticated = !!user;
     });
     const navigation = this.router.getCurrentNavigation();
     const shouldRefresh: boolean = Boolean(navigation?.extras.state?.['refreshJobs']);
