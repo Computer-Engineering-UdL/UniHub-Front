@@ -9,16 +9,20 @@ ion-content {
 .item-detail-container {
   max-width: 1400px;
   margin: 0 auto;
+  padding: 24px;
+  animation: fadeIn 0.4s ease-out;
   display: grid;
   grid-template-columns: 1.3fr 1fr;
   gap: 32px;
-  padding: 24px;
-  animation: fadeIn 0.4s ease-out;
 
   @media (max-width: 992px) {
-    grid-template-columns: 1fr;
     padding: 16px;
+    grid-template-columns: 1fr;
     gap: 24px;
+  }
+
+  .page-header {
+    grid-column: 1 / -1;
   }
 }
 
@@ -32,6 +36,24 @@ ion-content {
     transform: translateY(0);
   }
 }
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+
+  .back-button {
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --border-radius: 10px;
+    text-transform: none;
+    font-weight: 500;
+  }
+}
+
 
 .gallery {
   background: var(--ion-card-background);
@@ -56,20 +78,6 @@ ion-content {
     position: relative;
     top: 0;
     max-height: 400px;
-  }
-
-  .back-button-items {
-    position: absolute;
-    z-index: 10;
-    --background: rgba(var(--ion-background-color-rgb), 0.95);
-    --background-hover: var(--ion-background-color);
-    --color: var(--ion-text-color);
-    --border-radius: 12px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 12px var(--ion-shadow-color);
-    font-weight: 600;
-    height: 40px;
-    text-transform: none;
   }
 
   swiper-container {

@@ -1,14 +1,12 @@
 <ion-content [fullscreen]="true">
-  <ion-button
-    fill="clear"
-    class="back-button-items"
-    size="small"
-    style="--padding-top: 20px !important; --padding-start: 2em !important; text-transform: none"
-    (click)="goBackToList()">
-    <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
-    {{ 'UNI_ITEMS.DETAIL.BACK_TO_LIST' | translate }}
-  </ion-button>
   <div class="item-detail-container" *ngIf="item; else loadingState">
+    <div class="page-header">
+      <ion-button fill="clear" class="back-button" size="small" (click)="goBackToList()">
+        <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+        {{ 'UNI_ITEMS.DETAIL.BACK_TO_LIST' | translate }}
+      </ion-button>
+    </div>
+
     <div class="gallery" *ngIf="item.imageUrls?.length; else noImages">
       <swiper-container [pagination]="true">
         <swiper-slide *ngFor="let image of item.imageUrls">
