@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   AbstractControl,
@@ -125,6 +125,7 @@ export class CreateJobPage implements OnInit, OnDestroy {
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly authService: AuthService = inject(AuthService);
   private readonly localizationService: LocalizationService = inject(LocalizationService);
+  private readonly location: Location = inject(Location);
   private userSubscription?: Subscription;
 
   ngOnInit(): void {
@@ -300,6 +301,10 @@ export class CreateJobPage implements OnInit, OnDestroy {
   }
 
   protected cancel(): void {
+    if (window.history.length > 1) {
+      this.location.back();
+      return;
+    }
     void this.router.navigateByUrl('/jobs');
   }
 
