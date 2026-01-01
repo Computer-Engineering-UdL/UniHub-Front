@@ -17,6 +17,19 @@ interface UserStats {
   suspended: number;
 }
 
+interface BanStatus {
+  banned_at: string;
+  banned_until: string | null;
+  ban_reason: string;
+  banned_by_id: string;
+  is_banned: boolean;
+}
+
+interface BanRequest {
+  reason: string;
+  banned_until?: string;
+}
+
 @Component({
   selector: 'app-admin-users',
   templateUrl: './users.component.html',
@@ -636,6 +649,18 @@ export class AdminUsersComponent implements OnInit {
           }
         },
         {
+          text: this.translateService.instant('ADMIN.USERS.BAN_USER'),
+          handler: (): void => {
+            void this.banUser(user);
+          }
+        },
+        {
+          text: this.translateService.instant('ADMIN.USERS.UNBAN_USER'),
+          handler: (): void => {
+            void this.unbanUser(user);
+          }
+        },
+        {
           text: this.translateService.instant('COMMON.DELETE'),
           role: 'destructive',
           handler: (): void => {
@@ -650,6 +675,178 @@ export class AdminUsersComponent implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async banUser(user: User): Promise<void> {
+    const alert: HTMLIonAlertElement = await this.alertController.create({
+      cssClass: 'ban-user-alert',
+      header: this.translateService.instant('ADMIN.USERS.BAN_USER_TITLE'),
+      message: this.translateService.instant('ADMIN.USERS.BAN_USER_MESSAGE', {
+        username: this.getFullName(user)
+      }),
+      inputs: [
+        {
+          name: 'reason',
+          type: 'textarea',
+          placeholder: this.translateService.instant('ADMIN.USERS.BAN_REASON_PLACEHOLDER'),
+          attributes: {
+            maxlength: 500
+          }
+        },
+        {
+          name: 'banned_until',
+          type: 'date',
+          placeholder: this.translateService.instant('ADMIN.USERS.BAN_UNTIL_PLACEHOLDER'),
+          min: new Date().toISOString().split('T')[0]
+        }
+      ],
+      buttons: [
+        {
+          text: this.translateService.instant('COMMON.CANCEL'),
+          role: 'cancel'
+        },
+        {
+          text: this.translateService.instant('ADMIN.USERS.BAN'),
+          cssClass: 'danger-btn',
+          handler: async (data): Promise<void> => {
+            await this.confirmBanUser(user, data);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private async confirmBanUser(user: User, data: { reason: string; banned_until?: string }): Promise<void> {
+    try {
+      const banRequest: BanRequest = {
+        reason: data.reason || this.translateService.instant('ADMIN.USERS.NO_REASON_PROVIDED')
+      };
+
+      if (data.banned_until) {
+        banRequest.banned_until = new Date(data.banned_until).toISOString();
+      }
+
+      await lastValueFrom(this.apiService.post(`user/${user.id}/ban`, banRequest));
+      this.notificationService.success('ADMIN.USERS.BAN_SUCCESS');
+      await this.loadUsers();
+    } catch {
+      this.notificationService.error('ADMIN.USERS.BAN_ERROR');
+    }
+  }
+
+  async unbanUser(user: User): Promise<void> {
+    const alert: HTMLIonAlertElement = await this.alertController.create({
+      cssClass: 'custom-alert',
+      header: this.translateService.instant('ADMIN.USERS.UNBAN_CONFIRM_TITLE'),
+      message: this.translateService.instant('ADMIN.USERS.UNBAN_CONFIRM_MESSAGE', {
+        username: this.getFullName(user)
+      }),
+      buttons: [
+        {
+          text: this.translateService.instant('COMMON.CANCEL'),
+          role: 'cancel'
+        },
+        {
+          text: this.translateService.instant('ADMIN.USERS.UNBAN'),
+          cssClass: 'success-btn',
+          handler: async (): Promise<void> => {
+            await this.confirmUnbanUser(user);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private async confirmUnbanUser(user: User): Promise<void> {
+    try {
+      await lastValueFrom(this.apiService.delete(`user/${user.id}/ban`));
+      this.notificationService.success('ADMIN.USERS.UNBAN_SUCCESS');
+      await this.loadUsers();
+    } catch {
+      this.notificationService.error('ADMIN.USERS.UNBAN_ERROR');
+    }
+  }
+
+  async getBanStatus(user: User): Promise<BanStatus | null> {
+    try {
+      return await lastValueFrom(this.apiService.get<BanStatus>(`user/${user.id}/ban`));
+    } catch {
+      return null;
+    }
+  }
+
+  async banBulkUsers(): Promise<void> {
+    if (this.selectedUsers.size === 0) {
+      return;
+    }
+
+    const alert: HTMLIonAlertElement = await this.alertController.create({
+      cssClass: 'ban-user-alert',
+      header: this.translateService.instant('ADMIN.USERS.BAN_BULK_TITLE'),
+      message: this.translateService.instant('ADMIN.USERS.BAN_BULK_MESSAGE', {
+        count: this.selectedUsers.size
+      }),
+      inputs: [
+        {
+          name: 'reason',
+          type: 'textarea',
+          placeholder: this.translateService.instant('ADMIN.USERS.BAN_REASON_PLACEHOLDER'),
+          attributes: {
+            maxlength: 500
+          }
+        },
+        {
+          name: 'banned_until',
+          type: 'date',
+          placeholder: this.translateService.instant('ADMIN.USERS.BAN_UNTIL_PLACEHOLDER'),
+          min: new Date().toISOString().split('T')[0]
+        }
+      ],
+      buttons: [
+        {
+          text: this.translateService.instant('COMMON.CANCEL'),
+          role: 'cancel'
+        },
+        {
+          text: this.translateService.instant('ADMIN.USERS.BAN'),
+          cssClass: 'danger-btn',
+          handler: async (data): Promise<void> => {
+            await this.confirmBanBulkUsers(data);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private async confirmBanBulkUsers(data: { reason: string; banned_until?: string }): Promise<void> {
+    try {
+      const usersToBan: User[] = this.users.filter((user: User): boolean => this.selectedUsers.has(user.username));
+
+      const banRequest: BanRequest = {
+        reason: data.reason || this.translateService.instant('ADMIN.USERS.NO_REASON_PROVIDED')
+      };
+
+      if (data.banned_until) {
+        banRequest.banned_until = new Date(data.banned_until).toISOString();
+      }
+
+      const banPromises: Promise<unknown>[] = usersToBan.map(
+        (user: User): Promise<unknown> => lastValueFrom(this.apiService.post(`user/${user.id}/ban`, banRequest))
+      );
+
+      await Promise.all(banPromises);
+      this.notificationService.success('ADMIN.USERS.BAN_BULK_SUCCESS');
+      this.selectedUsers.clear();
+      await this.loadUsers();
+    } catch {
+      this.notificationService.error('ADMIN.USERS.BAN_BULK_ERROR');
+    }
   }
 
   get hasNextPage(): boolean {

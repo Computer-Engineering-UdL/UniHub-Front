@@ -157,6 +157,10 @@
           <ion-icon slot="start" name="shield-outline"></ion-icon>
           {{ 'ADMIN.USERS.CHANGE_ROLE' | translate }}
         </ion-button>
+        <ion-button fill="outline" color="danger" (click)="banBulkUsers()">
+          <ion-icon slot="start" name="hand-left-outline"></ion-icon>
+          {{ 'ADMIN.USERS.BAN' | translate }}
+        </ion-button>
         <ion-button fill="outline" color="danger" (click)="deleteBulkUsers()">
           <ion-icon slot="start" name="trash-outline"></ion-icon>
           {{ 'COMMON.DELETE' | translate }}
