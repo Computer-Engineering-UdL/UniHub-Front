@@ -86,8 +86,8 @@
             <ion-icon slot="start" name="add-circle-outline"></ion-icon>
             {{ 'UNIJOBS.CREATE.TITLE' | translate }}
           </ion-button>
+          @if (isAuthenticated) {
           <ion-button
-            *ngIf="isAuthenticated"
             fill="outline"
             color="primary"
             (click)="openApplications()"
@@ -95,6 +95,7 @@
             <ion-icon slot="start" name="clipboard-outline"></ion-icon>
             {{ 'UNIJOBS.LIST.MY_APPLICATIONS' | translate }}
           </ion-button>
+          }
           <ion-button class="toggle-filters-mobile" fill="outline" (click)="toggleFiltersPanel()">
             <ion-icon slot="start" name="options-outline"></ion-icon>
             {{ 'UNIJOBS.FILTERS.TOGGLE' | translate }}

@@ -337,31 +337,44 @@
 .jobs-list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.75rem;
+  padding-top: 4px;
   padding-bottom: 2rem;
 }
 
 .job-card {
-  margin-bottom: 1.5rem;
-  box-shadow: var(--ion-box-shadow, 0 2px 8px rgba(0, 0, 0, 0.04));
-  border-radius: 16px;
-  padding: 16px;
+  margin-bottom: 0;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+  border-radius: 18px;
+  padding: 18px 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
+  border: 1px solid var(--ion-border-color);
+  background: var(--ion-card-background);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.08);
+    border-color: color-mix(in srgb, var(--ion-color-primary) 25%, var(--ion-border-color));
+  }
 }
 
 .job-card .card-header {
   display: grid;
   grid-template-columns: 64px 1fr auto;
-  gap: 12px;
+  gap: 16px;
   align-items: center;
 }
 
 .logo {
   width: 64px;
   height: 64px;
-  border-radius: 12px;
+  border-radius: 14px;
   background: color-mix(in srgb, var(--ion-color-primary) 12%, transparent);
   display: flex;
   align-items: center;
@@ -370,6 +383,7 @@
   font-weight: 700;
   color: var(--ion-color-primary);
   text-transform: uppercase;
+  border: 1px solid color-mix(in srgb, var(--ion-color-primary) 30%, transparent);
 }
 
 .logo.placeholder {
@@ -384,7 +398,7 @@
 
 .title-group h3 {
   margin: 0;
-  font-size: 18px;
+  font-size: 19px;
   color: var(--ion-text-color);
 }
 
@@ -404,19 +418,19 @@
 }
 
 .title-group .company {
-  margin: 4px 0;
+  margin: 6px 0;
   color: var(--ion-text-color-secondary);
 }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
 }
 
 .pill {
-  padding: 6px 10px;
-  background: color-mix(in srgb, var(--ion-color-primary) 12%, transparent);
+  padding: 7px 12px;
+  background: color-mix(in srgb, var(--ion-color-primary) 10%, var(--ion-card-background));
   border-radius: 999px;
   color: var(--ion-color-primary);
   font-weight: 700;
@@ -424,7 +438,7 @@
 }
 
 .pill.ghost {
-  background: transparent;
+  background: var(--ion-card-background);
   border: 1px solid var(--ion-border-color);
   color: var(--ion-text-color);
 }
@@ -432,7 +446,13 @@
 .card-actions {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+
+  ion-button {
+    --border-radius: 10px;
+    --padding-start: 10px;
+    --padding-end: 10px;
+  }
 }
 
 .applied-chip {
@@ -444,7 +464,7 @@
 .meta-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 16px;
   color: var(--ion-text-color-secondary);
   font-weight: 500;
 }
@@ -453,30 +473,33 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 10px;
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--ion-color-primary) 8%, transparent);
+  padding: 7px 12px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--ion-color-primary) 8%, var(--ion-card-background));
 }
 
 .meta.secondary {
   background: var(--ion-background-color);
   border: 1px solid var(--ion-border-color);
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .description {
-  margin: 0;
+  margin: 4px 0 0;
   color: var(--ion-text-color);
-  line-height: 1.4;
+  line-height: 1.6;
 }
 
 .skills {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
+  margin-top: 4px;
 }
 
 .skill {
-  padding: 6px 10px;
+  padding: 7px 12px;
   border-radius: 10px;
   border: 1px solid var(--ion-border-color);
   background: var(--ion-background-color);
@@ -490,7 +513,7 @@
   justify-content: space-between;
   gap: 10px;
   margin-top: 8px;
-  padding-top: 12px;
+  padding-top: 14px;
   border-top: 1px solid var(--ion-border-color);
 
   ion-button {
@@ -499,7 +522,7 @@
     font-weight: 600;
     text-transform: none;
     height: 36px;
-    --border-radius: 10px;
+    --border-radius: 12px;
 
     ion-icon {
       font-size: 18px;
@@ -510,7 +533,7 @@
 .skeletons .job-card {
   display: grid;
   grid-template-columns: 64px 1fr;
-  gap: 10px;
+  gap: 12px;
   align-items: center;
 }
 
@@ -546,7 +569,7 @@
 
 @media (max-width: 1080px) {
   .jobs-list {
-    gap: 16px;
+    gap: 18px;
   }
 }
 
@@ -568,13 +591,13 @@
 
 @media (max-width: 768px) {
   .job-card {
-    margin-bottom: 1.2rem;
+    margin-bottom: 0;
   }
   .jobs-list {
-    gap: 1.2rem;
+    gap: 1.4rem;
   }
   .skeletons {
-    gap: 1.2rem;
+    gap: 1.4rem;
   }
 }
 
