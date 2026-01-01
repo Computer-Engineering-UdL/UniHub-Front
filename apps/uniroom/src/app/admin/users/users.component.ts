@@ -96,16 +96,21 @@ export class AdminUsersComponent implements OnInit {
           imgUrl: user.avatar_url,
           avatar_url: user.avatar_url,
           isVerified: user.is_verified ?? false,
+          is_banned: user.is_banned ?? false,
+          is_active: user.is_active ?? true,
           joinedDate: user.joinedDate || user.created_at
         }));
 
         if (this.selectedStatus !== 'all') {
           filteredUsers = filteredUsers.filter((user: User) => {
-            if (this.selectedStatus === 'active') {
+            if (this.selectedStatus === 'verified') {
               return user.isVerified;
             }
-            if (this.selectedStatus === 'pending') {
+            if (this.selectedStatus === 'unverified') {
               return !user.isVerified;
+            }
+            if (this.selectedStatus === 'suspended') {
+              return user.is_banned;
             }
             return true;
           });
@@ -167,7 +172,7 @@ export class AdminUsersComponent implements OnInit {
     this.stats.total = this.totalUsers;
     this.stats.active = this.users.filter((u: User): boolean | undefined => u.isVerified).length;
     this.stats.pending = this.users.filter((u: User): boolean => !u.isVerified).length;
-    this.stats.suspended = 0;
+    this.stats.suspended = this.users.filter((u: User): boolean | undefined => u.is_banned).length;
   }
 
   onSearchInput(event: Event): void {
@@ -569,9 +574,12 @@ export class AdminUsersComponent implements OnInit {
   }
 
   getStatusText(user: User): string {
+    if (user.is_banned) {
+      return this.translateService.instant('USER.STATUS_SUSPENDED');
+    }
     return user.isVerified
-      ? this.translateService.instant('USER.STATUS_ACTIVE')
-      : this.translateService.instant('USER.STATUS_PENDING');
+      ? this.translateService.instant('USER.STATUS_VERIFIED')
+      : this.translateService.instant('USER.STATUS_UNVERIFIED');
   }
 
   getTimeAgo(date: string | undefined): string {
@@ -612,10 +620,13 @@ export class AdminUsersComponent implements OnInit {
   }
 
   getStatusBadgeClass(user: User): string {
-    if (user.isVerified) {
-      return 'status-active';
+    if (user.is_banned) {
+      return 'status-suspended';
     }
-    return 'status-pending';
+    if (user.isVerified) {
+      return 'status-verified';
+    }
+    return 'status-unverified';
   }
 
   getFullName(user: User): string {
@@ -849,6 +860,52 @@ export class AdminUsersComponent implements OnInit {
     }
   }
 
+  async unbanBulkUsers(): Promise<void> {
+    if (this.selectedUsers.size === 0) {
+      return;
+    }
+
+    const alert: HTMLIonAlertElement = await this.alertController.create({
+      cssClass: 'custom-alert',
+      header: this.translateService.instant('ADMIN.USERS.UNBAN_BULK_TITLE'),
+      message: this.translateService.instant('ADMIN.USERS.UNBAN_BULK_MESSAGE', {
+        count: this.selectedUsers.size
+      }),
+      buttons: [
+        {
+          text: this.translateService.instant('COMMON.CANCEL'),
+          role: 'cancel'
+        },
+        {
+          text: this.translateService.instant('ADMIN.USERS.UNBAN'),
+          cssClass: 'success-btn',
+          handler: async (): Promise<void> => {
+            await this.confirmUnbanBulkUsers();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private async confirmUnbanBulkUsers(): Promise<void> {
+    try {
+      const usersToUnban: User[] = this.users.filter((user: User): boolean => this.selectedUsers.has(user.username));
+
+      const unbanPromises: Promise<unknown>[] = usersToUnban.map(
+        (user: User): Promise<unknown> => lastValueFrom(this.apiService.delete(`user/${user.id}/ban`))
+      );
+
+      await Promise.all(unbanPromises);
+      this.notificationService.success('ADMIN.USERS.UNBAN_BULK_SUCCESS');
+      this.selectedUsers.clear();
+      await this.loadUsers();
+    } catch {
+      this.notificationService.error('ADMIN.USERS.UNBAN_BULK_ERROR');
+    }
+  }
+
   get hasNextPage(): boolean {
     return (this.currentPage + 1) * this.pageSize < this.totalUsers;
   }
@@ -857,15 +914,36 @@ export class AdminUsersComponent implements OnInit {
     return this.currentPage > 0;
   }
 
-  get hasInactiveUsersSelected(): boolean {
+  get hasUnverifiedUsersSelected(): boolean {
     return this.users
       .filter((user: User): boolean => this.selectedUsers.has(user.username))
-      .some((user: User): boolean => !user.isVerified);
+      .some((user: User): boolean => !user.isVerified && !user.is_banned);
+  }
+
+  get hasVerifiedUsersSelected(): boolean {
+    return this.users
+      .filter((user: User): boolean => this.selectedUsers.has(user.username))
+      .some((user: User): boolean | undefined => user.isVerified && !user.is_banned);
+  }
+
+  get hasBannedUsersSelected(): boolean {
+    return this.users
+      .filter((user: User): boolean => this.selectedUsers.has(user.username))
+      .some((user: User): boolean | undefined => user.is_banned);
+  }
+
+  get hasUnbannedUsersSelected(): boolean {
+    return this.users
+      .filter((user: User): boolean => this.selectedUsers.has(user.username))
+      .some((user: User): boolean | undefined => !user.is_banned);
+  }
+
+  // Alias para compatibilidad
+  get hasInactiveUsersSelected(): boolean {
+    return this.hasUnverifiedUsersSelected;
   }
 
   get hasActiveUsersSelected(): boolean {
-    return this.users
-      .filter((user: User): boolean => this.selectedUsers.has(user.username))
-      .some((user: User): boolean | undefined => user.isVerified);
+    return this.hasVerifiedUsersSelected;
   }
 }

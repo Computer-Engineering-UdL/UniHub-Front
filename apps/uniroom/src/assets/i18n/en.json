@@ -264,7 +264,9 @@
   "USER": {
     "STATUS_ACTIVE": "Active",
     "STATUS_PENDING": "Pending",
-    "STATUS_SUSPENDED": "Suspended"
+    "STATUS_SUSPENDED": "Suspended",
+    "STATUS_VERIFIED": "Verified",
+    "STATUS_UNVERIFIED": "Unverified"
   },
   "HOME": {
     "WELCOME": "Welcome!",
@@ -1090,7 +1092,11 @@
       "BAN_BULK_TITLE": "Ban users",
       "BAN_BULK_MESSAGE": "Are you sure you want to ban {{count}} users?",
       "BAN_BULK_SUCCESS": "Users banned successfully",
-      "BAN_BULK_ERROR": "Error banning users"
+      "BAN_BULK_ERROR": "Error banning users",
+      "UNBAN_BULK_TITLE": "Unban users",
+      "UNBAN_BULK_MESSAGE": "Are you sure you want to unban {{count}} users?",
+      "UNBAN_BULK_SUCCESS": "Users unbanned successfully",
+      "UNBAN_BULK_ERROR": "Error unbanning users"
     },
     "REPORTS": {
       "TITLE": "Reports & Complaints",

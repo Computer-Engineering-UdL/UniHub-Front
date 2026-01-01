@@ -34,6 +34,7 @@ export interface User {
   is_verified?: boolean;
   isActive?: boolean;
   is_active?: boolean;
+  is_banned?: boolean;
   interests?: Interest[];
   faculty_id?: string;
   room_number?: string;

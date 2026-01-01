@@ -16,26 +16,26 @@
 
       <div
         class="stat-card stat-active"
-        [class.filter-active]="selectedStatus === 'active'"
-        (click)="filterByStatus('active')">
+        [class.filter-active]="selectedStatus === 'verified'"
+        (click)="filterByStatus('verified')">
         <div class="stat-icon">
           <ion-icon name="checkmark-circle-outline"></ion-icon>
         </div>
         <div class="stat-content">
-          <span class="stat-label">{{ 'ADMIN.USERS.STATS.ACTIVE' | translate }}</span>
+          <span class="stat-label">{{ 'ADMIN.USERS.STATS.VERIFIED' | translate }}</span>
           <span class="stat-value">{{ stats.active }}</span>
         </div>
       </div>
 
       <div
         class="stat-card stat-pending"
-        [class.filter-active]="selectedStatus === 'pending'"
-        (click)="filterByStatus('pending')">
+        [class.filter-active]="selectedStatus === 'unverified'"
+        (click)="filterByStatus('unverified')">
         <div class="stat-icon">
           <ion-icon name="time-outline"></ion-icon>
         </div>
         <div class="stat-content">
-          <span class="stat-label">{{ 'ADMIN.USERS.STATS.PENDING' | translate }}</span>
+          <span class="stat-label">{{ 'ADMIN.USERS.STATS.UNVERIFIED' | translate }}</span>
           <span class="stat-value">{{ stats.pending }}</span>
         </div>
       </div>
@@ -76,11 +76,14 @@
             <ion-select-option value="all">
               {{ 'ADMIN.USERS.ALL_STATUS' | translate }}
             </ion-select-option>
-            <ion-select-option value="active" class="status-active">
-              {{ 'USER.STATUS_ACTIVE' | translate }}
+            <ion-select-option value="verified" class="status-verified">
+              {{ 'USER.STATUS_VERIFIED' | translate }}
             </ion-select-option>
-            <ion-select-option value="pending" class="status-pending">
-              {{ 'USER.STATUS_PENDING' | translate }}
+            <ion-select-option value="unverified" class="status-unverified">
+              {{ 'USER.STATUS_UNVERIFIED' | translate }}
+            </ion-select-option>
+            <ion-select-option value="suspended" class="status-suspended">
+              {{ 'USER.STATUS_SUSPENDED' | translate }}
             </ion-select-option>
           </ion-select>
         </div>
@@ -138,28 +141,40 @@
       </div>
       <div class="bulk-actions-buttons">
         <ion-button
-          *ngIf="hasInactiveUsersSelected"
+          *ngIf="hasUnverifiedUsersSelected"
           fill="outline"
           color="success"
           (click)="activateUsers()">
           <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
-          {{ 'ADMIN.USERS.ACTIVATE' | translate }}
+          {{ 'ADMIN.USERS.VERIFY' | translate }}
         </ion-button>
         <ion-button
-          *ngIf="hasActiveUsersSelected"
+          *ngIf="hasVerifiedUsersSelected"
           fill="outline"
           color="warning"
           (click)="suspendUsers()">
-          <ion-icon slot="start" name="ban-outline"></ion-icon>
-          {{ 'ADMIN.USERS.SUSPEND' | translate }}
+          <ion-icon slot="start" name="close-circle-outline"></ion-icon>
+          {{ 'ADMIN.USERS.UNVERIFY' | translate }}
         </ion-button>
         <ion-button fill="outline" color="primary" (click)="changeRoleUsers()">
           <ion-icon slot="start" name="shield-outline"></ion-icon>
           {{ 'ADMIN.USERS.CHANGE_ROLE' | translate }}
         </ion-button>
-        <ion-button fill="outline" color="danger" (click)="banBulkUsers()">
+        <ion-button
+          *ngIf="hasUnbannedUsersSelected"
+          fill="outline"
+          color="danger"
+          (click)="banBulkUsers()">
           <ion-icon slot="start" name="hand-left-outline"></ion-icon>
           {{ 'ADMIN.USERS.BAN' | translate }}
+        </ion-button>
+        <ion-button
+          *ngIf="hasBannedUsersSelected"
+          fill="outline"
+          color="success"
+          (click)="unbanBulkUsers()">
+          <ion-icon slot="start" name="checkmark-done-outline"></ion-icon>
+          {{ 'ADMIN.USERS.UNBAN' | translate }}
         </ion-button>
         <ion-button fill="outline" color="danger" (click)="deleteBulkUsers()">
           <ion-icon slot="start" name="trash-outline"></ion-icon>

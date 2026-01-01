@@ -260,7 +260,9 @@
   "USER": {
     "STATUS_ACTIVE": "Actiu",
     "STATUS_PENDING": "Pendent",
-    "STATUS_SUSPENDED": "Suspés"
+    "STATUS_SUSPENDED": "Suspés",
+    "STATUS_VERIFIED": "Verificat",
+    "STATUS_UNVERIFIED": "Sense verificar"
   },
   "HOME": {
     "WELCOME": "Benvingut!",
@@ -1009,8 +1011,10 @@
       "TITLE": "Gestió d'Usuaris",
       "STATS": {
         "TOTAL": "Total d'Usuaris",
-        "ACTIVE": "Actius",
-        "PENDING": "Pendents",
+        "ACTIVE": "Verificats",
+        "VERIFIED": "Verificats",
+        "PENDING": "Sense Verificar",
+        "UNVERIFIED": "Sense Verificar",
         "SUSPENDED": "Suspesos"
       },
       "SEARCH_PLACEHOLDER": "Cercar usuaris...",
@@ -1087,7 +1091,11 @@
       "BAN_BULK_TITLE": "Banejar usuaris",
       "BAN_BULK_MESSAGE": "Estàs segur que vols banejar {{count}} usuaris?",
       "BAN_BULK_SUCCESS": "Usuaris banejats correctament",
-      "BAN_BULK_ERROR": "Error en banejar els usuaris"
+      "BAN_BULK_ERROR": "Error en banejar els usuaris",
+      "UNBAN_BULK_TITLE": "Desbanejar usuaris",
+      "UNBAN_BULK_MESSAGE": "Estàs segur que vols desbanejar {{count}} usuaris?",
+      "UNBAN_BULK_SUCCESS": "Usuaris desbanejats correctament",
+      "UNBAN_BULK_ERROR": "Error en desbanejar els usuaris"
     },
     "REPORTS": {
       "TITLE": "Informes i Denúncies",

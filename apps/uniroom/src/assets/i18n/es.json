@@ -306,7 +306,9 @@
   "USER": {
     "STATUS_ACTIVE": "Activo",
     "STATUS_PENDING": "Pendiente",
-    "STATUS_SUSPENDED": "Suspendido"
+    "STATUS_SUSPENDED": "Suspendido",
+    "STATUS_VERIFIED": "Verificado",
+    "STATUS_UNVERIFIED": "Sin verificar"
   },
   "PROFILE": {
     "TITLE": "Perfil",
@@ -1013,8 +1015,10 @@
       "TITLE": "Gestión de Usuarios",
       "STATS": {
         "TOTAL": "Total de Usuarios",
-        "ACTIVE": "Activos",
-        "PENDING": "Pendientes",
+        "ACTIVE": "Verificados",
+        "VERIFIED": "Verificados",
+        "PENDING": "Sin Verificar",
+        "UNVERIFIED": "Sin Verificar",
         "SUSPENDED": "Suspendidos"
       },
       "SEARCH_PLACEHOLDER": "Buscar usuarios...",
@@ -1085,13 +1089,17 @@
       "BAN_SUCCESS": "Usuario baneado correctamente",
       "BAN_ERROR": "Error al banear el usuario",
       "UNBAN_CONFIRM_TITLE": "Desbanear usuario",
-      "UNBAN_CONFIRM_MESSAGE": "¿Estás seguro de que quieres desbanear al usuario {{username}}?",
+      "UNBAN_CONFIRM_MESSAGE": "¿Estás seguro de que quieres desbanear al usuario {{susername}}?",
       "UNBAN_SUCCESS": "Usuario desbaneado correctamente",
       "UNBAN_ERROR": "Error al desbanear el usuario",
       "BAN_BULK_TITLE": "Banear usuarios",
       "BAN_BULK_MESSAGE": "¿Estás seguro de que quieres banear {{count}} usuarios?",
       "BAN_BULK_SUCCESS": "Usuarios baneados correctamente",
-      "BAN_BULK_ERROR": "Error al banear los usuarios"
+      "BAN_BULK_ERROR": "Error al banear los usuarios",
+      "UNBAN_BULK_TITLE": "Desbanear usuarios",
+      "UNBAN_BULK_MESSAGE": "¿Estás seguro de que quieres desbanear {{count}} usuarios?",
+      "UNBAN_BULK_SUCCESS": "Usuarios desbaneados correctamente",
+      "UNBAN_BULK_ERROR": "Error al desbanear los usuarios"
     },
     "REPORTS": {
       "TITLE": "Informes y Denuncias",
