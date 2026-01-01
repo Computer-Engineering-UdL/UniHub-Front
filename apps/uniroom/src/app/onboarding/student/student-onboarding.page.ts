@@ -11,7 +11,7 @@ interface Faculty {
   name: string;
 }
 
-interface University {
+export interface University {
   id: string;
   name: string;
   faculties: Faculty[];

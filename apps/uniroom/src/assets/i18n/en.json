@@ -51,6 +51,8 @@
       "EMPTY_CREDENTIALS": "Please enter email and password",
       "INVALID_EMAIL": "Please enter a valid email address",
       "LOGIN_FAILED": "Login failed. Please try again",
+      "USER_BANNED": "Your account has been suspended. Please contact support.",
+      "USER_BANNED_UNTIL": "Your account has been suspended until {{date}}. Please contact support.",
       "GITHUB_FAILED": "GitHub login failed. Please try again",
       "GOOGLE_FAILED": "Google login failed. Please try again",
       "OAUTH_WINDOW_CLOSED": "The authentication window was closed before the process was completed"
@@ -1014,8 +1016,8 @@
       "TITLE": "User Management",
       "STATS": {
         "TOTAL": "Total Users",
-        "ACTIVE": "Active",
-        "PENDING": "Pending",
+        "VERIFIED": "Verified Users",
+        "UNVERIFIED": "Unverified Users",
         "SUSPENDED": "Suspended"
       },
       "SEARCH_PLACEHOLDER": "Search users...",
@@ -1972,13 +1974,12 @@
     "ERROR_LOADING": "Error loading terms",
     "NO_TERMS_AVAILABLE": "No terms available"
   },
-  "UNIVERSITIES": {
-    "ITEMS": {
-      "UNIVERSITY_OF_LLEIDA": "University of Lleida"
-    }
-  },
-  "FACULTIES": {
-    "ITEMS": {
+  "UNIVERSITY": {
+    "UNIVERSITIES": {
+      "UNIVERSITY_OF_LLEIDA": "University of Lleida",
+      "UNIVERSITY_OF_BARCELONA": "University of Barcelona"
+    },
+    "FACULTIES": {
       "FACULTY_OF_ARTS": "Faculty of Arts",
       "FACULTY_OF_LAW_ECONOMICS_AND_TOURISM": "Faculty of Law, Economics and Tourism",
       "HIGHER_POLYTECHNIC_SCHOOL": "Higher Polytechnic School",

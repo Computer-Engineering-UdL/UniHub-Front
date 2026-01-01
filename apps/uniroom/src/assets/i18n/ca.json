@@ -47,6 +47,8 @@
       "EMPTY_CREDENTIALS": "Si us plau introdueix correu i contrasenya",
       "INVALID_EMAIL": "Si us plau introdueix un correu electrònic vàlid",
       "LOGIN_FAILED": "Error a l'iniciar sessió. Si us plau torna-ho a provar.",
+      "USER_BANNED": "El teu compte ha estat suspès. Si us plau contacta amb el suport.",
+      "USER_BANNED_UNTIL": "El teu compte ha estat suspès fins al {{date}}. Si us plau contacta amb el suport.",
       "GITHUB_FAILED": "Error a l'iniciar sessió amb GitHub. Si us plau torna-ho a provar.",
       "GOOGLE_FAILED": "Error a l'iniciar sessió amb Google. Si us plau torna-ho a provar.",
       "OAUTH_WINDOW_CLOSED": "La finestra d'autenticació s'ha tancat abans de completar el procés."
@@ -1974,7 +1976,8 @@
   },
   "UNIVERSITY": {
     "UNIVERSITIES": {
-      "UNIVERSITY_OF_LLEIDA": "Universitat de Lleida"
+      "UNIVERSITY_OF_LLEIDA": "Universitat de Lleida",
+      "UNIVERSITY_OF_BARCELONA": "Universitat de Barcelona"
     },
     "FACULTIES": {
       "FACULTY_OF_ARTS": "Facultat de Lletres",

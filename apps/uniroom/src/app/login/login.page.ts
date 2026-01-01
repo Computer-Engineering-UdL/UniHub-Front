@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 import NotificationService from '../services/notification.service';
 import { LangCode, LocalizationService } from '../services/localization.service';
 import { ForgotPasswordModalComponent } from './forgot-password-modal/forgot-password-modal.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ export class LoginPage {
   private readonly modalController: ModalController = inject(ModalController);
   private readonly notificationService: NotificationService = inject(NotificationService);
   private readonly localizationService: LocalizationService = inject(LocalizationService);
+  private readonly translateService: TranslateService = inject(TranslateService);
 
   private readonly emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -70,9 +72,18 @@ export class LoginPage {
     try {
       await this.authService.login(this.emailOrUsername, this.password);
       await this.router.navigate(['/home']);
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'LOGIN.ERROR.LOGIN_FAILED';
-      this.notificationService.error(message);
+    } catch (error: any) {
+      let message = error instanceof Error ? error.message : 'LOGIN.ERROR.LOGIN_FAILED';
+
+      if (error?.bannedUntil) {
+        const bannedUntilDate = new Date(error.bannedUntil);
+        const formattedDate = this.localizationService.formatDate(bannedUntilDate.toISOString());
+        message = this.translateService.instant('LOGIN.ERROR.USER_BANNED_UNTIL', {
+          date: formattedDate
+        });
+      }
+
+      this.notificationService.error(message, 4000);
     } finally {
       this.isLoading = false;
     }

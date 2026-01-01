@@ -51,6 +51,8 @@
       "EMPTY_CREDENTIALS": "Por favor ingresa correo y contraseña",
       "INVALID_EMAIL": "Por favor ingresa un correo electrónico válido",
       "LOGIN_FAILED": "Error al iniciar sesión. Por favor intenta de nuevo",
+      "USER_BANNED": "Tu cuenta ha sido suspendida. Por favor contacta con el soporte.",
+      "USER_BANNED_UNTIL": "Tu cuenta ha sido suspendida hasta el {{date}}. Por favor contacta con el soporte.",
       "GITHUB_FAILED": "Error al iniciar sesión con GitHub. Por favor intenta de nuevo",
       "GOOGLE_FAILED": "Error al iniciar sesión con Google. Por favor intenta de nuevo",
       "OAUTH_WINDOW_CLOSED": "La ventana de autenticación se ha cerrado antes de completar el proceso"
@@ -1976,13 +1978,12 @@
     "ERROR_LOADING": "Error al cargar los términos",
     "NO_TERMS_AVAILABLE": "No hay términos disponibles"
   },
-  "UNIVERSITIES": {
-    "ITEMS": {
-      "UNIVERSITY_OF_LLEIDA": "Universidad de Lleida"
-    }
-  },
-  "FACULTIES": {
-    "ITEMS": {
+  "UNIVERSITY": {
+    "UNIVERSITIES": {
+      "UNIVERSITY_OF_LLEIDA": "Universidad de Lleida",
+      "UNIVERSITY_OF_BARCELONA": "Universidad de Barcelona"
+    },
+    "FACULTIES": {
       "FACULTY_OF_ARTS": "Facultad de Letras",
       "FACULTY_OF_LAW_ECONOMICS_AND_TOURISM": "Facultad de Derecho, Economía y Turismo",
       "HIGHER_POLYTECHNIC_SCHOOL": "Escuela Politécnica Superior",

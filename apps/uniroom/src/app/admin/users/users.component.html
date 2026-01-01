@@ -279,7 +279,7 @@
               </span>
             </td>
             <td class="col-university">
-              {{ user.university || '—' }}
+              {{ user.university || '—' | universityTranslate: 'university' }}
             </td>
             <td class="col-joined">
               {{ formatDate(user.joinedDate) }}

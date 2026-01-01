@@ -9,6 +9,7 @@ import { lastValueFrom, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
+import { University } from '../../onboarding/student/student-onboarding.page';
 
 interface UserStats {
   total: number;
@@ -57,7 +58,7 @@ export class AdminUsersComponent implements OnInit {
   sortField: string = 'joinedDate';
   sortOrder: 'asc' | 'desc' = 'desc';
   selectedUsers: Set<string> = new Set();
-
+  universities: University[] = [];
   pageSizeOptions: number[] = [10, 25, 50, 100];
 
   private searchSubject: Subject<string> = new Subject<string>();
@@ -71,7 +72,16 @@ export class AdminUsersComponent implements OnInit {
         await this.loadUsers();
       });
 
+    await this.loadUniversities();
     await this.loadUsers();
+  }
+
+  async loadUniversities(): Promise<void> {
+    try {
+      this.universities = await lastValueFrom(this.apiService.get<University[]>('universities/'));
+    } catch {
+      this.universities = [];
+    }
   }
 
   async loadUsers(): Promise<void> {
@@ -89,17 +99,34 @@ export class AdminUsersComponent implements OnInit {
       const response: User[] = await lastValueFrom(this.apiService.get<User[]>('user/', params));
 
       if (response && Array.isArray(response)) {
-        let filteredUsers = response.map((user: User) => ({
-          ...user,
-          firstName: user.first_name,
-          lastName: user.last_name,
-          imgUrl: user.avatar_url,
-          avatar_url: user.avatar_url,
-          isVerified: user.is_verified ?? false,
-          is_banned: user.is_banned ?? false,
-          is_active: user.is_active ?? true,
-          joinedDate: user.joinedDate || user.created_at
-        }));
+        let filteredUsers = response.map((user: User) => {
+          let universityName = user.university || '—';
+
+          if (user.faculty_id && this.universities.length > 0) {
+            for (const university of this.universities) {
+              const faculty = university.faculties?.find((f: any) => f.id === user.faculty_id);
+              if (faculty) {
+                universityName = university.name;
+                break;
+              }
+            }
+          } else if (user.faculty?.university?.name) {
+            universityName = user.faculty.university.name;
+          }
+
+          return {
+            ...user,
+            firstName: user.first_name,
+            lastName: user.last_name,
+            imgUrl: user.avatar_url,
+            avatar_url: user.avatar_url,
+            isVerified: user.is_verified ?? false,
+            is_banned: user.is_banned ?? false,
+            is_active: user.is_active ?? true,
+            joinedDate: user.joinedDate || user.created_at,
+            university: universityName
+          };
+        });
 
         if (this.selectedStatus !== 'all') {
           filteredUsers = filteredUsers.filter((user: User) => {
@@ -707,6 +734,7 @@ export class AdminUsersComponent implements OnInit {
         {
           name: 'banned_until',
           type: 'date',
+          value: new Date().toISOString().split('T')[0],
           placeholder: this.translateService.instant('ADMIN.USERS.BAN_UNTIL_PLACEHOLDER'),
           min: new Date().toISOString().split('T')[0]
         }
@@ -813,6 +841,7 @@ export class AdminUsersComponent implements OnInit {
         {
           name: 'banned_until',
           type: 'date',
+          value: new Date().toISOString().split('T')[0],
           placeholder: this.translateService.instant('ADMIN.USERS.BAN_UNTIL_PLACEHOLDER'),
           min: new Date().toISOString().split('T')[0]
         }

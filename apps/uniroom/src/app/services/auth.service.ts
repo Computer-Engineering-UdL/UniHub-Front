@@ -174,10 +174,20 @@ export class AuthService {
         this.apiService.post<OAuth2TokenResponse>('auth/login', formData.toString(), headers, false)
       );
 
-      const apiUser = await this.getCurrentUser(tokenResponse.access_token);
+      const apiUser: User = await this.getCurrentUser(tokenResponse.access_token);
+
+      if (apiUser.is_banned) {
+        throw new Error('LOGIN.ERROR.USER_BANNED');
+      }
+
       const user: User = this.mapUserFromApi(apiUser);
       await this.storeAuth(tokenResponse.access_token, tokenResponse.refresh_token, user);
-    } catch (error) {
+    } catch (error: any) {
+      if (error?.error?.detail?.message === 'User account is banned' && error?.error?.detail?.banned_until) {
+        const bannedError = new Error('LOGIN.ERROR.USER_BANNED') as any;
+        bannedError.bannedUntil = error.error.detail.banned_until;
+        throw bannedError;
+      }
       throw error;
     }
   }
