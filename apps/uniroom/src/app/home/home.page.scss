@@ -250,7 +250,9 @@
       border-radius: 12px;
       padding: 2px;
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), transparent);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       opacity: 0;
@@ -1049,4 +1051,3 @@
     opacity: 0.9;
   }
 }
-
