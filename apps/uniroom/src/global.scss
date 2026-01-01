@@ -949,3 +949,19 @@ ion-input.has-focus {
     --border-radius: 0;
   }
 }
+
+:root,
+.ios,
+.md {
+  input[type='date'],
+  input[type='date']::-webkit-calendar-picker-indicator,
+  .alert-input[type='date'] {
+    color: var(--ion-text-color);
+    filter: none;
+  }
+
+  input[type='date']::-webkit-calendar-picker-indicator,
+  .alert-input[type='date']::-webkit-calendar-picker-indicator {
+    opacity: 1;
+  }
+}
