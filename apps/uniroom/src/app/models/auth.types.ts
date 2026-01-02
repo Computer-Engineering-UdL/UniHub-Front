@@ -117,3 +117,5 @@ export interface OAuth2TokenResponse {
   refresh_token: string;
   token_type: string;
 }
+
+export type OAuthProvider = 'google' | 'github';

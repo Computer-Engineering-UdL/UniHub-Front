@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
-import { Interest, InterestCategory, OAuth2TokenResponse, User } from '../models/auth.types';
+import { Interest, InterestCategory, OAuth2TokenResponse, OAuthProvider, User } from '../models/auth.types';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from './api.service';
 import { HttpHeaders } from '@angular/common/http';
@@ -245,7 +245,7 @@ export class AuthService {
     return this.loginWithOAuthProvider('google');
   }
 
-  private async loginWithOAuthProvider(provider: 'github' | 'google'): Promise<void> {
+  private async loginWithOAuthProvider(provider: OAuthProvider): Promise<void> {
     return new Promise<void>((resolve, reject): void => {
       const windowFeatures = 'width=500,height=600';
       const oauthWindow: Window | null = window.open(
@@ -257,16 +257,40 @@ export class AuthService {
         reject(new Error('Failed to open OAuth window'));
         return;
       }
+
       let closedCheck: number | undefined;
+      let contentCheck: number | undefined;
       const messageListener = async (event: MessageEvent): Promise<void> => {
-        if (event.data && event.data.type === 'oauth-success' && event.data.provider === provider) {
+        const eventData = event.data;
+        if (!eventData?.type) {
+          return;
+        }
+        // Common cleanup actions
+        const cleanup = (): void => {
           window.removeEventListener('message', messageListener);
           if (closedCheck) {
             clearInterval(closedCheck);
           }
+          if (contentCheck) {
+            clearInterval(contentCheck);
+          }
           oauthWindow.close();
-          try {
-            const { token } = event.data;
+        };
+
+        try {
+          // Handle direct token response from server
+          if (eventData.type === 'oauth-tokens') {
+            cleanup();
+            const { tokens } = eventData;
+            const apiUser = await this.getCurrentUser(tokens.access_token);
+            const user: User = this.mapUserFromApi(apiUser);
+            await this.storeAuth(tokens.access_token, tokens.refresh_token, user);
+            resolve();
+          }
+          // Handle legacy oauth-success format (with intermediate callback)
+          else if (eventData.type === 'oauth-success' && eventData.provider === provider) {
+            cleanup();
+            const { token } = eventData;
             const response: OAuth2TokenResponse = await firstValueFrom(
               this.apiService.post<OAuth2TokenResponse>(`auth/${provider}/callback`, { token }, undefined, false)
             );
@@ -274,16 +298,73 @@ export class AuthService {
             const user: User = this.mapUserFromApi(apiUser);
             await this.storeAuth(response.access_token, response.refresh_token, user);
             resolve();
-          } catch (err) {
-            reject(err);
           }
+          // Handle oauth errors
+          else if (eventData.type === 'oauth-error') {
+            cleanup();
+            reject(new Error(eventData.error || 'OAuth authentication failed'));
+          }
+        } catch (err) {
+          cleanup();
+          reject(err);
         }
       };
       window.addEventListener('message', messageListener);
+
+      // Check if the popup window displays JSON tokens directly
+      contentCheck = window.setInterval(() => {
+        try {
+          if (!oauthWindow || oauthWindow.closed) {
+            return;
+          }
+
+          // Try to access the popup's document (only works for same-origin)
+          const popupDocument = oauthWindow.document;
+          const bodyText = popupDocument.body?.textContent || popupDocument.body?.innerText || '';
+
+          // Check if it looks like JSON
+          if (bodyText.trim().startsWith('{') && bodyText.includes('access_token')) {
+            try {
+              const tokenData = JSON.parse(bodyText.trim());
+
+              if (tokenData.access_token && tokenData.refresh_token) {
+                clearInterval(contentCheck);
+                if (closedCheck) {
+                  clearInterval(closedCheck);
+                }
+                window.removeEventListener('message', messageListener);
+
+                // Process tokens
+                (async (): Promise<void> => {
+                  try {
+                    const apiUser = await this.getCurrentUser(tokenData.access_token);
+                    const user: User = this.mapUserFromApi(apiUser);
+                    await this.storeAuth(tokenData.access_token, tokenData.refresh_token, user);
+                    oauthWindow.close();
+                    resolve();
+                  } catch (err) {
+                    oauthWindow.close();
+                    reject(err);
+                  }
+                })();
+              }
+            } catch {
+              // Not valid JSON or doesn't match expected format, continue checking
+            }
+          }
+        } catch {
+          // Cross-origin access denied, which is normal for OAuth redirect
+          // Continue waiting for postMessage
+        }
+      }, 500);
+
       closedCheck = window.setInterval(() => {
         if (oauthWindow.closed) {
           window.removeEventListener('message', messageListener);
           clearInterval(closedCheck);
+          if (contentCheck) {
+            clearInterval(contentCheck);
+          }
           reject(new Error(this.translate.instant('LOGIN.ERROR.OAUTH_WINDOW_CLOSED')));
         }
       }, 500);

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Authentication Success</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+          sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+      .container {
+        text-align: center;
+        padding: 2rem;
+      }
+      .spinner {
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1rem;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .success-icon {
+        font-size: 48px;
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="success-icon">✓</div>
+      <div class="spinner"></div>
+      <h2>Authentication Successful!</h2>
+      <p>Closing window...</p>
+    </div>
+
+    <script>
+      (function () {
+        try {
+          // Get the response text from the page body
+          const bodyText = document.body.textContent || document.body.innerText;
+
+          // Try to parse it as JSON
+          let tokenData;
+          try {
+            // Check if the entire body is JSON
+            const preElement = document.querySelector('pre');
+            const jsonText = preElement ? preElement.textContent : bodyText;
+            tokenData = JSON.parse(jsonText);
+          } catch (e) {
+            console.error('Failed to parse response as JSON:', e);
+
+            // Try to extract from URL parameters as fallback
+            const urlParams = new URLSearchParams(window.location.search);
+            const accessToken = urlParams.get('access_token');
+            const refreshToken = urlParams.get('refresh_token');
+            const tokenType = urlParams.get('token_type');
+
+            if (accessToken && refreshToken) {
+              tokenData = {
+                access_token: accessToken,
+                refresh_token: refreshToken,
+                token_type: tokenType || 'bearer'
+              };
+            } else {
+              throw new Error('No token data found in response or URL');
+            }
+          }
+
+          // Verify we have the required tokens
+          if (!tokenData.access_token || !tokenData.refresh_token) {
+            throw new Error('Invalid token response: missing required tokens');
+          }
+
+          // Determine the provider from the URL
+          const provider = window.location.pathname.includes('google')
+            ? 'google'
+            : window.location.pathname.includes('github')
+              ? 'github'
+              : 'unknown';
+
+          // Send the tokens to the parent window
+          if (window.opener) {
+            window.opener.postMessage(
+              {
+                type: 'oauth-tokens',
+                provider: provider,
+                tokens: tokenData
+              },
+              window.location.origin
+            );
+
+            // Close the window after a short delay
+            setTimeout(function () {
+              window.close();
+            }, 500);
+          } else {
+            console.error('No opener window found');
+          }
+        } catch (error) {
+          console.error('OAuth callback error:', error);
+          if (window.opener) {
+            window.opener.postMessage(
+              {
+                type: 'oauth-error',
+                error: error.message
+              },
+              window.location.origin
+            );
+          }
+          // Still try to close the window
+          setTimeout(function () {
+            window.close();
+          }, 2000);
+        }
+      })();
+    </script>
+  </body>
+</html>
