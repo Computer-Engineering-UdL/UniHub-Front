@@ -1976,7 +1976,7 @@
   },
   "UNIVERSITY": {
     "UNIVERSITIES": {
-      "-": "Cap",
+      "—": "Cap",
       "UNIVERSITY_OF_LLEIDA": "Universitat de Lleida",
       "UNIVERSITY_OF_BARCELONA": "Universitat de Barcelona"
     },
