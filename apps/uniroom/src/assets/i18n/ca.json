@@ -126,7 +126,8 @@
       "PASSWORD_TOO_SHORT": "La contrasenya ha de tenir almenys 8 caràcters",
       "SIGNUP_FAILED": "Error al registrar-se. Si us plau torna-ho a provar.",
       "INVALID_PHONE": "El telèfon ha de ser vàlid (només números i pot començar per +)",
-      "EMAIL_ALREADY_REGISTERED": "Aquest correu electrònic ja està registrat"
+      "EMAIL_ALREADY_REGISTERED": "Aquest correu electrònic ja està registrat",
+      "USERNAME_ALREADY_TAKEN": "Aquest nom d'usuari ja està en ús"
     }
   },
   "VERIFY_EMAIL": {

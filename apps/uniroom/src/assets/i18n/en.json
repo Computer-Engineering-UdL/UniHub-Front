@@ -130,7 +130,8 @@
       "PASSWORD_TOO_SHORT": "Password must be at least 8 characters",
       "SIGNUP_FAILED": "Sign up failed. Please try again",
       "INVALID_PHONE": "Phone must be valid (numbers only, may start with +)",
-      "EMAIL_ALREADY_REGISTERED": "Email is already registered"
+      "EMAIL_ALREADY_REGISTERED": "Email is already registered",
+      "USERNAME_ALREADY_TAKEN": "Username is already taken"
     }
   },
   "VERIFY_EMAIL": {
