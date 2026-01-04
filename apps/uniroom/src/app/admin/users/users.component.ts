@@ -493,21 +493,28 @@ export class AdminUsersComponent implements OnInit {
         {
           type: 'radio',
           label: this.translateService.instant('ROLE.BASIC'),
-          value: 'Basic',
+          value: 'Basic' satisfies Role,
           checked: this.getCheckedRole('Basic'),
           cssClass: 'role-basic-radio'
         },
         {
           type: 'radio',
           label: this.translateService.instant('ROLE.SELLER'),
-          value: 'Seller',
+          value: 'Seller' satisfies Role,
           checked: this.getCheckedRole('Seller'),
           cssClass: 'role-seller-radio'
         },
         {
           type: 'radio',
+          label: this.translateService.instant('ROLE.RECRUITER'),
+          value: 'Recruiter' satisfies Role,
+          checked: this.getCheckedRole('Recruiter'),
+          cssClass: 'role-recruiter-radio'
+        },
+        {
+          type: 'radio',
           label: this.translateService.instant('ROLE.ADMIN'),
-          value: 'Admin',
+          value: 'Admin' satisfies Role,
           checked: this.getCheckedRole('Admin'),
           cssClass: 'role-admin-radio'
         }
@@ -640,6 +647,8 @@ export class AdminUsersComponent implements OnInit {
         return 'role-admin';
       case 'seller':
         return 'role-seller';
+      case 'recruiter':
+        return 'role-recruiter';
       case 'basic':
       default:
         return 'role-student';

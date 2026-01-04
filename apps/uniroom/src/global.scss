@@ -593,6 +593,19 @@ ion-searchbar {
     }
   }
 
+  .role-recruiter-radio[aria-checked='true'] {
+    background-color: rgba(202, 185, 77, 0.08);
+
+    .alert-radio-icon {
+      border-color: #d3c05c;
+    }
+
+    .alert-radio-label {
+      color: #e8c610;
+      font-weight: 600;
+    }
+  }
+
   .role-admin-radio[aria-checked='true'] {
     background-color: rgba(239, 68, 68, 0.08);
 

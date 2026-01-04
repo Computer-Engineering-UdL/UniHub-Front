@@ -606,8 +606,13 @@ ion-button {
   }
 
   &.role-seller {
-    background: rgba(59, 130, 246, 0.1);
+    background: rgba(89, 131, 197, 0.4);
     color: #595959;
+  }
+
+  &.role-recruiter {
+    background: rgb(207, 198, 157);
+    color: #787500;
   }
 
   &.role-student {
