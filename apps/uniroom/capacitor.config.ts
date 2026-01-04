@@ -7,7 +7,7 @@ const config: CapacitorConfig = {
   server: {
     androidScheme: 'https',
     cleartext: true,
-    allowNavigation: ['localhost:8090', '10.0.2.2:8090', 'api.unihub.smuks.dev']
+    allowNavigation: ['*']
   }
 };
 
