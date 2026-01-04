@@ -2,7 +2,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy } from '@angular/router';
-import { HttpClientModule, provideHttpClient, withInterceptors, withFetch } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { TranslateLoader, TranslateModule, TranslateStore } from '@ngx-translate/core';
 import { TRANSLATE_HTTP_LOADER_CONFIG, TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { LocalizationService } from './services/localization.service';
 import { SharedModule } from './shared/shared-module';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { headersInterceptor } from './interceptors/headers.interceptor';
 
 export function initLocales(loc: LocalizationService): () => Promise<void> {
   return (): Promise<void> => loc.init();
@@ -39,7 +40,7 @@ export function initLocales(loc: LocalizationService): () => Promise<void> {
     },
     { provide: APP_INITIALIZER, useFactory: initLocales, deps: [LocalizationService], multi: true },
     TranslateStore,
-    provideHttpClient(withInterceptors([authInterceptor]), withFetch())
+    provideHttpClient(withInterceptors([headersInterceptor, authInterceptor]))
   ],
   bootstrap: [AppComponent]
 })
