@@ -195,10 +195,13 @@ export class ApiService {
     return url;
   }
 
-  private async buildHeadersObject(customHeaders?: HttpHeaders, requiresAuth: boolean = true): Promise<Record<string, string>> {
+  private async buildHeadersObject(
+    customHeaders?: HttpHeaders,
+    requiresAuth: boolean = true
+  ): Promise<Record<string, string>> {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      Accept: 'application/json'
     };
 
     if (customHeaders) {

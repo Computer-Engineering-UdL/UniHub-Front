@@ -1,9 +1,6 @@
 import { HttpInterceptorFn, HttpRequest, HttpHandlerFn } from '@angular/common/http';
 
-export const headersInterceptor: HttpInterceptorFn = (
-  req: HttpRequest<any>,
-  next: HttpHandlerFn
-) => {
+export const headersInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
   if (!req.headers.has('Content-Type') && req.method !== 'GET' && req.method !== 'DELETE') {
     req = req.clone({
       setHeaders: {
@@ -15,11 +12,10 @@ export const headersInterceptor: HttpInterceptorFn = (
   if (!req.headers.has('Accept')) {
     req = req.clone({
       setHeaders: {
-        'Accept': 'application/json'
+        Accept: 'application/json'
       }
     });
   }
 
   return next(req);
 };
-
