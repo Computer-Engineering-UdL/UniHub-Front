@@ -46,7 +46,7 @@ jobs:
 
       - name: Web build
         working-directory: apps/uniroom
-        run: pnpm build --configuration production
+        run: pnpm run build --configuration production
 
       - name: Capacitor sync
         working-directory: apps/uniroom
