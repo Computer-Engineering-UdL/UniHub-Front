@@ -5,8 +5,7 @@ const config: CapacitorConfig = {
   appName: 'UniHub',
   webDir: 'www',
   server: {
-    androidScheme: 'https',
-    allowNavigation: ['https://api.unihub.smuks.dev', 'api.unihub.smuks.dev']
+    cleartext: true
   }
 };
 
