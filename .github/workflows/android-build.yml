@@ -46,7 +46,7 @@ jobs:
 
       - name: Web build
         working-directory: apps/uniroom
-        run: pnpm build
+        run: pnpm build -- --configuration production
 
       - name: Capacitor sync
         working-directory: apps/uniroom
@@ -60,8 +60,12 @@ jobs:
         working-directory: apps/uniroom/android
         run: ./gradlew assembleDebug
 
+      - name: Rename APK
+        working-directory: apps/uniroom/android/app/build/outputs/apk/debug
+        run: mv app-debug.apk unihub.apk
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: unihub-${{ github.sha }}.apk
-          path: apps/uniroom/android/app/build/outputs/apk/debug/app-debug.apk
+          path: apps/uniroom/android/app/build/outputs/apk/debug/unihub.apk
