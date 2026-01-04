@@ -45,6 +45,7 @@
     "SIGN_UP": "Registra't",
     "ERROR": {
       "EMPTY_CREDENTIALS": "Si us plau introdueix correu i contrasenya",
+      "INVALID_CREDENTIALS": "El correu electrònic o la contrasenya són incorrectes",
       "INVALID_EMAIL": "Si us plau introdueix un correu electrònic vàlid",
       "LOGIN_FAILED": "Error a l'iniciar sessió. Si us plau torna-ho a provar.",
       "USER_BANNED": "El teu compte ha estat suspès. Si us plau contacta amb el suport.",

@@ -49,6 +49,7 @@
     "SIGN_UP": "Sign up",
     "ERROR": {
       "EMPTY_CREDENTIALS": "Please enter email and password",
+      "INVALID_CREDENTIALS": "Invalid email/username or password",
       "INVALID_EMAIL": "Please enter a valid email address",
       "LOGIN_FAILED": "Login failed. Please try again",
       "USER_BANNED": "Your account has been suspended. Please contact support.",

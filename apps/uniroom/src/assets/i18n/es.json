@@ -49,6 +49,7 @@
     "SIGN_UP": "Regístrate",
     "ERROR": {
       "EMPTY_CREDENTIALS": "Por favor ingresa correo y contraseña",
+      "INVALID_CREDENTIALS": "Correo o contraseña incorrectos",
       "INVALID_EMAIL": "Por favor ingresa un correo electrónico válido",
       "LOGIN_FAILED": "Error al iniciar sesión. Por favor intenta de nuevo",
       "USER_BANNED": "Tu cuenta ha sido suspendida. Por favor contacta con el soporte.",
