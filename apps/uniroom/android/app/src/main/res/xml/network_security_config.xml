@@ -6,6 +6,14 @@
         <domain includeSubdomains="true">127.0.0.1</domain>
     </domain-config>
 
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">api.unihub.smuks.dev</domain>
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </domain-config>
+
     <base-config cleartextTrafficPermitted="false">
         <trust-anchors>
             <certificates src="system" />
