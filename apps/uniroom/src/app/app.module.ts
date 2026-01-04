@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { LocalizationService } from './services/localization.service';
 import { SharedModule } from './shared/shared-module';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { headersInterceptor } from "./interceptors/headers.interceptor";
 
 export function initLocales(loc: LocalizationService): () => Promise<void> {
   return (): Promise<void> => loc.init();
@@ -39,7 +40,7 @@ export function initLocales(loc: LocalizationService): () => Promise<void> {
     },
     { provide: APP_INITIALIZER, useFactory: initLocales, deps: [LocalizationService], multi: true },
     TranslateStore,
-    provideHttpClient(withInterceptors([authInterceptor]))
+    provideHttpClient(withInterceptors([headersInterceptor, authInterceptor]))
   ],
   bootstrap: [AppComponent]
 })
