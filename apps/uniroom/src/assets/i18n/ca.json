@@ -51,7 +51,8 @@
       "USER_BANNED_UNTIL": "El teu compte ha estat suspès fins al {{date}}. Si us plau contacta amb el suport.",
       "GITHUB_FAILED": "Error a l'iniciar sessió amb GitHub. Si us plau torna-ho a provar.",
       "GOOGLE_FAILED": "Error a l'iniciar sessió amb Google. Si us plau torna-ho a provar.",
-      "OAUTH_WINDOW_CLOSED": "La finestra d'autenticació s'ha tancat abans de completar el procés."
+      "OAUTH_WINDOW_CLOSED": "La finestra d'autenticació s'ha tancat abans de completar el procés.",
+      "POPUP_BLOCKED": "El navegador ha blocat la finestra emergent. Si us plau permet les finestres emergents per aquest lloc."
     }
   },
   "PASSWORD": {

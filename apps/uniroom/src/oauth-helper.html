@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth Helper - Workaround Temporal</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .bookmarklet {
+            background: #667eea;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 0;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .bookmarklet:hover {
+            background: #764ba2;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .steps {
+            counter-reset: step;
+        }
+        .step {
+            counter-increment: step;
+            margin: 20px 0;
+            padding-left: 40px;
+            position: relative;
+        }
+        .step:before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 OAuth Login - Workaround Temporal</h1>
+
+        <div class="warning">
+            <strong>⚠️ Problema Actual:</strong> El servidor retorna els tokens directament com JSON sense fer redirect a la nostra pàgina. Això impedeix que la finestra es tanqui automàticament.
+        </div>
+
+        <h2>Solució Temporal</h2>
+
+        <p>Mentre el backend no faci redirect a la nostra pàgina de callback, pots utilitzar aquest bookmarklet per processar els tokens automàticament:</p>
+
+        <h3>Opció 1: Bookmarklet (Recomanat per desenvolupadors)</h3>
+
+        <div class="steps">
+            <div class="step">
+                <strong>Arrossega aquest botó</strong> a la barra de marcadors del teu navegador:
+                <br><br>
+                <a href="javascript:(function(){try{let e=document.body.textContent||document.body.innerText||'',t=document.querySelector('pre');t&&(e=t.textContent||t.innerText||'');let n=e.trim();if(n.startsWith('{')&&n.includes('access_token')){let o=JSON.parse(n);if(o.access_token&&o.refresh_token){if(!window.opener)return alert('No opener window found'),!1;let r=window.location.pathname.includes('google')?'google':window.location.pathname.includes('github')?'github':'unknown';return window.opener.postMessage({type:'oauth-tokens',provider:r,tokens:o},window.location.origin||'*'),document.body.innerHTML=`<div style=\"display:flex;justify-content:center;align-items:center;height:100vh;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;text-align:center\"><div><div style=\"font-size:48px;margin-bottom:1rem\">✓</div><h2>Tokens enviats!</h2><p>Tancant finestra...</p></div></div>`,setTimeout(()=>window.close(),1e3),!0}}return alert('No tokens found'),!1}catch(e){return alert('Error: '+e.message),!1}})();" class="bookmarklet" onclick="alert('Arrossega aquest botó a la barra de marcadors!'); return false;">
+                    OAuth Token Extractor
+                </a>
+            </div>
+
+            <div class="step">
+                <strong>Quan facis login amb Google</strong>, quan vegi's el JSON amb els tokens, <strong>fes clic al bookmarklet</strong> que has guardat.
+            </div>
+
+            <div class="step">
+                Els tokens s'enviaran automàticament a l'aplicació i la finestra es tancarà.
+            </div>
+        </div>
+
+        <h3>Opció 2: Instal·lar UserScript (Per usuaris tècnics)</h3>
+
+        <div class="steps">
+            <div class="step">
+                Instal·la <strong>Tampermonkey</strong> o <strong>Greasemonkey</strong> al teu navegador.
+            </div>
+
+            <div class="step">
+                Crea un nou script amb el contingut del fitxer <code>oauth-helper.js</code> que trobaràs a <code>src/assets/</code>.
+            </div>
+
+            <div class="step">
+                Configura el script perquè s'executi a <code>@match https://api.unihub.smuks.dev/api/v1/auth/*/callback*</code>
+            </div>
+        </div>
+
+        <div class="info">
+            <strong>ℹ️ Solució Permanent:</strong> Contacta amb el equip del backend per implementar un redirect a <code>/oauth-callback.html</code> amb els tokens com a paràmetres de la URL. Això permetrà que tot funcioni automàticament sense necessitar cap workaround.
+        </div>
+
+        <h3>Per al Backend Team</h3>
+
+        <p>Per solucionar aquest problema permanentment, el backend hauria de fer redirect a:</p>
+
+        <code>
+            http://localhost:8100/oauth-callback.html?access_token=...&refresh_token=...&token_type=bearer
+        </code>
+
+        <p>En lloc de retornar directament el JSON.</p>
+
+        <p>Consulta el fitxer <code>OAUTH_SOLUTION.md</code> per més detalls.</p>
+    </div>
+
+    <script>
+        // Show instructions on how to use bookmarklet
+        console.log('%c🔐 OAuth Helper Loaded', 'color: #667eea; font-size: 16px; font-weight: bold;');
+        console.log('Drag the "OAuth Token Extractor" button to your bookmarks bar.');
+        console.log('When you see the JSON tokens after OAuth login, click the bookmarklet to process them automatically.');
+    </script>
+</body>
+</html>
+

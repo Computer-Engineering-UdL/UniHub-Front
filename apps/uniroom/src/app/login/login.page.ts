@@ -105,8 +105,15 @@ export class LoginPage {
     try {
       await this.authService.loginWithGoogle();
       await this.router.navigate(['/home']);
-    } catch {
-      this.notificationService.error('LOGIN.ERROR.GOOGLE_FAILED');
+    } catch (error: any) {
+      // Provide specific error messages
+      if (error?.message?.includes('OAUTH_WINDOW_CLOSED')) {
+        this.notificationService.error('LOGIN.ERROR.OAUTH_WINDOW_CLOSED');
+      } else if (error?.message?.includes('Failed to open OAuth window')) {
+        this.notificationService.error('LOGIN.ERROR.POPUP_BLOCKED');
+      } else {
+        this.notificationService.error('LOGIN.ERROR.GOOGLE_FAILED');
+      }
     } finally {
       this.isLoading = false;
     }

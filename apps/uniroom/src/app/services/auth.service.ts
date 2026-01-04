@@ -312,20 +312,41 @@ export class AuthService {
       window.addEventListener('message', messageListener);
 
       // Check if the popup window displays JSON tokens directly
+      let lastUrl = '';
       contentCheck = window.setInterval(() => {
         try {
           if (!oauthWindow || oauthWindow.closed) {
             return;
           }
 
+          try {
+            const currentUrl = oauthWindow.location.href;
+            if (currentUrl !== lastUrl) {
+              lastUrl = currentUrl;
+            }
+          } catch {
+          }
+
           // Try to access the popup's document (only works for same-origin)
           const popupDocument = oauthWindow.document;
-          const bodyText = popupDocument.body?.textContent || popupDocument.body?.innerText || '';
 
-          // Check if it looks like JSON
-          if (bodyText.trim().startsWith('{') && bodyText.includes('access_token')) {
+          // Try multiple selectors to find JSON content
+          let bodyText = '';
+
+          // Try to get from <pre> tag first (common for JSON display)
+          const preElement = popupDocument.querySelector('pre');
+          if (preElement) {
+            bodyText = preElement.textContent || preElement.innerText || '';
+          } else {
+            // Fallback to body text
+            bodyText = popupDocument.body?.textContent || popupDocument.body?.innerText || '';
+          }
+
+          // Check if it looks like JSON with tokens
+          const trimmedText = bodyText.trim();
+          if (trimmedText.startsWith('{') && trimmedText.includes('access_token') && trimmedText.includes('refresh_token')) {
             try {
-              const tokenData = JSON.parse(bodyText.trim());
+              const tokenData = JSON.parse(trimmedText);
 
               if (tokenData.access_token && tokenData.refresh_token) {
                 clearInterval(contentCheck);
@@ -353,8 +374,6 @@ export class AuthService {
             }
           }
         } catch {
-          // Cross-origin access denied, which is normal for OAuth redirect
-          // Continue waiting for postMessage
         }
       }, 500);
 

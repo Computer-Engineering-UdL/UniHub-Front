@@ -55,7 +55,8 @@
       "USER_BANNED_UNTIL": "Your account has been suspended until {{date}}. Please contact support.",
       "GITHUB_FAILED": "GitHub login failed. Please try again",
       "GOOGLE_FAILED": "Google login failed. Please try again",
-      "OAUTH_WINDOW_CLOSED": "The authentication window was closed before the process was completed"
+      "OAUTH_WINDOW_CLOSED": "The authentication window was closed before the process was completed",
+      "POPUP_BLOCKED": "The browser has blocked the popup window. Please allow popups for this site"
     }
   },
   "PASSWORD": {

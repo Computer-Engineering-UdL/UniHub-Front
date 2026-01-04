@@ -55,7 +55,8 @@
       "USER_BANNED_UNTIL": "Tu cuenta ha sido suspendida hasta el {{date}}. Por favor contacta con el soporte.",
       "GITHUB_FAILED": "Error al iniciar sesión con GitHub. Por favor intenta de nuevo",
       "GOOGLE_FAILED": "Error al iniciar sesión con Google. Por favor intenta de nuevo",
-      "OAUTH_WINDOW_CLOSED": "La ventana de autenticación se ha cerrado antes de completar el proceso"
+      "OAUTH_WINDOW_CLOSED": "La ventana de autenticación se ha cerrado antes de completar el proceso",
+      "POPUP_BLOCKED": "El navegador ha bloqueado la ventana emergente. Por favor permite las ventanas emergentes para este sitio"
     }
   },
   "PASSWORD": {
