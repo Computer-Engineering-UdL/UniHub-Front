@@ -441,6 +441,9 @@ ion-item.role-admin {
 ion-item.role-seller {
   @include item-color($color-info);
 }
+ion-item.role-recruiter {
+  @include item-color($color-warning);
+}
 ion-item.role-basic {
   @include item-color($color-gray);
 }
