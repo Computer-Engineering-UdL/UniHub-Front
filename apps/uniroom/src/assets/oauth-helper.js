@@ -7,7 +7,7 @@
  * This script is a fallback for development/testing.
  */
 
-(function() {
+(function () {
   'use strict';
 
   console.log('[OAuth Helper] Script loaded');
@@ -64,16 +64,22 @@
 
     try {
       // Determine provider from URL
-      const provider = window.location.pathname.includes('google') ? 'google' :
-                      window.location.pathname.includes('github') ? 'github' : 'unknown';
+      const provider = window.location.pathname.includes('google')
+        ? 'google'
+        : window.location.pathname.includes('github')
+          ? 'github'
+          : 'unknown';
 
       console.log('[OAuth Helper] Sending tokens to parent window');
 
-      window.opener.postMessage({
-        type: 'oauth-tokens',
-        provider: provider,
-        tokens: tokens
-      }, window.location.origin);
+      window.opener.postMessage(
+        {
+          type: 'oauth-tokens',
+          provider: provider,
+          tokens: tokens
+        },
+        window.location.origin
+      );
 
       return true;
     } catch (error) {
@@ -136,4 +142,3 @@
   // Run immediately or on DOM ready
   init();
 })();
-

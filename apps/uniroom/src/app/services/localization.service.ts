@@ -284,4 +284,12 @@ export class LocalizationService {
       return this.formatDate(date, { day: 'numeric', month: 'short' });
     }
   }
+
+  formatWSResponseToTranslateKey(key: string): string {
+    return key.replace(/\s+/g, '_').toUpperCase();
+  }
+
+  hasTranslation(key: string): boolean {
+    return this.translate.instant(key) !== key;
+  }
 }

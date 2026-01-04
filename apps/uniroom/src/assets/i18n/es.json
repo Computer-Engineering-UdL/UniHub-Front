@@ -129,7 +129,8 @@
       "PASSWORD_MISMATCH": "Las contraseñas no coinciden",
       "PASSWORD_TOO_SHORT": "La contraseña debe tener al menos 8 caracteres",
       "SIGNUP_FAILED": "Error al registrarse. Por favor intenta de nuevo",
-      "INVALID_PHONE": "El teléfono debe ser válido (solo números y puede empezar por +)"
+      "INVALID_PHONE": "El teléfono debe ser válido (solo números y puede empezar por +)",
+      "EMAIL_ALREADY_REGISTERED": "El correo electrónico ya está registrado"
     }
   },
   "VERIFY_EMAIL": {

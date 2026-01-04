@@ -151,8 +151,16 @@ export class SignupPage {
       const payload: SignupData = this.buildSignupPayload();
       await this.authService.signup(payload);
       await this.goToOnboarding();
-    } catch {
-      this.notificationService.error(this.translate.instant('SIGNUP.ERROR.SIGNUP_FAILED'));
+    } catch (error: any) {
+      let message = 'SIGNUP.ERROR.SIGNUP_FAILED';
+      if (error) {
+        const formattedMsg =
+          'SIGNUP.ERROR.' + this.localizationService.formatWSResponseToTranslateKey(error.error.detail);
+        if (this.localizationService.hasTranslation(formattedMsg)) {
+          message = formattedMsg;
+        }
+      }
+      this.notificationService.error(message);
     } finally {
       this.isLoading = false;
     }

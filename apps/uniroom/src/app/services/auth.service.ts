@@ -324,8 +324,7 @@ export class AuthService {
             if (currentUrl !== lastUrl) {
               lastUrl = currentUrl;
             }
-          } catch {
-          }
+          } catch {}
 
           // Try to access the popup's document (only works for same-origin)
           const popupDocument = oauthWindow.document;
@@ -344,7 +343,11 @@ export class AuthService {
 
           // Check if it looks like JSON with tokens
           const trimmedText = bodyText.trim();
-          if (trimmedText.startsWith('{') && trimmedText.includes('access_token') && trimmedText.includes('refresh_token')) {
+          if (
+            trimmedText.startsWith('{') &&
+            trimmedText.includes('access_token') &&
+            trimmedText.includes('refresh_token')
+          ) {
             try {
               const tokenData = JSON.parse(trimmedText);
 
@@ -373,8 +376,7 @@ export class AuthService {
               // Not valid JSON or doesn't match expected format, continue checking
             }
           }
-        } catch {
-        }
+        } catch {}
       }, 500);
 
       closedCheck = window.setInterval(() => {

@@ -73,7 +73,14 @@ export class LoginPage {
       await this.authService.login(this.emailOrUsername, this.password);
       await this.router.navigate(['/home']);
     } catch (error: any) {
-      let message = error instanceof Error ? error.message : 'LOGIN.ERROR.LOGIN_FAILED';
+      let message = 'LOGIN.ERROR.LOGIN_FAILED';
+      if (error) {
+        const formattedMsg =
+          'LOGIN.ERROR.' + this.localizationService.formatWSResponseToTranslateKey(error.error.detail);
+        if (this.localizationService.hasTranslation(formattedMsg)) {
+          message = formattedMsg;
+        }
+      }
 
       if (error?.bannedUntil) {
         const bannedUntilDate = new Date(error.bannedUntil);

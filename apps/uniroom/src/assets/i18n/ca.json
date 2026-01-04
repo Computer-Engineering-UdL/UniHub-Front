@@ -125,7 +125,8 @@
       "PASSWORD_MISMATCH": "Les contrasenyes no coincideixen",
       "PASSWORD_TOO_SHORT": "La contrasenya ha de tenir almenys 8 caràcters",
       "SIGNUP_FAILED": "Error al registrar-se. Si us plau torna-ho a provar.",
-      "INVALID_PHONE": "El telèfon ha de ser vàlid (només números i pot començar per +)"
+      "INVALID_PHONE": "El telèfon ha de ser vàlid (només números i pot començar per +)",
+      "EMAIL_ALREADY_REGISTERED": "Aquest correu electrònic ja està registrat"
     }
   },
   "VERIFY_EMAIL": {
