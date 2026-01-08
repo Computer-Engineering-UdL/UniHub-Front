@@ -30,7 +30,6 @@ interface JobTab {
   imports: [CommonModule, FormsModule, IonicModule, TranslateModule, SharedModule]
 })
 export class JobsListPage implements OnInit, OnDestroy {
-
   private readonly uniJobsService: UniJobsService = inject(UniJobsService);
   private readonly modalController: ModalController = inject(ModalController);
   private readonly notificationService: NotificationService = inject(NotificationService);
@@ -213,7 +212,6 @@ export class JobsListPage implements OnInit, OnDestroy {
       this.notificationService.error('UNIJOBS.ERROR.SAVE_FAILED');
     }
   }
-
 
   protected formatSalary(job: JobOffer): string {
     const { salaryMin, salaryMax, salaryPeriod } = job;
