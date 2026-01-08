@@ -203,10 +203,7 @@ export class UniJobsService {
   }
 
   private serializeQuery(query: JobsQuery): Record<string, string | number | boolean> {
-    const params: Record<string, string | number | boolean> = {
-      page: query.page,
-      page_size: query.pageSize
-    };
+    const params: Record<string, string | number | boolean> = {};
     if (query.search) {
       params['search'] = query.search;
     }

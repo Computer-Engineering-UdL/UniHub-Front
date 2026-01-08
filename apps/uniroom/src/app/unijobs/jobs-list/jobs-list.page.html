@@ -218,12 +218,6 @@
             <p>{{ 'UNIJOBS.LIST.EMPTY_STATE_SUBTITLE' | translate }}</p>
           </div>
         </ng-container>
-
-        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)" *ngIf="hasMore">
-          <ion-infinite-scroll-content
-            loadingSpinner="crescent"
-            [loadingText]="'UNIJOBS.LIST.LOADING_MORE' | translate"></ion-infinite-scroll-content>
-        </ion-infinite-scroll>
       </div>
     </section>
   </div>

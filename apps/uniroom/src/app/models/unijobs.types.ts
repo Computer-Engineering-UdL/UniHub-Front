@@ -94,8 +94,8 @@ export interface JobsQuery {
   category?: JobCategory;
   jobTypes?: JobType[];
   locations?: string[];
-  page: number;
-  pageSize: number;
+  page?: number;
+  pageSize?: number;
   savedOnly?: boolean;
   appliedOnly?: boolean;
 }

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, InfiniteScrollCustomEvent, ModalController, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subscription, firstValueFrom } from 'rxjs';
@@ -30,8 +30,6 @@ interface JobTab {
   imports: [CommonModule, FormsModule, IonicModule, TranslateModule, SharedModule]
 })
 export class JobsListPage implements OnInit, OnDestroy {
-  private readonly PAGE_SIZE: number = 10;
-
   private readonly uniJobsService: UniJobsService = inject(UniJobsService);
   private readonly modalController: ModalController = inject(ModalController);
   private readonly notificationService: NotificationService = inject(NotificationService);
@@ -44,15 +42,13 @@ export class JobsListPage implements OnInit, OnDestroy {
 
   protected jobs: JobOffer[] = [];
   protected loading: boolean = true;
-  protected loadingMore: boolean = false;
   protected searchTerm: string = '';
   protected selectedCategory?: JobCategory;
   protected selectedJobTypes: Set<JobType> = new Set<JobType>();
   protected selectedLocations: Set<string> = new Set<string>();
-  protected currentTab: 'all' | 'saved' | 'applied' = 'all';
+  protected currentTab: JobTabKey = 'all';
   protected savedCount: number = 0;
   protected appliedCount: number = 0;
-  protected hasMore: boolean = true;
   protected showMobileFilters: boolean = false;
   protected canCreate: boolean = false;
   protected isAuthenticated: boolean = false;
@@ -97,7 +93,6 @@ export class JobsListPage implements OnInit, OnDestroy {
     'Fraga'
   ];
 
-  private currentPage: number = 1;
   private userSubscription?: Subscription;
   private jobCreatedSubscription?: Subscription;
   private readonly creatorAvatarCache: Map<string, string | null> = new Map<string, string | null>();
@@ -113,13 +108,12 @@ export class JobsListPage implements OnInit, OnDestroy {
     const shouldRefresh: boolean = Boolean(navigation?.extras.state?.['refreshJobs']);
     const pendingCreatedJob: JobOffer | undefined = this.uniJobsService.consumeLastCreatedJob();
     if (pendingCreatedJob || shouldRefresh) {
-      this.resetList();
+      this.loadJobs();
     }
     this.loadTab('all');
     this.loadBadges();
     this.jobCreatedSubscription = this.uniJobsService.jobCreated$.subscribe(() => {
-      this.resetList();
-      this.loadJobs(true);
+      this.loadJobs();
       this.loadBadges();
     });
   }
@@ -141,19 +135,17 @@ export class JobsListPage implements OnInit, OnDestroy {
     await this.navController.navigateForward('/jobs/create');
   }
 
-  protected changeTab(tab: 'all' | 'saved' | 'applied'): void {
+  protected changeTab(tab: JobTabKey): void {
     if (this.currentTab === tab) {
       return;
     }
     this.currentTab = tab;
-    this.resetList();
-    this.loadJobs(true);
+    this.loadJobs();
   }
 
   protected onSearchChange(event: CustomEvent): void {
     this.searchTerm = (event.detail.value || '').toString();
-    this.resetList();
-    this.loadJobs(true);
+    this.loadJobs();
   }
 
   protected toggleJobType(type: JobType): void {
@@ -162,14 +154,12 @@ export class JobsListPage implements OnInit, OnDestroy {
     } else {
       this.selectedJobTypes.add(type);
     }
-    this.resetList();
-    this.loadJobs(true);
+    this.loadJobs();
   }
 
   protected selectCategory(category?: JobCategory): void {
     this.selectedCategory = this.selectedCategory === category ? undefined : category;
-    this.resetList();
-    this.loadJobs(true);
+    this.loadJobs();
   }
 
   protected toggleLocation(location: string): void {
@@ -178,14 +168,12 @@ export class JobsListPage implements OnInit, OnDestroy {
     } else {
       this.selectedLocations.add(location);
     }
-    this.resetList();
-    this.loadJobs(true);
+    this.loadJobs();
   }
 
   protected onLocationsChange(locations: string[] | undefined): void {
     this.selectedLocations = new Set<string>(locations ?? []);
-    this.resetList();
-    this.loadJobs(true);
+    this.loadJobs();
   }
 
   protected clearFilters(): void {
@@ -194,8 +182,7 @@ export class JobsListPage implements OnInit, OnDestroy {
     this.selectedJobTypes.clear();
     this.selectedLocations.clear();
     this.showMobileFilters = false;
-    this.resetList();
-    this.loadJobs(true);
+    this.loadJobs();
   }
 
   protected async openApply(job: JobOffer): Promise<void> {
@@ -224,14 +211,6 @@ export class JobsListPage implements OnInit, OnDestroy {
     } catch {
       this.notificationService.error('UNIJOBS.ERROR.SAVE_FAILED');
     }
-  }
-
-  protected loadMore(event: InfiniteScrollCustomEvent): void {
-    if (!this.hasMore || this.loading) {
-      event.target.complete();
-      return;
-    }
-    this.loadJobs(false, event);
   }
 
   protected formatSalary(job: JobOffer): string {
@@ -310,17 +289,13 @@ export class JobsListPage implements OnInit, OnDestroy {
     return `UNIJOBS.CREATE.WORKPLACE.${type.toUpperCase()}`;
   }
 
-  private loadTab(tab: 'all' | 'saved' | 'applied'): void {
+  private loadTab(tab: JobTabKey): void {
     this.currentTab = tab;
-    this.resetList();
-    this.loadJobs(true);
+    this.loadJobs();
   }
 
   private loadBadges(): void {
-    const baseQuery: JobsQuery = {
-      page: 1,
-      pageSize: 1
-    };
+    const baseQuery: JobsQuery = {};
     this.uniJobsService.getSavedJobs(baseQuery).subscribe({
       next: (result) => (this.savedCount = result.total),
       error: () => {}
@@ -331,29 +306,14 @@ export class JobsListPage implements OnInit, OnDestroy {
     });
   }
 
-  private resetList(): void {
-    this.jobs = [];
-    this.currentPage = 1;
-    this.hasMore = true;
-  }
-
-  private loadJobs(reset: boolean, event?: InfiniteScrollCustomEvent): void {
-    if (!this.hasMore && !reset) {
-      if (event) {
-        event.target.complete();
-      }
-      return;
-    }
-    this.loading = reset;
-    this.loadingMore = !reset;
+  private loadJobs(): void {
+    this.loading = true;
 
     const query: JobsQuery = {
       search: this.searchTerm || undefined,
       category: this.selectedCategory,
       jobTypes: Array.from(this.selectedJobTypes),
       locations: Array.from(this.selectedLocations),
-      page: this.currentPage,
-      pageSize: this.PAGE_SIZE,
       savedOnly: this.currentTab === 'saved',
       appliedOnly: this.currentTab === 'applied'
     };
@@ -367,16 +327,12 @@ export class JobsListPage implements OnInit, OnDestroy {
 
     request$.subscribe({
       next: (result) => {
-        this.jobs = reset ? result.items : [...this.jobs, ...result.items];
+        this.jobs = result.items;
         if (this.currentTab === 'saved') {
           this.savedCount = result.total;
         }
         if (this.currentTab === 'applied') {
           this.appliedCount = result.total;
-        }
-        this.hasMore = this.jobs.length < result.total;
-        if (this.hasMore) {
-          this.currentPage += 1;
         }
       },
       error: () => {
@@ -384,10 +340,6 @@ export class JobsListPage implements OnInit, OnDestroy {
       },
       complete: () => {
         this.loading = false;
-        this.loadingMore = false;
-        if (event) {
-          event.target.complete();
-        }
       }
     });
   }
