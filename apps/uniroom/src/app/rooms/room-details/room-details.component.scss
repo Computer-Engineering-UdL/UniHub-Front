@@ -135,7 +135,7 @@ ion-card-content {
     --padding-start: 12px;
     --padding-end: 12px;
     --border-radius: 10px;
-    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --box-shadow: none;
     text-transform: none;
     font-weight: 600;
     font-size: 14px;
@@ -150,7 +150,7 @@ ion-card-content {
     }
 
     &:hover {
-      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       transform: translateY(-1px);
     }
 
@@ -228,10 +228,6 @@ ion-card-content {
     color: var(--ion-text-color);
     line-height: 1.2;
     letter-spacing: -0.02em;
-    background: linear-gradient(135deg, var(--ion-text-color) 0%, var(--ion-color-primary) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 
     @media (max-width: 768px) {
       font-size: 22px;
@@ -277,76 +273,65 @@ ion-card-content {
     font-size: 11px;
     height: 22px;
     font-weight: 600;
-    --background: linear-gradient(135deg, var(--ion-color-secondary) 0%, var(--ion-color-secondary-shade) 100%);
-    box-shadow: 0 2px 6px rgba(var(--ion-color-secondary-rgb), 0.3);
+    --background: var(--ion-color-secondary);
+    box-shadow: 0 2px 6px rgba(var(--ion-color-secondary-rgb), 0.25);
+    display: inline-flex;
+    align-items: center;
   }
 
   .price-highlight {
-    background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-primary-shade) 100%);
+    background: var(--ion-card-background);
     border-radius: 16px;
     padding: 14px 18px;
     box-shadow:
-      0 4px 16px rgba(var(--ion-color-primary-rgb), 0.25),
-      0 2px 8px rgba(0, 0, 0, 0.1);
+      0 4px 16px rgba(0, 0, 0, 0.1),
+      0 2px 8px rgba(0, 0, 0, 0.06);
     text-align: right;
     min-width: 150px;
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease;
+    border: 1px solid var(--ion-color-step-150);
 
     @media (max-width: 768px) {
-      min-width: 120px;
-      padding: 12px 14px;
+      min-width: auto;
+      padding: 10px 14px;
       border-radius: 12px;
       grid-column: 1 / -1;
       order: 2;
-    }
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      text-align: center;
     }
 
     &:hover {
       transform: translateY(-2px);
       box-shadow:
-        0 6px 20px rgba(var(--ion-color-primary-rgb), 0.35),
-        0 4px 12px rgba(0, 0, 0, 0.15);
-
-      &::before {
-        opacity: 1;
-      }
+        0 6px 20px rgba(0, 0, 0, 0.12),
+        0 4px 12px rgba(0, 0, 0, 0.08);
+      border-color: var(--ion-color-primary);
     }
 
     .price {
       display: block;
       font-size: 28px;
       font-weight: 800;
-      color: white;
+      color: var(--ion-color-primary);
       line-height: 1;
       letter-spacing: -0.02em;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
       @media (max-width: 768px) {
-        font-size: 22px;
+        font-size: 20px;
       }
     }
 
     .period {
       font-size: 13px;
-      color: rgba(255, 255, 255, 0.9);
+      color: var(--ion-color-medium);
       margin-top: 4px;
       font-weight: 600;
 
       @media (max-width: 768px) {
         font-size: 11px;
+        margin-top: 2px;
       }
     }
   }
@@ -375,20 +360,20 @@ ion-card-content {
         height: 38px;
       }
 
-      &:hover {
-        transform: scale(1.05);
-      }
-
       ion-icon {
         font-size: 26px;
-        transition: transform 0.2s ease;
-
-        &:hover {
-          color: pink !important;
-        }
+        transition: all 0.2s ease;
 
         @media (max-width: 768px) {
           font-size: 22px;
+        }
+      }
+
+      &:hover {
+        transform: scale(10.05);
+
+        ion-icon {
+          color: #ff69b4 !important;
         }
       }
 
@@ -881,10 +866,10 @@ ion-card-content {
   .rules-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 
     @media (max-width: 768px) {
-      gap: 8px;
+      gap: 6px;
     }
   }
 
@@ -892,15 +877,15 @@ ion-card-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 16px;
-    border-radius: 14px;
+    padding: 10px 14px;
+    border-radius: 12px;
     background: var(--ion-color-light);
     gap: 12px;
     border: 1px solid var(--ion-color-step-150);
     transition: all 0.2s ease;
 
     @media (max-width: 768px) {
-      padding: 12px;
+      padding: 8px 12px;
       flex-direction: row;
       align-items: center;
       gap: 10px;
@@ -916,11 +901,11 @@ ion-card-content {
     .rule-label {
       font-weight: 700;
       color: var(--ion-text-color);
-      font-size: 14px;
+      font-size: 13px;
       flex: 1;
 
       @media (max-width: 768px) {
-        font-size: 13px;
+        font-size: 12px;
       }
     }
 
@@ -930,14 +915,14 @@ ion-card-content {
       --border-radius: 999px;
       text-transform: none;
       font-weight: 700;
-      height: 28px;
+      height: 26px;
       margin: 0;
       font-size: 11px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
       transition: all 0.2s ease;
 
       @media (max-width: 768px) {
-        height: 26px;
+        height: 24px;
         font-size: 10px;
         --padding-start: 8px;
         --padding-end: 8px;
@@ -948,10 +933,10 @@ ion-card-content {
       }
 
       ion-icon {
-        font-size: 15px;
+        font-size: 14px;
 
         @media (max-width: 768px) {
-          font-size: 14px;
+          font-size: 13px;
         }
       }
     }
@@ -1106,9 +1091,6 @@ ion-card-content {
     font-weight: 800;
     overflow: hidden;
     flex-shrink: 0;
-    box-shadow:
-      0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3),
-      0 2px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease;
 
     @media (max-width: 768px) {
@@ -1223,7 +1205,6 @@ ion-card-content {
 
     ion-button {
       --border-radius: 12px;
-      --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       text-transform: none;
       font-weight: 700;
       height: 46px;
@@ -1239,7 +1220,6 @@ ion-card-content {
       }
 
       &:hover {
-        --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
         transform: translateY(-2px);
       }
 
@@ -1255,19 +1235,54 @@ ion-card-content {
         }
       }
 
-      &[color="primary"] {
-        --box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.25);
+      // View Profile - Primary solid (Blau principal)
+      &[color="primary"]:not([fill="outline"]) {
+        --box-shadow: 0 2px 8px rgba(var(--ion-color-primary-rgb), 0.2);
 
         &:hover {
-          --box-shadow: 0 6px 20px rgba(var(--ion-color-primary-rgb), 0.35);
+          --box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);
         }
       }
 
-      &[color="secondary"] {
-        --box-shadow: 0 2px 8px rgba(var(--ion-color-secondary-rgb), 0.2);
+      // Send Message - Success solid (Verd comunicació)
+      &[color="success"]:not([fill="outline"]) {
+        --box-shadow: 0 2px 8px rgba(var(--ion-color-success-rgb), 0.2);
 
         &:hover {
-          --box-shadow: 0 4px 16px rgba(var(--ion-color-secondary-rgb), 0.3);
+          --box-shadow: 0 4px 12px rgba(var(--ion-color-success-rgb), 0.3);
+        }
+      }
+
+      // Schedule Viewing - Primary outline (Blau outline per accions secundàries)
+      &[color="primary"][fill="outline"] {
+        --border-width: 2px;
+        --box-shadow: none;
+
+        &:hover {
+          --box-shadow: 0 2px 8px rgba(var(--ion-color-primary-rgb), 0.15);
+        }
+      }
+
+      // Call - Medium outline (Gris subtil per accions terciàries)
+      &[color="medium"][fill="outline"] {
+        --border-width: 2px;
+        --box-shadow: none;
+
+        &:hover {
+          --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+      }
+
+      // Regla general per outlines
+      &[fill="outline"] {
+        --border-width: 2px;
+
+        &:not([color="primary"]):not([color="medium"]) {
+          --box-shadow: none;
+
+          &:hover {
+            --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+          }
         }
       }
     }
