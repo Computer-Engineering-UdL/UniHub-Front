@@ -908,7 +908,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     const amenityKey: string = `ROOM.DETAILS.AMENITIES.${amenityId.toUpperCase()}`;
     const translation: string = this.translate.instant(amenityKey);
     if (translation === amenityKey) {
-      return this.translate.instant('ROOM.DETAILS.AMENITIES.OTHER');
+      return 'UNKNOWN_AMENITY';
     }
     return translation;
   }

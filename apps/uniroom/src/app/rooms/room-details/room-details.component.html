@@ -224,24 +224,26 @@
             <ion-card-content>
               <div class="amenities-grid">
                 @for (amenity of room.amenities; track $index) {
-                  <div
-                    class="amenity"
-                    [class.available]="amenity.available === true"
-                    [class.unavailable]="amenity.available === false">
-                    <ion-icon [name]="amenity.icon"></ion-icon>
-                    <div class="amenity-text">
-                      <span>{{ amenity.labelKey | translate }}</span>
-                      @if (amenity.available === true) {
-                        <small>{{ 'ROOM.DETAILS.AMENITIES.INCLUDED' | translate }}</small>
-                      }
-                      @if (amenity.available === false) {
-                        <small>{{ 'ROOM.DETAILS.AMENITIES.NOT_AVAILABLE' | translate }}</small>
-                      }
-                      @if (amenity.available === null) {
-                        <small>{{ 'ROOM.DETAILS.AMENITIES.NOT_SPECIFIED' | translate }}</small>
-                      }
+                  @if (amenity.labelKey != 'UNKNOWN_AMENITY') {
+                    <div
+                      class="amenity"
+                      [class.available]="amenity.available === true"
+                      [class.unavailable]="amenity.available === false">
+                      <ion-icon [name]="amenity.icon"></ion-icon>
+                      <div class="amenity-text">
+                        <span>{{ amenity.labelKey | translate }}</span>
+                        @if (amenity.available === true) {
+                          <small>{{ 'ROOM.DETAILS.AMENITIES.INCLUDED' | translate }}</small>
+                        }
+                        @if (amenity.available === false) {
+                          <small>{{ 'ROOM.DETAILS.AMENITIES.NOT_AVAILABLE' | translate }}</small>
+                        }
+                        @if (amenity.available === null) {
+                          <small>{{ 'ROOM.DETAILS.AMENITIES.NOT_SPECIFIED' | translate }}</small>
+                        }
+                      </div>
                     </div>
-                  </div>
+                  }
                 }
               </div>
             </ion-card-content>
