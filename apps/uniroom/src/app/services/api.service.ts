@@ -24,7 +24,7 @@ export class ApiService {
       return from(this.nativeGet<T>(endpoint, params, headers, requiresAuth));
     }
     const httpParams = this.buildHttpParams(params);
-    return from(this.buildHeaders(headers, requiresAuth)).pipe(
+    return from(this.buildHeaders(headers, requiresAuth, false)).pipe(
       switchMap((finalHeaders: HttpHeaders) =>
         this.http.get<T>(`${this.API_URL}/${endpoint}`, { params: httpParams, headers: finalHeaders })
       )
@@ -35,7 +35,8 @@ export class ApiService {
     if (this.isNative) {
       return from(this.nativePost<T, B>(endpoint, body, headers, requiresAuth));
     }
-    return from(this.buildHeaders(headers, requiresAuth)).pipe(
+    const isFormData: boolean = body instanceof FormData;
+    return from(this.buildHeaders(headers, requiresAuth, isFormData)).pipe(
       switchMap((finalHeaders: HttpHeaders) =>
         this.http.post<T>(`${this.API_URL}/${endpoint}`, body, { headers: finalHeaders })
       )
@@ -46,7 +47,7 @@ export class ApiService {
     if (this.isNative) {
       return from(this.nativePut<T, B>(endpoint, body, headers, requiresAuth));
     }
-    return from(this.buildHeaders(headers, requiresAuth)).pipe(
+    return from(this.buildHeaders(headers, requiresAuth, false)).pipe(
       switchMap((finalHeaders: HttpHeaders) =>
         this.http.put<T>(`${this.API_URL}/${endpoint}`, body, { headers: finalHeaders })
       )
@@ -57,7 +58,7 @@ export class ApiService {
     if (this.isNative) {
       return from(this.nativePatch<T, B>(endpoint, body, headers, requiresAuth));
     }
-    return from(this.buildHeaders(headers, requiresAuth)).pipe(
+    return from(this.buildHeaders(headers, requiresAuth, false)).pipe(
       switchMap((finalHeaders: HttpHeaders) =>
         this.http.patch<T>(`${this.API_URL}/${endpoint}`, body, { headers: finalHeaders })
       )
@@ -74,7 +75,7 @@ export class ApiService {
       return from(this.nativeDelete<T>(endpoint, params, headers, requiresAuth));
     }
     const httpParams = this.buildHttpParams(params);
-    return from(this.buildHeaders(headers, requiresAuth)).pipe(
+    return from(this.buildHeaders(headers, requiresAuth, false)).pipe(
       switchMap((finalHeaders: HttpHeaders) =>
         this.http.delete<T>(`${this.API_URL}/${endpoint}`, { params: httpParams, headers: finalHeaders })
       )
@@ -87,7 +88,7 @@ export class ApiService {
     headers?: HttpHeaders,
     requiresAuth: boolean = true
   ): Promise<T> {
-    const finalHeaders = await this.buildHeadersObject(headers, requiresAuth);
+    const finalHeaders = await this.buildHeadersObject(headers, requiresAuth, false);
     const url = this.buildUrl(endpoint, params);
 
     const response: HttpResponse = await CapacitorHttp.get({
@@ -104,7 +105,8 @@ export class ApiService {
     headers?: HttpHeaders,
     requiresAuth: boolean = true
   ): Promise<T> {
-    const finalHeaders = await this.buildHeadersObject(headers, requiresAuth);
+    const isFormData: boolean = body instanceof FormData;
+    const finalHeaders = await this.buildHeadersObject(headers, requiresAuth, isFormData);
 
     const response: HttpResponse = await CapacitorHttp.post({
       url: `${this.API_URL}/${endpoint}`,
@@ -121,7 +123,7 @@ export class ApiService {
     headers?: HttpHeaders,
     requiresAuth: boolean = true
   ): Promise<T> {
-    const finalHeaders = await this.buildHeadersObject(headers, requiresAuth);
+    const finalHeaders = await this.buildHeadersObject(headers, requiresAuth, false);
 
     const response: HttpResponse = await CapacitorHttp.put({
       url: `${this.API_URL}/${endpoint}`,
@@ -138,7 +140,7 @@ export class ApiService {
     headers?: HttpHeaders,
     requiresAuth: boolean = true
   ): Promise<T> {
-    const finalHeaders = await this.buildHeadersObject(headers, requiresAuth);
+    const finalHeaders = await this.buildHeadersObject(headers, requiresAuth, false);
 
     const response: HttpResponse = await CapacitorHttp.patch({
       url: `${this.API_URL}/${endpoint}`,
@@ -155,7 +157,7 @@ export class ApiService {
     headers?: HttpHeaders,
     requiresAuth: boolean = true
   ): Promise<T> {
-    const finalHeaders = await this.buildHeadersObject(headers, requiresAuth);
+    const finalHeaders = await this.buildHeadersObject(headers, requiresAuth, false);
     const url = this.buildUrl(endpoint, params);
 
     const response: HttpResponse = await CapacitorHttp.delete({
@@ -197,12 +199,15 @@ export class ApiService {
 
   private async buildHeadersObject(
     customHeaders?: HttpHeaders,
-    requiresAuth: boolean = true
+    requiresAuth: boolean = true,
+    skipContentType: boolean = false
   ): Promise<Record<string, string>> {
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
-      Accept: 'application/json'
-    };
+    const headers: Record<string, string> = {};
+
+    if (!skipContentType) {
+      headers['Content-Type'] = 'application/json';
+      headers['Accept'] = 'application/json';
+    }
 
     if (customHeaders) {
       customHeaders.keys().forEach((key) => {
@@ -223,8 +228,16 @@ export class ApiService {
     return headers;
   }
 
-  private async buildHeaders(customHeaders?: HttpHeaders, requiresAuth: boolean = true): Promise<HttpHeaders> {
+  private async buildHeaders(
+    customHeaders?: HttpHeaders,
+    requiresAuth: boolean = true,
+    skipContentType: boolean = false
+  ): Promise<HttpHeaders> {
     let headers: HttpHeaders = customHeaders || new HttpHeaders();
+
+    if (!skipContentType && !headers.has('Content-Type')) {
+      headers = headers.set('Content-Type', 'application/json');
+    }
 
     if (requiresAuth) {
       const token: string | null = await this.storage.get('auth_token');

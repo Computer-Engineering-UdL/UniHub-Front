@@ -1824,7 +1824,8 @@
       "DELETE_TITLE": "Eliminar oferta",
       "DELETE_CONFIRM": "¿Seguro que quieres eliminar esta oferta de trabajo? Esta acción no se puede deshacer",
       "DELETE_ACTION": "Eliminar",
-      "DELETE_SUCCESS": "Oferta eliminada"
+      "DELETE_SUCCESS": "Oferta eliminada",
+      "VIEW_APPLICATIONS": "Ver solicitudes"
     },
     "APPLY": {
       "TITLE": "Aplicar a {{job}}",
@@ -1841,6 +1842,7 @@
       "UPLOAD_SUBTITLE": "PDF, DOC o DOCX (máx. 5MB)",
       "FILE_TYPE_ERROR": "Sube un archivo PDF, DOC o DOCX",
       "FILE_SIZE_ERROR": "El archivo debe pesar menos de 5MB",
+      "FILE_REQUIRED": "El currículum es obligatorio",
       "COVER_LETTER": "Carta de presentación",
       "COVER_LETTER_PLACEHOLDER": "Cuéntanos por qué encajas en el puesto",
       "COVER_LETTER_MAX": "La carta debe tener menos de 1000 caracteres",
@@ -1886,7 +1888,15 @@
       "EMPTY_STATE_TITLE": "Aún sin solicitudes",
       "EMPTY_STATE_SUBTITLE": "Cuando apliques a ofertas aparecerán aquí",
       "LOGIN_REQUIRED": "Inicia sesión para ver tus solicitudes",
-      "VERIFICATION_REQUIRED": "Debes verificar tu cuenta para ver las solicitudes"
+      "VERIFICATION_REQUIRED": "Debes verificar tu cuenta para ver las solicitudes",
+      "JOB_APPLICANTS": "Candidatos",
+      "NO_APPLICATIONS": "Aún no hay candidatos",
+      "NO_APPLICATIONS_DESC": "Cuando alguien aplique a esta oferta, aparecerá aquí",
+      "VIEW_CV": "Ver currículum",
+      "ERROR": {
+        "LOAD": "Error al cargar las solicitudes",
+        "DOWNLOAD_CV": "Error al descargar el currículum"
+      }
     },
     "CREATE": {
       "TITLE": "Crear oferta de trabajo",

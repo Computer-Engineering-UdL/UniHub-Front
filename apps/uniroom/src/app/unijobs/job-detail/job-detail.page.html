@@ -61,17 +61,6 @@
       </div>
       <div class="hero-actions">
         <ion-button
-          expand="block"
-          class="apply-btn"
-          [disabled]="job.isApplied"
-          (click)="openApply()">
-          <ion-icon
-            slot="start"
-            [name]="job.isApplied ? 'checkmark-circle' : 'paper-plane'"></ion-icon>
-          {{ job.isApplied ? ('UNIJOBS.DETAIL.APPLIED' | translate) : ('UNIJOBS.DETAIL.APPLY' |
-          translate) }}
-        </ion-button>
-        <ion-button
           color="primary"
           fill="outline"
           *ngIf="canManage"
@@ -152,6 +141,13 @@
             <p class="value">{{ job.applicationCount }}</p>
           </div>
         </div>
+      </div>
+
+      <div class="view-applications-section" *ngIf="canViewApplications">
+        <ion-button expand="block" fill="outline" (click)="viewApplications()">
+          <ion-icon slot="start" name="people"></ion-icon>
+          {{ 'UNIJOBS.DETAIL.VIEW_APPLICATIONS' | translate }}
+        </ion-button>
       </div>
 
       <div class="nice-to-have-card" *ngIf="job.niceToHave?.length">

@@ -5,6 +5,7 @@ import { JobsListPage } from './jobs-list/jobs-list.page';
 import { MyApplicationsPage } from './my-applications/my-applications.page';
 import { JobDetailPage } from './job-detail/job-detail.page';
 import { CreateJobPage } from './create-job/create-job.page';
+import { JobApplicationsComponent } from './job-applications/job-applications.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,12 @@ const routes: Routes = [
     component: MyApplicationsPage,
     canActivate: [AuthGuard],
     data: { titleKey: 'UNIJOBS.APPLICATIONS.TITLE' }
+  },
+  {
+    path: ':id/applications',
+    component: JobApplicationsComponent,
+    canActivate: [AuthGuard],
+    data: { titleKey: 'UNIJOBS.APPLICATIONS.JOB_APPLICANTS' }
   },
   {
     path: ':id',

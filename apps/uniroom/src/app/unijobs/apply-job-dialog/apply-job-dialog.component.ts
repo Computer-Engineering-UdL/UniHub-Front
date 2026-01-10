@@ -117,6 +117,10 @@ export class ApplyJobDialogComponent implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
+    if (!this.resumeFile) {
+      this.fileError = this.translateService.instant('UNIJOBS.APPLY.FILE_REQUIRED');
+      return;
+    }
     if (!this.jobId) {
       return;
     }

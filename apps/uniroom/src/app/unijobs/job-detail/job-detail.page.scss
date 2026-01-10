@@ -277,6 +277,19 @@
   }
 }
 
+.view-applications-section {
+  background: var(--ion-card-background);
+  border: 1px solid var(--ion-border-color);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 2px 12px color-mix(in srgb, var(--ion-color-dark) 4%, transparent);
+
+  ion-button {
+    --border-radius: 12px;
+    font-weight: 600;
+  }
+}
+
 .nice-to-have-card {
   background: linear-gradient(
     135deg,

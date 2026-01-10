@@ -1405,7 +1405,8 @@
   "ROLE": {
     "ADMIN": "Administrador",
     "BASIC": "Usuari",
-    "SELLER": "Venedor"
+    "SELLER": "Venedor",
+    "RECRUITER": "Empresa"
   },
   "TIME_AGO": {
     "TODAY": "avui",
@@ -1820,7 +1821,8 @@
       "DELETE_TITLE": "Eliminar oferta",
       "DELETE_CONFIRM": "Segur que vols eliminar aquesta oferta? Aquesta acció no es pot desfer",
       "DELETE_ACTION": "Eliminar",
-      "DELETE_SUCCESS": "Oferta eliminada"
+      "DELETE_SUCCESS": "Oferta eliminada",
+      "VIEW_APPLICATIONS": "Veure sol·licituds"
     },
     "APPLY": {
       "TITLE": "Aplica a {{job}}",
@@ -1837,6 +1839,7 @@
       "UPLOAD_SUBTITLE": "PDF, DOC o DOCX (màx 5MB)",
       "FILE_TYPE_ERROR": "Puja un fitxer PDF, DOC o DOCX",
       "FILE_SIZE_ERROR": "El fitxer ha de pesar menys de 5MB",
+      "FILE_REQUIRED": "El currículum és obligatori",
       "COVER_LETTER": "Carta de presentació",
       "COVER_LETTER_PLACEHOLDER": "Explica per què encaixes amb el rol",
       "COVER_LETTER_MAX": "Màxim 1000 caràcters",
@@ -1882,7 +1885,15 @@
       "EMPTY_STATE_TITLE": "Encara sense sol·licituds",
       "EMPTY_STATE_SUBTITLE": "Quan apliquis a ofertes apareixeran aquí",
       "LOGIN_REQUIRED": "Inicia sessió per veure les sol·licituds",
-      "VERIFICATION_REQUIRED": "Has de verificar el compte per veure les sol·licituds"
+      "VERIFICATION_REQUIRED": "Has de verificar el compte per veure les sol·licituds",
+      "JOB_APPLICANTS": "Candidats",
+      "NO_APPLICATIONS": "Encara no hi ha candidats",
+      "NO_APPLICATIONS_DESC": "Quan algú apliqui a aquesta oferta, apareixerà aquí",
+      "VIEW_CV": "Veure currículum",
+      "ERROR": {
+        "LOAD": "Error en carregar les sol·licituds",
+        "DOWNLOAD_CV": "Error en descarregar el currículum"
+      }
     },
     "CREATE": {
       "TITLE": "Crear oferta de feina",

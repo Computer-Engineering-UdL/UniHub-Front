@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import NotificationService from './notification.service';
 import {
   JobApplication,
+  JobApplicationDetails,
   JobApplicationPayload,
   JobOffer,
   JobOfferCreate,
@@ -178,28 +179,35 @@ export class UniJobsService {
       .pipe(map((apps: RawJobApplication[]) => apps.map((application) => this.mapApplication(application))));
   }
 
+  getJobOfferApplications(jobId: string): Observable<JobApplicationDetails[]> {
+    return this.apiService.get<JobApplicationDetails[]>(`job/${jobId}/applications`);
+  }
+
   private buildApplicationPayload(payload: JobApplicationPayload): FormData | Record<string, string> {
-    if (payload.resumeFile) {
-      const formData: FormData = new FormData();
-      formData.append('full_name', payload.fullName);
-      formData.append('email', payload.email);
-      formData.append('phone', payload.phone);
-      if (payload.coverLetter) {
-        formData.append('cover_letter', payload.coverLetter);
-      }
-      formData.append('resume', payload.resumeFile);
-      return formData;
+    if (!payload.resumeFile) {
+      this.notificationService.error('UNIJOBS.APPLY.FILE_REQUIRED');
+      throw new Error('Resume file is required');
     }
 
-    const body: Record<string, string> = {
+    const formData: FormData = new FormData();
+
+    const applicationData: Record<string, string> = {
       full_name: payload.fullName,
       email: payload.email,
       phone: payload.phone
     };
+
     if (payload.coverLetter) {
-      body['cover_letter'] = payload.coverLetter;
+      applicationData['cover_letter'] = payload.coverLetter;
     }
-    return body;
+
+    formData.append('application_data', JSON.stringify(applicationData));
+
+    const sanitizedFileName: string = payload.resumeFile.name.replace(/[^a-zA-Z0-9.-]/g, '_').replace(/_+/g, '_');
+
+    formData.append('file', payload.resumeFile, sanitizedFileName);
+
+    return formData;
   }
 
   private serializeQuery(query: JobsQuery): Record<string, string | number | boolean> {

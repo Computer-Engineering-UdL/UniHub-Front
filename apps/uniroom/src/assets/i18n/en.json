@@ -1822,7 +1822,8 @@
       "DELETE_TITLE": "Delete job offer",
       "DELETE_CONFIRM": "Are you sure you want to delete this job offer? This action cannot be undone",
       "DELETE_ACTION": "Delete",
-      "DELETE_SUCCESS": "Job offer deleted"
+      "DELETE_SUCCESS": "Job offer deleted",
+      "VIEW_APPLICATIONS": "View applications"
     },
     "APPLY": {
       "TITLE": "Apply for {{job}}",
@@ -1839,6 +1840,7 @@
       "UPLOAD_SUBTITLE": "PDF, DOC or DOCX (max 5MB)",
       "FILE_TYPE_ERROR": "Please upload a PDF, DOC or DOCX file",
       "FILE_SIZE_ERROR": "File size must be under 5MB",
+      "FILE_REQUIRED": "Resume is required",
       "COVER_LETTER": "Cover Letter",
       "COVER_LETTER_PLACEHOLDER": "Tell us why you are a great fit for this role",
       "COVER_LETTER_MAX": "Cover letter must be under 1000 characters",
@@ -1884,7 +1886,15 @@
       "EMPTY_STATE_TITLE": "No applications yet",
       "EMPTY_STATE_SUBTITLE": "Apply to job offers to track them here",
       "LOGIN_REQUIRED": "Please log in to view your applications",
-      "VERIFICATION_REQUIRED": "You must verify your account to view applications"
+      "VERIFICATION_REQUIRED": "You must verify your account to view applications",
+      "JOB_APPLICANTS": "Applicants",
+      "NO_APPLICATIONS": "No applicants yet",
+      "NO_APPLICATIONS_DESC": "When someone applies to this job offer, they will appear here",
+      "VIEW_CV": "View resume",
+      "ERROR": {
+        "LOAD": "Error loading applications",
+        "DOWNLOAD_CV": "Error downloading resume"
+      }
     },
     "CREATE": {
       "TITLE": "Create Job Offer",
@@ -1951,6 +1961,8 @@
         "SALARY_RANGE": "Min salary cannot be greater than max salary"
       },
       "SUCCESS": "Job offer created successfully",
+      "UPDATE_SUCCESS": "Job offer updated successfully",
+      "UPDATE_ERROR": "Error updating job offer",
       "ERROR_GENERIC": "Error creating job offer",
       "ERROR_UNAUTHORIZED": "You must be an admin to create job offers",
       "ERROR_VERIFICATION_REQUIRED": "Please verify your account first",

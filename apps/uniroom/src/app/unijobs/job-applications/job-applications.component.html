@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'UNIJOBS.APPLICATIONS.JOB_APPLICANTS' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="job-applications-page">
+  <div class="page-wrapper" *ngIf="!loading; else loadingTpl">
+    <button class="back" type="button" (click)="goBack()">
+      <ion-icon name="arrow-back"></ion-icon>
+      {{ 'UNIJOBS.DETAIL.BACK' | translate }}
+    </button>
+
+    <div class="applications-list" *ngIf="applications.length > 0; else emptyTpl">
+      <div class="application-card" *ngFor="let application of applications">
+        <div class="application-header">
+          <div class="applicant-avatar">
+            <span>{{ getInitials(application.full_name) }}</span>
+          </div>
+          <div class="applicant-info">
+            <h3>{{ application.full_name }}</h3>
+            <p class="email">{{ application.email }}</p>
+            <p class="phone">{{ application.phone }}</p>
+          </div>
+        </div>
+
+        <div class="application-body">
+          <div class="info-row">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>{{ formatDate(application.applied_at) }}</span>
+          </div>
+
+          <div class="cover-letter" *ngIf="application.cover_letter">
+            <h4>{{ 'UNIJOBS.APPLICATIONS.COVER_LETTER' | translate }}</h4>
+            <p>{{ application.cover_letter }}</p>
+          </div>
+
+          <div class="cv-section" *ngIf="application.cv_url">
+            <ion-button expand="block" fill="outline" (click)="downloadCV(application.cv_url!)">
+              <ion-icon slot="start" name="document-text-outline"></ion-icon>
+              {{ 'UNIJOBS.APPLICATIONS.VIEW_CV' | translate }}
+            </ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #emptyTpl>
+      <div class="empty-state">
+        <ion-icon name="people-outline"></ion-icon>
+        <h3>{{ 'UNIJOBS.APPLICATIONS.NO_APPLICATIONS' | translate }}</h3>
+        <p>{{ 'UNIJOBS.APPLICATIONS.NO_APPLICATIONS_DESC' | translate }}</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <ng-template #loadingTpl>
+    <div class="loading-state">
+      <ion-skeleton-text [animated]="true" style="width: 120px; height: 24px"></ion-skeleton-text>
+      <ion-skeleton-text
+        [animated]="true"
+        style="width: 100%; height: 160px; margin-top: 1rem"></ion-skeleton-text>
+      <ion-skeleton-text
+        [animated]="true"
+        style="width: 100%; height: 160px; margin-top: 1rem"></ion-skeleton-text>
+    </div>
+  </ng-template>
+</ion-content>

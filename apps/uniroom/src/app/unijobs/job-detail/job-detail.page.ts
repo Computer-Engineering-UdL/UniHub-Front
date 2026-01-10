@@ -13,7 +13,7 @@ import { SharedModule } from '../../shared/shared-module';
 import { JOB_CREATOR_ROLES, JOB_TYPE_TRANSLATION_KEYS } from '../unijobs.constants';
 import { JobAvatarService } from '../../services/job-avatar.service';
 import { AuthService } from '../../services/auth.service';
-import { Role } from '../../models/auth.types';
+import { Role, User } from '../../models/auth.types';
 import { ReportContext, ReportModalComponent } from '../../shared/reports/report-modal.component';
 import { ReportCategory, ReportReason } from '../../models/report.types';
 import { ReportService } from '../../services/report.service';
@@ -41,6 +41,7 @@ export class JobDetailPage implements OnInit, OnDestroy {
   protected job?: JobOffer;
   protected loading: boolean = true;
   protected canManage: boolean = false;
+  protected canViewApplications: boolean = false;
   private routeSubscription?: Subscription;
   private readonly requestedAvatars: Set<string> = new Set<string>();
 
@@ -180,11 +181,19 @@ export class JobDetailPage implements OnInit, OnDestroy {
     await this.router.navigate(['/jobs', 'edit', this.job.id]);
   }
 
+  protected async viewApplications(): Promise<void> {
+    if (!this.job || !this.canViewApplications) {
+      return;
+    }
+    await this.router.navigate(['/jobs', this.job.id, 'applications']);
+  }
+
   private fetchJob(id: string): void {
     this.loading = true;
     this.uniJobsService.getJobDetail(id).subscribe({
       next: (job: JobOffer) => {
         this.job = job;
+        this.updatePermissions();
         if (job.creatorId && !job.creatorAvatarUrl) {
           void this.loadCreatorAvatar(job.creatorId);
         }
@@ -197,6 +206,17 @@ export class JobDetailPage implements OnInit, OnDestroy {
         this.loading = false;
       }
     });
+  }
+
+  private updatePermissions(): void {
+    const currentUser: User | null = this.authService.currentUser;
+    if (!currentUser || !this.job) {
+      this.canViewApplications = false;
+      return;
+    }
+    const isAdmin: boolean = currentUser.role === 'Admin';
+    const isCreator: boolean = this.job.creatorId === currentUser.id;
+    this.canViewApplications = isAdmin || isCreator;
   }
 
   private async loadCreatorAvatar(userId: string): Promise<void> {

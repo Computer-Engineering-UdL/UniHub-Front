@@ -108,6 +108,18 @@ export interface JobApplicationPayload {
   resumeFile?: File | null;
 }
 
+export interface JobApplicationDetails {
+  id: string;
+  user_id: string;
+  job_offer_id: string;
+  full_name: string;
+  email: string;
+  phone: string;
+  cover_letter: string | null;
+  cv_url: string | null;
+  applied_at: string;
+}
+
 export interface PagedJobsResult {
   items: JobOffer[];
   total: number;
