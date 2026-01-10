@@ -129,11 +129,15 @@ export class ItemEditPage implements OnInit {
     }
   }
 
+  get isAdmin(): boolean {
+    return this.authService.currentUser?.role == 'Admin';
+  }
+
   async loadItem(id: string): Promise<void> {
     this.loading = true;
     try {
       const item: ItemRead = await firstValueFrom(this.uniItemsService.getItemDetail(id));
-      if (item.owner_details?.id && this.authService.currentUser?.id !== item.owner_details.id) {
+      if (item.owner_details?.id && this.authService.currentUser?.id !== item.owner_details.id && !this.isAdmin) {
         await this.router.navigate(['/items']);
         return;
       }

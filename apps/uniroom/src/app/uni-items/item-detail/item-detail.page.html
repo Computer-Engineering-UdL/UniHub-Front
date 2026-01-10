@@ -41,7 +41,7 @@
           <ion-icon slot="start" name="chatbubbles-outline"></ion-icon>
           {{ 'UNI_ITEMS.DETAIL.CONTACT_SELLER' | translate }}
         </ion-button>
-        <div class="owner-actions" *ngIf="isOwner">
+        <div class="owner-actions" *ngIf="isOwner || isAdmin">
           <ion-button fill="outline" color="medium" (click)="editItem()">
             <ion-icon slot="start" name="create-outline"></ion-icon>
             {{ 'UNI_ITEMS.DETAIL.EDIT' | translate }}

@@ -75,6 +75,10 @@ export class ItemDetailPage implements OnInit, OnDestroy {
     return !!this.item && this.authService.currentUser?.id === this.item.ownerId;
   }
 
+  get isAdmin(): boolean {
+    return this.authService.currentUser?.role == 'Admin';
+  }
+
   ngOnInit(): void {
     const id: string | null = this.route.snapshot.paramMap.get('id');
     if (id) {
