@@ -286,6 +286,9 @@ export class LocalizationService {
   }
 
   formatWSResponseToTranslateKey(key: string): string {
+    if (!key) {
+      return '';
+    }
     return key.replace(/\s+/g, '_').toUpperCase();
   }
 

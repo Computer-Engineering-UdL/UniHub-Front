@@ -76,7 +76,7 @@ export class LoginPage {
       let message = 'LOGIN.ERROR.LOGIN_FAILED';
       if (error) {
         const formattedMsg =
-          'LOGIN.ERROR.' + this.localizationService.formatWSResponseToTranslateKey(error.error.detail);
+          'LOGIN.ERROR.' + this.localizationService.formatWSResponseToTranslateKey(error?.error?.detail);
         if (this.localizationService.hasTranslation(formattedMsg)) {
           message = formattedMsg;
         }
