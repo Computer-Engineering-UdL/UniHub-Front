@@ -382,7 +382,7 @@
                   expand="block"
                   color="primary"
                   (click)="viewLandlordProfile()"
-                  *ngIf="room.landlord.username">
+                  *ngIf="offer.landlord.userId">
                   <ion-icon slot="start" name="person-circle-outline"></ion-icon>
                   {{ 'ROOM.DETAILS.LANDLORD.ACTIONS.VIEW_PROFILE' | translate }}
                 </ion-button>

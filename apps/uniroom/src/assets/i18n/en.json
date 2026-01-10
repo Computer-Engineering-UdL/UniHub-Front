@@ -538,7 +538,8 @@
     "ROLE": {
       "ADMIN": "Administrator",
       "BASIC": "User",
-      "SELLER": "Seller"
+      "SELLER": "Seller",
+      "RECRUITER": "Company"
     },
     "VERIFIED": "Verified",
     "JOINED": "Joined",
