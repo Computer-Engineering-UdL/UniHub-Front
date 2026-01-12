@@ -17,7 +17,7 @@ import { Role, User } from '../../models/auth.types';
 import { ReportContext, ReportModalComponent } from '../../shared/reports/report-modal.component';
 import { ReportCategory, ReportReason } from '../../models/report.types';
 import { ReportService } from '../../services/report.service';
-import { resolveFileUrl } from "../../utils/file-url.util";
+import { resolveFileUrl } from '../../utils/file-url.util';
 
 @Component({
   selector: 'app-job-detail',
