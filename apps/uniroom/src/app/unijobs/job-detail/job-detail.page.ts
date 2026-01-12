@@ -17,6 +17,7 @@ import { Role, User } from '../../models/auth.types';
 import { ReportContext, ReportModalComponent } from '../../shared/reports/report-modal.component';
 import { ReportCategory, ReportReason } from '../../models/report.types';
 import { ReportService } from '../../services/report.service';
+import { resolveFileUrl } from "../../utils/file-url.util";
 
 @Component({
   selector: 'app-job-detail',
@@ -137,10 +138,10 @@ export class JobDetailPage implements OnInit, OnDestroy {
       return null;
     }
     if (job.logoUrl) {
-      return job.logoUrl;
+      return resolveFileUrl(job.logoUrl);
     }
     if (job.creatorAvatarUrl) {
-      return job.creatorAvatarUrl;
+      return resolveFileUrl(job.creatorAvatarUrl);
     }
     if (job.creatorId && !this.requestedAvatars.has(job.creatorId)) {
       this.requestedAvatars.add(job.creatorId);

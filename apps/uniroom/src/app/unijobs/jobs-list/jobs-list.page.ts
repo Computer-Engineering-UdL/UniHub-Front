@@ -15,6 +15,7 @@ import { AuthService } from '../../services/auth.service';
 import { Role, User } from '../../models/auth.types';
 import { JOB_CREATOR_ROLES, JOB_TYPE_TRANSLATION_KEYS } from '../unijobs.constants';
 import { JobAvatarService } from '../../services/job-avatar.service';
+import { resolveFileUrl } from '../../utils/file-url.util';
 
 type JobTabKey = 'all' | 'saved' | 'applied';
 interface JobTab {
@@ -244,10 +245,10 @@ export class JobsListPage implements OnInit, OnDestroy {
 
   protected jobLogo(job: JobOffer): string | null {
     if (job.logoUrl) {
-      return job.logoUrl;
+      return resolveFileUrl(job.logoUrl);
     }
     if (job.creatorAvatarUrl) {
-      return job.creatorAvatarUrl;
+      return resolveFileUrl(job.creatorAvatarUrl);
     }
     const creatorId: string | undefined = job.creatorId;
     if (!creatorId) {
