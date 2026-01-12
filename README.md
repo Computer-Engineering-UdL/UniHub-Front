@@ -107,6 +107,10 @@ pnpm start
 
 ### Job board
 
+<img width="2527" height="1251" alt="image" src="https://github.com/user-attachments/assets/8906d8b8-003b-4795-a65b-b43773b768d5" />
+
+<img width="2530" height="1247" alt="image" src="https://github.com/user-attachments/assets/276d249e-3807-4923-b836-5e225834ae62" />
+
 ### Private messages
 
 <img width="2538" height="1245" alt="image" src="https://github.com/user-attachments/assets/199b98b9-bc43-4bf1-b98a-ce432abd3aef" />
