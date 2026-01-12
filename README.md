@@ -81,3 +81,62 @@ pnpm start
     </td>
   </tr>
 </table>
+
+## Preview
+
+### Home page
+<img width="2526" height="1247" alt="image" src="https://github.com/user-attachments/assets/0aeb828a-fff3-4e59-aa74-d348c47fbb86" />
+
+### UniRooms
+<img width="2521" height="1252" alt="image" src="https://github.com/user-attachments/assets/cf1c7be3-c947-4fe6-bb3f-d985cfd3e472" />
+
+<img width="2527" height="1248" alt="image" src="https://github.com/user-attachments/assets/5cdf96bb-bd83-4b29-86a6-64146e7b4b59" />
+
+### Channels
+
+<img width="2537" height="1246" alt="image" src="https://github.com/user-attachments/assets/e755dc45-3b18-4e48-976c-b1180f2535a0" />
+
+<img width="2541" height="1244" alt="image" src="https://github.com/user-attachments/assets/ce3602a1-e76f-4fcd-8de0-467e73461e48" />
+
+### Items
+
+<img width="2540" height="1249" alt="image" src="https://github.com/user-attachments/assets/fc092d6b-a97c-4392-8a3f-d0550a9a3949" />
+
+<img width="2522" height="1248" alt="image" src="https://github.com/user-attachments/assets/ada9a0ce-0519-4dd4-8f2d-82d8a8908b05" />
+
+
+### Job board
+
+### Private messages
+
+<img width="2538" height="1245" alt="image" src="https://github.com/user-attachments/assets/199b98b9-bc43-4bf1-b98a-ce432abd3aef" />
+
+### User profile
+
+<img width="2539" height="1248" alt="image" src="https://github.com/user-attachments/assets/cd56cf31-4604-4e9c-9313-4426d26660aa" />
+
+### Admin dashboard
+
+<img width="2519" height="1245" alt="image" src="https://github.com/user-attachments/assets/5532bb9c-0212-4a0c-9d77-265769a3aa40" />
+
+### Admin users management
+
+<img width="2523" height="1244" alt="image" src="https://github.com/user-attachments/assets/0c79055e-8707-4e6f-9d37-8e3e979ee537" />
+
+### Admin reports
+
+<img width="2519" height="1246" alt="image" src="https://github.com/user-attachments/assets/7eebfad8-87fc-43c7-802e-bfd62bb91f05" />
+
+## Admin terms and conditions
+
+<img width="2536" height="1247" alt="image" src="https://github.com/user-attachments/assets/8b1e28df-b5be-4d63-a4f0-1c35883edce5" />
+
+### Admin configuration
+
+<img width="2523" height="1248" alt="image" src="https://github.com/user-attachments/assets/0f91b93f-23bb-4f45-aed8-4e28d437af30" />
+
+### Login page
+<img width="1779" height="1252" alt="image" src="https://github.com/user-attachments/assets/6bcaf154-0721-4bca-ab3a-abfadbbdd303" />
+
+### Signup page
+<img width="1756" height="1245" alt="image" src="https://github.com/user-attachments/assets/440714d1-c1c5-4383-b396-6fdfd425832f" />
